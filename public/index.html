@@ -1,21 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#000000" />
-    <meta
-      name="description"
-      content="Web site created using create-react-app"
-    />
-    <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
-    <!--
+	<head>
+		<meta charset="utf-8" />
+		<link rel="icon" href="%PUBLIC_URL%/iconx/favicon.ico" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<meta name="theme-color" content="#000000" />
+		<link
+			rel="apple-touch-icon"
+			href="%PUBLIC_URL%/iconx/apple-touch-icon.png"
+		/>
+		<!--
       manifest.json provides metadata used when your web app is installed on a
       user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
     -->
-    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
-    <!--
+		<link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+		<!--
       Notice the use of %PUBLIC_URL% in the tags above.
       It will be replaced with the URL of the `public` folder during the build.
       Only files inside the `public` folder can be referenced from the HTML.
@@ -24,12 +23,50 @@
       work correctly both with client-side routing and a non-root public URL.
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
-    <title>React App</title>
-  </head>
-  <body>
-    <noscript>You need to enable JavaScript to run this app.</noscript>
-    <div id="root"></div>
-    <!--
+		<!-- Legacy browerconfig.xml for Edge -->
+		<?xml version="1.0" encoding="utf-8" ?>
+		<browserconfig>
+			<msapplication>
+				<tile>
+					<square70x70logo src="/iconx/tile70x70.png" />
+					<square150x150logo src="/iconx/tile150x150.png" />
+					<wide310x150logo src="/iconx/tile310x150.png" />
+					<square310x310logo src="/iconx/tile310x310.png" />
+					<tilecolor></tilecolor>
+				</tile>
+			</msapplication>
+		</browserconfig>
+		<!-- ogp -->
+		<meta property="og:title" content="ThaiNow" />
+		<meta property="og:url" content="https://thainowdeal.com/" />
+		<meta property="og:determiner" content="the" />
+		<meta
+			name="description"
+			content="ThaiNow is a platform aiming to support and promote the Thai community, Thai business, and togetherness as Thais in the United States."
+		/>
+		<meta property="og:locale" content="en_US" />
+		<meta property="og:locale:alternate" content="fr_FR" />
+		<meta property="og:locale:alternate" content="es_ES" />
+		<meta property="og:site_name" content="ThaiNow" />
+		<meta property="og:type" content="website" />
+		<meta
+			property="og:image"
+			content="https://firebasestorage.googleapis.com/v0/b/mono-thainow.appspot.com/o/thainow-service-worker%2Fnobg_512x512.png?alt=media&token=201fd956-dcaa-4f22-b1b6-6df785b71d8b"
+		/>
+		<!-- font -->
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link
+			href="https://fonts.googleapis.com/css2?family=Chivo&family=Kanit"
+			rel="stylesheet"
+		/>
+		<!-- Title -->
+		<title>ThaiNow</title>
+	</head>
+	<body>
+		<noscript>Welcome to ThaiNow.</noscript>
+		<div id="root"></div>
+		<!--
       This HTML file is a template.
       If you open it directly in the browser, you will see an empty page.
 
@@ -39,5 +76,5 @@
       To begin the development, run `npm start` or `yarn start`.
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
-  </body>
+	</body>
 </html>
