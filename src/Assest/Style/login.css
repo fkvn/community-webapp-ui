@@ -1,0 +1,23 @@
+#loginFormCol {
+	padding: 6rem;
+	border-radius: 1rem;
+}
+
+#emailFormIntro {
+	border-radius: 1rem 0 0 1rem;
+	padding-right: 5rem !important;
+}
+
+#loginOption {
+	border-radius: 0rem 1rem 1rem 0;
+}
+
+#loginOption::after {
+	margin-left: 1rem;
+}
+
+#login-option-dropdown-button-menu {
+	inset: 5px 0px auto auto !important;
+	min-width: 7.5rem !important;
+	border-radius: 0rem 1rem 0 0 !important;
+}

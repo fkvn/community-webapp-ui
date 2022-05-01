@@ -1,0 +1,24 @@
+.tedkvn-center {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.tedkvn-center-left {
+	display: flex;
+	justify-content: left;
+	align-items: center;
+}
+
+.tedkvn-center-right {
+	display: flex;
+	justify-content: right;
+	align-items: center;
+}
+
+.tedkvn-caret-off::before {
+	display: none;
+}
+.tedkvn-caret-off::after {
+	display: none;
+}

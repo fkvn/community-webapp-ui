@@ -1,10 +1,9 @@
 import React from "react";
-import ReactDOM from "react-dom";
+import ReactDOM from "react-dom/client";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
-import "../src/Assest/Styles/style.scss";
+import "../src/Assest/Style/style.scss";
 
-import { HashRouter } from "react-router-dom";
 import { Provider } from "react-redux";
 import { createStore, applyMiddleware, compose, combineReducers } from "redux";
 import thunk from "redux-thunk";
@@ -43,13 +42,12 @@ const rootElement = document.getElementById("root");
 
 const app = (
 	<Provider store={store}>
-		<HashRouter>
-			<App />
-		</HashRouter>
+		<App />
 	</Provider>
 );
 
-ReactDOM.render(app, rootElement);
+const root = ReactDOM.createRoot(rootElement);
+root.render(app);
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))

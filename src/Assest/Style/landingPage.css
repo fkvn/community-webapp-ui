@@ -1,0 +1,9 @@
+#landing-page-header-profile-dropdown-button-menu {
+	inset: 10px 0px auto auto !important;
+}
+
+#landing-page-banner-col {
+	background-image: url(../Image/Banner.png);
+	background-repeat: repeat-x;
+	background-image: 100%;
+}
