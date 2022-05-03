@@ -1,11 +1,9 @@
-#loginFormCol {
-	padding: 6rem;
-	border-radius: 1rem;
+#loginFormLabel {
 }
 
-#emailFormIntro {
-	border-radius: 1rem 0 0 1rem;
-	padding-right: 5rem !important;
+#loginFormCol {
+	padding: 4rem 6rem;
+	border-radius: 1rem;
 }
 
 #loginOption {
@@ -20,4 +18,19 @@
 	inset: 5px 0px auto auto !important;
 	min-width: 7.5rem !important;
 	border-radius: 0rem 1rem 0 0 !important;
+}
+
+#emailFormControl,
+#phoneFormControl {
+	border-radius: 1rem 0 0 1rem;
+	padding-right: 5rem !important;
+}
+
+#passwordFormControl {
+	border-radius: 0 1rem 1rem 0rem;
+}
+
+#password-hidden-icon {
+	border-radius: 1rem 0 0 1rem;
+	padding: 0 1rem !important;
 }

@@ -22,3 +22,8 @@
 .tedkvn-caret-off::after {
 	display: none;
 }
+
+.tedkvn-required:after {
+	content: " *";
+	color: red;
+}
