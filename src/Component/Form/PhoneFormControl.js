@@ -21,7 +21,7 @@ function PhoneFormControl({
 
 			// US format - 10 digits max
 			if (phoneNumberLength < 11) {
-				// we need to return the value with no formatting if its less than four digits -> to avoid weird behavior that occurs if you  format the area code too early
+				// digits 0-4
 				if (phoneNumberLength < 4)
 					return ["(" + phoneNumber, phoneNumberLength];
 				// digits 4-6
