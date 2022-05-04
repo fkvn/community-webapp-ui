@@ -1,5 +1,7 @@
 import React from "react";
+import { useState } from "react";
 import { Button, Image } from "react-bootstrap";
+import ReactLoading from "react-loading";
 
 function IconLinkButton({
 	btnVariant = "link",
@@ -14,7 +16,10 @@ function IconLinkButton({
 	imgClassName = "",
 	imgFluid = true,
 	replaceImgClass = false,
+	imgStyle = {},
 }) {
+	const [isLoading, setLoading] = useState(true);
+
 	const app = (
 		<Button
 			variant={btnVariant}
@@ -32,8 +37,26 @@ function IconLinkButton({
 			<Image
 				fluid={imgFluid}
 				src={imgSrc}
-				className={replaceImgClass ? imgClassName : `mx-0 px-0 ${imgClassName}`}
+				className={
+					replaceImgClass ? imgClassName : `mx-0 px-0 d-none ${imgClassName}`
+				}
+				style={imgStyle}
+				onLoad={(e) => {
+					if (e.target.complete && e.target.naturalHeight !== 0) {
+						e.target.classList.remove("d-none");
+						e.target.classList.add("d-inline-block");
+						setLoading(false);
+					}
+				}}
 			/>
+			{isLoading && (
+				<ReactLoading
+					type="spin"
+					color="#0000FF"
+					height={"1.5rem"}
+					width={"1.5rem"}
+				/>
+			)}
 		</Button>
 	);
 

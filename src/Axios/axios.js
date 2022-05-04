@@ -30,12 +30,15 @@ const errorHandler = (error) => {
 				"BAD GATEWAY"
 			)
 		);
-	} else {
-		console.log("error");
+	} else if (error.response.status === 401) {
 		window.sessionStorage.removeItem("thainow.user");
-
-		// const dispatch = useDispatch();
-
+		store.dispatch(
+			actionCreators.initError(
+				error.response.data.message,
+				error.response.data.status
+			)
+		);
+	} else {
 		store.dispatch(
 			actionCreators.initError(
 				error.response.data.message,

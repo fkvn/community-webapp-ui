@@ -4,44 +4,77 @@ import IconLinkButton from "./IconLinkButton";
 
 import defaultProfileImage from "../../Assest/Image/Profile/UserIcon_Guest.png";
 import threeBarsIcon from "../../Assest/Image/Icon/3barsIcon.png";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Button } from "react-bootstrap";
+
+import * as constVar from "../../Util/ConstVar";
 
 function HeaderProfileButton({ formatFrames = false, user }) {
+	const navigate = useNavigate();
+	const location = useLocation();
+
+	const profileUrl =
+		user && user.profileUrl ? user.profileUrl : defaultProfileImage;
+
 	const dropdownToggle = (
-		<div className=" tedkvn-center ">
+		<div className=" tedkvn-center p-1">
 			<IconLinkButton imgSrc={threeBarsIcon} btnClassName="mr-5 shadow-none" />
 			<IconLinkButton
 				btnClassName="shadow-none"
-				btnStyle={{ maxWidth: "55px" }}
-				imgSrc={user && user.profileUrl ? user.profileUrl : defaultProfileImage}
+				btnStyle={{ maxWidth: "3rem", minHeight: "2rem" }}
+				imgSrc={profileUrl}
 				imgClassName="rounded-circle"
 			/>
 		</div>
 	);
 
-	const dropdownItems = [
-		{
-			src: "login",
-			title: "Log In",
-			DividerAfter: false,
-		},
+	const dropdownItems = {
+		noAuth: [
+			{
+				src: "login",
+				isLink: true,
+				title: "Log In",
+				DividerBefore: false,
+			},
 
-		{
-			src: "signup",
-			title: "Sign Up",
-			DividerAfter: true,
-		},
+			{
+				src: "signup",
+				isLink: true,
+				title: "Sign Up",
+				DividerBefore: false,
+			},
 
-		{
-			src: "help",
-			title: "Help Center",
-			DividerAfter: false,
-		},
-	];
+			{
+				src: "help",
+				isLink: true,
+				title: "Help Center",
+				DividerBefore: true,
+			},
+		],
+		auth: [
+			{
+				title: "Sign Out",
+				isLink: false,
+				onClickHanlder: () => {
+					sessionStorage.removeItem(constVar.THAINOW_USER_STORRAGE_OBJ);
+					if (location.pathname === "/") {
+						window.location.reload();
+					} else {
+						navigate("/", { replace: true });
+					}
+				},
+				DividerBefore: false,
+			},
+			{
+				src: "help",
+				isLink: true,
+				title: "Help Center",
+				DividerBefore: true,
+			},
+		],
+	};
 
-	const location = useLocation();
-
-	console.log(location);
+	const dropdownDisplayList = user ? dropdownItems.auth : dropdownItems.noAuth;
 
 	const ProfileDropDownButton = ({ dropdownItems = [] }) => (
 		<Dropdown as={ButtonGroup} className="d-inline mx-2">
@@ -62,16 +95,29 @@ function HeaderProfileButton({ formatFrames = false, user }) {
 				>
 					{dropdownItems.map((item, idx) => (
 						<div key={idx}>
+							{item.DividerBefore && <Dropdown.Divider />}
+
 							<Dropdown.Item as="span" className="p-2">
-								<Link
-									to={item.src}
-									state={{ prevRoute: location.pathname }}
-									className="text-decoration-none text-dark"
-								>
-									{item.title}
-								</Link>
+								{item.isLink && (
+									<Link
+										to={item.src}
+										state={{ prevRoute: location.pathname }}
+										className="text-decoration-none text-dark"
+									>
+										{item.title}
+									</Link>
+								)}
+
+								{!item.isLink && (
+									<Button
+										variant="link"
+										onClick={item.onClickHanlder}
+										className="text-decoration-none text-dark"
+									>
+										{item.title}
+									</Button>
+								)}
 							</Dropdown.Item>
-							{item.DividerAfter && <Dropdown.Divider />}
 						</div>
 					))}
 				</Dropdown.Menu>
@@ -81,7 +127,7 @@ function HeaderProfileButton({ formatFrames = false, user }) {
 
 	const app = (
 		<>
-			<ProfileDropDownButton dropdownItems={dropdownItems} />
+			<ProfileDropDownButton dropdownItems={dropdownDisplayList} />
 		</>
 	);
 
