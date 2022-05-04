@@ -11,7 +11,7 @@ import notiIcon from "../../Assest/Image/Icon/notiIcon.png";
 import languageIcon from "../../Assest/Image/Icon/languageIcon.png";
 import HeaderProfileButton from "../Button/HeaderProfileButton";
 
-function LandingPageHeader({ formatFrames = false }) {
+function LandingPageHeader({ formatFrames = false, user }) {
 	const navbrandObjList = [
 		{
 			src: thainowLogo,
@@ -45,7 +45,7 @@ function LandingPageHeader({ formatFrames = false }) {
 				btnClassName="mx-3"
 			/>
 
-			<HeaderProfileButton formatFrames={formatFrames} />
+			<HeaderProfileButton formatFrames={formatFrames} user={user} />
 		</ButtonGroup>
 	);
 

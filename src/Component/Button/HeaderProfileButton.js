@@ -4,15 +4,16 @@ import IconLinkButton from "./IconLinkButton";
 
 import defaultProfileImage from "../../Assest/Image/Profile/UserIcon_Guest.png";
 import threeBarsIcon from "../../Assest/Image/Icon/3barsIcon.png";
+import { Link, useLocation } from "react-router-dom";
 
-function HeaderProfileButton({ formatFrames = false }) {
+function HeaderProfileButton({ formatFrames = false, user }) {
 	const dropdownToggle = (
 		<div className=" tedkvn-center ">
 			<IconLinkButton imgSrc={threeBarsIcon} btnClassName="mr-5 shadow-none" />
 			<IconLinkButton
 				btnClassName="shadow-none"
 				btnStyle={{ maxWidth: "55px" }}
-				imgSrc={defaultProfileImage}
+				imgSrc={user && user.profileUrl ? user.profileUrl : defaultProfileImage}
 				imgClassName="rounded-circle"
 			/>
 		</div>
@@ -38,6 +39,10 @@ function HeaderProfileButton({ formatFrames = false }) {
 		},
 	];
 
+	const location = useLocation();
+
+	console.log(location);
+
 	const ProfileDropDownButton = ({ dropdownItems = [] }) => (
 		<Dropdown as={ButtonGroup} className="d-inline mx-2">
 			<Dropdown.Toggle
@@ -57,8 +62,14 @@ function HeaderProfileButton({ formatFrames = false }) {
 				>
 					{dropdownItems.map((item, idx) => (
 						<div key={idx}>
-							<Dropdown.Item href={item.src} className="p-2">
-								{item.title}
+							<Dropdown.Item as="span" className="p-2">
+								<Link
+									to={item.src}
+									state={{ prevRoute: location.pathname }}
+									className="text-decoration-none text-dark"
+								>
+									{item.title}
+								</Link>
 							</Dropdown.Item>
 							{item.DividerAfter && <Dropdown.Divider />}
 						</div>

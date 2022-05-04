@@ -20,6 +20,9 @@
   -> To split data handling logic (such as we want to manage state for Rubrick and Survey), we will use 'reducer composition' instead of many stores.
 */
 
+import * as actionTypes from "../actionCreator/actionType";
+import * as constVar from "../../Util/ConstVar";
+
 const initialState = {};
 
 // ==================  Reducer helping functions =========================
@@ -29,6 +32,24 @@ const initialState = {};
   @Param: state, action
 */
 
+// ================== error =========================
+
+const dispatchError = (state, action) => {
+	console.log(action);
+
+	const error = {};
+
+	error[`${constVar.ERROR_MESSAGE}`] = action.message;
+	error[`${constVar.ERROR_TYPE}`] = action.status;
+
+	console.log(error);
+
+	return {
+		...state,
+		[`${constVar.ERROR}`]: error,
+	};
+};
+
 // ************* reducer ****************************************
 
 /* 
@@ -37,6 +58,9 @@ const initialState = {};
 */
 const reducer = (state = initialState, action) => {
 	switch (action.type) {
+		// Error
+		case actionTypes.DISPATCH_ERROR:
+			return dispatchError(state, action);
 		// default
 		default:
 			return state;

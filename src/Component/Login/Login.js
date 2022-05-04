@@ -2,33 +2,42 @@ import React from "react";
 import { useState } from "react";
 import { Dropdown } from "react-bootstrap";
 import { ButtonGroup } from "react-bootstrap";
-import { FormControl } from "react-bootstrap";
 import { InputGroup } from "react-bootstrap";
 import { Button } from "react-bootstrap";
 import { Container, Col, Row, Form } from "react-bootstrap";
 import { Image } from "react-bootstrap";
-import IconButton from "../Button/IconButton";
+import ReactLoading from "react-loading";
 
-import hiddenIcon from "../../Assest/Image/Icon/hidden.png";
-import visibilityIcon from "../../Assest/Image/Icon/visibility.png";
 import thainowLogo from "../../Assest/Image/Brand/thainowLogo.png";
 import EmailFormControl from "../Form/EmailFormControl";
 import PhoneFormControl from "../Form/PhoneFormControl";
+import PasswordFormControl from "../Form/PasswordFormControl";
+import { useNavigate } from "react-router-dom";
 
-function Login({ formatFrames = false }) {
+function Login({ formatFrames = false, signInHandler = () => {} }) {
+	const navigate = useNavigate();
+
 	const [loginOption, setLoginOption] = useState("email");
 
-	const [email, setEmail] = useState({
-		address: "",
-		isValid: true,
-		message: "",
-	});
+	const [isLoading, setLoading] = useState(false);
 
-	const [phone, setPhone] = useState({
-		number: "",
-		isValid: true,
-		message: "",
-	});
+	const submitHandler = (event) => {
+		setLoading(true);
+
+		const signIn = {
+			channel: loginOption,
+			email: loginOption === "email" ? email.address : "",
+			phone: loginOption === "phone" ? phone.number : "",
+			password: password.value,
+		};
+
+		signInHandler(signIn).then(([success, prevRoute]) => {
+			if (success) navigate(prevRoute, { replace: true });
+			else setLoading(false);
+		});
+
+		event.preventDefault();
+	};
 
 	const loginFormIntro = (
 		<Form.Group className="mb-5 text-center">
@@ -59,6 +68,12 @@ function Login({ formatFrames = false }) {
 		},
 	];
 
+	const [email, setEmail] = useState({
+		address: "",
+		isValid: true,
+		message: "",
+	});
+
 	const validateEmail = ([address, validFormat]) => {
 		if (validFormat) {
 			setEmail({ address: address, isValid: true, message: "" });
@@ -78,6 +93,12 @@ function Login({ formatFrames = false }) {
 		/>
 	);
 
+	const [phone, setPhone] = useState({
+		number: "",
+		isValid: true,
+		message: "",
+	});
+
 	const validatePhone = ([formattedPhoneNumber, numOfDigits]) => {
 		if (numOfDigits === 0 || numOfDigits === 10) {
 			setPhone({
@@ -95,7 +116,11 @@ function Login({ formatFrames = false }) {
 	};
 
 	const phoneFormControl = (
-		<PhoneFormControl number={phone.number} validatePhone={validatePhone} />
+		<PhoneFormControl
+			number={phone.number}
+			validatePhone={validatePhone}
+			clName="p-3"
+		/>
 	);
 
 	const loginFormInfoOption = (
@@ -166,36 +191,23 @@ function Login({ formatFrames = false }) {
 		visibility: false,
 	});
 
-	const isValidPassword = (password) => {
-		if (
-			password.length === 0 ||
-			/^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?!.* ).{8,20}$/.test(password)
-		) {
-			setPassword({ value: password, isValid: true, message: "" });
-		} else
-			setPassword({
-				value: password,
-				isValid: false,
-				message:
-					"Your password must be between 8 and 20 characters (at least 1 upper, 1 lower, 1 number, and no white space).",
-			});
+	const validatePassword = ([password, isValid]) => {
+		setPassword({
+			value: password,
+			isValid: isValid,
+			message: isValid
+				? ""
+				: "Your password must be between 8 and 20 characters (at least 1 upper, 1 lower, 1 number, and no white space).",
+		});
 	};
 
 	const passwordFormControl = (
-		<FormControl
-			id="passwordFormControl"
-			type={password.visibility ? "text" : "password"}
-			placeholder="Enter password"
+		<PasswordFormControl
 			value={password.value}
-			className="p-3"
-			onChange={(pwd) => isValidPassword(pwd.target.value)}
-			required
+			clName="p-3"
+			validatePassword={validatePassword}
 		/>
 	);
-
-	const togglePasswordVisibility = () => {
-		setPassword({ ...password, visibility: !password.visibility });
-	};
 
 	const passwordFormInfoControl = (
 		<Form.Group className="mb-3">
@@ -206,18 +218,7 @@ function Login({ formatFrames = false }) {
 				Password
 			</Form.Label>
 
-			<InputGroup className="mb-3 mx-0">
-				<IconButton
-					imgSrc={password.visibility ? visibilityIcon : hiddenIcon}
-					btnId="password-hidden-icon"
-					btnVariant="white"
-					btnClassName="border"
-					onClickHandler={() => {
-						togglePasswordVisibility();
-					}}
-				/>
-				{passwordFormControl}
-			</InputGroup>
+			{passwordFormControl}
 
 			<Form.Text className="text-muted">
 				{!password.isValid && (
@@ -262,8 +263,22 @@ function Login({ formatFrames = false }) {
 				size="md"
 				className="w-100 mt-5 mx-5 p-3 rounded-pill"
 				type="submit"
+				disabled={isLoading}
 			>
-				Login
+				{isLoading ? (
+					<>
+						Login{" "}
+						<ReactLoading
+							type="spin"
+							color="#ffffff"
+							height={"5%"}
+							width={"5%"}
+							className="d-inline-block"
+						/>{" "}
+					</>
+				) : (
+					"Login"
+				)}
 			</Button>
 		</Form.Group>
 	);
@@ -293,7 +308,7 @@ function Login({ formatFrames = false }) {
 	);
 
 	const loginForm = (
-		<Form>
+		<Form onSubmit={submitHandler}>
 			{loginFormIntro}
 
 			{loginFormInfoControl}

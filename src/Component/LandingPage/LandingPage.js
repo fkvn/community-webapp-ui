@@ -5,8 +5,8 @@ import { Container } from "react-bootstrap";
 import LandingPageBody from "./LandingPageBody";
 import LandingPageHeader from "./LandingPageHeader";
 
-function LandingPage() {
-	const header = <LandingPageHeader />;
+function LandingPage({ user }) {
+	const header = <LandingPageHeader user={user} />;
 
 	const body = <LandingPageBody />;
 

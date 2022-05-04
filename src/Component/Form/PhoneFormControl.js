@@ -3,10 +3,11 @@ import { FormControl } from "react-bootstrap";
 
 function PhoneFormControl({
 	number = "",
-	size = "16",
-	minLength = "16",
-	maxLength = "16",
+	size = "14",
+	minLength = "14",
+	maxLength = "14",
 	required = true,
+	clName = "",
 	validatePhone = () => {},
 }) {
 	const formatPhoneNumber = (value) => {
@@ -53,7 +54,7 @@ function PhoneFormControl({
 			id="phoneFormControl"
 			type="tel"
 			placeholder="(___) ___-____"
-			className="p-3"
+			className={clName}
 			value={number}
 			onChange={(p) => validatePhone(formatPhoneNumber(p.target.value))}
 			size={size}

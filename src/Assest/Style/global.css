@@ -27,3 +27,7 @@
 	content: " *";
 	color: red;
 }
+
+#error-toast-container {
+	z-index: 99;
+}
