@@ -1,0 +1,14 @@
+@media only screen and (max-width: 768px) {
+	#loginFormCol * {
+		font-size: 0.8rem !important;
+	}
+
+	#loginFormCol {
+		padding: 2rem 2rem;
+		border-radius: 1rem;
+	}
+
+	#loginFormControl {
+		width: 80%;
+	}
+}

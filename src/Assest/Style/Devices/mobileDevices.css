@@ -1,0 +1,24 @@
+/* max width = iphone x pro */
+@media only screen and (max-width: 400px) {
+	#loginFormCol * {
+		font-size: 0.8rem !important;
+	}
+
+	#loginFormCol {
+		padding: 0.5rem 0.9rem;
+		border-radius: 1rem;
+		max-height: 90vh !important;
+	}
+
+	#emailFormControl,
+	#phoneFormControl {
+		border-radius: 1rem 0 0 1rem;
+		padding: 0.5rem !important;
+		padding-right: 1rem !important;
+	}
+
+	#passwordFormControl {
+		padding: 0.5rem !important;
+		padding-right: 1rem !important;
+	}
+}

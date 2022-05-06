@@ -2,6 +2,7 @@ import React from "react";
 import { FormControl } from "react-bootstrap";
 
 function PhoneFormControl({
+	id = "phoneFormControl",
 	number = "",
 	size = "14",
 	minLength = "14",
@@ -51,7 +52,7 @@ function PhoneFormControl({
 
 	const app = (
 		<FormControl
-			id="phoneFormControl"
+			id={id}
 			type="tel"
 			placeholder="(___) ___-____"
 			className={clName}

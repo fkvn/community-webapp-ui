@@ -13,49 +13,17 @@ import EmailFormControl from "../Form/EmailFormControl";
 import PhoneFormControl from "../Form/PhoneFormControl";
 import PasswordFormControl from "../Form/PasswordFormControl";
 import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
+import NavBrand from "../Navbar/NavBrand";
 
 function Login({ formatFrames = false, signInHandler = () => {} }) {
+	// ==================== config =====================
+
 	const navigate = useNavigate();
 
 	const [loginOption, setLoginOption] = useState("email");
 
 	const [isLoading, setLoading] = useState(false);
-
-	const submitHandler = (event) => {
-		setLoading(true);
-
-		const signIn = {
-			channel: loginOption,
-			email: loginOption === "email" ? email.address : "",
-			phone: loginOption === "phone" ? phone.number : "",
-			password: password.value,
-		};
-
-		signInHandler(signIn).then(([success, prevRoute]) => {
-			if (success) navigate(prevRoute, { replace: true });
-			else setLoading(false);
-		});
-
-		event.preventDefault();
-	};
-
-	const loginFormIntro = (
-		<Form.Group className="mb-5 text-center">
-			<Form.Label htmlFor="emailFormControl" className="fs-1 m-0 fw-bold">
-				Login
-			</Form.Label>
-			<Container className="tedkvn-center my-3">
-				New To ThaiNow?{" "}
-				<Button
-					variant="link"
-					href="/signup"
-					className="p-0 mx-2 d-inline-block"
-				>
-					Sign Up
-				</Button>
-			</Container>
-		</Form.Group>
-	);
 
 	const loginOptions = [
 		{
@@ -68,52 +36,107 @@ function Login({ formatFrames = false, signInHandler = () => {} }) {
 		},
 	];
 
+	const emailRef = React.createRef(null);
+
 	const [email, setEmail] = useState({
 		address: "",
-		isValid: true,
-		message: "",
+		warningMessage: "",
 	});
+
+	const [phone, setPhone] = useState({
+		number: "",
+		warningMessage: "",
+	});
+
+	const [password, setPassword] = useState({
+		value: "",
+		isValid: false,
+		warningMessage: "",
+		visibility: false,
+	});
+
+	// ==================== function =====================
 
 	const validateEmail = ([address, validFormat]) => {
 		if (validFormat) {
-			setEmail({ address: address, isValid: true, message: "" });
+			setEmail({ address: address, warningMessage: "" });
 		} else
 			setEmail({
 				address: address,
-				isValid: false,
-				message: "Sorry, your email address is invalid.",
+				warningMessage: "Sorry, your email address is invalid.",
 			});
 	};
+
+	const validatePhone = ([formattedPhoneNumber, numOfDigits]) => {
+		if (numOfDigits === 0 || numOfDigits === 10) {
+			setPhone({
+				number: formattedPhoneNumber,
+				warningMessage: "",
+			});
+		} else if (numOfDigits < 10) {
+			setPhone({
+				number: formattedPhoneNumber,
+				warningMessage: "Sorry, Invalid Phone Number.",
+			});
+		}
+	};
+
+	const validatePassword = ([password, isValid]) => {
+		setPassword({
+			value: password,
+			isValid: isValid,
+			warningMessage: isValid
+				? ""
+				: "Your password must be between 8 and 20 characters (at least 1 upper, 1 lower, 1 number, and no white space).",
+		});
+	};
+
+	const submitHandler = (event) => {
+		setLoading(true);
+
+		const signIn = {
+			channel: loginOption,
+			email: loginOption === "email" ? email.address : "",
+			phone: loginOption === "phone" ? phone.number : "",
+			password: password.value,
+		};
+
+		signInHandler(signIn).then((success) => {
+			if (success) navigate(-1);
+			else setLoading(false);
+		});
+
+		event.preventDefault();
+	};
+
+	// ==================== component =====================
+
+	const loginFormIntro = (
+		<Form.Group className="mb-4 text-center">
+			<Form.Label htmlFor="emailFormControl" className="fs-1 m-0 fw-bold">
+				Login
+			</Form.Label>
+			<Container className="tedkvn-center p-0 " fluid>
+				New To ThaiNow?{" "}
+				<Button
+					variant="link"
+					href="/signup"
+					className="px-1 px-sm-0 mx-md-2 d-inline-block"
+				>
+					Sign Up
+				</Button>
+			</Container>
+		</Form.Group>
+	);
 
 	const emailFormControl = (
 		<EmailFormControl
 			address={email.address}
 			clName="p-3"
 			validateEmail={validateEmail}
+			ref={emailRef}
 		/>
 	);
-
-	const [phone, setPhone] = useState({
-		number: "",
-		isValid: true,
-		message: "",
-	});
-
-	const validatePhone = ([formattedPhoneNumber, numOfDigits]) => {
-		if (numOfDigits === 0 || numOfDigits === 10) {
-			setPhone({
-				number: formattedPhoneNumber,
-				isValid: true,
-				message: "",
-			});
-		} else if (numOfDigits < 10) {
-			setPhone({
-				number: formattedPhoneNumber,
-				isValid: false,
-				message: "Sorry, Invalid Phone Number.",
-			});
-		}
-	};
 
 	const phoneFormControl = (
 		<PhoneFormControl
@@ -128,7 +151,7 @@ function Login({ formatFrames = false, signInHandler = () => {} }) {
 			<Dropdown.Toggle
 				id="loginOption"
 				variant={`${formatFrames ? "primary" : "secondary"} `}
-				className="px-4"
+				className="px-md-4"
 			>
 				{loginOption.toUpperCase()}
 			</Dropdown.Toggle>
@@ -171,35 +194,18 @@ function Login({ formatFrames = false, signInHandler = () => {} }) {
 			</InputGroup>
 
 			<Form.Text className="text-muted">
-				{loginOption === "email" && !email.isValid && (
-					<span className="text-danger">{email.message}</span>
+				{loginOption === "email" && email.warningMessage && (
+					<span className="text-danger">{email.warningMessage}</span>
 				)}
 			</Form.Text>
 
 			<Form.Text className="text-muted">
-				{loginOption === "phone" && !phone.isValid && (
-					<span className="text-danger">{phone.message}</span>
+				{loginOption === "phone" && phone.warningMessage && (
+					<span className="text-danger">{phone.warningMessage}</span>
 				)}
 			</Form.Text>
 		</Form.Group>
 	);
-
-	const [password, setPassword] = useState({
-		value: "",
-		isValid: true,
-		message: "",
-		visibility: false,
-	});
-
-	const validatePassword = ([password, isValid]) => {
-		setPassword({
-			value: password,
-			isValid: isValid,
-			message: isValid
-				? ""
-				: "Your password must be between 8 and 20 characters (at least 1 upper, 1 lower, 1 number, and no white space).",
-		});
-	};
 
 	const passwordFormControl = (
 		<PasswordFormControl
@@ -221,8 +227,8 @@ function Login({ formatFrames = false, signInHandler = () => {} }) {
 			{passwordFormControl}
 
 			<Form.Text className="text-muted">
-				{!password.isValid && (
-					<span className="text-danger">{password.message}</span>
+				{password.warningMessage && (
+					<span className="text-danger">{password.warningMessage}</span>
 				)}
 			</Form.Text>
 		</Form.Group>
@@ -261,7 +267,7 @@ function Login({ formatFrames = false, signInHandler = () => {} }) {
 		<Form.Group className="tedkvn-center">
 			<Button
 				size="md"
-				className="w-100 mt-5 mx-5 p-3 rounded-pill"
+				className="w-50 mt-4 mx-5 p-2 rounded-pill"
 				type="submit"
 				disabled={isLoading}
 			>
@@ -287,7 +293,7 @@ function Login({ formatFrames = false, signInHandler = () => {} }) {
 		<Form.Group className="tedkvn-center">
 			<Button
 				size="md"
-				className="w-100 mt-4 fs-5 text-dark rounded-pill"
+				className="w-100 mt-2 fs-5 text-dark rounded-pill"
 				variant="link"
 			>
 				Forget Password
@@ -308,7 +314,7 @@ function Login({ formatFrames = false, signInHandler = () => {} }) {
 	);
 
 	const loginForm = (
-		<Form onSubmit={submitHandler}>
+		<Form onSubmit={submitHandler} id="loginFormControl">
 			{loginFormIntro}
 
 			{loginFormInfoControl}
@@ -332,19 +338,23 @@ function Login({ formatFrames = false, signInHandler = () => {} }) {
 			fluid
 			className={`${formatFrames ? "bg-success " : ""} vh-100 tedkvn-center `}
 		>
-			<Row className={`${formatFrames ? "bg-primary" : ""} tedkvn-center `}>
+			<Row
+				className={`${
+					formatFrames ? "bg-primary" : ""
+				} mt-md-5 tedkvn-center mx-2 mx-md-0`}
+			>
 				<Col
 					xs={12}
 					className={`${
 						formatFrames ? "bg-danger " : ""
-					}  overflow-hidden border`}
+					}  overflow-auto border`}
 					id="loginFormCol"
 				>
 					{backButton}
 					<div className="text-center mb-4">
-						<Image src={thainowLogo} width="100" />
+						<NavBrand src={thainowLogo} width="100" />
 					</div>
-					{loginForm}
+					<div className="tedkvn-center">{loginForm}</div>
 				</Col>
 			</Row>
 		</Container>

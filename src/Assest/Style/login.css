@@ -1,9 +1,7 @@
-#loginFormLabel {
-}
-
 #loginFormCol {
-	padding: 4rem 6rem;
+	padding: 2rem 6rem;
 	border-radius: 1rem;
+	max-height: 80vh !important;
 }
 
 #loginOption {

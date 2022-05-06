@@ -1,0 +1,32 @@
+/* between x pro and tablet */
+@media only screen and (max-width: 425px) {
+	#loginFormCol * {
+		font-size: 0.8rem !important;
+	}
+
+	#loginFormCol {
+		padding: 1rem 2rem;
+		border-radius: 1rem;
+		max-height: 90vh !important;
+	}
+
+	#loginFormControl {
+		width: 100%;
+	}
+
+	#emailFormControl,
+	#phoneFormControl {
+		border-radius: 1rem 0 0 1rem;
+		padding: 0.7rem !important;
+		padding-right: 1rem !important;
+	}
+
+	#passwordFormControl {
+		padding: 0.7rem !important;
+		padding-right: 1rem !important;
+	}
+
+	#loginOption::after {
+		margin-left: 0.5rem;
+	}
+}

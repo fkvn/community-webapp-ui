@@ -1,0 +1,26 @@
+#signupFormCol,
+#classicSignupFormCol {
+	padding: 3rem 4rem;
+	border-radius: 1rem;
+}
+
+#signup-firstNameControl,
+#signup-lastNameControl,
+#signup-emailControl,
+#signup-phoneControl,
+#signup-addressControl {
+	border: 1px solid #ced4da;
+	border-radius: 1rem;
+	padding: 0.8rem !important;
+}
+
+#signup-classic-card,
+#signup-business-card {
+	width: 18rem;
+	border-radius: 2rem;
+}
+
+#signup-classic-card img,
+#signup-business-card img {
+	border-radius: 2rem 2rem 0 0;
+}

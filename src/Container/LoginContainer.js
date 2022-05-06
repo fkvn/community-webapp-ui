@@ -6,7 +6,7 @@ import Login from "../Component/Login/Login";
 
 import * as constVar from "../Util/ConstVar";
 
-function LoginContainer({ prevRoute = "/" }) {
+function LoginContainer() {
 	const navigate = useNavigate();
 
 	useEffect(() => {
@@ -34,10 +34,10 @@ function LoginContainer({ prevRoute = "/" }) {
 					constVar.THAINOW_USER_STORRAGE_OBJ,
 					JSON.stringify(result.data)
 				);
-				return [true, prevRoute];
+				return true;
 			})
 			.catch(() => {
-				return [false, prevRoute];
+				return false;
 			});
 	};
 

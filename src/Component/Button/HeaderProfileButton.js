@@ -60,7 +60,10 @@ function HeaderProfileButton({ formatFrames = false, user }) {
 					if (location.pathname === "/") {
 						window.location.reload();
 					} else {
-						navigate("/", { replace: true });
+						navigate("/", {
+							replace: true,
+							state: { loginRedirectUrl: location.pathname },
+						});
 					}
 				},
 				DividerBefore: false,
@@ -101,7 +104,6 @@ function HeaderProfileButton({ formatFrames = false, user }) {
 								{item.isLink && (
 									<Link
 										to={item.src}
-										state={{ prevRoute: location.pathname }}
 										className="text-decoration-none text-dark"
 									>
 										{item.title}

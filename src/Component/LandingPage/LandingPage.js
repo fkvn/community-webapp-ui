@@ -8,7 +8,7 @@ import LandingPageHeader from "./LandingPageHeader";
 function LandingPage({ user }) {
 	const header = <LandingPageHeader user={user} />;
 
-	const body = <LandingPageBody />;
+	const body = <LandingPageBody user={user} />;
 
 	const app = (
 		<Container fluid>

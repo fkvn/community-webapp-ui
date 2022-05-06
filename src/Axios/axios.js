@@ -31,6 +31,7 @@ const errorHandler = (error) => {
 			)
 		);
 	} else if (error.response.status === 401) {
+		// unauthorized
 		window.sessionStorage.removeItem("thainow.user");
 		store.dispatch(
 			actionCreators.initError(

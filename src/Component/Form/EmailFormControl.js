@@ -1,12 +1,17 @@
 import React from "react";
+import { forwardRef } from "react";
 import { FormControl } from "react-bootstrap";
 
-function EmailFormControl({
-	address = "",
-	clName = "",
-	required = true,
-	validateEmail = () => {},
-}) {
+function EmailFormControl(props, ref) {
+	const {
+		id = "emailFormControl",
+		address = "",
+		clName = "",
+		required = true,
+		validateEmail = () => {},
+		autoFocus = false,
+	} = props;
+
 	const isValidEmailFormat = (email) => {
 		if (
 			email.length === 0 ||
@@ -18,17 +23,19 @@ function EmailFormControl({
 
 	const app = (
 		<FormControl
-			id="emailFormControl"
+			id={id}
+			ref={ref}
 			type="email"
 			placeholder="Enter email"
 			value={address}
 			className={clName}
 			onChange={(e) => validateEmail(isValidEmailFormat(e.target.value))}
 			required={required}
+			autoFocus={autoFocus}
 		/>
 	);
 
 	return app;
 }
 
-export default EmailFormControl;
+export default forwardRef(EmailFormControl);
