@@ -4,16 +4,6 @@
 	border-radius: 1rem;
 }
 
-#signup-firstNameControl,
-#signup-lastNameControl,
-#signup-emailControl,
-#signup-phoneControl,
-#signup-addressControl {
-	border: 1px solid #ced4da;
-	border-radius: 1rem;
-	padding: 0.8rem !important;
-}
-
 #signup-classic-card,
 #signup-business-card {
 	width: 18rem;

@@ -17,7 +17,7 @@ function IconButton({
 }) {
 	const app = (
 		<Button
-			id={btnId}
+			id={btnId ? btnId : ""}
 			variant={btnVariant}
 			onClick={onClickHandler}
 			aria-label={btnAriaLabel}

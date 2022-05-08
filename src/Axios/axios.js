@@ -32,7 +32,7 @@ const errorHandler = (error) => {
 		);
 	} else if (error.response.status === 401) {
 		// unauthorized
-		window.sessionStorage.removeItem("thainow.user");
+		localStorage.removeItem("thainow.user");
 		store.dispatch(
 			actionCreators.initError(
 				error.response.data.message,

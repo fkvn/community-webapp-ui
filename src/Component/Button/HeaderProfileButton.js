@@ -31,21 +31,21 @@ function HeaderProfileButton({ formatFrames = false, user }) {
 	const dropdownItems = {
 		noAuth: [
 			{
-				src: "login",
+				src: "/login",
 				isLink: true,
 				title: "Log In",
 				DividerBefore: false,
 			},
 
 			{
-				src: "signup",
+				src: "/signup",
 				isLink: true,
 				title: "Sign Up",
 				DividerBefore: false,
 			},
 
 			{
-				src: "help",
+				src: "/help",
 				isLink: true,
 				title: "Help Center",
 				DividerBefore: true,
@@ -69,7 +69,7 @@ function HeaderProfileButton({ formatFrames = false, user }) {
 				DividerBefore: false,
 			},
 			{
-				src: "help",
+				src: "/help",
 				isLink: true,
 				title: "Help Center",
 				DividerBefore: true,

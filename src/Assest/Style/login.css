@@ -18,17 +18,8 @@
 	border-radius: 0rem 1rem 0 0 !important;
 }
 
-#emailFormControl,
-#phoneFormControl {
+#login-emailFormControl,
+#login-phoneFormControl {
 	border-radius: 1rem 0 0 1rem;
 	padding-right: 5rem !important;
-}
-
-#passwordFormControl {
-	border-radius: 0 1rem 1rem 0rem;
-}
-
-#password-hidden-icon {
-	border-radius: 1rem 0 0 1rem;
-	padding: 0 1rem !important;
 }

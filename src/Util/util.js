@@ -9,3 +9,23 @@ export const loadScript = (url, async = true, defer = false) => {
 
 	return script;
 };
+
+export const scrollToActiveElement = () => {
+	const activeElement = document.activeElement;
+	activeElement.scrollIntoView({
+		behavior: "auto",
+		block: "center",
+		inline: "nearest",
+	});
+};
+
+export const isValidEmailFormat = (email) => {
+	if (
+		email.length === 0 ||
+		/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)
+	) {
+		return true;
+	}
+
+	return false;
+};

@@ -10,7 +10,14 @@ import { Form } from "react-bootstrap";
 
 import * as util from "../../Util/util";
 
-function GoogleAutoComplete() {
+function GoogleAutoComplete({
+	id = "",
+	withLabel = true,
+	required = true,
+	defaultAddressObj = {},
+	addressObj = {},
+	onSelectLocation = () => {},
+}) {
 	// ==================== config =====================
 
 	const [autoComplete, setAutoComplete] = useState({});
@@ -31,24 +38,27 @@ function GoogleAutoComplete() {
 	};
 
 	const [address, setAddress] = useState({
-		value: "",
+		description: addressObj?.description,
+		placeId: addressObj?.placeId,
 		predictions: [],
 		warningMessage: "",
 	});
 
 	const [cursor, setCursor] = useState();
 
+	const [loadDefaultValue, setLoadDefaultValue] = useState(false);
+
 	// ==================== functions =====================
 
 	const resetAddressState = () => {
 		setAddress({
-			value: "",
+			description: "",
 			predictions: [],
 			warningMessage: "",
 		});
 	};
 
-	const getPlacePredictionList = (address) => {
+	const getPlacePredictionPromise = (address) => {
 		return autoComplete.getPlacePredictions({
 			input: address,
 			componentRestrictions: { country: "US" },
@@ -59,10 +69,9 @@ function GoogleAutoComplete() {
 	const onAddressChangeHandler = (address) => {
 		if (address.length === 0) resetAddressState();
 		else {
-			getPlacePredictionList(address).then((res) => {
-				console.log(res.predictions);
+			getPlacePredictionPromise(address).then((res) => {
 				setAddress({
-					value: address,
+					description: address,
 					predictions: res.predictions,
 					warningMessage: res.predictions.length > 0 ? "" : "Invalid Address",
 				});
@@ -86,14 +95,33 @@ function GoogleAutoComplete() {
 		}
 	};
 
-	const scrollToActiveElement = () => {
-		const activeElement = document.activeElement;
-		activeElement.scrollIntoView({
-			behavior: "auto",
-			block: "start",
-			inline: "nearest",
-		});
+	const updateCursorPostion = () => {
+		const input = ref.current;
+		if (input) input.setSelectionRange(cursor, cursor);
 	};
+
+	useEffect(() => {
+		if (
+			(!loadDefaultValue || JSON.stringify(addressObj) === "{}") &&
+			defaultAddressObj !== "{}"
+		) {
+			if (!loadDefaultValue) setLoadDefaultValue(true);
+
+			setAddress({
+				description: JSON.parse(defaultAddressObj)?.description,
+				placeId: JSON.parse(defaultAddressObj)?.placeId,
+				predictions: [],
+				warningMessage: "",
+			});
+		} else {
+			setAddress({
+				description: addressObj?.description,
+				placeId: addressObj?.placeId,
+				predictions: [],
+				warningMessage: "",
+			});
+		}
+	}, [addressObj]);
 
 	// ==================== hook =====================
 
@@ -102,10 +130,9 @@ function GoogleAutoComplete() {
 
 		toggleDropdownPredictions();
 
-		scrollToActiveElement();
+		updateCursorPostion();
 
-		const input = ref.current;
-		if (input) input.setSelectionRange(cursor, cursor);
+		util.scrollToActiveElement();
 	});
 
 	// ==================== component =====================
@@ -132,14 +159,15 @@ function GoogleAutoComplete() {
 							<Button
 								variant="link"
 								className="text-dark text-decoration-none p-0"
-								onClick={() =>
-									setAddress({
-										value: prediction.description,
+								onClick={() => {
+									console.log("selecting");
+
+									onSelectLocation({
+										description: prediction.description,
 										placeId: prediction.place_id,
 										predictions: [],
-										warningMessage: "",
-									})
-								}
+									});
+								}}
 							>
 								{prediction.description}
 							</Button>
@@ -153,42 +181,49 @@ function GoogleAutoComplete() {
 	const ref = useRef(null);
 
 	const app = (
-		<Form.Group className="my-4 fs-5   ">
-			<Form.Label
-				htmlFor="signup-addressControl"
-				className="fs-5 tedkvn-required fw-bolder"
-			>
-				Address
-			</Form.Label>
+		<>
+			{withLabel && (
+				<Form.Label
+					{...(id && { htmlFor: id })}
+					className={`fs-5 ${required && "tedkvn-required"} }`}
+				>
+					Address
+				</Form.Label>
+			)}
+
 			<FormControl
-				id="signup-addressControl"
-				type="text"
+				{...(id && { id: id })}
+				type="address"
 				ref={ref}
 				placeholder="Enter a place"
-				value={address.value ? address.value : ""}
-				className="p-3"
+				value={address.description ? address.description : ""}
+				className="formControl p-3"
 				onChange={(p) => {
 					setCursor(p.currentTarget.selectionStart);
 					onAddressChangeHandler(p.target.value);
 				}}
 				required={true}
+				autoComplete="off"
 			/>
+
 			{predictionDropDown}
 
 			{address.warningMessage && (
 				<Form.Text className="text-muted">
-					<span className="text-danger">{address.warningMessage}</span>
+					<span className="text-danger">
+						<small>{address.warningMessage}! </small>
+					</span>
 				</Form.Text>
 			)}
 
 			{!address.placeId && address.value && (
 				<Form.Text className="text-muted ">
 					<span className="text-danger">
-						<small>Please select a valid address</small>
+						<small> Please select a valid address</small>
 					</span>
 				</Form.Text>
 			)}
-		</Form.Group>
+		</>
 	);
 
 	return app;

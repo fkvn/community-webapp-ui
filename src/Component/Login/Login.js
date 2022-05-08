@@ -5,7 +5,6 @@ import { ButtonGroup } from "react-bootstrap";
 import { InputGroup } from "react-bootstrap";
 import { Button } from "react-bootstrap";
 import { Container, Col, Row, Form } from "react-bootstrap";
-import { Image } from "react-bootstrap";
 import ReactLoading from "react-loading";
 
 import thainowLogo from "../../Assest/Image/Brand/thainowLogo.png";
@@ -13,8 +12,8 @@ import EmailFormControl from "../Form/EmailFormControl";
 import PhoneFormControl from "../Form/PhoneFormControl";
 import PasswordFormControl from "../Form/PasswordFormControl";
 import { useNavigate } from "react-router-dom";
-import { useEffect } from "react";
 import NavBrand from "../Navbar/NavBrand";
+import AgreementFormControl from "../Form/AgreementFormControl";
 
 function Login({ formatFrames = false, signInHandler = () => {} }) {
 	// ==================== config =====================
@@ -38,57 +37,22 @@ function Login({ formatFrames = false, signInHandler = () => {} }) {
 
 	const emailRef = React.createRef(null);
 
-	const [email, setEmail] = useState({
-		address: "",
-		warningMessage: "",
-	});
+	const [emailWarningMessage, setEmailWarningMessage] = useState("");
 
-	const [phone, setPhone] = useState({
-		number: "",
-		warningMessage: "",
-	});
+	const phoneRef = React.createRef(null);
 
-	const [password, setPassword] = useState({
-		value: "",
-		isValid: false,
-		warningMessage: "",
-		visibility: false,
-	});
+	const [phoneWarningMessage, setPhoneWarningMessage] = useState("");
+
+	const passwordRef = React.createRef(null);
 
 	// ==================== function =====================
 
-	const validateEmail = ([address, validFormat]) => {
-		if (validFormat) {
-			setEmail({ address: address, warningMessage: "" });
-		} else
-			setEmail({
-				address: address,
-				warningMessage: "Sorry, your email address is invalid.",
-			});
+	const getEmailWarningMessage = (warningMessage) => {
+		setEmailWarningMessage(warningMessage);
 	};
 
-	const validatePhone = ([formattedPhoneNumber, numOfDigits]) => {
-		if (numOfDigits === 0 || numOfDigits === 10) {
-			setPhone({
-				number: formattedPhoneNumber,
-				warningMessage: "",
-			});
-		} else if (numOfDigits < 10) {
-			setPhone({
-				number: formattedPhoneNumber,
-				warningMessage: "Sorry, Invalid Phone Number.",
-			});
-		}
-	};
-
-	const validatePassword = ([password, isValid]) => {
-		setPassword({
-			value: password,
-			isValid: isValid,
-			warningMessage: isValid
-				? ""
-				: "Your password must be between 8 and 20 characters (at least 1 upper, 1 lower, 1 number, and no white space).",
-		});
+	const getPhoneWarningMessage = (warningMessage) => {
+		setPhoneWarningMessage(warningMessage);
 	};
 
 	const submitHandler = (event) => {
@@ -96,9 +60,9 @@ function Login({ formatFrames = false, signInHandler = () => {} }) {
 
 		const signIn = {
 			channel: loginOption,
-			email: loginOption === "email" ? email.address : "",
-			phone: loginOption === "phone" ? phone.number : "",
-			password: password.value,
+			email: loginOption === "email" ? emailRef?.current?.value : "",
+			phone: loginOption === "phone" ? phoneRef?.current?.value : "",
+			password: passwordRef?.current?.value,
 		};
 
 		signInHandler(signIn).then((success) => {
@@ -131,18 +95,23 @@ function Login({ formatFrames = false, signInHandler = () => {} }) {
 
 	const emailFormControl = (
 		<EmailFormControl
-			address={email.address}
-			clName="p-3"
-			validateEmail={validateEmail}
+			id="login-emailFormControl"
 			ref={emailRef}
+			withLabel={false}
+			autoFocus={loginOption === "email" ? true : false}
+			displayWaningMessage={false}
+			getWarningMessage={getEmailWarningMessage}
 		/>
 	);
 
 	const phoneFormControl = (
 		<PhoneFormControl
-			number={phone.number}
-			validatePhone={validatePhone}
-			clName="p-3"
+			id="login-phoneFormControl"
+			ref={phoneRef}
+			withLabel={false}
+			autoFocus={loginOption === "phone" ? true : false}
+			displayWaningMessage={false}
+			getWarningMessage={getPhoneWarningMessage}
 		/>
 	);
 
@@ -175,17 +144,14 @@ function Login({ formatFrames = false, signInHandler = () => {} }) {
 
 	const loginFormInfoControl = (
 		<Form.Group className="mb-3">
-			{loginOption === "email" && (
-				<Form.Label htmlFor="emailFormIntro" className="fs-5 tedkvn-required">
-					Email or Phone
-				</Form.Label>
-			)}
-
-			{loginOption === "phone" && (
-				<Form.Label htmlFor="phoneFormIntro" className="fs-5 tedkvn-required">
-					Email or Phone
-				</Form.Label>
-			)}
+			<Form.Label
+				{...(loginOption === "email"
+					? { htmlFor: "login-emailFormControl" }
+					: { htmlFor: "login-phoneFormControl" })}
+				className="fs-5 tedkvn-required"
+			>
+				Email or Phone
+			</Form.Label>
 
 			<InputGroup className="mb-3 mx-0">
 				{loginOption === "email" ? emailFormControl : ""}
@@ -193,75 +159,32 @@ function Login({ formatFrames = false, signInHandler = () => {} }) {
 				{loginFormInfoOption}
 			</InputGroup>
 
-			<Form.Text className="text-muted">
-				{loginOption === "email" && email.warningMessage && (
-					<span className="text-danger">{email.warningMessage}</span>
-				)}
-			</Form.Text>
+			{loginOption === "email" && emailWarningMessage && (
+				<Form.Text className="text-muted">
+					<span className="text-danger">{emailWarningMessage}</span>
+				</Form.Text>
+			)}
 
-			<Form.Text className="text-muted">
-				{loginOption === "phone" && phone.warningMessage && (
-					<span className="text-danger">{phone.warningMessage}</span>
-				)}
-			</Form.Text>
+			{loginOption === "phone" && phoneWarningMessage && (
+				<Form.Text className="text-muted">
+					<span className="text-danger">{phoneWarningMessage}</span>
+				</Form.Text>
+			)}
 		</Form.Group>
 	);
 
 	const passwordFormControl = (
-		<PasswordFormControl
-			value={password.value}
-			clName="p-3"
-			validatePassword={validatePassword}
-		/>
-	);
-
-	const passwordFormInfoControl = (
 		<Form.Group className="mb-3">
-			<Form.Label
-				htmlFor="passwordFormControl"
-				className="fs-5 tedkvn-required"
-			>
-				Password
-			</Form.Label>
-
-			{passwordFormControl}
-
-			<Form.Text className="text-muted">
-				{password.warningMessage && (
-					<span className="text-danger">{password.warningMessage}</span>
-				)}
-			</Form.Text>
+			<PasswordFormControl
+				id="login-passwordFormControl"
+				ref={passwordRef}
+				autoComplete={false}
+				displayWaningMessage={false}
+			/>
 		</Form.Group>
 	);
 
-	const agreeCheckBox = (
-		<Form.Check
-			type="checkbox"
-			label={
-				<>
-					By continuing, you agree to ThaiNow's{" "}
-					<a
-						href="https://terms.thainowapp.com/"
-						target="_blank"
-						className="text-decoration-none"
-					>
-						Terms of Service
-					</a>{" "}
-					and{" "}
-					<a
-						href="https://policy.thainowapp.com/"
-						target="_blank"
-						className="text-decoration-none"
-					>
-						Privacy Policy
-					</a>
-				</>
-			}
-			defaultChecked="true"
-			required
-			className="pt-3"
-		/>
-	);
+	const agreeCheckBox = <AgreementFormControl />;
 
 	const submitButton = (
 		<Form.Group className="tedkvn-center">
@@ -319,7 +242,7 @@ function Login({ formatFrames = false, signInHandler = () => {} }) {
 
 			{loginFormInfoControl}
 
-			{passwordFormInfoControl}
+			{passwordFormControl}
 
 			<Form.Text className="text-muted tedkvn-required">
 				This is required field
@@ -359,6 +282,8 @@ function Login({ formatFrames = false, signInHandler = () => {} }) {
 			</Row>
 		</Container>
 	);
+
+	// ==================== render =====================
 
 	return app;
 }

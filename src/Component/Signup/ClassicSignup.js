@@ -1,17 +1,25 @@
 import React from "react";
+import { useEffect } from "react";
 import { useState } from "react";
 import { Row } from "react-bootstrap";
 import { Image } from "react-bootstrap";
 import { Form } from "react-bootstrap";
 import { Col } from "react-bootstrap";
 import { Button } from "react-bootstrap";
+import { FormGroup } from "react-bootstrap";
 import { Container } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 
 import thainowLogo from "../../Assest/Image/Brand/thainowLogo.png";
 import GoogleAutoComplete from "../AutoComplete/GoogleAutoComplete";
+import ToastError from "../Error/ToastError";
+import AgreementFormControl from "../Form/AgreementFormControl";
 import EmailFormControl from "../Form/EmailFormControl";
+import PasswordFormControl from "../Form/PasswordFormControl";
 import PhoneFormControl from "../Form/PhoneFormControl";
+import TextFormControl from "../Form/TextFormControl";
+
+import * as constVar from "../../Util/ConstVar";
 
 function ClassicSignup({ formatFrames = false }) {
 	const navigate = useNavigate();
@@ -22,7 +30,10 @@ function ClassicSignup({ formatFrames = false }) {
 			variant="link"
 			style={{ position: "relative", top: "5px", left: "0" }}
 			className="fs-5 text-decoration-none p-0"
-			onClick={() => navigate("/signup")}
+			onClick={() => {
+				if (step === 1) navigate("/signup");
+				else setStep(step - 1 > 0 ? step - 1 : 1);
+			}}
 		>
 			Back
 		</Button>
@@ -40,32 +51,40 @@ function ClassicSignup({ formatFrames = false }) {
 		</Button>
 	);
 
+	const storedFirstNameInfo = JSON.parse(
+		sessionStorage.getItem("thainow.signup.info")
+	)?.firstName;
+
 	const firstNameRef = React.createRef();
 	const firstNameControl = (
-		<Form.Group className="mb-3 fs-5 fw-bolder">
-			<Form.Label className="tedkvn-required" htmlFor="signup-firstNameControl">
-				First Name
-			</Form.Label>
-			<Form.Control
+		<Form.Group className="mb-3 fs-5 ">
+			<TextFormControl
 				id="signup-firstNameControl"
-				type="text"
+				withLabel={true}
+				labelTitle="First Name"
+				required={true}
 				placeholder="Enter your first name"
 				ref={firstNameRef}
+				defaultValue={storedFirstNameInfo}
 			/>
 		</Form.Group>
 	);
 
+	const storedLastNameInfo = JSON.parse(
+		sessionStorage.getItem("thainow.signup.info")
+	)?.lastName;
+
 	const lastNameRef = React.createRef();
 	const lastNameControl = (
-		<Form.Group className="mb-3 fs-5 fw-bolder  ">
-			<Form.Label className="tedkvn-required" htmlFor="signup-lastNameControl">
-				Last Name
-			</Form.Label>
-			<Form.Control
+		<Form.Group className="mb-3 fs-5 ">
+			<TextFormControl
 				id="signup-lastNameControl"
-				type="text"
+				withLabel={true}
+				labelTitle="Last Name"
+				required={true}
 				placeholder="Enter your last name"
 				ref={lastNameRef}
+				defaultValue={storedLastNameInfo}
 			/>
 		</Form.Group>
 	);
@@ -81,93 +100,175 @@ function ClassicSignup({ formatFrames = false }) {
 		</Row>
 	);
 
-	const [email, setEmail] = useState({
-		address: "",
-		isValid: true,
-		message: "",
-	});
+	const storedEmailInfo = JSON.parse(
+		sessionStorage.getItem("thainow.signup.info")
+	)?.email;
 
-	const validateEmail = ([address, validFormat]) => {
-		if (validFormat) {
-			setEmail({ address: address, isValid: true, message: "" });
-		} else
-			setEmail({
-				address: address,
-				isValid: false,
-				message: "Sorry, your email address is invalid.",
-			});
-	};
+	const emailRef = React.createRef(null);
 
 	const emailFormControl = (
-		<Form.Group className="my-2 fs-5 fw-bolder  ">
-			<Form.Label htmlFor="signup-emailControl" className="fs-5">
-				Email
-			</Form.Label>
-			<EmailFormControl
-				id="signup-emailControl"
-				address={email.address}
-				clName="p-3"
-				validateEmail={validateEmail}
-				required={false}
-			/>
-			{!email.isValid && (
-				<Form.Text className="text-muted">
-					<span className="text-danger">{email.message}</span>
-				</Form.Text>
-			)}
-		</Form.Group>
+		<EmailFormControl
+			id="classic-signup-emailFormControl"
+			className="signup-emailFormControl"
+			ref={emailRef}
+			required={false}
+			defaultValue={storedEmailInfo}
+		/>
 	);
 
-	const [phone, setPhone] = useState({
-		number: "",
-		isValid: true,
-		message: "",
-	});
+	const storedPhoneInfo = JSON.parse(
+		sessionStorage.getItem("thainow.signup.info")
+	)?.phone;
 
-	const validatePhone = ([formattedPhoneNumber, numOfDigits]) => {
-		if (numOfDigits === 0 || numOfDigits === 10) {
-			setPhone({
-				number: formattedPhoneNumber,
-				isValid: true,
-				message: "",
-			});
-		} else if (numOfDigits < 10) {
-			setPhone({
-				number: formattedPhoneNumber,
-				isValid: false,
-				message: "Sorry, Invalid Phone Number.",
-			});
-		}
+	const phoneRef = React.createRef(null);
+	const phoneFormControl = (
+		<FormGroup className="my-3">
+			<PhoneFormControl
+				id="classic-signup-phoneFormControl"
+				className="signup-phoneFormControl"
+				ref={phoneRef}
+				required={false}
+				defaultValue={storedPhoneInfo}
+			/>
+		</FormGroup>
+	);
+
+	const storedAddressObjInfo = JSON.parse(
+		sessionStorage.getItem("thainow.signup.info")
+	)?.addressObj;
+
+	const [addressObj, setAddressObj] = useState({});
+
+	const onSelectLocationHandler = (addressObj) => {
+		setAddressObj(addressObj);
 	};
 
-	const phoneFormControl = (
-		<Form.Group className="my-4 fs-5 fw-bolder  ">
-			<Form.Label htmlFor="signup-phoneControl" className="fs-5">
-				Phone
-			</Form.Label>
-			<PhoneFormControl
-				id="signup-phoneControl"
-				number={phone.number}
-				validatePhone={validatePhone}
-				clName="p-3"
-				required={false}
+	const addressFormControl = (
+		<Form.Group className="fs-5 ">
+			<GoogleAutoComplete
+				id="signup-classic-addressControl"
+				onSelectLocation={onSelectLocationHandler}
+				defaultAddressObj={storedAddressObjInfo}
+				addressObj={addressObj}
 			/>
-			{!phone.isValid && (
-				<Form.Text className="text-muted">
-					<span className="text-danger">{phone.message}</span>
-				</Form.Text>
-			)}
 		</Form.Group>
 	);
 
-	const addressFormControl = <GoogleAutoComplete />;
+	const storedPasswordInfo = JSON.parse(
+		sessionStorage.getItem("thainow.signup.info")
+	)?.password;
+
+	const passwordRef = React.createRef(null);
+	const passwordFormControl = (
+		<Form.Group className="my-3">
+			<PasswordFormControl
+				id="signup-classic-passwordFormControl"
+				ref={passwordRef}
+				autoComplete={false}
+				defaultValue={storedPasswordInfo}
+			/>
+		</Form.Group>
+	);
+
+	const verifyPasswordFormControl = (
+		<Form.Group className="my-3">
+			<PasswordFormControl
+				id="signup-classic-verifyPasswordFormControl"
+				ref={passwordRef}
+				verifyPasswordFormControl={true}
+				autoComplete={false}
+			/>
+		</Form.Group>
+	);
+
+	const agreeCheckBox = <AgreementFormControl />;
+
+	const saveCurrentStepInfo = () => {
+		sessionStorage.setItem(
+			"thainow.signup.info",
+			JSON.stringify({
+				firstName: firstNameRef?.current?.value,
+				lastName: lastNameRef?.current?.value,
+				email: emailRef?.current?.value,
+				phone: phoneRef?.current?.value,
+				password: passwordRef?.current?.value,
+				addressObj: JSON.stringify(addressObj),
+			})
+		);
+	};
+
+	const nextStepButton = (
+		<Form.Group className="tedkvn-center">
+			<Button size="md" className="w-50 mt-5 fs-5 rounded-pill" type="submit">
+				Next
+			</Button>
+		</Form.Group>
+	);
+
+	const onSubmitStep1Handler = (e) => {
+		e.preventDefault();
+		saveCurrentStepInfo();
+		setStep(step + 1);
+	};
+
+	const [step, setStep] = useState(1);
+
+	const verificationOptions = (
+		<>
+			<Form.Text className="text-muted ">
+				<span className="text-primary">
+					We will verify your information, which way do you prefer to verify?
+				</span>
+			</Form.Text>
+			<Form.Group className="tedkvn-center my-4">
+				<Button className="rounded-pill m-4 px-4" size="lg">
+					Email Verification
+				</Button>
+				<Button variant="success" className="rounded-pill m-4 px-4" size="lg">
+					Phone Verification
+				</Button>
+			</Form.Group>
+		</>
+	);
+
+	const emailVerification = <></>;
+
+	const loginOptionPromt = (
+		<Form.Group className="tedkvn-center mt-3 ">
+			Already have an account?
+			<Button
+				size="md"
+				className="p-0 px-2 fs-5 rounded-pill d-inline-block shadow-none"
+				variant="link"
+				href="/login"
+			>
+				Log In
+			</Button>
+		</Form.Group>
+	);
 
 	const signupForm = (
-		<Form>
-			{namesControl}
-			{emailFormControl}
-			{phoneFormControl}
-			{addressFormControl}
+		<Form onSubmit={onSubmitStep1Handler}>
+			{step === 1 && (
+				<>
+					{namesControl}
+					{emailFormControl}
+					{phoneFormControl}
+					{addressFormControl}
+					{passwordFormControl}
+					{verifyPasswordFormControl}
+					<Form.Text className="text-muted tedkvn-required">
+						This is required field
+					</Form.Text>
+					{agreeCheckBox}
+
+					{nextStepButton}
+				</>
+			)}
+
+			{step === 2 && <div className="text-center">{verificationOptions}</div>}
+
+			{loginOptionPromt}
 		</Form>
 	);
 

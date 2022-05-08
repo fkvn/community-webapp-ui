@@ -6,14 +6,11 @@ import Login from "../Component/Login/Login";
 
 import * as constVar from "../Util/ConstVar";
 
-function LoginContainer() {
+function LoginContainer({ user }) {
 	const navigate = useNavigate();
 
 	useEffect(() => {
-		const thaiNowObj = window.sessionStorage.getItem(
-			constVar.THAINOW_USER_STORRAGE_OBJ
-		);
-		if (thaiNowObj) navigate("/");
+		if (user) navigate("/");
 	});
 
 	const signInHandler = ({
@@ -30,7 +27,7 @@ function LoginContainer() {
 				password: password,
 			})
 			.then((result) => {
-				sessionStorage.setItem(
+				localStorage.setItem(
 					constVar.THAINOW_USER_STORRAGE_OBJ,
 					JSON.stringify(result.data)
 				);
