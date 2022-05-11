@@ -56,7 +56,7 @@ function HeaderProfileButton({ formatFrames = false, user }) {
 				title: "Sign Out",
 				isLink: false,
 				onClickHanlder: () => {
-					sessionStorage.removeItem(constVar.THAINOW_USER_STORRAGE_OBJ);
+					localStorage.removeItem(constVar.THAINOW_USER_STORRAGE_OBJ);
 					if (location.pathname === "/") {
 						window.location.reload();
 					} else {
@@ -112,7 +112,7 @@ function HeaderProfileButton({ formatFrames = false, user }) {
 
 								{!item.isLink && (
 									<Button
-										variant="link"
+										variant="white"
 										onClick={item.onClickHanlder}
 										className="text-decoration-none text-dark"
 									>

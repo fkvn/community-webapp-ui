@@ -20,6 +20,7 @@ import PhoneFormControl from "../Form/PhoneFormControl";
 import TextFormControl from "../Form/TextFormControl";
 
 import * as constVar from "../../Util/ConstVar";
+import { InputGroup } from "react-bootstrap";
 
 function ClassicSignup({ formatFrames = false }) {
 	const navigate = useNavigate();
@@ -133,15 +134,21 @@ function ClassicSignup({ formatFrames = false }) {
 		</FormGroup>
 	);
 
-	const storedAddressObjInfo = JSON.parse(
-		sessionStorage.getItem("thainow.signup.info")
-	)?.addressObj;
+	const storedAddressObjInfo =
+		sessionStorage.getItem("thainow.signup.info") &&
+		JSON.parse(sessionStorage.getItem("thainow.signup.info")).addressObj;
 
 	const [addressObj, setAddressObj] = useState({});
 
 	const onSelectLocationHandler = (addressObj) => {
 		setAddressObj(addressObj);
 	};
+
+	useEffect(() => {
+		if (storedAddressObjInfo !== "{}" && JSON.stringify(addressObj) === "{}") {
+			setAddressObj(JSON.parse(storedAddressObjInfo));
+		}
+	}, [addressObj]);
 
 	const addressFormControl = (
 		<Form.Group className="fs-5 ">
@@ -184,6 +191,8 @@ function ClassicSignup({ formatFrames = false }) {
 	const agreeCheckBox = <AgreementFormControl />;
 
 	const saveCurrentStepInfo = () => {
+		console.log("store: " + JSON.stringify(addressObj));
+
 		sessionStorage.setItem(
 			"thainow.signup.info",
 			JSON.stringify({
@@ -205,7 +214,7 @@ function ClassicSignup({ formatFrames = false }) {
 		</Form.Group>
 	);
 
-	const onSubmitStep1Handler = (e) => {
+	const onSubmit = (e) => {
 		e.preventDefault();
 		saveCurrentStepInfo();
 		setStep(step + 1);
@@ -221,7 +230,14 @@ function ClassicSignup({ formatFrames = false }) {
 				</span>
 			</Form.Text>
 			<Form.Group className="tedkvn-center my-4">
-				<Button className="rounded-pill m-4 px-4" size="lg">
+				<Button
+					className="rounded-pill m-4 px-4"
+					size="lg"
+					onClick={() => {
+						setVerifyOption("email");
+						setStep(step + 1);
+					}}
+				>
 					Email Verification
 				</Button>
 				<Button variant="success" className="rounded-pill m-4 px-4" size="lg">
@@ -231,7 +247,42 @@ function ClassicSignup({ formatFrames = false }) {
 		</>
 	);
 
-	const emailVerification = <></>;
+	const [verifyOption, setVerifyOption] = useState();
+
+	const verificationControl = (
+		<>
+			<Form.Label
+				{...(verifyOption === "email"
+					? { htmlFor: "classic-signup-verify-emailFormControl" }
+					: { htmlFor: "classic-signup-verify-phoneFormControl" })}
+				htmlFor=""
+				className={`fs-5 tedkvn-required `}
+			>
+				Email
+			</Form.Label>
+			<InputGroup className="mb-3 ">
+				<EmailFormControl
+					id="classic-signup-verify-emailFormControl"
+					className="signup-emailFormControl bg-white"
+					disabled={true}
+					defaultValue={storedEmailInfo}
+					ref={emailRef}
+					withLabel={false}
+				/>
+				<Button
+					variant="secondary"
+					className="signup-verify-formControl-editBtn"
+					onClick={() => setStep(step - 2)}
+				>
+					Change Email
+				</Button>
+			</InputGroup>
+			<Form.Text>
+				By click "Next", you will receive a verification code via your email
+				address.
+			</Form.Text>
+		</>
+	);
 
 	const loginOptionPromt = (
 		<Form.Group className="tedkvn-center mt-3 ">
@@ -248,7 +299,7 @@ function ClassicSignup({ formatFrames = false }) {
 	);
 
 	const signupForm = (
-		<Form onSubmit={onSubmitStep1Handler}>
+		<Form onSubmit={onSubmit}>
 			{step === 1 && (
 				<>
 					{namesControl}
@@ -267,6 +318,13 @@ function ClassicSignup({ formatFrames = false }) {
 			)}
 
 			{step === 2 && <div className="text-center">{verificationOptions}</div>}
+
+			{step === 3 && (
+				<>
+					{verificationControl}
+					{nextStepButton}{" "}
+				</>
+			)}
 
 			{loginOptionPromt}
 		</Form>

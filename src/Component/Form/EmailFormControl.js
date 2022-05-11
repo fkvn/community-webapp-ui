@@ -21,6 +21,7 @@ function EmailFormControl(props, ref) {
 		autoComplete = false,
 		withLabel = true,
 		defaultValue = "",
+		disabled = false,
 	} = props;
 
 	const [warningMessage, setWarningMessage] = useState(null);
@@ -78,6 +79,7 @@ function EmailFormControl(props, ref) {
 				autoFocus={autoFocus}
 				role="presentation"
 				autoComplete={autoComplete ? "" : "off"}
+				disabled={disabled}
 			/>
 			{displayWaningMessage && warningMessage && (
 				<Form.Text className="text-muted">

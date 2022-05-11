@@ -22,18 +22,13 @@ function GoogleAutoComplete({
 
 	const [autoComplete, setAutoComplete] = useState({});
 
-	const API_KEY = "AIzaSyBqJ5NdeFsoJ88Qmd_x-T2RIJRHtpzqNw0";
-
-	const SCRIPT_SRC = `https://maps.googleapis.com/maps/api/js?key=${API_KEY}&libraries=places&callback=initAutocomplete`;
-
 	const initAutocomplete = () => {
 		setAutoComplete(new window.google.maps.places.AutocompleteService());
 	};
 
 	const init = () => {
-		if (JSON.stringify(autoComplete) === "{}" && !window.initAutocomplete) {
-			util.loadScript(SCRIPT_SRC, true, true);
-			window.initAutocomplete = initAutocomplete;
+		if (JSON.stringify(autoComplete) === "{}") {
+			initAutocomplete();
 		}
 	};
 
@@ -70,6 +65,7 @@ function GoogleAutoComplete({
 		if (address.length === 0) resetAddressState();
 		else {
 			getPlacePredictionPromise(address).then((res) => {
+				console.log(res.predictions);
 				setAddress({
 					description: address,
 					predictions: res.predictions,
@@ -162,6 +158,10 @@ function GoogleAutoComplete({
 								onClick={() => {
 									console.log("selecting");
 
+									console.log("description: " + prediction.description);
+
+									console.log("placeId: " + prediction.place_id);
+
 									onSelectLocation({
 										description: prediction.description,
 										placeId: prediction.place_id,
@@ -216,7 +216,7 @@ function GoogleAutoComplete({
 				</Form.Text>
 			)}
 
-			{!address.placeId && address.value && (
+			{!address.placeId && address.description && (
 				<Form.Text className="text-muted ">
 					<span className="text-danger">
 						<small> Please select a valid address</small>

@@ -14,3 +14,7 @@
 #signup-business-card img {
 	border-radius: 2rem 2rem 0 0;
 }
+
+.signup-verify-formControl-editBtn {
+	border-radius: 0 1rem 1rem 0;
+}
