@@ -22,6 +22,7 @@ function PhoneFormControl(props, ref) {
 		minLength = "14",
 		maxLength = "14",
 		defaultValue = "",
+		disabled = false,
 	} = props;
 
 	const [warningMessage, setWarningMessage] = useState("");
@@ -126,7 +127,6 @@ function PhoneFormControl(props, ref) {
 
 	const app = (
 		<>
-			{" "}
 			{withLabel && (
 				<Form.Label
 					{...(id && { htmlFor: id })}
@@ -151,6 +151,7 @@ function PhoneFormControl(props, ref) {
 				required={required}
 				autoFocus={autoFocus}
 				autoComplete={autoComplete ? "" : "off"}
+				disabled={disabled}
 			/>
 			{displayWaningMessage && warningMessage && (
 				<Form.Text className="text-muted">

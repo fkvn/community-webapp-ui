@@ -29,4 +29,8 @@
 	#loginOption::after {
 		margin-left: 0.5rem;
 	}
+
+	#signup-otp-verify-formControl {
+		min-width: 0 !important;
+	}
 }

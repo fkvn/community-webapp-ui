@@ -22,12 +22,12 @@ function GoogleAutoComplete({
 
 	const [autoComplete, setAutoComplete] = useState({});
 
-	const initAutocomplete = () => {
+	const initAutocomplete = async () => {
 		setAutoComplete(new window.google.maps.places.AutocompleteService());
 	};
 
 	const init = () => {
-		if (JSON.stringify(autoComplete) === "{}") {
+		if (JSON.stringify(autoComplete) === "{}" && window.google) {
 			initAutocomplete();
 		}
 	};
@@ -99,13 +99,12 @@ function GoogleAutoComplete({
 	useEffect(() => {
 		if (
 			(!loadDefaultValue || JSON.stringify(addressObj) === "{}") &&
-			defaultAddressObj !== "{}"
+			JSON.stringify(defaultAddressObj) !== "{}"
 		) {
 			if (!loadDefaultValue) setLoadDefaultValue(true);
-
 			setAddress({
-				description: JSON.parse(defaultAddressObj)?.description,
-				placeId: JSON.parse(defaultAddressObj)?.placeId,
+				description: defaultAddressObj?.description,
+				placeId: defaultAddressObj?.placeId,
 				predictions: [],
 				warningMessage: "",
 			});
@@ -156,12 +155,6 @@ function GoogleAutoComplete({
 								variant="link"
 								className="text-dark text-decoration-none p-0"
 								onClick={() => {
-									console.log("selecting");
-
-									console.log("description: " + prediction.description);
-
-									console.log("placeId: " + prediction.place_id);
-
 									onSelectLocation({
 										description: prediction.description,
 										placeId: prediction.place_id,

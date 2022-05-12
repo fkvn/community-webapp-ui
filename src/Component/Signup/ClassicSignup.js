@@ -21,16 +21,19 @@ import TextFormControl from "../Form/TextFormControl";
 
 import * as constVar from "../../Util/ConstVar";
 import { InputGroup } from "react-bootstrap";
+import OtpVerifyFormControl from "../Form/OtpVerifyFormControl";
+
+import axios from "../../Axios/axios";
 
 function ClassicSignup({ formatFrames = false }) {
 	const navigate = useNavigate();
-
+	const [step, setStep] = useState(1);
 	const backButton = (
 		<Button
 			size="md"
 			variant="link"
 			style={{ position: "relative", top: "5px", left: "0" }}
-			className="fs-5 text-decoration-none p-0"
+			className="fs-5 text-decoration-none p-0 shadow-none"
 			onClick={() => {
 				if (step === 1) navigate("/signup");
 				else setStep(step - 1 > 0 ? step - 1 : 1);
@@ -52,9 +55,8 @@ function ClassicSignup({ formatFrames = false }) {
 		</Button>
 	);
 
-	const storedFirstNameInfo = JSON.parse(
-		sessionStorage.getItem("thainow.signup.info")
-	)?.firstName;
+	const storedFirstNameInfo =
+		JSON.parse(sessionStorage.getItem("thainow.signup.info"))?.firstName || "";
 
 	const firstNameRef = React.createRef();
 	const firstNameControl = (
@@ -71,9 +73,8 @@ function ClassicSignup({ formatFrames = false }) {
 		</Form.Group>
 	);
 
-	const storedLastNameInfo = JSON.parse(
-		sessionStorage.getItem("thainow.signup.info")
-	)?.lastName;
+	const storedLastNameInfo =
+		JSON.parse(sessionStorage.getItem("thainow.signup.info"))?.lastName || "";
 
 	const lastNameRef = React.createRef();
 	const lastNameControl = (
@@ -101,9 +102,8 @@ function ClassicSignup({ formatFrames = false }) {
 		</Row>
 	);
 
-	const storedEmailInfo = JSON.parse(
-		sessionStorage.getItem("thainow.signup.info")
-	)?.email;
+	const storedEmailInfo =
+		JSON.parse(sessionStorage.getItem("thainow.signup.info"))?.email || "";
 
 	const emailRef = React.createRef(null);
 
@@ -117,9 +117,8 @@ function ClassicSignup({ formatFrames = false }) {
 		/>
 	);
 
-	const storedPhoneInfo = JSON.parse(
-		sessionStorage.getItem("thainow.signup.info")
-	)?.phone;
+	const storedPhoneInfo =
+		JSON.parse(sessionStorage.getItem("thainow.signup.info"))?.phone || "";
 
 	const phoneRef = React.createRef(null);
 	const phoneFormControl = (
@@ -134,9 +133,10 @@ function ClassicSignup({ formatFrames = false }) {
 		</FormGroup>
 	);
 
-	const storedAddressObjInfo =
-		sessionStorage.getItem("thainow.signup.info") &&
-		JSON.parse(sessionStorage.getItem("thainow.signup.info")).addressObj;
+	let storedAddressObjInfo = {};
+
+	storedAddressObjInfo =
+		JSON.parse(sessionStorage.getItem("thainow.signup.info"))?.addressObj || {};
 
 	const [addressObj, setAddressObj] = useState({});
 
@@ -145,10 +145,13 @@ function ClassicSignup({ formatFrames = false }) {
 	};
 
 	useEffect(() => {
-		if (storedAddressObjInfo !== "{}" && JSON.stringify(addressObj) === "{}") {
-			setAddressObj(JSON.parse(storedAddressObjInfo));
+		if (
+			JSON.stringify(storedAddressObjInfo) !== "{}" &&
+			JSON.stringify(addressObj) === "{}"
+		) {
+			setAddressObj(storedAddressObjInfo);
 		}
-	}, [addressObj]);
+	}, [storedAddressObjInfo, addressObj]);
 
 	const addressFormControl = (
 		<Form.Group className="fs-5 ">
@@ -161,9 +164,8 @@ function ClassicSignup({ formatFrames = false }) {
 		</Form.Group>
 	);
 
-	const storedPasswordInfo = JSON.parse(
-		sessionStorage.getItem("thainow.signup.info")
-	)?.password;
+	const storedPasswordInfo =
+		JSON.parse(sessionStorage.getItem("thainow.signup.info"))?.password || "";
 
 	const passwordRef = React.createRef(null);
 	const passwordFormControl = (
@@ -191,36 +193,124 @@ function ClassicSignup({ formatFrames = false }) {
 	const agreeCheckBox = <AgreementFormControl />;
 
 	const saveCurrentStepInfo = () => {
-		console.log("store: " + JSON.stringify(addressObj));
+		let currentSignUpInfo = {};
 
-		sessionStorage.setItem(
-			"thainow.signup.info",
-			JSON.stringify({
+		const storedSignUpInfo =
+			JSON.parse(sessionStorage.getItem("thainow.signup.info")) || {};
+
+		if (step === 1) {
+			currentSignUpInfo = {
 				firstName: firstNameRef?.current?.value,
 				lastName: lastNameRef?.current?.value,
 				email: emailRef?.current?.value,
 				phone: phoneRef?.current?.value,
 				password: passwordRef?.current?.value,
-				addressObj: JSON.stringify(addressObj),
-			})
+				addressObj: addressObj,
+			};
+		} else if (step === 3) {
+			currentSignUpInfo = {
+				...storedSignUpInfo,
+				...(verifyOption === "email" &&
+					!storedEmailInfo && { email: emailRef?.current?.value }),
+				...(verifyOption === "phone" &&
+					!storedPhoneInfo && { phone: phoneRef?.current?.value }),
+			};
+		} else {
+			currentSignUpInfo = { ...storedSignUpInfo };
+		}
+
+		sessionStorage.setItem(
+			"thainow.signup.info",
+			JSON.stringify(currentSignUpInfo)
 		);
 	};
 
 	const nextStepButton = (
 		<Form.Group className="tedkvn-center">
-			<Button size="md" className="w-50 mt-5 fs-5 rounded-pill" type="submit">
-				Next
+			<Button size="md" className="w-50 mt-3 fs-5 rounded-pill" type="submit">
+				{step === 3 ? "Send Code" : step === 4 ? "Verify Code" : "Next"}
 			</Button>
 		</Form.Group>
 	);
 
-	const onSubmit = (e) => {
-		e.preventDefault();
-		saveCurrentStepInfo();
-		setStep(step + 1);
+	const sendOtpCode = (channel = "", email = "", phone = "") => {
+		if (channel === "email" || channel === "sms") {
+			return axios
+				.post(`/auth/getToken`, {
+					channel: channel,
+					...(channel === "email" && email.length > 0 && { email }),
+					...(channel === "sms" && phone.length > 0 && { phone }),
+				})
+				.then(() => {
+					return true;
+				})
+				.catch(() => {
+					return false;
+				});
+		}
+
+		return false;
 	};
 
-	const [step, setStep] = useState(1);
+	const verifyOtpCode = (channel = "", email = "", phone = "", token = "") => {
+		console.log(channel);
+		console.log(token);
+
+		if (channel === "email" || channel === "sms") {
+			return axios.post(`/auth/verifyToken`, {
+				channel: channel,
+				...(channel === "email" && email.length > 0 && { email }),
+				...(channel === "sms" && phone.length > 0 && { phone }),
+				token: token,
+			});
+		}
+
+		return false;
+	};
+
+	const onSubmit = (e) => {
+		e.preventDefault();
+
+		saveCurrentStepInfo();
+
+		if (step < 3) {
+			setStep(step + 1);
+		}
+
+		if (step === 3) {
+			let isSentCode = false;
+
+			console.log("iscall");
+			const channel =
+				verifyOption === "email"
+					? "email"
+					: verifyOption === "phone"
+					? "sms"
+					: "";
+			isSentCode = sendOtpCode(channel, storedEmailInfo, storedPhoneInfo);
+
+			if (isSentCode) setStep(step + 1);
+		}
+
+		if (step === 4) {
+			let isCodeVerified = false;
+			const channel =
+				verifyOption === "email"
+					? "email"
+					: verifyOption === "phone"
+					? "sms"
+					: "";
+
+			verifyOtpCode(
+				channel,
+				storedEmailInfo,
+				storedPhoneInfo,
+				otpRef?.current?.value
+			).then((res) => {
+				if (res) setStep(step + 1);
+			});
+		}
+	};
 
 	const verificationOptions = (
 		<>
@@ -240,7 +330,15 @@ function ClassicSignup({ formatFrames = false }) {
 				>
 					Email Verification
 				</Button>
-				<Button variant="success" className="rounded-pill m-4 px-4" size="lg">
+				<Button
+					variant="success"
+					className="rounded-pill m-4 px-4"
+					size="lg"
+					onClick={() => {
+						setVerifyOption("phone");
+						setStep(step + 1);
+					}}
+				>
 					Phone Verification
 				</Button>
 			</Form.Group>
@@ -248,6 +346,30 @@ function ClassicSignup({ formatFrames = false }) {
 	);
 
 	const [verifyOption, setVerifyOption] = useState();
+
+	const emailVerifyFormControl = (
+		<EmailFormControl
+			id="classic-signup-verify-emailFormControl"
+			className="signup-emailFormControl bg-white"
+			disabled={storedEmailInfo ? true : false}
+			defaultValue={storedEmailInfo}
+			ref={emailRef}
+			withLabel={false}
+			required={true}
+		/>
+	);
+
+	const phoneVerifyFormControl = (
+		<PhoneFormControl
+			id="classic-signup-verify-phoneFormControl"
+			className="signup-phoneFormControl bg-white"
+			ref={phoneRef}
+			disabled={storedPhoneInfo ? true : false}
+			required={true}
+			withLabel={false}
+			defaultValue={storedPhoneInfo}
+		/>
+	);
 
 	const verificationControl = (
 		<>
@@ -258,29 +380,50 @@ function ClassicSignup({ formatFrames = false }) {
 				htmlFor=""
 				className={`fs-5 tedkvn-required `}
 			>
-				Email
+				{verifyOption === "email" && "Email"}
+				{verifyOption === "phone" && "Phone"}
 			</Form.Label>
-			<InputGroup className="mb-3 ">
-				<EmailFormControl
-					id="classic-signup-verify-emailFormControl"
-					className="signup-emailFormControl bg-white"
-					disabled={true}
-					defaultValue={storedEmailInfo}
-					ref={emailRef}
-					withLabel={false}
-				/>
-				<Button
-					variant="secondary"
-					className="signup-verify-formControl-editBtn"
-					onClick={() => setStep(step - 2)}
-				>
-					Change Email
-				</Button>
-			</InputGroup>
-			<Form.Text>
-				By click "Next", you will receive a verification code via your email
-				address.
-			</Form.Text>
+			{verifyOption === "email" &&
+				(storedEmailInfo ? (
+					<InputGroup className="mb-3 ">
+						{emailVerifyFormControl}
+
+						<Button
+							variant="secondary"
+							className="signup-verify-formControl-editBtn"
+							onClick={() => setStep(step - 2)}
+						>
+							Change Email
+						</Button>
+					</InputGroup>
+				) : (
+					emailVerifyFormControl
+				))}
+
+			{verifyOption === "phone" &&
+				(storedPhoneInfo ? (
+					<InputGroup className="">
+						{phoneVerifyFormControl}
+
+						<Button
+							variant="secondary"
+							className="signup-verify-formControl-editBtn"
+							onClick={() => setStep(step - 2)}
+						>
+							Change Phone
+						</Button>
+					</InputGroup>
+				) : (
+					phoneVerifyFormControl
+				))}
+
+			<Form.Group className="pt-4 ">
+				<Form.Text className="text-danger">
+					By click "Send Code", you will receive a verification code via your
+					{verifyOption === "email" && " email address "}{" "}
+					{verifyOption === "phone" && " phone number "}
+				</Form.Text>
+			</Form.Group>
 		</>
 	);
 
@@ -295,6 +438,24 @@ function ClassicSignup({ formatFrames = false }) {
 			>
 				Log In
 			</Button>
+		</Form.Group>
+	);
+
+	const otpRef = React.createRef("");
+
+	const otpVerificationFormControl = (
+		<Form.Group className="my-3">
+			<OtpVerifyFormControl id="signup-otp-verify-formControl" ref={otpRef} />
+			<Form.Group className="mt-2">
+				<Button
+					variant="link"
+					className="p-0 shadow-none"
+					onClick={() => setStep(step - 1)}
+				>
+					{" "}
+					Resend Code
+				</Button>
+			</Form.Group>
 		</Form.Group>
 	);
 
@@ -321,8 +482,13 @@ function ClassicSignup({ formatFrames = false }) {
 
 			{step === 3 && (
 				<>
-					{verificationControl}
-					{nextStepButton}{" "}
+					{verificationControl} {nextStepButton}
+				</>
+			)}
+
+			{step === 4 && (
+				<>
+					{otpVerificationFormControl} {nextStepButton}
 				</>
 			)}
 

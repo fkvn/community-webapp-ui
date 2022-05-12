@@ -100,17 +100,16 @@ function HeaderProfileButton({ formatFrames = false, user }) {
 						<div key={idx}>
 							{item.DividerBefore && <Dropdown.Divider />}
 
-							<Dropdown.Item as="span" className="p-2">
-								{item.isLink && (
-									<Link
-										to={item.src}
-										className="text-decoration-none text-dark"
-									>
+							{item.isLink && (
+								<Link to={item.src} className="text-decoration-none text-dark">
+									<Dropdown.Item as="span" className="p-2">
 										{item.title}
-									</Link>
-								)}
+									</Dropdown.Item>
+								</Link>
+							)}
 
-								{!item.isLink && (
+							{!item.isLink && (
+								<Dropdown.Item as="span" className="p-2">
 									<Button
 										variant="white"
 										onClick={item.onClickHanlder}
@@ -118,8 +117,8 @@ function HeaderProfileButton({ formatFrames = false, user }) {
 									>
 										{item.title}
 									</Button>
-								)}
-							</Dropdown.Item>
+								</Dropdown.Item>
+							)}
 						</div>
 					))}
 				</Dropdown.Menu>
