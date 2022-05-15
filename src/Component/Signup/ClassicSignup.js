@@ -215,6 +215,8 @@ function ClassicSignup({ formatFrames = false }) {
 				...(verifyOption === "phone" &&
 					!storedPhoneInfo && { phone: phoneRef?.current?.value }),
 			};
+
+			console.log(currentSignUpInfo);
 		} else {
 			currentSignUpInfo = { ...storedSignUpInfo };
 		}
@@ -223,6 +225,8 @@ function ClassicSignup({ formatFrames = false }) {
 			"thainow.signup.info",
 			JSON.stringify(currentSignUpInfo)
 		);
+
+		return currentSignUpInfo;
 	};
 
 	const nextStepButton = (
@@ -235,25 +239,17 @@ function ClassicSignup({ formatFrames = false }) {
 
 	const sendOtpCode = (channel = "", email = "", phone = "") => {
 		if (channel === "email" || channel === "sms") {
-			return axios
-				.post(`/auth/getToken`, {
-					channel: channel,
-					...(channel === "email" && email.length > 0 && { email }),
-					...(channel === "sms" && phone.length > 0 && { phone }),
-				})
-				.then(() => {
-					return true;
-				})
-				.catch(() => {
-					return false;
-				});
+			return axios.post(`/auth/getToken`, {
+				channel: channel,
+				...(channel === "email" && email.length > 0 && { email }),
+				...(channel === "sms" && phone.length > 0 && { phone }),
+			});
 		}
 
 		return false;
 	};
 
 	const verifyOtpCode = (channel = "", email = "", phone = "", token = "") => {
-		console.log(channel);
 		console.log(token);
 
 		if (channel === "email" || channel === "sms") {
@@ -268,32 +264,29 @@ function ClassicSignup({ formatFrames = false }) {
 		return false;
 	};
 
-	const onSubmit = (e) => {
+	const onSubmit = async (e) => {
 		e.preventDefault();
 
-		saveCurrentStepInfo();
+		const singupInfo = await saveCurrentStepInfo();
 
 		if (step < 3) {
 			setStep(step + 1);
 		}
 
 		if (step === 3) {
-			let isSentCode = false;
-
-			console.log("iscall");
 			const channel =
 				verifyOption === "email"
 					? "email"
 					: verifyOption === "phone"
 					? "sms"
 					: "";
-			isSentCode = sendOtpCode(channel, storedEmailInfo, storedPhoneInfo);
 
-			if (isSentCode) setStep(step + 1);
+			sendOtpCode(channel, singupInfo.email, singupInfo.phone).then((res) => {
+				if (res) setStep(step + 1);
+			});
 		}
 
 		if (step === 4) {
-			let isCodeVerified = false;
 			const channel =
 				verifyOption === "email"
 					? "email"
@@ -303,14 +296,16 @@ function ClassicSignup({ formatFrames = false }) {
 
 			verifyOtpCode(
 				channel,
-				storedEmailInfo,
-				storedPhoneInfo,
-				otpRef?.current?.value
+				singupInfo.email,
+				singupInfo.phone,
+				otpRef?.current?.value.replace(/[^\d]/g, "")
 			).then((res) => {
 				if (res) setStep(step + 1);
 			});
 		}
 	};
+
+	const signUpHandler = () => {};
 
 	const verificationOptions = (
 		<>
