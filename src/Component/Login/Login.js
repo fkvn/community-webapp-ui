@@ -8,12 +8,12 @@ import { Container, Col, Row, Form } from "react-bootstrap";
 import ReactLoading from "react-loading";
 
 import thainowLogo from "../../Assest/Image/Brand/thainowLogo.png";
-import EmailFormControl from "../Form/EmailFormControl";
-import PhoneFormControl from "../Form/PhoneFormControl";
-import PasswordFormControl from "../Form/PasswordFormControl";
+import EmailFormControl from "../Form/FormControl/EmailFormControl";
+import PhoneFormControl from "../Form/FormControl/PhoneFormControl";
+import PasswordFormControl from "../Form/FormControl/PasswordFormControl";
 import { useNavigate } from "react-router-dom";
 import NavBrand from "../Navbar/NavBrand";
-import AgreementFormControl from "../Form/AgreementFormControl";
+import AgreementFormControl from "../Form/FormControl/AgreementFormControl";
 
 function Login({ formatFrames = false, signInHandler = () => {} }) {
 	// ==================== config =====================

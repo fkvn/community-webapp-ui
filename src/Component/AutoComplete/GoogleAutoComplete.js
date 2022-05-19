@@ -65,7 +65,7 @@ function GoogleAutoComplete({
 		if (address.length === 0) resetAddressState();
 		else {
 			getPlacePredictionPromise(address).then((res) => {
-				console.log(res.predictions);
+				console.log(address);
 				setAddress({
 					description: address,
 					predictions: res.predictions,
@@ -116,7 +116,7 @@ function GoogleAutoComplete({
 				warningMessage: "",
 			});
 		}
-	}, [addressObj]);
+	}, [addressObj, defaultAddressObj, loadDefaultValue]);
 
 	// ==================== hook =====================
 

@@ -23,6 +23,7 @@ function PhoneFormControl(props, ref) {
 		maxLength = "14",
 		defaultValue = "",
 		disabled = false,
+		onChange = () => {},
 	} = props;
 
 	const [warningMessage, setWarningMessage] = useState("");
@@ -76,6 +77,8 @@ function PhoneFormControl(props, ref) {
 		(phone) => {
 			const [formattedPhone, numOfDigits] = formatPhoneNumber(phone);
 
+			onChange(formattedPhone);
+
 			if (ref?.current && ref.current.value) {
 				ref.current.value = formattedPhone;
 			}
@@ -86,7 +89,7 @@ function PhoneFormControl(props, ref) {
 				setWarningMessage("Sorry, Invalid Phone Number.");
 			}
 		},
-		[ref]
+		[ref, onChange]
 	);
 
 	const updateCursorPostion = useCallback(() => {

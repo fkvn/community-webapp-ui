@@ -6,7 +6,7 @@ import { forwardRef } from "react";
 import { Form } from "react-bootstrap";
 import { FormControl } from "react-bootstrap";
 
-import * as util from "../../Util/util";
+import * as util from "../../../Util/util";
 
 function EmailFormControl(props, ref) {
 	// ==================== config =====================
@@ -22,6 +22,7 @@ function EmailFormControl(props, ref) {
 		withLabel = true,
 		defaultValue = "",
 		disabled = false,
+		onChange = () => {},
 	} = props;
 
 	const [warningMessage, setWarningMessage] = useState(null);
@@ -31,6 +32,8 @@ function EmailFormControl(props, ref) {
 	// ==================== function =====================
 
 	const validateEmail = useCallback((address) => {
+		onChange(address);
+
 		const isValidFormatEmail = util.isValidEmailFormat(address);
 
 		if (isValidFormatEmail) setWarningMessage("");

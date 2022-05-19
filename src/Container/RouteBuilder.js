@@ -6,13 +6,11 @@ import LoginContainer from "./LoginContainer";
 import ErrorContainer from "./ErrorContainer";
 import LandingPageContainer from "./LandingPageContainer";
 import Signup from "../Component/Signup/Signup";
-import ClassicSignup from "../Component/Signup/ClassicSignup";
 
 import * as constVar from "../Util/ConstVar";
 import { useState } from "react";
 import { useEffect } from "react";
-import GoogleAutoComplete from "../Component/AutoComplete/GoogleAutoComplete";
-import { Form } from "react-bootstrap";
+import ClassicSignupContainer from "./SignupContainer/ClassicSignupContainer";
 
 function RouteBuilder() {
 	const location = useLocation();
@@ -25,34 +23,20 @@ function RouteBuilder() {
 		if (thaiNowObj && !user) setUser(JSON.parse(thaiNowObj));
 	}, [thaiNowObj, user, location]);
 
-	// const storedAddressObjInfo =
-	// 	sessionStorage.getItem("thainow.signup.info") &&
-	// 	JSON.parse(sessionStorage.getItem("thainow.signup.info"))?.addressObj;
-
-	// const [addressObj, setAddressObj] = useState({});
-
-	// const onSelectLocationHandler = (addressObj) => {
-	// 	setAddressObj(addressObj);
-	// };
-
 	const routes = (
 		<Routes>
 			{/* <Route
 				path="/"
 				element={
 					<Form className="m-5 w-50">
-						<GoogleAutoComplete
-							onSelectLocation={onSelectLocationHandler}
-							defaultAddressObj={storedAddressObjInfo}
-							addressObj={addressObj}
-						/>
+						<GoogleAutoComplete />
 					</Form>
 				}
 			/> */}
 			<Route path="/" element={<LandingPageContainer user={user} />} />
 			<Route path="/login" element={<LoginContainer user={user} />} />
-			<Route path="/signup" element={<Signup />} />
-			<Route path="/signup/classic" element={<ClassicSignup />} />
+			<Route path="/signup" element={<Signup />}></Route>
+			<Route path="/signup/classic" element={<ClassicSignupContainer />} />
 			<Route path="*" element={<NotFoundPage />} />
 		</Routes>
 	);

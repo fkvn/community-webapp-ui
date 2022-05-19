@@ -40,12 +40,10 @@ const errorHandler = (error) => {
 			)
 		);
 	} else {
-		store.dispatch(
-			actionCreators.initError(
-				error.response.data.message,
-				error.response.data.status
-			)
-		);
+		const message = error.response.data.message || "Bad Request";
+		const status = error.response.data.status || "Bad Request";
+
+		store.dispatch(actionCreators.initError(message, status));
 	}
 };
 

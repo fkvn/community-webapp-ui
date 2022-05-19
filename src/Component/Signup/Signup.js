@@ -5,13 +5,17 @@ import { Card } from "react-bootstrap";
 import { Button } from "react-bootstrap";
 import { Row } from "react-bootstrap";
 import { Container } from "react-bootstrap";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 
 import thainowLogo from "../../Assest/Image/Brand/thainowLogo.png";
 import userClassic from "../../Assest/Image/Profile/UserIcon_Classic.png";
 import userBusiness from "../../Assest/Image/Profile/UserIcon_Business.png";
 
 function Signup({ formatFrames = false }) {
+	const [searchParams] = useSearchParams();
+
+	const continueURL = searchParams.get("continue") || "";
+
 	const navigate = useNavigate();
 
 	const signupForm = (
@@ -24,7 +28,13 @@ function Signup({ formatFrames = false }) {
 					<Card.Img
 						variant="top"
 						src={userClassic}
-						onClick={() => navigate("/signup/classic")}
+						onClick={() =>
+							navigate(
+								`/signup/classic${
+									continueURL.length > 0 ? "?continue=" + continueURL : ""
+								}`
+							)
+						}
 					/>
 					<Card.Body className="tedkvn-center py-4">
 						<Button
@@ -70,7 +80,7 @@ function Signup({ formatFrames = false }) {
 			variant="link"
 			style={{ position: "relative", top: "5px", left: "0" }}
 			className="fs-5 text-decoration-none p-0"
-			onClick={() => navigate("/")}
+			onClick={() => navigate(-1)}
 		>
 			Back
 		</Button>

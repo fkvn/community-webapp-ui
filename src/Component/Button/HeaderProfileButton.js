@@ -38,7 +38,7 @@ function HeaderProfileButton({ formatFrames = false, user }) {
 			},
 
 			{
-				src: "/signup",
+				src: "/signup?continue=/",
 				isLink: true,
 				title: "Sign Up",
 				DividerBefore: false,

@@ -16,6 +16,7 @@ function TextFormControl(props, ref) {
 		autoFocus = false,
 		autoComplete = false,
 		defaultValue = "",
+		onChange = () => {},
 	} = props;
 
 	const [loadDefaultValue, setLoadDefaultValue] = useState(false);
@@ -50,6 +51,7 @@ function TextFormControl(props, ref) {
 				required={required}
 				autoFocus={autoFocus}
 				autoComplete={autoComplete ? "" : "off"}
+				onChange={onChange}
 			/>
 		</>
 	);

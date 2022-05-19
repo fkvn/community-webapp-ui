@@ -47,6 +47,14 @@
 	padding: 0 1rem !important;
 }
 
+.predictionDropDown {
+	max-height: 10rem;
+	max-width: 30rem;
+	overflow: auto;
+	padding: 0.01rem !important;
+	/* display: none; */
+}
+
 ::-webkit-scrollbar {
 	-webkit-appearance: none;
 	-webkit-overflow-scrolling: auto;

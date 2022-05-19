@@ -13,15 +13,15 @@ import { useNavigate } from "react-router-dom";
 import thainowLogo from "../../Assest/Image/Brand/thainowLogo.png";
 import GoogleAutoComplete from "../AutoComplete/GoogleAutoComplete";
 import ToastError from "../Error/ToastError";
-import AgreementFormControl from "../Form/AgreementFormControl";
-import EmailFormControl from "../Form/EmailFormControl";
-import PasswordFormControl from "../Form/PasswordFormControl";
-import PhoneFormControl from "../Form/PhoneFormControl";
-import TextFormControl from "../Form/TextFormControl";
+import AgreementFormControl from "../Form/FormControl/AgreementFormControl";
+import EmailFormControl from "../Form/FormControl/EmailFormControl";
+import PasswordFormControl from "../Form/FormControl/PasswordFormControl";
+import PhoneFormControl from "../Form/FormControl/PhoneFormControl";
+import TextFormControl from "../Form/FormControl/TextFormControl";
 
 import * as constVar from "../../Util/ConstVar";
 import { InputGroup } from "react-bootstrap";
-import OtpVerifyFormControl from "../Form/OtpVerifyFormControl";
+import OtpVerifyFormControl from "../Form/FormControl/OtpVerifyFormControl";
 
 import axios from "../../Axios/axios";
 
@@ -245,8 +245,6 @@ function ClassicSignup({ formatFrames = false }) {
 				...(channel === "sms" && phone.length > 0 && { phone }),
 			});
 		}
-
-		return false;
 	};
 
 	const verifyOtpCode = (channel = "", email = "", phone = "", token = "") => {
@@ -260,8 +258,6 @@ function ClassicSignup({ formatFrames = false }) {
 				token: token,
 			});
 		}
-
-		return false;
 	};
 
 	const onSubmit = async (e) => {
@@ -269,43 +265,107 @@ function ClassicSignup({ formatFrames = false }) {
 
 		const singupInfo = await saveCurrentStepInfo();
 
-		if (step < 3) {
-			setStep(step + 1);
-		}
+		validateEmail(singupInfo.email).then((res) => {
+			if (res)
+				validatePhone(singupInfo.phone).then((res) => {
+					if (res) {
+						if (step < 3) {
+							if (res) setStep(step + 1);
+						}
 
-		if (step === 3) {
-			const channel =
-				verifyOption === "email"
-					? "email"
-					: verifyOption === "phone"
-					? "sms"
-					: "";
+						if (step === 3) {
+							const channel =
+								verifyOption === "email"
+									? "email"
+									: verifyOption === "phone"
+									? "sms"
+									: "";
 
-			sendOtpCode(channel, singupInfo.email, singupInfo.phone).then((res) => {
-				if (res) setStep(step + 1);
-			});
-		}
+							sendOtpCode(channel, singupInfo.email, singupInfo.phone).then(
+								(res) => {
+									if (res) setStep(step + 1);
+								}
+							);
+						}
 
-		if (step === 4) {
-			const channel =
-				verifyOption === "email"
-					? "email"
-					: verifyOption === "phone"
-					? "sms"
-					: "";
+						if (step === 4) {
+							const channel =
+								verifyOption === "email"
+									? "email"
+									: verifyOption === "phone"
+									? "sms"
+									: "";
 
-			verifyOtpCode(
-				channel,
-				singupInfo.email,
-				singupInfo.phone,
-				otpRef?.current?.value.replace(/[^\d]/g, "")
-			).then((res) => {
-				if (res) setStep(step + 1);
-			});
-		}
+							verifyOtpCode(
+								channel,
+								singupInfo.email,
+								singupInfo.phone,
+								otpRef?.current?.value.replace(/[^\d]/g, "")
+							).then((res) => {
+								if (res)
+									signUpHandler(singupInfo).then((res) => {
+										if (res) {
+											setStep(step + 1);
+										}
+									});
+							});
+						}
+					}
+				});
+		});
 	};
 
-	const signUpHandler = () => {};
+	const signUpHandler = (singupInfo = {}, loginAfter = false) => {
+		return axios.post(`/auth/signup`, {
+			email: singupInfo.email,
+			password: singupInfo.password,
+			phone: singupInfo.phone,
+			firstname: singupInfo.firstName,
+			lastname: singupInfo.lastName,
+			role: "CLASSIC",
+			isVerified: true,
+			address: singupInfo.addressObj.description,
+			placeid: singupInfo.addressObj.placeId,
+		});
+		// .then((res) => {
+		// 	if (res && loginAfter) {
+		// 		// sessionStorage.removeItem("thainow.signup.info");
+
+		// 		console.log({
+		// 			channel: verifyOption,
+		// 			email: storedEmailInfo,
+		// 			phone: storedPhoneInfo,
+		// 			password: storedPasswordInfo,
+		// 		});
+
+		// 		axios
+		// 			.post(`/auth/signin`, {
+		// 				channel: verifyOption,
+		// 				email: storedEmailInfo,
+		// 				phone: storedPhoneInfo,
+		// 				password: storedPasswordInfo,
+		// 			})
+		// 			.then((res) => {
+		// 				if (res) {
+		// 					sessionStorage.removeItem("thainow.signup.info");
+		// 					navigate("/", { replace: true });
+		// 				}
+		// 			});
+		// 	}
+		// });
+	};
+
+	const validateEmail = (email = "") => {
+		return axios.post(`/users/validateEmail`, {
+			email: email,
+		});
+	};
+
+	const validatePhone = (phone = "") => {
+		return axios.post(`/users/validatePhone`, {
+			phone: phone,
+		});
+	};
 
 	const verificationOptions = (
 		<>
