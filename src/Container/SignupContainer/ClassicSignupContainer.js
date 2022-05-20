@@ -17,17 +17,20 @@ function ClassicSignupContainer() {
 	const continueParams =
 		continueURL.length > 0 ? "?continue=" + continueURL : "";
 
-	const validateEmailPromise = axiosPromise.validateEmailPromise;
-
-	const submitError = (message) => {
-		dispatch(actionCreators.initError(message, ""));
+	const submitErrorHandler = (message) => {
+		return dispatch(actionCreators.initError(message, ""));
 	};
+
+	const validateEmailHandler = axiosPromise.validateEmailPromise;
+
+	const validatePhoneHandler = axiosPromise.validatePhonePromise;
 
 	const app = (
 		<NewClassicSignup
 			continueParams={continueParams}
-			validateEmailPromise={validateEmailPromise}
-			submitError={submitError}
+			submitErrorHandler={submitErrorHandler}
+			validateEmailHandler={validateEmailHandler}
+			validatePhoneHandler={validatePhoneHandler}
 		/>
 	);
 

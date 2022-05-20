@@ -77,7 +77,7 @@ function PhoneFormControl(props, ref) {
 		(phone) => {
 			const [formattedPhone, numOfDigits] = formatPhoneNumber(phone);
 
-			onChange(formattedPhone);
+			onChange(formattedPhone, numOfDigits === 10 || numOfDigits === 0);
 
 			if (ref?.current && ref.current.value) {
 				ref.current.value = formattedPhone;

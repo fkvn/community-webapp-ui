@@ -13,8 +13,9 @@ import SignupForm from "../Form/SignupForm";
 function NewClassicSignup({
 	formatFrames = false,
 	continueParams = "",
-	validateEmailPromise = { validateEmailPromise },
-	submitError = () => {},
+	validateEmailHandler = () => {},
+	validatePhoneHandler = () => {},
+	submitErrorHandler = () => {},
 }) {
 	const navigate = useNavigate();
 
@@ -52,8 +53,9 @@ function NewClassicSignup({
 
 					<SignupForm
 						continueParams={continueParams}
-						validateEmailPromise={validateEmailPromise}
-						submitError={submitError}
+						validateEmailHandler={validateEmailHandler}
+						validatePhoneHandler={validatePhoneHandler}
+						submitErrorHandler={submitErrorHandler}
 					/>
 				</Col>
 			</Row>

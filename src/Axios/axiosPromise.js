@@ -5,3 +5,9 @@ export const validateEmailPromise = (email = "") => {
 		email: email,
 	});
 };
+
+export const validatePhonePromise = (phone = "") => {
+	return axios.post(`/users/validatePhone`, {
+		phone: phone,
+	});
+};

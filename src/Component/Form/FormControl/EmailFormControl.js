@@ -31,14 +31,17 @@ function EmailFormControl(props, ref) {
 
 	// ==================== function =====================
 
-	const validateEmail = useCallback((address) => {
-		onChange(address);
+	const validateEmail = useCallback(
+		(address) => {
+			const isValidFormatEmail = util.isValidEmailFormat(address);
 
-		const isValidFormatEmail = util.isValidEmailFormat(address);
+			onChange(address, isValidFormatEmail);
 
-		if (isValidFormatEmail) setWarningMessage("");
-		else setWarningMessage("Sorry, your email address is invalid.");
-	}, []);
+			if (isValidFormatEmail) setWarningMessage("");
+			else setWarningMessage("Sorry, your email address is invalid.");
+		},
+		[onChange]
+	);
 
 	// ==================== hook =====================
 

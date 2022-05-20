@@ -35,8 +35,6 @@ const initialState = {};
 // ================== error =========================
 
 const dispatchError = (state, action) => {
-	console.log(action);
-
 	const error = {};
 
 	error[`${constVar.ERROR_MESSAGE}`] = action.message;
