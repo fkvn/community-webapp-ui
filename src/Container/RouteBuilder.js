@@ -11,6 +11,8 @@ import * as constVar from "../Util/ConstVar";
 import { useState } from "react";
 import { useEffect } from "react";
 import ClassicSignupContainer from "./SignupContainer/ClassicSignupContainer";
+import SignupSuccess from "../Component/Signup/SignupSuccess";
+import SignupSuccessContainer from "./SignupContainer/SignupSuccessContainer";
 
 function RouteBuilder() {
 	const location = useLocation();
@@ -37,6 +39,7 @@ function RouteBuilder() {
 			<Route path="/login" element={<LoginContainer user={user} />} />
 			<Route path="/signup" element={<Signup />}></Route>
 			<Route path="/signup/classic" element={<ClassicSignupContainer />} />
+			<Route path="/signup/success" element={<SignupSuccessContainer />} />
 			<Route path="*" element={<NotFoundPage />} />
 		</Routes>
 	);

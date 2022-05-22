@@ -28,7 +28,7 @@ function BackButton({
 					? className
 					: `${className} fs-5 text-decoration-none p-0`
 			}
-			onClick={() => navigate(backHref)}
+			onClick={() => navigate(backHref, { state: {} })}
 		>
 			{title}
 		</Button>

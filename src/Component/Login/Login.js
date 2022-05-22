@@ -11,7 +11,7 @@ import thainowLogo from "../../Assest/Image/Brand/thainowLogo.png";
 import EmailFormControl from "../Form/FormControl/EmailFormControl";
 import PhoneFormControl from "../Form/FormControl/PhoneFormControl";
 import PasswordFormControl from "../Form/FormControl/PasswordFormControl";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import NavBrand from "../Navbar/NavBrand";
 import AgreementFormControl from "../Form/FormControl/AgreementFormControl";
 
@@ -19,6 +19,10 @@ function Login({ formatFrames = false, signInHandler = () => {} }) {
 	// ==================== config =====================
 
 	const navigate = useNavigate();
+
+	let [searchParams] = useSearchParams();
+
+	const continueURL = searchParams.get("continue") || "/";
 
 	const [loginOption, setLoginOption] = useState("email");
 
@@ -56,6 +60,8 @@ function Login({ formatFrames = false, signInHandler = () => {} }) {
 	};
 
 	const submitHandler = (event) => {
+		event.preventDefault();
+
 		setLoading(true);
 
 		const signIn = {
@@ -65,12 +71,11 @@ function Login({ formatFrames = false, signInHandler = () => {} }) {
 			password: passwordRef?.current?.value,
 		};
 
-		signInHandler(signIn).then((success) => {
-			if (success) navigate(-1);
-			else setLoading(false);
-		});
-
-		event.preventDefault();
+		signInHandler(signIn.channel, signIn.email, signIn.phone, signIn.password)
+			.then(() => navigate(continueURL))
+			.catch(() => {
+				setLoading(false);
+			});
 	};
 
 	// ==================== component =====================

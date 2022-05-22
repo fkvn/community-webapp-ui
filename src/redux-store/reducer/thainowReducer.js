@@ -40,7 +40,7 @@ const dispatchError = (state, action) => {
 	error[`${constVar.ERROR_MESSAGE}`] = action.message;
 	error[`${constVar.ERROR_TYPE}`] = action.status;
 
-	console.log(error);
+	// console.log(error);
 
 	return {
 		...state,

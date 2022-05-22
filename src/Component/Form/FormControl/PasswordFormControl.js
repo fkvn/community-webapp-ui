@@ -7,8 +7,8 @@ import { FormControl } from "react-bootstrap";
 import { InputGroup } from "react-bootstrap";
 import { Form } from "react-bootstrap";
 
-import hiddenIcon from "../../../Assest/Image/Icon/hidden.png";
-import visibilityIcon from "../../../Assest/Image/Icon/visibility.png";
+import hiddenIcon from "../../../Assest/Image/Icon/hidden-icon.png";
+import visibilityIcon from "../../../Assest/Image/Icon/visibility-icon.png";
 import IconButton from "../../Button/IconButton";
 
 function PasswordFormControl(props, ref) {

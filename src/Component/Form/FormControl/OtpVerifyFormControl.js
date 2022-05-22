@@ -68,9 +68,6 @@ function OtpVerifyFormControl(props, ref) {
 		(phone) => {
 			const [formattedPhone, numOfDigits] = formatPhoneNumber(phone);
 
-			console.log("formattedPhone: " + formattedPhone);
-			console.log("digits: " + numOfDigits);
-
 			if (ref?.current && ref.current.value) {
 				ref.current.value = formattedPhone;
 			}

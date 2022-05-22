@@ -2,12 +2,19 @@ import axios from "../Axios/axios";
 import * as constVar from "../Util/ConstVar";
 
 export const validateEmailPromise = (email = "") => {
-	return axios.post(`/users/validateEmail`, {
-		email: email,
-	});
+	return axios
+		.post(`/users/validateEmail`, {
+			email: email,
+		})
+		.then((res) => {
+			return new Promise((resolve, reject) => {
+				if (res) resolve();
+				reject();
+			});
+		});
 };
 
-export const validatePhonePromise = (phone = "", callback = () => {}) => {
+export const validatePhonePromise = (phone = "") => {
 	return axios.post(`/users/validatePhone`, {
 		phone: phone,
 	});
@@ -75,16 +82,4 @@ export const loginPromise = (
 				reject();
 			});
 		});
-};
-
-export const getPromise = (promise = () => {}) => {
-	return promise.then((res) => {
-		return new Promise((resolve, reject) => {
-			if (res) {
-				resolve();
-			} else {
-				reject();
-			}
-		});
-	});
 };

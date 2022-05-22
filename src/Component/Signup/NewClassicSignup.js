@@ -2,22 +2,32 @@ import React from "react";
 import { Col } from "react-bootstrap";
 import { Row } from "react-bootstrap";
 import { Button } from "react-bootstrap";
+import { Form } from "react-bootstrap";
 import { Image } from "react-bootstrap";
 import { Container } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 
 import thainowLogo from "../../Assest/Image/Brand/thainowLogo.png";
 import BackButton from "../Button/BackButton";
-import SignupForm from "../Form/SignupForm";
+import SignupForm from "../Form/ClassicSignupForm";
 
 function NewClassicSignup({
 	formatFrames = false,
-	continueParams = "",
 	validateEmailHandler = () => {},
 	validatePhoneHandler = () => {},
 	submitErrorHandler = () => {},
+	sendOtpCodeHandler = () => {},
+	verifyOtpCodeHandler = () => {},
+	signupHandler = () => {},
 }) {
 	const navigate = useNavigate();
+
+	let [searchParams] = useSearchParams();
+
+	const continueURL = searchParams.get("continue") || "/";
+
+	const continueParams =
+		continueURL.length > 0 ? "?continue=" + continueURL : "";
 
 	const BusinessRegisterButton = () => (
 		<Button
@@ -47,15 +57,17 @@ function NewClassicSignup({
 				>
 					<BackButton />
 					<BusinessRegisterButton />
-					<div className="text-center m-5">
+					<Link to="/" className="text-center m-5 d-block">
 						<Image src={thainowLogo} width="100" />
-					</div>
+					</Link>
 
 					<SignupForm
-						continueParams={continueParams}
 						validateEmailHandler={validateEmailHandler}
 						validatePhoneHandler={validatePhoneHandler}
 						submitErrorHandler={submitErrorHandler}
+						sendOtpCodeHandler={sendOtpCodeHandler}
+						verifyOtpCodeHandler={verifyOtpCodeHandler}
+						signupHandler={signupHandler}
 					/>
 				</Col>
 			</Row>

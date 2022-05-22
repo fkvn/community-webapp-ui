@@ -10,11 +10,16 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import thainowLogo from "../../Assest/Image/Brand/thainowLogo.png";
 import userClassic from "../../Assest/Image/Profile/UserIcon_Classic.png";
 import userBusiness from "../../Assest/Image/Profile/UserIcon_Business.png";
+import BackButton from "../Button/BackButton";
+import { Form } from "react-bootstrap";
 
 function Signup({ formatFrames = false }) {
 	const [searchParams] = useSearchParams();
 
-	const continueURL = searchParams.get("continue") || "";
+	const continueURL = searchParams.get("continue") || "/";
+
+	const continueParams =
+		continueURL.length > 0 ? "?continue=" + continueURL : "";
 
 	const navigate = useNavigate();
 
@@ -28,13 +33,7 @@ function Signup({ formatFrames = false }) {
 					<Card.Img
 						variant="top"
 						src={userClassic}
-						onClick={() =>
-							navigate(
-								`/signup/classic${
-									continueURL.length > 0 ? "?continue=" + continueURL : ""
-								}`
-							)
-						}
+						onClick={() => navigate(`/signup/classic${continueParams}`)}
 					/>
 					<Card.Body className="tedkvn-center py-4">
 						<Button
@@ -74,16 +73,18 @@ function Signup({ formatFrames = false }) {
 		</Row>
 	);
 
-	const backButton = (
-		<Button
-			size="md"
-			variant="link"
-			style={{ position: "relative", top: "5px", left: "0" }}
-			className="fs-5 text-decoration-none p-0"
-			onClick={() => navigate(-1)}
-		>
-			Back
-		</Button>
+	const LoginOptionPromt = () => (
+		<Form.Group className="tedkvn-center mt-3 ">
+			Already have an account?
+			<Button
+				size="md"
+				className="p-0 px-2 fs-5 rounded-pill d-inline-block shadow-none"
+				variant="link"
+				href={"/login" + continueParams}
+			>
+				Log In
+			</Button>
+		</Form.Group>
 	);
 
 	const app = (
@@ -99,11 +100,12 @@ function Signup({ formatFrames = false }) {
 					}  overflow-hidden border`}
 					id="signupFormCol"
 				>
-					{backButton}
+					<BackButton />
 					<div className="text-center mb-4">
 						<Button variant="link" href="/">
 							<Image src={thainowLogo} width="100" />
 						</Button>
+						<LoginOptionPromt />
 					</div>
 					{signupForm}
 				</Col>

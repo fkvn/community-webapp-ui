@@ -5,6 +5,7 @@ import axios from "../Axios/axios";
 import Login from "../Component/Login/Login";
 
 import * as constVar from "../Util/ConstVar";
+import * as axiosPromise from "../Axios/axiosPromise";
 
 function LoginContainer({ user }) {
 	const navigate = useNavigate();
@@ -13,30 +14,16 @@ function LoginContainer({ user }) {
 		if (user) navigate("/");
 	});
 
-	const signInHandler = ({
+	const signInHandler = (
 		channel = "",
 		email = "",
 		phone = "",
-		password = "",
-	}) => {
-		return axios
-			.post(`/auth/signin`, {
-				channel: channel,
-				email: email,
-				phone: phone,
-				password: password,
-			})
-			.then((result) => {
-				localStorage.setItem(
-					constVar.THAINOW_USER_STORRAGE_OBJ,
-					JSON.stringify(result.data)
-				);
-				return true;
-			})
-			.catch(() => {
-				return false;
-			});
+		password = ""
+	) => {
+		return axiosPromise.loginPromise(channel, email, phone, password);
 	};
+
+	// .catch(() => console.log("error"));
 
 	const app = <Login signInHandler={signInHandler} />;
 

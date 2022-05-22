@@ -7,8 +7,8 @@ import { ButtonGroup } from "react-bootstrap";
 import IconLinkButton from "../Button/IconLinkButton";
 
 import thainowLogo from "../../Assest/Image/Brand/thainowLogo.png";
-import notiIcon from "../../Assest/Image/Icon/notiIcon.png";
-import languageIcon from "../../Assest/Image/Icon/languageIcon.png";
+import notiIcon from "../../Assest/Image/Icon/noti-icon.png";
+import languageIcon from "../../Assest/Image/Icon/language-icon.png";
 import HeaderProfileButton from "../Button/HeaderProfileButton";
 
 function LandingPageHeader({ formatFrames = false, user }) {

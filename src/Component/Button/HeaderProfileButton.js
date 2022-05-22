@@ -3,7 +3,7 @@ import { ButtonGroup, Dropdown } from "react-bootstrap";
 import IconLinkButton from "./IconLinkButton";
 
 import defaultProfileImage from "../../Assest/Image/Profile/UserIcon_Guest.png";
-import threeBarsIcon from "../../Assest/Image/Icon/3barsIcon.png";
+import threeBarsIcon from "../../Assest/Image/Icon/3bars-icon.png";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Button } from "react-bootstrap";
 
@@ -18,7 +18,8 @@ function HeaderProfileButton({ formatFrames = false, user }) {
 
 	const dropdownToggle = (
 		<div className=" tedkvn-center p-1">
-			<IconLinkButton imgSrc={threeBarsIcon} btnClassName="mr-5 shadow-none" />
+			{/* <IconLinkButton imgSrc={threeBarsIcon} btnClassName="mr-5 shadow-none" /> */}
+			{user ? "Welcome" : "Not Logged In"}
 			<IconLinkButton
 				btnClassName="shadow-none"
 				btnStyle={{ maxWidth: "3rem", minHeight: "2rem" }}

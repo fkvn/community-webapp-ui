@@ -1,36 +1,31 @@
 import React from "react";
-import { useSearchParams } from "react-router-dom";
 import NewClassicSignup from "../../Component/Signup/NewClassicSignup";
 
 import * as axiosPromise from "../../Axios/axiosPromise";
-
-import * as actionCreators from "../../redux-store/actionCreator/actionCreator";
-import { useDispatch } from "react-redux";
+import * as dispatchPromise from "../../redux-store/dispatchPromise";
 
 function ClassicSignupContainer() {
-	const dispatch = useDispatch();
-
-	let [searchParams] = useSearchParams();
-
-	const continueURL = searchParams.get("continue") || "";
-
-	const continueParams =
-		continueURL.length > 0 ? "?continue=" + continueURL : "";
-
-	const submitErrorHandler = (message) => {
-		return dispatch(actionCreators.initError(message, ""));
-	};
+	const submitErrorHandler = dispatchPromise.submitErrorHandler;
 
 	const validateEmailHandler = axiosPromise.validateEmailPromise;
 
-	const validatePhoneHandler = axiosPromise.validatePhonePromise;
+	const validatePhoneHandler = (phone) =>
+		axiosPromise.getPromise(axiosPromise.validatePhonePromise(phone));
+
+	const sendOtpCodeHandler = axiosPromise.sendOtpCodePromise;
+
+	const verifyOtpCodeHandler = axiosPromise.verifyOtpCodePromise;
+
+	const signupHandler = axiosPromise.signupPromise;
 
 	const app = (
 		<NewClassicSignup
-			continueParams={continueParams}
 			submitErrorHandler={submitErrorHandler}
 			validateEmailHandler={validateEmailHandler}
 			validatePhoneHandler={validatePhoneHandler}
+			sendOtpCodeHandler={sendOtpCodeHandler}
+			verifyOtpCodeHandler={verifyOtpCodeHandler}
+			signupHandler={signupHandler}
 		/>
 	);
 
