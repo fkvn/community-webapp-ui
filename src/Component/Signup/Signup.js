@@ -51,7 +51,8 @@ function Signup({ formatFrames = false }) {
 				<Card
 					id="signup-business-card"
 					className="my-4"
-					onClick={() => navigate("/signup/business")}
+					// onClick={() => navigate("/signup/business")}
+					onClick={() => alert("Coming soon!")}
 				>
 					<Card.Img
 						variant="top"
@@ -63,7 +64,8 @@ function Signup({ formatFrames = false }) {
 							variant="link"
 							className="px-5 rounded-pill shadow-none "
 							size="lg"
-							href="/signup/business"
+							// href="/signup/business"
+							onClick={() => alert("Coming soon!")}
 						>
 							Business
 						</Button>

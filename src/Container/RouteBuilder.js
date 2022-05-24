@@ -11,19 +11,22 @@ import * as constVar from "../Util/ConstVar";
 import { useState } from "react";
 import { useEffect } from "react";
 import ClassicSignupContainer from "./SignupContainer/ClassicSignupContainer";
-import SignupSuccess from "../Component/Signup/SignupSuccess";
 import SignupSuccessContainer from "./SignupContainer/SignupSuccessContainer";
 
 function RouteBuilder() {
 	const location = useLocation();
 
-	const [user, setUser] = useState();
-
-	const thaiNowObj = localStorage.getItem(constVar.THAINOW_USER_STORRAGE_OBJ);
+	const [user, setUser] = useState({});
 
 	useEffect(() => {
-		if (thaiNowObj && !user) setUser(JSON.parse(thaiNowObj));
-	}, [thaiNowObj, user, location]);
+		const thaiNowObj =
+			JSON.parse(localStorage.getItem(constVar.THAINOW_USER_STORRAGE_OBJ)) ||
+			{};
+
+		if (JSON.stringify(thaiNowObj) !== "{}" && JSON.stringify(user) === "{}") {
+			setUser({ ...thaiNowObj });
+		}
+	}, [location, setUser, user]);
 
 	const routes = (
 		<Routes>

@@ -9,11 +9,10 @@ import { Button, InputGroup } from "react-bootstrap";
 import EmailFormControl from "./FormControl/EmailFormControl";
 import PhoneFormControl from "./FormControl/PhoneFormControl";
 import TextFormControl from "./FormControl/TextFormControl";
-import GoogleAutoComplete from "../AutoComplete/NewGoogleAutoComplete";
+import GoogleAutoComplete from "../AutoComplete/GoogleAutoComplete";
 import NewPasswordFormControl from "./FormControl/PasswordFormControl";
 import AgreementFormControl from "./FormControl/AgreementFormControl";
 import LoadingButton from "../Button/LoadingButton";
-import axios from "axios";
 import OtpVerifyFormControl from "./FormControl/OtpVerifyFormControl";
 import { useNavigate, useSearchParams } from "react-router-dom";
 
@@ -26,7 +25,7 @@ function SignupForm({
 	verifyOtpCodeHandler = () => {},
 	signupHandler = () => {},
 }) {
-	const [step, setStep] = useState(1);
+	const [step, setStep] = useState(4);
 
 	const firstnameRef = React.createRef();
 	const lastnameRef = React.createRef();
@@ -35,7 +34,7 @@ function SignupForm({
 	const passwordRef = React.createRef();
 	const otpRef = React.createRef("");
 
-	const [verifyOption, setVerifyOption] = useState("");
+	const [verifyOption, setVerifyOption] = useState("phone");
 
 	const [onSubmitLoading, setOnSubmitLoading] = useState(false);
 
@@ -62,29 +61,7 @@ function SignupForm({
 		);
 	};
 
-	const isStep1Valid = (
-		address = "",
-		placeid = "",
-		isValidPassword = false,
-		isPasswordMatch = false,
-		isValidEmail = false,
-		isValidPhone = false
-	) => {
-		if (!isValidEmail) submitErrorHandler("Invalid Email!");
-		else if (!isValidPhone) submitErrorHandler("Invalid Phone!");
-		else if (address.length === 0 || placeid.length === 0)
-			submitErrorHandler("Invalid Address");
-		else if (!isValidPassword) submitErrorHandler("Invalid Password!");
-		else if (!isPasswordMatch)
-			submitErrorHandler("Password Confirmation is not matched!");
-		else return true;
-	};
-
-	const finishPromiseCall = () => {
-		setOnSubmitLoading(false);
-	};
-
-	const onSubmitStep1Handler = (
+	const onSubmitStep_1_Handler = (
 		address = "",
 		placeid = "",
 		isValidPassword = false,
@@ -94,132 +71,73 @@ function SignupForm({
 		email = "",
 		phone = ""
 	) => {
-		if (!isValidEmail) submitErrorHandler("Invalid Email!");
-		else if (!isValidPhone) submitErrorHandler("Invalid Phone!");
+		if (!isValidEmail) return submitErrorHandler("Invalid Email!");
+		else if (!isValidPhone) return submitErrorHandler("Invalid Phone!");
 		else if (address.length === 0 || placeid.length === 0)
-			submitErrorHandler("Invalid Address");
-		else if (!isValidPassword) submitErrorHandler("Invalid Password!");
+			return submitErrorHandler("Invalid Address");
+		else if (!isValidPassword) return submitErrorHandler("Invalid Password!");
 		else if (!isPasswordMatch)
-			submitErrorHandler("Password Confirmation is not matched!");
+			return submitErrorHandler("Password Confirmation is not matched!");
 		else {
 			if (email.length > 0) {
-				validateEmailHandler(email)
-					.then(() => setStep(step + 1))
-					.catch(() => setOnSubmitLoading(false));
+				return validateEmailHandler(email);
 			} else if (phone.length > 0) {
-				validatePhoneHandler(phone)
-					.then(() => setStep(step + 1))
-					.catch(() => setOnSubmitLoading(false));
+				return validatePhoneHandler(phone);
 			} else {
-				setStep(2);
+				return new Promise((resolve, _) => resolve());
 			}
 		}
-
-		setOnSubmitLoading(false);
 	};
 
-	const onSubmitStep3Handler = (email = "", phone = "") => {
+	const onSubmitStep_3_Handler = (email = "", phone = "") => {
 		switch (verifyOption) {
 			case "email":
 				if (email.length === 0) {
-					submitErrorHandler(
-						"Invalid Email!. Please provide or add a valid email address"
+					return submitErrorHandler(
+						"Invalid Email! Please provide or add a valid email address."
 					);
-					setOnSubmitLoading(false);
 				} else {
-					sendOtpCodeHandler("email", email).then((res) => {
-						if (res) {
-							setStep(step + 1);
-						}
-						setOnSubmitLoading(false);
-					});
+					return sendOtpCodeHandler("email", email);
 				}
-				break;
+
 			case "phone":
 				if (phone.length === 0) {
-					submitErrorHandler(
-						"Invalid Phone!. Please provide or add a valid phone number"
+					return submitErrorHandler(
+						"Invalid Phone! Please provide or add a valid phone number."
 					);
-					setOnSubmitLoading(false);
 				} else {
-					sendOtpCodeHandler("sms", phone).then((res) => {
-						if (res) {
-							setStep(step + 1);
-						}
-						setOnSubmitLoading(false);
-					});
+					return sendOtpCodeHandler("sms", phone);
 				}
-				break;
-			default:
-				setOnSubmitLoading(false);
 
-				break;
+			default:
+				return submitErrorHandler(
+					"Sorry, the request failed. Please try again later."
+				);
 		}
 	};
 
-	const onSubmitStep4Hanlder = (
-		withVerify = false,
-		signupInfo = {},
-		token = ""
-	) => {
-		console.log(withVerify);
+	const onSubmitStep_4_Hanlder = (signupInfo = {}, token = "") => {
+		const [channel, value] =
+			verifyOption === "email"
+				? ["email", signupInfo.email || ""]
+				: verifyOption === "phone"
+				? ["sms", signupInfo.phone || ""]
+				: ["", ""];
 
-		if (withVerify) {
-			const [channel, value] =
-				verifyOption === "email"
-					? ["email", signupInfo.email || ""]
-					: verifyOption === "phone"
-					? ["sms", signupInfo.phone || ""]
-					: ["", ""];
-
-			if (
-				token.length === 0 ||
-				value.length === 0 ||
-				JSON.stringify(signupInfo) === "{}"
-			) {
-				submitErrorHandler(
-					token.length === 0
-						? "Invalid Token"
-						: JSON.stringify(signupInfo) === "{}"
-						? "Missing signup information!"
-						: "Invalid Request"
-				);
-			} else {
-				verifyOtpCodeHandler(channel, value, token).then((res) => {
-					if (res) {
-						signupHandler(signupInfo, "CLASSIC").then((res) => {
-							if (res) {
-								sessionStorage.removeItem(sessionStorageObj);
-								setOnSubmitLoading(false);
-								navigate("/signup/success" + continueParams, {
-									state: {
-										channel: verifyOption,
-										email: signupInfo.email || "",
-										phone: signupInfo.phone || "",
-										password: signupInfo.password || "",
-									},
-								});
-							}
-						});
-					}
-				});
-				setOnSubmitLoading(false);
-			}
+		if (
+			token.length === 0 ||
+			value.length === 0 ||
+			JSON.stringify(signupInfo) === "{}"
+		) {
+			return submitErrorHandler(
+				token.length === 0
+					? "Invalid Token"
+					: JSON.stringify(signupInfo) === "{}"
+					? "Missing signup information!"
+					: "Invalid Request"
+			);
 		} else {
-			signupHandler(signupInfo, "CLASSIC").then((res) => {
-				if (res) {
-					sessionStorage.removeItem(sessionStorageObj);
-					setOnSubmitLoading(false);
-					navigate("/signup/success" + continueParams, {
-						state: {
-							channel: verifyOption,
-							email: signupInfo.email || "",
-							phone: signupInfo.phone || "",
-							password: signupInfo.password || "",
-						},
-					});
-				}
-			});
+			return verifyOtpCodeHandler(channel, value, token);
 		}
 	};
 
@@ -233,7 +151,7 @@ function SignupForm({
 		setOnSubmitLoading(true);
 
 		if (step === 1)
-			onSubmitStep1Handler(
+			onSubmitStep_1_Handler(
 				signupInfo.address.description,
 				signupInfo.address.placeid,
 				signupInfo.isValidPassword,
@@ -242,17 +160,41 @@ function SignupForm({
 				signupInfo.isValidPhone,
 				signupInfo.email,
 				signupInfo.phone
-			);
+			)
+				.then(() => {
+					setOnSubmitLoading(false);
+					setStep(2);
+				})
+				.catch(() => setOnSubmitLoading());
 		else if (step === 3) {
-			// onSubmitStep3Handler(signupInfo.email, signupInfo.phone);
-			setOnSubmitLoading(false);
-			setStep(4);
+			onSubmitStep_3_Handler(signupInfo.email, signupInfo.phone)
+				.then(() => {
+					setOnSubmitLoading(false);
+					setStep(4);
+				})
+				.catch(() => setOnSubmitLoading());
 		} else if (step === 4) {
-			onSubmitStep4Hanlder(
-				false,
+			onSubmitStep_4_Hanlder(
 				signupInfo,
 				otpRef?.current?.value.replace(/[^\d]/g, "")
-			);
+			)
+				.then(() => {
+					signupHandler(signupInfo, "CLASSIC")
+						.then(() => {
+							sessionStorage.removeItem(sessionStorageObj);
+							navigate("/signup/success" + continueParams, {
+								state: {
+									channel: verifyOption || "",
+									email: signupInfo.email || "",
+									phone: signupInfo.phone || "",
+									password: signupInfo.password || "",
+								},
+							});
+							setOnSubmitLoading(false);
+						})
+						.catch(() => setOnSubmitLoading(false));
+				})
+				.catch(() => setOnSubmitLoading(false));
 		}
 	};
 
@@ -264,6 +206,10 @@ function SignupForm({
 			firstnameRef.current.value = signupInfo.firstname || "";
 			lastnameRef.current.value = signupInfo.lastname || "";
 		}
+
+		// if (step < 4) {
+		// 	saveToSessionStore(sessionStorageObj, "isVerified", false);
+		// }
 	});
 
 	const FirstNameFormControl = () => (

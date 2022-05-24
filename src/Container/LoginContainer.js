@@ -1,31 +1,28 @@
 import React from "react";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "../Axios/axios";
 import Login from "../Component/Login/Login";
-
-import * as constVar from "../Util/ConstVar";
 import * as axiosPromise from "../Axios/axiosPromise";
 
-function LoginContainer({ user }) {
+function LoginContainer({ user = {} }) {
 	const navigate = useNavigate();
 
 	useEffect(() => {
-		if (user) navigate("/");
+		if (JSON.stringify(user) !== "{}") navigate("/");
 	});
 
-	const signInHandler = (
+	const loginHanlder = (
 		channel = "",
 		email = "",
 		phone = "",
 		password = ""
 	) => {
-		return axiosPromise.loginPromise(channel, email, phone, password);
+		return axiosPromise.getPromise(
+			axiosPromise.loginPromise(channel, email, phone, password)
+		);
 	};
 
-	// .catch(() => console.log("error"));
-
-	const app = <Login signInHandler={signInHandler} />;
+	const app = <Login loginHanlder={loginHanlder} />;
 
 	return app;
 }

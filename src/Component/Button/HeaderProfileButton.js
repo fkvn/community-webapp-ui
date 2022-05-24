@@ -3,13 +3,13 @@ import { ButtonGroup, Dropdown } from "react-bootstrap";
 import IconLinkButton from "./IconLinkButton";
 
 import defaultProfileImage from "../../Assest/Image/Profile/UserIcon_Guest.png";
-import threeBarsIcon from "../../Assest/Image/Icon/3bars-icon.png";
+// import threeBarsIcon from "../../Assest/Image/Icon/3bars-icon.png";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Button } from "react-bootstrap";
 
 import * as constVar from "../../Util/ConstVar";
 
-function HeaderProfileButton({ formatFrames = false, user }) {
+function HeaderProfileButton({ formatFrames = false, user = {} }) {
 	const navigate = useNavigate();
 	const location = useLocation();
 
@@ -19,7 +19,7 @@ function HeaderProfileButton({ formatFrames = false, user }) {
 	const dropdownToggle = (
 		<div className=" tedkvn-center p-1">
 			{/* <IconLinkButton imgSrc={threeBarsIcon} btnClassName="mr-5 shadow-none" /> */}
-			{user ? "Welcome" : "Not Logged In"}
+			{JSON.stringify(user) !== "{}" ? "Welcome" : "Not Logged In"}
 			<IconLinkButton
 				btnClassName="shadow-none"
 				btnStyle={{ maxWidth: "3rem", minHeight: "2rem" }}
@@ -78,7 +78,8 @@ function HeaderProfileButton({ formatFrames = false, user }) {
 		],
 	};
 
-	const dropdownDisplayList = user ? dropdownItems.auth : dropdownItems.noAuth;
+	const dropdownDisplayList =
+		JSON.stringify(user) !== "{}" ? dropdownItems.auth : dropdownItems.noAuth;
 
 	const ProfileDropDownButton = ({ dropdownItems = [] }) => (
 		<Dropdown as={ButtonGroup} className="d-inline mx-2">

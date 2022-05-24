@@ -1,11 +1,11 @@
 import React from "react";
-import { useRef } from "react";
+import { useCallback } from "react";
 import { useEffect } from "react";
 import { useState } from "react";
-import { ListGroup } from "react-bootstrap";
 import { Button } from "react-bootstrap";
-import { FormControl } from "react-bootstrap";
 import { Toast } from "react-bootstrap";
+import { ListGroup } from "react-bootstrap";
+import { FormControl } from "react-bootstrap";
 import { Form } from "react-bootstrap";
 
 import * as util from "../../Util/util";
@@ -14,44 +14,32 @@ function GoogleAutoComplete({
 	id = "",
 	withLabel = true,
 	required = true,
-	defaultAddressObj = {},
-	addressObj = {},
-	onSelectLocation = () => {},
+	sessionStorageObj = "autocomplete",
 }) {
 	// ==================== config =====================
 
 	const [autoComplete, setAutoComplete] = useState({});
 
-	const initAutocomplete = async () => {
-		setAutoComplete(new window.google.maps.places.AutocompleteService());
-	};
-
-	const init = () => {
-		if (JSON.stringify(autoComplete) === "{}" && window.google) {
-			initAutocomplete();
-		}
-	};
+	const [isLoad, setIsLoad] = useState(false);
 
 	const [address, setAddress] = useState({
-		description: addressObj?.description,
-		placeId: addressObj?.placeId,
+		description: "",
+		placeid: "",
 		predictions: [],
 		warningMessage: "",
 	});
 
-	const [cursor, setCursor] = useState();
+	const addressRef = React.createRef(null);
 
-	const [loadDefaultValue, setLoadDefaultValue] = useState(false);
-
-	// ==================== functions =====================
-
-	const resetAddressState = () => {
-		setAddress({
-			description: "",
-			predictions: [],
-			warningMessage: "",
-		});
+	const initAutocomplete = async () => {
+		setAutoComplete(new window.google.maps.places.AutocompleteService());
 	};
+
+	const init = useCallback(() => {
+		if (JSON.stringify(autoComplete) === "{}" && window.google) {
+			initAutocomplete();
+		}
+	}, [autoComplete]);
 
 	const getPlacePredictionPromise = (address) => {
 		return autoComplete.getPlacePredictions({
@@ -61,88 +49,75 @@ function GoogleAutoComplete({
 		});
 	};
 
-	const onAddressChangeHandler = (address) => {
-		if (address.length === 0) resetAddressState();
-		else {
-			getPlacePredictionPromise(address).then((res) => {
-				console.log(address);
+	const onAddressChangeHandler = (description) => {
+		if (description !== "") {
+			getPlacePredictionPromise(description).then((res) => {
 				setAddress({
-					description: address,
+					description: description,
 					predictions: res.predictions,
 					warningMessage: res.predictions.length > 0 ? "" : "Invalid Address",
 				});
 			});
-		}
-	};
-
-	const toggleDropdownPredictions = () => {
-		const dropdown = document.getElementById("predictionDropDown");
-
-		if (address?.predictions?.length > 0) {
-			if (dropdown.classList.contains("d-none")) {
-				dropdown.classList.remove("d-none");
-			}
-
-			if (!dropdown.classList.contains("d-block")) {
-				dropdown.classList.add("d-block");
-			}
-		} else {
-			dropdown.classList.add("d-none");
-		}
-	};
-
-	const updateCursorPostion = () => {
-		const input = ref.current;
-		if (input) input.setSelectionRange(cursor, cursor);
-	};
-
-	useEffect(() => {
-		if (
-			(!loadDefaultValue || JSON.stringify(addressObj) === "{}") &&
-			JSON.stringify(defaultAddressObj) !== "{}"
-		) {
-			if (!loadDefaultValue) setLoadDefaultValue(true);
-			setAddress({
-				description: defaultAddressObj?.description,
-				placeId: defaultAddressObj?.placeId,
-				predictions: [],
-				warningMessage: "",
-			});
 		} else {
 			setAddress({
-				description: addressObj?.description,
-				placeId: addressObj?.placeId,
+				description: description,
 				predictions: [],
 				warningMessage: "",
 			});
 		}
-	}, [addressObj, defaultAddressObj, loadDefaultValue]);
+	};
 
 	// ==================== hook =====================
 
 	useEffect(() => {
-		init();
+		if (!isLoad) {
+			init();
 
-		toggleDropdownPredictions();
+			const defaultAddressObj =
+				JSON.parse(sessionStorage.getItem(sessionStorageObj)) || {};
 
-		updateCursorPostion();
+			const defaultPlaceid = defaultAddressObj?.address?.placeid || "";
+
+			if (defaultPlaceid.length > 0) {
+				setAddress({
+					...address,
+					description: defaultAddressObj?.address?.description || "",
+					placeid: defaultAddressObj?.address?.placeid || "",
+				});
+			}
+
+			setIsLoad(true);
+		}
+	}, [init, isLoad, sessionStorageObj, address]);
+
+	useEffect(() => {
+		const addressObj = {
+			description: address.description || "",
+			placeid: address.placeid || "",
+		};
+
+		if (addressRef.current) {
+			addressRef.current.value = addressObj.description;
+		}
+
+		sessionStorage.setItem(
+			sessionStorageObj,
+			JSON.stringify({
+				...(JSON.parse(sessionStorage.getItem(sessionStorageObj)) || {}),
+				address: addressObj.placeid.length > 0 ? addressObj : {},
+			})
+		);
 
 		util.scrollToActiveElement();
-	});
+	}, [address, addressRef, sessionStorageObj]);
 
 	// ==================== component =====================
 
-	const predictionDropDown = (
+	const predictionDropDown = address?.predictions?.length > 0 && (
 		<Form.Group>
 			<Toast
-				id="predictionDropDown"
-				className="position-relative d-none w-100"
-				style={{
-					maxHeight: "10rem",
-					maxWidth: "30rem",
-					overflow: "auto",
-					padding: "1px !important",
-				}}
+				{...(id && { htmlFor: id })}
+				className="predictionDropDown position-relative w-100"
 			>
 				<Toast.Body className="border-0">
 					<ListGroup
@@ -155,9 +130,9 @@ function GoogleAutoComplete({
 								variant="link"
 								className="text-dark text-decoration-none p-0"
 								onClick={() => {
-									onSelectLocation({
+									setAddress({
 										description: prediction.description,
-										placeId: prediction.place_id,
+										placeid: prediction.place_id,
 										predictions: [],
 									});
 								}}
@@ -171,14 +146,12 @@ function GoogleAutoComplete({
 		</Form.Group>
 	);
 
-	const ref = useRef(null);
-
 	const app = (
 		<>
 			{withLabel && (
 				<Form.Label
 					{...(id && { htmlFor: id })}
-					className={`fs-5 ${required && "tedkvn-required"} }`}
+					className={`fs-5 ${required && "tedkvn-required"} `}
 				>
 					Address
 				</Form.Label>
@@ -187,16 +160,14 @@ function GoogleAutoComplete({
 			<FormControl
 				{...(id && { id: id })}
 				type="address"
-				ref={ref}
+				ref={addressRef}
 				placeholder="Enter a place"
-				value={address.description ? address.description : ""}
 				className="formControl p-3"
+				required={required}
+				role="representation"
 				onChange={(p) => {
-					setCursor(p.currentTarget.selectionStart);
 					onAddressChangeHandler(p.target.value);
 				}}
-				required={true}
-				autoComplete="off"
 			/>
 
 			{predictionDropDown}
@@ -209,7 +180,7 @@ function GoogleAutoComplete({
 				</Form.Text>
 			)}
 
-			{!address.placeId && address.description && (
+			{!address.placeid && address.description && (
 				<Form.Text className="text-muted ">
 					<span className="text-danger">
 						<small> Please select a valid address</small>

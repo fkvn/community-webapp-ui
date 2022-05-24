@@ -36,16 +36,16 @@ export const verifyOtpCodePromise = (channel = "", value = "", token = "") => {
 
 export const signupPromise = (signupInfo = {}, role = "") => {
 	return axios.post(`/auth/signup`, {
-		email: signupInfo.email || "",
-		password: signupInfo.password || "",
-		phone: signupInfo.phone || "",
-		firstname: signupInfo.firstname || "",
-		lastname: signupInfo.lastname || "",
+		email: signupInfo?.email || "",
+		password: signupInfo?.password || "",
+		phone: signupInfo?.phone || "",
+		firstname: signupInfo?.firstname || "",
+		lastname: signupInfo?.lastname || "",
 		role: role,
 		isVerified: true,
-		address: signupInfo.address.description || "",
-		placeid: signupInfo.address.placeid || "",
-		...(role === "BUSINESS" && { privileges: signupInfo.privileges || [] }),
+		address: signupInfo?.address?.description || "",
+		placeid: signupInfo?.address?.placeid || "",
+		...(role === "BUSINESS" && { privileges: signupInfo?.privileges || [] }),
 		...(role === "BUSINESS" && { company: signupInfo.company || {} }),
 	});
 };
@@ -64,16 +64,13 @@ export const loginPromise = (
 			password: password,
 		})
 		.then((res) => {
-			return new Promise((resolve, reject) => {
-				if (res) {
-					localStorage.setItem(
-						constVar.THAINOW_USER_STORRAGE_OBJ,
-						JSON.stringify(res.data)
-					);
-					resolve(true);
-				}
-				reject();
-			});
+			if (res) {
+				localStorage.setItem(
+					constVar.THAINOW_USER_STORRAGE_OBJ,
+					JSON.stringify(res.data)
+				);
+				return "success";
+			}
 		});
 };
 

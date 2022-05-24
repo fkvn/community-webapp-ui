@@ -15,7 +15,7 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import NavBrand from "../Navbar/NavBrand";
 import AgreementFormControl from "../Form/FormControl/AgreementFormControl";
 
-function Login({ formatFrames = false, signInHandler = () => {} }) {
+function Login({ formatFrames = false, loginHanlder = () => {} }) {
 	// ==================== config =====================
 
 	const navigate = useNavigate();
@@ -71,8 +71,10 @@ function Login({ formatFrames = false, signInHandler = () => {} }) {
 			password: passwordRef?.current?.value,
 		};
 
-		signInHandler(signIn.channel, signIn.email, signIn.phone, signIn.password)
-			.then(() => navigate(continueURL))
+		loginHanlder(signIn.channel, signIn.email, signIn.phone, signIn.password)
+			.then(() => {
+				navigate(continueURL);
+			})
 			.catch(() => {
 				setLoading(false);
 			});
