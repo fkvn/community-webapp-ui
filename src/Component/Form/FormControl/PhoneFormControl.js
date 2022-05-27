@@ -1,10 +1,5 @@
-import React from "react";
-import { useState } from "react";
-import { useCallback } from "react";
-import { useEffect } from "react";
-import { forwardRef } from "react";
-import { Form } from "react-bootstrap";
-import { FormControl } from "react-bootstrap";
+import React, { forwardRef, useCallback, useEffect, useState } from "react";
+import { Form, FormControl } from "react-bootstrap";
 
 function PhoneFormControl(props, ref) {
 	// ==================== config =====================
@@ -12,6 +7,7 @@ function PhoneFormControl(props, ref) {
 	const {
 		id = "",
 		className = "p-3",
+		label = "Phone",
 		required = true,
 		autoFocus = false,
 		displayWaningMessage = true,
@@ -24,6 +20,7 @@ function PhoneFormControl(props, ref) {
 		defaultValue = "",
 		disabled = false,
 		onChange = () => {},
+		landlineWarning = false,
 	} = props;
 
 	const [warningMessage, setWarningMessage] = useState("");
@@ -135,7 +132,7 @@ function PhoneFormControl(props, ref) {
 					{...(id && { htmlFor: id })}
 					className={`fs-5 ${required && "tedkvn-required"} }`}
 				>
-					Phone
+					{label}
 				</Form.Label>
 			)}
 			<FormControl
@@ -160,6 +157,17 @@ function PhoneFormControl(props, ref) {
 				<Form.Text className="text-muted">
 					<span className="text-danger">{warningMessage}</span>
 				</Form.Text>
+			)}
+			{landlineWarning && (
+				<Form.Group>
+					<Form.Text className="text-mute">
+						This phone is for login credential and OTP verification (if any){" "}
+						<br />
+						<small className="text-danger">
+							Please don't use any landline phone number!
+						</small>
+					</Form.Text>
+				</Form.Group>
 			)}
 		</>
 	);

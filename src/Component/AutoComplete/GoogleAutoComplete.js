@@ -1,18 +1,11 @@
-import React from "react";
-import { useCallback } from "react";
-import { useEffect } from "react";
-import { useState } from "react";
-import { Button } from "react-bootstrap";
-import { Toast } from "react-bootstrap";
-import { ListGroup } from "react-bootstrap";
-import { FormControl } from "react-bootstrap";
-import { Form } from "react-bootstrap";
-
+import React, { useCallback, useEffect, useState } from "react";
+import { Button, Form, FormControl, ListGroup, Toast } from "react-bootstrap";
 import * as util from "../../Util/util";
 
 function GoogleAutoComplete({
 	id = "",
 	withLabel = true,
+	label = "Address",
 	required = true,
 	sessionStorageObj = "autocomplete",
 }) {
@@ -91,23 +84,24 @@ function GoogleAutoComplete({
 	}, [init, isLoad, sessionStorageObj, address]);
 
 	useEffect(() => {
-		const addressObj = {
-			description: address.description || "",
-			placeid: address.placeid || "",
-		};
+		if (isLoad) {
+			const addressObj = {
+				description: address.description || "",
+				placeid: address.placeid || "",
+			};
 
-		if (addressRef.current) {
-			addressRef.current.value = addressObj.description;
+			if (addressRef.current) {
+				addressRef.current.value = addressObj.description;
+			}
+
+			sessionStorage.setItem(
+				sessionStorageObj,
+				JSON.stringify({
+					...(JSON.parse(sessionStorage.getItem(sessionStorageObj)) || {}),
+					address: addressObj.placeid.length > 0 ? addressObj : {},
+				})
+			);
 		}
-
-		sessionStorage.setItem(
-			sessionStorageObj,
-			JSON.stringify({
-				...(JSON.parse(sessionStorage.getItem(sessionStorageObj)) || {}),
-				address: addressObj.placeid.length > 0 ? addressObj : {},
-			})
-		);
-
 		util.scrollToActiveElement();
 	}, [address, addressRef, sessionStorageObj]);
 
@@ -153,7 +147,7 @@ function GoogleAutoComplete({
 					{...(id && { htmlFor: id })}
 					className={`fs-5 ${required && "tedkvn-required"} `}
 				>
-					Address
+					{label}
 				</Form.Label>
 			)}
 

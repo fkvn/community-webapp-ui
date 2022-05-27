@@ -12,6 +12,7 @@ import { useState } from "react";
 import { useEffect } from "react";
 import ClassicSignupContainer from "./SignupContainer/ClassicSignupContainer";
 import SignupSuccessContainer from "./SignupContainer/SignupSuccessContainer";
+import BusinessSignupContainer from "./SignupContainer/BusinessSignupContainer";
 
 function RouteBuilder() {
 	const location = useLocation();
@@ -42,6 +43,7 @@ function RouteBuilder() {
 			<Route path="/login" element={<LoginContainer user={user} />} />
 			<Route path="/signup" element={<Signup />}></Route>
 			<Route path="/signup/classic" element={<ClassicSignupContainer />} />
+			<Route path="/signup/business" element={<BusinessSignupContainer />} />
 			<Route path="/signup/success" element={<SignupSuccessContainer />} />
 			<Route path="*" element={<NotFoundPage />} />
 		</Routes>

@@ -55,6 +55,16 @@
 	/* display: none; */
 }
 
+select {
+	color: green !important;
+}
+select option {
+	color: black !important;
+}
+select option:first-child {
+	color: green !important;
+}
+
 ::-webkit-scrollbar {
 	-webkit-appearance: none;
 	-webkit-overflow-scrolling: auto;

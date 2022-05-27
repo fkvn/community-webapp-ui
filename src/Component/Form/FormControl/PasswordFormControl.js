@@ -1,12 +1,5 @@
-import React from "react";
-import { useEffect } from "react";
-import { useCallback } from "react";
-import { useState } from "react";
-import { forwardRef } from "react";
-import { FormControl } from "react-bootstrap";
-import { InputGroup } from "react-bootstrap";
-import { Form } from "react-bootstrap";
-
+import React, { forwardRef, useCallback, useEffect, useState } from "react";
+import { Form, FormControl, InputGroup } from "react-bootstrap";
 import hiddenIcon from "../../../Assest/Image/Icon/hidden-icon.png";
 import visibilityIcon from "../../../Assest/Image/Icon/visibility-icon.png";
 import IconButton from "../../Button/IconButton";
@@ -18,7 +11,6 @@ function PasswordFormControl(props, ref) {
 		required = true,
 		displayWaningMessage = true,
 		withLabel = true,
-		autoComplete = false,
 		attachedverifyPasswordFormControl = false,
 		defaultValue = "",
 		onChange = () => {},
@@ -68,7 +60,7 @@ function PasswordFormControl(props, ref) {
 					warningMessage: "Password doesn't match!",
 				});
 		},
-		[isPasswordMatch]
+		[isPasswordMatch, onVerifyChange]
 	);
 
 	const validatePassword = useCallback(

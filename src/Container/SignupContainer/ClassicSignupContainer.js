@@ -1,11 +1,11 @@
 import React from "react";
-import NewClassicSignup from "../../Component/Signup/ClassicSignup";
+import ClassicSignup from "../../Component/Signup/ClassicSignup";
 
 import * as axiosPromise from "../../Axios/axiosPromise";
 import * as dispatchPromise from "../../redux-store/dispatchPromise";
 
 function ClassicSignupContainer() {
-	const sessionStorageObj = "thainow.signup.info";
+	const sessionStorageObj = "thainow.classic.signup.info";
 
 	const submitErrorHandler = (message = "") =>
 		dispatchPromise.getPromise(dispatchPromise.submitErrorHandler(message));
@@ -28,7 +28,7 @@ function ClassicSignupContainer() {
 		axiosPromise.getPromise(axiosPromise.signupPromise(signupInfo, role));
 
 	const app = (
-		<NewClassicSignup
+		<ClassicSignup
 			sessionStorageObj={sessionStorageObj}
 			submitErrorHandler={submitErrorHandler}
 			validateEmailHandler={validateEmailHandler}

@@ -16,8 +16,8 @@ import LoadingButton from "../Button/LoadingButton";
 import OtpVerifyFormControl from "./FormControl/OtpVerifyFormControl";
 import { useNavigate, useSearchParams } from "react-router-dom";
 
-function SignupForm({
-	sessionStorageObj = "thainow.signup.info",
+function ClassicSignupForm({
+	sessionStorageObj = "thainow.classic.signup.info",
 	submitErrorHandler = () => {},
 	validateEmailHandler = () => {},
 	validatePhoneHandler = () => {},
@@ -533,4 +533,4 @@ function SignupForm({
 	return app;
 }
 
-export default SignupForm;
+export default ClassicSignupForm;

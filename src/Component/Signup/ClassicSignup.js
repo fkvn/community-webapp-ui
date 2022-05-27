@@ -8,10 +8,11 @@ import { Link, useNavigate, useSearchParams } from "react-router-dom";
 
 import thainowLogo from "../../Assest/Image/Brand/thainowLogo.png";
 import BackButton from "../Button/BackButton";
-import SignupForm from "../Form/ClassicSignupForm";
+import ClassicSignupForm from "../Form/ClassicSignupForm";
 
 function ClassicSignup({
 	formatFrames = false,
+	sessionStorageObj = "thainow.classic.signup.info",
 	validateEmailHandler = () => {},
 	validatePhoneHandler = () => {},
 	submitErrorHandler = () => {},
@@ -60,7 +61,8 @@ function ClassicSignup({
 						<Image src={thainowLogo} width="100" />
 					</Link>
 
-					<SignupForm
+					<ClassicSignupForm
+						sessionStorageObj={sessionStorageObj}
 						validateEmailHandler={validateEmailHandler}
 						validatePhoneHandler={validatePhoneHandler}
 						submitErrorHandler={submitErrorHandler}
