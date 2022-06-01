@@ -1,20 +1,14 @@
-import React from "react";
-import { useEffect } from "react";
-import { useState } from "react";
-import { Row } from "react-bootstrap";
-import { Col } from "react-bootstrap";
-import { Form } from "react-bootstrap";
-import { Button, InputGroup } from "react-bootstrap";
-
+import React, { useEffect, useState } from "react";
+import { Button, Col, Form, InputGroup, Row } from "react-bootstrap";
+import { useNavigate, useSearchParams } from "react-router-dom";
+import GoogleAutoComplete from "../AutoComplete/GoogleAutoComplete";
+import LoadingButton from "../Button/LoadingButton";
+import AgreementFormControl from "./FormControl/AgreementFormControl";
 import EmailFormControl from "./FormControl/EmailFormControl";
+import OtpVerifyFormControl from "./FormControl/OtpVerifyFormControl";
+import NewPasswordFormControl from "./FormControl/PasswordFormControl";
 import PhoneFormControl from "./FormControl/PhoneFormControl";
 import TextFormControl from "./FormControl/TextFormControl";
-import GoogleAutoComplete from "../AutoComplete/GoogleAutoComplete";
-import NewPasswordFormControl from "./FormControl/PasswordFormControl";
-import AgreementFormControl from "./FormControl/AgreementFormControl";
-import LoadingButton from "../Button/LoadingButton";
-import OtpVerifyFormControl from "./FormControl/OtpVerifyFormControl";
-import { useNavigate, useSearchParams } from "react-router-dom";
 
 function ClassicSignupForm({
 	sessionStorageObj = "thainow.classic.signup.info",

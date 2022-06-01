@@ -6,8 +6,10 @@ function GoogleAutoComplete({
 	id = "",
 	withLabel = true,
 	label = "Address",
+	labelClassName = "",
+	className = "",
 	required = true,
-	sessionStorageObj = "autocomplete",
+	sessionStorageObjName = "autocomplete",
 }) {
 	// ==================== config =====================
 
@@ -67,7 +69,7 @@ function GoogleAutoComplete({
 			init();
 
 			const defaultAddressObj =
-				JSON.parse(sessionStorage.getItem(sessionStorageObj)) || {};
+				JSON.parse(sessionStorage.getItem(sessionStorageObjName)) || {};
 
 			const defaultPlaceid = defaultAddressObj?.address?.placeid || "";
 
@@ -81,7 +83,7 @@ function GoogleAutoComplete({
 
 			setIsLoad(true);
 		}
-	}, [init, isLoad, sessionStorageObj, address]);
+	}, [init, isLoad, sessionStorageObjName, address]);
 
 	useEffect(() => {
 		if (isLoad) {
@@ -95,15 +97,15 @@ function GoogleAutoComplete({
 			}
 
 			sessionStorage.setItem(
-				sessionStorageObj,
+				sessionStorageObjName,
 				JSON.stringify({
-					...(JSON.parse(sessionStorage.getItem(sessionStorageObj)) || {}),
+					...(JSON.parse(sessionStorage.getItem(sessionStorageObjName)) || {}),
 					address: addressObj.placeid.length > 0 ? addressObj : {},
 				})
 			);
 		}
 		util.scrollToActiveElement();
-	}, [address, addressRef, sessionStorageObj]);
+	}, [address, addressRef, sessionStorageObjName, isLoad]);
 
 	// ==================== component =====================
 
@@ -145,7 +147,9 @@ function GoogleAutoComplete({
 			{withLabel && (
 				<Form.Label
 					{...(id && { htmlFor: id })}
-					className={`fs-5 ${required && "tedkvn-required"} `}
+					className={`formLabel ${labelClassName} ${
+						required && "tedkvn-required"
+					} }`}
 				>
 					{label}
 				</Form.Label>
@@ -156,7 +160,7 @@ function GoogleAutoComplete({
 				type="address"
 				ref={addressRef}
 				placeholder="Enter a place"
-				className="formControl p-3"
+				className={`formControl ${className}`}
 				required={required}
 				role="representation"
 				onChange={(p) => {

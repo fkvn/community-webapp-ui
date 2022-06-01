@@ -1,14 +1,9 @@
 import React from "react";
-import { Col } from "react-bootstrap";
-import { Row } from "react-bootstrap";
-import { Button } from "react-bootstrap";
-import { Image } from "react-bootstrap";
-import { Container } from "react-bootstrap";
+import { Button, Col, Container, Image, Row } from "react-bootstrap";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
-
 import thainowLogo from "../../Assest/Image/Brand/thainowLogo.png";
 import BackButton from "../Button/BackButton";
-import ClassicSignupForm from "../Form/ClassicSignupForm";
+import NewClassicSignupForm from "../Form/NewClassicSignupForm";
 
 function ClassicSignup({
 	formatFrames = false,
@@ -61,7 +56,8 @@ function ClassicSignup({
 						<Image src={thainowLogo} width="100" />
 					</Link>
 
-					<ClassicSignupForm
+					<NewClassicSignupForm />
+					{/* <ClassicSignupForm
 						sessionStorageObj={sessionStorageObj}
 						validateEmailHandler={validateEmailHandler}
 						validatePhoneHandler={validatePhoneHandler}
@@ -69,7 +65,7 @@ function ClassicSignup({
 						sendOtpCodeHandler={sendOtpCodeHandler}
 						verifyOtpCodeHandler={verifyOtpCodeHandler}
 						signupHandler={signupHandler}
-					/>
+					/> */}
 				</Col>
 			</Row>
 		</Container>

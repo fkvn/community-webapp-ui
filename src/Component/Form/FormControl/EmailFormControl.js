@@ -1,11 +1,5 @@
-import React from "react";
-import { useState } from "react";
-import { useCallback } from "react";
-import { useEffect } from "react";
-import { forwardRef } from "react";
-import { Form } from "react-bootstrap";
-import { FormControl } from "react-bootstrap";
-
+import React, { forwardRef, useCallback, useEffect, useState } from "react";
+import { Form, FormControl } from "react-bootstrap";
 import * as util from "../../../Util/util";
 
 function EmailFormControl(props, ref) {
