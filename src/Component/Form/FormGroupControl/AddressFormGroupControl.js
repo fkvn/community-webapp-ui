@@ -1,18 +1,23 @@
 import React from "react";
 import { Form } from "react-bootstrap";
-import GoogleAutoComplete from "../../AutoComplete/GoogleAutoComplete";
+import NewGoogleAutoComplete from "../../AutoComplete/NewGoogleAutoComplete";
 
 function AddressFromGroupControl({
+	id = "",
 	formGroupClassName = "",
-	formControlId = "",
 	sessionStorageObjName = "",
 }) {
 	const app = (
 		<Form.Group className={`formGroupControl ${formGroupClassName}`}>
-			<GoogleAutoComplete
-				{...(formControlId && { id: formControlId })}
+			<NewGoogleAutoComplete
+				{...(id && { id: id })}
 				sessionStorageObjName={sessionStorageObjName}
 			/>
+
+			{/* <GoogleAutoComplete
+				
+				sessionStorageObjName={sessionStorageObjName}
+			/> */}
 		</Form.Group>
 	);
 	return app;

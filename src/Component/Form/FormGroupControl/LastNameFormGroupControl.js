@@ -4,19 +4,33 @@ import * as util from "../../../Util/util";
 import NewTextFormControl from "../FormControl/NewTextFormControl";
 
 function LastNameFormGroupControl({
+	id = "",
+	withLabel = true,
+	label = "Last Name",
+	labelClassName = "",
+	placeholder = "Enter your last name",
+	required = false,
 	formGroupClassName = "",
-	formControlId = "",
 	sessionStorageObjName = "",
 	sessionStoragePropName = "lastname",
 }) {
 	const app = (
 		<Form.Group className={`formGroupControl ${formGroupClassName}`}>
+			{withLabel && (
+				<Form.Label
+					{...(id && { htmlFor: id })}
+					className={`formLabel ${labelClassName} ${
+						required && "tedkvn-required"
+					} }`}
+				>
+					{label}
+				</Form.Label>
+			)}
+
 			<NewTextFormControl
-				{...(formControlId && { id: formControlId })}
-				withLabel={true}
-				label="Last Name"
-				required={true}
-				placeholder="Enter your last name"
+				{...(id && { id: id })}
+				required={required}
+				placeholder={placeholder}
 				sessionStorageObjName={sessionStorageObjName}
 				sessionStoragePropName={sessionStoragePropName}
 				onChange={(e) =>

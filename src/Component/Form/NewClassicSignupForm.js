@@ -25,30 +25,33 @@ function NewClassicSignupForm({
 
 	const emailFormGroupControl = (
 		<EmailFromGroupControl
-			formControlId="classic-signup-emailFormControl"
+			id="classic-signup-emailFormControl"
+			required={true}
 			sessionStorageObjName={sessionStorageObjName}
 		/>
 	);
 
 	const phoneFormGroupControl = (
 		<PhoneFromGroupControl
-			formControlId="classic-signup-phoneFormControl"
+			id="classic-signup-phoneFormControl"
+			required={true}
 			sessionStorageObjName={sessionStorageObjName}
 		/>
 	);
 
 	const addressFormGroupControl = (
 		<AddressFromGroupControl
-			formControlId="classic-signup-addressFormControl"
+			id="classic-signup-addressFormControl"
 			sessionStorageObjName={sessionStorageObjName}
 		/>
 	);
 
 	const passwordFormGroupControl = (
 		<PasswordFromGroupControl
-			formControlId="classic-signup-passwordFormControl"
+			id="classic-signup-passwordFormControl"
+			required={true}
 			sessionStorageObjName={sessionStorageObjName}
-			withVerifyPasswordFormControl={true}
+			withConfirmPasswordFormControl={true}
 		/>
 	);
 
@@ -86,12 +89,12 @@ function NewClassicSignupForm({
 						{emailFormGroupControl}
 						{phoneFormGroupControl}
 						{addressFormGroupControl}
-						{passwordFormGroupControl}
-						{agreementFormGroupControl}
+						{/* {passwordFormGroupControl}
+						{agreementFormGroupControl} */}
 					</>
 				)}
 
-				{navigationStepBtnFormGroupControl}
+				{/* {navigationStepBtnFormGroupControl} */}
 			</Form>
 		</>
 	);

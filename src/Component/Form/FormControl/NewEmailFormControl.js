@@ -1,24 +1,18 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { Form, FormControl } from "react-bootstrap";
+import { FormControl } from "react-bootstrap";
+import * as constVar from "../../../Util/ConstVar";
 import * as util from "../../../Util/util";
 
 function NewEmailFormControl({
 	id = "",
 	className = "",
-	withLabel = true,
-	label = "Email",
-	labelClassName = "",
+	type = "email",
 	placeholder = "Enter your email",
-	required = true,
-	autoFocus = false,
-	displayWaningMessage = true,
-	getWarningMessage = () => {},
-	sessionStorageObjName = "",
-	sessionStoragePropName = "email",
+	required = false,
 	disabled = false,
+	onEmailValidation = () => {},
+	sessionStorageObjName = "",
 }) {
-	const [warningMessage, setWarningMessage] = useState("");
-
 	const [loading, setLoading] = useState(true);
 
 	const ref = React.createRef("");
@@ -29,19 +23,20 @@ function NewEmailFormControl({
 
 			util.saveToSessionStore(
 				sessionStorageObjName,
-				"isValidEmail",
+				constVar.STORAGE_EMAIL_VALIDATION,
 				isValidEmail
 			);
+
 			util.saveToSessionStore(
 				sessionStorageObjName,
-				sessionStoragePropName,
+				constVar.STORAGE_EMAIL_PROP,
 				email
 			);
 
-			if (isValidEmail) setWarningMessage("");
-			else setWarningMessage("Sorry, your email address is invalid.");
+			// notify and return that the email has validated
+			onEmailValidation(isValidEmail);
 		},
-		[sessionStorageObjName, sessionStoragePropName, setWarningMessage]
+		[sessionStorageObjName, onEmailValidation]
 	);
 
 	useEffect(() => {
@@ -49,7 +44,7 @@ function NewEmailFormControl({
 		if (loading) {
 			const defaultValue =
 				util.getSessionStorageObj(sessionStorageObjName)[
-					`${sessionStoragePropName}`
+					`${constVar.STORAGE_EMAIL_PROP}`
 				] || "";
 
 			if (ref.current) {
@@ -59,49 +54,20 @@ function NewEmailFormControl({
 
 			setLoading(false);
 		}
-
-		getWarningMessage(warningMessage);
-	}, [
-		loading,
-		setLoading,
-		ref,
-		sessionStorageObjName,
-		sessionStoragePropName,
-		onEmailChangeHanlder,
-		warningMessage,
-		getWarningMessage,
-	]);
+	}, [loading, setLoading, ref, sessionStorageObjName, onEmailChangeHanlder]);
 
 	const app = (
-		<>
-			{withLabel && (
-				<Form.Label
-					{...(id && { htmlFor: id })}
-					className={`formLabel ${labelClassName} ${
-						required && "tedkvn-required"
-					} }`}
-				>
-					{label}
-				</Form.Label>
-			)}
-			<FormControl
-				{...(id && { id: id })}
-				ref={ref}
-				type="email"
-				placeholder={placeholder}
-				className={`formControl ${className}`}
-				onChange={(e) => onEmailChangeHanlder(e.target.value)}
-				required={required}
-				autoFocus={autoFocus}
-				role="presentation"
-				disabled={disabled}
-			/>
-			{displayWaningMessage && warningMessage.length > 0 && (
-				<Form.Text className="text-muted">
-					<span className="text-danger">{warningMessage}</span>
-				</Form.Text>
-			)}
-		</>
+		<FormControl
+			{...(id && { id: id })}
+			ref={ref}
+			type={type}
+			placeholder={placeholder}
+			className={`formControl ${className}`}
+			onChange={(e) => onEmailChangeHanlder(e.target.value)}
+			required={required}
+			role="presentation"
+			disabled={disabled}
+		/>
 	);
 	return app;
 }

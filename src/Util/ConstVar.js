@@ -1,5 +1,16 @@
 export const THAINOW_USER_STORRAGE_OBJ = "thainow.user";
 
+export const STORAGE_FIRSTNAME_PROP = "firstname";
+export const STORAGE_LASTNAME_PROP = "lastname";
+export const STORAGE_EMAIL_PROP = "email";
+export const STORAGE_EMAIL_VALIDATION = "isValidEmail";
+export const STORAGE_PHONE_PROP = "phone";
+export const STORAGE_PHONE_VALIDATION = "isValidPhone";
+export const STORAGE_PASSWORD_PROP = "password";
+export const STORAGE_PASSWORD_VALIDATION = "isValidPassword";
+export const STORAGE_CONFIRM_PASSWORD_VALIDATION = "isPasswordMatch";
+export const STORAGE_ADDRESS_PROP = "address";
+
 export const ERROR = "ERROR";
 export const ERROR_MESSAGE = "ERROR_MESSAGE";
 export const ERROR_TYPE = "ERROR_STATUS";

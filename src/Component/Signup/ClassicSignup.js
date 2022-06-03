@@ -52,9 +52,11 @@ function ClassicSignup({
 				>
 					<BackButton />
 					<BusinessRegisterButton />
-					<Link to="/" className="text-center m-5 d-block">
-						<Image src={thainowLogo} width="100" />
-					</Link>
+					<div className="text-center m-5 d-block">
+						<Link to="/">
+							<Image src={thainowLogo} width="100" />
+						</Link>
+					</div>
 
 					<NewClassicSignupForm />
 					{/* <ClassicSignupForm

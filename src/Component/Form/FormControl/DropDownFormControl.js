@@ -1,49 +1,44 @@
-import React, { forwardRef } from "react";
-import { Form } from "react-bootstrap";
+import React from "react";
+import { Button, Form, FormControl, ListGroup, Toast } from "react-bootstrap";
 
-function DropDownFormControl(props, ref) {
-	const {
-		id = "",
-		withLabel = false,
-		labelTitle = "",
-		placeholder = "",
-		className = "p-3",
-		required = false,
-		dropdownItems = [],
-		onChange = () => {},
-	} = props;
-
+function DropDownFormControl({
+	type = "text",
+	placeholder = "",
+	className = "",
+	dropdownItems = [],
+	onChangeHandler = () => {},
+	onItemClickHanlder = () => {},
+}) {
 	const app = (
-		<>
-			{withLabel && (
-				<Form.Label
-					{...(id && { htmlFor: id })}
-					className={`fs-5 ${required && "tedkvn-required"} }`}
-				>
-					{labelTitle}
-				</Form.Label>
-			)}
-
-			<Form.Select
-				{...(id && { id: id })}
-				aria-label={id ? id : "Custom form select"}
+		<Form.Group>
+			<FormControl
+				type={type}
+				placeholder={placeholder}
 				className={`formControl ${className}`}
-				required={required}
-				onChange={onChange}
-				ref={ref}
-			>
-				<option value="">{placeholder}</option>
-				{dropdownItems.length > 0 &&
-					dropdownItems.map((item, idx) => (
-						<option key={idx} value={item.value || ""}>
-							{item.value || ""}
-						</option>
-					))}
-			</Form.Select>
-		</>
-	);
+				onChange={(e) => onChangeHandler(e.target.value)}
+			/>
 
+			{dropdownItems.length > 0 && (
+				<Toast className="predictionDropDown position-relative w-100">
+					<Toast.Body className="border-0">
+						<ListGroup as="ul"></ListGroup>
+						{dropdownItems.map((item, idx) => (
+							<ListGroup.Item as="li" key={idx}>
+								<Button
+									variant="link"
+									className="text-dark text-decoration-none p-0"
+									onClick={onItemClickHanlder}
+								>
+									{item?.description}
+								</Button>
+							</ListGroup.Item>
+						))}
+					</Toast.Body>
+				</Toast>
+			)}
+		</Form.Group>
+	);
 	return app;
 }
 
-export default forwardRef(DropDownFormControl);
+export default DropDownFormControl;

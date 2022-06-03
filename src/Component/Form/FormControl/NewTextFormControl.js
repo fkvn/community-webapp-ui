@@ -1,20 +1,17 @@
 import React, { useEffect, useState } from "react";
-import { Form } from "react-bootstrap";
+import { FormControl } from "react-bootstrap";
 import * as util from "../../../Util/util";
 
 function NewTextFormControl(props) {
 	const {
 		id = "",
-		withLabel = false,
-		label = "",
-		labelClassName = "",
+		type = "text",
 		placeholder = "",
 		className = "",
 		required = false,
-		autoFocus = false,
+		disabled = false,
 		sessionStorageObjName = "",
 		sessionStoragePropName = "",
-		onChange = () => {},
 	} = props;
 
 	const [loading, setLoading] = useState(true);
@@ -38,28 +35,22 @@ function NewTextFormControl(props) {
 	}, [loading, ref, sessionStorageObjName, sessionStoragePropName]);
 
 	const app = (
-		<>
-			{withLabel && (
-				<Form.Label
-					{...(id && { htmlFor: id })}
-					className={`formLabel ${labelClassName} ${
-						required && "tedkvn-required"
-					} }`}
-				>
-					{label}
-				</Form.Label>
-			)}
-			<Form.Control
-				{...(id && { id: id })}
-				ref={ref}
-				type="text"
-				className={`formControl ${className}`}
-				placeholder={placeholder}
-				required={required}
-				autoFocus={autoFocus}
-				onChange={onChange}
-			/>
-		</>
+		<FormControl
+			{...(id && { id: id })}
+			ref={ref}
+			type={type}
+			className={`formControl ${className}`}
+			placeholder={placeholder}
+			required={required}
+			disabled={disabled}
+			onChange={(e) =>
+				util.saveToSessionStore(
+					sessionStorageObjName,
+					sessionStoragePropName,
+					e.target.value
+				)
+			}
+		/>
 	);
 	return app;
 }

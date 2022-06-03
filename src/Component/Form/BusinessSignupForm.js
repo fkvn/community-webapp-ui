@@ -4,8 +4,8 @@ import { useSearchParams } from "react-router-dom";
 import GoogleAutoComplete from "../AutoComplete/GoogleAutoComplete";
 import LoadingButton from "../Button/LoadingButton";
 import AgreementFormControl from "./FormControl/AgreementFormControl";
-import DropDownFormControl from "./FormControl/DropDownFormControl";
 import PhoneFormControl from "./FormControl/PhoneFormControl";
+import SelectFormControl from "./FormControl/SelectFormControl";
 import TextFormControl from "./FormControl/TextFormControl";
 import UrlFormControl from "./FormControl/UrlFormControl";
 
@@ -116,7 +116,7 @@ function BusinessSignupForm({
 
 	const CompanyIndustryFormControl = () => (
 		<Form.Group className="mb-3">
-			<DropDownFormControl
+			<SelectFormControl
 				id="signup-companyIndustrySelectControl"
 				withLabel={true}
 				labelTitle="Company Industry"

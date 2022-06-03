@@ -1,31 +1,39 @@
 import React from "react";
 import { Form } from "react-bootstrap";
-import * as util from "../../../Util/util";
+import * as constVar from "../../../Util/ConstVar";
 import NewTextFormControl from "../FormControl/NewTextFormControl";
 
 function FirstNameFormGroupControl({
+	id = "",
+	withLabel = true,
+	label = "First Name",
+	labelClassName = "",
+	placeholder = "Enter your first name",
 	formGroupClassName = "",
-	formControlId = "",
+	required = false,
+	disabled = false,
 	sessionStorageObjName = "",
-	sessionStoragePropName = "firstname",
+	sessionStoragePropName = constVar.STORAGE_FIRSTNAME_PROP,
 }) {
 	const app = (
 		<Form.Group className={`formGroupControl ${formGroupClassName}`}>
+			{withLabel && (
+				<Form.Label
+					{...(id && { htmlFor: id })}
+					className={`formLabel ${labelClassName} ${
+						required && "tedkvn-required"
+					} }`}
+				>
+					{label}
+				</Form.Label>
+			)}
 			<NewTextFormControl
-				{...(formControlId && { id: formControlId })}
-				withLabel={true}
-				label="First Name"
-				required={true}
-				placeholder="Enter your first name"
+				{...(id && { id: id })}
+				required={required}
+				disabled={disabled}
+				placeholder={placeholder}
 				sessionStorageObjName={sessionStorageObjName}
 				sessionStoragePropName={sessionStoragePropName}
-				onChange={(e) =>
-					util.saveToSessionStore(
-						sessionStorageObjName,
-						sessionStoragePropName,
-						e.target.value
-					)
-				}
 			/>
 		</Form.Group>
 	);

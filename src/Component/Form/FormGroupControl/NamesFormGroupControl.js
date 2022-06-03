@@ -6,14 +6,16 @@ import LastNameFormGroupControl from "./LastNameFormGroupControl";
 function NamesFormGroupControl({ sessionStorageObjName = "" }) {
 	const firstNameFormGroupControl = (
 		<FirstNameFormGroupControl
-			formControlId="classic-signup-firstNameControl"
+			id="classic-signup-firstNameControl"
+			required={true}
 			sessionStorageObjName={sessionStorageObjName}
 		/>
 	);
 
 	const lastNameFormGroupControl = (
 		<LastNameFormGroupControl
-			formControlId="classic-signup-lastNameControl"
+			id="classic-signup-lastNameControl"
+			required={true}
 			sessionStorageObjName={sessionStorageObjName}
 		/>
 	);
