@@ -1,6 +1,6 @@
 #signupFormCol,
 #classicSignupFormCol {
-	padding: 3rem 4rem;
+	padding: 1rem;
 	border-radius: 1rem;
 }
 
@@ -13,6 +13,13 @@
 #signup-classic-card img,
 #signup-business-card img {
 	border-radius: 2rem 2rem 0 0;
+}
+
+#classicSignupFormCol {
+	height: 100vh;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 }
 
 .signup-verify-formControl-editBtn {

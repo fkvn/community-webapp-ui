@@ -1,9 +1,7 @@
 import React from "react";
-import { Button, Col, Container, Image, Row } from "react-bootstrap";
-import { Link, useNavigate, useSearchParams } from "react-router-dom";
-import thainowLogo from "../../Assest/Image/Brand/thainowLogo.png";
-import BackButton from "../Button/BackButton";
-import NewClassicSignupForm from "../Form/NewClassicSignupForm";
+import { Button } from "react-bootstrap";
+import { useNavigate, useSearchParams } from "react-router-dom";
+import FormLayout from "../Form/FormLayout";
 
 function ClassicSignup({
 	formatFrames = false,
@@ -36,42 +34,47 @@ function ClassicSignup({
 		</Button>
 	);
 
-	const app = (
-		<Container
-			fluid
-			className={`${formatFrames ? "bg-success " : ""} vh-100 tedkvn-center `}
-		>
-			<Row className={`${formatFrames ? "bg-primary" : ""}  tedkvn-center `}>
-				<Col
-					xs={12}
-					className={`${formatFrames ? "bg-danger " : ""} overflow-auto border`}
-					id="classicSignupFormCol"
-					style={{
-						maxHeight: "80vh",
-					}}
-				>
-					<BackButton />
-					<BusinessRegisterButton />
-					<div className="text-center m-5 d-block">
-						<Link to="/">
-							<Image src={thainowLogo} width="100" />
-						</Link>
-					</div>
+	// const app = (
+	// 	<Container
+	// 		fluid
+	// 		className={`${formatFrames ? "bg-success " : ""} vh-100 tedkvn-center `}
+	// 	>
+	// 		<Row className={`${formatFrames ? "bg-primary" : ""}  tedkvn-center `}>
+	// 			<Col
+	// 				xs={12}
+	// 				className={`${formatFrames ? "bg-danger " : ""} overflow-auto border`}
+	// 				id="classicSignupFormCol"
+	// 				style={{
+	// 					maxHeight: "80vh",
+	// 				}}
+	// 			>
+	// 				<BackButton />
+	// 				<BusinessRegisterButton />
+	// 				<div className="text-center m-5 d-block">
+	// 					<Link to="/">
+	// 						<Image src={thainowLogo} width="100" />
+	// 					</Link>
+	// 				</div>
 
-					<NewClassicSignupForm />
-					{/* <ClassicSignupForm
-						sessionStorageObj={sessionStorageObj}
-						validateEmailHandler={validateEmailHandler}
-						validatePhoneHandler={validatePhoneHandler}
-						submitErrorHandler={submitErrorHandler}
-						sendOtpCodeHandler={sendOtpCodeHandler}
-						verifyOtpCodeHandler={verifyOtpCodeHandler}
-						signupHandler={signupHandler}
-					/> */}
-				</Col>
-			</Row>
-		</Container>
-	);
+	// 				<NewClassicSignupForm />
+	// 				{/* <ClassicSignupForm
+	// 					sessionStorageObj={sessionStorageObj}
+	// 					validateEmailHandler={validateEmailHandler}
+	// 					validatePhoneHandler={validatePhoneHandler}
+	// 					submitErrorHandler={submitErrorHandler}
+	// 					sendOtpCodeHandler={sendOtpCodeHandler}
+	// 					verifyOtpCodeHandler={verifyOtpCodeHandler}
+	// 					signupHandler={signupHandler}
+	// 				/> */}
+	// 			</Col>
+	// 		</Row>
+	// 	</Container>
+	// );
+
+	const app = FormLayout({
+		title: "Create Account",
+	});
+
 	return app;
 }
 

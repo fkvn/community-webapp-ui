@@ -159,7 +159,7 @@ function ClassicSignupForm({
 					setOnSubmitLoading(false);
 					setStep(2);
 				})
-				.catch(() => setOnSubmitLoading());
+				.catch(() => setOnSubmitLoading(false));
 		else if (step === 3) {
 			onSubmitStep_3_Handler(signupInfo.email, signupInfo.phone)
 				.then(() => {
