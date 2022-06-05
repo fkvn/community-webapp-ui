@@ -1,10 +1,11 @@
 import React from "react";
-import { Button } from "react-bootstrap";
+import { Button, Row } from "react-bootstrap";
 import { useNavigate, useSearchParams } from "react-router-dom";
+import FormHeader from "../Form/FormHeader";
 import FormLayout from "../Form/FormLayout";
+import NewClassicSignupForm from "../Form/NewClassicSignupForm";
 
 function ClassicSignup({
-	formatFrames = false,
 	sessionStorageObj = "thainow.classic.signup.info",
 	validateEmailHandler = () => {},
 	validatePhoneHandler = () => {},
@@ -71,9 +72,45 @@ function ClassicSignup({
 	// 	</Container>
 	// );
 
-	const app = FormLayout({
-		title: "Create Account",
-	});
+	const buttons = [
+		{
+			title: "Back to Home",
+			// type: "submit",
+			variant: "link",
+			onClick: () => {},
+		},
+	];
+
+	const formHeader = (
+		<FormHeader
+			title={
+				<Row>
+					<p className="p-0 m-0 ">
+						<span>Create Personal Account</span>
+						<Button
+							variant="link"
+							href="/signup"
+							className="px-0 pt-0 my-0 pb-0 px-md-2 pb-md-1 text-start d-block d-md-inline-block"
+						>
+							<small>Switch account</small>
+						</Button>
+					</p>
+				</Row>
+			}
+			onClose={() => {}}
+			// navButtons={buttons}
+			// withCloseButon={false}
+		/>
+	);
+
+	const formBody = (
+		<>
+			{" "}
+			<NewClassicSignupForm />
+		</>
+	);
+
+	const app = FormLayout(formHeader, formBody);
 
 	return app;
 }

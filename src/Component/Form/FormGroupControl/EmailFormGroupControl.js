@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Form } from "react-bootstrap";
+import { Form, Row } from "react-bootstrap";
 import NewEmailFormControl from "../FormControl/NewEmailFormControl";
 
 function EmailFromGroupControl({
@@ -21,30 +21,32 @@ function EmailFromGroupControl({
 	};
 
 	const app = (
-		<Form.Group className={`formGroupControl ${formGroupClassName}`}>
-			{withLabel && (
-				<Form.Label
-					{...(id && { htmlFor: id })}
-					className={`formLabel ${labelClassName} ${
-						required && "tedkvn-required"
-					} }`}
-				>
-					{label}
-				</Form.Label>
-			)}
-			<NewEmailFormControl
-				{...(id && { id: id })}
-				required={required}
-				disabled={disabled}
-				onEmailValidation={onEmailValidationHanlder}
-				sessionStorageObjName={sessionStorageObjName}
-			/>
-			{displayWaningMessage && warningMessage.length > 0 && (
-				<Form.Text className="text-muted">
-					<span className="text-danger">{warningMessage}</span>
-				</Form.Text>
-			)}
-		</Form.Group>
+		<Row>
+			<Form.Group className={`formGroupControl ${formGroupClassName}`}>
+				{withLabel && (
+					<Form.Label
+						{...(id && { htmlFor: id })}
+						className={`formLabel ${labelClassName} ${
+							required && "tedkvn-required"
+						} }`}
+					>
+						{label}
+					</Form.Label>
+				)}
+				<NewEmailFormControl
+					{...(id && { id: id })}
+					required={required}
+					disabled={disabled}
+					onEmailValidation={onEmailValidationHanlder}
+					sessionStorageObjName={sessionStorageObjName}
+				/>
+				{displayWaningMessage && warningMessage.length > 0 && (
+					<Form.Text className="text-muted">
+						<span className="text-danger">{warningMessage}</span>
+					</Form.Text>
+				)}
+			</Form.Group>
+		</Row>
 	);
 	return app;
 }

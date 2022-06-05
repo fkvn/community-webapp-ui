@@ -32,9 +32,9 @@
 	margin: 0.5rem 0;
 }
 
-.formLabel {
+/* .formLabel {
 	font-weight: 600;
-}
+} */
 
 .error-toast-container {
 	z-index: 99;

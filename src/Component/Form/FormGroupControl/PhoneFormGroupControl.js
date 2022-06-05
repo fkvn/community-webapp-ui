@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Form } from "react-bootstrap";
+import { Form, Row } from "react-bootstrap";
 import NewPhoneFormControl from "../FormControl/NewPhoneFormControl";
 
 function PhoneFromGroupControl({
@@ -22,44 +22,46 @@ function PhoneFromGroupControl({
 	};
 
 	const app = (
-		<Form.Group className={`formGroupControl ${formGroupClassName}`}>
-			{withLabel && (
-				<Form.Label
-					{...(id && { htmlFor: id })}
-					className={`formLabel ${labelClassName} ${
-						required && "tedkvn-required"
-					} }`}
-				>
-					{label}
-				</Form.Label>
-			)}
+		<Row>
+			<Form.Group className={`formGroupControl ${formGroupClassName}`}>
+				{withLabel && (
+					<Form.Label
+						{...(id && { htmlFor: id })}
+						className={`formLabel ${labelClassName} ${
+							required && "tedkvn-required"
+						} }`}
+					>
+						{label}
+					</Form.Label>
+				)}
 
-			<NewPhoneFormControl
-				{...(id && { id: id })}
-				required={required}
-				disabled={disabled}
-				onPhoneValidation={onPhoneValidationHanlder}
-				sessionStorageObjName={sessionStorageObjName}
-			/>
+				<NewPhoneFormControl
+					{...(id && { id: id })}
+					required={required}
+					disabled={disabled}
+					onPhoneValidation={onPhoneValidationHanlder}
+					sessionStorageObjName={sessionStorageObjName}
+				/>
 
-			{displayWaningMessage && warningMessage.length > 0 && (
-				<Form.Text className="text-muted">
-					<span className="text-danger">{warningMessage}</span>
-				</Form.Text>
-			)}
-
-			{landlineWarning && (
-				<Form.Group>
-					<Form.Text className="text-mute">
-						This phone is for login credential and OTP verification (if any){" "}
-						<br />
-						<small className="text-danger">
-							Please don't use any landline phone number!
-						</small>
+				{displayWaningMessage && warningMessage.length > 0 && (
+					<Form.Text className="text-muted">
+						<span className="text-danger">{warningMessage}</span>
 					</Form.Text>
-				</Form.Group>
-			)}
-		</Form.Group>
+				)}
+
+				{landlineWarning && (
+					<Form.Group>
+						<Form.Text className="text-mute">
+							This phone is for login credential and OTP verification (if any){" "}
+							<br />
+							<small className="text-danger">
+								Please don't use any landline phone number!
+							</small>
+						</Form.Text>
+					</Form.Group>
+				)}
+			</Form.Group>
+		</Row>
 	);
 	return app;
 }

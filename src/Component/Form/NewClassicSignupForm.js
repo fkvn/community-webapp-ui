@@ -1,12 +1,14 @@
 import React, { useState } from "react";
-import { Form } from "react-bootstrap";
+import { Button, Container, Form } from "react-bootstrap";
 import AddressFromGroupControl from "./FormGroupControl/AddressFormGroupControl";
 import AgreementFormGroupControl from "./FormGroupControl/AgreementFormGroupControl";
 import EmailFromGroupControl from "./FormGroupControl/EmailFormGroupControl";
-import NamesFormGroupControl from "./FormGroupControl/NamesFormGroupControl";
 import NavigationStepBtnFormGroupControl from "./FormGroupControl/NavigationStepBtnFormGroupControl";
 import PasswordFromGroupControl from "./FormGroupControl/PasswordFormGroupControl";
 import PhoneFromGroupControl from "./FormGroupControl/PhoneFormGroupControl";
+import ReadOnlyFormGroupControl from "./FormGroupControl/ReadOnlyFormGroupControl";
+import UserContactFormGroupControl from "./FormGroupControl/UserContactFormGroupControl";
+import UsernameFormGroupControl from "./FormGroupControl/UsernameFormGroupControl";
 
 function NewClassicSignupForm({
 	sessionStorageObjName = "thainow.classic.signup.info",
@@ -19,8 +21,12 @@ function NewClassicSignupForm({
 
 	const [onSubmitLoading, setOnSubmitLoading] = useState(false);
 
-	const namesFormGroupControl = (
-		<NamesFormGroupControl sessionStorageObjName={sessionStorageObjName} />
+	const usernameFormGroupControl = (
+		<UsernameFormGroupControl
+			id="classic-signup-usernameFormGroupControl"
+			required={true}
+			sessionStorageObjName={sessionStorageObjName}
+		/>
 	);
 
 	const emailFormGroupControl = (
@@ -51,7 +57,6 @@ function NewClassicSignupForm({
 			id="classic-signup-passwordFormControl"
 			required={true}
 			sessionStorageObjName={sessionStorageObjName}
-			withConfirmPasswordFormControl={true}
 		/>
 	);
 
@@ -80,22 +85,45 @@ function NewClassicSignupForm({
 		e.preventDefault();
 	};
 
+	const headline = (
+		<ReadOnlyFormGroupControl
+			title="Sign up to Connect with great Thai resources"
+			className="fs-5"
+		/>
+	);
+
+	const loginFormIntro = (
+		<Form.Group className="mb-4 text-center">
+			<Container className="tedkvn-center p-0 " fluid>
+				Already has an account?{" "}
+				<Button
+					variant="link"
+					href="/signup"
+					className="px-1 px-sm-0 mx-md-2 d-inline-block"
+				>
+					Sign in instead
+				</Button>
+			</Container>
+		</Form.Group>
+	);
+
 	const app = step <= MAX_STEP && (
 		<>
-			<Form onSubmit={onSubmitHandle}>
-				{step === 1 && (
-					<>
-						{namesFormGroupControl}
-						{emailFormGroupControl}
-						{phoneFormGroupControl}
-						{addressFormGroupControl}
-						{/* {passwordFormGroupControl}
-						{agreementFormGroupControl} */}
-					</>
-				)}
+			{/* <Form onSubmit={onSubmitHandle}> */}
+			{step === 1 && (
+				<>
+					{headline}
+					<UserContactFormGroupControl
+						sessionStorageObjName={sessionStorageObjName}
+					/>
+					{passwordFormGroupControl}
+					{agreementFormGroupControl}
+					{loginFormIntro}
+				</>
+			)}
 
-				{/* {navigationStepBtnFormGroupControl} */}
-			</Form>
+			{/* {navigationStepBtnFormGroupControl} */}
+			{/* </Form> */}
 		</>
 	);
 	return app;

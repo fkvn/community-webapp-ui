@@ -1,5 +1,6 @@
 export const THAINOW_USER_STORRAGE_OBJ = "thainow.user";
 
+export const STORAGE_USERNAME_PROP = "username";
 export const STORAGE_FIRSTNAME_PROP = "firstname";
 export const STORAGE_LASTNAME_PROP = "lastname";
 export const STORAGE_EMAIL_PROP = "email";

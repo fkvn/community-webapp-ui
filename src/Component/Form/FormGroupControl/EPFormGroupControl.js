@@ -1,20 +1,20 @@
 import React from "react";
 import { Col, Form, Row } from "react-bootstrap";
-import FirstNameFormGroupControl from "./FirstNameFormGroupControl";
-import LastNameFormGroupControl from "./LastNameFormGroupControl";
+import EmailFromGroupControl from "./EmailFormGroupControl";
+import PhoneFromGroupControl from "./PhoneFormGroupControl";
 
-function NamesFormGroupControl({ sessionStorageObjName = "" }) {
+function EPFormGroupControl({ sessionStorageObjName = "" }) {
 	const firstNameFormGroupControl = (
-		<FirstNameFormGroupControl
-			id="classic-signup-firstNameControl"
+		<EmailFromGroupControl
+			id="classic-signup-emailFormControl"
 			required={true}
 			sessionStorageObjName={sessionStorageObjName}
 		/>
 	);
 
 	const lastNameFormGroupControl = (
-		<LastNameFormGroupControl
-			id="classic-signup-lastNameControl"
+		<PhoneFromGroupControl
+			id="classic-signup-phoneFormControl"
 			required={true}
 			sessionStorageObjName={sessionStorageObjName}
 		/>
@@ -35,4 +35,4 @@ function NamesFormGroupControl({ sessionStorageObjName = "" }) {
 	return app;
 }
 
-export default NamesFormGroupControl;
+export default EPFormGroupControl;
