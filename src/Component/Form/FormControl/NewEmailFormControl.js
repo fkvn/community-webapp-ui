@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { FormControl } from "react-bootstrap";
 import * as constVar from "../../../Util/ConstVar";
-import * as util from "../../../Util/util";
+import * as util from "../../../Util/Util";
 
 function NewEmailFormControl({
 	id = "",
@@ -62,7 +62,7 @@ function NewEmailFormControl({
 			ref={ref}
 			type={type}
 			placeholder={placeholder}
-			className={`formControl ${className}`}
+			className={`tedkvn-formControl ${className}`}
 			onChange={(e) => onEmailChangeHanlder(e.target.value)}
 			required={required}
 			role="presentation"

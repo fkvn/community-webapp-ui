@@ -1,5 +1,6 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import * as constVar from "../../Util/ConstVar";
+import * as util from "../../Util/Util";
 import DropDownFormControl from "../Form/FormControl/DropDownFormControl";
 
 function NewGoogleAutoComplete({
@@ -9,6 +10,8 @@ function NewGoogleAutoComplete({
 	sessionStorageObjName = "",
 	sessionStoragePropName = constVar.STORAGE_ADDRESS_PROP,
 }) {
+	const [loading, setLoading] = useState(true);
+
 	const [autoComplete, setAutoComplete] = useState({});
 
 	const addressRef = React.createRef("");
@@ -33,30 +36,90 @@ function NewGoogleAutoComplete({
 
 	const [predictions, setPredictions] = useState([]);
 
-	// const onAddressChangeHandler = (description) => {
-	// 	if (description !== "") {
-	// 		getPlacePredictionPromise(description).then((res) => {
-	// 			setAddress({
-	// 				description: description,
-	// 				predictions: res.predictions,
-	// 				warningMessage: res.predictions.length > 0 ? "" : "Invalid Address",
-	// 			});
-	// 		});
-	// 	} else {
-	// 		setAddress({
-	// 			description: description,
-	// 			predictions: [],
-	// 			warningMessage: "",
-	// 		});
-	// 	}
-	// };
+	const updateAddressDescription = (description = "") => {
+		util.saveToSessionStore(sessionStorageObjName, sessionStoragePropName, {
+			description: description,
+		});
+	};
+
+	const updateAddress = (description = "", placeid = "") => {
+		util.saveToSessionStore(sessionStorageObjName, sessionStoragePropName, {
+			description: description,
+			placeid: placeid,
+		});
+	};
+
+	const onAddressChangeHandler = (description) => {
+		// update description - placeid is removed cuz the address is changing
+		updateAddressDescription(description);
+
+		if (description !== "") {
+			getPlacePredictionPromise(description).then((res) => {
+				setPredictions(res.predictions);
+			});
+		} else {
+			setPredictions([]);
+		}
+	};
+
+	const onSelectPredictionHandler = (prediction = {}) => {
+		// update address
+		updateAddress(prediction.description || "", prediction.place_id || "");
+
+		// update ref
+		if (addressRef.current) {
+			addressRef.current.value = prediction.description || "";
+		}
+
+		// reset prediction list to hide the dropdown
+		setPredictions([]);
+	};
+
+	useEffect(() => {
+		if (loading && addressRef.current) {
+			// init autocomplate
+			init();
+
+			// get default value if any
+			const defaultAddress = util.getSessionStorageObj(sessionStorageObjName)[
+				`${sessionStoragePropName}`
+			];
+
+			// if placeid valid, get default value
+			if (defaultAddress?.placeid?.length > 0) {
+				addressRef.current.value = defaultAddress.description;
+			}
+			// else reset address object
+			else {
+				util.saveToSessionStore(
+					sessionStorageObjName,
+					sessionStoragePropName,
+					{}
+				);
+			}
+
+			setLoading(false);
+		}
+
+		util.scrollToActiveElement();
+	}, [
+		loading,
+		setLoading,
+		addressRef,
+		init,
+		sessionStorageObjName,
+		sessionStoragePropName,
+	]);
 
 	const app = (
 		<DropDownFormControl
 			{...(id && { id: id })}
 			required={required}
+			ref={addressRef}
 			placeholder={placeholder}
 			dropdownItems={predictions || []}
+			onChangeHandler={onAddressChangeHandler}
+			onSelectItemHandler={onSelectPredictionHandler}
 		/>
 	);
 

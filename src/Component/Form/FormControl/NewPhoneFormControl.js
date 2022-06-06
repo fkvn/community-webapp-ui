@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { FormControl } from "react-bootstrap";
 import * as constVar from "../../../Util/ConstVar";
-import * as util from "../../../Util/util";
+import * as util from "../../../Util/Util";
 
 function NewPhoneFormControl({
 	id = "",
@@ -90,7 +90,7 @@ function NewPhoneFormControl({
 			{...(id && { id: id })}
 			type={type}
 			placeholder={placeholder}
-			className={`formControl ${className}`}
+			className={`tedkvn-formControl ${className}`}
 			ref={ref}
 			onChange={(p) =>
 				onPhoneChangeHandler(p.currentTarget.selectionStart, p.target.value)

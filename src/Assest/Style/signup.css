@@ -1,7 +1,8 @@
-#signupFormCol,
-#classicSignupFormCol {
+#signupFormCol {
 	padding: 1rem;
-	border-radius: 1rem;
+	max-width: 40rem;
+	max-height: 80vh;
+	overflow: auto;
 }
 
 #signup-classic-card,
@@ -23,6 +24,7 @@
 }
 
 #classicSignupFormCol .card-body {
+	max-width: 40rem;
 	max-height: 80vh;
 	overflow: auto;
 }
@@ -38,4 +40,9 @@
 
 .signup-verify-formControl-editBtn {
 	border-radius: 1rem 0rem 0rem 0rem;
+}
+
+#signup-header {
+	justify-content: center;
+	align-items: center;
 }

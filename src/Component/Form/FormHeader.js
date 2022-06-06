@@ -2,7 +2,12 @@ import React from "react";
 import { Button, CloseButton, Image, Navbar } from "react-bootstrap";
 import thainowlogo from "../../Assest/Image/Brand/thainowLogo.png";
 
-function FormHeader({ title = "", navButtons = [], withCloseButon = true }) {
+function FormHeader({
+	title = "",
+	navButtons = [],
+	withCloseButon = true,
+	onClose = () => {},
+}) {
 	const app = (
 		<Navbar expand={true} bg="light" variant="light">
 			<Navbar.Brand href="#home" className="tedkvn-center">
@@ -31,7 +36,7 @@ function FormHeader({ title = "", navButtons = [], withCloseButon = true }) {
 					</Button>
 				))}
 
-				{withCloseButon && <CloseButton className="p-2" />}
+				{withCloseButon && <CloseButton className="p-2" onClick={onClose} />}
 			</Navbar.Collapse>
 		</Navbar>
 	);

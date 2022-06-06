@@ -1,25 +1,33 @@
-import React from "react";
+import React, { forwardRef } from "react";
 import { Button, Form, FormControl, ListGroup, Toast } from "react-bootstrap";
 
-function DropDownFormControl({
-	type = "text",
-	placeholder = "",
-	className = "",
-	dropdownItems = [],
-	onChangeHandler = () => {},
-	onItemClickHanlder = () => {},
-}) {
+function DropDownFormControl(props, ref) {
+	const {
+		type = "text",
+		placeholder = "",
+		className = "",
+		dropdownItems = [],
+		onChangeHandler = () => {},
+		onSelectItemHandler = () => {},
+	} = props;
+
+	if (!ref) {
+		ref = React.createRef();
+	}
+
 	const app = (
 		<Form.Group>
 			<FormControl
 				type={type}
 				placeholder={placeholder}
-				className={`formControl ${className}`}
+				className={`tedkvn-formControl ${className}`}
+				ref={ref}
 				onChange={(e) => onChangeHandler(e.target.value)}
+				role="presentation"
 			/>
 
 			{dropdownItems.length > 0 && (
-				<Toast className="predictionDropDown position-relative w-100">
+				<Toast className="tedkvn-predictionDropDown  position-relative w-100">
 					<Toast.Body className="border-0">
 						<ListGroup as="ul"></ListGroup>
 						{dropdownItems.map((item, idx) => (
@@ -27,7 +35,7 @@ function DropDownFormControl({
 								<Button
 									variant="link"
 									className="text-dark text-decoration-none p-0"
-									onClick={onItemClickHanlder}
+									onClick={() => onSelectItemHandler(item)}
 								>
 									{item?.description}
 								</Button>
@@ -41,4 +49,4 @@ function DropDownFormControl({
 	return app;
 }
 
-export default DropDownFormControl;
+export default forwardRef(DropDownFormControl);

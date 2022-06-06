@@ -42,7 +42,7 @@ function PasswordFromGroupControl({
 	};
 
 	const passwordFormControl = (
-		<Form.Group className={`formGroupControl ${formGroupClassName}`}>
+		<Form.Group className={`tedkvn-formGroupControl ${formGroupClassName}`}>
 			{withLabel && (
 				<Form.Label
 					{...(id && { htmlFor: id })}
@@ -70,7 +70,7 @@ function PasswordFromGroupControl({
 	);
 
 	const confirmPasswordFormControl = withConfirmPasswordFormControl && (
-		<Form.Group className={`formGroupControl ${formGroupClassName}`}>
+		<Form.Group className={`tedkvn-formGroupControl ${formGroupClassName}`}>
 			{withLabel && (
 				<Form.Label
 					{...(id && { htmlFor: "confirm-" + id })}

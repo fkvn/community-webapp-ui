@@ -95,6 +95,41 @@ export const formatPhoneNumber = (value = "") => {
 	return [];
 };
 
+export const formatOtpNumber = (value = "") => {
+	if (value.length < 7) {
+		if (value.length === 0) return [value, 0];
+
+		// clean the input for any non-digit values.
+		const otp = value.replace(/[^\d]/g, "");
+
+		const otpNumberLength = otp.length;
+
+		// US format - 10 digits max
+		if (otpNumberLength === 1) {
+			return [otp, otpNumberLength];
+		} else if (otpNumberLength === 2) {
+			return [`${otp.slice(0, 1)} ${otp.slice(1, 2)}`, otpNumberLength];
+		} else if (otpNumberLength === 3) {
+			return [
+				`${otp.slice(0, 1)} ${otp.slice(1, 2)} ${otp.slice(2, 3)}`,
+				otpNumberLength,
+			];
+		} else {
+			return [
+				`${otp.slice(0, 1)} ${otp.slice(1, 2)} ${otp.slice(2, 3)} ${otp.slice(
+					3,
+					4
+				)}`,
+				otpNumberLength,
+			];
+		}
+	}
+
+	const formattedValue = value.replace(/[^\d]/g, "");
+
+	return [value, formattedValue.length];
+};
+
 export const updatePhoneCursorPostion = (ref = null, cursor = 0) => {
 	if (ref.current) {
 		const input = ref.current;

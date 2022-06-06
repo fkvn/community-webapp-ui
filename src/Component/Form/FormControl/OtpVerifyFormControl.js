@@ -1,10 +1,5 @@
-import React from "react";
-import { useCallback } from "react";
-import { forwardRef } from "react";
-import { useEffect } from "react";
-import { useState } from "react";
-import { Form } from "react-bootstrap";
-import { FormControl } from "react-bootstrap";
+import React, { forwardRef, useCallback, useState } from "react";
+import { Form, FormControl } from "react-bootstrap";
 
 function OtpVerifyFormControl(props, ref) {
 	const {
@@ -96,7 +91,7 @@ function OtpVerifyFormControl(props, ref) {
 				{...(id && { id: id })}
 				type="text"
 				placeholder="_ _ _ _"
-				className={`formControl ${className}`}
+				className={`tedkvn-formControl ${className}`}
 				ref={ref}
 				onChange={(p) => {
 					validatePhone(p.target.value);

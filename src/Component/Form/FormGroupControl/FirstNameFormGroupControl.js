@@ -16,7 +16,7 @@ function FirstNameFormGroupControl({
 	sessionStoragePropName = constVar.STORAGE_FIRSTNAME_PROP,
 }) {
 	const app = (
-		<Form.Group className={`formGroupControl ${formGroupClassName}`}>
+		<Form.Group className={`tedkvn-formGroupControl ${formGroupClassName}`}>
 			{withLabel && (
 				<Form.Label
 					{...(id && { htmlFor: id })}

@@ -111,7 +111,7 @@ function PasswordFormControl(props, ref) {
 					{...(id && { btnId: id + "hidden-icon" })}
 					imgSrc={visibility ? visibilityIcon : hiddenIcon}
 					btnVariant="white"
-					btnClassName="password-hidden-icon border"
+					btnClassName="tedkvn-password-hidden-icon  border"
 					onClickHandler={() => {
 						togglePasswordVisibility();
 					}}
@@ -121,7 +121,7 @@ function PasswordFormControl(props, ref) {
 					ref={ref}
 					type={visibility ? "text" : "password"}
 					placeholder="Enter password"
-					className={`formControl ${className}`}
+					className={`tedkvn-formControl ${className}`}
 					onChange={(pwd) => validatePassword(pwd.target.value)}
 					required={required}
 					autoComplete={"new-password"}
@@ -151,7 +151,7 @@ function PasswordFormControl(props, ref) {
 					{...(id && { btnId: "verify-" + id + "hidden-icon" })}
 					imgSrc={visibility ? visibilityIcon : hiddenIcon}
 					btnVariant="white"
-					btnClassName="password-hidden-icon border"
+					btnClassName="tedkvn-password-hidden-icon  border"
 					onClickHandler={() => {
 						togglePasswordVisibility();
 					}}
@@ -160,7 +160,7 @@ function PasswordFormControl(props, ref) {
 					{...(id && { id: "verify-" + id })}
 					type={visibility ? "text" : "password"}
 					placeholder="Enter password"
-					className={`formControl ${className}`}
+					className={`tedkvn-formControl ${className}`}
 					onChange={(pwd) =>
 						validateVerifyPassword(pwd.target.value, ref.current.value)
 					}

@@ -1,6 +1,6 @@
 import React, { forwardRef } from "react";
 import { Form } from "react-bootstrap";
-import * as util from "../../../Util/util";
+import * as util from "../../../Util/Util";
 
 function SelectFormControl(props, ref) {
 	const {
@@ -17,7 +17,7 @@ function SelectFormControl(props, ref) {
 		<Form.Select
 			{...(id && { id: id })}
 			aria-label={id ? id : "Custom form select"}
-			className={`formControl ${className}`}
+			className={`tedkvn-formControl ${className}`}
 			required={required}
 			onChange={(p) =>
 				util.saveToSessionStore(

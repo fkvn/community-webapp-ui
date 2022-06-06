@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { FormControl } from "react-bootstrap";
-import * as util from "../../../Util/util";
+import * as util from "../../../Util/Util";
 
 function NewTextFormControl(props) {
 	const {
@@ -39,7 +39,7 @@ function NewTextFormControl(props) {
 			{...(id && { id: id })}
 			ref={ref}
 			type={type}
-			className={`formControl ${className}`}
+			className={`tedkvn-formControl ${className}`}
 			placeholder={placeholder}
 			required={required}
 			disabled={disabled}

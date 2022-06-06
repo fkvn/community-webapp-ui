@@ -1,6 +1,6 @@
 import React from "react";
 import { Form } from "react-bootstrap";
-import * as util from "../../../Util/util";
+import * as util from "../../../Util/Util";
 import NewTextFormControl from "../FormControl/NewTextFormControl";
 
 function LastNameFormGroupControl({
@@ -15,7 +15,7 @@ function LastNameFormGroupControl({
 	sessionStoragePropName = "lastname",
 }) {
 	const app = (
-		<Form.Group className={`formGroupControl ${formGroupClassName}`}>
+		<Form.Group className={`tedkvn-formGroupControl ${formGroupClassName}`}>
 			{withLabel && (
 				<Form.Label
 					{...(id && { htmlFor: id })}

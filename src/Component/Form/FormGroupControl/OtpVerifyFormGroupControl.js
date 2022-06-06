@@ -1,24 +1,23 @@
 import React, { useState } from "react";
 import { Form, Row } from "react-bootstrap";
-import NewPhoneFormControl from "../FormControl/NewPhoneFormControl";
+import NewOtpVerifyFormControl from "../FormControl/NewOtpVerifyFormControl";
 
-function PhoneFromGroupControl({
+function OtpVerifyFormGroupControl({
 	id = "",
 	withLabel = true,
-	label = "Phone",
+	label = "OTP Verification Code",
 	labelClassName = "",
 	formGroupClassName = "",
 	required = false,
 	disabled = false,
-	landlineWarning = false,
 	displayWaningMessage = true,
 	sessionStorageObjName = "",
 }) {
 	const [warningMessage, setWarningMessage] = useState("");
 
-	const onPhoneValidationHanlder = (isValidPhone = true) => {
-		if (isValidPhone) setWarningMessage("");
-		else setWarningMessage("Sorry, your phone number is invalid.");
+	const onOtpValidationHanlder = (isValidOtp = true) => {
+		if (isValidOtp) setWarningMessage("");
+		else setWarningMessage("Verification code must have 4-digits!");
 	};
 
 	const app = (
@@ -35,11 +34,11 @@ function PhoneFromGroupControl({
 					</Form.Label>
 				)}
 
-				<NewPhoneFormControl
+				<NewOtpVerifyFormControl
 					{...(id && { id: id })}
 					required={required}
 					disabled={disabled}
-					onPhoneValidation={onPhoneValidationHanlder}
+					onOtpValidation={onOtpValidationHanlder}
 					sessionStorageObjName={sessionStorageObjName}
 				/>
 
@@ -48,22 +47,10 @@ function PhoneFromGroupControl({
 						<span className="text-danger">{warningMessage}</span>
 					</Form.Text>
 				)}
-
-				{landlineWarning && (
-					<Form.Group>
-						<Form.Text className="text-mute">
-							This phone is for login credential and OTP verification (if any){" "}
-							<br />
-							<small className="text-danger">
-								Please don't use any landline phone number!
-							</small>
-						</Form.Text>
-					</Form.Group>
-				)}
 			</Form.Group>
 		</Row>
 	);
 	return app;
 }
 
-export default PhoneFromGroupControl;
+export default OtpVerifyFormGroupControl;

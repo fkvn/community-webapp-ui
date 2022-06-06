@@ -1,7 +1,6 @@
 import axios from "axios";
-
-import store from "../redux-store/store";
 import * as actionCreators from "../redux-store/actionCreator/actionCreator";
+import store from "../redux-store/store";
 import * as constVar from "../Util/ConstVar";
 
 const thaiNowObj = window.sessionStorage.getItem(
@@ -10,9 +9,9 @@ const thaiNowObj = window.sessionStorage.getItem(
 
 const instance = axios.create({
 	// baseURL: "http://ecst-csproj2.calstatela.edu:6328/api/"
-	// baseURL: "http://localhost:8080/api",
+	baseURL: "http://localhost:8080/api",
 	// baseURL: "https://alice.cysun.org/surveys/api",
-	baseURL: "https://mono-thainow-cloudrun-jib-vxbslz3voq-uc.a.run.app/api",
+	// baseURL: "https://mono-thainow-cloudrun-jib-vxbslz3voq-uc.a.run.app/api",
 });
 
 const responseHandler = (response) => {

@@ -1,10 +1,5 @@
-import React from "react";
-import { useEffect } from "react";
-import { useState } from "react";
-import { Alert } from "react-bootstrap";
-import { Toast } from "react-bootstrap";
-import { ToastContainer } from "react-bootstrap";
-
+import React, { useEffect, useState } from "react";
+import { Alert, Toast, ToastContainer } from "react-bootstrap";
 import * as constVar from "../../Util/ConstVar";
 
 function ToastError({ error }) {
@@ -16,7 +11,7 @@ function ToastError({ error }) {
 
 	const app = error && (
 		<ToastContainer
-			className="error-toast-container p-3 border-0"
+			className="tedkvn-error-toast-container p-3 border-0"
 			position="middle-center"
 		>
 			<Toast

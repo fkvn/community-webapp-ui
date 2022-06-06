@@ -28,7 +28,11 @@
 	color: red;
 }
 
-.formGroupControl {
+.tedkvn-iconLinkBtnImage {
+	min-width: 1.5rem;
+}
+
+.tedkvn-formGroupControl {
 	margin: 0.5rem 0;
 }
 
@@ -36,31 +40,31 @@
 	font-weight: 600;
 } */
 
-.error-toast-container {
+.tedkvn-error-toast-container {
 	z-index: 99;
 }
 
-.formControl {
+.tedkvn-formControl {
 	border: 1px solid #ced4da;
 	border-radius: 1rem;
 	padding: 0.8rem !important;
 }
 
-.formNavigationBtn {
+.tedkvn-formNavigationBtn {
 	border-radius: 1rem;
 	padding: 0.5rem 1.2rem;
 }
 
-.passwordFormControl {
+/* .passwordFormControl {
 	border-radius: 0 1rem 1rem 0rem;
-}
+} */
 
-.password-hidden-icon {
+.tedkvn-password-hidden-icon {
 	border-radius: 1rem 0 0 1rem;
 	padding: 0 1rem !important;
 }
 
-.predictionDropDown {
+.tedkvn-predictionDropDown {
 	max-height: 10rem;
 	/* box-shadow: inset 0 0 0.6rem rgb(104 140 240 / 30%); */
 	overflow: auto;

@@ -4,7 +4,7 @@ import AgreementFormControl from "../FormControl/AgreementFormControl";
 
 function AgreementFormGroupControl({ formGroupClassName = "" }) {
 	const app = (
-		<Form.Group className={`formGroupControl ${formGroupClassName}`}>
+		<Form.Group className={`tedkvn-formGroupControl ${formGroupClassName}`}>
 			<AgreementFormControl />
 		</Form.Group>
 	);

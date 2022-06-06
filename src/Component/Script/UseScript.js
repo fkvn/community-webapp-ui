@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { loadScript } from "../../Util/util";
+import { loadScript } from "../../Util/Util";
 
 const useScript = (url) => {
 	useEffect(() => {

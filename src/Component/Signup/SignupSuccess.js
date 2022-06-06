@@ -1,13 +1,9 @@
 import React from "react";
-import { Col } from "react-bootstrap";
-import { Image, Button } from "react-bootstrap";
-import { Row } from "react-bootstrap";
-import { Container } from "react-bootstrap";
-
+import { Button, Col, Container, Image, Row } from "react-bootstrap";
 import successIcon from "../../Assest/Image/Icon/success-icon.png";
 import LoadingButton from "../Button/LoadingButton";
 
-function SignupSuccess({ loginHanlder = () => {} }) {
+function SignupSuccess({ loginHanlder = () => {}, username = "" }) {
 	const app = (
 		<Container fluid className={`mt-5 vh-100 tedkvn-center `}>
 			<Row className={` tedkvn-center `}>
@@ -19,15 +15,18 @@ function SignupSuccess({ loginHanlder = () => {} }) {
 					<div className="text-center mb-4">
 						<Image src={successIcon} width="100" />
 					</div>
-					<div className="fs-4">Welcome to ThaiNow!</div>
+					<div className="fs-4">
+						{username ? "Hi, " + username : "Welcome come to ThaiNow!"}
+					</div>
 					<div className="my-2 fs-5 text-info">
-						You have signed up successfully.
+						Thanks for signing up to ThaiNow community, your account has been
+						successfully created!
 					</div>
 					<div className="mt-5">
 						<LoadingButton
 							size="lg"
 							className="rounded-pill mt-2 px-4"
-							title="Login and Continue"
+							title="Login and Continue Explore"
 							onClick={loginHanlder}
 						/>
 					</div>
@@ -46,7 +45,7 @@ function SignupSuccess({ loginHanlder = () => {} }) {
 							size="md"
 							className="rounded-pill mt-2 px-4"
 						>
-							Register New Account
+							Create Another Account
 						</Button>
 					</div>
 					<div></div>

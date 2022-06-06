@@ -1,6 +1,6 @@
 import React, { forwardRef, useCallback, useEffect, useState } from "react";
 import { Form, FormControl } from "react-bootstrap";
-import * as util from "../../../Util/util";
+import * as util from "../../../Util/Util";
 
 function EmailFormControl(props, ref) {
 	// ==================== config =====================
@@ -73,7 +73,7 @@ function EmailFormControl(props, ref) {
 				ref={ref}
 				type="email"
 				placeholder="Enter email"
-				className={`formControl ${className}`}
+				className={`tedkvn-formControl ${className}`}
 				onChange={(e) => validateEmail(e.target.value)}
 				required={required}
 				autoFocus={autoFocus}

@@ -6,18 +6,16 @@ function AddressFromGroupControl({
 	id = "",
 	formGroupClassName = "",
 	sessionStorageObjName = "",
+	required = false,
 }) {
 	const app = (
-		<Form.Group className={`formGroupControl ${formGroupClassName}`}>
+		<Form.Group className={`tedkvn-formGroupControl ${formGroupClassName}`}>
 			<NewGoogleAutoComplete
 				{...(id && { id: id })}
+				placeholder="Where are you from"
 				sessionStorageObjName={sessionStorageObjName}
+				required={required}
 			/>
-
-			{/* <GoogleAutoComplete
-				
-				sessionStorageObjName={sessionStorageObjName}
-			/> */}
 		</Form.Group>
 	);
 	return app;

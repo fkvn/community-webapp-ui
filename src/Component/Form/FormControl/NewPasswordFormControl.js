@@ -3,7 +3,7 @@ import { FormControl, InputGroup } from "react-bootstrap";
 import hiddenIcon from "../../../Assest/Image/Icon/hidden-icon.png";
 import visibilityIcon from "../../../Assest/Image/Icon/visibility-icon.png";
 import * as constVar from "../../../Util/ConstVar";
-import * as util from "../../../Util/util";
+import * as util from "../../../Util/Util";
 import IconButton from "../../Button/IconButton";
 
 function NewPasswordFormControl({
@@ -72,7 +72,7 @@ function NewPasswordFormControl({
 				{...(id && { btnId: id + "hidden-icon" })}
 				imgSrc={visibility ? visibilityIcon : hiddenIcon}
 				btnVariant="white"
-				btnClassName="password-hidden-icon border"
+				btnClassName="tedkvn-password-hidden-icon  border"
 				onClickHandler={() => setVisibility(!visibility)}
 			/>
 			<FormControl
@@ -80,7 +80,7 @@ function NewPasswordFormControl({
 				ref={ref}
 				type={visibility ? "text" : "password"}
 				placeholder={placeholder}
-				className={`formControl ${className}`}
+				className={`tedkvn-formControl ${className}`}
 				onChange={(pwd) => onPasswordChangeHandler(pwd.target.value)}
 				required={required}
 				autoComplete={"new-password"}

@@ -7,13 +7,15 @@ function ReadOnlyFormGroupControl({
 	formGroupClassName = "",
 	title = "",
 	className = "",
+	style = {},
 }) {
 	const app = (
-		<Form.Group className={`formGroupControl ${formGroupClassName}`}>
+		<Form.Group className={`tedkvn-formGroupControl ${formGroupClassName}`}>
 			<ReadOnlyFormControl
 				{...(id && { id: id })}
 				title={title}
 				className={className}
+				style={style}
 			/>
 		</Form.Group>
 	);

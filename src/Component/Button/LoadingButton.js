@@ -8,6 +8,7 @@ function LoadingButton({
 	size = "md",
 	title = "",
 	type = "",
+	variant = "primary",
 	loadingType = "spin",
 	loadingColor = "#ffffff",
 	loadingHeight = "1.5rem",
@@ -18,6 +19,7 @@ function LoadingButton({
 	const app = (
 		<Button
 			size={size}
+			variant={variant}
 			className={className}
 			type={type}
 			disabled={show}

@@ -22,7 +22,7 @@ function EmailFromGroupControl({
 
 	const app = (
 		<Row>
-			<Form.Group className={`formGroupControl ${formGroupClassName}`}>
+			<Form.Group className={`tedkvn-formGroupControl ${formGroupClassName}`}>
 				{withLabel && (
 					<Form.Label
 						{...(id && { htmlFor: id })}

@@ -3,21 +3,21 @@ import { Button, Form } from "react-bootstrap";
 
 function PrevstepFormGroupControl({
 	formGroupClassName = "",
-	btnTitle = "Previous Step",
-	btnSize = "md",
-	btnVariant = "secondary",
-	btnOnClick = () => {},
-	btnClassName = "",
+	title = "Previous Step",
+	size = "md",
+	variant = "secondary",
+	onClick = () => {},
+	className = "",
 }) {
 	const app = (
-		<Form.Group className={`formGroupControl ${formGroupClassName}`}>
+		<Form.Group className={`tedkvn-formGroupControl ${formGroupClassName}`}>
 			<Button
-				size={btnSize}
-				variant={btnVariant}
-				className={`formNavigationBtn ${btnClassName}`}
-				onClick={btnOnClick}
+				size={size}
+				variant={variant}
+				className={`tedkvn-formNavigationBtn ${className}`}
+				onClick={onClick}
 			>
-				{btnTitle}
+				{title}
 			</Button>
 		</Form.Group>
 	);

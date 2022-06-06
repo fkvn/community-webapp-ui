@@ -3,11 +3,15 @@ import { Col, Form, Row } from "react-bootstrap";
 import AddressFromGroupControl from "./AddressFormGroupControl";
 import UsernameFormGroupControl from "./UsernameFormGroupControl";
 
-function UserContactFormGroupControl({ sessionStorageObjName = "" }) {
+function UserContactFormGroupControl({
+	sessionStorageObjName = "",
+	usernameRequired = true,
+	addressRequired = true,
+}) {
 	const usernameFormGroupControl = (
 		<UsernameFormGroupControl
 			id="classic-signup-usernameFormControl"
-			required={true}
+			required={usernameRequired}
 			withLabel={false}
 			sessionStorageObjName={sessionStorageObjName}
 		/>
@@ -16,12 +20,13 @@ function UserContactFormGroupControl({ sessionStorageObjName = "" }) {
 	const addressFormGroupControl = (
 		<AddressFromGroupControl
 			id="classic-signup-addressFormControl"
+			required={addressRequired}
 			sessionStorageObjName={sessionStorageObjName}
 		/>
 	);
 
 	const app = (
-		<Form.Group className="formGroupControl mt-5">
+		<Form.Group className="tedkvn-formGroupControl mt-5">
 			<Form.Label className={`formLabel tedkvn-required`}>
 				User Contact Info
 			</Form.Label>

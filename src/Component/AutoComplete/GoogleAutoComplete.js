@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { Button, Form, FormControl, ListGroup, Toast } from "react-bootstrap";
-import * as util from "../../Util/util";
+import * as util from "../../Util/Util";
 
 function GoogleAutoComplete({
 	id = "",
@@ -113,7 +113,7 @@ function GoogleAutoComplete({
 		<Form.Group>
 			<Toast
 				{...(id && { htmlFor: id })}
-				className="predictionDropDown position-relative w-100"
+				className="tedkvn-predictionDropDown  position-relative w-100"
 			>
 				<Toast.Body className="border-0">
 					<ListGroup
@@ -160,7 +160,7 @@ function GoogleAutoComplete({
 				type="address"
 				ref={addressRef}
 				placeholder="Enter a place"
-				className={`formControl ${className}`}
+				className={`tedkvn-formControl ${className}`}
 				required={required}
 				role="representation"
 				onChange={(p) => {

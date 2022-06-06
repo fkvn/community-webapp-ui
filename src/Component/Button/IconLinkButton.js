@@ -1,5 +1,4 @@
-import React from "react";
-import { useState } from "react";
+import React, { useState } from "react";
 import { Button, Image } from "react-bootstrap";
 import ReactLoading from "react-loading";
 
@@ -38,7 +37,9 @@ function IconLinkButton({
 				fluid={imgFluid}
 				src={imgSrc}
 				className={
-					replaceImgClass ? imgClassName : `mx-0 px-0 d-none ${imgClassName}`
+					replaceImgClass
+						? imgClassName
+						: `tedkvn-iconLinkBtnImage mx-0 px-0 d-none ${imgClassName}`
 				}
 				style={imgStyle}
 				onLoad={(e) => {

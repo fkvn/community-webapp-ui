@@ -13,6 +13,7 @@ function SignupSuccessContainer() {
 		email = "",
 		phone = "",
 		password = "",
+		username = "",
 	} = location.state || {};
 
 	console.log(location);
@@ -27,7 +28,7 @@ function SignupSuccessContainer() {
 			});
 	};
 
-	const app = <SignupSuccess loginHanlder={loginHanlder} />;
+	const app = <SignupSuccess loginHanlder={loginHanlder} username={username} />;
 	return app;
 }
 

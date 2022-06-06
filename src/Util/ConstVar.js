@@ -11,6 +11,9 @@ export const STORAGE_PASSWORD_PROP = "password";
 export const STORAGE_PASSWORD_VALIDATION = "isValidPassword";
 export const STORAGE_CONFIRM_PASSWORD_VALIDATION = "isPasswordMatch";
 export const STORAGE_ADDRESS_PROP = "address";
+export const STORAGE_VERIFICATION_METHOD_PROP = "verifyMethod";
+export const STORAGE_OTP_PROP = "otp";
+export const STORAGE_OTP_VALIDATION = "isValidOtp";
 
 export const ERROR = "ERROR";
 export const ERROR_MESSAGE = "ERROR_MESSAGE";

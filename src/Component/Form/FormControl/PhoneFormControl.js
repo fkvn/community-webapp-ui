@@ -139,7 +139,7 @@ function PhoneFormControl(props, ref) {
 				{...(id && { id: id })}
 				type="tel"
 				placeholder="(___) ___-____"
-				className={`formControl ${className}`}
+				className={`tedkvn-formControl ${className}`}
 				ref={ref}
 				onChange={(p) => {
 					setCursor(p.currentTarget.selectionStart);

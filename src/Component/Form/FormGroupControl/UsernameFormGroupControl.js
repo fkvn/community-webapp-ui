@@ -6,7 +6,7 @@ import NewTextFormControl from "../FormControl/NewTextFormControl";
 function UsernameFormGroupControl({
 	id = "",
 	withLabel = true,
-	label = "User contact info",
+	label = "User Contact Info",
 	labelClassName = "",
 	placeholder = "Preferred Name",
 	formGroupClassName = "",
@@ -16,7 +16,7 @@ function UsernameFormGroupControl({
 	sessionStoragePropName = constVar.STORAGE_USERNAME_PROP,
 }) {
 	const app = (
-		<Form.Group className={`formGroupControl ${formGroupClassName}`}>
+		<Form.Group className={`tedkvn-formGroupControl ${formGroupClassName}`}>
 			{withLabel && (
 				<Form.Label
 					{...(id && { htmlFor: id })}

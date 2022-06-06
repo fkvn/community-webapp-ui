@@ -44,7 +44,7 @@ function TextFormControl(props, ref) {
 				{...(id && { id: id })}
 				ref={ref}
 				type="text"
-				className={`formControl ${className}`}
+				className={`tedkvn-formControl ${className}`}
 				placeholder={placeholder}
 				required={required}
 				autoFocus={autoFocus}

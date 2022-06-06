@@ -69,7 +69,7 @@ function UrlFormControl(props, ref) {
 				{...(id && { id: id })}
 				ref={ref}
 				type="url"
-				className={`formControl ${className}`}
+				className={`tedkvn-formControl ${className}`}
 				placeholder={placeholder}
 				required={required}
 				onChange={(urlRef) => validateUrl(urlRef.target.value)}

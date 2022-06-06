@@ -1,7 +1,7 @@
 import React from "react";
 import { Form } from "react-bootstrap";
-import NextstepFormGroupControl from "./NextstepFormGroupControl";
 import PrevstepFormGroupControl from "./PrevstepFormGroupControl";
+import NextstepFormGroupControl from "./SubmitButtonFormGroupControl";
 
 function NavigationStepBtnFormGroupControl({
 	formGroupClassName = "",
@@ -40,7 +40,7 @@ function NavigationStepBtnFormGroupControl({
 	}
 
 	const app = step >= minstep && (
-		<Form.Group className={`formGroupControl ${formGroupClassName}`}>
+		<Form.Group className={`tedkvn-formGroupControl ${formGroupClassName}`}>
 			{displayBtn.length === 1 && (
 				<div className="text-center pt-3">{displayBtn[0]}</div>
 			)}
