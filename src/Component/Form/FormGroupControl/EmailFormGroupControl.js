@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Form, Row } from "react-bootstrap";
-import NewEmailFormControl from "../FormControl/NewEmailFormControl";
+import EmailFormControl from "../FormControl/EmailFormControl";
 
 function EmailFromGroupControl({
 	id = "",
@@ -33,7 +33,7 @@ function EmailFromGroupControl({
 						{label}
 					</Form.Label>
 				)}
-				<NewEmailFormControl
+				<EmailFormControl
 					{...(id && { id: id })}
 					required={required}
 					disabled={disabled}

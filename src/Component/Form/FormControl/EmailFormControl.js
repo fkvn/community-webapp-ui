@@ -1,98 +1,75 @@
-import React, { forwardRef, useCallback, useEffect, useState } from "react";
-import { Form, FormControl } from "react-bootstrap";
+import React, { useCallback, useEffect, useState } from "react";
+import { FormControl } from "react-bootstrap";
+import * as constVar from "../../../Util/ConstVar";
 import * as util from "../../../Util/Util";
 
-function EmailFormControl(props, ref) {
-	// ==================== config =====================
+function EmailFormControl({
+	id = "",
+	className = "",
+	type = "email",
+	placeholder = "Enter your email",
+	required = false,
+	disabled = false,
+	onEmailValidation = () => {},
+	sessionStorageObjName = "",
+}) {
+	const [loading, setLoading] = useState(true);
 
-	const {
-		id = "",
-		className = "p-3",
-		required = true,
-		autoFocus = false,
-		displayWaningMessage = true,
-		getWarningMessage = () => {},
-		autoComplete = false,
-		withLabel = true,
-		defaultValue = "",
-		disabled = false,
-		onChange = () => {},
-	} = props;
+	const ref = React.createRef("");
 
-	const [warningMessage, setWarningMessage] = useState(null);
+	const onEmailChangeHanlder = useCallback(
+		(email) => {
+			const isValidEmail = util.isValidEmailFormat(email);
 
-	const [loadDefaultValue, setLoadDefaultValue] = useState(false);
+			util.saveToSessionStore(
+				sessionStorageObjName,
+				constVar.STORAGE_EMAIL_VALIDATION,
+				isValidEmail
+			);
 
-	// ==================== function =====================
+			util.saveToSessionStore(
+				sessionStorageObjName,
+				constVar.STORAGE_EMAIL_PROP,
+				email
+			);
 
-	const validateEmail = useCallback(
-		(address) => {
-			const isValidFormatEmail = util.isValidEmailFormat(address);
-
-			onChange(address, isValidFormatEmail);
-
-			if (isValidFormatEmail) setWarningMessage("");
-			else setWarningMessage("Sorry, your email address is invalid.");
+			// notify and return that the email has validated
+			onEmailValidation(isValidEmail);
 		},
-		[onChange]
+		[sessionStorageObjName, onEmailValidation]
 	);
-
-	// ==================== hook =====================
 
 	useEffect(() => {
-		if (!loadDefaultValue && ref.current) {
-			ref.current.value = defaultValue;
-			setLoadDefaultValue(true);
-			validateEmail(defaultValue);
+		// first time load
+		if (loading) {
+			const defaultValue =
+				util.getSessionStorageObj(sessionStorageObjName)[
+					`${constVar.STORAGE_EMAIL_PROP}`
+				] || "";
+
+			if (ref.current) {
+				ref.current.value = defaultValue;
+				onEmailChangeHanlder(ref.current.value);
+			}
+
+			setLoading(false);
 		}
-
-		getWarningMessage(warningMessage);
-	}, [
-		loadDefaultValue,
-		ref,
-		getWarningMessage,
-		warningMessage,
-		defaultValue,
-		validateEmail,
-	]);
-
-	// ==================== component =====================
+	}, [loading, setLoading, ref, sessionStorageObjName, onEmailChangeHanlder]);
 
 	const app = (
-		<>
-			{withLabel && (
-				<Form.Label
-					{...(id && { htmlFor: id })}
-					className={`fs-5 ${required && "tedkvn-required"} }`}
-				>
-					Email
-				</Form.Label>
-			)}
-			<FormControl
-				{...(id && { id: id })}
-				ref={ref}
-				type="email"
-				placeholder="Enter email"
-				className={`tedkvn-formControl ${className}`}
-				onChange={(e) => validateEmail(e.target.value)}
-				required={required}
-				autoFocus={autoFocus}
-				role="presentation"
-				autoComplete={autoComplete ? "" : "off"}
-				disabled={disabled}
-			/>
-			{displayWaningMessage && warningMessage && (
-				<Form.Text className="text-muted">
-					<span className="text-danger">{warningMessage}</span>
-				</Form.Text>
-			)}
-		</>
+		<FormControl
+			{...(id && { id: id })}
+			ref={ref}
+			type={type}
+			placeholder={placeholder}
+			className={`tedkvn-formControl ${className}`}
+			onChange={(e) => onEmailChangeHanlder(e.target.value)}
+			required={required}
+			role="presentation"
+			disabled={disabled}
+		/>
 	);
-
-	// ==================== render =====================
-
 	return app;
 }
 
-// forward ref component
-export default forwardRef(EmailFormControl);
+export default EmailFormControl;

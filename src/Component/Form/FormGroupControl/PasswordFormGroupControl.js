@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Form } from "react-bootstrap";
-import NewConfirmPasswordFormControl from "../FormControl/NewConfirmPasswordFormControl";
-import NewPasswordFormControl from "../FormControl/NewPasswordFormControl";
+import ConfirmPasswordFormControl from "../FormControl/ConfirmPasswordFormControl";
+import PasswordFormControl from "../FormControl/PasswordFormControl";
 
 function PasswordFromGroupControl({
 	id = "",
@@ -53,7 +53,7 @@ function PasswordFromGroupControl({
 					{label}
 				</Form.Label>
 			)}
-			<NewPasswordFormControl
+			<PasswordFormControl
 				{...(id && { id: id })}
 				required={required}
 				disabled={disabled}
@@ -82,7 +82,7 @@ function PasswordFromGroupControl({
 				</Form.Label>
 			)}
 
-			<NewConfirmPasswordFormControl
+			<ConfirmPasswordFormControl
 				{...(id && { id: "confirm-" + id })}
 				required={required}
 				disabled={disabled}

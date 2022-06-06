@@ -7,7 +7,7 @@ function FormLayout(
 	stepHandlers = [],
 	onBackHandlerPromise = () => {}
 ) {
-	const MIN_STEP = 4;
+	const MIN_STEP = 1;
 	const MAX_STEP = stepHandlers.length;
 
 	const [onSubmitLoading, setOnSubmitLoading] = useState(false);

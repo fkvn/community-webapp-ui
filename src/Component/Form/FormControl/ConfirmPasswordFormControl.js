@@ -6,7 +6,7 @@ import * as constVar from "../../../Util/ConstVar";
 import * as util from "../../../Util/Util";
 import IconButton from "../../Button/IconButton";
 
-function NewConfirmPasswordFormControl({
+function ConfirmPasswordFormControl({
 	id = "",
 	className = "",
 	placeholder = "Enter your password again",
@@ -38,7 +38,7 @@ function NewConfirmPasswordFormControl({
 			// notify and return that confirm password has validated
 			onConfirmPasswordValidation(isPasswordMatch);
 		},
-		[sessionStorageObjName]
+		[sessionStorageObjName, onConfirmPasswordValidation]
 	);
 
 	useEffect(() => {
@@ -74,4 +74,4 @@ function NewConfirmPasswordFormControl({
 	return app;
 }
 
-export default NewConfirmPasswordFormControl;
+export default ConfirmPasswordFormControl;

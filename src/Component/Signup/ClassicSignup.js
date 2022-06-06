@@ -1,9 +1,9 @@
 import React from "react";
 import { Button, Row } from "react-bootstrap";
 import { useSearchParams } from "react-router-dom";
+import NewClassicSignupForm from "../Form/ClassicSignupForm";
 import FormHeader from "../Form/FormHeader";
 import FormLayout from "../Form/FormLayout";
-import NewClassicSignupForm from "../Form/NewClassicSignupForm";
 
 function ClassicSignup({
 	sessionStorageObjName = "thainow.classic.signup.info",
@@ -42,6 +42,7 @@ function ClassicSignup({
 		FormComponent: NewClassicSignupForm,
 		sessionStorageObjName: sessionStorageObjName,
 	};
+
 	const app = FormLayout(
 		formHeader,
 		FormBody,

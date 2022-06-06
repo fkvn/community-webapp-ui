@@ -16,7 +16,7 @@ function ClassicSignupContainer() {
 	const continueParams =
 		continueURL.length > 0 ? "?continue=" + continueURL : "";
 
-	const sessionStorageObjName = "thainow.classic.signup.info";
+	const sessionStorageObjName = constVar.THAINOW_CLASSIC_SIGN_UP_STORAGE_OBJ;
 
 	const submitErrorHandler = (message = "") =>
 		dispatchPromise.getPromise(dispatchPromise.submitErrorHandler(message));
@@ -145,48 +145,32 @@ function ClassicSignupContainer() {
 	};
 
 	const onSubmitStep_4_HandlerPromise = () => {
+		// get signup object from session storage
 		let signupInfo = util.getSessionStorageObj(sessionStorageObjName);
 
-		return new Promise((resolve, _) => {
-			navigate("/signup/success" + continueParams, {
-				state: {
-					channel:
-						signupInfo[`${constVar.STORAGE_VERIFICATION_METHOD_PROP}`] || "",
-					email: signupInfo[`${constVar.STORAGE_EMAIL_PROP}`] || "",
-					phone: signupInfo[`${constVar.STORAGE_PHONE_PROP}`] || "",
-					password: signupInfo[`${constVar.STORAGE_PASSWORD_PROP}`] || "",
-					username: signupInfo[`${constVar.STORAGE_USERNAME_PROP}`] || "",
-				},
-			});
-			resolve();
-		});
+		const isValidOtp =
+			signupInfo[`${constVar.STORAGE_OTP_VALIDATION}`] || false;
 
-		// // get signup object from session storage
-		// let signupInfo = util.getSessionStorageObj(sessionStorageObjName);
+		const otp =
+			signupInfo[`${constVar.STORAGE_OTP_PROP}`].replace(/[^\d]/g, "") || "";
 
-		// const isValidOtp =
-		// 	signupInfo[`${constVar.STORAGE_OTP_VALIDATION}`] || false;
+		if (otp.length !== 4 || !isValidOtp)
+			return submitErrorHandler("Invalid Code");
+		else {
+			const verifyOption =
+				signupInfo[`${constVar.STORAGE_VERIFICATION_METHOD_PROP}`] || "";
 
-		// const otp =
-		// 	signupInfo[`${constVar.STORAGE_OTP_PROP}`].replace(/[^\d]/g, "") || "";
+			const [channel, value] =
+				verifyOption === constVar.STORAGE_EMAIL_PROP
+					? ["email", signupInfo[`${constVar.STORAGE_EMAIL_PROP}`] || ""]
+					: verifyOption === constVar.STORAGE_PHONE_PROP
+					? ["sms", signupInfo[`${constVar.STORAGE_PHONE_PROP}`] || ""]
+					: ["", ""];
 
-		// if (otp.length !== 4 || !isValidOtp)
-		// 	return submitErrorHandler("Invalid Code");
-		// else {
-		// 	const verifyOption =
-		// 		signupInfo[`${constVar.STORAGE_VERIFICATION_METHOD_PROP}`] || "";
-
-		// 	const [channel, value] =
-		// 		verifyOption === constVar.STORAGE_EMAIL_PROP
-		// 			? ["email", signupInfo[`${constVar.STORAGE_EMAIL_PROP}`] || ""]
-		// 			: verifyOption === constVar.STORAGE_PHONE_PROP
-		// 			? ["sms", signupInfo[`${constVar.STORAGE_PHONE_PROP}`] || ""]
-		// 			: ["", ""];
-
-		// 	return verifyOtpCodeHandler(channel, value, otp).then(() =>
-		// 		signupHandler(signupInfo, "CLASSIC")
-		// 	);
-		// }
+			return verifyOtpCodeHandler(channel, value, otp).then(() =>
+				signupHandler(signupInfo, "CLASSIC")
+			);
+		}
 	};
 	const stepHandlers = [
 		{

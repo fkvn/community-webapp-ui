@@ -1,7 +1,7 @@
 import React from "react";
 import { Form } from "react-bootstrap";
 import * as constVar from "../../../Util/ConstVar";
-import NewTextFormControl from "../FormControl/NewTextFormControl";
+import TextFormControl from "../FormControl/TextFormControl";
 
 function UsernameFormGroupControl({
 	id = "",
@@ -27,7 +27,7 @@ function UsernameFormGroupControl({
 					{label}
 				</Form.Label>
 			)}
-			<NewTextFormControl
+			<TextFormControl
 				{...(id && { id: id })}
 				required={required}
 				disabled={disabled}

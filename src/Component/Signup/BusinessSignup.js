@@ -3,7 +3,6 @@ import { Col, Container, Image, Row } from "react-bootstrap";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import thainowLogo from "../../Assest/Image/Brand/thainowLogo.png";
 import BackButton from "../Button/BackButton";
-import BusinessSignupForm from "../Form/BusinessSignupForm";
 
 function BusinessSignup({
 	sessionStorageObj = "thainow.classic.signup.info",
@@ -39,12 +38,12 @@ function BusinessSignup({
 						<Image src={thainowLogo} width="100" />
 					</Link>
 
-					<BusinessSignupForm
+					{/* <BusinessSignupForm
 						sessionStorageObj={sessionStorageObj}
 						industryList={industryList}
 						submitErrorHandler={submitErrorHandler}
 						positionList={positionList}
-					/>
+					/> */}
 				</Col>
 			</Row>
 		</Container>

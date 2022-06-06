@@ -1,188 +1,94 @@
-import React, { forwardRef, useCallback, useEffect, useState } from "react";
-import { Form, FormControl, InputGroup } from "react-bootstrap";
+import React, { useCallback, useEffect, useState } from "react";
+import { FormControl, InputGroup } from "react-bootstrap";
 import hiddenIcon from "../../../Assest/Image/Icon/hidden-icon.png";
 import visibilityIcon from "../../../Assest/Image/Icon/visibility-icon.png";
+import * as constVar from "../../../Util/ConstVar";
+import * as util from "../../../Util/Util";
 import IconButton from "../../Button/IconButton";
 
-function PasswordFormControl(props, ref) {
-	const {
-		id = "",
-		className = "p-3",
-		required = true,
-		displayWaningMessage = true,
-		withLabel = true,
-		attachedverifyPasswordFormControl = false,
-		defaultValue = "",
-		onChange = () => {},
-		onVerifyChange = () => {},
-	} = props;
-
+function PasswordFormControl({
+	id = "",
+	className = "",
+	placeholder = "Enter password",
+	required = false,
+	disabled = false,
+	onPasswordValidation = () => {},
+	sessionStorageObjName = "",
+}) {
 	const [visibility, setVisibility] = useState(false);
 
-	const [warningMessage, setWarningMessage] = useState("");
+	const [loading, setLoading] = useState(true);
 
-	const [passwordConfirm, setPasswordConfirm] = useState({
-		value: "",
-		warningMessage: "",
-	});
+	const ref = React.createRef("");
 
-	const [loadDefaultValue, setLoadDefaultValue] = useState(false);
+	const onPasswordChangeHandler = useCallback(
+		(password = "") => {
+			const isValidPassword = util.isValidPasswordFormat(password);
 
-	const togglePasswordVisibility = () => {
-		setVisibility(!visibility);
-	};
+			util.saveToSessionStore(
+				sessionStorageObjName,
+				constVar.STORAGE_PASSWORD_PROP,
+				password
+			);
 
-	const isPasswordMatch = useCallback((verifyPassword, currentPassword) => {
-		return verifyPassword === currentPassword;
-	}, []);
+			util.saveToSessionStore(
+				sessionStorageObjName,
+				constVar.STORAGE_PASSWORD_VALIDATION,
+				isValidPassword
+			);
 
-	const isValidPassword = useCallback((password) => {
-		let condition =
-			password.length === 0 ||
-			/^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?!.* ).{8,20}$/.test(password);
-
-		if (condition) return true;
-
-		return false;
-	}, []);
-
-	const validateVerifyPassword = useCallback(
-		(verifyPassword, currentPassword) => {
-			const validPassword = isPasswordMatch(verifyPassword, currentPassword);
-
-			onVerifyChange(validPassword);
-
-			if (validPassword)
-				setPasswordConfirm({ value: verifyPassword, warningMessage: "" });
-			else
-				setPasswordConfirm({
-					value: verifyPassword,
-					warningMessage: "Password doesn't match!",
-				});
+			// notify and return that password has validated
+			onPasswordValidation(isValidPassword);
 		},
-		[isPasswordMatch, onVerifyChange]
-	);
-
-	const validatePassword = useCallback(
-		(password) => {
-			const validPassword = isValidPassword(password);
-
-			onChange(password, validPassword);
-
-			if (validPassword || password === "") setWarningMessage("");
-			else
-				setWarningMessage(
-					"Your password must be between 8 and 20 characters (at least 1 upper, 1 lower, 1 number, and no white space)."
-				);
-
-			if (attachedverifyPasswordFormControl) {
-				validateVerifyPassword(passwordConfirm.value, password);
-			}
-		},
-		[
-			isValidPassword,
-			validateVerifyPassword,
-			attachedverifyPasswordFormControl,
-			onChange,
-			passwordConfirm,
-		]
+		[sessionStorageObjName, onPasswordValidation]
 	);
 
 	useEffect(() => {
-		if (!loadDefaultValue && ref.current) {
-			ref.current.value = defaultValue;
-			setLoadDefaultValue(true);
-			validatePassword(ref.current.value);
+		// first time load
+		if (loading) {
+			const defaultValue =
+				util.getSessionStorageObj(sessionStorageObjName)[
+					`${constVar.STORAGE_PASSWORD_PROP}`
+				] || "";
+
+			if (ref.current) {
+				ref.current.value = defaultValue;
+				onPasswordChangeHandler(ref.current.value);
+			}
+
+			setLoading(false);
 		}
-	}, [loadDefaultValue, ref, defaultValue, validatePassword]);
-
-	const passwordFormControl = (
-		<>
-			{withLabel && (
-				<Form.Label
-					{...(id && { htmlFor: id })}
-					className={`fs-5 ${required && "tedkvn-required"} }`}
-				>
-					Password
-				</Form.Label>
-			)}
-			<InputGroup className="mb-3 mx-0">
-				<IconButton
-					{...(id && { btnId: id + "hidden-icon" })}
-					imgSrc={visibility ? visibilityIcon : hiddenIcon}
-					btnVariant="white"
-					btnClassName="tedkvn-password-hidden-icon  border"
-					onClickHandler={() => {
-						togglePasswordVisibility();
-					}}
-				/>
-				<FormControl
-					{...(id && { id: id })}
-					ref={ref}
-					type={visibility ? "text" : "password"}
-					placeholder="Enter password"
-					className={`tedkvn-formControl ${className}`}
-					onChange={(pwd) => validatePassword(pwd.target.value)}
-					required={required}
-					autoComplete={"new-password"}
-				/>
-			</InputGroup>
-
-			{displayWaningMessage && warningMessage && (
-				<Form.Text className="text-muted">
-					<span className="text-danger">{warningMessage}</span>
-				</Form.Text>
-			)}
-		</>
-	);
-
-	const verifyPasswordFormControl = attachedverifyPasswordFormControl && (
-		<>
-			{withLabel && (
-				<Form.Label
-					{...(id && { htmlFor: "verify-" + id })}
-					className={`fs-5 ${required && "tedkvn-required"} }`}
-				>
-					Password Confirmation
-				</Form.Label>
-			)}
-			<InputGroup className="mb-3 mx-0">
-				<IconButton
-					{...(id && { btnId: "verify-" + id + "hidden-icon" })}
-					imgSrc={visibility ? visibilityIcon : hiddenIcon}
-					btnVariant="white"
-					btnClassName="tedkvn-password-hidden-icon  border"
-					onClickHandler={() => {
-						togglePasswordVisibility();
-					}}
-				/>
-				<FormControl
-					{...(id && { id: "verify-" + id })}
-					type={visibility ? "text" : "password"}
-					placeholder="Enter password"
-					className={`tedkvn-formControl ${className}`}
-					onChange={(pwd) =>
-						validateVerifyPassword(pwd.target.value, ref.current.value)
-					}
-					required={required}
-					autoComplete={"new-password"}
-				/>
-			</InputGroup>
-
-			{passwordConfirm.warningMessage && (
-				<Form.Text className="text-muted">
-					<span className="text-danger">{passwordConfirm.warningMessage}</span>
-				</Form.Text>
-			)}
-		</>
-	);
+	}, [
+		loading,
+		setLoading,
+		sessionStorageObjName,
+		ref,
+		onPasswordChangeHandler,
+	]);
 
 	const app = (
-		<>
-			{passwordFormControl} {verifyPasswordFormControl}
-		</>
+		<InputGroup className="mb-3 mx-0">
+			<IconButton
+				{...(id && { btnId: id + "hidden-icon" })}
+				imgSrc={visibility ? visibilityIcon : hiddenIcon}
+				btnVariant="white"
+				btnClassName="tedkvn-password-hidden-icon  border"
+				onClickHandler={() => setVisibility(!visibility)}
+			/>
+			<FormControl
+				{...(id && { id: id })}
+				ref={ref}
+				type={visibility ? "text" : "password"}
+				placeholder={placeholder}
+				className={`tedkvn-formControl ${className}`}
+				onChange={(pwd) => onPasswordChangeHandler(pwd.target.value)}
+				required={required}
+				autoComplete={"new-password"}
+				disabled={disabled}
+			/>
+		</InputGroup>
 	);
 	return app;
 }
 
-export default forwardRef(PasswordFormControl);
+export default PasswordFormControl;

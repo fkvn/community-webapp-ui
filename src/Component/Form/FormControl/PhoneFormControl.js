@@ -1,181 +1,108 @@
-import React, { forwardRef, useCallback, useEffect, useState } from "react";
-import { Form, FormControl } from "react-bootstrap";
+import React, { useCallback, useEffect, useState } from "react";
+import { FormControl } from "react-bootstrap";
+import * as constVar from "../../../Util/ConstVar";
+import * as util from "../../../Util/Util";
 
-function PhoneFormControl(props, ref) {
-	// ==================== config =====================
+function PhoneFormControl({
+	id = "",
+	className = "",
+	placeholder = "(___) ___-____",
+	type = "tel",
+	required = false,
+	disabled = false,
+	size = "14",
+	minLength = "14",
+	maxLength = "14",
+	onPhoneValidation = () => {},
+	sessionStorageObjName = "",
+}) {
+	const [loading, setLoading] = useState(true);
 
-	const {
-		id = "",
-		className = "p-3",
-		label = "Phone",
-		required = true,
-		autoFocus = false,
-		displayWaningMessage = true,
-		getWarningMessage = () => {},
-		autoComplete = false,
-		withLabel = true,
-		size = "14",
-		minLength = "14",
-		maxLength = "14",
-		defaultValue = "",
-		disabled = false,
-		onChange = () => {},
-		landlineWarning = false,
-	} = props;
+	const [cursor, setCursor] = useState(0);
 
-	const [warningMessage, setWarningMessage] = useState("");
+	const ref = React.createRef("");
 
-	const [loadDefaultValue, setLoadDefaultValue] = useState(false);
-
-	const [cursor, setCursor] = useState();
-
-	// ==================== function =====================
-
-	const formatPhoneNumber = (value = "") => {
-		if (value.length < 16) {
-			if (value.length === 0) return [value, 0];
-
-			// clean the input for any non-digit values.
-			const phoneNumber = value.replace(/[^\d]/g, "");
-
-			// phoneNumberLength is used to know when to apply our formatting for the phone number
-			const phoneNumberLength = phoneNumber.length;
-
-			// US format - 10 digits max
-			if (phoneNumberLength < 11) {
-				// digits 0-4
-				if (phoneNumberLength < 4)
-					return ["(" + phoneNumber, phoneNumberLength];
-				// digits 4-6
-				else if (phoneNumberLength < 7) {
-					return [
-						`(${phoneNumber.slice(0, 3)}) ${phoneNumber.slice(3)}`,
-						phoneNumberLength,
-					];
-				}
-
-				// digits 7-10
-				else {
-					return [
-						`(${phoneNumber.slice(0, 3)}) ${phoneNumber.slice(
-							3,
-							6
-						)}-${phoneNumber.slice(6, 10)}`,
-						phoneNumberLength,
-					];
-				}
+	const onPhoneChangeHandler = useCallback(
+		(cursor = -1, phone = "") => {
+			// update cursor
+			if (cursor >= 0) {
+				setCursor(cursor);
 			}
-		}
 
-		return [];
-	};
+			//  validate phone
+			const [formattedPhone, numOfDigits] = util.formatPhoneNumber(phone);
 
-	const validatePhone = useCallback(
-		(phone) => {
-			const [formattedPhone, numOfDigits] = formatPhoneNumber(phone);
+			const isValidPhone = numOfDigits === 10 || numOfDigits === 0;
 
-			onChange(formattedPhone, numOfDigits === 10 || numOfDigits === 0);
+			// update storage
+			util.saveToSessionStore(
+				sessionStorageObjName,
+				constVar.STORAGE_PHONE_VALIDATION,
+				isValidPhone
+			);
+			util.saveToSessionStore(
+				sessionStorageObjName,
+				constVar.STORAGE_PHONE_PROP,
+				formattedPhone
+			);
 
-			if (ref?.current && ref.current.value) {
+			// update phone display
+			if (ref.current) {
 				ref.current.value = formattedPhone;
 			}
 
-			if (numOfDigits === 0 || numOfDigits === 10) {
-				setWarningMessage("");
-			} else if (numOfDigits < 10) {
-				setWarningMessage("Sorry, Invalid Phone Number.");
-			}
+			// notify and return that phone has validated
+			onPhoneValidation(isValidPhone);
 		},
-		[ref, onChange]
+		[ref, sessionStorageObjName, onPhoneValidation]
 	);
-
-	const updateCursorPostion = useCallback(() => {
-		const input = ref.current;
-
-		let updatedCursor = cursor;
-
-		if (updatedCursor === 1 || updatedCursor === 10) updatedCursor += 1;
-
-		if (updatedCursor === 5) updatedCursor += 2;
-
-		if (input) input.setSelectionRange(updatedCursor, updatedCursor);
-	}, [ref, cursor]);
-
-	// ==================== hook =====================
 
 	useEffect(() => {
-		if (!loadDefaultValue && ref.current) {
-			ref.current.value = defaultValue;
-			setLoadDefaultValue(true);
-			validatePhone(defaultValue);
+		// first time load
+		if (loading) {
+			const defaultValue =
+				util.getSessionStorageObj(sessionStorageObjName)[
+					`${constVar.STORAGE_PHONE_PROP}`
+				] || "";
+
+			// update phone display
+			if (ref.current) {
+				ref.current.value = defaultValue;
+				onPhoneChangeHandler(-1, ref.current.value);
+			}
+
+			setLoading(false);
 		}
 
-		updateCursorPostion();
-
-		getWarningMessage(warningMessage);
+		// update cursor
+		util.updatePhoneCursorPostion(ref, cursor);
 	}, [
-		loadDefaultValue,
+		loading,
+		setLoading,
 		ref,
-		updateCursorPostion,
-		getWarningMessage,
-		warningMessage,
-		defaultValue,
-		validatePhone,
+		cursor,
+		sessionStorageObjName,
+		onPhoneChangeHandler,
 	]);
 
-	// ==================== component =====================
-
 	const app = (
-		<>
-			{withLabel && (
-				<Form.Label
-					{...(id && { htmlFor: id })}
-					className={`fs-5 ${required && "tedkvn-required"} }`}
-				>
-					{label}
-				</Form.Label>
-			)}
-			<FormControl
-				{...(id && { id: id })}
-				type="tel"
-				placeholder="(___) ___-____"
-				className={`tedkvn-formControl ${className}`}
-				ref={ref}
-				onChange={(p) => {
-					setCursor(p.currentTarget.selectionStart);
-					validatePhone(p.target.value);
-				}}
-				size={size}
-				minLength={minLength}
-				maxLength={maxLength}
-				required={required}
-				autoFocus={autoFocus}
-				autoComplete={autoComplete ? "" : "off"}
-				disabled={disabled}
-			/>
-			{displayWaningMessage && warningMessage && (
-				<Form.Text className="text-muted">
-					<span className="text-danger">{warningMessage}</span>
-				</Form.Text>
-			)}
-			{landlineWarning && (
-				<Form.Group>
-					<Form.Text className="text-mute">
-						This phone is for login credential and OTP verification (if any){" "}
-						<br />
-						<small className="text-danger">
-							Please don't use any landline phone number!
-						</small>
-					</Form.Text>
-				</Form.Group>
-			)}
-		</>
+		<FormControl
+			{...(id && { id: id })}
+			type={type}
+			placeholder={placeholder}
+			className={`tedkvn-formControl ${className}`}
+			ref={ref}
+			onChange={(p) =>
+				onPhoneChangeHandler(p.currentTarget.selectionStart, p.target.value)
+			}
+			size={size}
+			minLength={minLength}
+			maxLength={maxLength}
+			required={required}
+			disabled={disabled}
+		/>
 	);
-
-	// ==================== render =====================
-
 	return app;
 }
 
-// forward ref component
-export default forwardRef(PhoneFormControl);
+export default PhoneFormControl;

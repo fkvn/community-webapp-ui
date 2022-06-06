@@ -9,6 +9,7 @@ function NewGoogleAutoComplete({
 	placeholder = "Address",
 	sessionStorageObjName = "",
 	sessionStoragePropName = constVar.STORAGE_ADDRESS_PROP,
+	onAddressValidation = () => {},
 }) {
 	const [loading, setLoading] = useState(true);
 
@@ -53,6 +54,9 @@ function NewGoogleAutoComplete({
 		// update description - placeid is removed cuz the address is changing
 		updateAddressDescription(description);
 
+		// notify that address is not valid because it is changing
+		onAddressValidation(false);
+
 		if (description !== "") {
 			getPlacePredictionPromise(description).then((res) => {
 				setPredictions(res.predictions);
@@ -62,13 +66,28 @@ function NewGoogleAutoComplete({
 		}
 	};
 
-	const onSelectPredictionHandler = (prediction = {}) => {
+	const onSelectPredictionHandler = (selection = {}) => {
+		// selection
+		const selectedAddress = {
+			description: selection.description || "",
+			placeid: selection.place_id || "",
+		};
+
 		// update address
-		updateAddress(prediction.description || "", prediction.place_id || "");
+		updateAddress(selectedAddress.description, selectedAddress.placeid);
 
 		// update ref
 		if (addressRef.current) {
-			addressRef.current.value = prediction.description || "";
+			addressRef.current.value = selectedAddress.description || "";
+		}
+
+		// double-check in case placeid is missing
+		if (!selectedAddress.placeid) {
+			// notify that address is not valid because it is changing
+			onAddressValidation(false);
+		} else {
+			// notify that address is valid
+			onAddressValidation(true);
 		}
 
 		// reset prediction list to hide the dropdown

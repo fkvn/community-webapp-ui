@@ -16,7 +16,7 @@ function DropDownFormControl(props, ref) {
 	}
 
 	const app = (
-		<Form.Group>
+		<Form.Group className="position-relative">
 			<FormControl
 				type={type}
 				placeholder={placeholder}
@@ -27,7 +27,10 @@ function DropDownFormControl(props, ref) {
 			/>
 
 			{dropdownItems.length > 0 && (
-				<Toast className="tedkvn-predictionDropDown  position-relative w-100">
+				<Toast
+					className="tedkvn-predictionDropDown  position-absolute w-100"
+					style={{ zIndex: "25" }}
+				>
 					<Toast.Body className="border-0">
 						<ListGroup as="ul"></ListGroup>
 						{dropdownItems.map((item, idx) => (

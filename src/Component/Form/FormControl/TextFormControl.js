@@ -1,63 +1,58 @@
-import React, { forwardRef, useEffect, useState } from "react";
-import { Form } from "react-bootstrap";
+import React, { useEffect, useState } from "react";
+import { FormControl } from "react-bootstrap";
+import * as util from "../../../Util/Util";
 
-function TextFormControl(props, ref) {
-	// ==================== config =====================
-
+function NewTextFormControl(props) {
 	const {
 		id = "",
-		withLabel = false,
-		labelTitle = "",
+		type = "text",
 		placeholder = "",
-		className = "p-3",
+		className = "",
 		required = false,
-		autoFocus = false,
-		autoComplete = false,
-		defaultValue = "",
-		onChange = () => {},
+		disabled = false,
+		sessionStorageObjName = "",
+		sessionStoragePropName = "",
 	} = props;
 
-	const [loadDefaultValue, setLoadDefaultValue] = useState(false);
+	const [loading, setLoading] = useState(true);
 
-	// ==================== hook =====================
+	const ref = React.createRef();
 
 	useEffect(() => {
-		if (!loadDefaultValue && ref.current) {
-			ref.current.value = defaultValue;
-			setLoadDefaultValue(true);
-		}
-	}, [loadDefaultValue, ref, defaultValue]);
+		if (loading) {
+			// get information from the first time load
+			const defaultValue =
+				util.getSessionStorageObj(sessionStorageObjName)[
+					`${sessionStoragePropName}`
+				] || "";
 
-	// ==================== component =====================
+			if (ref.current) {
+				ref.current.value = defaultValue;
+			}
+
+			setLoading(false);
+		}
+	}, [loading, ref, sessionStorageObjName, sessionStoragePropName]);
 
 	const app = (
-		<>
-			{withLabel && (
-				<Form.Label
-					{...(id && { htmlFor: id })}
-					className={`fs-5 ${required && "tedkvn-required"} }`}
-				>
-					{labelTitle}
-				</Form.Label>
-			)}
-			<Form.Control
-				{...(id && { id: id })}
-				ref={ref}
-				type="text"
-				className={`tedkvn-formControl ${className}`}
-				placeholder={placeholder}
-				required={required}
-				autoFocus={autoFocus}
-				autoComplete={autoComplete ? "" : "off"}
-				onChange={onChange}
-			/>
-		</>
+		<FormControl
+			{...(id && { id: id })}
+			ref={ref}
+			type={type}
+			className={`tedkvn-formControl ${className}`}
+			placeholder={placeholder}
+			required={required}
+			disabled={disabled}
+			onChange={(e) =>
+				util.saveToSessionStore(
+					sessionStorageObjName,
+					sessionStoragePropName,
+					e.target.value
+				)
+			}
+		/>
 	);
-
-	// ==================== render =====================
-
 	return app;
 }
 
-// forward ref component
-export default forwardRef(TextFormControl);
+export default NewTextFormControl;

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Form, Row } from "react-bootstrap";
-import NewOtpVerifyFormControl from "../FormControl/NewOtpVerifyFormControl";
+import OtpVerifyFormControl from "../FormControl/OtpVerifyFormControl";
 
 function OtpVerifyFormGroupControl({
 	id = "",
@@ -34,7 +34,7 @@ function OtpVerifyFormGroupControl({
 					</Form.Label>
 				)}
 
-				<NewOtpVerifyFormControl
+				<OtpVerifyFormControl
 					{...(id && { id: id })}
 					required={required}
 					disabled={disabled}

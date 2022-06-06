@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Form, Row } from "react-bootstrap";
-import NewPhoneFormControl from "../FormControl/NewPhoneFormControl";
+import PhoneFormControl from "../FormControl/PhoneFormControl";
 
 function PhoneFromGroupControl({
 	id = "",
@@ -35,7 +35,7 @@ function PhoneFromGroupControl({
 					</Form.Label>
 				)}
 
-				<NewPhoneFormControl
+				<PhoneFormControl
 					{...(id && { id: id })}
 					required={required}
 					disabled={disabled}

@@ -1,120 +1,109 @@
-import React, { forwardRef, useCallback, useState } from "react";
-import { Form, FormControl } from "react-bootstrap";
+import React, { useCallback, useEffect, useState } from "react";
+import { FormControl } from "react-bootstrap";
+import * as constVar from "../../../Util/ConstVar";
+import * as util from "../../../Util/Util";
 
-function OtpVerifyFormControl(props, ref) {
+function OtpVerifyFormControl(props) {
 	const {
 		id = "",
-		className = "p-3",
-		required = true,
-		autoFocus = false,
-		autoComplete = false,
-		withLabel = true,
+		className = "",
+		required = false,
+		placeholder = "_ _ _ _",
+		type = "text",
 		size = "7",
 		minLength = "7",
 		maxLength = "7",
 		disabled = false,
+		onOtpValidation = () => {},
+		sessionStorageObjName = "",
 	} = props;
 
-	const [cursor, setCursor] = useState();
+	const [loading, setLoading] = useState(true);
 
-	const [warningMessage, setWarningMessage] = useState("");
+	const [cursor, setCursor] = useState(0);
 
-	const formatPhoneNumber = (value = "") => {
-		if (value.length < 7) {
-			if (value.length === 0) return [value, 0];
+	const ref = React.createRef("");
 
-			// clean the input for any non-digit values.
-			const phoneNumber = value.replace(/[^\d]/g, "");
-
-			// phoneNumberLength is used to know when to apply our formatting for the phone number
-			const phoneNumberLength = phoneNumber.length;
-
-			// US format - 10 digits max
-			if (phoneNumberLength === 1) {
-				return [phoneNumber, phoneNumberLength];
-			} else if (phoneNumberLength === 2) {
-				return [
-					`${phoneNumber.slice(0, 1)} ${phoneNumber.slice(1, 2)}`,
-					phoneNumberLength,
-				];
-			} else if (phoneNumberLength === 3) {
-				return [
-					`${phoneNumber.slice(0, 1)} ${phoneNumber.slice(
-						1,
-						2
-					)} ${phoneNumber.slice(2, 3)}`,
-					phoneNumberLength,
-				];
-			} else {
-				return [
-					`${phoneNumber.slice(0, 1)} ${phoneNumber.slice(
-						1,
-						2
-					)} ${phoneNumber.slice(2, 3)} ${phoneNumber.slice(3, 4)}`,
-					phoneNumberLength,
-				];
-			}
-		}
-
-		return [];
-	};
-
-	const validatePhone = useCallback(
-		(phone) => {
-			const [formattedPhone, numOfDigits] = formatPhoneNumber(phone);
-
-			if (ref?.current && ref.current.value) {
-				ref.current.value = formattedPhone;
+	const onOtpValidationHanlder = useCallback(
+		(cursor = -1, otp = "") => {
+			// update cursor
+			if (cursor >= 0) {
+				setCursor(cursor);
 			}
 
-			if (numOfDigits === 0 || numOfDigits === 4) {
-				setWarningMessage("");
-			} else if (numOfDigits < 10) {
-				setWarningMessage("Sorry, verification code must have 4-digits!");
+			//  validate otp
+			const [formattedOtp, numOfDigits] = util.formatOtpNumber(otp);
+
+			const isValidOtp = numOfDigits === 4;
+
+			// update storage
+			util.saveToSessionStore(
+				sessionStorageObjName,
+				constVar.STORAGE_OTP_VALIDATION,
+				isValidOtp
+			);
+			util.saveToSessionStore(
+				sessionStorageObjName,
+				constVar.STORAGE_OTP_PROP,
+				formattedOtp
+			);
+
+			// update phone display
+			if (ref.current) {
+				ref.current.value = formattedOtp;
 			}
+
+			// notify and return that phone has validated
+			onOtpValidation(isValidOtp);
 		},
-		[ref]
+		[ref, sessionStorageObjName, onOtpValidation]
 	);
+
+	useEffect(() => {
+		// first time load
+		if (loading) {
+			const defaultValue =
+				util.getSessionStorageObj(sessionStorageObjName)[
+					`${constVar.STORAGE_OTP_PROP}`
+				] || "";
+
+			// reset otp
+			if (ref.current) {
+				ref.current.value = defaultValue;
+				onOtpValidationHanlder(-1, ref.current.value);
+			}
+			setLoading(false);
+		}
+	}, [
+		loading,
+		setLoading,
+		ref,
+		cursor,
+		sessionStorageObjName,
+		onOtpValidationHanlder,
+	]);
 
 	const app = (
 		<>
-			{withLabel && (
-				<Form.Label
-					{...(id && { htmlFor: id })}
-					className={`fs-5 ${required && "tedkvn-required"} }`}
-				>
-					OTP Verification Code
-				</Form.Label>
-			)}
-
 			<FormControl
 				{...(id && { id: id })}
-				type="text"
-				placeholder="_ _ _ _"
+				type={type}
+				placeholder={placeholder}
 				className={`tedkvn-formControl ${className}`}
 				ref={ref}
-				onChange={(p) => {
-					validatePhone(p.target.value);
-				}}
+				onChange={(p) =>
+					onOtpValidationHanlder(p.currentTarget.selectionStart, p.target.value)
+				}
 				size={size}
 				minLength={minLength}
 				maxLength={maxLength}
 				required={required}
-				autoFocus={autoFocus}
-				autoComplete={autoComplete ? "" : "off"}
 				disabled={disabled}
 			/>
-			{warningMessage && (
-				<Form.Text className="text-muted">
-					<span className="text-danger">
-						Please enter 4-digits verification code!
-					</span>
-				</Form.Text>
-			)}
 		</>
 	);
 
 	return app;
 }
 
-export default forwardRef(OtpVerifyFormControl);
+export default OtpVerifyFormControl;
