@@ -1,17 +1,18 @@
 import React from "react";
-import { Col, Container, Image, Row } from "react-bootstrap";
-import { Link, useNavigate, useSearchParams } from "react-router-dom";
-import thainowLogo from "../../Assest/Image/Brand/thainowLogo.png";
-import BackButton from "../Button/BackButton";
+import { Button, Row } from "react-bootstrap";
+import { useSearchParams } from "react-router-dom";
+import * as constVar from "../../Util/ConstVar";
+import FormHeader from "../Form/FormLayout/FormHeader";
+import FormLayout from "../Form/FormLayout/FormLayout";
+import NewBusinessSignupForm from "../Form/FormLayout/NewBusinessSignupForm";
 
 function BusinessSignup({
-	sessionStorageObj = "thainow.classic.signup.info",
-	submitErrorHandler = () => {},
+	sessionStorageObjName = constVar.THAINOW_BUSINESS_SIGN_UP_STORAGE_OBJ,
 	industryList = [],
-	positionList = [],
+	stepHandlers = [],
+	onCloseHandler = () => {},
+	onBackHandlerPromise = () => {},
 }) {
-	const navigate = useNavigate();
-
 	let [searchParams] = useSearchParams();
 
 	const continueURL = searchParams.get("continue") || "/";
@@ -19,35 +20,39 @@ function BusinessSignup({
 	const continueParams =
 		continueURL.length > 0 ? "?continue=" + continueURL : "";
 
-	const app = (
-		<Container fluid className={` vh-100 tedkvn-center `}>
-			<Row className={` tedkvn-center `}>
-				<Col
-					xs={12}
-					className={` overflow-auto border`}
-					id="classicSignupFormCol"
-					style={{
-						maxHeight: "80vh",
-					}}
-				>
-					<BackButton
-						backHref={`/signup/${continueParams}`}
-						title="Type of Account"
-					/>
-					<Link to="/" className="text-center m-5 d-block">
-						<Image src={thainowLogo} width="100" />
-					</Link>
-
-					{/* <BusinessSignupForm
-						sessionStorageObj={sessionStorageObj}
-						industryList={industryList}
-						submitErrorHandler={submitErrorHandler}
-						positionList={positionList}
-					/> */}
-				</Col>
-			</Row>
-		</Container>
+	const formHeader = (
+		<FormHeader
+			title={
+				<Row>
+					<p id="signup-header" className="p-0 m-0 d-block d-md-flex">
+						<span style={{ fontSize: "1.2rem" }}>Create Business Account</span>
+						<Button
+							variant="link"
+							href={"/signup" + continueParams}
+							className="px-0 pt-0 my-0 pb-0 px-md-2 pb-md-1 text-start d-block d-md-inline-block"
+						>
+							<small>Switch account</small>
+						</Button>
+					</p>
+				</Row>
+			}
+			onClose={onCloseHandler}
+		/>
 	);
+
+	const FormBody = {
+		FormComponent: NewBusinessSignupForm,
+		sessionStorageObjName: sessionStorageObjName,
+		industryList: industryList,
+	};
+
+	const app = FormLayout(
+		formHeader,
+		FormBody,
+		stepHandlers,
+		onBackHandlerPromise
+	);
+
 	return app;
 }
 

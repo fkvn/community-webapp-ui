@@ -1,19 +1,18 @@
 import React from "react";
 import { Form } from "react-bootstrap";
-import * as constVar from "../../../Util/ConstVar";
-import TextFormControl from "../FormControl/TextFormControl";
+import CompanyIndustryFormControl from "../../FormControl/CompanyInfoFormControl/CompanyIndustryFormControl";
 
-function UsernameFormGroupControl({
+function CompanyIndustryFormGroupControl({
 	id = "",
 	withLabel = true,
-	label = "User Contact Info",
+	label = "Business Industry",
 	labelClassName = "",
-	placeholder = "Preferred Name",
+	placeholder = "Select your busines industry",
 	formGroupClassName = "",
 	required = false,
 	disabled = false,
 	sessionStorageObjName = "",
-	sessionStoragePropName = constVar.STORAGE_USERNAME_PROP,
+	industryList = [],
 }) {
 	const app = (
 		<Form.Group className={`tedkvn-formGroupControl ${formGroupClassName}`}>
@@ -27,17 +26,17 @@ function UsernameFormGroupControl({
 					{label}
 				</Form.Label>
 			)}
-			<TextFormControl
+			<CompanyIndustryFormControl
 				{...(id && { id: id })}
 				required={required}
 				disabled={disabled}
 				placeholder={placeholder}
 				sessionStorageObjName={sessionStorageObjName}
-				sessionStoragePropName={sessionStoragePropName}
+				industryList={industryList}
 			/>
 		</Form.Group>
 	);
 	return app;
 }
 
-export default UsernameFormGroupControl;
+export default CompanyIndustryFormGroupControl;

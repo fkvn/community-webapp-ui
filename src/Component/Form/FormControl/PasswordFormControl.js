@@ -2,7 +2,6 @@ import React, { useCallback, useEffect, useState } from "react";
 import { FormControl, InputGroup } from "react-bootstrap";
 import hiddenIcon from "../../../Assest/Image/Icon/hidden-icon.png";
 import visibilityIcon from "../../../Assest/Image/Icon/visibility-icon.png";
-import * as constVar from "../../../Util/ConstVar";
 import * as util from "../../../Util/Util";
 import IconButton from "../../Button/IconButton";
 
@@ -13,7 +12,8 @@ function PasswordFormControl({
 	required = false,
 	disabled = false,
 	onPasswordValidation = () => {},
-	sessionStorageObjName = "",
+	onMergeStorageSession = () => {},
+	onLoadDefaultValue = () => {},
 }) {
 	const [visibility, setVisibility] = useState(false);
 
@@ -25,31 +25,20 @@ function PasswordFormControl({
 		(password = "") => {
 			const isValidPassword = util.isValidPasswordFormat(password);
 
-			util.saveToSessionStore(
-				sessionStorageObjName,
-				constVar.STORAGE_PASSWORD_PROP,
-				password
-			);
-
-			util.saveToSessionStore(
-				sessionStorageObjName,
-				constVar.STORAGE_PASSWORD_VALIDATION,
-				isValidPassword
-			);
+			// merge to storage session
+			onMergeStorageSession(password, isValidPassword);
 
 			// notify and return that password has validated
 			onPasswordValidation(isValidPassword);
 		},
-		[sessionStorageObjName, onPasswordValidation]
+		[onMergeStorageSession, onPasswordValidation]
 	);
 
 	useEffect(() => {
 		// first time load
 		if (loading) {
-			const defaultValue =
-				util.getSessionStorageObj(sessionStorageObjName)[
-					`${constVar.STORAGE_PASSWORD_PROP}`
-				] || "";
+			// load default Value
+			const defaultValue = onLoadDefaultValue() || "";
 
 			if (ref.current) {
 				ref.current.value = defaultValue;
@@ -58,13 +47,7 @@ function PasswordFormControl({
 
 			setLoading(false);
 		}
-	}, [
-		loading,
-		setLoading,
-		sessionStorageObjName,
-		ref,
-		onPasswordChangeHandler,
-	]);
+	}, [loading, setLoading, onLoadDefaultValue, ref, onPasswordChangeHandler]);
 
 	const app = (
 		<InputGroup className="mb-3 mx-0">

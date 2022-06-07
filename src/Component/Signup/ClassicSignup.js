@@ -1,9 +1,9 @@
 import React from "react";
 import { Button, Row } from "react-bootstrap";
 import { useSearchParams } from "react-router-dom";
-import NewClassicSignupForm from "../Form/ClassicSignupForm";
-import FormHeader from "../Form/FormHeader";
-import FormLayout from "../Form/FormLayout";
+import NewClassicSignupForm from "../Form/FormLayout/ClassicSignupForm";
+import FormHeader from "../Form/FormLayout/FormHeader";
+import FormLayout from "../Form/FormLayout/FormLayout";
 
 function ClassicSignup({
 	sessionStorageObjName = "thainow.classic.signup.info",

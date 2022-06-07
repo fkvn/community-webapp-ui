@@ -1,17 +1,17 @@
 import React from "react";
 import { Col, Form, Row } from "react-bootstrap";
-import AddressFromGroupControl from "./AddressFormGroupControl";
-import UsernameFormGroupControl from "./UsernameFormGroupControl";
+import AddressFromGroupControl from "../AddressFormGroupControl";
+import CompanynameFormGroupControl from "./CompanyNameFormGroupControl";
 
-function UserContactFormGroupControl({
+function CompanyContactFormGroupControl({
 	sessionStorageObjName = "",
-	usernameRequired = true,
+	formGroupClassName = "",
+	companynameRequired = true,
 	addressRequired = true,
 }) {
-	const usernameFormGroupControl = (
-		<UsernameFormGroupControl
-			id="classic-signup-usernameFormControl"
-			required={usernameRequired}
+	const companynameFormGroupControl = (
+		<CompanynameFormGroupControl
+			required={companynameRequired}
 			withLabel={false}
 			sessionStorageObjName={sessionStorageObjName}
 		/>
@@ -19,20 +19,20 @@ function UserContactFormGroupControl({
 
 	const addressFormGroupControl = (
 		<AddressFromGroupControl
-			id="classic-signup-addressFormControl"
 			required={addressRequired}
+			placeholder="Where is your business"
 			sessionStorageObjName={sessionStorageObjName}
 		/>
 	);
 
 	const app = (
-		<Form.Group className="tedkvn-formGroupControl mt-5">
+		<Form.Group className={`tedkvn-formGroupControl ${formGroupClassName}`}>
 			<Form.Label className={`formLabel tedkvn-required`}>
-				User Contact Info
+				Business Public Info
 			</Form.Label>
 			<Row>
 				<Col xs={12} md={5}>
-					{usernameFormGroupControl}
+					{companynameFormGroupControl}
 				</Col>
 				<Col xs={12} md={7}>
 					{addressFormGroupControl}
@@ -43,4 +43,4 @@ function UserContactFormGroupControl({
 	return app;
 }
 
-export default UserContactFormGroupControl;
+export default CompanyContactFormGroupControl;

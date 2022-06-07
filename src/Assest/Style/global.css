@@ -82,6 +82,16 @@ select option:first-child {
 	color: green !important;
 }
 
+#company-more-info-header button[aria-expanded="false"] {
+	padding-left: 0;
+	color: #007bff;
+	box-shadow: none;
+}
+
+#company-more-info-header button::after {
+	width: 0;
+}
+
 ::-webkit-scrollbar {
 	-webkit-appearance: none;
 	-webkit-overflow-scrolling: auto;

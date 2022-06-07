@@ -3,6 +3,7 @@ import { Button, Form, FormControl, ListGroup, Toast } from "react-bootstrap";
 
 function DropDownFormControl(props, ref) {
 	const {
+		id = "",
 		type = "text",
 		placeholder = "",
 		className = "",
@@ -16,8 +17,9 @@ function DropDownFormControl(props, ref) {
 	}
 
 	const app = (
-		<Form.Group className="position-relative">
+		<Form.Group>
 			<FormControl
+				{...(id && { id: id })}
 				type={type}
 				placeholder={placeholder}
 				className={`tedkvn-formControl ${className}`}
@@ -27,18 +29,18 @@ function DropDownFormControl(props, ref) {
 			/>
 
 			{dropdownItems.length > 0 && (
-				<Toast
-					className="tedkvn-predictionDropDown  position-absolute w-100"
-					style={{ zIndex: "25" }}
-				>
+				<Toast className="tedkvn-predictionDropDown  position-relative w-100">
 					<Toast.Body className="border-0">
 						<ListGroup as="ul"></ListGroup>
 						{dropdownItems.map((item, idx) => (
-							<ListGroup.Item as="li" key={idx}>
+							<ListGroup.Item
+								as="li"
+								key={idx}
+								onClick={() => onSelectItemHandler(item)}
+							>
 								<Button
 									variant="link"
 									className="text-dark text-decoration-none p-0"
-									onClick={() => onSelectItemHandler(item)}
 								>
 									{item?.description}
 								</Button>

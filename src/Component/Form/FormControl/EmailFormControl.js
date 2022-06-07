@@ -1,6 +1,5 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { FormControl } from "react-bootstrap";
-import * as constVar from "../../../Util/ConstVar";
 import * as util from "../../../Util/Util";
 
 function EmailFormControl({
@@ -11,7 +10,8 @@ function EmailFormControl({
 	required = false,
 	disabled = false,
 	onEmailValidation = () => {},
-	sessionStorageObjName = "",
+	onMergeStorageSession = () => {},
+	onLoadDefaultValue = () => {},
 }) {
 	const [loading, setLoading] = useState(true);
 
@@ -21,31 +21,20 @@ function EmailFormControl({
 		(email) => {
 			const isValidEmail = util.isValidEmailFormat(email);
 
-			util.saveToSessionStore(
-				sessionStorageObjName,
-				constVar.STORAGE_EMAIL_VALIDATION,
-				isValidEmail
-			);
-
-			util.saveToSessionStore(
-				sessionStorageObjName,
-				constVar.STORAGE_EMAIL_PROP,
-				email
-			);
+			// merge to storage session
+			onMergeStorageSession(email, isValidEmail);
 
 			// notify and return that the email has validated
 			onEmailValidation(isValidEmail);
 		},
-		[sessionStorageObjName, onEmailValidation]
+		[onEmailValidation, onMergeStorageSession]
 	);
 
 	useEffect(() => {
 		// first time load
 		if (loading) {
-			const defaultValue =
-				util.getSessionStorageObj(sessionStorageObjName)[
-					`${constVar.STORAGE_EMAIL_PROP}`
-				] || "";
+			// load default Value
+			const defaultValue = onLoadDefaultValue() || "";
 
 			if (ref.current) {
 				ref.current.value = defaultValue;
@@ -54,7 +43,7 @@ function EmailFormControl({
 
 			setLoading(false);
 		}
-	}, [loading, setLoading, ref, sessionStorageObjName, onEmailChangeHanlder]);
+	}, [loading, setLoading, ref, onEmailChangeHanlder, onLoadDefaultValue]);
 
 	const app = (
 		<FormControl

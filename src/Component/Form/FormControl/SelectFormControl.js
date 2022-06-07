@@ -1,17 +1,20 @@
 import React, { forwardRef } from "react";
 import { Form } from "react-bootstrap";
-import * as util from "../../../Util/Util";
 
 function SelectFormControl(props, ref) {
 	const {
 		id = "",
-		placeholder = "",
+		placeholder = "Please select",
 		className = "",
 		required = false,
+		disabled = false,
 		dropdownItems = [],
-		sessionStorageObjName = "",
-		sessionStoragePropName = "",
+		onSelectItem = () => {},
 	} = props;
+
+	if (!ref) {
+		ref = React.createRef();
+	}
 
 	const app = (
 		<Form.Select
@@ -19,14 +22,9 @@ function SelectFormControl(props, ref) {
 			aria-label={id ? id : "Custom form select"}
 			className={`tedkvn-formControl ${className}`}
 			required={required}
-			onChange={(p) =>
-				util.saveToSessionStore(
-					sessionStorageObjName,
-					sessionStoragePropName,
-					p.target.value
-				)
-			}
+			onChange={(p) => onSelectItem(p.target.value)}
 			ref={ref}
+			disabled={disabled}
 		>
 			<option value="">{placeholder}</option>
 			{dropdownItems.length > 0 &&

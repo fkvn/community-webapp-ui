@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import { Form } from "react-bootstrap";
-import NewGoogleAutoComplete from "../../AutoComplete/NewGoogleAutoComplete";
+import NewGoogleAutoComplete from "../../AutoComplete/GoogleAutoComplete";
 
 function AddressFromGroupControl({
 	id = "",
 	formGroupClassName = "",
 	sessionStorageObjName = "",
+	placeholder = "Where are you from",
 	required = false,
 	displayWaningMessage = true,
 }) {
@@ -20,7 +21,7 @@ function AddressFromGroupControl({
 		<Form.Group className={`tedkvn-formGroupControl ${formGroupClassName}`}>
 			<NewGoogleAutoComplete
 				{...(id && { id: id })}
-				placeholder="Where are you from"
+				placeholder={placeholder}
 				sessionStorageObjName={sessionStorageObjName}
 				required={required}
 				onAddressValidation={onAddressValidationHanlder}

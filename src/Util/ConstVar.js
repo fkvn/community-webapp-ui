@@ -1,6 +1,8 @@
 export const THAINOW_USER_STORRAGE_OBJ = "thainow.user";
 export const THAINOW_CLASSIC_SIGN_UP_STORAGE_OBJ =
 	"thainow.classic.signup.info";
+export const THAINOW_BUSINESS_SIGN_UP_STORAGE_OBJ =
+	"thainow.business.signup.info";
 
 export const STORAGE_USERNAME_PROP = "username";
 export const STORAGE_FIRSTNAME_PROP = "firstname";
@@ -17,7 +19,14 @@ export const STORAGE_VERIFICATION_METHOD_PROP = "verifyMethod";
 export const STORAGE_OTP_PROP = "otp";
 export const STORAGE_OTP_VALIDATION = "isValidOtp";
 export const STORAGE_PRIVILEGES_PROP = "privileges";
+
 export const STORAGE_COMPANY_PROP = "company";
+export const STORAGE_COMPANY_INDUSTRY_PROP = "industry";
+export const STORAGE_COMPANY_NAME_PROP = "name";
+export const STORAGE_COMPANY_EMAIL_PROP = "email";
+export const STORAGE_COMPANY_EMAIL_VALIDATION = "isValidEmail";
+export const STORAGE_COMPANY_PHONE_PROP = "phone";
+export const STORAGE_COMPANY_PHONE_VALIDATION = "isValidPhone";
 
 export const ERROR = "ERROR";
 export const ERROR_MESSAGE = "ERROR_MESSAGE";
@@ -67,7 +76,6 @@ export const COMPANY_INDUSTRY_LIST = [
 	"Newspaper",
 	"Notary Public",
 	"Optical",
-	"Others",
 	"Painter",
 	"Personal Trainer",
 	"Printing",
@@ -85,6 +93,7 @@ export const COMPANY_INDUSTRY_LIST = [
 	"Trader",
 	"Travel Agency",
 	"Vegan Restaurant",
+	"None of above",
 ];
 
 export const COMPANY_POSTION_LIST = ["Owner", "Manager"];

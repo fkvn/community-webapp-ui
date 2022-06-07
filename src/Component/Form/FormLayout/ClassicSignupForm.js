@@ -1,16 +1,18 @@
 import React from "react";
 import { Button, Container, Form } from "react-bootstrap";
-import * as constVar from "../../Util/ConstVar";
-import * as util from "../../Util/Util";
-import AgreementFormGroupControl from "./FormGroupControl/AgreementFormGroupControl";
-import EmailFromGroupControl from "./FormGroupControl/EmailFormGroupControl";
-import OtpVerifyFormGroupControl from "./FormGroupControl/OtpVerifyFormGroupControl";
-import PasswordFromGroupControl from "./FormGroupControl/PasswordFormGroupControl";
-import PhoneFromGroupControl from "./FormGroupControl/PhoneFormGroupControl";
-import PrevstepFormGroupControl from "./FormGroupControl/PrevstepFormGroupControl";
-import ReadOnlyFormGroupControl from "./FormGroupControl/ReadOnlyFormGroupControl";
-import SubmitButtonFormGroupControl from "./FormGroupControl/SubmitButtonFormGroupControl";
-import UserContactFormGroupControl from "./FormGroupControl/UserContactFormGroupControl";
+import * as constVar from "../../../Util/ConstVar";
+import * as util from "../../../Util/Util";
+import UserEmailFormControl from "../FormControl/UserInfoFormControl/UserEmailFormControl";
+import UserPhoneFormControl from "../FormControl/UserInfoFormControl/UserPhoneFormControl";
+import AgreementFormGroupControl from "../FormGroupControl/AgreementFormGroupControl";
+import EmailFromGroupControl from "../FormGroupControl/EmailFormGroupControl";
+import OtpVerifyFormGroupControl from "../FormGroupControl/OtpVerifyFormGroupControl";
+import PhoneFromGroupControl from "../FormGroupControl/PhoneFormGroupControl";
+import PrevstepFormGroupControl from "../FormGroupControl/PrevstepFormGroupControl";
+import ReadOnlyFormGroupControl from "../FormGroupControl/ReadOnlyFormGroupControl";
+import SubmitButtonFormGroupControl from "../FormGroupControl/SubmitButtonFormGroupControl";
+import PasswordFromGroupControl from "../FormGroupControl/UserInfoFormGroupControl/PasswordFormGroupControl";
+import UserContactFormGroupControl from "../FormGroupControl/UserInfoFormGroupControl/UserContactFormGroupControl";
 
 function ClassicSignupForm({
 	sessionStorageObjName = "",
@@ -187,6 +189,7 @@ function ClassicSignupForm({
 			id="classic-signup-emailFormControl"
 			required={true}
 			sessionStorageObjName={sessionStorageObjName}
+			RenderFormControl={UserEmailFormControl}
 		/>
 	);
 
@@ -195,6 +198,7 @@ function ClassicSignupForm({
 			id="classic-signup-phoneFormControl"
 			required={true}
 			sessionStorageObjName={sessionStorageObjName}
+			RenderFormControl={UserPhoneFormControl}
 		/>
 	);
 
@@ -323,14 +327,10 @@ function ClassicSignupForm({
 
 	const app = step > 0 && (
 		<>
-			{/* <Form onSubmit={onSubmitHandle}> */}
 			{step === 1 && <RenderStep1 />}
 			{step === 2 && <RenderStep2 />}
 			{step === 3 && <RenderStep3 />}
 			{step === 4 && <RenderStep4 />}
-
-			{/* {navigationStepBtnFormGroupControl} */}
-			{/* </Form> */}
 		</>
 	);
 	return app;

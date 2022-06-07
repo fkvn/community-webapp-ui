@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { FormControl } from "react-bootstrap";
-import * as util from "../../../Util/Util";
 
-function NewTextFormControl(props) {
+function TextFormControl(props) {
 	const {
 		id = "",
 		type = "text",
@@ -10,21 +9,24 @@ function NewTextFormControl(props) {
 		className = "",
 		required = false,
 		disabled = false,
-		sessionStorageObjName = "",
-		sessionStoragePropName = "",
+		onMergeStorageSession = () => {},
+		onLoadDefaultValue = () => {},
 	} = props;
 
 	const [loading, setLoading] = useState(true);
 
 	const ref = React.createRef();
 
+	const onChangeHandler = (value = "") => {
+		// merge to storage session
+		onMergeStorageSession(value);
+	};
+
 	useEffect(() => {
+		// get information from the first time load
 		if (loading) {
-			// get information from the first time load
-			const defaultValue =
-				util.getSessionStorageObj(sessionStorageObjName)[
-					`${sessionStoragePropName}`
-				] || "";
+			// load default Value
+			const defaultValue = onLoadDefaultValue() || "";
 
 			if (ref.current) {
 				ref.current.value = defaultValue;
@@ -32,7 +34,7 @@ function NewTextFormControl(props) {
 
 			setLoading(false);
 		}
-	}, [loading, ref, sessionStorageObjName, sessionStoragePropName]);
+	}, [loading, ref, onLoadDefaultValue]);
 
 	const app = (
 		<FormControl
@@ -43,16 +45,10 @@ function NewTextFormControl(props) {
 			placeholder={placeholder}
 			required={required}
 			disabled={disabled}
-			onChange={(e) =>
-				util.saveToSessionStore(
-					sessionStorageObjName,
-					sessionStoragePropName,
-					e.target.value
-				)
-			}
+			onChange={(e) => onChangeHandler(e.target.value)}
 		/>
 	);
 	return app;
 }
 
-export default NewTextFormControl;
+export default TextFormControl;

@@ -57,16 +57,7 @@ function ClassicSignupContainer() {
 			});
 
 	const onCloseHandler = () => {
-		util.saveToSessionStore(
-			sessionStorageObjName,
-			constVar.STORAGE_EMAIL_PROP,
-			""
-		);
-		util.saveToSessionStore(
-			sessionStorageObjName,
-			constVar.STORAGE_PHONE_PROP,
-			""
-		);
+		sessionStorage.removeItem(sessionStorageObjName);
 		navigate(continueURL);
 	};
 

@@ -1,24 +1,22 @@
 import React, { useState } from "react";
 import { Form, Row } from "react-bootstrap";
 
-function PhoneFromGroupControl({
+function CompanyEmailFormGroupControl({
 	id = "",
 	withLabel = true,
-	label = "Phone",
+	label = "Email",
 	labelClassName = "",
 	formGroupClassName = "",
 	required = false,
 	disabled = false,
-	landlineWarning = false,
 	displayWaningMessage = true,
 	sessionStorageObjName = "",
-	RenderFormControl = () => {},
 }) {
 	const [warningMessage, setWarningMessage] = useState("");
 
-	const onPhoneValidationHanlder = (isValidPhone = true) => {
-		if (isValidPhone) setWarningMessage("");
-		else setWarningMessage("Please enter a valid phone number");
+	const onEmailValidationHanlder = (isValidEmail = true) => {
+		if (isValidEmail) setWarningMessage("");
+		else setWarningMessage("Please enter a valid email address.");
 	};
 
 	const app = (
@@ -34,31 +32,17 @@ function PhoneFromGroupControl({
 						{label}
 					</Form.Label>
 				)}
-
-				<RenderFormControl
+				<CompanyEmailFormGroupControl
 					{...(id && { id: id })}
 					required={required}
 					disabled={disabled}
-					onPhoneValidation={onPhoneValidationHanlder}
+					onEmailValidation={onEmailValidationHanlder}
 					sessionStorageObjName={sessionStorageObjName}
 				/>
-
 				{displayWaningMessage && warningMessage.length > 0 && (
 					<Form.Text className="text-muted">
 						<span className="text-danger">{warningMessage}</span>
 					</Form.Text>
-				)}
-
-				{landlineWarning && (
-					<Form.Group>
-						<Form.Text className="text-mute">
-							This phone is for login credential and OTP verification (if any){" "}
-							<br />
-							<small className="text-danger">
-								Please don't use any landline phone number!
-							</small>
-						</Form.Text>
-					</Form.Group>
 				)}
 			</Form.Group>
 		</Row>
@@ -66,4 +50,4 @@ function PhoneFromGroupControl({
 	return app;
 }
 
-export default PhoneFromGroupControl;
+export default CompanyEmailFormGroupControl;

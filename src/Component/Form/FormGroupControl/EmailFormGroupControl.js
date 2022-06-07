@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { Form, Row } from "react-bootstrap";
-import EmailFormControl from "../FormControl/EmailFormControl";
 
 function EmailFromGroupControl({
 	id = "",
@@ -12,12 +11,13 @@ function EmailFromGroupControl({
 	disabled = false,
 	displayWaningMessage = true,
 	sessionStorageObjName = "",
+	RenderFormControl = () => {},
 }) {
 	const [warningMessage, setWarningMessage] = useState("");
 
 	const onEmailValidationHanlder = (isValidEmail = true) => {
 		if (isValidEmail) setWarningMessage("");
-		else setWarningMessage("Sorry, your email address is invalid.");
+		else setWarningMessage("Please enter a valid email address.");
 	};
 
 	const app = (
@@ -33,7 +33,7 @@ function EmailFromGroupControl({
 						{label}
 					</Form.Label>
 				)}
-				<EmailFormControl
+				<RenderFormControl
 					{...(id && { id: id })}
 					required={required}
 					disabled={disabled}

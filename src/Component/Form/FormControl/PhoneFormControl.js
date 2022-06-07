@@ -1,6 +1,5 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { FormControl } from "react-bootstrap";
-import * as constVar from "../../../Util/ConstVar";
 import * as util from "../../../Util/Util";
 
 function PhoneFormControl({
@@ -14,7 +13,8 @@ function PhoneFormControl({
 	minLength = "14",
 	maxLength = "14",
 	onPhoneValidation = () => {},
-	sessionStorageObjName = "",
+	onMergeStorageSession = () => {},
+	onLoadDefaultValue = () => {},
 }) {
 	const [loading, setLoading] = useState(true);
 
@@ -34,17 +34,8 @@ function PhoneFormControl({
 
 			const isValidPhone = numOfDigits === 10 || numOfDigits === 0;
 
-			// update storage
-			util.saveToSessionStore(
-				sessionStorageObjName,
-				constVar.STORAGE_PHONE_VALIDATION,
-				isValidPhone
-			);
-			util.saveToSessionStore(
-				sessionStorageObjName,
-				constVar.STORAGE_PHONE_PROP,
-				formattedPhone
-			);
+			// merge to storage session
+			onMergeStorageSession(formattedPhone, isValidPhone);
 
 			// update phone display
 			if (ref.current) {
@@ -54,16 +45,14 @@ function PhoneFormControl({
 			// notify and return that phone has validated
 			onPhoneValidation(isValidPhone);
 		},
-		[ref, sessionStorageObjName, onPhoneValidation]
+		[ref, onPhoneValidation, onMergeStorageSession]
 	);
 
 	useEffect(() => {
 		// first time load
 		if (loading) {
-			const defaultValue =
-				util.getSessionStorageObj(sessionStorageObjName)[
-					`${constVar.STORAGE_PHONE_PROP}`
-				] || "";
+			// load default Value
+			const defaultValue = onLoadDefaultValue() || "";
 
 			// update phone display
 			if (ref.current) {
@@ -81,8 +70,8 @@ function PhoneFormControl({
 		setLoading,
 		ref,
 		cursor,
-		sessionStorageObjName,
 		onPhoneChangeHandler,
+		onLoadDefaultValue,
 	]);
 
 	const app = (

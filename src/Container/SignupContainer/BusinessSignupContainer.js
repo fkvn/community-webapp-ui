@@ -5,11 +5,11 @@ import * as dispatchPromise from "../../redux-store/dispatchPromise";
 import * as constVar from "../../Util/ConstVar";
 
 function BusinessSignupContainer() {
-	const sessionStorageObj = "thainow.business.signup.info";
+	const sessionStorageObjName = constVar.THAINOW_BUSINESS_SIGN_UP_STORAGE_OBJ;
 
 	const industryList = [
 		...constVar.COMPANY_INDUSTRY_LIST.map((item) => {
-			return { title: item, value: item };
+			return { description: item, value: item };
 		}),
 	];
 
@@ -24,7 +24,7 @@ function BusinessSignupContainer() {
 
 	const app = (
 		<BusinessSignup
-			sessionStorageObj={sessionStorageObj}
+			sessionStorageObjName={sessionStorageObjName}
 			submitErrorHandler={submitErrorHandler}
 			industryList={industryList}
 			positionList={positionList}

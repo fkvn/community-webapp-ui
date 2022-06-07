@@ -1,30 +1,21 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { Button, Form, FormControl, ListGroup, Toast } from "react-bootstrap";
+import * as constVar from "../../Util/ConstVar";
 import * as util from "../../Util/Util";
+import DropDownFormControl from "../Form/FormControl/DropDownFormControl";
 
 function GoogleAutoComplete({
 	id = "",
-	withLabel = true,
-	label = "Address",
-	labelClassName = "",
-	className = "",
-	required = true,
-	sessionStorageObjName = "autocomplete",
+	required = false,
+	placeholder = "Address",
+	sessionStorageObjName = "",
+	sessionStoragePropName = constVar.STORAGE_ADDRESS_PROP,
+	onAddressValidation = () => {},
 }) {
-	// ==================== config =====================
+	const [loading, setLoading] = useState(true);
 
 	const [autoComplete, setAutoComplete] = useState({});
 
-	const [isLoad, setIsLoad] = useState(false);
-
-	const [address, setAddress] = useState({
-		description: "",
-		placeid: "",
-		predictions: [],
-		warningMessage: "",
-	});
-
-	const addressRef = React.createRef(null);
+	const addressRef = React.createRef("");
 
 	const initAutocomplete = async () => {
 		setAutoComplete(new window.google.maps.places.AutocompleteService());
@@ -44,148 +35,111 @@ function GoogleAutoComplete({
 		});
 	};
 
+	const [predictions, setPredictions] = useState([]);
+
+	const updateAddressDescription = (description = "") => {
+		util.saveToSessionStore(sessionStorageObjName, sessionStoragePropName, {
+			description: description,
+		});
+	};
+
+	const updateAddress = (description = "", placeid = "") => {
+		util.saveToSessionStore(sessionStorageObjName, sessionStoragePropName, {
+			description: description,
+			placeid: placeid,
+		});
+	};
+
 	const onAddressChangeHandler = (description) => {
+		// update description - placeid is removed cuz the address is changing
+		updateAddressDescription(description);
+
+		// notify that address is not valid because it is changing
+		onAddressValidation(false);
+
 		if (description !== "") {
 			getPlacePredictionPromise(description).then((res) => {
-				setAddress({
-					description: description,
-					predictions: res.predictions,
-					warningMessage: res.predictions.length > 0 ? "" : "Invalid Address",
-				});
+				setPredictions(res.predictions);
 			});
 		} else {
-			setAddress({
-				description: description,
-				predictions: [],
-				warningMessage: "",
-			});
+			setPredictions([]);
 		}
 	};
 
-	// ==================== hook =====================
+	const onSelectPredictionHandler = (selection = {}) => {
+		// selection
+		const selectedAddress = {
+			description: selection.description || "",
+			placeid: selection.place_id || "",
+		};
+
+		// update address
+		updateAddress(selectedAddress.description, selectedAddress.placeid);
+
+		// update ref
+		if (addressRef.current) {
+			addressRef.current.value = selectedAddress.description || "";
+		}
+
+		// double-check in case placeid is missing
+		if (!selectedAddress.placeid) {
+			// notify that address is not valid because it is changing
+			onAddressValidation(false);
+		} else {
+			// notify that address is valid
+			onAddressValidation(true);
+		}
+
+		// reset prediction list to hide the dropdown
+		setPredictions([]);
+	};
 
 	useEffect(() => {
-		if (!isLoad) {
+		if (loading && addressRef.current) {
+			// init autocomplate
 			init();
 
-			const defaultAddressObj =
-				JSON.parse(sessionStorage.getItem(sessionStorageObjName)) || {};
+			// get default value if any
+			const defaultAddress = util.getSessionStorageObj(sessionStorageObjName)[
+				`${sessionStoragePropName}`
+			];
 
-			const defaultPlaceid = defaultAddressObj?.address?.placeid || "";
-
-			if (defaultPlaceid.length > 0) {
-				setAddress({
-					...address,
-					description: defaultAddressObj?.address?.description || "",
-					placeid: defaultAddressObj?.address?.placeid || "",
-				});
+			// if placeid valid, get default value
+			if (defaultAddress?.placeid?.length > 0) {
+				addressRef.current.value = defaultAddress.description;
+			}
+			// else reset address object
+			else {
+				util.saveToSessionStore(
+					sessionStorageObjName,
+					sessionStoragePropName,
+					{}
+				);
 			}
 
-			setIsLoad(true);
+			setLoading(false);
 		}
-	}, [init, isLoad, sessionStorageObjName, address]);
 
-	useEffect(() => {
-		if (isLoad) {
-			const addressObj = {
-				description: address.description || "",
-				placeid: address.placeid || "",
-			};
-
-			if (addressRef.current) {
-				addressRef.current.value = addressObj.description;
-			}
-
-			sessionStorage.setItem(
-				sessionStorageObjName,
-				JSON.stringify({
-					...(JSON.parse(sessionStorage.getItem(sessionStorageObjName)) || {}),
-					address: addressObj.placeid.length > 0 ? addressObj : {},
-				})
-			);
-		}
 		util.scrollToActiveElement();
-	}, [address, addressRef, sessionStorageObjName, isLoad]);
-
-	// ==================== component =====================
-
-	const predictionDropDown = address?.predictions?.length > 0 && (
-		<Form.Group>
-			<Toast
-				{...(id && { htmlFor: id })}
-				className="tedkvn-predictionDropDown  position-relative w-100"
-			>
-				<Toast.Body className="border-0">
-					<ListGroup
-						as="ul"
-						style={{ scrollbarWidth: "thin !important" }}
-					></ListGroup>
-					{address?.predictions?.map((prediction, idx) => (
-						<ListGroup.Item as="li" key={idx}>
-							<Button
-								variant="link"
-								className="text-dark text-decoration-none p-0"
-								onClick={() => {
-									setAddress({
-										description: prediction.description,
-										placeid: prediction.place_id,
-										predictions: [],
-									});
-								}}
-							>
-								{prediction.description}
-							</Button>
-						</ListGroup.Item>
-					))}
-				</Toast.Body>
-			</Toast>
-		</Form.Group>
-	);
+	}, [
+		loading,
+		setLoading,
+		addressRef,
+		init,
+		sessionStorageObjName,
+		sessionStoragePropName,
+	]);
 
 	const app = (
-		<>
-			{withLabel && (
-				<Form.Label
-					{...(id && { htmlFor: id })}
-					className={`formLabel ${labelClassName} ${
-						required && "tedkvn-required"
-					} }`}
-				>
-					{label}
-				</Form.Label>
-			)}
-
-			<FormControl
-				{...(id && { id: id })}
-				type="address"
-				ref={addressRef}
-				placeholder="Enter a place"
-				className={`tedkvn-formControl ${className}`}
-				required={required}
-				role="representation"
-				onChange={(p) => {
-					onAddressChangeHandler(p.target.value);
-				}}
-			/>
-
-			{predictionDropDown}
-
-			{address.warningMessage && (
-				<Form.Text className="text-muted">
-					<span className="text-danger">
-						<small>{address.warningMessage}! </small>
-					</span>
-				</Form.Text>
-			)}
-
-			{!address.placeid && address.description && (
-				<Form.Text className="text-muted ">
-					<span className="text-danger">
-						<small> Please select a valid address</small>
-					</span>
-				</Form.Text>
-			)}
-		</>
+		<DropDownFormControl
+			{...(id && { id: id })}
+			required={required}
+			ref={addressRef}
+			placeholder={placeholder}
+			dropdownItems={predictions || []}
+			onChangeHandler={onAddressChangeHandler}
+			onSelectItemHandler={onSelectPredictionHandler}
+		/>
 	);
 
 	return app;

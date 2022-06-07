@@ -2,8 +2,6 @@ import React, { useCallback, useEffect, useState } from "react";
 import { FormControl, InputGroup } from "react-bootstrap";
 import hiddenIcon from "../../../Assest/Image/Icon/hidden-icon.png";
 import visibilityIcon from "../../../Assest/Image/Icon/visibility-icon.png";
-import * as constVar from "../../../Util/ConstVar";
-import * as util from "../../../Util/Util";
 import IconButton from "../../Button/IconButton";
 
 function ConfirmPasswordFormControl({
@@ -14,7 +12,8 @@ function ConfirmPasswordFormControl({
 	disabled = false,
 	passwordChanged = false,
 	onConfirmPasswordValidation = () => {},
-	sessionStorageObjName = "",
+	onGetCurrentPassword = () => {},
+	onMergeStorageSession = () => {},
 }) {
 	const confirmPasswordRef = React.createRef("");
 
@@ -22,23 +21,17 @@ function ConfirmPasswordFormControl({
 
 	const onConfirmPasswordChangeHandler = useCallback(
 		(confirmPassword = "") => {
-			const currentPassword =
-				util.getSessionStorageObj(sessionStorageObjName)[
-					`${constVar.STORAGE_PASSWORD_PROP}`
-				] || "";
+			const currentPassword = onGetCurrentPassword() || "";
 
 			const isPasswordMatch = confirmPassword === currentPassword;
 
-			util.saveToSessionStore(
-				sessionStorageObjName,
-				constVar.STORAGE_CONFIRM_PASSWORD_VALIDATION,
-				isPasswordMatch
-			);
+			// merge to storage session
+			onMergeStorageSession(isPasswordMatch);
 
 			// notify and return that confirm password has validated
 			onConfirmPasswordValidation(isPasswordMatch);
 		},
-		[sessionStorageObjName, onConfirmPasswordValidation]
+		[onConfirmPasswordValidation, onGetCurrentPassword, onMergeStorageSession]
 	);
 
 	useEffect(() => {
