@@ -1,7 +1,5 @@
 import React from "react";
 import BusinessSignup from "../../Component/Signup/BusinessSignup";
-// import * as axiosPromise from "../../Axios/axiosPromise";
-import * as dispatchPromise from "../../redux-store/dispatchPromise";
 import * as constVar from "../../Util/ConstVar";
 
 function BusinessSignupContainer() {
@@ -19,13 +17,13 @@ function BusinessSignupContainer() {
 		}),
 	];
 
-	const submitErrorHandler = (message = "") =>
-		dispatchPromise.getPromise(dispatchPromise.submitErrorHandler(message));
+	// const submitErrorHandler = (message = "") =>
+	// 	dispatchPromise.getPromise(dispatchPromise.submitErrorHandler(message));
 
 	const app = (
 		<BusinessSignup
 			sessionStorageObjName={sessionStorageObjName}
-			submitErrorHandler={submitErrorHandler}
+			// submitErrorHandler={submitErrorHandler}
 			industryList={industryList}
 			positionList={positionList}
 		/>

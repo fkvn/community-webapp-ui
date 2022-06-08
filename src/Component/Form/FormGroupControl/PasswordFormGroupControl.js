@@ -1,7 +1,5 @@
 import React, { useState } from "react";
 import { Form } from "react-bootstrap";
-import UserConfirmPasswordFormControl from "../../FormControl/UserInfoFormControl/UserConfirmPasswordFormControl";
-import UserPasswordFormControl from "../../FormControl/UserInfoFormControl/UserPasswordFormControl";
 
 function PasswordFromGroupControl({
 	id = "",
@@ -12,7 +10,10 @@ function PasswordFromGroupControl({
 	required = false,
 	disabled = false,
 	sessionStorageObjName = "",
+	withPasswordFormControl = true,
+	RenderFormControl = () => {},
 	withConfirmPasswordFormControl = false,
+	RenderConfirmFormControl = () => {},
 }) {
 	const [warningMessage, setWarningMessage] = useState("");
 
@@ -41,7 +42,7 @@ function PasswordFromGroupControl({
 			);
 	};
 
-	const passwordFormControl = (
+	const passwordFormControl = withPasswordFormControl && (
 		<Form.Group className={`tedkvn-formGroupControl ${formGroupClassName}`}>
 			{withLabel && (
 				<Form.Label
@@ -53,7 +54,7 @@ function PasswordFromGroupControl({
 					{label}
 				</Form.Label>
 			)}
-			<UserPasswordFormControl
+			<RenderFormControl
 				{...(id && { id: id })}
 				required={required}
 				disabled={disabled}
@@ -82,9 +83,9 @@ function PasswordFromGroupControl({
 				</Form.Label>
 			)}
 
-			<UserConfirmPasswordFormControl
+			<RenderConfirmFormControl
 				{...(id && { id: "confirm-" + id })}
-				required={required}
+				required={true}
 				disabled={disabled}
 				passwordChanged={passwordChanged}
 				onConfirmPasswordValidation={onVerifyPasswordValidationHanlder}

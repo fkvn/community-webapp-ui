@@ -6,7 +6,7 @@ import EmailFormControl from "../EmailFormControl";
 function UserEmailFormControl({
 	id = "",
 	className = "",
-	placeholder = "Enter your email address",
+	placeholder = "",
 	required = false,
 	disabled = false,
 	onEmailValidation = () => {},
@@ -37,7 +37,7 @@ function UserEmailFormControl({
 	const app = (
 		<EmailFormControl
 			{...(id && { id: id })}
-			placeholder={placeholder}
+			{...(placeholder && { placeholder: placeholder })}
 			className={className}
 			required={required}
 			disabled={disabled}

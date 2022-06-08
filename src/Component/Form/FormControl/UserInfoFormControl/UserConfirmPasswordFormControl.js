@@ -6,7 +6,7 @@ import ConfirmPasswordFormControl from "../ConfirmPasswordFormControl";
 function UserConfirmPasswordFormControl({
 	id = "",
 	className = "",
-	placeholder = "Enter your password again",
+	placeholder = "",
 	required = false,
 	disabled = false,
 	passwordChanged = false,
@@ -32,7 +32,7 @@ function UserConfirmPasswordFormControl({
 	const app = (
 		<ConfirmPasswordFormControl
 			{...(id && { id: id })}
-			placeholder={placeholder}
+			{...(placeholder && { placeholder: placeholder })}
 			className={className}
 			required={required}
 			disabled={disabled}

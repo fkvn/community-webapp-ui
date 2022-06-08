@@ -1,7 +1,9 @@
 import React from "react";
 import { Col, Form, Row } from "react-bootstrap";
+import CompanyAddressFormControl from "../../FormControl/CompanyInfoFormControl/CompanyAddressFormControl";
+import CompanyNameFormControl from "../../FormControl/CompanyInfoFormControl/CompanyNameFormControl";
 import AddressFromGroupControl from "../AddressFormGroupControl";
-import CompanynameFormGroupControl from "./CompanyNameFormGroupControl";
+import TextFormGroupControl from "../TextFormGroupControl";
 
 function CompanyContactFormGroupControl({
 	sessionStorageObjName = "",
@@ -10,10 +12,11 @@ function CompanyContactFormGroupControl({
 	addressRequired = true,
 }) {
 	const companynameFormGroupControl = (
-		<CompanynameFormGroupControl
+		<TextFormGroupControl
 			required={companynameRequired}
 			withLabel={false}
 			sessionStorageObjName={sessionStorageObjName}
+			RenderFormControl={CompanyNameFormControl}
 		/>
 	);
 
@@ -22,6 +25,7 @@ function CompanyContactFormGroupControl({
 			required={addressRequired}
 			placeholder="Where is your business"
 			sessionStorageObjName={sessionStorageObjName}
+			RenderFormControl={CompanyAddressFormControl}
 		/>
 	);
 

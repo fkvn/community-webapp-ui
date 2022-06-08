@@ -1,5 +1,4 @@
 import React, { useCallback, useEffect, useState } from "react";
-import * as constVar from "../../Util/ConstVar";
 import * as util from "../../Util/Util";
 import DropDownFormControl from "../Form/FormControl/DropDownFormControl";
 
@@ -7,9 +6,9 @@ function GoogleAutoComplete({
 	id = "",
 	required = false,
 	placeholder = "Address",
-	sessionStorageObjName = "",
-	sessionStoragePropName = constVar.STORAGE_ADDRESS_PROP,
 	onAddressValidation = () => {},
+	onMergeStorageSession = () => {},
+	onLoadDefaultValue = () => {},
 }) {
 	const [loading, setLoading] = useState(true);
 
@@ -37,84 +36,78 @@ function GoogleAutoComplete({
 
 	const [predictions, setPredictions] = useState([]);
 
-	const updateAddressDescription = (description = "") => {
-		util.saveToSessionStore(sessionStorageObjName, sessionStoragePropName, {
-			description: description,
-		});
-	};
+	const onAddressChangeHandler = (description = "") => {
+		// merge to storage session with description only, remove placeid
+		onMergeStorageSession(description);
 
-	const updateAddress = (description = "", placeid = "") => {
-		util.saveToSessionStore(sessionStorageObjName, sessionStoragePropName, {
-			description: description,
-			placeid: placeid,
-		});
-	};
-
-	const onAddressChangeHandler = (description) => {
-		// update description - placeid is removed cuz the address is changing
-		updateAddressDescription(description);
-
+		if (description.length === 0) onAddressValidation(true);
 		// notify that address is not valid because it is changing
-		onAddressValidation(false);
+		else {
+			onAddressValidation(false);
+		}
 
+		// update predictions
 		if (description !== "") {
 			getPlacePredictionPromise(description).then((res) => {
-				setPredictions(res.predictions);
+				setPredictions(
+					res.predictions.map((prediction) => {
+						return {
+							description: prediction.description,
+							placeid: prediction.place_id,
+						};
+					})
+				);
 			});
 		} else {
 			setPredictions([]);
 		}
 	};
 
-	const onSelectPredictionHandler = (selection = {}) => {
-		// selection
-		const selectedAddress = {
-			description: selection.description || "",
-			placeid: selection.place_id || "",
-		};
+	const onSelectPredictionHandler = useCallback(
+		(selection = {}) => {
+			// selection
+			const selectedAddress = {
+				description: selection.description || "",
+				placeid: selection.placeid || "",
+			};
 
-		// update address
-		updateAddress(selectedAddress.description, selectedAddress.placeid);
+			// update address + merge to storage session
+			onMergeStorageSession(
+				selectedAddress.description,
+				selectedAddress.placeid
+			);
 
-		// update ref
-		if (addressRef.current) {
-			addressRef.current.value = selectedAddress.description || "";
-		}
+			// update ref
+			if (addressRef.current) {
+				addressRef.current.value = selectedAddress.description || "";
+			}
 
-		// double-check in case placeid is missing
-		if (!selectedAddress.placeid) {
-			// notify that address is not valid because it is changing
-			onAddressValidation(false);
-		} else {
-			// notify that address is valid
-			onAddressValidation(true);
-		}
+			// double-check in case placeid is missing
+			if (selectedAddress.description && selectedAddress.placeid.length === 0) {
+				// notify that address is not valid because it is changing
+				onAddressValidation(false);
+			} else {
+				// notify that address is valid
+				onAddressValidation(true);
+			}
 
-		// reset prediction list to hide the dropdown
-		setPredictions([]);
-	};
+			// reset prediction list to hide the dropdown
+			setPredictions([]);
+		},
+		[addressRef, onMergeStorageSession, onAddressValidation]
+	);
 
 	useEffect(() => {
-		if (loading && addressRef.current) {
+		if (loading) {
 			// init autocomplate
 			init();
 
-			// get default value if any
-			const defaultAddress = util.getSessionStorageObj(sessionStorageObjName)[
-				`${sessionStoragePropName}`
-			];
+			// load default Value
+			const defaultAddress = onLoadDefaultValue() || {};
 
-			// if placeid valid, get default value
-			if (defaultAddress?.placeid?.length > 0) {
-				addressRef.current.value = defaultAddress.description;
-			}
-			// else reset address object
-			else {
-				util.saveToSessionStore(
-					sessionStorageObjName,
-					sessionStoragePropName,
-					{}
-				);
+			if (addressRef.current) {
+				addressRef.current.value = defaultAddress.description || "";
+				onSelectPredictionHandler(defaultAddress);
 			}
 
 			setLoading(false);
@@ -122,12 +115,12 @@ function GoogleAutoComplete({
 
 		util.scrollToActiveElement();
 	}, [
+		init,
 		loading,
 		setLoading,
 		addressRef,
-		init,
-		sessionStorageObjName,
-		sessionStoragePropName,
+		onLoadDefaultValue,
+		onSelectPredictionHandler,
 	]);
 
 	const app = (

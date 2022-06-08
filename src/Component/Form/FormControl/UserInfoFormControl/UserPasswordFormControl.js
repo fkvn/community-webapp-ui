@@ -6,7 +6,7 @@ import PasswordFormControl from "../PasswordFormControl";
 function UserPasswordFormControl({
 	id = "",
 	className = "",
-	placeholder = "Enter password",
+	placeholder = "",
 	required = false,
 	disabled = false,
 	onPasswordValidation = () => {},
@@ -40,7 +40,7 @@ function UserPasswordFormControl({
 	const app = (
 		<PasswordFormControl
 			{...(id && { id: id })}
-			placeholder={placeholder}
+			{...(placeholder && { placeholder: placeholder })}
 			className={className}
 			required={required}
 			disabled={disabled}

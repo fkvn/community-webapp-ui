@@ -7,7 +7,7 @@ function CompanyIndustryFormGroupControl({
 	withLabel = true,
 	label = "Business Industry",
 	labelClassName = "",
-	placeholder = "Select your busines industry",
+	placeholder = "",
 	formGroupClassName = "",
 	required = false,
 	disabled = false,
@@ -28,9 +28,9 @@ function CompanyIndustryFormGroupControl({
 			)}
 			<CompanyIndustryFormControl
 				{...(id && { id: id })}
+				{...(placeholder && { placeholder: placeholder })}
 				required={required}
 				disabled={disabled}
-				placeholder={placeholder}
 				sessionStorageObjName={sessionStorageObjName}
 				industryList={industryList}
 			/>

@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { Button, Col, Form, Row } from "react-bootstrap";
 import { useSearchParams } from "react-router-dom";
-import GoogleAutoComplete from "../AutoComplete/GoogleAutoComplete";
-import LoadingButton from "../Button/LoadingButton";
-import AgreementFormControl from "./FormControl/AgreementFormControl";
+import GoogleAutoComplete from "../../AutoComplete/GoogleAutoComplete";
+import LoadingButton from "../../Button/LoadingButton";
+import AgreementFormControl from "../FormControl/AgreementFormControl";
+import SelectFormControl from "../FormControl/SelectFormControl";
+import TextFormControl from "../FormControl/TextFormControl";
+import UrlFormControl from "../FormControl/UrlFormControl";
 import PhoneFormControl from "./FormControl/PhoneFormControl";
-import SelectFormControl from "./FormControl/SelectFormControl";
-import TextFormControl from "./FormControl/TextFormControl";
-import UrlFormControl from "./FormControl/UrlFormControl";
 
 function BusinessSignupForm({
 	sessionStorageObj = "thainow.classic.signup.info",

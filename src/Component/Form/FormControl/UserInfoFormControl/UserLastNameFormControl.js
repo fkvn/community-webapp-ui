@@ -6,7 +6,7 @@ import TextFormControl from "../TextFormControl";
 function UserLastNameFormControl(props) {
 	const {
 		id = "",
-		placeholder = "",
+		placeholder = "Last Name",
 		className = "",
 		required = false,
 		disabled = false,

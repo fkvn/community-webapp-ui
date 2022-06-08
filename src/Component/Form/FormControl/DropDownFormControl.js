@@ -36,13 +36,13 @@ function DropDownFormControl(props, ref) {
 							<ListGroup.Item
 								as="li"
 								key={idx}
-								onClick={() => onSelectItemHandler(item)}
+								onClick={(e) => onSelectItemHandler(item)}
 							>
 								<Button
 									variant="link"
 									className="text-dark text-decoration-none p-0"
 								>
-									{item?.description}
+									{item?.description || ""}
 								</Button>
 							</ListGroup.Item>
 						))}

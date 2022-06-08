@@ -3,9 +3,9 @@ import * as constVar from "../../../../Util/ConstVar";
 import * as util from "../../../../Util/Util";
 import DropDownFormControl from "../DropDownFormControl";
 
-function CompanyIndustryFormControl({
+function CompanyNameFormControl({
 	id = "",
-	placeholder = "Enter your busines industry",
+	placeholder = "Business Name",
 	required = false,
 	disabled = false,
 	industryList = [],
@@ -25,11 +25,11 @@ function CompanyIndustryFormControl({
 					`${constVar.STORAGE_COMPANY_PROP}`
 				] || {};
 
-			const industry =
-				defaultCompany[`${constVar.STORAGE_COMPANY_INDUSTRY_PROP}`] || "";
+			const name =
+				defaultCompany[`${constVar.STORAGE_COMPANY_NAME_PROP}`] || "";
 
 			if (industryRef.current) {
-				industryRef.current.value = industry;
+				industryRef.current.value = name;
 			}
 
 			setLoading(false);
@@ -100,4 +100,4 @@ function CompanyIndustryFormControl({
 	return app;
 }
 
-export default CompanyIndustryFormControl;
+export default CompanyNameFormControl;

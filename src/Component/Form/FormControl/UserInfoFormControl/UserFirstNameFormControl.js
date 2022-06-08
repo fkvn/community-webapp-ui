@@ -6,12 +6,28 @@ import TextFormControl from "../TextFormControl";
 function UserFirstNameFormControl(props) {
 	const {
 		id = "",
-		placeholder = "",
+		placeholder = "First Name",
 		className = "",
 		required = false,
 		disabled = false,
 		sessionStorageObjName = "",
 	} = props;
+
+	// const onMergeStorageSessionHandler = (value = "") => {
+	// 	util.saveToSessionStore(
+	// 		sessionStorageObjName,
+	// 		constVar.STORAGE_FIRSTNAME_PROP,
+	// 		value
+	// 	);
+	// };
+
+	// const onLoadDefaultValueHandler = () => {
+	// 	return (
+	// 		util.getSessionStorageObj(sessionStorageObjName)[
+	// 			`${constVar.STORAGE_FIRSTNAME_PROP}`
+	// 		] || ""
+	// 	);
+	// };
 
 	const onMergeStorageSessionHandler = (value = "") => {
 		util.saveToSessionStore(

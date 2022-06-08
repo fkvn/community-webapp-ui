@@ -3,15 +3,16 @@ import { Button, Container, Form } from "react-bootstrap";
 import * as constVar from "../../../Util/ConstVar";
 import * as util from "../../../Util/Util";
 import UserEmailFormControl from "../FormControl/UserInfoFormControl/UserEmailFormControl";
+import UserPasswordFormControl from "../FormControl/UserInfoFormControl/UserPasswordFormControl";
 import UserPhoneFormControl from "../FormControl/UserInfoFormControl/UserPhoneFormControl";
 import AgreementFormGroupControl from "../FormGroupControl/AgreementFormGroupControl";
 import EmailFromGroupControl from "../FormGroupControl/EmailFormGroupControl";
 import OtpVerifyFormGroupControl from "../FormGroupControl/OtpVerifyFormGroupControl";
+import PasswordFromGroupControl from "../FormGroupControl/PasswordFormGroupControl";
 import PhoneFromGroupControl from "../FormGroupControl/PhoneFormGroupControl";
 import PrevstepFormGroupControl from "../FormGroupControl/PrevstepFormGroupControl";
 import ReadOnlyFormGroupControl from "../FormGroupControl/ReadOnlyFormGroupControl";
 import SubmitButtonFormGroupControl from "../FormGroupControl/SubmitButtonFormGroupControl";
-import PasswordFromGroupControl from "../FormGroupControl/UserInfoFormGroupControl/PasswordFormGroupControl";
 import UserContactFormGroupControl from "../FormGroupControl/UserInfoFormGroupControl/UserContactFormGroupControl";
 
 function ClassicSignupForm({
@@ -25,6 +26,7 @@ function ClassicSignupForm({
 			id="classic-signup-passwordFormControl"
 			required={true}
 			sessionStorageObjName={sessionStorageObjName}
+			RenderFormControl={UserPasswordFormControl}
 		/>
 	);
 

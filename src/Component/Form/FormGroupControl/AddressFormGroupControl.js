@@ -1,14 +1,14 @@
 import React, { useState } from "react";
 import { Form } from "react-bootstrap";
-import NewGoogleAutoComplete from "../../AutoComplete/GoogleAutoComplete";
 
 function AddressFromGroupControl({
 	id = "",
 	formGroupClassName = "",
 	sessionStorageObjName = "",
-	placeholder = "Where are you from",
+	placeholder = "",
 	required = false,
 	displayWaningMessage = true,
+	RenderFormControl = () => {},
 }) {
 	const [warningMessage, setWarningMessage] = useState("");
 
@@ -19,9 +19,9 @@ function AddressFromGroupControl({
 
 	const app = (
 		<Form.Group className={`tedkvn-formGroupControl ${formGroupClassName}`}>
-			<NewGoogleAutoComplete
+			<RenderFormControl
 				{...(id && { id: id })}
-				placeholder={placeholder}
+				{...(placeholder && { placeholder: placeholder })}
 				sessionStorageObjName={sessionStorageObjName}
 				required={required}
 				onAddressValidation={onAddressValidationHanlder}

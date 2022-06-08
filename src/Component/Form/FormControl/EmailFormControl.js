@@ -6,7 +6,7 @@ function EmailFormControl({
 	id = "",
 	className = "",
 	type = "email",
-	placeholder = "Enter your email",
+	placeholder = "Enter your email address",
 	required = false,
 	disabled = false,
 	onEmailValidation = () => {},

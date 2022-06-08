@@ -18,8 +18,11 @@ function ClassicSignupContainer() {
 
 	const sessionStorageObjName = constVar.THAINOW_CLASSIC_SIGN_UP_STORAGE_OBJ;
 
+	// const submitErrorHandler = (message = "") =>
+	// 	dispatchPromise.getPromise(dispatchPromise.submitErrorHandler(message));
+
 	const submitErrorHandler = (message = "") =>
-		dispatchPromise.getPromise(dispatchPromise.submitErrorHandler(message));
+		dispatchPromise.submitErrorHandler(message);
 
 	const validateEmailHandler = (email = "") =>
 		axiosPromise.getPromise(axiosPromise.validateEmailPromise(email));
