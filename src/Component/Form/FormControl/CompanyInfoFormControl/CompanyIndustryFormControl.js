@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import * as constVar from "../../../../Util/ConstVar";
 import * as util from "../../../../Util/Util";
 import DropDownFormControl from "../DropDownFormControl";
@@ -63,6 +64,29 @@ function CompanyIndustryFormControl({
 			setShowList(true);
 		}
 	};
+
+	// const onSelectItemHandler = (industry = "") => {
+	// 	util.saveToSessionStore(
+	// 		sessionStorageObjName,
+	// 		constVar.STORAGE_COMPANY_PROP,
+	// 		{
+	// 			...util.getSessionStorageObj(sessionStorageObjName)[
+	// 				`${constVar.STORAGE_COMPANY_PROP}`
+	// 			],
+	// 			[`${constVar.STORAGE_COMPANY_INDUSTRY_PROP}`]: industry.description,
+	// 		}
+	// 	);
+
+	// 	if (industryRef.current) {
+	// 		industryRef.current.value = industry.description;
+	// 	}
+
+	// 	setShowList(false);
+	// };
+
+	const signupInfo = useSelector(
+		(state) => state.thainowReducer[`${sessionStorageObjName}`]
+	);
 
 	const onSelectItemHandler = (industry = "") => {
 		util.saveToSessionStore(

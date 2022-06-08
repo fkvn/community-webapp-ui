@@ -21,8 +21,12 @@ function ClassicSignupContainer() {
 	// const submitErrorHandler = (message = "") =>
 	// 	dispatchPromise.getPromise(dispatchPromise.submitErrorHandler(message));
 
-	const submitErrorHandler = (message = "") =>
-		dispatchPromise.submitErrorHandler(message);
+	const submitErrorHandler = (message = "") => {
+		return new Promise((_, reject) => {
+			dispatchPromise.submitErrorHandler(message);
+			reject();
+		});
+	};
 
 	const validateEmailHandler = (email = "") =>
 		axiosPromise.getPromise(axiosPromise.validateEmailPromise(email));
