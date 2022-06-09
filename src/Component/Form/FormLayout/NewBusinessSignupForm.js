@@ -1,6 +1,8 @@
 import CompanyIndustryFormGroupControl from "../FormGroupControl/CompanyInfoFormGroupControl/CompanyIndustryFormGroupControl";
 import ReadOnlyFormGroupControl from "../FormGroupControl/ReadOnlyFormGroupControl";
 
+import CompanyContactFormGroupControl from "../FormGroupControl/CompanyInfoFormGroupControl/CompanyContactFormGroupControl";
+
 function NewBusinessSignupForm({
 	storageObjName = "",
 	step = 1,
@@ -29,11 +31,11 @@ function NewBusinessSignupForm({
 				storageObjName={storageObjName}
 				formGroupClassName="mt-4"
 			/>
-			{/* <CompanyContactFormGroupControl
+			<CompanyContactFormGroupControl
 				storageObjName={storageObjName}
 				formGroupClassName="mt-3"
 			/>
-			<CompanyMoreInfoFormGroupControl formGroupClassName="mt-3" /> */}
+			{/* <CompanyMoreInfoFormGroupControl formGroupClassName="mt-3" /> */}
 		</>
 	);
 

@@ -1,4 +1,3 @@
-import React from "react";
 import { Col, Form, Row } from "react-bootstrap";
 import CompanyAddressFormControl from "../../FormControl/CompanyInfoFormControl/CompanyAddressFormControl";
 import CompanyNameFormControl from "../../FormControl/CompanyInfoFormControl/CompanyNameFormControl";
@@ -36,9 +35,9 @@ function CompanyContactFormGroupControl({
 			</Form.Label>
 			<Row>
 				<Col xs={12} md={5}>
-					{companynameFormGroupControl}
+					{/* {companynameFormGroupControl} */}
 				</Col>
-				<Col xs={12} md={7}>
+				<Col xs={12} md={12}>
 					{addressFormGroupControl}
 				</Col>
 			</Row>

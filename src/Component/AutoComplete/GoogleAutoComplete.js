@@ -1,5 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
-import * as util from "../../Util/Util";
+import { useCallback, useEffect, useState } from "react";
 import DropDownFormControl from "../Form/FormControl/DropDownFormControl";
 
 function GoogleAutoComplete({
@@ -37,9 +36,15 @@ function GoogleAutoComplete({
 	const onAddressChangeHandler = (description = "") => {
 		// merge to storage session with description only, remove placeid
 		onMergeStorageSession(description);
+	};
+
+	const onUpdatePredictionHanlder = (value, onSelect = false) => {
+		const description = onSelect ? value.description : value || "";
 
 		// update predictions
-		if (description !== "") {
+		if (onSelect || description === "") {
+			setPredictions([]);
+		} else {
 			getPlacePredictionPromise(description).then((res) => {
 				setPredictions(
 					res.predictions.map((prediction) => {
@@ -50,54 +55,28 @@ function GoogleAutoComplete({
 					})
 				);
 			});
-		} else {
-			setPredictions([]);
 		}
 	};
-
-	const onSelectPredictionHandler = useCallback(
-		(selection = {}) => {
-			// selection
-			const selectedAddress = {
-				description: selection.description || "",
-				placeid: selection.placeid || "",
-			};
-
-			// update address + merge to storage session
-			onMergeStorageSession(
-				selectedAddress.description,
-				selectedAddress.placeid
-			);
-
-			// reset prediction list to hide the dropdown
-			setPredictions([]);
-		},
-		[onMergeStorageSession]
-	);
 
 	useEffect(() => {
 		if (loading) {
 			// init autocomplate
 			init();
 
-			// load default Value
-			onLoadDefaultValue();
-
 			setLoading(false);
 		}
-
-		util.scrollToActiveElement();
 	}, [init, loading, setLoading, onLoadDefaultValue]);
 
-	const app = (
+	const app = !loading && (
 		<DropDownFormControl
 			{...(id && { id: id })}
 			required={required}
 			value={value}
 			placeholder={placeholder}
 			dropdownItems={predictions || []}
-			onChangeHandler={onAddressChangeHandler}
-			onSelectItemHandler={onSelectPredictionHandler}
+			onLoadDefaultValue={onLoadDefaultValue}
+			onMergeStorageSession={onMergeStorageSession}
+			onUpdatePrediction={onUpdatePredictionHanlder}
 		/>
 	);
 

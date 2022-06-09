@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 import { useSelector } from "react-redux";
 import DropDownFormControl from "../../../../Component/Form/FormControl/DropDownFormControl";
 import * as dispatchPromise from "../../../../redux-store/dispatchPromise";
@@ -12,8 +12,6 @@ function CompanyIndustryFormControlContainer({
 	disabled = false,
 	storageObjName = "",
 }) {
-	const [loading, setLoading] = useState(true);
-
 	const getCompanyInfo = () => {
 		return dispatchPromise.getState()[`${constVar.STORAGE_COMPANY_PROP}`];
 	};
@@ -67,27 +65,26 @@ function CompanyIndustryFormControlContainer({
 		if (industry !== defaultIndustry) {
 			updateReduxStoreIndustry(defaultIndustry);
 		}
+
+		setFilterIndustries([]);
 	});
 
-	useEffect(() => {
-		// first time load
-		if (loading) {
-			onLoadDefaultValueHandler();
-			setLoading(false);
-		}
-	}, [loading, setLoading, onLoadDefaultValueHandler]);
+	const onMergeStorageSessionHandler = (value, onSelect = false) => {
+		const industry = onSelect ? value.description : value || "";
 
-	const onChangeHandler = (industry = "") => {
 		// update store
 		updateReduxStoreIndustry(industry);
 
 		// save progress
 		updateSessionIndustry(industry);
+	};
+
+	const onUpdatePredictionHanlder = (value, onSelect = false) => {
+		const industry = onSelect ? value.description : value || "";
 
 		// return suggestions
-		if (industry === "") {
-			setFilterIndustries(industryList);
-			setShowList(false);
+		if (onSelect || industry === "") {
+			setFilterIndustries([]);
 		} else {
 			// update list
 			const filteredIndustryList = industryList.filter(
@@ -96,22 +93,8 @@ function CompanyIndustryFormControlContainer({
 			);
 
 			setFilterIndustries(filteredIndustryList);
-
-			setShowList(true);
 		}
 	};
-
-	const onSelectItemHandler = (industry = {}) => {
-		// update store
-		updateReduxStoreIndustry(industry.description || "");
-
-		// save progress
-		updateSessionIndustry(industry.description || "");
-
-		setShowList(false);
-	};
-
-	const [showList, setShowList] = useState(false);
 
 	const app = (
 		<DropDownFormControl
@@ -120,9 +103,10 @@ function CompanyIndustryFormControlContainer({
 			required={required}
 			disabled={disabled}
 			placeholder={placeholder}
-			onChangeHandler={onChangeHandler}
-			dropdownItems={showList ? filterIndustries : []}
-			onSelectItemHandler={onSelectItemHandler}
+			dropdownItems={filterIndustries}
+			onLoadDefaultValue={onLoadDefaultValueHandler}
+			onMergeStorageSession={onMergeStorageSessionHandler}
+			onUpdatePrediction={onUpdatePredictionHanlder}
 		/>
 	);
 	return app;

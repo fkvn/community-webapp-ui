@@ -1,4 +1,3 @@
-import React from "react";
 import { useSelector } from "react-redux";
 import GoogleAutoComplete from "../../../../Component/AutoComplete/GoogleAutoComplete";
 import * as dispatchPromise from "../../../../redux-store/dispatchPromise";
@@ -43,7 +42,10 @@ function UserAddressFormControlContainer({
 		});
 	};
 
-	const onMergeStorageSessionHandler = (description = "", placeid = "") => {
+	const onMergeStorageSessionHandler = (value = "", onSelect = false) => {
+		const description = onSelect ? value.description : value || "";
+		const placeid = onSelect ? value.placeid : value || "";
+
 		// update store
 		updateReduxStoreAddress(description, placeid);
 

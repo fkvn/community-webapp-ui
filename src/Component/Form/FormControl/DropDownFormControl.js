@@ -1,5 +1,7 @@
-import { forwardRef } from "react";
+import { forwardRef, useEffect, useState } from "react";
 import { Button, Form, FormControl, ListGroup, Toast } from "react-bootstrap";
+
+import * as util from "../../../Util/Util";
 
 function DropDownFormControl(props, _) {
 	const {
@@ -9,9 +11,38 @@ function DropDownFormControl(props, _) {
 		className = "",
 		value = "",
 		dropdownItems = [],
-		onChangeHandler = () => {},
-		onSelectItemHandler = () => {},
+		onLoadDefaultValue = () => {},
+		onMergeStorageSession = () => {},
+		onUpdatePrediction = () => {},
 	} = props;
+
+	const [loading, setLoading] = useState(true);
+
+	const onChangeHandler = (value = "") => {
+		// update store
+		onMergeStorageSession(value);
+
+		// return suggestions
+		onUpdatePrediction(value);
+	};
+
+	const onSelectItemHandler = (selection = {}) => {
+		// update store
+		onMergeStorageSession(selection, true);
+
+		// return suggestions
+		onUpdatePrediction(selection, true);
+	};
+
+	useEffect(() => {
+		// first time load
+		if (loading) {
+			onLoadDefaultValue();
+			setLoading(false);
+		}
+
+		util.scrollToActiveElement();
+	}, [loading, setLoading, onLoadDefaultValue]);
 
 	const app = (
 		<Form.Group>
@@ -33,7 +64,7 @@ function DropDownFormControl(props, _) {
 							<ListGroup.Item
 								as="li"
 								key={idx}
-								onClick={(e) => onSelectItemHandler(item)}
+								onClick={() => onSelectItemHandler(item)}
 							>
 								<Button
 									variant="link"
