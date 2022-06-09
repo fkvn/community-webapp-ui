@@ -1,6 +1,5 @@
-import React from "react";
 import { Form } from "react-bootstrap";
-import CompanyIndustryFormControl from "../../FormControl/CompanyInfoFormControl/CompanyIndustryFormControl";
+import CompanyIndustryFormControlContainer from "../../../../Container/FormContainer/FormControlContainer/CompanyFormControlContainer/CompanyIndustryFormControlContainer";
 
 function CompanyIndustryFormGroupControl({
 	id = "",
@@ -11,8 +10,7 @@ function CompanyIndustryFormGroupControl({
 	formGroupClassName = "",
 	required = false,
 	disabled = false,
-	sessionStorageObjName = "",
-	industryList = [],
+	storageObjName = "",
 }) {
 	const app = (
 		<Form.Group className={`tedkvn-formGroupControl ${formGroupClassName}`}>
@@ -26,13 +24,12 @@ function CompanyIndustryFormGroupControl({
 					{label}
 				</Form.Label>
 			)}
-			<CompanyIndustryFormControl
+			<CompanyIndustryFormControlContainer
 				{...(id && { id: id })}
 				{...(placeholder && { placeholder: placeholder })}
 				required={required}
 				disabled={disabled}
-				sessionStorageObjName={sessionStorageObjName}
-				industryList={industryList}
+				storageObjName={storageObjName}
 			/>
 		</Form.Group>
 	);

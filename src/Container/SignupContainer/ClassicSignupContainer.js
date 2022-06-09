@@ -15,7 +15,7 @@ function ClassicSignupContainer() {
 	const continueParams =
 		continueURL.length > 0 ? "?continue=" + continueURL : "";
 
-	const sessionStorageObjName = constVar.THAINOW_CLASSIC_SIGN_UP_STORAGE_OBJ;
+	const storageObjName = constVar.THAINOW_CLASSIC_SIGN_UP_STORAGE_OBJ;
 
 	const submitErrorHandler = (message = "") =>
 		dispatchPromise.submitErrorHandler(message);
@@ -38,7 +38,7 @@ function ClassicSignupContainer() {
 		axiosPromise
 			.getPromise(axiosPromise.signupPromise(signupInfo, role))
 			.then(() => {
-				sessionStorage.removeItem(sessionStorageObjName);
+				sessionStorage.removeItem(storageObjName);
 				navigate("/signup/success" + continueParams, {
 					state: {
 						channel:
@@ -56,7 +56,7 @@ function ClassicSignupContainer() {
 			});
 
 	const onCloseHandler = () => {
-		sessionStorage.removeItem(sessionStorageObjName);
+		sessionStorage.removeItem(storageObjName);
 		navigate(continueURL);
 	};
 
@@ -69,7 +69,7 @@ function ClassicSignupContainer() {
 
 	const onSubmitStep_1_HandlerPromise = async () => {
 		// get signup object from redux store
-		let signupInfo = dispatchPromise.getState()[`${sessionStorageObjName}`];
+		let signupInfo = dispatchPromise.getState()[`${storageObjName}`];
 
 		const { description = "", placeid = "" } =
 			signupInfo[`${constVar.STORAGE_ADDRESS_PROP}`] || {};
@@ -98,7 +98,7 @@ function ClassicSignupContainer() {
 
 	const onSubmitStep_3_HandlerPromise = () => {
 		// get signup object from redux store
-		let signupInfo = dispatchPromise.getState()[`${sessionStorageObjName}`];
+		let signupInfo = dispatchPromise.getState()[`${storageObjName}`];
 
 		const verifyOption =
 			signupInfo[`${constVar.STORAGE_VERIFICATION_METHOD_PROP}`] || "";
@@ -155,7 +155,7 @@ function ClassicSignupContainer() {
 
 	const onSubmitStep_4_HandlerPromise = () => {
 		// get signup object from redux store
-		let signupInfo = dispatchPromise.getState()[`${sessionStorageObjName}`];
+		let signupInfo = dispatchPromise.getState()[`${storageObjName}`];
 
 		const isValidOtp =
 			signupInfo[`${constVar.STORAGE_OTP_VALIDATION}`] || false;
@@ -205,7 +205,7 @@ function ClassicSignupContainer() {
 
 	const app = (
 		<ClassicSignup
-			sessionStorageObjName={sessionStorageObjName}
+			storageObjName={storageObjName}
 			stepHandlers={stepHandlers}
 			onCloseHandler={onCloseHandler}
 			onBackHandlerPromise={onBackHandlerPromise}

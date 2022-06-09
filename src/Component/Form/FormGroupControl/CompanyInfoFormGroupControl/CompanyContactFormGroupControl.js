@@ -6,7 +6,7 @@ import AddressFromGroupControl from "../AddressFormGroupControl";
 import TextFormGroupControl from "../TextFormGroupControl";
 
 function CompanyContactFormGroupControl({
-	sessionStorageObjName = "",
+	storageObjName = "",
 	formGroupClassName = "",
 	companynameRequired = true,
 	addressRequired = true,
@@ -15,7 +15,7 @@ function CompanyContactFormGroupControl({
 		<TextFormGroupControl
 			required={companynameRequired}
 			withLabel={false}
-			sessionStorageObjName={sessionStorageObjName}
+			storageObjName={storageObjName}
 			RenderFormControl={CompanyNameFormControl}
 		/>
 	);
@@ -24,7 +24,7 @@ function CompanyContactFormGroupControl({
 		<AddressFromGroupControl
 			required={addressRequired}
 			placeholder="Where is your business"
-			sessionStorageObjName={sessionStorageObjName}
+			storageObjName={storageObjName}
 			RenderFormControl={CompanyAddressFormControl}
 		/>
 	);

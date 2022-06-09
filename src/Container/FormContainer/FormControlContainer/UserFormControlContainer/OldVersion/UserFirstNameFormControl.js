@@ -11,12 +11,12 @@ function UserFirstNameFormControl(props) {
 		className = "",
 		required = false,
 		disabled = false,
-		sessionStorageObjName = "",
+		storageObjName = "",
 	} = props;
 
 	// const onMergeStorageSessionHandler = (value = "") => {
 	// 	util.saveToSessionStore(
-	// 		sessionStorageObjName,
+	// 		storageObjName,
 	// 		constVar.STORAGE_FIRSTNAME_PROP,
 	// 		value
 	// 	);
@@ -24,7 +24,7 @@ function UserFirstNameFormControl(props) {
 
 	// const onLoadDefaultValueHandler = () => {
 	// 	return (
-	// 		util.getSessionStorageObj(sessionStorageObjName)[
+	// 		util.getSessionStorageObj(storageObjName)[
 	// 			`${constVar.STORAGE_FIRSTNAME_PROP}`
 	// 		] || ""
 	// 	);
@@ -32,7 +32,7 @@ function UserFirstNameFormControl(props) {
 
 	const onMergeStorageSessionHandler = (value = "") => {
 		util.saveToSessionStore(
-			sessionStorageObjName,
+			storageObjName,
 			constVar.STORAGE_FIRSTNAME_PROP,
 			value
 		);
@@ -40,7 +40,7 @@ function UserFirstNameFormControl(props) {
 
 	const onLoadDefaultValueHandler = () => {
 		return (
-			util.getSessionStorageObj(sessionStorageObjName)[
+			util.getSessionStorageObj(storageObjName)[
 				`${constVar.STORAGE_FIRSTNAME_PROP}`
 			] || ""
 		);

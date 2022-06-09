@@ -11,12 +11,12 @@ function UserLastNameFormControl(props) {
 		className = "",
 		required = false,
 		disabled = false,
-		sessionStorageObjName = "",
+		storageObjName = "",
 	} = props;
 
 	const onMergeStorageSessionHandler = (value = "") => {
 		util.saveToSessionStore(
-			sessionStorageObjName,
+			storageObjName,
 			constVar.STORAGE_LASTNAME_PROP,
 			value
 		);
@@ -24,7 +24,7 @@ function UserLastNameFormControl(props) {
 
 	const onLoadDefaultValueHandler = () => {
 		return (
-			util.getSessionStorageObj(sessionStorageObjName)[
+			util.getSessionStorageObj(storageObjName)[
 				`${constVar.STORAGE_LASTNAME_PROP}`
 			] || ""
 		);

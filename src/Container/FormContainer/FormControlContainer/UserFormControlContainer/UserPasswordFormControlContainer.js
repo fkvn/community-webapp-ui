@@ -1,4 +1,3 @@
-import React from "react";
 import { useSelector } from "react-redux";
 import PasswordFormControl from "../../../../Component/Form/FormControl/PasswordFormControl";
 import * as dispatchPromise from "../../../../redux-store/dispatchPromise";
@@ -12,20 +11,20 @@ function UserPasswordFormControlContainer({
 	required = false,
 	disabled = false,
 	onPasswordValidation = () => {},
-	sessionStorageObjName = "",
+	storageObjName = "",
 }) {
 	const [password, isValidPassword] = useSelector((state) => [
-		state.thainowReducer[`${sessionStorageObjName}`][
+		state.thainowReducer[`${storageObjName}`][
 			`${constVar.STORAGE_PASSWORD_PROP}`
 		] || "",
-		state.thainowReducer[`${sessionStorageObjName}`][
+		state.thainowReducer[`${storageObjName}`][
 			`${constVar.STORAGE_PASSWORD_VALIDATION}`
 		] || false,
 	]);
 
 	const getSessionPassword = () => {
 		return (
-			util.getSessionStorageObj(sessionStorageObjName)[
+			util.getSessionStorageObj(storageObjName)[
 				`${constVar.STORAGE_PASSWORD_PROP}`
 			] || ""
 		);
@@ -40,16 +39,10 @@ function UserPasswordFormControlContainer({
 
 	const updateSessionPassword = (password = "") => {
 		util.saveToSessionStore(
-			sessionStorageObjName,
+			storageObjName,
 			constVar.STORAGE_PASSWORD_PROP,
 			password
 		);
-
-		// util.saveToSessionStore(
-		// 	sessionStorageObjName,
-		// 	constVar.STORAGE_PASSWORD_VALIDATION,
-		// 	isValidPassword
-		// );
 	};
 
 	const onMergeStorageSessionHandler = (

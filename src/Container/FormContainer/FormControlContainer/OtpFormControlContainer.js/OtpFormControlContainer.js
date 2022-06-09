@@ -10,11 +10,11 @@ function OtpFormControlContainer({
 	required = false,
 	disabled = false,
 	onOtpValidation = () => {},
-	sessionStorageObjName = "",
+	storageObjName = "",
 }) {
 	const formattedOtp = useSelector(
 		(state) =>
-			state.thainowReducer[`${sessionStorageObjName}`][
+			state.thainowReducer[`${storageObjName}`][
 				`${constVar.STORAGE_OTP_PROP}`
 			] || ""
 	);

@@ -10,7 +10,7 @@ function TextFormGroupControl({
 	formGroupClassName = "",
 	required = false,
 	disabled = false,
-	sessionStorageObjName = "",
+	storageObjName = "",
 	RenderFormControl = () => {},
 }) {
 	const app = (
@@ -30,8 +30,8 @@ function TextFormGroupControl({
 				required={required}
 				disabled={disabled}
 				{...(placeholder && { placeholder: placeholder })}
-				{...(sessionStorageObjName && {
-					sessionStorageObjName: sessionStorageObjName,
+				{...(storageObjName && {
+					storageObjName: storageObjName,
 				})}
 			/>
 		</Form.Group>

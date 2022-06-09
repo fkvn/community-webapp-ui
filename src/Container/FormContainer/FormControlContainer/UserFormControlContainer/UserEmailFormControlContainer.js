@@ -11,21 +11,21 @@ function UserEmailFormControlContainer({
 	required = false,
 	disabled = false,
 	onEmailValidation = () => {},
-	sessionStorageObjName = "",
+	storageObjName = "",
 }) {
 	const email = useSelector(
 		(state) =>
-			state.thainowReducer[`${sessionStorageObjName}`][
+			state.thainowReducer[`${storageObjName}`][
 				`${constVar.STORAGE_EMAIL_PROP}`
 			] || ""
 	);
 
 	// const getSessionEmail = () => {
 	// 	return [
-	// 		util.getSessionStorageObj(sessionStorageObjName)[
+	// 		util.getSessionStorageObj(storageObjName)[
 	// 			`${constVar.STORAGE_EMAIL_PROP}`
 	// 		] || "",
-	// 		util.getSessionStorageObj(sessionStorageObjName)[
+	// 		util.getSessionStorageObj(storageObjName)[
 	// 			`${constVar.STORAGE_EMAIL_VALIDATION}`
 	// 		] || false,
 	// 	];
@@ -40,13 +40,13 @@ function UserEmailFormControlContainer({
 
 	// const updateSessionEmail = (email = "", isValidEmail = true) => {
 	// 	util.saveToSessionStore(
-	// 		sessionStorageObjName,
+	// 		storageObjName,
 	// 		constVar.STORAGE_EMAIL_PROP,
 	// 		email
 	// 	);
 
 	// 	util.saveToSessionStore(
-	// 		sessionStorageObjName,
+	// 		storageObjName,
 	// 		constVar.STORAGE_EMAIL_VALIDATION,
 	// 		isValidEmail
 	// 	);

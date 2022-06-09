@@ -10,11 +10,11 @@ function UserPhoneFormControlContainer({
 	required = false,
 	disabled = false,
 	onPhoneValidation = () => {},
-	sessionStorageObjName = "",
+	storageObjName = "",
 }) {
 	const phone = useSelector(
 		(state) =>
-			state.thainowReducer[`${sessionStorageObjName}`][
+			state.thainowReducer[`${storageObjName}`][
 				`${constVar.STORAGE_PHONE_PROP}`
 			] || ""
 	);
@@ -28,10 +28,10 @@ function UserPhoneFormControlContainer({
 
 	// const getSessionPhone = () => {
 	// 	return [
-	// 		util.getSessionStorageObj(sessionStorageObjName)[
+	// 		util.getSessionStorageObj(storageObjName)[
 	// 			`${constVar.STORAGE_PHONE_PROP}`
 	// 		] || "",
-	// 		util.getSessionStorageObj(sessionStorageObjName)[
+	// 		util.getSessionStorageObj(storageObjName)[
 	// 			`${constVar.STORAGE_PHONE_VALIDATION}`
 	// 		] || false,
 	// 	];
@@ -39,13 +39,13 @@ function UserPhoneFormControlContainer({
 
 	// const updateSessionPhone = (formattedPhone = "", isValidPhone = true) => {
 	// 	util.saveToSessionStore(
-	// 		sessionStorageObjName,
+	// 		storageObjName,
 	// 		constVar.STORAGE_PHONE_PROP,
 	// 		formattedPhone
 	// 	);
 
 	// 	util.saveToSessionStore(
-	// 		sessionStorageObjName,
+	// 		storageObjName,
 	// 		constVar.STORAGE_PHONE_VALIDATION,
 	// 		isValidPhone
 	// 	);

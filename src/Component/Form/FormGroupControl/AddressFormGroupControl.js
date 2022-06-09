@@ -4,7 +4,7 @@ import { Form } from "react-bootstrap";
 function AddressFromGroupControl({
 	id = "",
 	formGroupClassName = "",
-	sessionStorageObjName = "",
+	storageObjName = "",
 	placeholder = "",
 	required = false,
 	displayWaningMessage = true,
@@ -22,7 +22,7 @@ function AddressFromGroupControl({
 			<RenderFormControl
 				{...(id && { id: id })}
 				{...(placeholder && { placeholder: placeholder })}
-				sessionStorageObjName={sessionStorageObjName}
+				storageObjName={storageObjName}
 				required={required}
 				onAddressValidation={onAddressValidationHanlder}
 			/>

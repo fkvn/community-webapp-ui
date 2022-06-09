@@ -12,11 +12,11 @@ function UserConfirmPasswordFormControl({
 	disabled = false,
 	passwordChanged = false,
 	onConfirmPasswordValidation = () => {},
-	sessionStorageObjName = "",
+	storageObjName = "",
 }) {
 	const onMergeStorageSessionHandler = (isPasswordMatch = false) => {
 		util.saveToSessionStore(
-			sessionStorageObjName,
+			storageObjName,
 			constVar.STORAGE_CONFIRM_PASSWORD_VALIDATION,
 			isPasswordMatch
 		);
@@ -24,7 +24,7 @@ function UserConfirmPasswordFormControl({
 
 	const onGetCurrentPassword = () => {
 		return (
-			util.getSessionStorageObj(sessionStorageObjName)[
+			util.getSessionStorageObj(storageObjName)[
 				`${constVar.STORAGE_PASSWORD_PROP}`
 			] || ""
 		);

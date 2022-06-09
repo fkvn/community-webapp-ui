@@ -4,7 +4,7 @@ import * as constVar from "../Util/ConstVar";
 export const getPromise = async (promise = () => {}) => {
 	return promise.then((res) => {
 		if (res) return true;
-		else throw new Error();
+		else throw new Error("Unexpected Error! Please try again later!");
 	});
 };
 
@@ -21,9 +21,6 @@ export const validatePhonePromise = (phone = "") => {
 };
 
 export const sendOtpCodePromise = (channel = "", value = "") => {
-	console.log("sendcode");
-	console.log(channel + " " + value);
-
 	if (channel === "email" || channel === "sms") {
 		return axios.post(`/auth/getToken`, {
 			channel: channel,

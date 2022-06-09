@@ -9,7 +9,7 @@ function CompanyNameFormControl({
 	required = false,
 	disabled = false,
 	industryList = [],
-	sessionStorageObjName = "",
+	storageObjName = "",
 }) {
 	const [loading, setLoading] = useState(true);
 
@@ -21,7 +21,7 @@ function CompanyNameFormControl({
 		// first time load
 		if (loading) {
 			const defaultCompany =
-				util.getSessionStorageObj(sessionStorageObjName)[
+				util.getSessionStorageObj(storageObjName)[
 					`${constVar.STORAGE_COMPANY_PROP}`
 				] || {};
 
@@ -34,19 +34,15 @@ function CompanyNameFormControl({
 
 			setLoading(false);
 		}
-	}, [loading, setLoading, industryRef, sessionStorageObjName]);
+	}, [loading, setLoading, industryRef, storageObjName]);
 
 	const onChangeHandler = (value = "") => {
-		util.saveToSessionStore(
-			sessionStorageObjName,
-			constVar.STORAGE_COMPANY_PROP,
-			{
-				...util.getSessionStorageObj(sessionStorageObjName)[
-					`${constVar.STORAGE_COMPANY_PROP}`
-				],
-				[`${constVar.STORAGE_COMPANY_INDUSTRY_PROP}`]: value,
-			}
-		);
+		util.saveToSessionStore(storageObjName, constVar.STORAGE_COMPANY_PROP, {
+			...util.getSessionStorageObj(storageObjName)[
+				`${constVar.STORAGE_COMPANY_PROP}`
+			],
+			[`${constVar.STORAGE_COMPANY_INDUSTRY_PROP}`]: value,
+		});
 
 		if (value === "") {
 			setFilterIndustries(industryList);
@@ -65,16 +61,12 @@ function CompanyNameFormControl({
 	};
 
 	const onSelectItemHandler = (industry = "") => {
-		util.saveToSessionStore(
-			sessionStorageObjName,
-			constVar.STORAGE_COMPANY_PROP,
-			{
-				...util.getSessionStorageObj(sessionStorageObjName)[
-					`${constVar.STORAGE_COMPANY_PROP}`
-				],
-				[`${constVar.STORAGE_COMPANY_INDUSTRY_PROP}`]: industry.description,
-			}
-		);
+		util.saveToSessionStore(storageObjName, constVar.STORAGE_COMPANY_PROP, {
+			...util.getSessionStorageObj(storageObjName)[
+				`${constVar.STORAGE_COMPANY_PROP}`
+			],
+			[`${constVar.STORAGE_COMPANY_INDUSTRY_PROP}`]: industry.description,
+		});
 
 		if (industryRef.current) {
 			industryRef.current.value = industry.description;

@@ -7,29 +7,25 @@ function CompanyAddressFormControl({
 	id = "",
 	placeholder = "Where are you from",
 	required = false,
-	sessionStorageObjName = "",
+	storageObjName = "",
 	onAddressValidation = () => {},
 }) {
 	const onMergeStorageSessionHandler = (description = "", placeid = "") => {
-		util.saveToSessionStore(
-			sessionStorageObjName,
-			constVar.STORAGE_COMPANY_PROP,
-			{
-				...util.getSessionStorageObj(sessionStorageObjName)[
-					`${constVar.STORAGE_COMPANY_PROP}`
-				],
-				[`${constVar.STORAGE_ADDRESS_PROP}`]: {
-					description: description,
-					...(placeid && { placeid: placeid }),
-				},
-			}
-		);
+		util.saveToSessionStore(storageObjName, constVar.STORAGE_COMPANY_PROP, {
+			...util.getSessionStorageObj(storageObjName)[
+				`${constVar.STORAGE_COMPANY_PROP}`
+			],
+			[`${constVar.STORAGE_ADDRESS_PROP}`]: {
+				description: description,
+				...(placeid && { placeid: placeid }),
+			},
+		});
 	};
 
 	const onLoadDefaultValueHandler = () => {
 		// get information from the first time load
 		const defaultCompany =
-			util.getSessionStorageObj(sessionStorageObjName)[
+			util.getSessionStorageObj(storageObjName)[
 				`${constVar.STORAGE_COMPANY_PROP}`
 			] || {};
 

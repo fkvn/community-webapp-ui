@@ -12,19 +12,19 @@ function UserUsernameFormControlContainer(props) {
 		className = "",
 		required = false,
 		disabled = false,
-		sessionStorageObjName = "",
+		storageObjName = "",
 	} = props;
 
 	const username = useSelector(
 		(state) =>
-			state.thainowReducer[`${sessionStorageObjName}`][
+			state.thainowReducer[`${storageObjName}`][
 				`${constVar.STORAGE_USERNAME_PROP}`
 			] || ""
 	);
 
 	const getSessionUsername = () => {
 		return (
-			util.getSessionStorageObj(sessionStorageObjName)[
+			util.getSessionStorageObj(storageObjName)[
 				`${constVar.STORAGE_USERNAME_PROP}`
 			] || ""
 		);
@@ -38,7 +38,7 @@ function UserUsernameFormControlContainer(props) {
 
 	const updateSessionUsername = (name = "") => {
 		util.saveToSessionStore(
-			sessionStorageObjName,
+			storageObjName,
 			constVar.STORAGE_USERNAME_PROP,
 			name
 		);

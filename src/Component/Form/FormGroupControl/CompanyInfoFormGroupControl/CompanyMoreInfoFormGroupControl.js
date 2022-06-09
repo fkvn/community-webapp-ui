@@ -2,7 +2,7 @@ import React from "react";
 import { Accordion, Form } from "react-bootstrap";
 
 function CompanyMoreInfoFormGroupControl({
-	sessionStorageObjName = "",
+	storageObjName = "",
 	formGroupClassName = "",
 }) {
 	const app = (

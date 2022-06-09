@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Form } from "react-bootstrap";
 
 function PasswordFromGroupControl({
@@ -9,7 +9,7 @@ function PasswordFromGroupControl({
 	formGroupClassName = "",
 	required = false,
 	disabled = false,
-	sessionStorageObjName = "",
+	storageObjName = "",
 	withPasswordFormControl = true,
 	RenderFormControl = () => {},
 	withConfirmPasswordFormControl = false,
@@ -59,7 +59,7 @@ function PasswordFromGroupControl({
 				required={required}
 				disabled={disabled}
 				onPasswordValidation={onPasswordValidationHanlder}
-				sessionStorageObjName={sessionStorageObjName}
+				storageObjName={storageObjName}
 			/>
 
 			{warningMessage.length > 0 && (
@@ -89,7 +89,7 @@ function PasswordFromGroupControl({
 				disabled={disabled}
 				passwordChanged={passwordChanged}
 				onConfirmPasswordValidation={onVerifyPasswordValidationHanlder}
-				sessionStorageObjName={sessionStorageObjName}
+				storageObjName={storageObjName}
 			/>
 
 			{confirmPasswordWarningMessage.length > 0 && (

@@ -10,11 +10,11 @@ function CompanyNameFormControl({
 	placeholder = "Business Name",
 	required = false,
 	disabled = false,
-	sessionStorageObjName = "",
+	storageObjName = "",
 }) {
 	const companyInfo = useSelector(
 		(state) =>
-			state.thainowReducer[`${sessionStorageObjName}`][
+			state.thainowReducer[`${storageObjName}`][
 				`${constVar.STORAGE_COMPANY_PROP}`
 			] || {}
 	);
@@ -30,24 +30,20 @@ function CompanyNameFormControl({
 
 		// save progress
 		const storageCompany =
-			util.getSessionStorageObj(sessionStorageObjName)[
+			util.getSessionStorageObj(storageObjName)[
 				`${constVar.STORAGE_COMPANY_PROP}`
 			] || {};
 
-		util.saveToSessionStore(
-			sessionStorageObjName,
-			constVar.STORAGE_COMPANY_PROP,
-			{
-				...storageCompany,
-				[`${constVar.STORAGE_COMPANY_NAME_PROP}`]: value,
-			}
-		);
+		util.saveToSessionStore(storageObjName, constVar.STORAGE_COMPANY_PROP, {
+			...storageCompany,
+			[`${constVar.STORAGE_COMPANY_NAME_PROP}`]: value,
+		});
 	};
 
 	const onLoadDefaultValueHandler = () => {
 		// get information from the first time load
 		const defaultCompany =
-			util.getSessionStorageObj(sessionStorageObjName)[
+			util.getSessionStorageObj(storageObjName)[
 				`${constVar.STORAGE_COMPANY_PROP}`
 			] || {};
 

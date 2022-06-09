@@ -11,7 +11,7 @@ function OtpVerifyFormGroupControl({
 	required = false,
 	disabled = false,
 	displayWaningMessage = true,
-	sessionStorageObjName = "",
+	storageObjName = "",
 }) {
 	const [warningMessage, setWarningMessage] = useState("");
 
@@ -39,7 +39,7 @@ function OtpVerifyFormGroupControl({
 					required={required}
 					disabled={disabled}
 					onOtpValidation={onOtpValidationHanlder}
-					sessionStorageObjName={sessionStorageObjName}
+					storageObjName={storageObjName}
 				/>
 
 				{displayWaningMessage && warningMessage.length > 0 && (

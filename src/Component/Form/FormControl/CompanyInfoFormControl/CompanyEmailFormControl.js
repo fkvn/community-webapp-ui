@@ -10,32 +10,24 @@ function CompanyEmailFormControl({
 	required = false,
 	disabled = false,
 	onEmailValidation = () => {},
-	sessionStorageObjName = "",
+	storageObjName = "",
 }) {
 	const onMergeStorageSessionHandler = (email = "") => {
 		const isValidEmail = util.isValidEmailFormat(email);
 
-		util.saveToSessionStore(
-			sessionStorageObjName,
-			constVar.STORAGE_COMPANY_PROP,
-			{
-				...util.getSessionStorageObj(sessionStorageObjName)[
-					`${constVar.STORAGE_COMPANY_PROP}`
-				],
-				[`${constVar.STORAGE_COMPANY_EMAIL_PROP}`]: email,
-			}
-		);
+		util.saveToSessionStore(storageObjName, constVar.STORAGE_COMPANY_PROP, {
+			...util.getSessionStorageObj(storageObjName)[
+				`${constVar.STORAGE_COMPANY_PROP}`
+			],
+			[`${constVar.STORAGE_COMPANY_EMAIL_PROP}`]: email,
+		});
 
-		util.saveToSessionStore(
-			sessionStorageObjName,
-			constVar.STORAGE_COMPANY_PROP,
-			{
-				...util.getSessionStorageObj(sessionStorageObjName)[
-					`${constVar.STORAGE_COMPANY_PROP}`
-				],
-				[`${constVar.STORAGE_COMPANY_EMAIL_VALIDATION}`]: isValidEmail,
-			}
-		);
+		util.saveToSessionStore(storageObjName, constVar.STORAGE_COMPANY_PROP, {
+			...util.getSessionStorageObj(storageObjName)[
+				`${constVar.STORAGE_COMPANY_PROP}`
+			],
+			[`${constVar.STORAGE_COMPANY_EMAIL_VALIDATION}`]: isValidEmail,
+		});
 
 		// notify and return that the email has validated
 		onEmailValidation(isValidEmail);
@@ -44,7 +36,7 @@ function CompanyEmailFormControl({
 	const onLoadDefaultValueHandler = () => {
 		// get information from the first time load
 		const defaultCompany =
-			util.getSessionStorageObj(sessionStorageObjName)[
+			util.getSessionStorageObj(storageObjName)[
 				`${constVar.STORAGE_COMPANY_PROP}`
 			] || {};
 

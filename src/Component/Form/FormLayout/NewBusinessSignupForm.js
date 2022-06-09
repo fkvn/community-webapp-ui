@@ -1,11 +1,8 @@
-import React from "react";
-import CompanyContactFormGroupControl from "../FormGroupControl/CompanyInfoFormGroupControl/CompanyContactFormGroupControl";
 import CompanyIndustryFormGroupControl from "../FormGroupControl/CompanyInfoFormGroupControl/CompanyIndustryFormGroupControl";
-import CompanyMoreInfoFormGroupControl from "../FormGroupControl/CompanyInfoFormGroupControl/CompanyMoreInfoFormGroupControl";
 import ReadOnlyFormGroupControl from "../FormGroupControl/ReadOnlyFormGroupControl";
 
 function NewBusinessSignupForm({
-	sessionStorageObjName = "",
+	storageObjName = "",
 	step = 1,
 	onBack = () => {},
 	onSubmitLoading = false,
@@ -28,16 +25,15 @@ function NewBusinessSignupForm({
 		<>
 			{step_1_headline}{" "}
 			<CompanyIndustryFormGroupControl
-				industryList={industryList}
 				required={true}
-				sessionStorageObjName={sessionStorageObjName}
+				storageObjName={storageObjName}
 				formGroupClassName="mt-4"
 			/>
-			<CompanyContactFormGroupControl
-				sessionStorageObjName={sessionStorageObjName}
+			{/* <CompanyContactFormGroupControl
+				storageObjName={storageObjName}
 				formGroupClassName="mt-3"
 			/>
-			<CompanyMoreInfoFormGroupControl formGroupClassName="mt-3" />
+			<CompanyMoreInfoFormGroupControl formGroupClassName="mt-3" /> */}
 		</>
 	);
 

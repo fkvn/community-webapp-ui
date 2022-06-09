@@ -11,7 +11,7 @@ function PhoneFromGroupControl({
 	disabled = false,
 	landlineWarning = false,
 	displayWaningMessage = true,
-	sessionStorageObjName = "",
+	storageObjName = "",
 	RenderFormControl = () => {},
 }) {
 	const [warningMessage, setWarningMessage] = useState("");
@@ -40,7 +40,7 @@ function PhoneFromGroupControl({
 					required={required}
 					disabled={disabled}
 					onPhoneValidation={onPhoneValidationHanlder}
-					sessionStorageObjName={sessionStorageObjName}
+					storageObjName={storageObjName}
 				/>
 
 				{displayWaningMessage && warningMessage.length > 0 && (

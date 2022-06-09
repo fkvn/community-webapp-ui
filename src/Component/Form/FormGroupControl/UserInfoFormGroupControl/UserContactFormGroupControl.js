@@ -6,7 +6,7 @@ import AddressFromGroupControl from "../AddressFormGroupControl";
 import TextFormGroupControl from "../TextFormGroupControl";
 
 function UserContactFormGroupControl({
-	sessionStorageObjName = "",
+	storageObjName = "",
 	usernameRequired = true,
 	addressRequired = true,
 }) {
@@ -15,7 +15,7 @@ function UserContactFormGroupControl({
 			id="classic-signup-usernameFormControl"
 			required={usernameRequired}
 			withLabel={false}
-			sessionStorageObjName={sessionStorageObjName}
+			storageObjName={storageObjName}
 			RenderFormControl={UserUsernameFormControlContainer}
 		/>
 	);
@@ -24,7 +24,7 @@ function UserContactFormGroupControl({
 		<AddressFromGroupControl
 			id="classic-signup-addressFormControl"
 			required={addressRequired}
-			sessionStorageObjName={sessionStorageObjName}
+			storageObjName={storageObjName}
 			RenderFormControl={UserAddressFormControlContainer}
 		/>
 	);

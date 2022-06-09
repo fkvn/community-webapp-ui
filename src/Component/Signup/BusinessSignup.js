@@ -7,7 +7,7 @@ import FormHeader from "../Form/FormLayout/FormHeader";
 import NewBusinessSignupForm from "../Form/FormLayout/NewBusinessSignupForm";
 
 function BusinessSignup({
-	sessionStorageObjName = constVar.THAINOW_BUSINESS_SIGN_UP_STORAGE_OBJ,
+	storageObjName = constVar.THAINOW_BUSINESS_SIGN_UP_STORAGE_OBJ,
 	industryList = [],
 	stepHandlers = [],
 	onCloseHandler = () => {},
@@ -42,7 +42,7 @@ function BusinessSignup({
 
 	const FormBody = {
 		FormComponent: NewBusinessSignupForm,
-		sessionStorageObjName: sessionStorageObjName,
+		storageObjName: storageObjName,
 		industryList: industryList,
 	};
 

@@ -17,7 +17,7 @@ import SubmitButtonFormGroupControl from "../FormGroupControl/SubmitButtonFormGr
 import UserContactFormGroupControl from "../FormGroupControl/UserInfoFormGroupControl/UserContactFormGroupControl";
 
 function ClassicSignupForm({
-	sessionStorageObjName = "",
+	storageObjName = "",
 	step = -1,
 	onBack = () => {},
 	onSubmitLoading = false,
@@ -28,7 +28,7 @@ function ClassicSignupForm({
 		<PasswordFromGroupControl
 			id="classic-signup-passwordFormControl"
 			required={true}
-			sessionStorageObjName={sessionStorageObjName}
+			storageObjName={storageObjName}
 			RenderFormControl={UserPasswordFormControlContainer}
 		/>
 	);
@@ -63,9 +63,7 @@ function ClassicSignupForm({
 	const RenderStep1 = () => (
 		<>
 			{step_1_headline}
-			<UserContactFormGroupControl
-				sessionStorageObjName={sessionStorageObjName}
-			/>
+			<UserContactFormGroupControl storageObjName={storageObjName} />
 			{passwordFormGroupControl}
 			{agreementFormGroupControl}
 			<div className="text-center pt-3">
@@ -83,7 +81,7 @@ function ClassicSignupForm({
 						Thanks for signing up,{" "}
 						<span className="fw-bold">
 							{
-								util.getSessionStorageObj(sessionStorageObjName)[
+								util.getSessionStorageObj(storageObjName)[
 									`${constVar.STORAGE_USERNAME_PROP}`
 								]
 							}
@@ -187,7 +185,7 @@ function ClassicSignupForm({
 		<EmailFromGroupControl
 			id="classic-signup-emailFormControl"
 			required={true}
-			sessionStorageObjName={sessionStorageObjName}
+			storageObjName={storageObjName}
 			RenderFormControl={UserEmailFormControlContainer}
 		/>
 	);
@@ -196,7 +194,7 @@ function ClassicSignupForm({
 		<PhoneFromGroupControl
 			id="classic-signup-phoneFormControl"
 			required={true}
-			sessionStorageObjName={sessionStorageObjName}
+			storageObjName={storageObjName}
 			RenderFormControl={UserPhoneFormControlContainer}
 		/>
 	);
@@ -236,12 +234,12 @@ function ClassicSignupForm({
 						To activate your account, please enter the OTP verification code
 						that we sent to{" "}
 						{verifyMethod === constVar.STORAGE_EMAIL_PROP
-							? util.getSessionStorageObj(sessionStorageObjName)[
+							? util.getSessionStorageObj(storageObjName)[
 									`${constVar.STORAGE_EMAIL_PROP}`
 							  ]
 							: verifyMethod === constVar.STORAGE_PHONE_PROP
 							? " +1 " +
-							  util.getSessionStorageObj(sessionStorageObjName)[
+							  util.getSessionStorageObj(storageObjName)[
 									`${constVar.STORAGE_PHONE_PROP}`
 							  ]
 							: ""}
@@ -257,7 +255,7 @@ function ClassicSignupForm({
 			<OtpVerifyFormGroupControl
 				id="classic-signup-otpFormControl"
 				required={true}
-				sessionStorageObjName={sessionStorageObjName}
+				storageObjName={storageObjName}
 			/>
 			<PrevstepFormGroupControl
 				variant="link"

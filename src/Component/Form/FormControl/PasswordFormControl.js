@@ -1,5 +1,5 @@
-import React, { useCallback, useEffect, useState } from "react";
-import { FormControl, InputGroup } from "react-bootstrap";
+import { useCallback, useEffect, useState } from "react";
+import { Form, FormControl, InputGroup } from "react-bootstrap";
 import hiddenIcon from "../../../Assest/Image/Icon/hidden-icon.png";
 import visibilityIcon from "../../../Assest/Image/Icon/visibility-icon.png";
 import * as util from "../../../Util/Util";
@@ -12,6 +12,7 @@ function PasswordFormControl({
 	required = false,
 	password = "",
 	disabled = false,
+	autocomplete = false,
 	onMergeStorageSession = () => {},
 	onLoadDefaultValue = () => {},
 }) {
@@ -49,6 +50,23 @@ function PasswordFormControl({
 				btnClassName="tedkvn-password-hidden-icon  border"
 				onClickHandler={() => setVisibility(!visibility)}
 			/>
+
+			{!autocomplete && (
+				<Form.Group>
+					{/* this form group is to prevent the autocomplete */}
+					<FormControl
+						type={"text"}
+						style={{
+							display: "inline-block",
+							opacity: "0",
+							position: "absolute",
+							overflow: "hidden",
+							maxHeight: "0",
+							maxWidth: "0",
+						}}
+					/>
+				</Form.Group>
+			)}
 			<FormControl
 				{...(id && { id: id })}
 				value={password}
@@ -56,7 +74,7 @@ function PasswordFormControl({
 				placeholder={placeholder}
 				className={`tedkvn-formControl ${className}`}
 				required={required}
-				autoComplete={"new-password"}
+				autocomplete="new-password"
 				disabled={disabled}
 				onChange={(pwd) => onPasswordChangeHandler(pwd.target.value)}
 			/>

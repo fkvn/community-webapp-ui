@@ -10,7 +10,7 @@ function CompanyEmailFormGroupControl({
 	required = false,
 	disabled = false,
 	displayWaningMessage = true,
-	sessionStorageObjName = "",
+	storageObjName = "",
 }) {
 	const [warningMessage, setWarningMessage] = useState("");
 
@@ -37,7 +37,7 @@ function CompanyEmailFormGroupControl({
 					required={required}
 					disabled={disabled}
 					onEmailValidation={onEmailValidationHanlder}
-					sessionStorageObjName={sessionStorageObjName}
+					storageObjName={storageObjName}
 				/>
 				{displayWaningMessage && warningMessage.length > 0 && (
 					<Form.Text className="text-muted">

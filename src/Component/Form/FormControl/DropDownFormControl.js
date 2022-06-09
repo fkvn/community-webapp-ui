@@ -1,10 +1,10 @@
-import React, { forwardRef } from "react";
+import { forwardRef } from "react";
 import { Button, Form, FormControl, ListGroup, Toast } from "react-bootstrap";
 
 function DropDownFormControl(props, _) {
 	const {
 		id = "",
-		type = "text",
+		type = "search",
 		placeholder = "",
 		className = "",
 		value = "",
@@ -20,7 +20,6 @@ function DropDownFormControl(props, _) {
 				type={type}
 				placeholder={placeholder}
 				className={`tedkvn-formControl ${className}`}
-				// ref={ref}
 				value={value}
 				onChange={(e) => onChangeHandler(e.target.value)}
 				role="presentation"

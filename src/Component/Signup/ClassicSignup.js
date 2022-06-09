@@ -6,7 +6,7 @@ import NewClassicSignupForm from "../Form/FormLayout/ClassicSignupForm";
 import FormHeader from "../Form/FormLayout/FormHeader";
 
 function ClassicSignup({
-	sessionStorageObjName = "thainow.classic.signup.info",
+	storageObjName = "classic.signup.info",
 	stepHandlers = [],
 	onCloseHandler = () => {},
 	onBackHandlerPromise = () => {},
@@ -42,7 +42,7 @@ function ClassicSignup({
 
 	const FormBody = {
 		FormComponent: NewClassicSignupForm,
-		sessionStorageObjName: sessionStorageObjName,
+		storageObjName: storageObjName,
 		onSelectVerifyMethod: onSelectVerifyMethod,
 		onResetOtp: onResetOtp,
 	};
