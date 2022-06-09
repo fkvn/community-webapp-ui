@@ -1,33 +1,29 @@
 import axios from "../Axios/axios";
 import * as constVar from "../Util/ConstVar";
 
-export const getPromise = (promise = () => {}) => {
+export const getPromise = async (promise = () => {}) => {
 	return promise.then((res) => {
-		return new Promise((resolve, reject) => {
-			if (res) {
-				resolve();
-			} else {
-				reject();
-			}
-		});
+		if (res) return true;
+		else throw new Error();
 	});
 };
 
 export const validateEmailPromise = (email = "") => {
-	return getPromise(
-		axios.post(`/users/validateEmail`, {
-			email: email,
-		})
-	);
+	return axios.post(`/users/validateEmail`, {
+		email: email,
+	});
 };
 
-export const validatePhonePromise = (phone = "", callback = () => {}) => {
+export const validatePhonePromise = (phone = "") => {
 	return axios.post(`/users/validatePhone`, {
 		phone: phone,
 	});
 };
 
 export const sendOtpCodePromise = (channel = "", value = "") => {
+	console.log("sendcode");
+	console.log(channel + " " + value);
+
 	if (channel === "email" || channel === "sms") {
 		return axios.post(`/auth/getToken`, {
 			channel: channel,

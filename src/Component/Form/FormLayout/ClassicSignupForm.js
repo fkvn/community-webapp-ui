@@ -3,6 +3,7 @@ import { Button, Container, Form } from "react-bootstrap";
 import UserEmailFormControlContainer from "../../../Container/FormContainer/FormControlContainer/UserFormControlContainer/UserEmailFormControlContainer";
 import UserPasswordFormControlContainer from "../../../Container/FormContainer/FormControlContainer/UserFormControlContainer/UserPasswordFormControlContainer";
 import UserPhoneFormControlContainer from "../../../Container/FormContainer/FormControlContainer/UserFormControlContainer/UserPhoneFormControlContainer";
+import * as dispatchPromise from "../../../redux-store/dispatchPromise";
 import * as constVar from "../../../Util/ConstVar";
 import * as util from "../../../Util/Util";
 import AgreementFormGroupControl from "../FormGroupControl/AgreementFormGroupControl";
@@ -21,6 +22,7 @@ function ClassicSignupForm({
 	onBack = () => {},
 	onSubmitLoading = false,
 	onSelectVerifyMethod = () => {},
+	onResetOtp = () => {},
 }) {
 	const passwordFormGroupControl = (
 		<PasswordFromGroupControl
@@ -106,10 +108,11 @@ function ClassicSignupForm({
 			title="Email Verification"
 			customSubmit={true}
 			onClick={(e) => {
+				onSelectVerifyMethod("email");
+
 				// dispatch submit event
 				const form = e.target.form;
 				form.dispatchEvent(new Event("submit"));
-				onSelectVerifyMethod("email");
 			}}
 		/>
 	);
@@ -125,6 +128,7 @@ function ClassicSignupForm({
 			customSubmit={true}
 			onClick={(e) => {
 				onSelectVerifyMethod("phone");
+
 				// dispatch submit event
 				const form = e.target.form;
 				form.dispatchEvent(new Event("submit"));
@@ -149,9 +153,9 @@ function ClassicSignupForm({
 	);
 
 	const verifyMethod =
-		util.getSessionStorageObj(sessionStorageObjName)[
-			`${constVar.STORAGE_VERIFICATION_METHOD_PROP}`
-		] || "";
+		dispatchPromise.getState()[
+			`${constVar.THAINOW_CLASSIC_SIGN_UP_STORAGE_OBJ}`
+		][`${constVar.STORAGE_VERIFICATION_METHOD_PROP}`] || "";
 
 	const step_3_headline = (
 		<ReadOnlyFormGroupControl
@@ -217,23 +221,7 @@ function ClassicSignupForm({
 					className="px-5"
 					variant="link"
 					title="Go Back and verify by another way"
-					onClick={() =>
-						onBack(() => {
-							// reset email
-							util.saveToSessionStore(
-								sessionStorageObjName,
-								constVar.STORAGE_EMAIL_PROP,
-								""
-							);
-
-							// reset phone
-							util.saveToSessionStore(
-								sessionStorageObjName,
-								constVar.STORAGE_PHONE_PROP,
-								""
-							);
-						})
-					}
+					onClick={() => onBack()}
 				/>
 			</div>
 		</>
@@ -275,16 +263,7 @@ function ClassicSignupForm({
 				variant="link"
 				title="Resend Code"
 				className="p-0 m-0"
-				onClick={() =>
-					onBack(() => {
-						// reset otp
-						util.saveToSessionStore(
-							sessionStorageObjName,
-							constVar.STORAGE_OTP_PROP,
-							""
-						);
-					})
-				}
+				onClick={() => onBack(onResetOtp)}
 			/>
 		</>
 	);
@@ -305,16 +284,7 @@ function ClassicSignupForm({
 					variant="link"
 					title="Go Back"
 					className="p-0 m-0"
-					onClick={() =>
-						onBack(() => {
-							// reset otp
-							util.saveToSessionStore(
-								sessionStorageObjName,
-								constVar.STORAGE_OTP_PROP,
-								""
-							);
-						})
-					}
+					onClick={() => onBack(onResetOtp)}
 				/>
 			</div>
 		</>

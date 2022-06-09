@@ -14,17 +14,11 @@ export const loadScript = (url, async = true, defer = false) => {
 export const removeScript = (id) => {
 	var scripts = window.document.getElementsByTagName("script");
 
-	console.log(scripts);
-
 	for (const script of scripts) {
 		if (script.id === id) {
 			script.parentNode.removeChild(script);
 		}
 	}
-
-	// var script = scripts.filter((s) => s.id === id)[0];
-
-	// console.log(script);
 };
 
 export const scrollToActiveElement = () => {
@@ -139,6 +133,18 @@ export const updatePhoneCursorPostion = (ref = null, cursor = 0) => {
 		if (updatedCursor === 1 || updatedCursor === 10) updatedCursor += 1;
 
 		if (updatedCursor === 5) updatedCursor += 2;
+
+		if (input) input.setSelectionRange(updatedCursor, updatedCursor);
+	}
+};
+
+export const updateOtpCursorPostion = (ref = null, cursor = 0) => {
+	if (ref.current) {
+		const input = ref.current;
+
+		let updatedCursor = cursor;
+
+		if ([1, 2, 4, 6].indexOf(updatedCursor) > -1) updatedCursor += 1;
 
 		if (input) input.setSelectionRange(updatedCursor, updatedCursor);
 	}

@@ -11,6 +11,7 @@ function ClassicSignup({
 	onCloseHandler = () => {},
 	onBackHandlerPromise = () => {},
 	onSelectVerifyMethod = () => {},
+	onResetOtp = () => {},
 }) {
 	let [searchParams] = useSearchParams();
 
@@ -43,6 +44,7 @@ function ClassicSignup({
 		FormComponent: NewClassicSignupForm,
 		sessionStorageObjName: sessionStorageObjName,
 		onSelectVerifyMethod: onSelectVerifyMethod,
+		onResetOtp: onResetOtp,
 	};
 
 	const app = FormContainer(

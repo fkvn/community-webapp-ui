@@ -14,22 +14,21 @@ function UserPasswordFormControlContainer({
 	onPasswordValidation = () => {},
 	sessionStorageObjName = "",
 }) {
-	const password = useSelector(
-		(state) =>
-			state.thainowReducer[`${sessionStorageObjName}`][
-				`${constVar.STORAGE_PASSWORD_PROP}`
-			] || ""
-	);
+	const [password, isValidPassword] = useSelector((state) => [
+		state.thainowReducer[`${sessionStorageObjName}`][
+			`${constVar.STORAGE_PASSWORD_PROP}`
+		] || "",
+		state.thainowReducer[`${sessionStorageObjName}`][
+			`${constVar.STORAGE_PASSWORD_VALIDATION}`
+		] || false,
+	]);
 
 	const getSessionPassword = () => {
-		return [
+		return (
 			util.getSessionStorageObj(sessionStorageObjName)[
 				`${constVar.STORAGE_PASSWORD_PROP}`
-			] || "",
-			util.getSessionStorageObj(sessionStorageObjName)[
-				`${constVar.STORAGE_PASSWORD_VALIDATION}`
-			] || false,
-		];
+			] || ""
+		);
 	};
 
 	const updateReduxStorePassword = (password = "", isValidPassword = false) => {
@@ -39,18 +38,18 @@ function UserPasswordFormControlContainer({
 		});
 	};
 
-	const updateSessionPassword = (password = "", isValidPassword = false) => {
+	const updateSessionPassword = (password = "") => {
 		util.saveToSessionStore(
 			sessionStorageObjName,
 			constVar.STORAGE_PASSWORD_PROP,
 			password
 		);
 
-		util.saveToSessionStore(
-			sessionStorageObjName,
-			constVar.STORAGE_PASSWORD_VALIDATION,
-			isValidPassword
-		);
+		// util.saveToSessionStore(
+		// 	sessionStorageObjName,
+		// 	constVar.STORAGE_PASSWORD_VALIDATION,
+		// 	isValidPassword
+		// );
 	};
 
 	const onMergeStorageSessionHandler = (
@@ -61,7 +60,7 @@ function UserPasswordFormControlContainer({
 		updateReduxStorePassword(password, isValidPassword);
 
 		// update storage
-		updateSessionPassword(password, isValidPassword);
+		updateSessionPassword(password);
 
 		// validate password
 		onPasswordValidation(isValidPassword);
@@ -69,7 +68,7 @@ function UserPasswordFormControlContainer({
 
 	const onLoadDefaultValueHandler = () => {
 		// get information from the first time load
-		const [defaultPassword, isValidPassword] = getSessionPassword();
+		const defaultPassword = getSessionPassword();
 
 		if (password !== defaultPassword) {
 			updateReduxStorePassword(defaultPassword);

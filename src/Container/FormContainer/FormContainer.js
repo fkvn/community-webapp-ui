@@ -8,7 +8,7 @@ function FormContainer(
 	onBackHandlerPromise = () => {}
 ) {
 	const MIN_STEP = 1;
-	const MAX_STEP = stepHandlers.length + 5;
+	const MAX_STEP = stepHandlers.length;
 
 	const [onSubmitLoading, setOnSubmitLoading] = useState(false);
 
@@ -38,7 +38,7 @@ function FormContainer(
 		// form submit is processing
 		setOnSubmitLoading(true);
 
-		console.log("submitte");
+		// console.log("submitte");
 
 		// hanlder step submit
 		stepHandlers.forEach(
@@ -47,6 +47,7 @@ function FormContainer(
 				stepHandler
 					.onStepHandlerPromise()
 					.then(() => {
+						// console.log("passed");
 						if (stepHandler.callBack) {
 							stepHandler.callBack();
 						}
@@ -55,7 +56,10 @@ function FormContainer(
 						}
 						setOnSubmitLoading(false);
 					})
-					.catch(() => setOnSubmitLoading(false))
+					.catch(() => {
+						// console.log("failed");
+						setOnSubmitLoading(false);
+					})
 		);
 	};
 

@@ -4,7 +4,6 @@ import * as axiosPromise from "../../Axios/axiosPromise";
 import ClassicSignup from "../../Component/Signup/ClassicSignup";
 import * as dispatchPromise from "../../redux-store/dispatchPromise";
 import * as constVar from "../../Util/ConstVar";
-import * as util from "../../Util/Util";
 
 function ClassicSignupContainer() {
 	const navigate = useNavigate();
@@ -18,12 +17,8 @@ function ClassicSignupContainer() {
 
 	const sessionStorageObjName = constVar.THAINOW_CLASSIC_SIGN_UP_STORAGE_OBJ;
 
-	const submitErrorHandler = (message = "") => {
-		return new Promise((_, reject) => {
-			dispatchPromise.submitErrorHandler(message);
-			reject();
-		});
-	};
+	const submitErrorHandler = (message = "") =>
+		dispatchPromise.submitErrorHandler(message);
 
 	const validateEmailHandler = (email = "") =>
 		axiosPromise.getPromise(axiosPromise.validateEmailPromise(email));
@@ -72,20 +67,9 @@ function ClassicSignupContainer() {
 		});
 	};
 
-	const onSelectVerifyMethodHandler = (channel = "") => {
-		dispatchPromise.patchSignupClassicInfo({
-			[`${constVar.STORAGE_VERIFICATION_METHOD_PROP}`]:
-				channel === "email"
-					? constVar.STORAGE_EMAIL_PROP
-					: channel === "phone"
-					? constVar.STORAGE_PHONE_PROP
-					: "",
-		});
-	};
-
-	const onSubmitStep_1_HandlerPromise = () => {
-		// get signup object from session storage
-		let signupInfo = util.getSessionStorageObj(sessionStorageObjName);
+	const onSubmitStep_1_HandlerPromise = async () => {
+		// get signup object from redux store
+		let signupInfo = dispatchPromise.getState()[`${sessionStorageObjName}`];
 
 		const { description = "", placeid = "" } =
 			signupInfo[`${constVar.STORAGE_ADDRESS_PROP}`] || {};
@@ -97,13 +81,24 @@ function ClassicSignupContainer() {
 			return submitErrorHandler("Invalid Location");
 		else if (!isValidPassword) return submitErrorHandler("Invalid Password!");
 		else {
-			return new Promise((resolve, _) => resolve());
+			return true;
 		}
 	};
 
+	const onSelectVerifyMethodHandler = (channel = "") => {
+		dispatchPromise.patchSignupClassicInfo({
+			[`${constVar.STORAGE_VERIFICATION_METHOD_PROP}`]:
+				channel === constVar.STORAGE_EMAIL_PROP
+					? constVar.STORAGE_EMAIL_PROP
+					: channel === constVar.STORAGE_PHONE_PROP
+					? constVar.STORAGE_PHONE_PROP
+					: "",
+		});
+	};
+
 	const onSubmitStep_3_HandlerPromise = () => {
-		// get signup object from session storage
-		let signupInfo = util.getSessionStorageObj(sessionStorageObjName);
+		// get signup object from redux store
+		let signupInfo = dispatchPromise.getState()[`${sessionStorageObjName}`];
 
 		const verifyOption =
 			signupInfo[`${constVar.STORAGE_VERIFICATION_METHOD_PROP}`] || "";
@@ -150,9 +145,17 @@ function ClassicSignupContainer() {
 		}
 	};
 
+	const onResetOtpHandler = () => {
+		console.log("reset otp");
+		dispatchPromise.patchSignupClassicInfo({
+			[`${constVar.STORAGE_OTP_PROP}`]: "",
+			[`${constVar.STORAGE_OTP_VALIDATION}`]: false,
+		});
+	};
+
 	const onSubmitStep_4_HandlerPromise = () => {
-		// get signup object from session storage
-		let signupInfo = util.getSessionStorageObj(sessionStorageObjName);
+		// get signup object from redux store
+		let signupInfo = dispatchPromise.getState()[`${sessionStorageObjName}`];
 
 		const isValidOtp =
 			signupInfo[`${constVar.STORAGE_OTP_VALIDATION}`] || false;
@@ -186,7 +189,9 @@ function ClassicSignupContainer() {
 		},
 		{
 			step: 2,
-			onStepHandlerPromise: () => new Promise((resolve, _) => resolve()),
+			onStepHandlerPromise: async () => {
+				return true;
+			},
 		},
 		{
 			step: 3,
@@ -205,6 +210,7 @@ function ClassicSignupContainer() {
 			onCloseHandler={onCloseHandler}
 			onBackHandlerPromise={onBackHandlerPromise}
 			onSelectVerifyMethod={onSelectVerifyMethodHandler}
+			onResetOtp={onResetOtpHandler}
 		/>
 	);
 

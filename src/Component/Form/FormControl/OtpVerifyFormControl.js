@@ -1,6 +1,5 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { FormControl } from "react-bootstrap";
-import * as constVar from "../../../Util/ConstVar";
 import * as util from "../../../Util/Util";
 
 function OtpVerifyFormControl(props) {
@@ -14,11 +13,9 @@ function OtpVerifyFormControl(props) {
 		minLength = "7",
 		maxLength = "7",
 		disabled = false,
-		onOtpValidation = () => {},
-		sessionStorageObjName = "",
+		otp = "",
+		onMergeStorageSession = () => {},
 	} = props;
-
-	const [loading, setLoading] = useState(true);
 
 	const [cursor, setCursor] = useState(0);
 
@@ -36,52 +33,16 @@ function OtpVerifyFormControl(props) {
 
 			const isValidOtp = numOfDigits === 4;
 
-			// update storage
-			util.saveToSessionStore(
-				sessionStorageObjName,
-				constVar.STORAGE_OTP_VALIDATION,
-				isValidOtp
-			);
-			util.saveToSessionStore(
-				sessionStorageObjName,
-				constVar.STORAGE_OTP_PROP,
-				formattedOtp
-			);
-
-			// update phone display
-			if (ref.current) {
-				ref.current.value = formattedOtp;
-			}
-
-			// notify and return that phone has validated
-			onOtpValidation(isValidOtp);
+			// update
+			onMergeStorageSession(formattedOtp, isValidOtp);
 		},
-		[ref, sessionStorageObjName, onOtpValidation]
+		[onMergeStorageSession]
 	);
 
 	useEffect(() => {
-		// first time load
-		if (loading) {
-			const defaultValue =
-				util.getSessionStorageObj(sessionStorageObjName)[
-					`${constVar.STORAGE_OTP_PROP}`
-				] || "";
-
-			// reset otp
-			if (ref.current) {
-				ref.current.value = defaultValue;
-				onOtpValidationHanlder(-1, ref.current.value);
-			}
-			setLoading(false);
-		}
-	}, [
-		loading,
-		setLoading,
-		ref,
-		cursor,
-		sessionStorageObjName,
-		onOtpValidationHanlder,
-	]);
+		// update cursor
+		util.updateOtpCursorPostion(ref, cursor);
+	});
 
 	const app = (
 		<>
@@ -89,8 +50,9 @@ function OtpVerifyFormControl(props) {
 				{...(id && { id: id })}
 				type={type}
 				placeholder={placeholder}
-				className={`tedkvn-formControl ${className}`}
 				ref={ref}
+				className={`tedkvn-formControl ${className}`}
+				value={otp}
 				onChange={(p) =>
 					onOtpValidationHanlder(p.currentTarget.selectionStart, p.target.value)
 				}

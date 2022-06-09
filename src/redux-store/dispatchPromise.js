@@ -5,14 +5,14 @@ export const getState = () => {
 	return store.getState().thainowReducer;
 };
 
-export const submitErrorHandler = (message) => {
-	return store.dispatch(actionCreators.initError(message, ""));
+export const submitErrorHandler = async (message) => {
+	throw store.dispatch(actionCreators.initError(message, ""));
 };
 
-export const patchBusinessSignupInfo = ({ ...props }) => {
+export const patchBusinessSignupInfo = async ({ ...props }) => {
 	return store.dispatch(actionCreators.patchBusinessSignupInfo({ ...props }));
 };
 
-export const patchSignupClassicInfo = ({ ...props }) => {
+export const patchSignupClassicInfo = async ({ ...props }) => {
 	return store.dispatch(actionCreators.patchSignupClassicInfo({ ...props }));
 };
