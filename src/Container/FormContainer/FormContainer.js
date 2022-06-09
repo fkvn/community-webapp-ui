@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Card, Form, Spinner } from "react-bootstrap";
 
-function FormLayout(
+function FormContainer(
 	Header = () => {},
 	Body = {},
 	stepHandlers = [],
@@ -89,4 +89,4 @@ function FormLayout(
 	return app;
 }
 
-export default FormLayout;
+export default FormContainer;

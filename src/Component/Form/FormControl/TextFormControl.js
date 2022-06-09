@@ -9,13 +9,12 @@ function TextFormControl(props) {
 		className = "",
 		required = false,
 		disabled = false,
+		value = "",
 		onMergeStorageSession = () => {},
 		onLoadDefaultValue = () => {},
 	} = props;
 
 	const [loading, setLoading] = useState(true);
-
-	const ref = React.createRef();
 
 	const onChangeHandler = (value = "") => {
 		// merge to storage session
@@ -25,21 +24,16 @@ function TextFormControl(props) {
 	useEffect(() => {
 		// get information from the first time load
 		if (loading) {
-			// load default Value
-			const defaultValue = onLoadDefaultValue() || "";
-
-			if (ref.current) {
-				ref.current.value = defaultValue;
-			}
-
+			onLoadDefaultValue();
 			setLoading(false);
 		}
-	}, [loading, ref, onLoadDefaultValue]);
+	}, [loading, onLoadDefaultValue]);
 
 	const app = (
 		<FormControl
 			{...(id && { id: id })}
-			ref={ref}
+			// ref={ref}
+			value={value}
 			type={type}
 			className={`tedkvn-formControl ${className}`}
 			placeholder={placeholder}

@@ -1,10 +1,10 @@
 import React from "react";
 import { Button, Container, Form } from "react-bootstrap";
+import UserEmailFormControlContainer from "../../../Container/FormContainer/FormControlContainer/UserFormControlContainer/UserEmailFormControlContainer";
+import UserPasswordFormControlContainer from "../../../Container/FormContainer/FormControlContainer/UserFormControlContainer/UserPasswordFormControlContainer";
+import UserPhoneFormControlContainer from "../../../Container/FormContainer/FormControlContainer/UserFormControlContainer/UserPhoneFormControlContainer";
 import * as constVar from "../../../Util/ConstVar";
 import * as util from "../../../Util/Util";
-import UserEmailFormControl from "../FormControl/UserInfoFormControl/UserEmailFormControl";
-import UserPasswordFormControl from "../FormControl/UserInfoFormControl/UserPasswordFormControl";
-import UserPhoneFormControl from "../FormControl/UserInfoFormControl/UserPhoneFormControl";
 import AgreementFormGroupControl from "../FormGroupControl/AgreementFormGroupControl";
 import EmailFromGroupControl from "../FormGroupControl/EmailFormGroupControl";
 import OtpVerifyFormGroupControl from "../FormGroupControl/OtpVerifyFormGroupControl";
@@ -20,13 +20,14 @@ function ClassicSignupForm({
 	step = -1,
 	onBack = () => {},
 	onSubmitLoading = false,
+	onSelectVerifyMethod = () => {},
 }) {
 	const passwordFormGroupControl = (
 		<PasswordFromGroupControl
 			id="classic-signup-passwordFormControl"
 			required={true}
 			sessionStorageObjName={sessionStorageObjName}
-			RenderFormControl={UserPasswordFormControl}
+			RenderFormControl={UserPasswordFormControlContainer}
 		/>
 	);
 
@@ -105,14 +106,10 @@ function ClassicSignupForm({
 			title="Email Verification"
 			customSubmit={true}
 			onClick={(e) => {
-				util.saveToSessionStore(
-					sessionStorageObjName,
-					constVar.STORAGE_VERIFICATION_METHOD_PROP,
-					constVar.STORAGE_EMAIL_PROP
-				);
 				// dispatch submit event
 				const form = e.target.form;
 				form.dispatchEvent(new Event("submit"));
+				onSelectVerifyMethod("email");
 			}}
 		/>
 	);
@@ -127,11 +124,7 @@ function ClassicSignupForm({
 			variant="success"
 			customSubmit={true}
 			onClick={(e) => {
-				util.saveToSessionStore(
-					sessionStorageObjName,
-					constVar.STORAGE_VERIFICATION_METHOD_PROP,
-					constVar.STORAGE_PHONE_PROP
-				);
+				onSelectVerifyMethod("phone");
 				// dispatch submit event
 				const form = e.target.form;
 				form.dispatchEvent(new Event("submit"));
@@ -191,7 +184,7 @@ function ClassicSignupForm({
 			id="classic-signup-emailFormControl"
 			required={true}
 			sessionStorageObjName={sessionStorageObjName}
-			RenderFormControl={UserEmailFormControl}
+			RenderFormControl={UserEmailFormControlContainer}
 		/>
 	);
 
@@ -200,7 +193,7 @@ function ClassicSignupForm({
 			id="classic-signup-phoneFormControl"
 			required={true}
 			sessionStorageObjName={sessionStorageObjName}
-			RenderFormControl={UserPhoneFormControl}
+			RenderFormControl={UserPhoneFormControlContainer}
 		/>
 	);
 

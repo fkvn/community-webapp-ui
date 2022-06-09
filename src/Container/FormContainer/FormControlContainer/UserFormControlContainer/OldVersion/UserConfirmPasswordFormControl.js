@@ -1,8 +1,9 @@
 import React from "react";
-import * as constVar from "../../../../Util/ConstVar";
-import * as util from "../../../../Util/Util";
+import * as constVar from "../../../../../Util/ConstVar";
+import * as util from "../../../../../Util/Util";
 import ConfirmPasswordFormControl from "../ConfirmPasswordFormControl";
 
+//  This is old version that not integrated with Redux
 function UserConfirmPasswordFormControl({
 	id = "",
 	className = "",

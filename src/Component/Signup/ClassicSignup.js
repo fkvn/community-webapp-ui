@@ -1,15 +1,16 @@
 import React from "react";
 import { Button, Row } from "react-bootstrap";
 import { useSearchParams } from "react-router-dom";
+import FormContainer from "../../Container/FormContainer/FormContainer";
 import NewClassicSignupForm from "../Form/FormLayout/ClassicSignupForm";
 import FormHeader from "../Form/FormLayout/FormHeader";
-import FormLayout from "../Form/FormLayout/FormLayout";
 
 function ClassicSignup({
 	sessionStorageObjName = "thainow.classic.signup.info",
 	stepHandlers = [],
 	onCloseHandler = () => {},
 	onBackHandlerPromise = () => {},
+	onSelectVerifyMethod = () => {},
 }) {
 	let [searchParams] = useSearchParams();
 
@@ -41,9 +42,10 @@ function ClassicSignup({
 	const FormBody = {
 		FormComponent: NewClassicSignupForm,
 		sessionStorageObjName: sessionStorageObjName,
+		onSelectVerifyMethod: onSelectVerifyMethod,
 	};
 
-	const app = FormLayout(
+	const app = FormContainer(
 		formHeader,
 		FormBody,
 		stepHandlers,

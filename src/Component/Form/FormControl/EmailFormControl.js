@@ -6,16 +6,14 @@ function EmailFormControl({
 	id = "",
 	className = "",
 	type = "email",
+	email = "",
 	placeholder = "Enter your email address",
 	required = false,
 	disabled = false,
-	onEmailValidation = () => {},
 	onMergeStorageSession = () => {},
 	onLoadDefaultValue = () => {},
 }) {
 	const [loading, setLoading] = useState(true);
-
-	const ref = React.createRef("");
 
 	const onEmailChangeHanlder = useCallback(
 		(email) => {
@@ -23,32 +21,24 @@ function EmailFormControl({
 
 			// merge to storage session
 			onMergeStorageSession(email, isValidEmail);
-
-			// notify and return that the email has validated
-			onEmailValidation(isValidEmail);
 		},
-		[onEmailValidation, onMergeStorageSession]
+		[onMergeStorageSession]
 	);
 
 	useEffect(() => {
 		// first time load
 		if (loading) {
 			// load default Value
-			const defaultValue = onLoadDefaultValue() || "";
-
-			if (ref.current) {
-				ref.current.value = defaultValue;
-				onEmailChangeHanlder(ref.current.value);
-			}
+			onLoadDefaultValue();
 
 			setLoading(false);
 		}
-	}, [loading, setLoading, ref, onEmailChangeHanlder, onLoadDefaultValue]);
+	}, [loading, setLoading, onLoadDefaultValue]);
 
 	const app = (
 		<FormControl
 			{...(id && { id: id })}
-			ref={ref}
+			value={email}
 			type={type}
 			placeholder={placeholder}
 			className={`tedkvn-formControl ${className}`}

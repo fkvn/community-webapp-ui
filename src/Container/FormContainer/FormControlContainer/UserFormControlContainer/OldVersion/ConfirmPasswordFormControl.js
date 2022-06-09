@@ -4,6 +4,7 @@ import hiddenIcon from "../../../Assest/Image/Icon/hidden-icon.png";
 import visibilityIcon from "../../../Assest/Image/Icon/visibility-icon.png";
 import IconButton from "../../Button/IconButton";
 
+//  This is old version that not integrated with Redux
 function ConfirmPasswordFormControl({
 	id = "",
 	className = "",

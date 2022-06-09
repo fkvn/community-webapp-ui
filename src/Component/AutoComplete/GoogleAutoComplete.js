@@ -5,16 +5,14 @@ import DropDownFormControl from "../Form/FormControl/DropDownFormControl";
 function GoogleAutoComplete({
 	id = "",
 	required = false,
+	value = "",
 	placeholder = "Address",
-	onAddressValidation = () => {},
 	onMergeStorageSession = () => {},
 	onLoadDefaultValue = () => {},
 }) {
 	const [loading, setLoading] = useState(true);
 
 	const [autoComplete, setAutoComplete] = useState({});
-
-	const addressRef = React.createRef("");
 
 	const initAutocomplete = async () => {
 		setAutoComplete(new window.google.maps.places.AutocompleteService());
@@ -39,12 +37,6 @@ function GoogleAutoComplete({
 	const onAddressChangeHandler = (description = "") => {
 		// merge to storage session with description only, remove placeid
 		onMergeStorageSession(description);
-
-		if (description.length === 0) onAddressValidation(true);
-		// notify that address is not valid because it is changing
-		else {
-			onAddressValidation(false);
-		}
 
 		// update predictions
 		if (description !== "") {
@@ -77,24 +69,10 @@ function GoogleAutoComplete({
 				selectedAddress.placeid
 			);
 
-			// update ref
-			if (addressRef.current) {
-				addressRef.current.value = selectedAddress.description || "";
-			}
-
-			// double-check in case placeid is missing
-			if (selectedAddress.description && selectedAddress.placeid.length === 0) {
-				// notify that address is not valid because it is changing
-				onAddressValidation(false);
-			} else {
-				// notify that address is valid
-				onAddressValidation(true);
-			}
-
 			// reset prediction list to hide the dropdown
 			setPredictions([]);
 		},
-		[addressRef, onMergeStorageSession, onAddressValidation]
+		[onMergeStorageSession]
 	);
 
 	useEffect(() => {
@@ -103,31 +81,19 @@ function GoogleAutoComplete({
 			init();
 
 			// load default Value
-			const defaultAddress = onLoadDefaultValue() || {};
-
-			if (addressRef.current) {
-				addressRef.current.value = defaultAddress.description || "";
-				onSelectPredictionHandler(defaultAddress);
-			}
+			onLoadDefaultValue();
 
 			setLoading(false);
 		}
 
 		util.scrollToActiveElement();
-	}, [
-		init,
-		loading,
-		setLoading,
-		addressRef,
-		onLoadDefaultValue,
-		onSelectPredictionHandler,
-	]);
+	}, [init, loading, setLoading, onLoadDefaultValue]);
 
 	const app = (
 		<DropDownFormControl
 			{...(id && { id: id })}
 			required={required}
-			ref={addressRef}
+			value={value}
 			placeholder={placeholder}
 			dropdownItems={predictions || []}
 			onChangeHandler={onAddressChangeHandler}

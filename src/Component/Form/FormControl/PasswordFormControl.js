@@ -10,8 +10,8 @@ function PasswordFormControl({
 	className = "",
 	placeholder = "Enter password",
 	required = false,
+	password = "",
 	disabled = false,
-	onPasswordValidation = () => {},
 	onMergeStorageSession = () => {},
 	onLoadDefaultValue = () => {},
 }) {
@@ -19,35 +19,26 @@ function PasswordFormControl({
 
 	const [loading, setLoading] = useState(true);
 
-	const ref = React.createRef("");
-
 	const onPasswordChangeHandler = useCallback(
 		(password = "") => {
+			// validate password
 			const isValidPassword = util.isValidPasswordFormat(password);
 
 			// merge to storage session
 			onMergeStorageSession(password, isValidPassword);
-
-			// notify and return that password has validated
-			onPasswordValidation(isValidPassword);
 		},
-		[onMergeStorageSession, onPasswordValidation]
+		[onMergeStorageSession]
 	);
 
 	useEffect(() => {
 		// first time load
 		if (loading) {
 			// load default Value
-			const defaultValue = onLoadDefaultValue() || "";
-
-			if (ref.current) {
-				ref.current.value = defaultValue;
-				onPasswordChangeHandler(ref.current.value);
-			}
+			onLoadDefaultValue();
 
 			setLoading(false);
 		}
-	}, [loading, setLoading, onLoadDefaultValue, ref, onPasswordChangeHandler]);
+	}, [loading, setLoading, onLoadDefaultValue]);
 
 	const app = (
 		<InputGroup className="mb-3 mx-0">
@@ -60,14 +51,14 @@ function PasswordFormControl({
 			/>
 			<FormControl
 				{...(id && { id: id })}
-				ref={ref}
+				value={password}
 				type={visibility ? "text" : "password"}
 				placeholder={placeholder}
 				className={`tedkvn-formControl ${className}`}
-				onChange={(pwd) => onPasswordChangeHandler(pwd.target.value)}
 				required={required}
 				autoComplete={"new-password"}
 				disabled={disabled}
+				onChange={(pwd) => onPasswordChangeHandler(pwd.target.value)}
 			/>
 		</InputGroup>
 	);

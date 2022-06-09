@@ -3,10 +3,11 @@ import * as constVar from "../../../../Util/ConstVar";
 import * as util from "../../../../Util/Util";
 import TextFormControl from "../TextFormControl";
 
-function UserUsernameFormControl(props) {
+//  This is old version that not integrated with Redux
+function UserLastNameFormControl(props) {
 	const {
 		id = "",
-		placeholder = "User Name",
+		placeholder = "Last Name",
 		className = "",
 		required = false,
 		disabled = false,
@@ -16,7 +17,7 @@ function UserUsernameFormControl(props) {
 	const onMergeStorageSessionHandler = (value = "") => {
 		util.saveToSessionStore(
 			sessionStorageObjName,
-			constVar.STORAGE_USERNAME_PROP,
+			constVar.STORAGE_LASTNAME_PROP,
 			value
 		);
 	};
@@ -24,7 +25,7 @@ function UserUsernameFormControl(props) {
 	const onLoadDefaultValueHandler = () => {
 		return (
 			util.getSessionStorageObj(sessionStorageObjName)[
-				`${constVar.STORAGE_USERNAME_PROP}`
+				`${constVar.STORAGE_LASTNAME_PROP}`
 			] || ""
 		);
 	};
@@ -43,4 +44,4 @@ function UserUsernameFormControl(props) {
 	return app;
 }
 
-export default UserUsernameFormControl;
+export default UserLastNameFormControl;

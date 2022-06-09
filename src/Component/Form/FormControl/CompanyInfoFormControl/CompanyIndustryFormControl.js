@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import * as dispatchPromise from "../../../../redux-store/dispatchPromise";
 import * as constVar from "../../../../Util/ConstVar";
 import * as util from "../../../../Util/Util";
 import DropDownFormControl from "../DropDownFormControl";
@@ -19,8 +20,10 @@ function CompanyIndustryFormControl({
 	const [filterIndustries, setFilterIndustries] = useState(industryList);
 
 	useEffect(() => {
+		console.log("industry loading");
 		// first time load
 		if (loading) {
+			console.log("industry first load");
 			const defaultCompany =
 				util.getSessionStorageObj(sessionStorageObjName)[
 					`${constVar.STORAGE_COMPANY_PROP}`
@@ -38,6 +41,7 @@ function CompanyIndustryFormControl({
 	}, [loading, setLoading, industryRef, sessionStorageObjName]);
 
 	const onChangeHandler = (value = "") => {
+		console.log("industry changing");
 		util.saveToSessionStore(
 			sessionStorageObjName,
 			constVar.STORAGE_COMPANY_PROP,
@@ -84,11 +88,23 @@ function CompanyIndustryFormControl({
 	// 	setShowList(false);
 	// };
 
-	const signupInfo = useSelector(
-		(state) => state.thainowReducer[`${sessionStorageObjName}`]
+	const companyInfo = useSelector(
+		(state) =>
+			state.thainowReducer[`${sessionStorageObjName}`][
+				`${constVar.STORAGE_COMPANY_PROP}`
+			] || {}
 	);
 
 	const onSelectItemHandler = (industry = "") => {
+		console.log("industry select");
+		dispatchPromise.patchBusinessSignupInfo({
+			[`${constVar.STORAGE_COMPANY_PROP}`]: {
+				...companyInfo,
+				[`${constVar.STORAGE_COMPANY_INDUSTRY_PROP}`]: industry.description,
+				[`${constVar.STORAGE_COMPANY_NAME_PROP}`]: "Test Name aaaa bbb",
+			},
+		});
+
 		util.saveToSessionStore(
 			sessionStorageObjName,
 			constVar.STORAGE_COMPANY_PROP,
@@ -97,6 +113,7 @@ function CompanyIndustryFormControl({
 					`${constVar.STORAGE_COMPANY_PROP}`
 				],
 				[`${constVar.STORAGE_COMPANY_INDUSTRY_PROP}`]: industry.description,
+				[`${constVar.STORAGE_COMPANY_NAME_PROP}`]: "Test Name aaaa bbb",
 			}
 		);
 

@@ -1,7 +1,7 @@
 import React from "react";
 import { Col, Form, Row } from "react-bootstrap";
-import UserAddressFormControl from "../../FormControl/UserInfoFormControl/UserAddressFormControl";
-import UserUsernameFormControl from "../../FormControl/UserInfoFormControl/UserUsernameFormControl";
+import UserAddressFormControlContainer from "../../../../Container/FormContainer/FormControlContainer/UserFormControlContainer/UserAddressFormControlContainer";
+import UserUsernameFormControlContainer from "../../../../Container/FormContainer/FormControlContainer/UserFormControlContainer/UserUsernameFormControlContainer";
 import AddressFromGroupControl from "../AddressFormGroupControl";
 import TextFormGroupControl from "../TextFormGroupControl";
 
@@ -13,11 +13,10 @@ function UserContactFormGroupControl({
 	const usernameFormGroupControl = (
 		<TextFormGroupControl
 			id="classic-signup-usernameFormControl"
-			placeholder="Preferred Name"
 			required={usernameRequired}
 			withLabel={false}
 			sessionStorageObjName={sessionStorageObjName}
-			RenderFormControl={UserUsernameFormControl}
+			RenderFormControl={UserUsernameFormControlContainer}
 		/>
 	);
 
@@ -26,7 +25,7 @@ function UserContactFormGroupControl({
 			id="classic-signup-addressFormControl"
 			required={addressRequired}
 			sessionStorageObjName={sessionStorageObjName}
-			RenderFormControl={UserAddressFormControl}
+			RenderFormControl={UserAddressFormControlContainer}
 		/>
 	);
 

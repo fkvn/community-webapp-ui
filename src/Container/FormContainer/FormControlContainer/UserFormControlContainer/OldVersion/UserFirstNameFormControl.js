@@ -1,8 +1,9 @@
 import React from "react";
-import * as constVar from "../../../../Util/ConstVar";
-import * as util from "../../../../Util/Util";
-import TextFormControl from "../TextFormControl";
+import TextFormControl from "../../../../../Component/Form/FormControl/TextFormControl";
+import * as constVar from "../../../../../Util/ConstVar";
+import * as util from "../../../../../Util/Util";
 
+//  This is old version that not integrated with Redux
 function UserFirstNameFormControl(props) {
 	const {
 		id = "",

@@ -1,9 +1,9 @@
 import React from "react";
 import { Button, Row } from "react-bootstrap";
 import { useSearchParams } from "react-router-dom";
+import FormContainer from "../../Container/FormContainer/FormContainer";
 import * as constVar from "../../Util/ConstVar";
 import FormHeader from "../Form/FormLayout/FormHeader";
-import FormLayout from "../Form/FormLayout/FormLayout";
 import NewBusinessSignupForm from "../Form/FormLayout/NewBusinessSignupForm";
 
 function BusinessSignup({
@@ -46,7 +46,7 @@ function BusinessSignup({
 		industryList: industryList,
 	};
 
-	const app = FormLayout(
+	const app = FormContainer(
 		formHeader,
 		FormBody,
 		stepHandlers,

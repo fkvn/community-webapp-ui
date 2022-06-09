@@ -22,7 +22,7 @@ function PasswordFromGroupControl({
 	const [confirmPasswordWarningMessage, setConfirmPasswordWarningMessage] =
 		useState(false);
 
-	const onPasswordValidationHanlder = (isValidPassword = true) => {
+	const onPasswordValidationHanlder = (isValidPassword = false) => {
 		setPasswordChanged(true);
 
 		if (isValidPassword) setWarningMessage("");
@@ -32,7 +32,7 @@ function PasswordFromGroupControl({
 			);
 	};
 
-	const onVerifyPasswordValidationHanlder = (isPasswordMatch = true) => {
+	const onVerifyPasswordValidationHanlder = (isPasswordMatch = false) => {
 		setPasswordChanged(false);
 
 		if (isPasswordMatch) setConfirmPasswordWarningMessage("");

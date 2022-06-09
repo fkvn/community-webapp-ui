@@ -12,7 +12,7 @@ function PhoneFormControl({
 	size = "14",
 	minLength = "14",
 	maxLength = "14",
-	onPhoneValidation = () => {},
+	formattedPhone = "",
 	onMergeStorageSession = () => {},
 	onLoadDefaultValue = () => {},
 }) {
@@ -36,51 +36,31 @@ function PhoneFormControl({
 
 			// merge to storage session
 			onMergeStorageSession(formattedPhone, isValidPhone);
-
-			// update phone display
-			if (ref.current) {
-				ref.current.value = formattedPhone;
-			}
-
-			// notify and return that phone has validated
-			onPhoneValidation(isValidPhone);
 		},
-		[ref, onPhoneValidation, onMergeStorageSession]
+		[onMergeStorageSession]
 	);
 
 	useEffect(() => {
 		// first time load
 		if (loading) {
-			// load default Value
-			const defaultValue = onLoadDefaultValue() || "";
-
-			// update phone display
-			if (ref.current) {
-				ref.current.value = defaultValue;
-				onPhoneChangeHandler(-1, ref.current.value);
-			}
+			// load default value
+			onLoadDefaultValue();
 
 			setLoading(false);
 		}
 
 		// update cursor
 		util.updatePhoneCursorPostion(ref, cursor);
-	}, [
-		loading,
-		setLoading,
-		ref,
-		cursor,
-		onPhoneChangeHandler,
-		onLoadDefaultValue,
-	]);
+	}, [loading, setLoading, ref, cursor, onLoadDefaultValue]);
 
 	const app = (
 		<FormControl
 			{...(id && { id: id })}
 			type={type}
 			placeholder={placeholder}
-			className={`tedkvn-formControl ${className}`}
 			ref={ref}
+			className={`tedkvn-formControl ${className}`}
+			value={formattedPhone}
 			onChange={(p) =>
 				onPhoneChangeHandler(p.currentTarget.selectionStart, p.target.value)
 			}

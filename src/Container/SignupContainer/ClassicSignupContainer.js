@@ -18,9 +18,6 @@ function ClassicSignupContainer() {
 
 	const sessionStorageObjName = constVar.THAINOW_CLASSIC_SIGN_UP_STORAGE_OBJ;
 
-	// const submitErrorHandler = (message = "") =>
-	// 	dispatchPromise.getPromise(dispatchPromise.submitErrorHandler(message));
-
 	const submitErrorHandler = (message = "") => {
 		return new Promise((_, reject) => {
 			dispatchPromise.submitErrorHandler(message);
@@ -72,6 +69,17 @@ function ClassicSignupContainer() {
 		return new Promise((resolve, _) => {
 			onBackHandler();
 			resolve();
+		});
+	};
+
+	const onSelectVerifyMethodHandler = (channel = "") => {
+		dispatchPromise.patchSignupClassicInfo({
+			[`${constVar.STORAGE_VERIFICATION_METHOD_PROP}`]:
+				channel === "email"
+					? constVar.STORAGE_EMAIL_PROP
+					: channel === "phone"
+					? constVar.STORAGE_PHONE_PROP
+					: "",
 		});
 	};
 
@@ -196,6 +204,7 @@ function ClassicSignupContainer() {
 			stepHandlers={stepHandlers}
 			onCloseHandler={onCloseHandler}
 			onBackHandlerPromise={onBackHandlerPromise}
+			onSelectVerifyMethod={onSelectVerifyMethodHandler}
 		/>
 	);
 

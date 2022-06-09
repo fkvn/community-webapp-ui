@@ -7,6 +7,13 @@ export const patchBusinessSignupInfo = ({ ...newInfo }) => {
 	};
 };
 
+// patch business sign up info
+export const patchSignupClassicInfo = ({ ...newInfo }) => {
+	return (dispatch) => {
+		dispatch(actions.dispatchPatchSignupClassicInfo({ ...newInfo }));
+	};
+};
+
 // create error
 export const initError = (message, status) => {
 	return (dispatch) => {

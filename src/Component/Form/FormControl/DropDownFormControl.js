@@ -1,20 +1,17 @@
 import React, { forwardRef } from "react";
 import { Button, Form, FormControl, ListGroup, Toast } from "react-bootstrap";
 
-function DropDownFormControl(props, ref) {
+function DropDownFormControl(props, _) {
 	const {
 		id = "",
 		type = "text",
 		placeholder = "",
 		className = "",
+		value = "",
 		dropdownItems = [],
 		onChangeHandler = () => {},
 		onSelectItemHandler = () => {},
 	} = props;
-
-	if (!ref) {
-		ref = React.createRef();
-	}
 
 	const app = (
 		<Form.Group>
@@ -23,7 +20,8 @@ function DropDownFormControl(props, ref) {
 				type={type}
 				placeholder={placeholder}
 				className={`tedkvn-formControl ${className}`}
-				ref={ref}
+				// ref={ref}
+				value={value}
 				onChange={(e) => onChangeHandler(e.target.value)}
 				role="presentation"
 			/>
