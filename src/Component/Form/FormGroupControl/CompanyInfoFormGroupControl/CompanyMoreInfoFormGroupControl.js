@@ -1,10 +1,25 @@
 import React from "react";
 import { Accordion, Form } from "react-bootstrap";
+import CompanyEmailFormControlContainer from "../../../../Container/FormContainer/FormControlContainer/CompanyFormControlContainer/CompanyEmailFormControlContainer";
+import * as constVar from "../../../../Util/ConstVar";
+import * as util from "../../../../Util/Util";
+import EmailFromGroupControl from "../EmailFormGroupControl";
 
 function CompanyMoreInfoFormGroupControl({
 	storageObjName = "",
 	formGroupClassName = "",
 }) {
+	// toggle when users want to save extra info for their customers
+	const onSubmitExtraInfoHandler = () => {
+		util.saveToSessionStore(
+			storageObjName,
+			constVar.STORAGE_COMPANY_SUBMIT_EXTRA_INFO_VALIDATION,
+			!util.getSessionStorageObj(storageObjName)[
+				`${constVar.STORAGE_COMPANY_SUBMIT_EXTRA_INFO_VALIDATION}`
+			]
+		);
+	};
+
 	const app = (
 		<Form.Group className={`tedkvn-formGroupControl ${formGroupClassName}`}>
 			<Accordion flush>
@@ -13,17 +28,16 @@ function CompanyMoreInfoFormGroupControl({
 						as="h2"
 						className="link-primary"
 						id="company-more-info-header"
+						onClick={onSubmitExtraInfoHandler}
 					>
-						More Information for your consumers
+						More Information about your business (Optional)
 					</Accordion.Header>
-					<Accordion.Body>
-						Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-						eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-						ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-						aliquip ex ea commodo consequat. Duis aute irure dolor in
-						reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-						pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-						culpa qui officia deserunt mollit anim id est laborum.
+					<Accordion.Body className="px-0">
+						<EmailFromGroupControl
+							required={true}
+							storageObjName={storageObjName}
+							RenderFormControl={CompanyEmailFormControlContainer}
+						/>
 					</Accordion.Body>
 				</Accordion.Item>
 			</Accordion>

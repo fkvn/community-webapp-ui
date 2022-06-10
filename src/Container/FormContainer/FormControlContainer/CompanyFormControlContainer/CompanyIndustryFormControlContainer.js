@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useState } from "react";
 import { useSelector } from "react-redux";
 import DropDownFormControl from "../../../../Component/Form/FormControl/DropDownFormControl";
 import * as dispatchPromise from "../../../../redux-store/dispatchPromise";
@@ -56,7 +56,7 @@ function CompanyIndustryFormControlContainer({
 		);
 	};
 
-	const onLoadDefaultValueHandler = useCallback(() => {
+	const onLoadDefaultValueHandler = () => {
 		// get information from the first time load
 		const defaultIndustry = getSessionIndustry();
 
@@ -65,7 +65,7 @@ function CompanyIndustryFormControlContainer({
 		}
 
 		setFilterIndustries([]);
-	});
+	};
 
 	const onMergeStorageHandler = (value = "", onSelect = false) => {
 		console.log("merge industry");

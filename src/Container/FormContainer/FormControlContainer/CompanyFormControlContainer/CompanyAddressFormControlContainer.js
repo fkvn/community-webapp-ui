@@ -113,10 +113,10 @@ function CompanyAddressFormControlContainer({
 			{...(id && { id: id })}
 			{...(placeholder && { placeholder: placeholder })}
 			value={address.description || ""}
+			showAddressList={showAddressList}
 			required={required}
 			onMergeStorage={onMergeStorageHandler}
 			onLoadDefaultValue={onLoadDefaultValueHandler}
-			showAddressList={showAddressList}
 			updateReduxStoreShowList={updateReduxStoreShowList}
 		/>
 	);

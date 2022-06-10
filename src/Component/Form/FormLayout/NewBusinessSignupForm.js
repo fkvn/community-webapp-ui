@@ -1,6 +1,7 @@
 import CompanyNameFormControlContainer from "../../../Container/FormContainer/FormControlContainer/CompanyFormControlContainer/CompanyNameFormControlContainer";
 import * as constVar from "../../../Util/ConstVar";
 import CompanyContactFormGroupControl from "../FormGroupControl/CompanyInfoFormGroupControl/CompanyContactFormGroupControl";
+import CompanyMoreInfoFormGroupControl from "../FormGroupControl/CompanyInfoFormGroupControl/CompanyMoreInfoFormGroupControl";
 import FormGroupControl from "../FormGroupControl/FormGroupControl";
 import ReadOnlyFormGroupControl from "../FormGroupControl/ReadOnlyFormGroupControl";
 
@@ -38,7 +39,10 @@ function NewBusinessSignupForm({
 				storageObjName={constVar.THAINOW_COMPANY_SIGN_UP_STORAGE_OBJ}
 				formGroupClassName="mt-3"
 			/>
-			{/* <CompanyMoreInfoFormGroupControl formGroupClassName="mt-3" /> */}
+			<CompanyMoreInfoFormGroupControl
+				storageObjName={constVar.THAINOW_COMPANY_SIGN_UP_STORAGE_OBJ}
+				formGroupClassName="mt-3"
+			/>
 		</>
 	);
 

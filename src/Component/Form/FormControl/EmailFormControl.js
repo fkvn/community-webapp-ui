@@ -30,7 +30,6 @@ function EmailFormControl({
 		if (loading) {
 			// load default Value
 			onLoadDefaultValue();
-
 			setLoading(false);
 		}
 	}, [loading, setLoading, onLoadDefaultValue]);

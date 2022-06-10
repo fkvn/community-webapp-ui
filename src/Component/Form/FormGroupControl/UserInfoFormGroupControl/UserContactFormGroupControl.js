@@ -38,7 +38,7 @@ function UserContactFormGroupControl({
 					{usernameFormGroupControl}
 				</Col>
 				<Col xs={12} md={7}>
-					{/* {addressFormGroupControl} */}
+					{addressFormGroupControl}
 				</Col>
 			</Row>
 		</Form.Group>

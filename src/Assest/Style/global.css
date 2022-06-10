@@ -88,10 +88,6 @@ select option:first-child {
 	box-shadow: none;
 }
 
-#company-more-info-header button::after {
-	width: 0;
-}
-
 ::-webkit-scrollbar {
 	-webkit-appearance: none;
 	-webkit-overflow-scrolling: auto;
