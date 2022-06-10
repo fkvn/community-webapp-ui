@@ -2,7 +2,7 @@ import { Col, Form, Row } from "react-bootstrap";
 import UserAddressFormControlContainer from "../../../../Container/FormContainer/FormControlContainer/UserFormControlContainer/UserAddressFormControlContainer";
 import UserUsernameFormControlContainer from "../../../../Container/FormContainer/FormControlContainer/UserFormControlContainer/UserUsernameFormControlContainer";
 import AddressFromGroupControl from "../AddressFormGroupControl";
-import TextFormGroupControl from "../TextFormGroupControl";
+import FormGroupControl from "../FormGroupControl";
 
 function UserContactFormGroupControl({
 	storageObjName = "",
@@ -10,7 +10,7 @@ function UserContactFormGroupControl({
 	addressRequired = true,
 }) {
 	const usernameFormGroupControl = (
-		<TextFormGroupControl
+		<FormGroupControl
 			id="classic-signup-usernameFormControl"
 			required={usernameRequired}
 			withLabel={false}
@@ -38,7 +38,7 @@ function UserContactFormGroupControl({
 					{usernameFormGroupControl}
 				</Col>
 				<Col xs={12} md={7}>
-					{addressFormGroupControl}
+					{/* {addressFormGroupControl} */}
 				</Col>
 			</Row>
 		</Form.Group>

@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import GoogleAutoComplete from "../../../../Component/AutoComplete/GoogleAutoComplete";
 import * as dispatchPromise from "../../../../redux-store/dispatchPromise";
@@ -11,12 +12,12 @@ function CompanyAddressFormControlContainer({
 	storageObjName = "",
 	onAddressValidation = () => {},
 }) {
-	const address = useSelector(
-		(state) =>
-			state.thainowReducer[`${storageObjName}`][
-				`${constVar.STORAGE_ADDRESS_PROP}`
-			] || {}
-	);
+	const [address, showAddressList] = useSelector((state) => [
+		state.thainowReducer[`${storageObjName}`][
+			`${constVar.STORAGE_ADDRESS_PROP}`
+		] || {},
+		state.thainowReducer[`${storageObjName}`].showAddressList || false,
+	]);
 
 	const getSessionAddress = () => {
 		return (
@@ -32,6 +33,12 @@ function CompanyAddressFormControlContainer({
 				description: description,
 				...(placeid && { placeid: placeid }),
 			},
+		});
+	};
+
+	const updateReduxStoreShowList = (show = false) => {
+		dispatchPromise.patchSignupCompanyInfo({
+			showAddressList: show,
 		});
 	};
 
@@ -66,16 +73,18 @@ function CompanyAddressFormControlContainer({
 		// get information from the first time load
 		const defaultAddress = getSessionAddress();
 
-		// update store
-		if (JSON.stringify(address) !== JSON.stringify(defaultAddress)) {
+		// // // update store
+		if (
+			address.description !== defaultAddress.description ||
+			address.placeid !== defaultAddress.placeid
+		) {
 			updateReduxStoreAddress(
 				defaultAddress.description,
 				defaultAddress.placeid
 			);
 		}
-
 		// double-check in case placeid is missing
-		if (!defaultAddress.placeid || defaultAddress.placeid?.length === 0) {
+		if (defaultAddress.description && defaultAddress.placeid?.length === 0) {
 			// notify that address is not valid because it is changing
 			onAddressValidation(false);
 		} else {
@@ -83,6 +92,21 @@ function CompanyAddressFormControlContainer({
 			onAddressValidation(true);
 		}
 	};
+
+	// this is to check when the field is filled by redux store value changed
+	useEffect(() => {
+		// check if placeid is missing
+
+		const { description = "", placeid = "" } = address;
+
+		if (description.length > 0 && placeid.length === 0) {
+			// notify that address is not valid because it is changing
+			onAddressValidation(false);
+		} else {
+			// notify that address is valid
+			onAddressValidation(true);
+		}
+	}, [address, onAddressValidation]);
 
 	const app = (
 		<GoogleAutoComplete
@@ -92,6 +116,8 @@ function CompanyAddressFormControlContainer({
 			required={required}
 			onMergeStorage={onMergeStorageHandler}
 			onLoadDefaultValue={onLoadDefaultValueHandler}
+			showAddressList={showAddressList}
+			updateReduxStoreShowList={updateReduxStoreShowList}
 		/>
 	);
 	return app;

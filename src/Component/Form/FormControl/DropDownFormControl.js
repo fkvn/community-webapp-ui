@@ -1,6 +1,5 @@
 import { forwardRef, useEffect, useState } from "react";
 import { Button, Form, FormControl, ListGroup, Toast } from "react-bootstrap";
-
 import * as util from "../../../Util/Util";
 
 function DropDownFormControl(props, _) {
@@ -11,6 +10,7 @@ function DropDownFormControl(props, _) {
 		className = "",
 		value = "",
 		dropdownItems = [],
+		showDropdownItems = false,
 		onLoadDefaultValue = () => {},
 		onMergeStorage = () => {},
 		onUpdatePrediction = () => {},
@@ -44,7 +44,7 @@ function DropDownFormControl(props, _) {
 		util.scrollToActiveElement();
 	}, [loading, setLoading, onLoadDefaultValue]);
 
-	const app = (
+	const app = !loading && (
 		<Form.Group>
 			<FormControl
 				{...(id && { id: id })}
@@ -56,7 +56,7 @@ function DropDownFormControl(props, _) {
 				role="presentation"
 			/>
 
-			{dropdownItems.length > 0 && (
+			{showDropdownItems && dropdownItems.length > 0 && (
 				<Toast className="tedkvn-predictionDropDown  position-relative w-100">
 					<Toast.Body className="border-0">
 						<ListGroup as="ul"></ListGroup>

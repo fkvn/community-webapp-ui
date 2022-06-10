@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useSelector } from "react-redux";
+import * as axiosPromise from "../../../../Axios/axiosPromise";
 import DropDownFormControl from "../../../../Component/Form/FormControl/DropDownFormControl";
 import * as dispatchPromise from "../../../../redux-store/dispatchPromise";
 import * as constVar from "../../../../Util/ConstVar";
@@ -11,20 +12,25 @@ function CompanyNameFormControlContainer({
 	required = false,
 	disabled = false,
 	storageObjName = "",
-	onGetCompanyPredictionPromise = () => {},
 }) {
-	const name = useSelector(
-		(state) =>
-			state.thainowReducer[`${storageObjName}`]?.[
-				`${constVar.STORAGE_COMPANY_NAME_PROP}`
-			] || ""
-	);
+	const [name, showCompanyList] = useSelector((state) => [
+		state.thainowReducer[`${storageObjName}`]?.[
+			`${constVar.STORAGE_COMPANY_NAME_PROP}`
+		] || "",
+		state.thainowReducer[`${storageObjName}`].showCompanyList || false,
+	]);
 
 	const [filterCompanies, setFilterCompanies] = useState([]);
 
+	const onGetCompanyPredictionPromise = (keywords = "") => {
+		return axiosPromise.getPromise(
+			axiosPromise.searchCompanyPromise(keywords, true, 0)
+		);
+	};
+
 	const getSessionName = () => {
 		return (
-			util.getSessionStorageObj(storageObjName)?.[
+			util.getSessionStorageObj(storageObjName)[
 				`${constVar.STORAGE_COMPANY_NAME_PROP}`
 			] || ""
 		);
@@ -33,6 +39,12 @@ function CompanyNameFormControlContainer({
 	const updateReduxStore = ({ ...props }) => {
 		dispatchPromise.patchSignupCompanyInfo({
 			...props,
+		});
+	};
+
+	const updateReduxStoreShowList = (show = false) => {
+		dispatchPromise.patchSignupCompanyInfo({
+			showCompanyList: show,
 		});
 	};
 
@@ -51,14 +63,14 @@ function CompanyNameFormControlContainer({
 		const defaultName = getSessionName();
 
 		if (name !== defaultName) {
-			updateReduxStore(defaultName);
+			updateReduxStore({ name: defaultName });
 		}
 
 		setFilterCompanies([]);
 	};
 
 	const onMergeStorageHandler = (value = "", onSelect = false) => {
-		const name = onSelect ? { ...value } : value || "";
+		const name = onSelect ? { ...value } : { name: value } || "";
 
 		// update store
 		updateReduxStore({ ...name });
@@ -73,20 +85,25 @@ function CompanyNameFormControlContainer({
 		// update predictions
 		if (onSelect || name === "") {
 			setFilterCompanies([]);
+			updateReduxStoreShowList(false);
 		} else {
-			onGetCompanyPredictionPromise(name).then((predictions) => {
+			onGetCompanyPredictionPromise(name).then((predictions = []) => {
+				updateReduxStoreShowList(true);
 				setFilterCompanies(
 					predictions.map((prediction) => {
 						return {
 							...prediction,
+							showCompanyList: false,
+							showIndustryList: false,
+							showAddressList: false,
 							description:
 								prediction.status === "APPROVED" ? (
 									<div>
-										<div className="float-start">{prediction.name}</div>
-										<div className="float-end">REGISTERED</div>
+										<div className="float-start">{prediction.name} </div>
+										<div className="float-end mx-2"> (REGISTERED)</div>
 									</div>
 								) : (
-									""
+									<div className="float-start">{prediction.name}</div>
 								),
 							disabled: prediction.status === "APPROVED",
 						};
@@ -104,6 +121,7 @@ function CompanyNameFormControlContainer({
 			disabled={disabled}
 			placeholder={placeholder}
 			dropdownItems={filterCompanies || []}
+			showDropdownItems={showCompanyList}
 			onLoadDefaultValue={onLoadDefaultValueHandler}
 			onMergeStorage={onMergeStorageHandler}
 			onUpdatePrediction={onUpdatePredictionHanlder}

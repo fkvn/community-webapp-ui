@@ -1,7 +1,7 @@
 import React from "react";
 import { Form } from "react-bootstrap";
 
-function TextFormGroupControl({
+function FormGroupControl({
 	id = "",
 	withLabel = false,
 	label = "",
@@ -39,4 +39,4 @@ function TextFormGroupControl({
 	return app;
 }
 
-export default TextFormGroupControl;
+export default FormGroupControl;

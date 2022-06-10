@@ -3,7 +3,7 @@ import * as constVar from "../Util/ConstVar";
 
 export const getPromise = async (promise = () => {}) => {
 	return promise.then((res) => {
-		if (res) return true;
+		if (res) return res.data ? res.data : res;
 		else throw new Error("Unexpected Error! Please try again later!");
 	});
 };
@@ -82,4 +82,14 @@ export const loginPromise = (
 				return "success";
 			}
 		});
+};
+
+export const searchCompanyPromise = (
+	keywords = "",
+	fetchAll = false,
+	fetchLimit = 20
+) => {
+	return axios.get("/companies/search", {
+		params: { keywords: keywords, fetchAll: fetchAll, fetchLimit: fetchLimit },
+	});
 };

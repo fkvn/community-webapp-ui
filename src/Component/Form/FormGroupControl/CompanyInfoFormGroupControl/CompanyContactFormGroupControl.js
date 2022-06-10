@@ -1,21 +1,19 @@
 import { Col, Form, Row } from "react-bootstrap";
 import CompanyAddressFormControlContainer from "../../../../Container/FormContainer/FormControlContainer/CompanyFormControlContainer/CompanyAddressFormControlContainer";
-import CompanyNameFormControlContainer from "../../../../Container/FormContainer/FormControlContainer/CompanyFormControlContainer/CompanyNameFormControlContainer";
 import AddressFromGroupControl from "../AddressFormGroupControl";
-import TextFormGroupControl from "../TextFormGroupControl";
+import CompanyIndustryFormGroupControl from "./CompanyIndustryFormGroupControl";
 
 function CompanyContactFormGroupControl({
 	storageObjName = "",
 	formGroupClassName = "",
-	companynameRequired = true,
 	addressRequired = true,
 }) {
 	const companynameFormGroupControl = (
-		<TextFormGroupControl
-			required={companynameRequired}
+		<CompanyIndustryFormGroupControl
+			required={true}
 			withLabel={false}
 			storageObjName={storageObjName}
-			RenderFormControl={CompanyNameFormControlContainer}
+			// formGroupClassName="mt-4"
 		/>
 	);
 

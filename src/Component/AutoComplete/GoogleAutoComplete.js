@@ -8,6 +8,8 @@ function GoogleAutoComplete({
 	placeholder = "Address",
 	onMergeStorage = () => {},
 	onLoadDefaultValue = () => {},
+	showAddressList = false,
+	updateReduxStoreShowList = () => {},
 }) {
 	const [loading, setLoading] = useState(true);
 
@@ -39,7 +41,9 @@ function GoogleAutoComplete({
 		// update predictions
 		if (onSelect || description === "") {
 			setPredictions([]);
+			updateReduxStoreShowList(false);
 		} else {
+			updateReduxStoreShowList(true);
 			getPlacePredictionPromise(description).then((res) => {
 				setPredictions(
 					res.predictions.map((prediction) => {
@@ -69,6 +73,7 @@ function GoogleAutoComplete({
 			value={value}
 			placeholder={placeholder}
 			dropdownItems={predictions || []}
+			showDropdownItems={showAddressList}
 			onLoadDefaultValue={onLoadDefaultValue}
 			onMergeStorage={onMergeStorage}
 			onUpdatePrediction={onUpdatePredictionHanlder}

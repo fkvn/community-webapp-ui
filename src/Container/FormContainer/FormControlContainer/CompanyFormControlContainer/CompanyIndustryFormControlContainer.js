@@ -7,17 +7,18 @@ import * as util from "../../../../Util/Util";
 
 function CompanyIndustryFormControlContainer({
 	id = "",
-	placeholder = "Enter your busines industry",
+
+	placeholder = "Busines industry",
 	required = false,
 	disabled = false,
 	storageObjName = "",
 }) {
-	const industry = useSelector(
-		(state) =>
-			state.thainowReducer[`${storageObjName}`]?.[
-				`${constVar.STORAGE_COMPANY_INDUSTRY_PROP}`
-			] || ""
-	);
+	const [industry, showIndustryList] = useSelector((state) => [
+		state.thainowReducer[`${storageObjName}`]?.[
+			`${constVar.STORAGE_COMPANY_INDUSTRY_PROP}`
+		] || "",
+		state.thainowReducer[`${storageObjName}`].showIndustryList || false,
+	]);
 
 	const industryList = [
 		...constVar.COMPANY_INDUSTRY_LIST.map((item) => {
@@ -41,6 +42,12 @@ function CompanyIndustryFormControlContainer({
 		});
 	};
 
+	const updateReduxStoreShowList = (show = false) => {
+		dispatchPromise.patchSignupCompanyInfo({
+			showIndustryList: show,
+		});
+	};
+
 	const updateSessionIndustry = (industry = "") => {
 		util.saveToSessionStore(
 			storageObjName,
@@ -61,6 +68,7 @@ function CompanyIndustryFormControlContainer({
 	});
 
 	const onMergeStorageHandler = (value = "", onSelect = false) => {
+		console.log("merge industry");
 		const industry = onSelect ? value.description : value || "";
 
 		// update store
@@ -76,6 +84,7 @@ function CompanyIndustryFormControlContainer({
 		// return suggestions
 		if (onSelect || industry === "") {
 			setFilterIndustries([]);
+			updateReduxStoreShowList(false);
 		} else {
 			// update list
 			const filteredIndustryList = industryList.filter(
@@ -84,6 +93,7 @@ function CompanyIndustryFormControlContainer({
 			);
 
 			setFilterIndustries(filteredIndustryList);
+			updateReduxStoreShowList(true);
 		}
 	};
 
@@ -95,11 +105,13 @@ function CompanyIndustryFormControlContainer({
 			disabled={disabled}
 			placeholder={placeholder}
 			dropdownItems={filterIndustries || []}
+			showDropdownItems={showIndustryList}
 			onLoadDefaultValue={onLoadDefaultValueHandler}
 			onMergeStorage={onMergeStorageHandler}
 			onUpdatePrediction={onUpdatePredictionHanlder}
 		/>
 	);
+
 	return app;
 }
 
