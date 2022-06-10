@@ -1,4 +1,3 @@
-import React from "react";
 import { useSelector } from "react-redux";
 import OtpVerifyFormControl from "../../../../Component/Form/FormControl/OtpVerifyFormControl";
 import * as dispatchPromise from "../../../../redux-store/dispatchPromise";
@@ -26,10 +25,7 @@ function OtpFormControlContainer({
 		});
 	};
 
-	const onMergeStorageSessionHandler = (
-		formattedOtp = "",
-		isValidOtp = false
-	) => {
+	const onMergeStorageHandler = (formattedOtp = "", isValidOtp = false) => {
 		// update store
 		updateReduxStoreOtp(formattedOtp, isValidOtp);
 
@@ -44,7 +40,7 @@ function OtpFormControlContainer({
 			className={className}
 			required={required}
 			disabled={disabled}
-			onMergeStorageSession={onMergeStorageSessionHandler}
+			onMergeStorage={onMergeStorageHandler}
 		/>
 	);
 	return app;

@@ -7,10 +7,17 @@ export const patchBusinessSignupInfo = ({ ...newInfo }) => {
 	};
 };
 
-// patch business sign up info
+// patch classic sign up info
 export const patchSignupClassicInfo = ({ ...newInfo }) => {
 	return (dispatch) => {
 		dispatch(actions.dispatchPatchSignupClassicInfo({ ...newInfo }));
+	};
+};
+
+// patch company sign up info
+export const patchSignupCompanyInfo = ({ ...newInfo }) => {
+	return (dispatch) => {
+		dispatch(actions.dispatchPatchSignupCompanyInfo({ ...newInfo }));
 	};
 };
 

@@ -17,6 +17,14 @@ export const dispatchPatchSignupClassicInfo = ({ ...newInfo }) => {
 	};
 };
 
+// patch classic sign up info
+export const dispatchPatchSignupCompanyInfo = ({ ...newInfo }) => {
+	return {
+		type: actionTypes.DISPATCH_PATCH_SIGNUP_COMPANY_INFO,
+		[`${constVar.THAINOW_COMPANY_SIGN_UP_STORAGE_OBJ}`]: { ...newInfo },
+	};
+};
+
 // error
 export const dispatchError = (message, status) => {
 	return {

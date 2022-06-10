@@ -4,7 +4,7 @@ import * as dispatchPromise from "../../../../redux-store/dispatchPromise";
 import * as constVar from "../../../../Util/ConstVar";
 import * as util from "../../../../Util/Util";
 
-function UserAddressFormControlContainer({
+function CompanyAddressFormControlContainer({
 	id = "",
 	placeholder = "Where are you from",
 	required = false,
@@ -27,7 +27,7 @@ function UserAddressFormControlContainer({
 	};
 
 	const updateReduxStoreAddress = (description = "", placeid = "") => {
-		dispatchPromise.patchSignupClassicInfo({
+		dispatchPromise.patchSignupCompanyInfo({
 			[`${constVar.STORAGE_ADDRESS_PROP}`]: {
 				description: description,
 				...(placeid && { placeid: placeid }),
@@ -97,4 +97,4 @@ function UserAddressFormControlContainer({
 	return app;
 }
 
-export default UserAddressFormControlContainer;
+export default CompanyAddressFormControlContainer;

@@ -1,7 +1,9 @@
-import CompanyIndustryFormGroupControl from "../FormGroupControl/CompanyInfoFormGroupControl/CompanyIndustryFormGroupControl";
 import ReadOnlyFormGroupControl from "../FormGroupControl/ReadOnlyFormGroupControl";
 
+import * as constVar from "../../../Util/ConstVar";
 import CompanyContactFormGroupControl from "../FormGroupControl/CompanyInfoFormGroupControl/CompanyContactFormGroupControl";
+
+import CompanyIndustryFormGroupControl from "../FormGroupControl/CompanyInfoFormGroupControl/CompanyIndustryFormGroupControl";
 
 function NewBusinessSignupForm({
 	storageObjName = "",
@@ -28,11 +30,11 @@ function NewBusinessSignupForm({
 			{step_1_headline}{" "}
 			<CompanyIndustryFormGroupControl
 				required={true}
-				storageObjName={storageObjName}
+				storageObjName={constVar.THAINOW_COMPANY_SIGN_UP_STORAGE_OBJ}
 				formGroupClassName="mt-4"
 			/>
 			<CompanyContactFormGroupControl
-				storageObjName={storageObjName}
+				storageObjName={constVar.THAINOW_COMPANY_SIGN_UP_STORAGE_OBJ}
 				formGroupClassName="mt-3"
 			/>
 			{/* <CompanyMoreInfoFormGroupControl formGroupClassName="mt-3" /> */}

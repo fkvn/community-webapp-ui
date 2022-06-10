@@ -1,4 +1,3 @@
-import React from "react";
 import { useSelector } from "react-redux";
 import PhoneFormControl from "../../../../Component/Form/FormControl/PhoneFormControl";
 import * as dispatchPromise from "../../../../redux-store/dispatchPromise";
@@ -51,10 +50,7 @@ function UserPhoneFormControlContainer({
 	// 	);
 	// };
 
-	const onMergeStorageSessionHandler = (
-		formattedPhone = "",
-		isValidPhone = true
-	) => {
+	const onMergeStorageHandler = (formattedPhone = "", isValidPhone = true) => {
 		// update storage
 		updateReduxStorePhone(formattedPhone, isValidPhone);
 
@@ -83,7 +79,7 @@ function UserPhoneFormControlContainer({
 			disabled={disabled}
 			formattedPhone={phone}
 			onPhoneValidation={onPhoneValidation}
-			onMergeStorageSession={onMergeStorageSessionHandler}
+			onMergeStorage={onMergeStorageHandler}
 			onLoadDefaultValue={onLoadDefaultValueHandler}
 		/>
 	);

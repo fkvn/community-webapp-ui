@@ -45,10 +45,7 @@ function UserPasswordFormControlContainer({
 		);
 	};
 
-	const onMergeStorageSessionHandler = (
-		password = "",
-		isValidPassword = false
-	) => {
+	const onMergeStorageHandler = (password = "", isValidPassword = false) => {
 		// update store
 		updateReduxStorePassword(password, isValidPassword);
 
@@ -79,7 +76,7 @@ function UserPasswordFormControlContainer({
 			className={className}
 			required={required}
 			disabled={disabled}
-			onMergeStorageSession={onMergeStorageSessionHandler}
+			onMergeStorage={onMergeStorageHandler}
 			onLoadDefaultValue={onLoadDefaultValueHandler}
 		/>
 	);

@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { FormControl } from "react-bootstrap";
 import * as util from "../../../Util/Util";
 
@@ -10,7 +10,7 @@ function EmailFormControl({
 	placeholder = "Enter your email address",
 	required = false,
 	disabled = false,
-	onMergeStorageSession = () => {},
+	onMergeStorage = () => {},
 	onLoadDefaultValue = () => {},
 }) {
 	const [loading, setLoading] = useState(true);
@@ -20,9 +20,9 @@ function EmailFormControl({
 			const isValidEmail = util.isValidEmailFormat(email);
 
 			// merge to storage session
-			onMergeStorageSession(email, isValidEmail);
+			onMergeStorage(email, isValidEmail);
 		},
-		[onMergeStorageSession]
+		[onMergeStorage]
 	);
 
 	useEffect(() => {

@@ -1,4 +1,3 @@
-import React from "react";
 import { Button, Row } from "react-bootstrap";
 import { useSearchParams } from "react-router-dom";
 import FormContainer from "../../Container/FormContainer/FormContainer";
@@ -8,7 +7,7 @@ import FormHeader from "../Form/FormLayout/FormHeader";
 function ClassicSignup({
 	storageObjName = "classic.signup.info",
 	stepHandlers = [],
-	onCloseHandler = () => {},
+	onClose = () => {},
 	onBackHandlerPromise = () => {},
 	onSelectVerifyMethod = () => {},
 	onResetOtp = () => {},
@@ -36,7 +35,7 @@ function ClassicSignup({
 					</p>
 				</Row>
 			}
-			onClose={onCloseHandler}
+			onClose={onClose}
 		/>
 	);
 

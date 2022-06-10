@@ -1,4 +1,3 @@
-import React from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import * as axiosPromise from "../../Axios/axiosPromise";
 import ClassicSignup from "../../Component/Signup/ClassicSignup";
@@ -207,7 +206,7 @@ function ClassicSignupContainer() {
 		<ClassicSignup
 			storageObjName={storageObjName}
 			stepHandlers={stepHandlers}
-			onCloseHandler={onCloseHandler}
+			onClose={onCloseHandler}
 			onBackHandlerPromise={onBackHandlerPromise}
 			onSelectVerifyMethod={onSelectVerifyMethodHandler}
 			onResetOtp={onResetOtpHandler}

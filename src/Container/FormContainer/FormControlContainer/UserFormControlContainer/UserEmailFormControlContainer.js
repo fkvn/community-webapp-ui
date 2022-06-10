@@ -1,4 +1,3 @@
-import React from "react";
 import { useSelector } from "react-redux";
 import EmailFormControl from "../../../../Component/Form/FormControl/EmailFormControl";
 import * as dispatchPromise from "../../../../redux-store/dispatchPromise";
@@ -52,7 +51,7 @@ function UserEmailFormControlContainer({
 	// 	);
 	// };
 
-	const onMergeStorageSessionHandler = (email = "", isValidEmail = true) => {
+	const onMergeStorageHandler = (email = "", isValidEmail = true) => {
 		// update store
 		updateReduxStoreEmail(email, isValidEmail);
 
@@ -82,7 +81,7 @@ function UserEmailFormControlContainer({
 			required={required}
 			disabled={disabled}
 			onEmailValidation={onEmailValidation}
-			onMergeStorageSession={onMergeStorageSessionHandler}
+			onMergeStorage={onMergeStorageHandler}
 			onLoadDefaultValue={onLoadDefaultValueHandler}
 		/>
 	);

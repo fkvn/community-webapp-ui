@@ -1,4 +1,3 @@
-import React from "react";
 import TextFormControl from "../../../../../Component/Form/FormControl/TextFormControl";
 import * as constVar from "../../../../../Util/ConstVar";
 import * as util from "../../../../../Util/Util";
@@ -14,7 +13,7 @@ function UserFirstNameFormControl(props) {
 		storageObjName = "",
 	} = props;
 
-	// const onMergeStorageSessionHandler = (value = "") => {
+	// const onMergeStorageHandler = (value = "") => {
 	// 	util.saveToSessionStore(
 	// 		storageObjName,
 	// 		constVar.STORAGE_FIRSTNAME_PROP,
@@ -30,7 +29,7 @@ function UserFirstNameFormControl(props) {
 	// 	);
 	// };
 
-	const onMergeStorageSessionHandler = (value = "") => {
+	const onMergeStorageHandler = (value = "") => {
 		util.saveToSessionStore(
 			storageObjName,
 			constVar.STORAGE_FIRSTNAME_PROP,
@@ -53,7 +52,7 @@ function UserFirstNameFormControl(props) {
 			placeholder={placeholder}
 			required={required}
 			disabled={disabled}
-			onMergeStorageSession={onMergeStorageSessionHandler}
+			onMergeStorage={onMergeStorageHandler}
 			onLoadDefaultValue={onLoadDefaultValueHandler}
 		/>
 	);

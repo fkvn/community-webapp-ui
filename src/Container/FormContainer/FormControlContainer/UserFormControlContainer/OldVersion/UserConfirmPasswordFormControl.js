@@ -1,4 +1,3 @@
-import React from "react";
 import * as constVar from "../../../../../Util/ConstVar";
 import * as util from "../../../../../Util/Util";
 import ConfirmPasswordFormControl from "../ConfirmPasswordFormControl";
@@ -14,7 +13,7 @@ function UserConfirmPasswordFormControl({
 	onConfirmPasswordValidation = () => {},
 	storageObjName = "",
 }) {
-	const onMergeStorageSessionHandler = (isPasswordMatch = false) => {
+	const onMergeStorageHandler = (isPasswordMatch = false) => {
 		util.saveToSessionStore(
 			storageObjName,
 			constVar.STORAGE_CONFIRM_PASSWORD_VALIDATION,
@@ -39,7 +38,7 @@ function UserConfirmPasswordFormControl({
 			disabled={disabled}
 			passwordChanged={passwordChanged}
 			onConfirmPasswordValidation={onConfirmPasswordValidation}
-			onMergeStorageSession={onMergeStorageSessionHandler}
+			onMergeStorage={onMergeStorageHandler}
 			onGetCurrentPassword={onGetCurrentPassword}
 		/>
 	);

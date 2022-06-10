@@ -1,4 +1,3 @@
-import React from "react";
 import * as constVar from "../../../../Util/ConstVar";
 import * as util from "../../../../Util/Util";
 import EmailFormControl from "../UserInfoFormControl/UserEmailFormControl";
@@ -12,7 +11,7 @@ function CompanyEmailFormControl({
 	onEmailValidation = () => {},
 	storageObjName = "",
 }) {
-	const onMergeStorageSessionHandler = (email = "") => {
+	const onMergeStorageHandler = (email = "") => {
 		const isValidEmail = util.isValidEmailFormat(email);
 
 		util.saveToSessionStore(storageObjName, constVar.STORAGE_COMPANY_PROP, {
@@ -53,7 +52,7 @@ function CompanyEmailFormControl({
 			placeholder={placeholder}
 			disabled={disabled}
 			onEmailValidation={onEmailValidationHanlder}
-			onMergeStorageSession={onMergeStorageSessionHandler}
+			onMergeStorage={onMergeStorageHandler}
 			onLoadDefaultValue={onLoadDefaultValueHandler}
 		/>
 	);

@@ -13,7 +13,7 @@ function PhoneFormControl({
 	minLength = "14",
 	maxLength = "14",
 	formattedPhone = "",
-	onMergeStorageSession = () => {},
+	onMergeStorage = () => {},
 	onLoadDefaultValue = () => {},
 }) {
 	const [loading, setLoading] = useState(true);
@@ -35,9 +35,9 @@ function PhoneFormControl({
 			const isValidPhone = numOfDigits === 10 || numOfDigits === 0;
 
 			// merge to storage session
-			onMergeStorageSession(formattedPhone, isValidPhone);
+			onMergeStorage(formattedPhone, isValidPhone);
 		},
-		[onMergeStorageSession]
+		[onMergeStorage]
 	);
 
 	useEffect(() => {

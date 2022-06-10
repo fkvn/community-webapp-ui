@@ -14,7 +14,7 @@ function ConfirmPasswordFormControl({
 	passwordChanged = false,
 	onConfirmPasswordValidation = () => {},
 	onGetCurrentPassword = () => {},
-	onMergeStorageSession = () => {},
+	onMergeStorage = () => {},
 }) {
 	const confirmPasswordRef = React.createRef("");
 
@@ -27,12 +27,12 @@ function ConfirmPasswordFormControl({
 			const isPasswordMatch = confirmPassword === currentPassword;
 
 			// merge to storage session
-			onMergeStorageSession(isPasswordMatch);
+			onMergeStorage(isPasswordMatch);
 
 			// notify and return that confirm password has validated
 			onConfirmPasswordValidation(isPasswordMatch);
 		},
-		[onConfirmPasswordValidation, onGetCurrentPassword, onMergeStorageSession]
+		[onConfirmPasswordValidation, onGetCurrentPassword, onMergeStorage]
 	);
 
 	useEffect(() => {

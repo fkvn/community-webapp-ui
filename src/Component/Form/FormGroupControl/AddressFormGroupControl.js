@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Form } from "react-bootstrap";
 
 function AddressFromGroupControl({
@@ -12,8 +12,8 @@ function AddressFromGroupControl({
 }) {
 	const [warningMessage, setWarningMessage] = useState("");
 
-	const onAddressValidationHanlder = (isValidEmail = true) => {
-		if (isValidEmail) setWarningMessage("");
+	const onAddressValidationHanlder = (isValidAddress = true) => {
+		if (isValidAddress) setWarningMessage("");
 		else setWarningMessage("Please select a valid address.");
 	};
 

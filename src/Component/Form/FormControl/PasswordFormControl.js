@@ -13,7 +13,7 @@ function PasswordFormControl({
 	password = "",
 	disabled = false,
 	autocomplete = false,
-	onMergeStorageSession = () => {},
+	onMergeStorage = () => {},
 	onLoadDefaultValue = () => {},
 }) {
 	const [visibility, setVisibility] = useState(false);
@@ -26,9 +26,9 @@ function PasswordFormControl({
 			const isValidPassword = util.isValidPasswordFormat(password);
 
 			// merge to storage session
-			onMergeStorageSession(password, isValidPassword);
+			onMergeStorage(password, isValidPassword);
 		},
-		[onMergeStorageSession]
+		[onMergeStorage]
 	);
 
 	useEffect(() => {

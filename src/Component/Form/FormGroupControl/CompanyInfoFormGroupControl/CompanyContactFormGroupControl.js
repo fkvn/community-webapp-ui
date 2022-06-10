@@ -1,6 +1,6 @@
 import { Col, Form, Row } from "react-bootstrap";
-import CompanyAddressFormControl from "../../FormControl/CompanyInfoFormControl/CompanyAddressFormControl";
-import CompanyNameFormControl from "../../FormControl/CompanyInfoFormControl/CompanyNameFormControl";
+import CompanyAddressFormControlContainer from "../../../../Container/FormContainer/FormControlContainer/CompanyFormControlContainer/CompanyAddressFormControlContainer";
+import CompanyNameFormControlContainer from "../../../../Container/FormContainer/FormControlContainer/CompanyFormControlContainer/CompanyNameFormControlContainer";
 import AddressFromGroupControl from "../AddressFormGroupControl";
 import TextFormGroupControl from "../TextFormGroupControl";
 
@@ -15,7 +15,7 @@ function CompanyContactFormGroupControl({
 			required={companynameRequired}
 			withLabel={false}
 			storageObjName={storageObjName}
-			RenderFormControl={CompanyNameFormControl}
+			RenderFormControl={CompanyNameFormControlContainer}
 		/>
 	);
 
@@ -24,7 +24,7 @@ function CompanyContactFormGroupControl({
 			required={addressRequired}
 			placeholder="Where is your business"
 			storageObjName={storageObjName}
-			RenderFormControl={CompanyAddressFormControl}
+			RenderFormControl={CompanyAddressFormControlContainer}
 		/>
 	);
 
@@ -35,9 +35,9 @@ function CompanyContactFormGroupControl({
 			</Form.Label>
 			<Row>
 				<Col xs={12} md={5}>
-					{/* {companynameFormGroupControl} */}
+					{companynameFormGroupControl}
 				</Col>
-				<Col xs={12} md={12}>
+				<Col xs={12} md={7}>
 					{addressFormGroupControl}
 				</Col>
 			</Row>

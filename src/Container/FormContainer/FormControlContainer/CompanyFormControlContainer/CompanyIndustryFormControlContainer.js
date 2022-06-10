@@ -12,15 +12,11 @@ function CompanyIndustryFormControlContainer({
 	disabled = false,
 	storageObjName = "",
 }) {
-	const getCompanyInfo = () => {
-		return dispatchPromise.getState()[`${constVar.STORAGE_COMPANY_PROP}`];
-	};
-
 	const industry = useSelector(
 		(state) =>
-			state.thainowReducer[`${storageObjName}`][
-				`${constVar.STORAGE_COMPANY_PROP}`
-			]?.[`${constVar.STORAGE_COMPANY_INDUSTRY_PROP}`] || ""
+			state.thainowReducer[`${storageObjName}`]?.[
+				`${constVar.STORAGE_COMPANY_INDUSTRY_PROP}`
+			] || ""
 	);
 
 	const industryList = [
@@ -32,30 +28,25 @@ function CompanyIndustryFormControlContainer({
 	const [filterIndustries, setFilterIndustries] = useState(industryList);
 
 	const getSessionIndustry = () => {
-		const company =
-			util.getSessionStorageObj(storageObjName)?.[
-				`${constVar.STORAGE_COMPANY_PROP}`
-			] || {};
-
-		return company[`${constVar.STORAGE_COMPANY_INDUSTRY_PROP}`] || "";
+		return (
+			util.getSessionStorageObj(storageObjName)[
+				`${constVar.STORAGE_COMPANY_INDUSTRY_PROP}`
+			] || ""
+		);
 	};
 
 	const updateReduxStoreIndustry = (industry = "") => {
-		dispatchPromise.patchBusinessSignupInfo({
-			[`${constVar.STORAGE_COMPANY_PROP}`]: {
-				...getCompanyInfo(),
-				[`${constVar.STORAGE_COMPANY_INDUSTRY_PROP}`]: industry,
-			},
+		dispatchPromise.patchSignupCompanyInfo({
+			[`${constVar.STORAGE_COMPANY_INDUSTRY_PROP}`]: industry,
 		});
 	};
 
 	const updateSessionIndustry = (industry = "") => {
-		util.saveToSessionStore(storageObjName, constVar.STORAGE_COMPANY_PROP, {
-			...util.getSessionStorageObj(storageObjName)[
-				`${constVar.STORAGE_COMPANY_PROP}`
-			],
-			[`${constVar.STORAGE_COMPANY_INDUSTRY_PROP}`]: industry,
-		});
+		util.saveToSessionStore(
+			storageObjName,
+			constVar.STORAGE_COMPANY_INDUSTRY_PROP,
+			industry
+		);
 	};
 
 	const onLoadDefaultValueHandler = useCallback(() => {
@@ -69,7 +60,7 @@ function CompanyIndustryFormControlContainer({
 		setFilterIndustries([]);
 	});
 
-	const onMergeStorageSessionHandler = (value, onSelect = false) => {
+	const onMergeStorageHandler = (value = "", onSelect = false) => {
 		const industry = onSelect ? value.description : value || "";
 
 		// update store
@@ -79,7 +70,7 @@ function CompanyIndustryFormControlContainer({
 		updateSessionIndustry(industry);
 	};
 
-	const onUpdatePredictionHanlder = (value, onSelect = false) => {
+	const onUpdatePredictionHanlder = (value = "", onSelect = false) => {
 		const industry = onSelect ? value.description : value || "";
 
 		// return suggestions
@@ -103,9 +94,9 @@ function CompanyIndustryFormControlContainer({
 			required={required}
 			disabled={disabled}
 			placeholder={placeholder}
-			dropdownItems={filterIndustries}
+			dropdownItems={filterIndustries || []}
 			onLoadDefaultValue={onLoadDefaultValueHandler}
-			onMergeStorageSession={onMergeStorageSessionHandler}
+			onMergeStorage={onMergeStorageHandler}
 			onUpdatePrediction={onUpdatePredictionHanlder}
 		/>
 	);

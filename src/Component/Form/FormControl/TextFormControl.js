@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { FormControl } from "react-bootstrap";
 
 function TextFormControl(props) {
@@ -10,7 +10,7 @@ function TextFormControl(props) {
 		required = false,
 		disabled = false,
 		value = "",
-		onMergeStorageSession = () => {},
+		onMergeStorage = () => {},
 		onLoadDefaultValue = () => {},
 	} = props;
 
@@ -18,7 +18,7 @@ function TextFormControl(props) {
 
 	const onChangeHandler = (value = "") => {
 		// merge to storage session
-		onMergeStorageSession(value);
+		onMergeStorage(value);
 	};
 
 	useEffect(() => {

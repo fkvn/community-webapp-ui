@@ -12,7 +12,7 @@ function DropDownFormControl(props, _) {
 		value = "",
 		dropdownItems = [],
 		onLoadDefaultValue = () => {},
-		onMergeStorageSession = () => {},
+		onMergeStorage = () => {},
 		onUpdatePrediction = () => {},
 	} = props;
 
@@ -20,7 +20,7 @@ function DropDownFormControl(props, _) {
 
 	const onChangeHandler = (value = "") => {
 		// update store
-		onMergeStorageSession(value);
+		onMergeStorage(value);
 
 		// return suggestions
 		onUpdatePrediction(value);
@@ -28,7 +28,7 @@ function DropDownFormControl(props, _) {
 
 	const onSelectItemHandler = (selection = {}) => {
 		// update store
-		onMergeStorageSession(selection, true);
+		onMergeStorage(selection, true);
 
 		// return suggestions
 		onUpdatePrediction(selection, true);
@@ -65,10 +65,12 @@ function DropDownFormControl(props, _) {
 								as="li"
 								key={idx}
 								onClick={() => onSelectItemHandler(item)}
+								disabled={item.disabled}
 							>
 								<Button
 									variant="link"
 									className="text-dark text-decoration-none p-0"
+									disabled={item.disabled}
 								>
 									{item?.description || ""}
 								</Button>

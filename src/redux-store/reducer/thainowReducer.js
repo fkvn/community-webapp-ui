@@ -26,6 +26,7 @@ import * as actionTypes from "../actionCreator/actionType";
 const initialState = {
 	[`${constVar.THAINOW_BUSINESS_SIGN_UP_STORAGE_OBJ}`]: {},
 	[`${constVar.THAINOW_CLASSIC_SIGN_UP_STORAGE_OBJ}`]: {},
+	[`${constVar.THAINOW_COMPANY_SIGN_UP_STORAGE_OBJ}`]: {},
 };
 
 // ==================  Reducer helping functions =========================
@@ -67,6 +68,22 @@ const dispatchPatchSignupClassicInfo = (state, action) => {
 	};
 };
 
+const dispatchPatchSignupCompanyInfo = (state, action) => {
+	const currentInfo = {
+		...state[`${constVar.THAINOW_COMPANY_SIGN_UP_STORAGE_OBJ}`],
+	};
+
+	const updateInfo = {
+		...currentInfo,
+		...action[`${constVar.THAINOW_COMPANY_SIGN_UP_STORAGE_OBJ}`],
+	};
+
+	return {
+		...state,
+		[`${constVar.THAINOW_COMPANY_SIGN_UP_STORAGE_OBJ}`]: { ...updateInfo },
+	};
+};
+
 const dispatchError = (state, action) => {
 	const error = {};
 
@@ -95,6 +112,9 @@ const reducer = (state = initialState, action) => {
 		// patch classic signup info
 		case actionTypes.DISPATCH_PATCH_SIGNUP_CLASSIC_INFO:
 			return dispatchPatchSignupClassicInfo(state, action);
+		// patch company signup info
+		case actionTypes.DISPATCH_PATCH_SIGNUP_COMPANY_INFO:
+			return dispatchPatchSignupCompanyInfo(state, action);
 		// Error
 		case actionTypes.DISPATCH_ERROR:
 			return dispatchError(state, action);

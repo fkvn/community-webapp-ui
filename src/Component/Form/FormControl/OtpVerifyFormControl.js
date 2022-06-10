@@ -14,7 +14,7 @@ function OtpVerifyFormControl(props) {
 		maxLength = "7",
 		disabled = false,
 		otp = "",
-		onMergeStorageSession = () => {},
+		onMergeStorage = () => {},
 	} = props;
 
 	const [cursor, setCursor] = useState(0);
@@ -34,9 +34,9 @@ function OtpVerifyFormControl(props) {
 			const isValidOtp = numOfDigits === 4;
 
 			// update
-			onMergeStorageSession(formattedOtp, isValidOtp);
+			onMergeStorage(formattedOtp, isValidOtp);
 		},
-		[onMergeStorageSession]
+		[onMergeStorage]
 	);
 
 	useEffect(() => {

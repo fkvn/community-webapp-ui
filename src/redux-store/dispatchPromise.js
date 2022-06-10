@@ -16,3 +16,7 @@ export const patchBusinessSignupInfo = async ({ ...props }) => {
 export const patchSignupClassicInfo = async ({ ...props }) => {
 	return store.dispatch(actionCreators.patchSignupClassicInfo({ ...props }));
 };
+
+export const patchSignupCompanyInfo = async ({ ...props }) => {
+	return store.dispatch(actionCreators.patchSignupCompanyInfo({ ...props }));
+};

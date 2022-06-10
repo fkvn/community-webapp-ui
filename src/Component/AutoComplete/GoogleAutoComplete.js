@@ -6,7 +6,7 @@ function GoogleAutoComplete({
 	required = false,
 	value = "",
 	placeholder = "Address",
-	onMergeStorageSession = () => {},
+	onMergeStorage = () => {},
 	onLoadDefaultValue = () => {},
 }) {
 	const [loading, setLoading] = useState(true);
@@ -32,11 +32,6 @@ function GoogleAutoComplete({
 	};
 
 	const [predictions, setPredictions] = useState([]);
-
-	const onAddressChangeHandler = (description = "") => {
-		// merge to storage session with description only, remove placeid
-		onMergeStorageSession(description);
-	};
 
 	const onUpdatePredictionHanlder = (value, onSelect = false) => {
 		const description = onSelect ? value.description : value || "";
@@ -65,7 +60,7 @@ function GoogleAutoComplete({
 
 			setLoading(false);
 		}
-	}, [init, loading, setLoading, onLoadDefaultValue]);
+	}, [init, loading, setLoading]);
 
 	const app = !loading && (
 		<DropDownFormControl
@@ -75,7 +70,7 @@ function GoogleAutoComplete({
 			placeholder={placeholder}
 			dropdownItems={predictions || []}
 			onLoadDefaultValue={onLoadDefaultValue}
-			onMergeStorageSession={onMergeStorageSession}
+			onMergeStorage={onMergeStorage}
 			onUpdatePrediction={onUpdatePredictionHanlder}
 		/>
 	);

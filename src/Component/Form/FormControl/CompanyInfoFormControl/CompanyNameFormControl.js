@@ -1,4 +1,3 @@
-import React from "react";
 import { useSelector } from "react-redux";
 import * as dispatchPromise from "../../../../redux-store/dispatchPromise";
 import * as constVar from "../../../../Util/ConstVar";
@@ -19,7 +18,7 @@ function CompanyNameFormControl({
 			] || {}
 	);
 
-	const onMergeStorageSessionHandler = (value = "") => {
+	const onMergeStorageHandler = (value = "") => {
 		// update state
 		dispatchPromise.patchBusinessSignupInfo({
 			[`${constVar.STORAGE_COMPANY_PROP}`]: {
@@ -66,7 +65,7 @@ function CompanyNameFormControl({
 			required={required}
 			disabled={disabled}
 			placeholder={placeholder}
-			onMergeStorageSession={onMergeStorageSessionHandler}
+			onMergeStorage={onMergeStorageHandler}
 			onLoadDefaultValue={onLoadDefaultValueHandler}
 		/>
 	);

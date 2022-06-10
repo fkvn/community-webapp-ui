@@ -1,4 +1,3 @@
-import React from "react";
 import { useSelector } from "react-redux";
 import TextFormControl from "../../../../Component/Form/FormControl/TextFormControl";
 import * as dispatchPromise from "../../../../redux-store/dispatchPromise";
@@ -44,7 +43,7 @@ function UserUsernameFormControlContainer(props) {
 		);
 	};
 
-	const onMergeStorageSessionHandler = (value = "") => {
+	const onMergeStorageHandler = (value = "") => {
 		// update store
 		updateReduxStoreUsername(value);
 
@@ -69,7 +68,7 @@ function UserUsernameFormControlContainer(props) {
 			placeholder={placeholder}
 			required={required}
 			disabled={disabled}
-			onMergeStorageSession={onMergeStorageSessionHandler}
+			onMergeStorage={onMergeStorageHandler}
 			onLoadDefaultValue={onLoadDefaultValueHandler}
 		/>
 	);
