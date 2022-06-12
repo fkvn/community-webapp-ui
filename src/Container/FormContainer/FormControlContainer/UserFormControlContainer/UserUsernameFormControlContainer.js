@@ -1,5 +1,5 @@
 import { useSelector } from "react-redux";
-import TextFormControl from "../../../../Component/Form/FormControl/TextFormControl";
+import FormControl from "../../../../Component/Form/FormControl/FormControlControlled";
 import * as dispatchPromise from "../../../../redux-store/dispatchPromise";
 import * as constVar from "../../../../Util/ConstVar";
 import * as util from "../../../../Util/Util";
@@ -61,7 +61,7 @@ function UserUsernameFormControlContainer(props) {
 	};
 
 	const app = (
-		<TextFormControl
+		<FormControl
 			{...(id && { id: id })}
 			value={username}
 			className={className}

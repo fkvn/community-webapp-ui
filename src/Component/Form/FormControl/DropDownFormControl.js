@@ -9,6 +9,7 @@ function DropDownFormControl(props, _) {
 		placeholder = "",
 		className = "",
 		value = "",
+		required = false,
 		dropdownItems = [],
 		showDropdownItems = false,
 		onLoadDefaultValue = () => {},
@@ -22,7 +23,7 @@ function DropDownFormControl(props, _) {
 		// update store
 		onMergeStorage(value);
 
-		// return suggestions
+		// update suggestions
 		onUpdatePrediction(value);
 	};
 
@@ -30,7 +31,7 @@ function DropDownFormControl(props, _) {
 		// update store
 		onMergeStorage(selection, true);
 
-		// return suggestions
+		// update suggestions
 		onUpdatePrediction(selection, true);
 	};
 
@@ -50,6 +51,7 @@ function DropDownFormControl(props, _) {
 				{...(id && { id: id })}
 				type={type}
 				placeholder={placeholder}
+				required={required}
 				className={`tedkvn-formControl ${className}`}
 				value={value}
 				onChange={(e) => onChangeHandler(e.target.value)}

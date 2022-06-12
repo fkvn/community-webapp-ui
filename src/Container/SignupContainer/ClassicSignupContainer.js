@@ -95,7 +95,7 @@ function ClassicSignupContainer() {
 		});
 	};
 
-	const onSubmitStep_3_HandlerPromise = () => {
+	const onSubmitStep_3_HandlerPromise = async () => {
 		// get signup object from redux store
 		let signupInfo = dispatchPromise.getState()[`${storageObjName}`];
 
@@ -152,7 +152,7 @@ function ClassicSignupContainer() {
 		});
 	};
 
-	const onSubmitStep_4_HandlerPromise = () => {
+	const onSubmitStep_4_HandlerPromise = async () => {
 		// get signup object from redux store
 		let signupInfo = dispatchPromise.getState()[`${storageObjName}`];
 

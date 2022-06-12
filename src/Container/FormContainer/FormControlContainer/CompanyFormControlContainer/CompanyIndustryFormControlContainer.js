@@ -7,7 +7,6 @@ import * as util from "../../../../Util/Util";
 
 function CompanyIndustryFormControlContainer({
 	id = "",
-
 	placeholder = "Busines industry",
 	required = false,
 	disabled = false,
@@ -36,15 +35,13 @@ function CompanyIndustryFormControlContainer({
 		);
 	};
 
-	const updateReduxStoreIndustry = (industry = "") => {
+	const updateReduxStoreIndustry = (
+		industry = "",
+		showIndustryList = false
+	) => {
 		dispatchPromise.patchSignupCompanyInfo({
 			[`${constVar.STORAGE_COMPANY_INDUSTRY_PROP}`]: industry,
-		});
-	};
-
-	const updateReduxStoreShowList = (show = false) => {
-		dispatchPromise.patchSignupCompanyInfo({
-			showIndustryList: show,
+			showIndustryList: showIndustryList,
 		});
 	};
 
@@ -68,11 +65,13 @@ function CompanyIndustryFormControlContainer({
 	};
 
 	const onMergeStorageHandler = (value = "", onSelect = false) => {
-		console.log("merge industry");
 		const industry = onSelect ? value.description : value || "";
 
 		// update store
-		updateReduxStoreIndustry(industry);
+		updateReduxStoreIndustry(
+			industry,
+			onSelect || industry === "" ? false : true
+		);
 
 		// save progress
 		updateSessionIndustry(industry);
@@ -84,7 +83,6 @@ function CompanyIndustryFormControlContainer({
 		// return suggestions
 		if (onSelect || industry === "") {
 			setFilterIndustries([]);
-			updateReduxStoreShowList(false);
 		} else {
 			// update list
 			const filteredIndustryList = industryList.filter(
@@ -93,7 +91,6 @@ function CompanyIndustryFormControlContainer({
 			);
 
 			setFilterIndustries(filteredIndustryList);
-			updateReduxStoreShowList(true);
 		}
 	};
 

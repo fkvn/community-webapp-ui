@@ -51,9 +51,21 @@ export const isValidPasswordFormat = (password = "") => {
 	return false;
 };
 
+export const isValidUrl = (url = "") => {
+	let condition =
+		url.length === 0 ||
+		/(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_+.~#?&//=]*)/g.test(
+			url
+		);
+
+	if (condition) return true;
+
+	return false;
+};
+
 export const formatPhoneNumber = (value = "") => {
 	if (value.length < 16) {
-		if (value.length === 0) return [value, 0];
+		if (value.length === 0) return value;
 
 		// clean the input for any non-digit values.
 		const phoneNumber = value.replace(/[^\d]/g, "");
@@ -64,29 +76,23 @@ export const formatPhoneNumber = (value = "") => {
 		// US format - 10 digits max
 		if (phoneNumberLength < 11) {
 			// digits 0-4
-			if (phoneNumberLength < 4) return ["(" + phoneNumber, phoneNumberLength];
+			if (phoneNumberLength < 4) return "(" + phoneNumber;
 			// digits 4-6
 			else if (phoneNumberLength < 7) {
-				return [
-					`(${phoneNumber.slice(0, 3)}) ${phoneNumber.slice(3)}`,
-					phoneNumberLength,
-				];
+				return `(${phoneNumber.slice(0, 3)}) ${phoneNumber.slice(3)}`;
 			}
 
 			// digits 7-10
 			else {
-				return [
-					`(${phoneNumber.slice(0, 3)}) ${phoneNumber.slice(
-						3,
-						6
-					)}-${phoneNumber.slice(6, 10)}`,
-					phoneNumberLength,
-				];
+				return `(${phoneNumber.slice(0, 3)}) ${phoneNumber.slice(
+					3,
+					6
+				)}-${phoneNumber.slice(6, 10)}`;
 			}
 		}
 	}
 
-	return [];
+	return "";
 };
 
 export const formatOtpNumber = (value = "") => {
@@ -122,6 +128,10 @@ export const formatOtpNumber = (value = "") => {
 	const formattedValue = value.replace(/[^\d]/g, "");
 
 	return [value, formattedValue.length];
+};
+
+export const getNumberOfDigit = (value = "") => {
+	return value.replace(/[^\d]/g, "").length;
 };
 
 export const updatePhoneCursorPostion = (ref = null, cursor = 0) => {

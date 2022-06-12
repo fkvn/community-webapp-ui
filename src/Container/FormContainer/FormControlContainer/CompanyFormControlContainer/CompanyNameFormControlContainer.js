@@ -42,12 +42,6 @@ function CompanyNameFormControlContainer({
 		});
 	};
 
-	const updateReduxStoreShowList = (show = false) => {
-		dispatchPromise.patchSignupCompanyInfo({
-			showCompanyList: show,
-		});
-	};
-
 	const updateSession = ({ ...props }) => {
 		sessionStorage.setItem(
 			storageObjName,
@@ -70,25 +64,28 @@ function CompanyNameFormControlContainer({
 	};
 
 	const onMergeStorageHandler = (value = "", onSelect = false) => {
-		const name = onSelect ? { ...value } : { name: value } || "";
+		const { description, ...props } = onSelect
+			? { ...value }
+			: { name: value } || "";
 
 		// update store
-		updateReduxStore({ ...name });
+		updateReduxStore({
+			...props,
+			showCompanyList: onSelect || name === "" ? false : true,
+		});
 
 		// save progress
-		updateSession({ ...name });
+		updateSession({ ...props });
 	};
 
 	const onUpdatePredictionHanlder = (value = "", onSelect = false) => {
-		const name = onSelect ? value.description : value || "";
+		const name = onSelect ? "" : value || "";
 
 		// update predictions
 		if (onSelect || name === "") {
 			setFilterCompanies([]);
-			updateReduxStoreShowList(false);
 		} else {
 			onGetCompanyPredictionPromise(name).then((predictions = []) => {
-				updateReduxStoreShowList(true);
 				setFilterCompanies(
 					predictions.map((prediction) => {
 						return {

@@ -1,17 +1,14 @@
-import CompanyNameFormControlContainer from "../../../Container/FormContainer/FormControlContainer/CompanyFormControlContainer/CompanyNameFormControlContainer";
+import CompanyContactFormGroupContainer from "../../../Container/FormContainer/FormGroupContainer/CompanyFormGroupContainer/CompanyContactFormGroupContainer";
+import CompanyMoreInfoFormGroupContainer from "../../../Container/FormContainer/FormGroupContainer/CompanyFormGroupContainer/CompanyMoreInfoFormGroupContainer";
 import * as constVar from "../../../Util/ConstVar";
-import CompanyContactFormGroupControl from "../FormGroupControl/CompanyInfoFormGroupControl/CompanyContactFormGroupControl";
-import CompanyMoreInfoFormGroupControl from "../FormGroupControl/CompanyInfoFormGroupControl/CompanyMoreInfoFormGroupControl";
-import FormGroupControl from "../FormGroupControl/FormGroupControl";
 import ReadOnlyFormGroupControl from "../FormGroupControl/ReadOnlyFormGroupControl";
+import SubmitButtonFormGroupControl from "../FormGroupControl/SubmitButtonFormGroupControl";
 
 function NewBusinessSignupForm({
 	storageObjName = "",
-	step = 1,
+	step = -1,
 	onBack = () => {},
 	onSubmitLoading = false,
-	industryList = [],
-	positionList = [],
 }) {
 	const step_1_headline = (
 		<ReadOnlyFormGroupControl
@@ -28,21 +25,17 @@ function NewBusinessSignupForm({
 	const RenderStep1 = () => (
 		<>
 			{step_1_headline}{" "}
-			<FormGroupControl
-				withLabel={true}
-				label="Business Name"
-				required={true}
-				storageObjName={constVar.THAINOW_COMPANY_SIGN_UP_STORAGE_OBJ}
-				RenderFormControl={CompanyNameFormControlContainer}
-			/>
-			<CompanyContactFormGroupControl
+			<CompanyContactFormGroupContainer
 				storageObjName={constVar.THAINOW_COMPANY_SIGN_UP_STORAGE_OBJ}
 				formGroupClassName="mt-3"
 			/>
-			<CompanyMoreInfoFormGroupControl
+			<CompanyMoreInfoFormGroupContainer
 				storageObjName={constVar.THAINOW_COMPANY_SIGN_UP_STORAGE_OBJ}
-				formGroupClassName="mt-3"
+				formGroupClassName="mt-4"
 			/>
+			<div className="text-center pt-3">
+				<SubmitButtonFormGroupControl className="px-5" show={onSubmitLoading} />
+			</div>
 		</>
 	);
 

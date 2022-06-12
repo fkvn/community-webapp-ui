@@ -1,4 +1,3 @@
-import React from "react";
 import { Button, Row } from "react-bootstrap";
 import { useSearchParams } from "react-router-dom";
 import FormContainer from "../../Container/FormContainer/FormContainer";
@@ -8,9 +7,8 @@ import NewBusinessSignupForm from "../Form/FormLayout/NewBusinessSignupForm";
 
 function BusinessSignup({
 	storageObjName = constVar.THAINOW_BUSINESS_SIGN_UP_STORAGE_OBJ,
-	industryList = [],
 	stepHandlers = [],
-	onCloseHandler = () => {},
+	onClose = () => {},
 	onBackHandlerPromise = () => {},
 }) {
 	let [searchParams] = useSearchParams();
@@ -36,14 +34,13 @@ function BusinessSignup({
 					</p>
 				</Row>
 			}
-			onClose={onCloseHandler}
+			onClose={onClose}
 		/>
 	);
 
 	const FormBody = {
 		FormComponent: NewBusinessSignupForm,
 		storageObjName: storageObjName,
-		industryList: industryList,
 	};
 
 	const app = FormContainer(

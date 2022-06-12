@@ -5,97 +5,97 @@ import * as dispatchPromise from "../../../../redux-store/dispatchPromise";
 import * as constVar from "../../../../Util/ConstVar";
 import * as util from "../../../../Util/Util";
 
-function CompanyEmailFormControlContainer({
+function CompanyWebsiteFormControlContainer({
 	id = "",
 	className = "",
-	placeholder = "Enter business email",
+	placeholder = "Business website",
 	required = false,
 	disabled = false,
-	onEmailValidation = () => {},
+	onUrlValidation = () => {},
 	storageObjName = "",
 }) {
-	const email = useSelector(
+	const website = useSelector(
 		(state) =>
 			state.thainowReducer[`${storageObjName}`][
-				`${constVar.STORAGE_COMPANY_EMAIL_PROP}`
+				`${constVar.STORAGE_COMPANY_WEBSITE_PROP}`
 			] || ""
 	);
 
-	const getSessionEmail = () => {
+	const getSessionWebsite = () => {
 		return (
 			util.getSessionStorageObj(storageObjName)[
-				`${constVar.STORAGE_COMPANY_EMAIL_PROP}`
+				`${constVar.STORAGE_COMPANY_WEBSITE_PROP}`
 			] || ""
 		);
 	};
 
-	const updateReduxStoreEmail = (email = "", isValidEmail = true) => {
+	const updateReduxStoreWebsite = (url = "", isValidUrl = true) => {
 		dispatchPromise.patchSignupCompanyInfo({
-			[`${constVar.STORAGE_COMPANY_EMAIL_PROP}`]: email,
-			[`${constVar.STORAGE_COMPANY_EMAIL_VALIDATION}`]: isValidEmail,
+			[`${constVar.STORAGE_COMPANY_WEBSITE_PROP}`]: url,
+			[`${constVar.STORAGE_COMPANY_WEBSITE_VALIDATION}`]: isValidUrl,
 		});
 	};
 
-	const updateSessionEmail = (email = "", isValidEmail = true) => {
+	const updateSessionWebsite = (url = "", isValidUrl = true) => {
 		util.saveToSessionStore(
 			storageObjName,
-			constVar.STORAGE_COMPANY_EMAIL_PROP,
-			email
+			constVar.STORAGE_COMPANY_WEBSITE_PROP,
+			url
 		);
 
 		util.saveToSessionStore(
 			storageObjName,
-			constVar.STORAGE_COMPANY_EMAIL_VALIDATION,
-			isValidEmail
+			constVar.STORAGE_COMPANY_WEBSITE_VALIDATION,
+			isValidUrl
 		);
 	};
 
-	const onMergeStorageHandler = (email = "") => {
+	const onMergeStorageHandler = (url = "") => {
 		// validate password
-		const isValidEmail = onEmailValidation(email);
+		const isValidUrl = onUrlValidation(url);
 
 		// update store
-		updateReduxStoreEmail(email, isValidEmail);
+		updateReduxStoreWebsite(url, isValidUrl);
 
 		// update storage
-		updateSessionEmail(email, isValidEmail);
+		updateSessionWebsite(url, isValidUrl);
 	};
 
 	const onLoadDefaultValueHandler = () => {
 		// get information from the first time load
-		const defaultEmail = getSessionEmail();
+		const defaultWebsite = getSessionWebsite();
 
 		// validate password
-		const isValidEmail = onEmailValidation(defaultEmail);
+		const isValidUrl = onUrlValidation(defaultWebsite);
 
-		if (email !== defaultEmail) {
-			updateReduxStoreEmail(defaultEmail, isValidEmail);
+		if (website !== defaultWebsite) {
+			updateReduxStoreWebsite(defaultWebsite, isValidUrl);
 		}
 	};
 
 	//this is to check when the field is filled by redux store value changed
 	useEffect(() => {
-		const isValidEmail = onEmailValidation(email);
+		const isValidUrl = onUrlValidation(website);
 
-		const isValidStoreEmail =
+		const isValidStoreWebsite =
 			dispatchPromise.getState()[`${storageObjName}`][
-				`${constVar.STORAGE_COMPANY_EMAIL_VALIDATION}`
-			] || isValidEmail;
+				`${constVar.STORAGE_COMPANY_WEBSITE_VALIDATION}`
+			] || isValidUrl;
 
-		if (isValidStoreEmail !== isValidEmail) {
+		if (isValidStoreWebsite !== isValidUrl) {
 			dispatchPromise.patchSignupCompanyInfo({
-				[`${constVar.STORAGE_COMPANY_EMAIL_VALIDATION}`]: isValidEmail,
+				[`${constVar.STORAGE_COMPANY_WEBSITE_VALIDATION}`]: isValidUrl,
 			});
 		}
-	}, [email, storageObjName, onEmailValidation]);
+	}, [website, storageObjName, onUrlValidation]);
 
 	const app = (
 		<FormControlControlled
-			type="email"
+			type="url"
 			{...(id && { id: id })}
 			{...(placeholder && { placeholder: placeholder })}
 			className={className}
-			value={email}
+			value={website}
 			required={required}
 			disabled={disabled}
 			onMergeStorage={onMergeStorageHandler}
@@ -105,4 +105,4 @@ function CompanyEmailFormControlContainer({
 	return app;
 }
 
-export default CompanyEmailFormControlContainer;
+export default CompanyWebsiteFormControlContainer;

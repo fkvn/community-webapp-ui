@@ -1,8 +1,8 @@
-import React from "react";
 import { Button, Container, Form } from "react-bootstrap";
 import UserEmailFormControlContainer from "../../../Container/FormContainer/FormControlContainer/UserFormControlContainer/UserEmailFormControlContainer";
 import UserPasswordFormControlContainer from "../../../Container/FormContainer/FormControlContainer/UserFormControlContainer/UserPasswordFormControlContainer";
 import UserPhoneFormControlContainer from "../../../Container/FormContainer/FormControlContainer/UserFormControlContainer/UserPhoneFormControlContainer";
+import UserContactFormGroupContainer from "../../../Container/FormContainer/FormGroupContainer/UserFormGroupContainer/UserContactFormGroupContainer";
 import * as dispatchPromise from "../../../redux-store/dispatchPromise";
 import * as constVar from "../../../Util/ConstVar";
 import * as util from "../../../Util/Util";
@@ -14,7 +14,6 @@ import PhoneFromGroupControl from "../FormGroupControl/PhoneFormGroupControl";
 import PrevstepFormGroupControl from "../FormGroupControl/PrevstepFormGroupControl";
 import ReadOnlyFormGroupControl from "../FormGroupControl/ReadOnlyFormGroupControl";
 import SubmitButtonFormGroupControl from "../FormGroupControl/SubmitButtonFormGroupControl";
-import UserContactFormGroupControl from "../FormGroupControl/UserInfoFormGroupControl/UserContactFormGroupControl";
 
 function ClassicSignupForm({
 	storageObjName = "",
@@ -63,7 +62,7 @@ function ClassicSignupForm({
 	const RenderStep1 = () => (
 		<>
 			{step_1_headline}
-			<UserContactFormGroupControl storageObjName={storageObjName} />
+			<UserContactFormGroupContainer storageObjName={storageObjName} />
 			{passwordFormGroupControl}
 			{agreementFormGroupControl}
 			<div className="text-center pt-3">

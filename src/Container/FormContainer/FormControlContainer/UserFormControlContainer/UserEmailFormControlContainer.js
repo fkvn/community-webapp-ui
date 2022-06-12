@@ -1,5 +1,5 @@
+import { FormControl } from "react-bootstrap";
 import { useSelector } from "react-redux";
-import EmailFormControl from "../../../../Component/Form/FormControl/EmailFormControl";
 import * as dispatchPromise from "../../../../redux-store/dispatchPromise";
 import * as constVar from "../../../../Util/ConstVar";
 
@@ -51,15 +51,15 @@ function UserEmailFormControlContainer({
 	// 	);
 	// };
 
-	const onMergeStorageHandler = (email = "", isValidEmail = true) => {
+	const onMergeStorageHandler = (email = "") => {
+		// validate password
+		const isValidEmail = onEmailValidation(email);
+
 		// update store
 		updateReduxStoreEmail(email, isValidEmail);
 
 		// update storage
 		// updateSessionEmail(email, isValidEmail);
-
-		// validate password
-		onEmailValidation(isValidEmail);
 	};
 
 	const onLoadDefaultValueHandler = () => {
@@ -73,11 +73,12 @@ function UserEmailFormControlContainer({
 	};
 
 	const app = (
-		<EmailFormControl
+		<FormControl
+			type="email"
 			{...(id && { id: id })}
 			{...(placeholder && { placeholder: placeholder })}
 			className={className}
-			email={email}
+			value={email}
 			required={required}
 			disabled={disabled}
 			onEmailValidation={onEmailValidation}

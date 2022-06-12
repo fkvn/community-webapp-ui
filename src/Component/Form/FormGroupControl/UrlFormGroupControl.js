@@ -1,22 +1,29 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Form, Row } from "react-bootstrap";
 
-function CompanyEmailFormGroupControl({
+import * as util from "../../../Util/Util";
+
+function UrlFormGroupControl({
 	id = "",
 	withLabel = true,
-	label = "Email",
+	label = "Website",
 	labelClassName = "",
 	formGroupClassName = "",
 	required = false,
 	disabled = false,
 	displayWaningMessage = true,
 	storageObjName = "",
+	RenderFormControl = () => {},
 }) {
 	const [warningMessage, setWarningMessage] = useState("");
 
-	const onEmailValidationHanlder = (isValidEmail = true) => {
-		if (isValidEmail) setWarningMessage("");
-		else setWarningMessage("Please enter a valid email address.");
+	const onUrlValidationHanlder = (url = "") => {
+		const isValidUrl = util.isValidUrl(url);
+
+		if (isValidUrl) setWarningMessage("");
+		else setWarningMessage("Please  a valid domain with http(s)");
+
+		return isValidUrl;
 	};
 
 	const app = (
@@ -32,11 +39,11 @@ function CompanyEmailFormGroupControl({
 						{label}
 					</Form.Label>
 				)}
-				<CompanyEmailFormGroupControl
+				<RenderFormControl
 					{...(id && { id: id })}
 					required={required}
 					disabled={disabled}
-					onEmailValidation={onEmailValidationHanlder}
+					onUrlValidation={onUrlValidationHanlder}
 					storageObjName={storageObjName}
 				/>
 				{displayWaningMessage && warningMessage.length > 0 && (
@@ -50,4 +57,4 @@ function CompanyEmailFormGroupControl({
 	return app;
 }
 
-export default CompanyEmailFormGroupControl;
+export default UrlFormGroupControl;

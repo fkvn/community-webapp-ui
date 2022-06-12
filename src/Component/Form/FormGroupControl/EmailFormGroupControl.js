@@ -1,5 +1,7 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Form, Row } from "react-bootstrap";
+
+import * as util from "../../../Util/Util";
 
 function EmailFromGroupControl({
 	id = "",
@@ -15,9 +17,13 @@ function EmailFromGroupControl({
 }) {
 	const [warningMessage, setWarningMessage] = useState("");
 
-	const onEmailValidationHanlder = (isValidEmail = true) => {
+	const onEmailValidationHanlder = (email = "") => {
+		const isValidEmail = util.isValidEmailFormat(email);
+
 		if (isValidEmail) setWarningMessage("");
 		else setWarningMessage("Please enter a valid email address.");
+
+		return isValidEmail;
 	};
 
 	const app = (

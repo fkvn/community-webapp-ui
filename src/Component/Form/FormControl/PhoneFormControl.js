@@ -29,13 +29,11 @@ function PhoneFormControl({
 				setCursor(cursor);
 			}
 
-			//  validate phone
-			const [formattedPhone, numOfDigits] = util.formatPhoneNumber(phone);
-
-			const isValidPhone = numOfDigits === 10 || numOfDigits === 0;
+			//  format phone
+			const formattedPhone = util.formatPhoneNumber(phone);
 
 			// merge to storage session
-			onMergeStorage(formattedPhone, isValidPhone);
+			onMergeStorage(formattedPhone);
 		},
 		[onMergeStorage]
 	);
@@ -53,7 +51,7 @@ function PhoneFormControl({
 		util.updatePhoneCursorPostion(ref, cursor);
 	}, [loading, setLoading, ref, cursor, onLoadDefaultValue]);
 
-	const app = (
+	const app = !loading && (
 		<FormControl
 			{...(id && { id: id })}
 			type={type}

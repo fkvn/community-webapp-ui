@@ -8,17 +8,7 @@ export const getPromise = async (promise = () => {}) => {
 	});
 };
 
-export const validateEmailPromise = (email = "") => {
-	return axios.post(`/users/validateEmail`, {
-		email: email,
-	});
-};
-
-export const validatePhonePromise = (phone = "") => {
-	return axios.post(`/users/validatePhone`, {
-		phone: phone,
-	});
-};
+// auth API
 
 export const sendOtpCodePromise = (channel = "", value = "") => {
 	if (channel === "email" || channel === "sms") {
@@ -60,7 +50,7 @@ export const signupPromise = (signupInfo = {}, role = "") => {
 	});
 };
 
-export const loginPromise = (
+export const loginPromise = async (
 	channel = "",
 	email = "",
 	phone = "",
@@ -81,8 +71,25 @@ export const loginPromise = (
 				);
 				return "success";
 			}
+			throw new Error("Sign In Failed!");
 		});
 };
+
+// User API
+
+export const validateEmailPromise = (email = "") => {
+	return axios.post(`/users/validateEmail`, {
+		email: email,
+	});
+};
+
+export const validatePhonePromise = (phone = "") => {
+	return axios.post(`/users/validatePhone`, {
+		phone: phone,
+	});
+};
+
+// Company API
 
 export const searchCompanyPromise = (
 	keywords = "",
@@ -91,5 +98,17 @@ export const searchCompanyPromise = (
 ) => {
 	return axios.get("/companies/search", {
 		params: { keywords: keywords, fetchAll: fetchAll, fetchLimit: fetchLimit },
+	});
+};
+
+export const validateCompanyEmailPromise = (email = "") => {
+	return axios.post(`/companies/validateEmail`, {
+		email: email,
+	});
+};
+
+export const validateCompanyPhonePromise = (phone = "") => {
+	return axios.post(`/companies/validatePhone`, {
+		phone: phone,
 	});
 };

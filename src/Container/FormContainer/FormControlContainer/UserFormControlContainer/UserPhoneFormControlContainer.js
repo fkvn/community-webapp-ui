@@ -50,7 +50,9 @@ function UserPhoneFormControlContainer({
 	// 	);
 	// };
 
-	const onMergeStorageHandler = (formattedPhone = "", isValidPhone = true) => {
+	const onMergeStorageHandler = (formattedPhone = "") => {
+		const isValidPhone = onPhoneValidation(formattedPhone);
+
 		// update storage
 		updateReduxStorePhone(formattedPhone, isValidPhone);
 
@@ -58,7 +60,6 @@ function UserPhoneFormControlContainer({
 		// updateSessionPhone(formattedPhone, isValidPhone);
 
 		// validate phone
-		onPhoneValidation(isValidPhone);
 	};
 
 	const onLoadDefaultValueHandler = () => {

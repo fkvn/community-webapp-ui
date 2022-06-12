@@ -3,6 +3,9 @@ import { Form } from "react-bootstrap";
 
 function AddressFromGroupControl({
 	id = "",
+	withLabel = false,
+	label = "Address",
+	labelClassName = "",
 	formGroupClassName = "",
 	storageObjName = "",
 	placeholder = "",
@@ -19,6 +22,16 @@ function AddressFromGroupControl({
 
 	const app = (
 		<Form.Group className={`tedkvn-formGroupControl ${formGroupClassName}`}>
+			{withLabel && (
+				<Form.Label
+					{...(id && { htmlFor: id })}
+					className={`formLabel ${labelClassName} ${
+						required && "tedkvn-required"
+					} }`}
+				>
+					{label}
+				</Form.Label>
+			)}
 			<RenderFormControl
 				{...(id && { id: id })}
 				{...(placeholder && { placeholder: placeholder })}

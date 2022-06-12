@@ -1,18 +1,14 @@
 import { Col, Form, Row } from "react-bootstrap";
-import UserAddressFormControlContainer from "../../../../Container/FormContainer/FormControlContainer/UserFormControlContainer/UserAddressFormControlContainer";
-import UserUsernameFormControlContainer from "../../../../Container/FormContainer/FormControlContainer/UserFormControlContainer/UserUsernameFormControlContainer";
-import AddressFromGroupControl from "../AddressFormGroupControl";
-import FormGroupControl from "../FormGroupControl";
+import AddressFromGroupControl from "../../../../Component/Form/FormGroupControl/AddressFormGroupControl";
+import FormGroupControl from "../../../../Component/Form/FormGroupControl/FormGroupControl";
+import UserAddressFormControlContainer from "../../FormControlContainer/UserFormControlContainer/UserAddressFormControlContainer";
+import UserUsernameFormControlContainer from "../../FormControlContainer/UserFormControlContainer/UserUsernameFormControlContainer";
 
-function UserContactFormGroupControl({
-	storageObjName = "",
-	usernameRequired = true,
-	addressRequired = true,
-}) {
+function UserContactFormGroupContainer({ storageObjName = "" }) {
 	const usernameFormGroupControl = (
 		<FormGroupControl
 			id="classic-signup-usernameFormControl"
-			required={usernameRequired}
+			required={true}
 			withLabel={false}
 			storageObjName={storageObjName}
 			RenderFormControl={UserUsernameFormControlContainer}
@@ -22,7 +18,7 @@ function UserContactFormGroupControl({
 	const addressFormGroupControl = (
 		<AddressFromGroupControl
 			id="classic-signup-addressFormControl"
-			required={addressRequired}
+			required={true}
 			storageObjName={storageObjName}
 			RenderFormControl={UserAddressFormControlContainer}
 		/>
@@ -46,4 +42,4 @@ function UserContactFormGroupControl({
 	return app;
 }
 
-export default UserContactFormGroupControl;
+export default UserContactFormGroupContainer;

@@ -1,5 +1,7 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Form, Row } from "react-bootstrap";
+
+import * as util from "../../../Util/Util";
 
 function PhoneFromGroupControl({
 	id = "",
@@ -16,9 +18,15 @@ function PhoneFromGroupControl({
 }) {
 	const [warningMessage, setWarningMessage] = useState("");
 
-	const onPhoneValidationHanlder = (isValidPhone = true) => {
+	const onPhoneValidationHanlder = (formattedPhone = "") => {
+		const numOfDigits = util.getNumberOfDigit(formattedPhone);
+
+		const isValidPhone = numOfDigits === 10 || numOfDigits === 0;
+
 		if (isValidPhone) setWarningMessage("");
 		else setWarningMessage("Please enter a valid phone number");
+
+		return isValidPhone;
 	};
 
 	const app = (
