@@ -23,17 +23,6 @@ function ClassicSignupForm({
 	onSelectVerifyMethod = () => {},
 	onResetOtp = () => {},
 }) {
-	const passwordFormGroupControl = (
-		<PasswordFromGroupControl
-			id="classic-signup-passwordFormControl"
-			required={true}
-			storageObjName={storageObjName}
-			RenderFormControl={UserPasswordFormControlContainer}
-		/>
-	);
-
-	const agreementFormGroupControl = <AgreementFormGroupControl />;
-
 	const step_1_headline = (
 		<ReadOnlyFormGroupControl
 			title={
@@ -44,6 +33,17 @@ function ClassicSignupForm({
 			style={{ fontSize: "1.2rem" }}
 		/>
 	);
+
+	const passwordFormGroupControl = (
+		<PasswordFromGroupControl
+			id="classic-signup-passwordFormControl"
+			required={true}
+			storageObjName={storageObjName}
+			RenderFormControl={UserPasswordFormControlContainer}
+		/>
+	);
+
+	const agreementFormGroupControl = <AgreementFormGroupControl />;
 
 	const loginFormIntro = (
 		<Form.Group className="mb-4 text-center">
@@ -150,9 +150,9 @@ function ClassicSignupForm({
 	);
 
 	const verifyMethod =
-		dispatchPromise.getState()[
-			`${constVar.THAINOW_CLASSIC_SIGN_UP_STORAGE_OBJ}`
-		][`${constVar.STORAGE_VERIFICATION_METHOD_PROP}`] || "";
+		dispatchPromise.getState()[`${constVar.THAINOW_USER_SIGN_UP_STORAGE_OBJ}`][
+			`${constVar.STORAGE_VERIFICATION_METHOD_PROP}`
+		] || "";
 
 	const step_3_headline = (
 		<ReadOnlyFormGroupControl

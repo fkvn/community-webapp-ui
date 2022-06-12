@@ -24,8 +24,7 @@ import * as constVar from "../../Util/ConstVar";
 import * as actionTypes from "../actionCreator/actionType";
 
 const initialState = {
-	[`${constVar.THAINOW_BUSINESS_SIGN_UP_STORAGE_OBJ}`]: {},
-	[`${constVar.THAINOW_CLASSIC_SIGN_UP_STORAGE_OBJ}`]: {},
+	[`${constVar.THAINOW_USER_SIGN_UP_STORAGE_OBJ}`]: {},
 	[`${constVar.THAINOW_COMPANY_SIGN_UP_STORAGE_OBJ}`]: {},
 };
 
@@ -38,33 +37,17 @@ const initialState = {
 
 // ================== error =========================
 
-const dispatchPatchSignupBusinessInfo = (state, action) => {
-	const currentInfo = state[`${constVar.THAINOW_BUSINESS_SIGN_UP_STORAGE_OBJ}`];
+const dispatchPatchSignupUserInfo = (state, action) => {
+	const currentInfo = state[`${constVar.THAINOW_USER_SIGN_UP_STORAGE_OBJ}`];
 
 	const updateInfo = {
 		...currentInfo,
-		...action[`${constVar.THAINOW_BUSINESS_SIGN_UP_STORAGE_OBJ}`],
+		...action[`${constVar.THAINOW_USER_SIGN_UP_STORAGE_OBJ}`],
 	};
 
 	return {
 		...state,
-		[`${constVar.THAINOW_BUSINESS_SIGN_UP_STORAGE_OBJ}`]: updateInfo,
-	};
-};
-
-const dispatchPatchSignupClassicInfo = (state, action) => {
-	const currentInfo = {
-		...state[`${constVar.THAINOW_CLASSIC_SIGN_UP_STORAGE_OBJ}`],
-	};
-
-	const updateInfo = {
-		...currentInfo,
-		...action[`${constVar.THAINOW_CLASSIC_SIGN_UP_STORAGE_OBJ}`],
-	};
-
-	return {
-		...state,
-		[`${constVar.THAINOW_CLASSIC_SIGN_UP_STORAGE_OBJ}`]: { ...updateInfo },
+		[`${constVar.THAINOW_USER_SIGN_UP_STORAGE_OBJ}`]: updateInfo,
 	};
 };
 
@@ -106,12 +89,9 @@ const dispatchError = (state, action) => {
 */
 const reducer = (state = initialState, action) => {
 	switch (action.type) {
-		// patch business signup info
-		case actionTypes.DISPATCH_PATCH_SIGNUP_BUSINESS_INFO:
-			return dispatchPatchSignupBusinessInfo(state, action);
-		// patch classic signup info
-		case actionTypes.DISPATCH_PATCH_SIGNUP_CLASSIC_INFO:
-			return dispatchPatchSignupClassicInfo(state, action);
+		// patch user signup info
+		case actionTypes.DISPATCH_PATCH_SIGNUP_USER_INFO:
+			return dispatchPatchSignupUserInfo(state, action);
 		// patch company signup info
 		case actionTypes.DISPATCH_PATCH_SIGNUP_COMPANY_INFO:
 			return dispatchPatchSignupCompanyInfo(state, action);

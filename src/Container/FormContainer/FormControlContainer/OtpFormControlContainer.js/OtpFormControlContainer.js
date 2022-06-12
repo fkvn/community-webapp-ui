@@ -19,7 +19,7 @@ function OtpFormControlContainer({
 	);
 
 	const updateReduxStoreOtp = (formattedOtp = "", isValidOtp = false) => {
-		dispatchPromise.patchSignupClassicInfo({
+		dispatchPromise.patchSignupUserInfo({
 			[`${constVar.STORAGE_OTP_PROP}`]: formattedOtp,
 			[`${constVar.STORAGE_OTP_VALIDATION}`]: isValidOtp,
 		});

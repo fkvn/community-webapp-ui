@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { Form } from "react-bootstrap";
 
+import * as util from "../../../Util/Util";
+
 function PasswordFromGroupControl({
 	id = "",
 	withLabel = true,
@@ -22,14 +24,18 @@ function PasswordFromGroupControl({
 	const [confirmPasswordWarningMessage, setConfirmPasswordWarningMessage] =
 		useState(false);
 
-	const onPasswordValidationHanlder = (isValidPassword = false) => {
+	const onPasswordValidationHanlder = (password = "") => {
+		const isValidPassword = util.isValidPasswordFormat(password);
+
 		setPasswordChanged(true);
 
 		if (isValidPassword) setWarningMessage("");
 		else
 			setWarningMessage(
-				"Your password must be between 8 and 20 characters (at least 1 upper, 1 lower, 1 number, and no white space)."
+				"8 to 20 characters (at least 1 upper, 1 lower, 1 number, and no white space)."
 			);
+
+		return isValidPassword;
 	};
 
 	const onVerifyPasswordValidationHanlder = (isPasswordMatch = false) => {

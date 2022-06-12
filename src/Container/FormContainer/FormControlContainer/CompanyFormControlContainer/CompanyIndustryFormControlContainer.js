@@ -20,7 +20,7 @@ function CompanyIndustryFormControlContainer({
 	]);
 
 	const industryList = [
-		...constVar.COMPANY_INDUSTRY_LIST.map((item) => {
+		...constVar.STORAGE_COMPANY_INDUSTRY_LIST.map((item) => {
 			return { description: item, value: item };
 		}),
 	];

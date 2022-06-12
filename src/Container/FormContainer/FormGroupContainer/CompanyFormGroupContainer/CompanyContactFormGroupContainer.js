@@ -5,8 +5,8 @@ import FormGroupControl from "../../../../Component/Form/FormGroupControl/FormGr
 import CompanyIndustryFormControlContainer from "../../FormControlContainer/CompanyFormControlContainer/CompanyIndustryFormControlContainer";
 
 import CompanyAddressFormControlContainer from "../../FormControlContainer/CompanyFormControlContainer/CompanyAddressFormControlContainer";
+import CompanyInformalCheckFormControlContainer from "../../FormControlContainer/CompanyFormControlContainer/CompanyInformalCheckFormControlContainer";
 import CompanyNameFormControlContainer from "../../FormControlContainer/CompanyFormControlContainer/CompanyNameFormControlContainer";
-import CompanyOnlineCheckFormControlContainer from "../../FormControlContainer/CompanyFormControlContainer/CompanyOnlineCheckFormControlContainer";
 
 import { useSelector } from "react-redux";
 import UrlFormGroupControl from "../../../../Component/Form/FormGroupControl/UrlFormGroupControl";
@@ -14,7 +14,7 @@ import * as constVar from "../../../../Util/ConstVar";
 import CompanyWebsiteFormControlContainer from "../../FormControlContainer/CompanyFormControlContainer/CompanyWebsiteFormControlContainer";
 
 function CompanyContactFormGroupContainer({
-	storageObjName = "company",
+	storageObjName = constVar.THAINOW_COMPANY_SIGN_UP_STORAGE_OBJ,
 	formGroupClassName = "",
 }) {
 	const companyNameFomrGroupControl = (
@@ -41,14 +41,14 @@ function CompanyContactFormGroupContainer({
 		<FormGroupControl
 			storageObjName={storageObjName}
 			formGroupClassName="mb-4"
-			RenderFormControl={CompanyOnlineCheckFormControlContainer}
+			RenderFormControl={CompanyInformalCheckFormControlContainer}
 		/>
 	);
 
 	const isOnlineStore = useSelector(
 		(state) =>
 			state.thainowReducer[`${storageObjName}`][
-				`${constVar.STORAGE_COMPANY_IS_ONLINE_PROP}`
+				`${constVar.STORAGE_COMPANY_INFORMAL_PROP}`
 			] || ""
 	);
 
@@ -74,6 +74,7 @@ function CompanyContactFormGroupContainer({
 			required={true}
 			storageObjName={storageObjName}
 			label="Business Website"
+			placeholder="Website or social media sites (Facebook, Instagram, Line, Etc.)"
 			RenderFormControl={CompanyWebsiteFormControlContainer}
 		/>
 	);

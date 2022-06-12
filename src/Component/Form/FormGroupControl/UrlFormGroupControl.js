@@ -8,6 +8,7 @@ function UrlFormGroupControl({
 	withLabel = true,
 	label = "Website",
 	labelClassName = "",
+	placeholder = "",
 	formGroupClassName = "",
 	required = false,
 	disabled = false,
@@ -41,6 +42,7 @@ function UrlFormGroupControl({
 				)}
 				<RenderFormControl
 					{...(id && { id: id })}
+					{...(placeholder && { placeholder: placeholder })}
 					required={required}
 					disabled={disabled}
 					onUrlValidation={onUrlValidationHanlder}

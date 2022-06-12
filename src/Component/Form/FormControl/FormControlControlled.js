@@ -15,6 +15,9 @@ function FormControlControlled(props) {
 		// this is for simple check box
 		onClick = () => {},
 		label = "",
+		name = "",
+		inline = false,
+		checked = false,
 	} = props;
 
 	const [loading, setLoading] = useState(true);
@@ -32,20 +35,22 @@ function FormControlControlled(props) {
 		}
 	}, [loading, onLoadDefaultValue]);
 
-	if (type === "checkbox") {
-		console.log("checkbox");
-		console.log(value);
-	}
+	// console.log(defaultChecked);
 
 	const app = (
 		<>
-			{type === "checkbox" ? (
+			{type === "checkbox" || type === "radio" ? (
 				<Form.Check
-					type="checkbox"
+					type={type}
 					label={label}
+					name={name}
+					inline={inline}
+					required={required}
+					disabled={disabled}
 					className="text-primary"
 					onChange={onClick}
-					checked={value}
+					{...(type === "checkbox" && { checked: value })}
+					{...(type === "radio" && { value: value, checked: checked })}
 				/>
 			) : (
 				<FormControl

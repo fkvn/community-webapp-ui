@@ -14,6 +14,7 @@ function EmailFromGroupControl({
 	displayWaningMessage = true,
 	storageObjName = "",
 	RenderFormControl = () => {},
+	saveAndLoadValue = true,
 }) {
 	const [warningMessage, setWarningMessage] = useState("");
 
@@ -45,6 +46,7 @@ function EmailFromGroupControl({
 					disabled={disabled}
 					onEmailValidation={onEmailValidationHanlder}
 					storageObjName={storageObjName}
+					saveAndLoadValue={saveAndLoadValue}
 				/>
 				{displayWaningMessage && warningMessage.length > 0 && (
 					<Form.Text className="text-muted">

@@ -2,7 +2,6 @@ import { useCallback, useEffect, useState } from "react";
 import { Form, FormControl, InputGroup } from "react-bootstrap";
 import hiddenIcon from "../../../Assest/Image/Icon/hidden-icon.png";
 import visibilityIcon from "../../../Assest/Image/Icon/visibility-icon.png";
-import * as util from "../../../Util/Util";
 import IconButton from "../../Button/IconButton";
 
 function PasswordFormControl({
@@ -22,11 +21,8 @@ function PasswordFormControl({
 
 	const onPasswordChangeHandler = useCallback(
 		(password = "") => {
-			// validate password
-			const isValidPassword = util.isValidPasswordFormat(password);
-
 			// merge to storage session
-			onMergeStorage(password, isValidPassword);
+			onMergeStorage(password);
 		},
 		[onMergeStorage]
 	);
@@ -74,7 +70,7 @@ function PasswordFormControl({
 				placeholder={placeholder}
 				className={`tedkvn-formControl ${className}`}
 				required={required}
-				autocomplete="new-password"
+				autoComplete="new-password"
 				disabled={disabled}
 				onChange={(pwd) => onPasswordChangeHandler(pwd.target.value)}
 			/>

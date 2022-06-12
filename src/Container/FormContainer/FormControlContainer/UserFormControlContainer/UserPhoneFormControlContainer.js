@@ -19,7 +19,7 @@ function UserPhoneFormControlContainer({
 	);
 
 	const updateReduxStorePhone = (formattedPhone = "", isValidPhone = true) => {
-		dispatchPromise.patchSignupClassicInfo({
+		dispatchPromise.patchSignupUserInfo({
 			[`${constVar.STORAGE_PHONE_PROP}`]: formattedPhone,
 			[`${constVar.STORAGE_PHONE_VALIDATION}`]: isValidPhone,
 		});

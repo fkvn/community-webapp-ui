@@ -28,7 +28,7 @@ function UserAddressFormControlContainer({
 	};
 
 	const updateReduxStoreAddress = (description = "", placeid = "") => {
-		dispatchPromise.patchSignupClassicInfo({
+		dispatchPromise.patchSignupUserInfo({
 			[`${constVar.STORAGE_ADDRESS_PROP}`]: {
 				description: description,
 				...(placeid && { placeid: placeid }),

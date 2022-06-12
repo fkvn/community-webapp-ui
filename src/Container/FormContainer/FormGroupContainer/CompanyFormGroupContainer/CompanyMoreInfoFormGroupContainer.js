@@ -13,7 +13,7 @@ import CompanySizeFormControlContainer from "../../FormControlContainer/CompanyF
 import CompanyWebsiteFormControlContainer from "../../FormControlContainer/CompanyFormControlContainer/CompanyWebsiteFormControlContainer";
 
 function CompanyMoreInfoFormGroupContainer({
-	storageObjName = "company",
+	storageObjName = constVar.THAINOW_COMPANY_SIGN_UP_STORAGE_OBJ,
 	formGroupClassName = "",
 }) {
 	const [extraInfo, setExtraInfo] = useState(
@@ -69,7 +69,7 @@ function CompanyMoreInfoFormGroupContainer({
 	const isOnlineStore = useSelector(
 		(state) =>
 			state.thainowReducer[`${storageObjName}`][
-				`${constVar.STORAGE_COMPANY_IS_ONLINE_PROP}`
+				`${constVar.STORAGE_COMPANY_INFORMAL_PROP}`
 			] || ""
 	);
 

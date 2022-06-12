@@ -1,15 +1,14 @@
 import { Button, Row } from "react-bootstrap";
 import { useSearchParams } from "react-router-dom";
 import FormContainer from "../../Container/FormContainer/FormContainer";
-import * as constVar from "../../Util/ConstVar";
 import FormHeader from "../Form/FormLayout/FormHeader";
 import NewBusinessSignupForm from "../Form/FormLayout/NewBusinessSignupForm";
 
 function BusinessSignup({
-	storageObjName = constVar.THAINOW_BUSINESS_SIGN_UP_STORAGE_OBJ,
 	stepHandlers = [],
 	onClose = () => {},
 	onBackHandlerPromise = () => {},
+	onSelectVerifyMethod = () => {},
 }) {
 	let [searchParams] = useSearchParams();
 
@@ -40,7 +39,7 @@ function BusinessSignup({
 
 	const FormBody = {
 		FormComponent: NewBusinessSignupForm,
-		storageObjName: storageObjName,
+		onSelectVerifyMethod: onSelectVerifyMethod,
 	};
 
 	const app = FormContainer(

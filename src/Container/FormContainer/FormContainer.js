@@ -7,7 +7,7 @@ function FormContainer(
 	stepHandlers = [],
 	onBackHandlerPromise = () => {}
 ) {
-	const MIN_STEP = 1;
+	const MIN_STEP = 2;
 	const MAX_STEP = stepHandlers.length + 5;
 
 	const [onSubmitLoading, setOnSubmitLoading] = useState(false);

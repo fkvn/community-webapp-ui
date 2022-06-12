@@ -1,16 +1,9 @@
 import * as actions from "./action";
 
-// patch business sign up info
-export const patchBusinessSignupInfo = ({ ...newInfo }) => {
+// patch user sign up info
+export const patchSignupUserInfo = ({ ...newInfo }) => {
 	return (dispatch) => {
-		dispatch(actions.dispatchPatchSignupBusinessInfo({ ...newInfo }));
-	};
-};
-
-// patch classic sign up info
-export const patchSignupClassicInfo = ({ ...newInfo }) => {
-	return (dispatch) => {
-		dispatch(actions.dispatchPatchSignupClassicInfo({ ...newInfo }));
+		dispatch(actions.dispatchPatchSignupUserInfo({ ...newInfo }));
 	};
 };
 

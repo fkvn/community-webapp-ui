@@ -4,75 +4,75 @@ import * as dispatchPromise from "../../../../redux-store/dispatchPromise";
 import * as constVar from "../../../../Util/ConstVar";
 import * as util from "../../../../Util/Util";
 
-function CompanyOnlineCheckFormControlContainer({
+function CompanyInformalCheckFormControlContainer({
 	id = "",
 	className = "",
 	required = false,
 	disabled = false,
 	storageObjName = "",
 }) {
-	const isOnlineStore = useSelector(
+	const informalStore = useSelector(
 		(state) =>
 			state.thainowReducer[`${storageObjName}`][
-				`${constVar.STORAGE_COMPANY_IS_ONLINE_PROP}`
+				`${constVar.STORAGE_COMPANY_INFORMAL_PROP}`
 			] || false
 	);
 
 	const getSessionIsOnline = () => {
 		return (
 			util.getSessionStorageObj(storageObjName)[
-				`${constVar.STORAGE_COMPANY_IS_ONLINE_PROP}`
+				`${constVar.STORAGE_COMPANY_INFORMAL_PROP}`
 			] || false
 		);
 	};
 
-	const updateReduxStoreIsOnline = (isOnlineStore = false) => {
+	const updateReduxStoreIsOnline = (informalStore = false) => {
 		dispatchPromise.patchSignupCompanyInfo({
-			[`${constVar.STORAGE_COMPANY_IS_ONLINE_PROP}`]: isOnlineStore,
+			[`${constVar.STORAGE_COMPANY_INFORMAL_PROP}`]: informalStore,
 		});
 	};
 
-	const updateSessionIsOnline = (isOnlineStore = false) => {
+	const updateSessionIsOnline = (informalStore = false) => {
 		util.saveToSessionStore(
 			storageObjName,
-			constVar.STORAGE_COMPANY_IS_ONLINE_PROP,
-			isOnlineStore
+			constVar.STORAGE_COMPANY_INFORMAL_PROP,
+			informalStore
 		);
 	};
 
 	const onClickHanlder = () => {
 		// update store
-		updateReduxStoreIsOnline(!isOnlineStore);
+		updateReduxStoreIsOnline(!informalStore);
 
 		// update storage
-		updateSessionIsOnline(!isOnlineStore);
+		updateSessionIsOnline(!informalStore);
 	};
 
 	const onLoadDefaultValueHandler = () => {
 		// get information from the first time load
 		const isDefaultOnline = getSessionIsOnline();
 
-		if (isOnlineStore !== isDefaultOnline) {
+		if (informalStore !== isDefaultOnline) {
 			updateReduxStoreIsOnline(isDefaultOnline);
 		}
 	};
 
-	// console.log(isOnlineStore);
+	// console.log(informalStore);
 
 	const app = (
 		<FormControlControlled
 			{...(id && { id: id })}
 			type="checkbox"
-			label="Online Store (Freelancer or Self-Employed)"
+			label="Self-Employed, Online Store, Host (Housing), Freelancer or Entrepreneur"
 			className={className}
 			required={required}
 			disabled={disabled}
 			onClick={onClickHanlder}
 			onLoadDefaultValue={onLoadDefaultValueHandler}
-			value={isOnlineStore}
+			value={informalStore}
 		/>
 	);
 	return app;
 }
 
-export default CompanyOnlineCheckFormControlContainer;
+export default CompanyInformalCheckFormControlContainer;

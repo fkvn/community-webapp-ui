@@ -4,7 +4,11 @@ import FormGroupControl from "../../../../Component/Form/FormGroupControl/FormGr
 import UserAddressFormControlContainer from "../../FormControlContainer/UserFormControlContainer/UserAddressFormControlContainer";
 import UserUsernameFormControlContainer from "../../FormControlContainer/UserFormControlContainer/UserUsernameFormControlContainer";
 
-function UserContactFormGroupContainer({ storageObjName = "" }) {
+import * as constVar from "../../../../Util/ConstVar";
+
+function UserContactFormGroupContainer({
+	storageObjName = constVar.THAINOW_USER_SIGN_UP_STORAGE_OBJ,
+}) {
 	const usernameFormGroupControl = (
 		<FormGroupControl
 			id="classic-signup-usernameFormControl"

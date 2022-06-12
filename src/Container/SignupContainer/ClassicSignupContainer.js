@@ -14,7 +14,7 @@ function ClassicSignupContainer() {
 	const continueParams =
 		continueURL.length > 0 ? "?continue=" + continueURL : "";
 
-	const storageObjName = constVar.THAINOW_CLASSIC_SIGN_UP_STORAGE_OBJ;
+	const storageObjName = constVar.THAINOW_USER_SIGN_UP_STORAGE_OBJ;
 
 	const submitErrorHandler = (message = "") =>
 		dispatchPromise.submitErrorHandler(message);
@@ -85,7 +85,7 @@ function ClassicSignupContainer() {
 	};
 
 	const onSelectVerifyMethodHandler = (channel = "") => {
-		dispatchPromise.patchSignupClassicInfo({
+		dispatchPromise.patchSignupUserInfo({
 			[`${constVar.STORAGE_VERIFICATION_METHOD_PROP}`]:
 				channel === constVar.STORAGE_EMAIL_PROP
 					? constVar.STORAGE_EMAIL_PROP
@@ -146,7 +146,7 @@ function ClassicSignupContainer() {
 
 	const onResetOtpHandler = () => {
 		console.log("reset otp");
-		dispatchPromise.patchSignupClassicInfo({
+		dispatchPromise.patchSignupUserInfo({
 			[`${constVar.STORAGE_OTP_PROP}`]: "",
 			[`${constVar.STORAGE_OTP_VALIDATION}`]: false,
 		});

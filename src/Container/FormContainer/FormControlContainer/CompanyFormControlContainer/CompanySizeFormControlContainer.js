@@ -12,7 +12,7 @@ function CompanySizeFormControlContainer({
 	disabled = false,
 	storageObjName = "",
 }) {
-	const options = [...constVar.COMPANY_SIZE_LIST];
+	const options = [...constVar.STORAGE_COMPANY_SIZE_LIST];
 
 	const size = useSelector(
 		(state) =>

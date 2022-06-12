@@ -30,7 +30,7 @@ function UserUsernameFormControlContainer(props) {
 	};
 
 	const updateReduxStoreUsername = (name = "") => {
-		dispatchPromise.patchSignupClassicInfo({
+		dispatchPromise.patchSignupUserInfo({
 			[`${constVar.STORAGE_USERNAME_PROP}`]: name,
 		});
 	};
