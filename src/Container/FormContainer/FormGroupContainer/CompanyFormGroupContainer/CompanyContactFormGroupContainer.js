@@ -9,8 +9,10 @@ import CompanyInformalCheckFormControlContainer from "../../FormControlContainer
 import CompanyNameFormControlContainer from "../../FormControlContainer/CompanyFormControlContainer/CompanyNameFormControlContainer";
 
 import { useSelector } from "react-redux";
+import PhoneFromGroupControl from "../../../../Component/Form/FormGroupControl/PhoneFormGroupControl";
 import UrlFormGroupControl from "../../../../Component/Form/FormGroupControl/UrlFormGroupControl";
 import * as constVar from "../../../../Util/ConstVar";
+import CompanyPhoneFormControlContainer from "../../FormControlContainer/CompanyFormControlContainer/CompanyPhoneFormControlContainer";
 import CompanyWebsiteFormControlContainer from "../../FormControlContainer/CompanyFormControlContainer/CompanyWebsiteFormControlContainer";
 
 function CompanyContactFormGroupContainer({
@@ -45,7 +47,7 @@ function CompanyContactFormGroupContainer({
 		/>
 	);
 
-	const isOnlineStore = useSelector(
+	const isInformal = useSelector(
 		(state) =>
 			state.thainowReducer[`${storageObjName}`][
 				`${constVar.STORAGE_COMPANY_INFORMAL_PROP}`
@@ -56,11 +58,9 @@ function CompanyContactFormGroupContainer({
 		<AddressFromGroupControl
 			required={true}
 			withLabel={true}
-			label={
-				isOnlineStore ? "Business Service Area" : "Business Public Address"
-			}
+			label={isInformal ? "Business Service Area" : "Business Public Address"}
 			placeholder={
-				isOnlineStore
+				isInformal
 					? "Where customers can search for you"
 					: "Where is your business"
 			}
@@ -79,6 +79,15 @@ function CompanyContactFormGroupContainer({
 		/>
 	);
 
+	const phoneFormGroupControl = (
+		<PhoneFromGroupControl
+			required={true}
+			label="Business Phone"
+			storageObjName={storageObjName}
+			RenderFormControl={CompanyPhoneFormControlContainer}
+		/>
+	);
+
 	const app = (
 		<>
 			<Form.Group className={`tedkvn-formGroupControl ${formGroupClassName}`}>
@@ -94,7 +103,7 @@ function CompanyContactFormGroupContainer({
 
 			{companyOnlineCheckFormGroupControl}
 
-			{isOnlineStore && websiteFormGroupControl}
+			{isInformal && <>{phoneFormGroupControl}</>}
 
 			{companyAddressFormGroupControl}
 		</>

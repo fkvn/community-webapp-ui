@@ -38,7 +38,7 @@ export const signupPromise = (signupInfo = {}, role = "") => {
 		password: signupInfo[`${constVar.STORAGE_PASSWORD_PROP}`] || "",
 		phone: signupInfo[`${constVar.STORAGE_PHONE_PROP}`] || "",
 		role: role,
-		isVerified: true,
+		verified: true,
 		address: signupInfo[`${constVar.STORAGE_ADDRESS_PROP}`].description || "",
 		placeid: signupInfo[`${constVar.STORAGE_ADDRESS_PROP}`].placeid || "",
 		...(role === "BUSINESS" && {
@@ -96,7 +96,7 @@ export const searchCompanyPromise = (
 	fetchAll = false,
 	fetchLimit = 20
 ) => {
-	return axios.get("/companies/search", {
+	return axios.get("/companies/searchName", {
 		params: { keywords: keywords, fetchAll: fetchAll, fetchLimit: fetchLimit },
 	});
 };

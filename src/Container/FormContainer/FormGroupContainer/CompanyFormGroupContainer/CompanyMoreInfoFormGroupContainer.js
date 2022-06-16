@@ -52,6 +52,7 @@ function CompanyMoreInfoFormGroupContainer({
 	const websiteFormGroupControl = (
 		<UrlFormGroupControl
 			label="Business Website"
+			placeholder="Website or social media sites (Facebook, Instagram, Line, Etc.)"
 			storageObjName={storageObjName}
 			RenderFormControl={CompanyWebsiteFormControlContainer}
 		/>
@@ -66,7 +67,7 @@ function CompanyMoreInfoFormGroupContainer({
 		/>
 	);
 
-	const isOnlineStore = useSelector(
+	const isInformal = useSelector(
 		(state) =>
 			state.thainowReducer[`${storageObjName}`][
 				`${constVar.STORAGE_COMPANY_INFORMAL_PROP}`
@@ -95,13 +96,13 @@ function CompanyMoreInfoFormGroupContainer({
 							{emailFormGroupControl}
 						</Col>
 						<Col xs={12} md={6}>
-							{phoneFormGroupControl}
+							{websiteFormGroupControl}
 						</Col>
 					</Row>{" "}
-					{!isOnlineStore && (
+					{!isInformal && (
 						<Row>
 							<Col xs={12} md={6}>
-								{websiteFormGroupControl}
+								{phoneFormGroupControl}
 							</Col>
 							<Col xs={12} md={6}>
 								{sizeFormGroupControl}
