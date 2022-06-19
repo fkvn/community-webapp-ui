@@ -18,7 +18,8 @@ export const STORAGE_VERIFICATION_METHOD_PROP = "verifyMethod";
 export const STORAGE_OTP_PROP = "otp";
 export const STORAGE_OTP_VALIDATION = "isValidOtp";
 export const STORAGE_PRIVILEGES_PROP = "privileges";
-export const STORAGE_POSITION_PROP = "position";
+export const STORAGE_POSITION_PROP = "administratorRole";
+export const STORAGE_ROLE_PROP = "role";
 
 export const STORAGE_COMPANY_INDUSTRY_LIST = [
 	"Aquarium & Pet",

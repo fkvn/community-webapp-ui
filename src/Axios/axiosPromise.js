@@ -31,22 +31,9 @@ export const verifyOtpCodePromise = (channel = "", value = "", token = "") => {
 	}
 };
 
-export const signupPromise = (signupInfo = {}, role = "") => {
+export const signupPromise = (signupInfo = {}) => {
 	return axios.post(`/auth/signup`, {
-		username: signupInfo[`${constVar.STORAGE_USERNAME_PROP}`] || "",
-		email: signupInfo[`${constVar.STORAGE_EMAIL_PROP}`] || "",
-		password: signupInfo[`${constVar.STORAGE_PASSWORD_PROP}`] || "",
-		phone: signupInfo[`${constVar.STORAGE_PHONE_PROP}`] || "",
-		role: role,
-		verified: true,
-		address: signupInfo[`${constVar.STORAGE_ADDRESS_PROP}`].description || "",
-		placeid: signupInfo[`${constVar.STORAGE_ADDRESS_PROP}`].placeid || "",
-		...(role === "BUSINESS" && {
-			privileges: signupInfo[`${constVar.STORAGE_PRIVILEGES_PROP}`] || [],
-		}),
-		...(role === "BUSINESS" && {
-			company: signupInfo[`${constVar.STORAGE_COMPANY_PROP}`] || {},
-		}),
+		...signupInfo,
 	});
 };
 

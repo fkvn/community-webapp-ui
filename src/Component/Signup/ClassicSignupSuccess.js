@@ -1,9 +1,8 @@
-import React from "react";
 import { Button, Col, Container, Image, Row } from "react-bootstrap";
 import successIcon from "../../Assest/Image/Icon/success-icon.png";
 import LoadingButton from "../Button/LoadingButton";
 
-function SignupSuccess({ loginHanlder = () => {}, username = "" }) {
+function ClassicSignupSuccess({ loginHanlder = () => {}, username = "" }) {
 	const app = (
 		<Container fluid className={`mt-5 vh-100 tedkvn-center `}>
 			<Row className={` tedkvn-center `}>
@@ -56,4 +55,4 @@ function SignupSuccess({ loginHanlder = () => {}, username = "" }) {
 	return app;
 }
 
-export default SignupSuccess;
+export default ClassicSignupSuccess;

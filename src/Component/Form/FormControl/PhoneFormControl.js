@@ -62,9 +62,9 @@ function PhoneFormControl({
 			onChange={(p) =>
 				onPhoneChangeHandler(p.currentTarget.selectionStart, p.target.value)
 			}
-			size={size}
-			minLength={minLength}
-			maxLength={maxLength}
+			// size={size}
+			// minLength={minLength}
+			// maxLength={maxLength}
 			required={required}
 			disabled={disabled}
 		/>

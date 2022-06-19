@@ -22,7 +22,7 @@ function CompanyNameFormControlContainer({
 
 	const [filterCompanies, setFilterCompanies] = useState([]);
 
-	const onGetCompanyPredictionPromise = (keywords = "") => {
+	const onGetCompanyPredictionPromise = async (keywords = "") => {
 		return axiosPromise.getPromise(
 			axiosPromise.searchCompanyPromise(keywords, true, 0)
 		);

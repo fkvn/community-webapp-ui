@@ -1,7 +1,6 @@
-import React from "react";
 import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import * as axiosPromise from "../../Axios/axiosPromise";
-import SignupSuccess from "../../Component/Signup/SignupSuccess";
+import ClassicSignupSuccess from "../../Component/Signup/ClassicSignupSuccess";
 
 function SignupSuccessContainer() {
 	const location = useLocation();
@@ -28,7 +27,9 @@ function SignupSuccessContainer() {
 			});
 	};
 
-	const app = <SignupSuccess loginHanlder={loginHanlder} username={username} />;
+	const app = (
+		<ClassicSignupSuccess loginHanlder={loginHanlder} username={username} />
+	);
 	return app;
 }
 
