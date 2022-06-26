@@ -8,7 +8,7 @@ function FormContainer(
 	onBackHandlerPromise = () => {}
 ) {
 	const MIN_STEP = 1;
-	const MAX_STEP = stepHandlers.length;
+	const MAX_STEP = stepHandlers.length + 5;
 
 	const [onSubmitLoading, setOnSubmitLoading] = useState(false);
 
@@ -65,10 +65,10 @@ function FormContainer(
 
 	const app = (
 		// <Container fluid className={``}>
-		<Form id="classicSignupFormCol" onSubmit={onSubmitHandler}>
-			<Card className="">
-				<Card.Header className="py-0">{Header}</Card.Header>
-				<Card.Body className="p-5">
+		<Form onSubmit={onSubmitHandler}>
+			<Card className="m-0 p-0">
+				<Card.Header className="m-0 p-0">{Header}</Card.Header>
+				<Card.Body className="m-0 p-0">
 					{MIN_STEP <= MAX_STEP ? (
 						<RenderBody {...Body} />
 					) : (

@@ -3,6 +3,10 @@ export const THAINOW_USER_SIGN_UP_STORAGE_OBJ = "thainow.user.signup.info";
 export const THAINOW_COMPANY_SIGN_UP_STORAGE_OBJ =
 	"thainow.company.signup.info";
 
+export const IMAGE_THAINOW_LOGO = "thainowLogo";
+
+export const ICON_USER_READER = "userReaderIcon";
+
 export const STORAGE_USERNAME_PROP = "username";
 export const STORAGE_FIRSTNAME_PROP = "firstname";
 export const STORAGE_LASTNAME_PROP = "lastname";

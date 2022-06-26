@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import { Form, FormControl } from "react-bootstrap";
+import { Form, FormControl, InputGroup } from "react-bootstrap";
+import ImageFrame from "../../ImageFrame/ImageFrame";
 
 function FormControlControlled(props) {
 	const {
@@ -7,6 +8,7 @@ function FormControlControlled(props) {
 		type = "text",
 		placeholder = "",
 		className = "",
+		customClassName = false,
 		required = false,
 		disabled = false,
 		value = "",
@@ -18,6 +20,9 @@ function FormControlControlled(props) {
 		name = "",
 		inline = false,
 		checked = false,
+		// when the formControl comes with an icon
+		withIcon = false,
+		iconSrc = "",
 	} = props;
 
 	const [loading, setLoading] = useState(true);
@@ -37,6 +42,24 @@ function FormControlControlled(props) {
 
 	// console.log(defaultChecked);
 
+	const formControl = (
+		<FormControl
+			{...(id && { id: id })}
+			value={value}
+			type={type}
+			className={`${!customClassName && "tedkvn-formControl"} ${className}
+	${withIcon && "border-0"}
+	`}
+			style={{
+				minWidth: "10rem",
+			}}
+			placeholder={placeholder}
+			required={required}
+			disabled={disabled}
+			onChange={(e) => onChangeHandler(e.target.value)}
+		/>
+	);
+
 	const app = (
 		<>
 			{type === "checkbox" || type === "radio" ? (
@@ -53,16 +76,16 @@ function FormControlControlled(props) {
 					{...(type === "radio" && { value: value, checked: checked })}
 				/>
 			) : (
-				<FormControl
-					{...(id && { id: id })}
-					value={value}
-					type={type}
-					className={`tedkvn-formControl ${className}`}
-					placeholder={placeholder}
-					required={required}
-					disabled={disabled}
-					onChange={(e) => onChangeHandler(e.target.value)}
-				/>
+				<>
+					{withIcon ? (
+						<InputGroup>
+							<ImageFrame iconSrc={iconSrc} className="mx-2" />
+							{formControl}
+						</InputGroup>
+					) : (
+						formControl
+					)}
+				</>
 			)}
 		</>
 	);

@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Route, Routes, useLocation } from "react-router-dom";
 import NotFoundPage from "../Component/Global/NotFoundPage";
 import Signup from "../Component/Signup/Signup";
+import TopBarNavigation from "../Component/TopBarNavigation/TopBarNavigation";
 import * as constVar from "../Util/ConstVar";
 import ErrorContainer from "./ErrorContainer";
 import LandingPageContainer from "./LandingPageContainer";
@@ -38,6 +39,7 @@ function RouteBuilder() {
 
 	const app = (
 		<>
+			<TopBarNavigation />
 			<main>{routes}</main>
 			<div>
 				<ErrorContainer />
