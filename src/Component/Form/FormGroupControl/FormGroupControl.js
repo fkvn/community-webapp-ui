@@ -1,5 +1,6 @@
-import React from "react";
-import { Form } from "react-bootstrap";
+import { Form, InputGroup } from "react-bootstrap";
+
+import ImageFrame from "../../ImageFrame/ImageFrame";
 
 function FormGroupControl({
 	id = "",
@@ -10,11 +11,20 @@ function FormGroupControl({
 	formGroupClassName = "",
 	required = false,
 	disabled = false,
-	storageObjName = "",
+	// storageObjName = "",
+	withIcon = false,
+	iconSrc = "",
 	RenderFormControl = () => {},
+	renderProps = {},
+	validationProp = {},
+	displayWaningMessage = true,
+	warningMessage = "",
 }) {
 	const app = (
-		<Form.Group className={`tedkvn-formGroupControl ${formGroupClassName}`}>
+		<Form.Group
+			className={`tedkvn-formGroupControl tedkvn-center ${formGroupClassName}`}
+			{...(id && { id: "formgroup-" + id })}
+		>
 			{withLabel && (
 				<Form.Label
 					{...(id && { htmlFor: id })}
@@ -25,15 +35,25 @@ function FormGroupControl({
 					{label}
 				</Form.Label>
 			)}
-			<RenderFormControl
-				{...(id && { id: id })}
-				required={required}
-				disabled={disabled}
-				{...(placeholder && { placeholder: placeholder })}
-				{...(storageObjName && {
-					storageObjName: storageObjName,
-				})}
-			/>
+			<InputGroup>
+				{withIcon && <ImageFrame src={iconSrc} {...(id && { id: id })} />}
+				<RenderFormControl
+					{...renderProps}
+					{...(id && { id: id })}
+					required={required}
+					disabled={disabled}
+					{...(placeholder && { placeholder: placeholder })}
+					// {...(storageObjName && {
+					// 	storageObjName: storageObjName,
+					// })}
+					{...validationProp}
+				/>
+			</InputGroup>
+			{displayWaningMessage && warningMessage.length > 0 && (
+				<Form.Text className="text-muted">
+					<span className="text-danger">{warningMessage}</span>
+				</Form.Text>
+			)}
 		</Form.Group>
 	);
 	return app;

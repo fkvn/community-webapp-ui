@@ -13,7 +13,7 @@ function CompanyInformalCheckFormControlContainer({
 }) {
 	const informalStore = useSelector(
 		(state) =>
-			state.thainowReducer[`${storageObjName}`][
+			state.thainowReducer[`${storageObjName}`]?.[
 				`${constVar.STORAGE_COMPANY_INFORMAL_PROP}`
 			] || false
 	);

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Card, Form, Spinner } from "react-bootstrap";
+import { Form, Spinner } from "react-bootstrap";
 
 function FormContainer(
 	Header = () => {},
@@ -66,7 +66,23 @@ function FormContainer(
 	const app = (
 		// <Container fluid className={``}>
 		<Form onSubmit={onSubmitHandler}>
-			<Card className="m-0 p-0">
+			{MIN_STEP <= MAX_STEP ? (
+				<RenderBody {...Body} />
+			) : (
+				<div className="tedkvn-center-left">
+					<div>
+						<Spinner animation="border" role="status" />
+					</div>
+					<div className="mx-4">
+						Loading...
+						<span className="text-danger">
+							{" "}
+							Please come back later if it is taking too long!
+						</span>
+					</div>
+				</div>
+			)}
+			{/* <Card className="m-0 p-0">
 				<Card.Header className="m-0 p-0">{Header}</Card.Header>
 				<Card.Body className="m-0 p-0">
 					{MIN_STEP <= MAX_STEP ? (
@@ -86,7 +102,7 @@ function FormContainer(
 						</div>
 					)}
 				</Card.Body>
-			</Card>
+			</Card> */}
 		</Form>
 		// </Container>
 	);

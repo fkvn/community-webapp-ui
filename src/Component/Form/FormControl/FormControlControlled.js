@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
-import { Form, FormControl, InputGroup } from "react-bootstrap";
-import ImageFrame from "../../ImageFrame/ImageFrame";
+import { Form, FormControl } from "react-bootstrap";
 
 function FormControlControlled(props) {
 	const {
@@ -14,15 +13,13 @@ function FormControlControlled(props) {
 		value = "",
 		onMergeStorage = () => {},
 		onLoadDefaultValue = () => {},
+		style = {},
 		// this is for simple check box
 		onClick = () => {},
 		label = "",
 		name = "",
 		inline = false,
 		checked = false,
-		// when the formControl comes with an icon
-		withIcon = false,
-		iconSrc = "",
 	} = props;
 
 	const [loading, setLoading] = useState(true);
@@ -47,12 +44,8 @@ function FormControlControlled(props) {
 			{...(id && { id: id })}
 			value={value}
 			type={type}
-			className={`${!customClassName && "tedkvn-formControl"} ${className}
-	${withIcon && "border-0"}
-	`}
-			style={{
-				minWidth: "10rem",
-			}}
+			style={style}
+			className={`${!customClassName && "tedkvn-formControl"}  ${className}`}
 			placeholder={placeholder}
 			required={required}
 			disabled={disabled}
@@ -67,6 +60,7 @@ function FormControlControlled(props) {
 					type={type}
 					label={label}
 					name={name}
+					style={style}
 					inline={inline}
 					required={required}
 					disabled={disabled}
@@ -76,16 +70,7 @@ function FormControlControlled(props) {
 					{...(type === "radio" && { value: value, checked: checked })}
 				/>
 			) : (
-				<>
-					{withIcon ? (
-						<InputGroup>
-							<ImageFrame iconSrc={iconSrc} className="mx-2" />
-							{formControl}
-						</InputGroup>
-					) : (
-						formControl
-					)}
-				</>
+				<>{formControl}</>
 			)}
 		</>
 	);

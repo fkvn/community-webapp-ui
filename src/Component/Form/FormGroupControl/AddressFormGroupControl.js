@@ -1,5 +1,8 @@
 import { useState } from "react";
-import { Form } from "react-bootstrap";
+import FormGroupControl from "./FormGroupControl";
+
+import * as asset from "../../../Assest/Asset";
+import * as constVar from "../../../Util/ConstVar";
 
 function AddressFromGroupControl({
 	id = "",
@@ -7,11 +10,13 @@ function AddressFromGroupControl({
 	label = "Address",
 	labelClassName = "",
 	formGroupClassName = "",
-	storageObjName = "",
-	placeholder = "",
+	placeholder = "Street or city, state, zipcode",
 	required = false,
 	displayWaningMessage = true,
 	RenderFormControl = () => {},
+	renderProps = {},
+	withIcon = false,
+	iconSrc = asset.icons[`${constVar.ICON_LOCATION}`],
 }) {
 	const [warningMessage, setWarningMessage] = useState("");
 
@@ -21,31 +26,52 @@ function AddressFromGroupControl({
 	};
 
 	const app = (
-		<Form.Group className={`tedkvn-formGroupControl ${formGroupClassName}`}>
-			{withLabel && (
-				<Form.Label
-					{...(id && { htmlFor: id })}
-					className={`formLabel ${labelClassName} ${
-						required && "tedkvn-required"
-					} }`}
-				>
-					{label}
-				</Form.Label>
-			)}
-			<RenderFormControl
+		<>
+			<FormGroupControl
 				{...(id && { id: id })}
-				{...(placeholder && { placeholder: placeholder })}
-				storageObjName={storageObjName}
+				withLabel={withLabel}
+				label={label}
+				{...(labelClassName && { labelClassName: labelClassName })}
+				{...(formGroupClassName && { formGroupClassName: formGroupClassName })}
+				placeholder={placeholder}
 				required={required}
-				onAddressValidation={onAddressValidationHanlder}
+				withIcon={withIcon}
+				iconSrc={iconSrc}
+				displayWaningMessage={displayWaningMessage}
+				warningMessage={warningMessage}
+				RenderFormControl={RenderFormControl}
+				renderProps={renderProps}
+				validationProp={{ onAddressValidation: onAddressValidationHanlder }}
 			/>
-			{displayWaningMessage && warningMessage.length > 0 && (
-				<Form.Text className="text-muted">
-					<span className="text-danger">{warningMessage}</span>
-				</Form.Text>
-			)}
-		</Form.Group>
+		</>
 	);
+
+	// const app = (
+	// 	<Form.Group className={`tedkvn-formGroupControl ${formGroupClassName}`}>
+	// 		{withLabel && (
+	// 			<Form.Label
+	// 				{...(id && { htmlFor: id })}
+	// 				className={`formLabel ${labelClassName} ${
+	// 					required && "tedkvn-required"
+	// 				} }`}
+	// 			>
+	// 				{label}
+	// 			</Form.Label>
+	// 		)}
+	// 		<RenderFormControl
+	// 			{...(id && { id: id })}
+	// 			{...(placeholder && { placeholder: placeholder })}
+	// 			storageObjName={storageObjName}
+	// 			required={required}
+	// 			onAddressValidation={onAddressValidationHanlder}
+	// 		/>
+	// 		{displayWaningMessage && warningMessage.length > 0 && (
+	// 			<Form.Text className="text-muted">
+	// 				<span className="text-danger">{warningMessage}</span>
+	// 			</Form.Text>
+	// 		)}
+	// 	</Form.Group>
+	// );
 	return app;
 }
 

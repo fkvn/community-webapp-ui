@@ -8,24 +8,28 @@ function TopBarNavigation() {
 		<Image
 			src={asset.images[`${constVar.IMAGE_THAINOW_LOGO}`]}
 			fluid
-			style={{ maxWidth: "90px", maxHeight: "90px" }}
+			width={60}
+			height={60}
+			className="mx-2"
 		/>
 	);
 
 	const leftTopBar = (
 		<>
-			{brandLogo}
-			<SearchContainer />
+			<div className="d-inline-block px-2">{brandLogo}</div>
+			<div className="d-inline-block">
+				<SearchContainer />
+			</div>
 		</>
 	);
 	const rightTopBar = <>bbb</>;
 
 	const app = (
-		<Row className="bg-primary" style={{ height: "7rem" }}>
-			<Col xs={12} md={9} className="bg-success tedkvn-center">
+		<Row id="topbar" className="border-bottom border-2">
+			<Col xs={12} md={9} className=" tedkvn-center px-4">
 				{leftTopBar}
 			</Col>
-			<Col xs={12} md={3} className="bg-danger tedkvn-center">
+			<Col xs={12} md={3} className="bg-danger ">
 				{rightTopBar}
 			</Col>
 		</Row>

@@ -16,7 +16,7 @@ function CompanyIndustryFormControlContainer({
 		state.thainowReducer[`${storageObjName}`]?.[
 			`${constVar.STORAGE_COMPANY_INDUSTRY_PROP}`
 		] || "",
-		state.thainowReducer[`${storageObjName}`].showIndustryList || false,
+		state.thainowReducer[`${storageObjName}`]?.showIndustryList || false,
 	]);
 
 	const industryList = [

@@ -1,39 +1,46 @@
+import { useSelector } from "react-redux";
 import FormControlControlled from "../../../../Component/Form/FormControl/FormControlControlled";
 
-import * as asset from "../../../../Assest/Asset";
+import * as dispatchPromise from "../../../../redux-store/dispatchPromise";
 import * as constVar from "../../../../Util/ConstVar";
 
 function SearchInputFormControlContainer({
 	id = "",
 	className = "",
-	placeholder = "Hi there, what are you looking for",
+	placeholder = "Search for?",
 	required = true,
+	style = {},
 }) {
-	const onMergeStorageHandler = () => {};
+	const searchInput = useSelector(
+		(state) =>
+			state.thainowReducer[`${constVar.THAINOW_SEARCH_OBJ}`][
+				`${constVar.SEARCH_INPUT_PROP}`
+			] || ""
+	);
 
-	const onLoadDefaultValueHandler = () => {};
+	const updateReduxStoreSearchInput = (query = "") => {
+		dispatchPromise.patchSearchInfo({
+			[`${constVar.SEARCH_INPUT_PROP}`]: query,
+		});
+	};
+
+	const onMergeStorageHandler = (query = "") => {
+		// update store
+		updateReduxStoreSearchInput(query);
+	};
 
 	const searchInputControl = (
-		<div
-			className="p-2 px-3"
-			style={{
-				border: "2px solid red",
-				minWidth: "20rem",
-			}}
-		>
-			<FormControlControlled
-				{...(id && { id: id })}
-				value=""
-				className={className}
-				customClassName={true}
-				withIcon={true}
-				iconSrc={asset.images[`${constVar.ICON_USER_READER}`]}
-				placeholder={placeholder}
-				required={required}
-				onMergeStorage={onMergeStorageHandler}
-				onLoadDefaultValue={onLoadDefaultValueHandler}
-			/>
-		</div>
+		<FormControlControlled
+			{...(id && { id: id })}
+			type="search"
+			value={searchInput}
+			style={style}
+			className={className}
+			placeholder={placeholder}
+			required={required}
+			onMergeStorage={onMergeStorageHandler}
+			// onLoadDefaultValue={onLoadDefaultValueHandler}
+		/>
 	);
 
 	const app = <>{searchInputControl}</>;

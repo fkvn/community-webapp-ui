@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Button, Image } from "react-bootstrap";
 import ReactLoading from "react-loading";
 

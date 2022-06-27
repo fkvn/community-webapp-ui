@@ -1,5 +1,5 @@
 import { forwardRef, useEffect, useState } from "react";
-import { Button, Form, FormControl, ListGroup, Toast } from "react-bootstrap";
+import { Button, FormControl, ListGroup, Toast } from "react-bootstrap";
 import * as util from "../../../Util/Util";
 
 function DropDownFormControl(props, _) {
@@ -9,6 +9,7 @@ function DropDownFormControl(props, _) {
 		placeholder = "",
 		className = "",
 		value = "",
+		style = {},
 		required = false,
 		dropdownItems = [],
 		showDropdownItems = false,
@@ -46,7 +47,8 @@ function DropDownFormControl(props, _) {
 	}, [loading, setLoading, onLoadDefaultValue]);
 
 	const app = !loading && (
-		<Form.Group>
+		// <Form.Group>
+		<>
 			<FormControl
 				{...(id && { id: id })}
 				type={type}
@@ -54,12 +56,16 @@ function DropDownFormControl(props, _) {
 				required={required}
 				className={`tedkvn-formControl ${className}`}
 				value={value}
+				style={style}
 				onChange={(e) => onChangeHandler(e.target.value)}
 				role="presentation"
 			/>
 
 			{showDropdownItems && dropdownItems.length > 0 && (
-				<Toast className="tedkvn-predictionDropDown  position-relative w-100">
+				<Toast
+					className="tedkvn-predictionDropDown position-positive w-100 "
+					{...(id && { id: "dropdown-" + id })}
+				>
 					<Toast.Body className="border-0">
 						<ListGroup as="ul"></ListGroup>
 						{dropdownItems.map((item, idx) => (
@@ -81,7 +87,8 @@ function DropDownFormControl(props, _) {
 					</Toast.Body>
 				</Toast>
 			)}
-		</Form.Group>
+			{/* </Form.Group> */}
+		</>
 	);
 	return app;
 }

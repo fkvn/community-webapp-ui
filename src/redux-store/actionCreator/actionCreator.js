@@ -14,6 +14,13 @@ export const patchSignupCompanyInfo = ({ ...newInfo }) => {
 	};
 };
 
+// patch search info
+export const patchSearchInfo = ({ ...newInfo }) => {
+	return (dispatch) => {
+		dispatch(actions.dispatchPatchSearchInfo({ ...newInfo }));
+	};
+};
+
 // create error
 export const initError = (message, status) => {
 	return (dispatch) => {

@@ -2,10 +2,17 @@ export const THAINOW_USER_STORRAGE_OBJ = "thainow.user";
 export const THAINOW_USER_SIGN_UP_STORAGE_OBJ = "thainow.user.signup.info";
 export const THAINOW_COMPANY_SIGN_UP_STORAGE_OBJ =
 	"thainow.company.signup.info";
+export const THAINOW_SEARCH_OBJ = "thainow.search.info";
 
 export const IMAGE_THAINOW_LOGO = "thainowLogo";
 
 export const ICON_USER_READER = "userReaderIcon";
+export const ICON_LOCATION = "locationIcon";
+export const ICON_SEARCH = "searchIcon";
+export const ICON_SEARCH_WHITE = "searchIconWhite";
+
+export const SEARCH_INPUT_PROP = "input";
+export const SEARCH_LOCATION_PROP = "address";
 
 export const STORAGE_USERNAME_PROP = "username";
 export const STORAGE_FIRSTNAME_PROP = "firstname";

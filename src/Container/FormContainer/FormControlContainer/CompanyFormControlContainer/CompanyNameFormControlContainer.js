@@ -17,7 +17,7 @@ function CompanyNameFormControlContainer({
 		state.thainowReducer[`${storageObjName}`]?.[
 			`${constVar.STORAGE_COMPANY_NAME_PROP}`
 		] || "",
-		state.thainowReducer[`${storageObjName}`].showCompanyList || false,
+		state.thainowReducer[`${storageObjName}`]?.showCompanyList || false,
 	]);
 
 	const [filterCompanies, setFilterCompanies] = useState([]);

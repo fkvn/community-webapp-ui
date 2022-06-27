@@ -13,10 +13,10 @@ function CompanyAddressFormControlContainer({
 	onAddressValidation = () => {},
 }) {
 	const [address, showAddressList] = useSelector((state) => [
-		state.thainowReducer[`${storageObjName}`][
+		state.thainowReducer[`${storageObjName}`]?.[
 			`${constVar.STORAGE_COMPANY_ADDRESS_PROP}`
 		] || {},
-		state.thainowReducer[`${storageObjName}`].showAddressList || false,
+		state.thainowReducer[`${storageObjName}`]?.showAddressList || false,
 	]);
 
 	const getSessionAddress = () => {

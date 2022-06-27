@@ -33,21 +33,35 @@
 }
 
 .tedkvn-formGroupControl {
-	margin: 0.5rem 0;
-}
-
-/* .formLabel {
-	font-weight: 600;
-} */
-
-.tedkvn-error-toast-container {
-	z-index: 99;
+	border: 1px solid red;
+	/* padding-left: 1rem; */
+	border-radius: 1rem !important;
+	background-color: white;
+	/* max-height: 3rem !important; */
+	/* max-width: 17.5rem !important; */
 }
 
 .tedkvn-formControl {
-	border: 1px solid #ced4da;
-	border-radius: 1rem;
-	padding: 0.8rem !important;
+	border: none;
+	border-radius: 1rem 1rem 1rem 1rem !important;
+	/* margin-left: 0.2rem; */
+	/* padding: 0.2rem 0.5rem !important; */
+}
+
+input[type="search"]::-webkit-search-cancel-button {
+	/* Remove default */
+	-webkit-appearance: none;
+
+	/* Now your own custom styles */
+	margin-left: 10px;
+	height: 1.2rem;
+	width: 1.2rem;
+	color: red;
+	background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23777'><path d='M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z'/></svg>");
+}
+
+.tedkvn-error-toast-container {
+	z-index: 99;
 }
 
 .tedkvn-formNavigationBtn {

@@ -5,11 +5,12 @@ function GoogleAutoComplete({
 	id = "",
 	required = false,
 	value = "",
+	className = "",
 	placeholder = "Address",
+	style = {},
 	onMergeStorage = () => {},
 	onLoadDefaultValue = () => {},
 	showAddressList = false,
-	updateReduxStoreShowList = () => {},
 }) {
 	const [loading, setLoading] = useState(true);
 
@@ -41,9 +42,7 @@ function GoogleAutoComplete({
 		// update predictions
 		if (onSelect || description === "") {
 			setPredictions([]);
-			updateReduxStoreShowList(false);
 		} else {
-			updateReduxStoreShowList(true);
 			getPlacePredictionPromise(description).then((res) => {
 				setPredictions(
 					res.predictions.map((prediction) => {
@@ -69,8 +68,10 @@ function GoogleAutoComplete({
 	const app = !loading && (
 		<DropDownFormControl
 			{...(id && { id: id })}
+			{...(className && { className: className })}
 			required={required}
 			value={value}
+			style={style}
 			placeholder={placeholder}
 			dropdownItems={predictions || []}
 			showDropdownItems={showAddressList}

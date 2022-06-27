@@ -17,6 +17,14 @@ export const dispatchPatchSignupCompanyInfo = ({ ...newInfo }) => {
 	};
 };
 
+// patch search info
+export const dispatchPatchSearchInfo = ({ ...newInfo }) => {
+	return {
+		type: actionTypes.DISPATCH_PATCH_SEARCH_INFO,
+		[`${constVar.THAINOW_SEARCH_OBJ}`]: { ...newInfo },
+	};
+};
+
 // error
 export const dispatchError = (message, status) => {
 	return {

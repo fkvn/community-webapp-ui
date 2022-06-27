@@ -1,0 +1,28 @@
+#topbar {
+	min-height: 5rem;
+}
+
+#formgroup-searchinput-topbar {
+	width: 10rem;
+}
+
+#formgroup-searchlocation-topbar {
+	width: 15rem;
+}
+
+#dropdown-searchlocation-topbar {
+	position: absolute !important;
+	background: white;
+	z-index: 1;
+	margin-top: 2.5rem;
+}
+
+#dropdown-searchlocation-topbar button {
+	backface-visibility: hidden !important;
+	/* -webkit-font-smoothing: antialiased !important; */
+}
+
+#searchinput-topbar,
+#searchlocation-topbar {
+	font-size: 1rem;
+}

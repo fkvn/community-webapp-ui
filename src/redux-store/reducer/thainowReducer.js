@@ -26,6 +26,7 @@ import * as actionTypes from "../actionCreator/actionType";
 const initialState = {
 	[`${constVar.THAINOW_USER_SIGN_UP_STORAGE_OBJ}`]: {},
 	[`${constVar.THAINOW_COMPANY_SIGN_UP_STORAGE_OBJ}`]: {},
+	[`${constVar.THAINOW_SEARCH_OBJ}`]: {},
 };
 
 // ==================  Reducer helping functions =========================
@@ -67,6 +68,22 @@ const dispatchPatchSignupCompanyInfo = (state, action) => {
 	};
 };
 
+const dispatchPatchSearchInfo = (state, action) => {
+	const currentInfo = {
+		...state[`${constVar.THAINOW_SEARCH_OBJ}`],
+	};
+
+	const updateInfo = {
+		...currentInfo,
+		...action[`${constVar.THAINOW_SEARCH_OBJ}`],
+	};
+
+	return {
+		...state,
+		[`${constVar.THAINOW_SEARCH_OBJ}`]: { ...updateInfo },
+	};
+};
+
 const dispatchError = (state, action) => {
 	const error = {};
 
@@ -95,6 +112,11 @@ const reducer = (state = initialState, action) => {
 		// patch company signup info
 		case actionTypes.DISPATCH_PATCH_SIGNUP_COMPANY_INFO:
 			return dispatchPatchSignupCompanyInfo(state, action);
+
+		// patch search info
+		case actionTypes.DISPATCH_PATCH_SEARCH_INFO:
+			return dispatchPatchSearchInfo(state, action);
+
 		// Error
 		case actionTypes.DISPATCH_ERROR:
 			return dispatchError(state, action);
