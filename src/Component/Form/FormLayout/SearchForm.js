@@ -1,6 +1,7 @@
 import SearchInputFormControlContainer from "../../../Container/FormContainer/FormControlContainer/SearchFormControlContainer/SearchInputFormControlContainer";
 import FormGroupControl from "../FormGroupControl/FormGroupControl";
 
+import { Stack } from "react-bootstrap";
 import * as asset from "../../../Assest/Asset";
 import SearchLocationFormControlContainer from "../../../Container/FormContainer/FormControlContainer/SearchFormControlContainer/SearchLocationFormControlContainer";
 import * as constVar from "../../../Util/ConstVar";
@@ -41,13 +42,11 @@ function SearchForm({ expanded = true, isLoading = false }) {
 	);
 
 	const app = (
-		<>
-			<div className="tedkvn-center">
-				<div>{searchInput}</div>
-				<div className="mx-3">{searchLocation}</div>
-				<div>{searchButton}</div>
-			</div>
-		</>
+		<Stack direction="horizontal" gap={3} className="w-100">
+			<div>{searchInput}</div>
+			<div>{searchLocation}</div>
+			<div>{searchButton}</div>
+		</Stack>
 	);
 
 	return app;

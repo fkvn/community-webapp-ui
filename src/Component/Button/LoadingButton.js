@@ -1,10 +1,10 @@
-import { Button } from "react-bootstrap";
+import { Button, Stack } from "react-bootstrap";
 import ReactLoading from "react-loading";
 import ImageFrame from "../ImageFrame/ImageFrame";
 
 function LoadingButton({
 	id = "",
-	isLoading = true,
+	isLoading = false,
 	className = "",
 	size = "md",
 	title = "",
@@ -26,29 +26,45 @@ function LoadingButton({
 			{...(id && { id: "btn-" + id })}
 			size={size}
 			variant={variant}
-			className={`d-inline-flex tedkvn-center border-0 shadown-none px-3 ${className} `}
+			className={` border-0 shadown-none  ${className} `}
 			type={type}
 			disabled={isLoading}
-			style={{ borderRadius: "1rem", ...buttonStyle }}
+			style={{
+				borderRadius: ".5rem",
+				height: "2.1rem",
+				maxWidth: "10rem",
+				...buttonStyle,
+			}}
 			onClick={onClick}
 		>
-			{!isLoading ? (
-				<>
-					{withIcon && <ImageFrame src={iconSrc} fluid={imgFluid} />}
-					<div className="pb-1">{title}</div>
-				</>
-			) : (
-				<>
-					{" "}
-					<ReactLoading
-						type={loadingType}
-						color={loadingColor}
-						height={loadingHeight}
-						width={loadingWidth}
-						className={loadingClassName}
-					/>
-				</>
-			)}
+			<Stack direction="horizontal" gap={1} className="h-100 w-100 px-1">
+				{withIcon && (
+					<ImageFrame {...(id && { id: id })} src={iconSrc} fluid={imgFluid} />
+				)}
+
+				{!isLoading ? (
+					<>
+						<div
+							{...(id && { id: "title-" + id })}
+							style={{ paddingBottom: "0.05rem" }}
+							className="tedkvn-text-ellipsis"
+						>
+							{title}
+						</div>
+					</>
+				) : (
+					<>
+						{" "}
+						<ReactLoading
+							type={loadingType}
+							color={loadingColor}
+							height={loadingHeight}
+							width={loadingWidth}
+							className={loadingClassName}
+						/>
+					</>
+				)}
+			</Stack>
 		</Button>
 	);
 	return app;

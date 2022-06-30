@@ -1,5 +1,6 @@
 @import "bootstrap/dist/css/bootstrap.min.css";
 
+// desktop - re
 @import url(./index.css);
 
 @import url(./global.css);
@@ -12,12 +13,16 @@
 
 @import url(./signup.css);
 
+// others
+
 @import url(./Devices/desktop-xxl.css);
 
-@import url(./Devices/laptop-lg-xl.css);
+@import url(./Devices/desktop-xl-xxl.css);
+
+@import url(./Devices/desktop-lg-xl.css);
 
 @import url(./Devices/tablet-md.css);
 
 @import url(./Devices/mobile-lg.css);
 
-@import url(./Devices/mobileDevices.css);
+@import url(./Devices/mobile-md.css);

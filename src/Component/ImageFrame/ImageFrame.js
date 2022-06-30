@@ -5,8 +5,8 @@ import ReactLoading from "react-loading";
 function ImageFrame({
 	id = "",
 	frameClassName = "",
-	frameWidth = "1rem",
-	frameStyle = { margin: "0 .5rem 0 0" },
+	frameWidth = "1.5rem",
+	frameStyle = {},
 	src = "",
 	className = "",
 	style = {},
