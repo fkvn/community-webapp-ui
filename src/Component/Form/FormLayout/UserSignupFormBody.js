@@ -94,7 +94,7 @@ function UserSignupFormBody({
 		<Stack
 			{...(id && { id: "form-body-fields-" + id })}
 			gap={3}
-			className="col-7 col-xl-4 mx-auto m-4"
+			className="col-7 col-xl-5 mx-auto m-4"
 		>
 			{usernameFormGroupControl}
 			{addressFormGroupControl}

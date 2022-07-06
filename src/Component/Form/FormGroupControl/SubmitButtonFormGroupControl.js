@@ -15,7 +15,6 @@ function SubmitButtonFormGroupControl({
 	onClick = () => {},
 	buttonStyle = "",
 }) {
-	console.log(buttonStyle);
 	const app = (
 		<Form.Group className={`tedkvn-formGroupControl ${formGroupClassName}`}>
 			<LoadingButton

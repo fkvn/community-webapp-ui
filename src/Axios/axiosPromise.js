@@ -32,7 +32,19 @@ export const verifyOtpCodePromise = (channel = "", value = "", token = "") => {
 	}
 };
 
-export const signupPromise = (signupInfo = {}) => {
+export const signupPromise = (
+	signupInfo = {
+		username: "",
+		email: "",
+		phone: "",
+		password: "",
+		privileges: [],
+		verified: true,
+		role: "",
+		address: "",
+		placeid: "",
+	}
+) => {
 	return axios.post(`/auth/signup`, {
 		...signupInfo,
 	});

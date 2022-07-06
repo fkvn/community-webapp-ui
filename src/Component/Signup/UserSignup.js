@@ -4,7 +4,11 @@ import * as constVar from "../../Util/ConstVar";
 import FormHeader from "../Form/FormLayout/FormHeader";
 import UserSignupFormBody from "../Form/FormLayout/UserSignupFormBody";
 
-function UserSignup({ stepHandlers = [], onSelectVerifyMethod = () => {} }) {
+function UserSignup({
+	stepHandlers = [],
+	onSelectVerifyMethod = () => {},
+	onBackHandlerPromise = () => {},
+}) {
 	const id = "userSignup";
 
 	const navigate = useNavigate();
@@ -29,7 +33,13 @@ function UserSignup({ stepHandlers = [], onSelectVerifyMethod = () => {} }) {
 		onSelectVerifyMethod: onSelectVerifyMethod,
 	};
 
-	const app = FormContainer(id, formHeader, FormBody, stepHandlers);
+	const app = FormContainer(
+		id,
+		formHeader,
+		FormBody,
+		stepHandlers,
+		onBackHandlerPromise
+	);
 
 	return app;
 }

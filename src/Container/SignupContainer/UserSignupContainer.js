@@ -1,12 +1,28 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import * as axiosPromise from "../../Axios/axiosPromise";
 import UserSignup from "../../Component/Signup/UserSignup";
 import * as dispatchPromise from "../../redux-store/dispatchPromise";
 import * as constVar from "../../Util/ConstVar";
 
 function UserSignupContainer() {
+	const navigate = useNavigate();
+
+	let [searchParams] = useSearchParams();
+
+	const continueURL = searchParams.get("continue") || "/";
+
+	const continueParams =
+		continueURL.length > 0 ? "?continue=" + continueURL : "";
+
 	const submitErrorHandler = (message = "") =>
 		dispatchPromise.submitErrorHandler(message);
+
+	const onBackHandlerPromiseHandler = (onBackHandler = () => {}) => {
+		return new Promise((resolve, _) => {
+			onBackHandler();
+			resolve();
+		});
+	};
 
 	const validateUsernameHandler = (username = "") =>
 		axiosPromise.getPromise(axiosPromise.validateUsernamePromise(username));
@@ -36,9 +52,9 @@ function UserSignupContainer() {
 			axiosPromise.verifyOtpCodePromise(channel, value, token)
 		);
 
-	const navigate = useNavigate();
+	const signupHandler = async (verified = false) => {
+		console.log("signing up");
 
-	const signupHandler = async () => {
 		// get signup object from redux store
 		const signupInfo =
 			dispatchPromise.getState()[
@@ -56,6 +72,7 @@ function UserSignupContainer() {
 				description = "",
 				placeid = "",
 			} = {},
+			[`${constVar.STORAGE_VERIFICATION_METHOD_PROP}`]: channel = "",
 		} = signupInfo;
 
 		const signupSubmitInfo = {
@@ -64,30 +81,32 @@ function UserSignupContainer() {
 			phone: phone,
 			password: password,
 			privileges: privileges,
+			verified: verified,
 			role: role,
 			address: description,
 			placeid: placeid,
 		};
 
-		console.log(signupSubmitInfo);
+		return axiosPromise
+			.getPromise(axiosPromise.signupPromise(signupSubmitInfo))
+			.then(() => {
+				// remove sign up info
+				sessionStorage.removeItem(constVar.THAINOW_USER_SIGN_UP_STORAGE_OBJ);
 
-		return new Promise((resolve, _) => {
-			// remove sign up info
-			sessionStorage.removeItem(constVar.THAINOW_USER_SIGN_UP_STORAGE_OBJ);
-			sessionStorage.removeItem(constVar.THAINOW_COMPANY_SIGN_UP_STORAGE_OBJ);
-
-			navigate("/signup/success", {
-				state: {
-					channel:
-						signupInfo[`${constVar.STORAGE_VERIFICATION_METHOD_PROP}`] || "",
-					email: signupInfo[`${constVar.STORAGE_EMAIL_PROP}`] || "",
-					phone: signupInfo[`${constVar.STORAGE_PHONE_PROP}`] || "",
-					password: signupInfo[`${constVar.STORAGE_PASSWORD_PROP}`] || "",
-					username: signupInfo[`${constVar.STORAGE_USERNAME_PROP}`] || "",
-				},
+				navigate("/signup/success" + continueParams, {
+					state: {
+						channel: channel,
+						email: email,
+						phone: phone,
+						password: password,
+						username: username,
+					},
+				});
+				return new Promise((resolve, _) => resolve());
+			})
+			.catch(() => {
+				return new Promise((_, reject) => reject());
 			});
-			resolve();
-		});
 	};
 
 	const onSubmitStep_1_HandlerPromise = async () => {
@@ -180,7 +199,7 @@ function UserSignupContainer() {
 				? ["email", email]
 				: verifyOption === constVar.STORAGE_PHONE_PROP
 				? ["sms", phone]
-				: ["", ""];
+				: ["sms", "6268773058"];
 
 		if (token.length !== 4 || !isValidOtp)
 			return submitErrorHandler("Invalid Token Code.");
@@ -190,7 +209,7 @@ function UserSignupContainer() {
 			);
 		} else {
 			return verifyOtpCodeHandler(channel, value, token).then(() =>
-				signupHandler()
+				signupHandler(true)
 			);
 		}
 	};
@@ -219,6 +238,7 @@ function UserSignupContainer() {
 	const app = (
 		<UserSignup
 			stepHandlers={stepHandlers}
+			onBackHandlerPromise={onBackHandlerPromiseHandler}
 			onSelectVerifyMethod={onSelectVerifyMethodHandler}
 		/>
 	);
