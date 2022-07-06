@@ -47,9 +47,6 @@ function FormGroupControl({
 							required={required}
 							disabled={disabled}
 							{...(placeholder && { placeholder: placeholder })}
-							// {...(storageObjName && {
-							// 	storageObjName: storageObjName,
-							// })}
 							{...validationProp}
 						/>
 					</InputGroup>

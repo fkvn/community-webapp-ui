@@ -25,6 +25,9 @@ import * as actionTypes from "../actionCreator/actionType";
 
 const initialState = {
 	[`${constVar.THAINOW_USER_SIGN_UP_STORAGE_OBJ}`]: {},
+	[`${constVar.THAINOW_USER_SIGN_IN_STORAGE_OBJ}`]: {
+		[`${constVar.STORAGE_SIGNIN_METHOD_PROP}`]: constVar.STORAGE_EMAIL_PROP,
+	},
 	[`${constVar.THAINOW_COMPANY_SIGN_UP_STORAGE_OBJ}`]: {},
 	[`${constVar.THAINOW_SEARCH_OBJ}`]: {},
 };
@@ -38,8 +41,13 @@ const initialState = {
 
 // ================== error =========================
 
+// user sign up
 const dispatchPatchSignupUserInfo = (state, action) => {
-	const currentInfo = state[`${constVar.THAINOW_USER_SIGN_UP_STORAGE_OBJ}`];
+	const replace = action.replace || false;
+
+	const currentInfo = !replace
+		? state[`${constVar.THAINOW_USER_SIGN_UP_STORAGE_OBJ}`]
+		: {};
 
 	const updateInfo = {
 		...currentInfo,
@@ -49,6 +57,27 @@ const dispatchPatchSignupUserInfo = (state, action) => {
 	return {
 		...state,
 		[`${constVar.THAINOW_USER_SIGN_UP_STORAGE_OBJ}`]: updateInfo,
+	};
+};
+
+// user sign in
+const dispatchPatchSigninUserInfo = (state, action) => {
+	const replace = action.replace || false;
+
+	const currentInfo = !replace
+		? state[`${constVar.THAINOW_USER_SIGN_IN_STORAGE_OBJ}`]
+		: {
+				[`${constVar.STORAGE_SIGNIN_METHOD_PROP}`]: constVar.STORAGE_EMAIL_PROP,
+		  };
+
+	const updateInfo = {
+		...currentInfo,
+		...action[`${constVar.THAINOW_USER_SIGN_IN_STORAGE_OBJ}`],
+	};
+
+	return {
+		...state,
+		[`${constVar.THAINOW_USER_SIGN_IN_STORAGE_OBJ}`]: updateInfo,
 	};
 };
 
@@ -106,9 +135,12 @@ const dispatchError = (state, action) => {
 */
 const reducer = (state = initialState, action) => {
 	switch (action.type) {
-		// patch user signup info
+		// patch user sign up info
 		case actionTypes.DISPATCH_PATCH_SIGNUP_USER_INFO:
 			return dispatchPatchSignupUserInfo(state, action);
+		// patch user sign in info
+		case actionTypes.DISPATCH_PATCH_SIGNIN_USER_INFO:
+			return dispatchPatchSigninUserInfo(state, action);
 		// patch company signup info
 		case actionTypes.DISPATCH_PATCH_SIGNUP_COMPANY_INFO:
 			return dispatchPatchSignupCompanyInfo(state, action);

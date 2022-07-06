@@ -3,6 +3,7 @@ import { Route, Routes, useLocation } from "react-router-dom";
 import NotFoundPage from "../../Component/Global/NotFoundPage";
 import * as constVar from "../../Util/ConstVar";
 import ErrorContainer from "../ErrorContainer";
+import LoginContainer from "../LoginContainer";
 import LayoutContainer from "./LayoutContainer";
 import SignupRouteContainer from "./SignupRouteContainer";
 
@@ -26,8 +27,7 @@ function RouteBuilder() {
 			<Routes>
 				<Route path="/" exact element={<LayoutContainer user={user} />} />
 				<Route path="signup/*" element={<SignupRouteContainer />} />
-
-				{/* <Route path="/login" element={<LoginContainer user={user} />} /> */}
+				<Route path="/login" element={<LoginContainer user={user} />} />
 				<Route path="*" element={<NotFoundPage />} />
 			</Routes>
 		</>

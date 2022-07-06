@@ -8,7 +8,12 @@ function Search() {
 		FormComponent: SearchForm,
 	};
 
-	const app = FormContainer(id, <></>, FormBody);
+	const app = FormContainer({
+		id: id,
+		body: FormBody,
+		noHeader: true,
+		stepHandlers: [1],
+	});
 
 	return app;
 }

@@ -29,8 +29,19 @@ function UserPhoneFormControlContainer({
 		);
 	};
 
+	const dispatchHandler = ({ ...props }) => {
+		switch (storageObjName) {
+			case constVar.THAINOW_USER_SIGN_UP_STORAGE_OBJ:
+				return dispatchPromise.patchSignupUserInfo({ ...props });
+			case constVar.THAINOW_USER_SIGN_IN_STORAGE_OBJ:
+				return dispatchPromise.patchSigninUserInfo({ ...props });
+			default:
+				return async () => {};
+		}
+	};
+
 	const updateReduxStorePhone = (formattedPhone = "", isValidPhone = true) => {
-		dispatchPromise.patchSignupUserInfo({
+		dispatchHandler({
 			[`${constVar.STORAGE_PHONE_PROP}`]: formattedPhone,
 			[`${constVar.STORAGE_PHONE_VALIDATION}`]: isValidPhone,
 		});
@@ -85,7 +96,7 @@ function UserPhoneFormControlContainer({
 			] || isValidPhone;
 
 		if (isValidStorePhone !== isValidPhone) {
-			dispatchPromise.patchSignupUserInfo({
+			dispatchHandler({
 				[`${constVar.STORAGE_PHONE_VALIDATION}`]: isValidPhone,
 			});
 		}

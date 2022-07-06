@@ -116,7 +116,7 @@ function SendVerifyCodeContainer({
 		<Stack className="w-100" gap={4}>
 			{" "}
 			{headline}
-			<div className="w-75 mx-auto">
+			<div className="w-75 mx-auto" style={{ maxWidth: "25rem" }}>
 				{verifyMethod === constVar.STORAGE_EMAIL_PROP
 					? emailFormGroupControl
 					: verifyMethod === constVar.STORAGE_PHONE_PROP

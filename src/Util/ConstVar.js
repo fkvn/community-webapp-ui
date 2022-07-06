@@ -3,6 +3,7 @@ export const THAINOW_USER_SIGN_UP_STORAGE_OBJ = "thainow.user.signup.info";
 export const THAINOW_COMPANY_SIGN_UP_STORAGE_OBJ =
 	"thainow.company.signup.info";
 export const THAINOW_SEARCH_OBJ = "thainow.search.info";
+export const THAINOW_USER_SIGN_IN_STORAGE_OBJ = "thainow.user.signin.info";
 
 export const IMAGE_THAINOW_LOGO = "thainowLogo";
 
@@ -28,6 +29,7 @@ export const STORAGE_PASSWORD_VALIDATION = "isValidPassword";
 export const STORAGE_CONFIRM_PASSWORD_VALIDATION = "isPasswordMatch";
 export const STORAGE_ADDRESS_PROP = "address";
 export const STORAGE_VERIFICATION_METHOD_PROP = "verifyMethod";
+export const STORAGE_SIGNIN_METHOD_PROP = "channel";
 export const STORAGE_OTP_PROP = "otp";
 export const STORAGE_OTP_VALIDATION = "isValidOtp";
 export const STORAGE_PRIVILEGES_PROP = "privileges";

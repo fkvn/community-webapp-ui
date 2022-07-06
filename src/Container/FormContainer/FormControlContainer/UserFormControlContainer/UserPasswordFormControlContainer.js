@@ -12,6 +12,7 @@ function UserPasswordFormControlContainer({
 	required = false,
 	disabled = false,
 	onPasswordValidation = () => {},
+	autocomplete = false,
 	storageObjName = constVar.THAINOW_USER_SIGN_UP_STORAGE_OBJ,
 }) {
 	const password = useSelector(
@@ -29,8 +30,19 @@ function UserPasswordFormControlContainer({
 		);
 	};
 
+	const dispatchHandler = ({ ...props }) => {
+		switch (storageObjName) {
+			case constVar.THAINOW_USER_SIGN_UP_STORAGE_OBJ:
+				return dispatchPromise.patchSignupUserInfo({ ...props });
+			case constVar.THAINOW_USER_SIGN_IN_STORAGE_OBJ:
+				return dispatchPromise.patchSigninUserInfo({ ...props });
+			default:
+				return async () => {};
+		}
+	};
+
 	const updateReduxStorePassword = (password = "", isValidPassword = false) => {
-		dispatchPromise.patchSignupUserInfo({
+		dispatchHandler({
 			[`${constVar.STORAGE_PASSWORD_PROP}`]: password,
 			[`${constVar.STORAGE_PASSWORD_VALIDATION}`]: isValidPassword,
 		});
@@ -84,7 +96,7 @@ function UserPasswordFormControlContainer({
 			] || isValidPassword;
 
 		if (isValidStorePassword !== isValidPassword) {
-			dispatchPromise.patchSignupUserInfo({
+			dispatchHandler({
 				[`${constVar.STORAGE_PASSWORD_VALIDATION}`]: isValidPassword,
 			});
 		}
@@ -98,6 +110,7 @@ function UserPasswordFormControlContainer({
 			className={className}
 			required={required}
 			disabled={disabled}
+			autocomplete={autocomplete}
 			onMergeStorage={onMergeStorageHandler}
 			onLoadDefaultValue={onLoadDefaultValueHandler}
 		/>

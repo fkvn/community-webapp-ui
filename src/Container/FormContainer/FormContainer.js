@@ -1,15 +1,19 @@
 import { useState } from "react";
 import { Form, Spinner } from "react-bootstrap";
+import FormHeader from "../../Component/Form/FormLayout/FormHeader";
 
-function FormContainer(
+function FormContainer({
 	id = "",
-	Header = () => {},
-	Body = {},
+	noHeader = false,
+	customerHeader = false,
+	header = () => {},
+	body = {},
 	stepHandlers = [],
-	onBackHandlerPromise = async () => {}
-) {
+	onBackHandlerPromise = async () => {},
+	onClose = () => {},
+}) {
 	const MIN_STEP = 1;
-	const MAX_STEP = stepHandlers.length + 5;
+	const MAX_STEP = stepHandlers.length;
 
 	const [onSubmitLoading, setOnSubmitLoading] = useState(false);
 
@@ -20,6 +24,10 @@ function FormContainer(
 			setStep(step - 1 < 0 ? 0 : step - 1)
 		);
 	};
+
+	const RenderHeader = () => (
+		<FormHeader id={id} onClose={onClose} className=" w-100 bg-white" />
+	);
 
 	const RenderBody = ({ FormComponent = () => {}, ...props }) => {
 		return (
@@ -68,11 +76,11 @@ function FormContainer(
 		<Form onSubmit={onSubmitHandler} {...(id && { id: "form-" + id })}>
 			{MIN_STEP <= MAX_STEP ? (
 				<>
-					{Header}
-					<RenderBody {...Body} />
+					{!noHeader ? <RenderHeader /> : customerHeader ? header : <> </>}
+					<RenderBody {...body} />
 				</>
 			) : (
-				<div className="tedkvn-center-left">
+				<div className="tedkvn-center position-relative">
 					<div>
 						<Spinner animation="border" role="status" />
 					</div>

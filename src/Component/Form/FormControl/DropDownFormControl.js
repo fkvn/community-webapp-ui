@@ -1,6 +1,5 @@
 import { forwardRef, useEffect, useState } from "react";
 import { Button, FormControl, ListGroup, Toast } from "react-bootstrap";
-import * as util from "../../../Util/Util";
 
 function DropDownFormControl(props, _) {
 	const {
@@ -43,7 +42,7 @@ function DropDownFormControl(props, _) {
 			setLoading(false);
 		}
 
-		util.scrollToActiveElement();
+		// util.scrollToActiveElement();
 	}, [loading, setLoading, onLoadDefaultValue]);
 
 	const app = !loading && (

@@ -21,8 +21,10 @@ function SubmitButtonFormGroupControl({
 				{...(id && { id: id })}
 				size={size}
 				className={`tedkvn-formNavigationBtn ${className}`}
-				{...(!customSubmit && { type: "submit" })}
-				{...(customSubmit && { onClick: onClick })}
+				type="submit"
+				onClick={onClick}
+				// {...(!customSubmit && { type: "submit" })}
+				// {...(customSubmit && { type: "submit", onClick: onClick })}
 				title={title}
 				isLoading={isLoading}
 				variant={variant}

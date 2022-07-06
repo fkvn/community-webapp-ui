@@ -80,7 +80,7 @@ function SelectVerifyMethodContainer({
 		<SubmitButtonFormGroupControl
 			show={onSubmitLoading}
 			formGroupClassName="text-center pt-3"
-			className="px-5"
+			className="bg-white px-5"
 			id="email-verification"
 			title="Email Verification"
 			variant="white"
@@ -101,7 +101,7 @@ function SelectVerifyMethodContainer({
 		<SubmitButtonFormGroupControl
 			isLoading={onSubmitLoading}
 			formGroupClassName="text-center pt-3"
-			className="px-5"
+			className="bg-white px-5"
 			id="sms-verification"
 			title="SMS Verification"
 			variant="white"

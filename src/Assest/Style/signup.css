@@ -47,23 +47,6 @@
 	align-items: center;
 }
 
-#form-body-fields-userSignup label {
-	color: #666666;
-}
-
-#form-body-fields-userSignup label.formLabel {
-	font-size: 1.2rem;
-	font-style: normal;
-	font-weight: 400;
-	line-height: 36px;
-
-	color: #666666;
-}
-
-#form-body-fields-userSignup div.tedkvn-formGroupControl-inpurGroup {
-	height: 2.8rem;
-}
-
 #btn-email-verification,
 #btn-sms-verification {
 	border: 1px solid rgba(102, 102, 102, 0.5) !important;

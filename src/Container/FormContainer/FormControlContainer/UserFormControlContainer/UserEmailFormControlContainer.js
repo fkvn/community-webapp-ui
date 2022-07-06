@@ -30,8 +30,19 @@ function UserEmailFormControlContainer({
 		);
 	};
 
+	const dispatchHandler = ({ ...props }) => {
+		switch (storageObjName) {
+			case constVar.THAINOW_USER_SIGN_UP_STORAGE_OBJ:
+				return dispatchPromise.patchSignupUserInfo({ ...props });
+			case constVar.THAINOW_USER_SIGN_IN_STORAGE_OBJ:
+				return dispatchPromise.patchSigninUserInfo({ ...props });
+			default:
+				return async () => {};
+		}
+	};
+
 	const updateReduxStoreEmail = (email = "", isValidEmail = true) => {
-		dispatchPromise.patchSignupUserInfo({
+		dispatchHandler({
 			[`${constVar.STORAGE_EMAIL_PROP}`]: email,
 			[`${constVar.STORAGE_EMAIL_VALIDATION}`]: isValidEmail,
 		});
@@ -82,7 +93,7 @@ function UserEmailFormControlContainer({
 			] || isValidEmail;
 
 		if (isValidStoreEmail !== isValidEmail) {
-			dispatchPromise.patchSignupUserInfo({
+			dispatchHandler({
 				[`${constVar.STORAGE_EMAIL_VALIDATION}`]: isValidEmail,
 			});
 		}

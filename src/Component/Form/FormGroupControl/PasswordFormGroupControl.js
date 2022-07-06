@@ -1,4 +1,4 @@
-import {useState} from "react";
+import { useState } from "react";
 
 import * as util from "../../../Util/Util";
 import FormGroupControl from "./FormGroupControl";
@@ -38,8 +38,8 @@ function PasswordFromGroupControl({
 			setWarningMessage(
 				"8 to 20 characters (1 upper, 1 lower, 1 number, and no white space)."
 			);
-			
-		return isValidPassword
+
+		return isValidPassword;
 	};
 
 	const onVerifyPasswordValidationHanlder = (isPasswordMatch = false) => {

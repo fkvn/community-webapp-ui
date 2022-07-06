@@ -25,8 +25,8 @@ function LoadingButton({
 			{...(id && { id: "btn-" + id })}
 			size={size}
 			variant={variant}
-			className={`  shadown-none  ${className} `}
-			type={type}
+			className={`shadown-none  ${className} `}
+			{...(type && { type: type })}
 			disabled={isLoading}
 			onClick={onClick}
 		>

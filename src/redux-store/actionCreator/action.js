@@ -1,15 +1,31 @@
 import * as constVar from "../../Util/ConstVar";
 import * as actionTypes from "./actionType";
 
-// patch business sign up info
-export const dispatchPatchSignupUserInfo = ({ ...newInfo }) => {
+// patch user sign up info
+export const dispatchPatchSignupUserInfo = (
+	{ ...newInfo },
+	replace = false
+) => {
 	return {
 		type: actionTypes.DISPATCH_PATCH_SIGNUP_USER_INFO,
 		[`${constVar.THAINOW_USER_SIGN_UP_STORAGE_OBJ}`]: { ...newInfo },
+		replace: replace,
 	};
 };
 
-// patch classic sign up info
+// patch user sign in info
+export const dispatchPatchSigninUserInfo = (
+	{ ...newInfo },
+	replace = false
+) => {
+	return {
+		type: actionTypes.DISPATCH_PATCH_SIGNIN_USER_INFO,
+		[`${constVar.THAINOW_USER_SIGN_IN_STORAGE_OBJ}`]: { ...newInfo },
+		replace: replace,
+	};
+};
+
+// patch company sign up info
 export const dispatchPatchSignupCompanyInfo = ({ ...newInfo }) => {
 	return {
 		type: actionTypes.DISPATCH_PATCH_SIGNUP_COMPANY_INFO,

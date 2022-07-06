@@ -24,6 +24,12 @@ function UserSignupContainer() {
 		});
 	};
 
+	const onCloseHandler = () => {
+		dispatchPromise.patchSignupUserInfo({}, true);
+		sessionStorage.removeItem(constVar.THAINOW_USER_SIGN_UP_STORAGE_OBJ);
+		navigate(continueURL, { replace: true });
+	};
+
 	const validateUsernameHandler = (username = "") =>
 		axiosPromise.getPromise(axiosPromise.validateUsernamePromise(username));
 
@@ -53,8 +59,6 @@ function UserSignupContainer() {
 		);
 
 	const signupHandler = async (verified = false) => {
-		console.log("signing up");
-
 		// get signup object from redux store
 		const signupInfo =
 			dispatchPromise.getState()[
@@ -90,7 +94,7 @@ function UserSignupContainer() {
 		return axiosPromise
 			.getPromise(axiosPromise.signupPromise(signupSubmitInfo))
 			.then(() => {
-				// remove sign up info
+				dispatchPromise.patchSignupUserInfo({}, true);
 				sessionStorage.removeItem(constVar.THAINOW_USER_SIGN_UP_STORAGE_OBJ);
 
 				navigate("/signup/success" + continueParams, {
@@ -118,7 +122,6 @@ function UserSignupContainer() {
 
 		const {
 			[`${constVar.STORAGE_USERNAME_PROP}`]: username = "",
-			[`${constVar.STORAGE_PASSWORD_PROP}`]: password = "",
 			[`${constVar.STORAGE_PASSWORD_VALIDATION}`]: isValidPassword = false,
 			[`${constVar.STORAGE_ADDRESS_PROP}`]: {
 				description = "",
@@ -238,6 +241,7 @@ function UserSignupContainer() {
 	const app = (
 		<UserSignup
 			stepHandlers={stepHandlers}
+			onClose={onCloseHandler}
 			onBackHandlerPromise={onBackHandlerPromiseHandler}
 			onSelectVerifyMethod={onSelectVerifyMethodHandler}
 		/>
