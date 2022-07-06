@@ -2,7 +2,7 @@ import * as actionCreators from "./actionCreator/actionCreator";
 import store from "./store";
 
 export const getState = () => {
-	return store.getState().thainowReducer;
+	return store.getState().thainowReducer || {};
 };
 
 export const submitErrorHandler = async (message) => {

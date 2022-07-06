@@ -64,7 +64,7 @@ function PhoneFormControl({
 			}
 			// size={size}
 			// minLength={minLength}
-			// maxLength={maxLength}
+			maxLength={maxLength}
 			required={required}
 			disabled={disabled}
 		/>

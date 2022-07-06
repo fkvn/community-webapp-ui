@@ -9,14 +9,14 @@ function UserAddressFormControlContainer({
 	id = "",
 	placeholder = "Where are you from",
 	required = false,
-	storageObjName = "",
+	storageObjName = constVar.THAINOW_USER_SIGN_UP_STORAGE_OBJ,
 	onAddressValidation = () => {},
 }) {
 	const [address, showAddressList] = useSelector((state) => [
-		state.thainowReducer[`${storageObjName}`][
+		state.thainowReducer[`${storageObjName}`]?.[
 			`${constVar.STORAGE_ADDRESS_PROP}`
 		] || {},
-		state.thainowReducer[`${storageObjName}`].showAddressList || false,
+		state.thainowReducer[`${storageObjName}`]?.showAddressList || false,
 	]);
 
 	const getSessionAddress = () => {
@@ -27,17 +27,16 @@ function UserAddressFormControlContainer({
 		);
 	};
 
-	const updateReduxStoreAddress = (description = "", placeid = "") => {
+	const updateReduxStoreAddress = (
+		description = "",
+		placeid = "",
+		show = false
+	) => {
 		dispatchPromise.patchSignupUserInfo({
 			[`${constVar.STORAGE_ADDRESS_PROP}`]: {
 				description: description,
 				...(placeid && { placeid: placeid }),
 			},
-		});
-	};
-
-	const updateReduxStoreShowList = (show = false) => {
-		dispatchPromise.patchSignupCompanyInfo({
 			showAddressList: show,
 		});
 	};
@@ -54,7 +53,11 @@ function UserAddressFormControlContainer({
 		const placeid = onSelect ? value.placeid : "";
 
 		// update store
-		updateReduxStoreAddress(description, placeid);
+		updateReduxStoreAddress(
+			description,
+			placeid,
+			description.length > 0 && !onSelect
+		);
 
 		// update storage
 		updateSessionAddress(description, placeid);
@@ -117,7 +120,6 @@ function UserAddressFormControlContainer({
 			required={required}
 			onMergeStorage={onMergeStorageHandler}
 			onLoadDefaultValue={onLoadDefaultValueHandler}
-			updateReduxStoreShowList={updateReduxStoreShowList}
 		/>
 	);
 	return app;

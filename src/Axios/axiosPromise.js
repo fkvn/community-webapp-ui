@@ -21,6 +21,7 @@ export const sendOtpCodePromise = (channel = "", value = "") => {
 };
 
 export const verifyOtpCodePromise = (channel = "", value = "", token = "") => {
+	console.log(channel + " - " + value + " - " + token);
 	if (channel === "email" || channel === "sms") {
 		return axios.post(`/auth/verifyToken`, {
 			channel: channel,
@@ -63,6 +64,16 @@ export const loginPromise = async (
 };
 
 // User API
+
+export const validateUsernamePromise = (username = "") => {
+	return axios.post(
+		`/users/validateUsername`,
+		{},
+		{
+			params: { username: username },
+		}
+	);
+};
 
 export const validateEmailPromise = (email = "") => {
 	return axios.post(`/users/validateEmail`, {

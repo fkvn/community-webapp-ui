@@ -10,6 +10,8 @@ export const ICON_USER_READER = "userReaderIcon";
 export const ICON_LOCATION = "locationIcon";
 export const ICON_SEARCH = "searchIcon";
 export const ICON_SEARCH_WHITE = "searchIconWhite";
+export const ICON_EMAIL_BLACK = "emailIconBlack";
+export const ICON_PHONE_BLACK = "phoneIconBlack";
 
 export const SEARCH_INPUT_PROP = "input";
 export const SEARCH_LOCATION_PROP = "address";

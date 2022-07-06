@@ -12,11 +12,11 @@ function UserPasswordFormControlContainer({
 	required = false,
 	disabled = false,
 	onPasswordValidation = () => {},
-	storageObjName = "",
+	storageObjName = constVar.THAINOW_USER_SIGN_UP_STORAGE_OBJ,
 }) {
 	const password = useSelector(
 		(state) =>
-			state.thainowReducer[`${storageObjName}`][
+			state.thainowReducer[`${storageObjName}`]?.[
 				`${constVar.STORAGE_PASSWORD_PROP}`
 			] || ""
 	);
@@ -79,7 +79,7 @@ function UserPasswordFormControlContainer({
 		const isValidPassword = onPasswordValidation(password) || false;
 
 		const isValidStorePassword =
-			dispatchPromise.getState()[`${storageObjName}`][
+			dispatchPromise.getState()[`${storageObjName}`]?.[
 				`${constVar.STORAGE_PASSWORD_VALIDATION}`
 			] || isValidPassword;
 

@@ -34,12 +34,6 @@ function SearchLocationFormControlContainer({
 		});
 	};
 
-	const updateReduxStoreShowList = (show = false) => {
-		dispatchPromise.patchSearchInfo({
-			showAddressList: show,
-		});
-	};
-
 	const onMergeStorageHandler = (value = "", onSelect = false) => {
 		const description = onSelect ? value.description : value || "";
 		const placeid = onSelect ? value.placeid : "";
@@ -87,7 +81,6 @@ function SearchLocationFormControlContainer({
 			style={style}
 			onMergeStorage={onMergeStorageHandler}
 			// onLoadDefaultValue={onLoadDefaultValueHandler}
-			updateReduxStoreShowList={updateReduxStoreShowList}
 		/>
 	);
 

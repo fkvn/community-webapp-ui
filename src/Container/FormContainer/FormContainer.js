@@ -2,10 +2,11 @@ import { useState } from "react";
 import { Form, Spinner } from "react-bootstrap";
 
 function FormContainer(
+	id = "",
 	Header = () => {},
 	Body = {},
 	stepHandlers = [],
-	onBackHandlerPromise = () => {}
+	onBackHandlerPromise = async () => {}
 ) {
 	const MIN_STEP = 1;
 	const MAX_STEP = stepHandlers.length + 5;
@@ -20,7 +21,7 @@ function FormContainer(
 		);
 	};
 
-	const RenderBody = ({ FormComponent, ...props }) => {
+	const RenderBody = ({ FormComponent = () => {}, ...props }) => {
 		return (
 			<FormComponent
 				{...props}
@@ -64,10 +65,12 @@ function FormContainer(
 	};
 
 	const app = (
-		// <Container fluid className={``}>
-		<Form onSubmit={onSubmitHandler}>
+		<Form onSubmit={onSubmitHandler} {...(id && { id: "form-" + id })}>
 			{MIN_STEP <= MAX_STEP ? (
-				<RenderBody {...Body} />
+				<>
+					{Header}
+					<RenderBody {...Body} />
+				</>
 			) : (
 				<div className="tedkvn-center-left">
 					<div>

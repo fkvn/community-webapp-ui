@@ -12,12 +12,12 @@ function UserEmailFormControlContainer({
 	required = false,
 	disabled = false,
 	onEmailValidation = () => {},
-	storageObjName = "",
+	storageObjName = constVar.THAINOW_USER_SIGN_UP_STORAGE_OBJ,
 	saveAndLoadValue = true,
 }) {
 	const email = useSelector(
 		(state) =>
-			state.thainowReducer[`${storageObjName}`][
+			state.thainowReducer[`${storageObjName}`]?.[
 				`${constVar.STORAGE_EMAIL_PROP}`
 			] || ""
 	);
@@ -48,7 +48,7 @@ function UserEmailFormControlContainer({
 	};
 
 	const onMergeStorageHandler = (email = "") => {
-		// validate password
+		// validate email
 		const isValidEmail = onEmailValidation(email);
 
 		// update store
@@ -70,14 +70,6 @@ function UserEmailFormControlContainer({
 				updateReduxStoreEmail(defaultEmail, isValidEmail);
 			}
 		}
-
-		// // get information from the first time load
-		// const [defaultEmail, isValidEmail] = getSessionEmail();
-		// if (email !== defaultEmail) {
-		// 	updateReduxStoreEmail(defaultEmail);
-		// }
-		// // validate password
-		// onEmailValidation(isValidEmail);
 	};
 
 	//this is to check when the field is filled by redux store value changed
@@ -85,7 +77,7 @@ function UserEmailFormControlContainer({
 		const isValidEmail = onEmailValidation(email);
 
 		const isValidStoreEmail =
-			dispatchPromise.getState()[`${storageObjName}`][
+			dispatchPromise.getState()[`${storageObjName}`]?.[
 				`${constVar.STORAGE_EMAIL_VALIDATION}`
 			] || isValidEmail;
 

@@ -1,10 +1,20 @@
 import { Col, Image, Row, Stack } from "react-bootstrap";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import * as asset from "../../Assest/Asset";
 import SearchContainer from "../../Container/SearchContainer/SearchContainer";
 import * as constVar from "../../Util/ConstVar";
 import LoadingButton from "../Button/LoadingButton";
 
 function TopBarNavigation() {
+	const navigate = useNavigate();
+
+	let [searchParams] = useSearchParams();
+
+	const continueURL = searchParams.get("continue") || "/";
+
+	const continueParams =
+		continueURL.length > 0 ? "?continue=" + continueURL : "";
+
 	const brandLogo = (
 		<Image
 			src={asset.images[`${constVar.IMAGE_THAINOW_LOGO}`]}
@@ -15,16 +25,7 @@ function TopBarNavigation() {
 		/>
 	);
 
-	const leftTopBar = (
-		<>
-			<Stack direction="horizontal" gap={3} className="h-100 w-100  px-5">
-				<div>{brandLogo}</div>
-				<div className="mx-auto ">
-					<SearchContainer />
-				</div>
-			</Stack>
-		</>
-	);
+	const leftTopBar = <div>{brandLogo}</div>;
 
 	const signupButton = (
 		<LoadingButton
@@ -33,6 +34,7 @@ function TopBarNavigation() {
 			title="Signup"
 			buttonStyle={{ background: "#E94833" }}
 			className="px-2"
+			onClick={() => navigate("/signup" + continueParams)}
 		/>
 	);
 
@@ -54,6 +56,9 @@ function TopBarNavigation() {
 				gap={3}
 				className="h-100 w-100"
 			>
+				<div className="mx-auto d-none d-lg-block">
+					<SearchContainer />
+				</div>
 				<div className="ms-auto">{languageButton}</div>
 				<div>{signupButton}</div>
 			</Stack>
@@ -62,12 +67,10 @@ function TopBarNavigation() {
 
 	const app = (
 		<Row id="topbar" className="border-bottom border-2">
-			<Col xs={12} md={9}>
+			<Col xs={2} className="tedkvn-center">
 				{leftTopBar}
 			</Col>
-			<Col xs={12} md={3}>
-				{rightTopBar}
-			</Col>
+			<Col xs={10}>{rightTopBar}</Col>
 		</Row>
 	);
 	return app;

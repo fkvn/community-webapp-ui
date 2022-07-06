@@ -1,21 +1,25 @@
-import { useState } from "react";
-import { Form } from "react-bootstrap";
+import {useState} from "react";
 
 import * as util from "../../../Util/Util";
+import FormGroupControl from "./FormGroupControl";
 
 function PasswordFromGroupControl({
 	id = "",
 	withLabel = true,
 	label = "Password",
 	labelClassName = "",
+	placeholder = "",
 	formGroupClassName = "",
 	required = false,
-	disabled = false,
-	storageObjName = "",
+	displayWaningMessage = true,
 	withPasswordFormControl = true,
 	RenderFormControl = () => {},
+	renderProps = {},
+	displayConfirmWaningMessage = true,
 	withConfirmPasswordFormControl = false,
 	RenderConfirmFormControl = () => {},
+	withIcon = false,
+	iconSrc = "",
 }) {
 	const [warningMessage, setWarningMessage] = useState("");
 
@@ -32,10 +36,10 @@ function PasswordFromGroupControl({
 		if (isValidPassword) setWarningMessage("");
 		else
 			setWarningMessage(
-				"8 to 20 characters (at least 1 upper, 1 lower, 1 number, and no white space)."
+				"8 to 20 characters (1 upper, 1 lower, 1 number, and no white space)."
 			);
-
-		return isValidPassword;
+			
+		return isValidPassword
 	};
 
 	const onVerifyPasswordValidationHanlder = (isPasswordMatch = false) => {
@@ -49,61 +53,43 @@ function PasswordFromGroupControl({
 	};
 
 	const passwordFormControl = withPasswordFormControl && (
-		<Form.Group className={`tedkvn-formGroupControl ${formGroupClassName}`}>
-			{withLabel && (
-				<Form.Label
-					{...(id && { htmlFor: id })}
-					className={`formLabel ${labelClassName} ${
-						required && "tedkvn-required"
-					} }`}
-				>
-					{label}
-				</Form.Label>
-			)}
-			<RenderFormControl
-				{...(id && { id: id })}
-				required={required}
-				disabled={disabled}
-				onPasswordValidation={onPasswordValidationHanlder}
-				storageObjName={storageObjName}
-			/>
-
-			{warningMessage.length > 0 && (
-				<Form.Text className="text-muted">
-					<span className="text-danger">{warningMessage}</span>
-				</Form.Text>
-			)}
-		</Form.Group>
+		<FormGroupControl
+			{...(id && { id: id })}
+			withLabel={withLabel}
+			label={label}
+			{...(labelClassName && { labelClassName: labelClassName })}
+			{...(formGroupClassName && { formGroupClassName: formGroupClassName })}
+			{...(placeholder && { placeholder: placeholder })}
+			required={required}
+			withIcon={withIcon}
+			iconSrc={iconSrc}
+			displayWaningMessage={displayWaningMessage}
+			warningMessage={warningMessage}
+			RenderFormControl={RenderFormControl}
+			renderProps={renderProps}
+			validationProp={{ onPasswordValidation: onPasswordValidationHanlder }}
+		/>
 	);
 
 	const confirmPasswordFormControl = withConfirmPasswordFormControl && (
-		<Form.Group className={`tedkvn-formGroupControl ${formGroupClassName}`}>
-			{withLabel && (
-				<Form.Label
-					{...(id && { htmlFor: "confirm-" + id })}
-					className={`formLabel ${labelClassName} ${
-						required && "tedkvn-required"
-					} }`}
-				>
-					Confirm Password
-				</Form.Label>
-			)}
-
-			<RenderConfirmFormControl
-				{...(id && { id: "confirm-" + id })}
-				required={true}
-				disabled={disabled}
-				passwordChanged={passwordChanged}
-				onConfirmPasswordValidation={onVerifyPasswordValidationHanlder}
-				storageObjName={storageObjName}
-			/>
-
-			{confirmPasswordWarningMessage.length > 0 && (
-				<Form.Text className="text-muted">
-					<span className="text-danger">{confirmPasswordWarningMessage}</span>
-				</Form.Text>
-			)}
-		</Form.Group>
+		<FormGroupControl
+			{...(id && { id: id })}
+			withLabel={withLabel}
+			label={label}
+			{...(labelClassName && { labelClassName: labelClassName })}
+			{...(formGroupClassName && { formGroupClassName: formGroupClassName })}
+			placeholder={placeholder}
+			required={required}
+			withIcon={withIcon}
+			iconSrc={iconSrc}
+			displayWaningMessage={displayConfirmWaningMessage}
+			warningMessage={confirmPasswordWarningMessage}
+			RenderFormControl={RenderConfirmFormControl}
+			renderProps={{ passwordChanged: passwordChanged }}
+			validationProp={{
+				onConfirmPasswordValidation: onVerifyPasswordValidationHanlder,
+			}}
+		/>
 	);
 
 	const app = (

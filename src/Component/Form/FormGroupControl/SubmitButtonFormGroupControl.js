@@ -1,27 +1,35 @@
-import React from "react";
 import { Form } from "react-bootstrap";
 import LoadingButton from "../../Button/LoadingButton";
 
 function SubmitButtonFormGroupControl({
+	id = "",
 	formGroupClassName = "",
 	title = "Next",
 	size = "md",
-	show = false,
+	isLoading = false,
 	className = "",
 	variant = "primary",
 	customSubmit = false,
+	withIcon = false,
+	iconSrc = "",
 	onClick = () => {},
+	buttonStyle = "",
 }) {
+	console.log(buttonStyle);
 	const app = (
 		<Form.Group className={`tedkvn-formGroupControl ${formGroupClassName}`}>
 			<LoadingButton
+				{...(id && { id: id })}
 				size={size}
 				className={`tedkvn-formNavigationBtn ${className}`}
 				{...(!customSubmit && { type: "submit" })}
 				{...(customSubmit && { onClick: onClick })}
 				title={title}
-				show={show}
+				isLoading={isLoading}
 				variant={variant}
+				withIcon={withIcon}
+				iconSrc={iconSrc}
+				buttonStyle={buttonStyle}
 			/>
 		</Form.Group>
 	);

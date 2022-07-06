@@ -1,7 +1,9 @@
+import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import PhoneFormControl from "../../../../Component/Form/FormControl/PhoneFormControl";
 import * as dispatchPromise from "../../../../redux-store/dispatchPromise";
 import * as constVar from "../../../../Util/ConstVar";
+import * as util from "../../../../Util/Util";
 
 function UserPhoneFormControlContainer({
 	id = "",
@@ -9,14 +11,23 @@ function UserPhoneFormControlContainer({
 	required = false,
 	disabled = false,
 	onPhoneValidation = () => {},
-	storageObjName = "",
+	storageObjName = constVar.THAINOW_USER_SIGN_UP_STORAGE_OBJ,
+	saveAndLoadValue = true,
 }) {
 	const phone = useSelector(
 		(state) =>
-			state.thainowReducer[`${storageObjName}`][
+			state.thainowReducer[`${storageObjName}`]?.[
 				`${constVar.STORAGE_PHONE_PROP}`
 			] || ""
 	);
+
+	const getSessionPhone = () => {
+		return (
+			util.getSessionStorageObj(storageObjName)[
+				`${constVar.STORAGE_PHONE_PROP}`
+			] || ""
+		);
+	};
 
 	const updateReduxStorePhone = (formattedPhone = "", isValidPhone = true) => {
 		dispatchPromise.patchSignupUserInfo({
@@ -25,52 +36,60 @@ function UserPhoneFormControlContainer({
 		});
 	};
 
-	// const getSessionPhone = () => {
-	// 	return [
-	// 		util.getSessionStorageObj(storageObjName)[
-	// 			`${constVar.STORAGE_PHONE_PROP}`
-	// 		] || "",
-	// 		util.getSessionStorageObj(storageObjName)[
-	// 			`${constVar.STORAGE_PHONE_VALIDATION}`
-	// 		] || false,
-	// 	];
-	// };
+	const updateSessionPhone = (formattedPhone = "", isValidPhone = true) => {
+		util.saveToSessionStore(
+			storageObjName,
+			constVar.STORAGE_PHONE_PROP,
+			formattedPhone
+		);
 
-	// const updateSessionPhone = (formattedPhone = "", isValidPhone = true) => {
-	// 	util.saveToSessionStore(
-	// 		storageObjName,
-	// 		constVar.STORAGE_PHONE_PROP,
-	// 		formattedPhone
-	// 	);
-
-	// 	util.saveToSessionStore(
-	// 		storageObjName,
-	// 		constVar.STORAGE_PHONE_VALIDATION,
-	// 		isValidPhone
-	// 	);
-	// };
+		util.saveToSessionStore(
+			storageObjName,
+			constVar.STORAGE_PHONE_VALIDATION,
+			isValidPhone
+		);
+	};
 
 	const onMergeStorageHandler = (formattedPhone = "") => {
+		// validate phone
 		const isValidPhone = onPhoneValidation(formattedPhone);
 
 		// update storage
 		updateReduxStorePhone(formattedPhone, isValidPhone);
 
 		// update storage
-		// updateSessionPhone(formattedPhone, isValidPhone);
-
-		// validate phone
+		if (saveAndLoadValue) updateSessionPhone(formattedPhone, isValidPhone);
 	};
 
 	const onLoadDefaultValueHandler = () => {
-		// get information from the first time load
-		// const [defaultPhone, isValidPhone] = getSessionPhone();
-		// if (phone !== defaultPhone) {
-		// 	updateReduxStorePhone(defaultPhone);
-		// }
-		// // validate phone
-		// onPhoneValidation(isValidPhone);
+		if (saveAndLoadValue) {
+			// get information from the first time load
+			const defaultPhone = getSessionPhone();
+
+			// validate password
+			const isValidPhone = onPhoneValidation(defaultPhone);
+
+			if (phone !== defaultPhone) {
+				updateReduxStorePhone(defaultPhone, isValidPhone);
+			}
+		}
 	};
+
+	//this is to check when the field is filled by redux store value changed
+	useEffect(() => {
+		const isValidPhone = onPhoneValidation(phone);
+
+		const isValidStorePhone =
+			dispatchPromise.getState()[`${storageObjName}`]?.[
+				`${constVar.STORAGE_PHONE_VALIDATION}`
+			] || isValidPhone;
+
+		if (isValidStorePhone !== isValidPhone) {
+			dispatchPromise.patchSignupUserInfo({
+				[`${constVar.STORAGE_PHONE_VALIDATION}`]: isValidPhone,
+			});
+		}
+	}, [phone, storageObjName, onPhoneValidation]);
 
 	const app = (
 		<PhoneFormControl

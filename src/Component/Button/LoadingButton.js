@@ -10,7 +10,6 @@ function LoadingButton({
 	title = "",
 	type = "",
 	variant = "primary",
-	buttonStyle = {},
 	loadingType = "spin",
 	loadingColor = "#ffffff",
 	loadingHeight = "1.5rem",
@@ -26,15 +25,9 @@ function LoadingButton({
 			{...(id && { id: "btn-" + id })}
 			size={size}
 			variant={variant}
-			className={` border-0 shadown-none  ${className} `}
+			className={`  shadown-none  ${className} `}
 			type={type}
 			disabled={isLoading}
-			style={{
-				borderRadius: ".5rem",
-				height: "2.1rem",
-				maxWidth: "10rem",
-				...buttonStyle,
-			}}
 			onClick={onClick}
 		>
 			<Stack direction="horizontal" gap={1} className="h-100 w-100 px-1">

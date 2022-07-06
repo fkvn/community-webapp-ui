@@ -1,16 +1,21 @@
-import React from "react";
 import { Button, CloseButton, Image, Navbar } from "react-bootstrap";
 import thainowlogo from "../../../Assest/Image/Brand/thainowLogo.png";
 
 function FormHeader({
+	id = "",
 	title = "",
 	navButtons = [],
 	withCloseButon = true,
 	onClose = () => {},
+	className = "",
 }) {
 	const app = (
-		<Navbar expand={true} bg="light" variant="light">
-			<Navbar.Brand href="#home" className="tedkvn-center">
+		<Navbar
+			{...(id && { id: "header-" + id })}
+			expand={true}
+			className={`px-5 py-3 ${className}`}
+		>
+			<Navbar.Brand href="/" className="tedkvn-center">
 				<Image
 					src={thainowlogo}
 					fluid

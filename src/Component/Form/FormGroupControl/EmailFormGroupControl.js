@@ -1,20 +1,21 @@
 import { useState } from "react";
-import { Form, Row } from "react-bootstrap";
 
 import * as util from "../../../Util/Util";
+import FormGroupControl from "./FormGroupControl";
 
 function EmailFromGroupControl({
 	id = "",
 	withLabel = true,
-	label = "Email",
+	label = "Email Address",
 	labelClassName = "",
+	placeholder = "",
 	formGroupClassName = "",
 	required = false,
-	disabled = false,
 	displayWaningMessage = true,
-	storageObjName = "",
 	RenderFormControl = () => {},
-	saveAndLoadValue = true,
+	renderProps = {},
+	withIcon = false,
+	iconSrc = "",
 }) {
 	const [warningMessage, setWarningMessage] = useState("");
 
@@ -28,33 +29,24 @@ function EmailFromGroupControl({
 	};
 
 	const app = (
-		<Row>
-			<Form.Group className={`tedkvn-formGroupControl ${formGroupClassName}`}>
-				{withLabel && (
-					<Form.Label
-						{...(id && { htmlFor: id })}
-						className={`formLabel ${labelClassName} ${
-							required && "tedkvn-required"
-						} }`}
-					>
-						{label}
-					</Form.Label>
-				)}
-				<RenderFormControl
-					{...(id && { id: id })}
-					required={required}
-					disabled={disabled}
-					onEmailValidation={onEmailValidationHanlder}
-					storageObjName={storageObjName}
-					saveAndLoadValue={saveAndLoadValue}
-				/>
-				{displayWaningMessage && warningMessage.length > 0 && (
-					<Form.Text className="text-muted">
-						<span className="text-danger">{warningMessage}</span>
-					</Form.Text>
-				)}
-			</Form.Group>
-		</Row>
+		<>
+			<FormGroupControl
+				{...(id && { id: id })}
+				withLabel={withLabel}
+				label={label}
+				{...(labelClassName && { labelClassName: labelClassName })}
+				{...(formGroupClassName && { formGroupClassName: formGroupClassName })}
+				{...(placeholder && { placeholder: placeholder })}
+				required={required}
+				withIcon={withIcon}
+				iconSrc={iconSrc}
+				displayWaningMessage={displayWaningMessage}
+				warningMessage={warningMessage}
+				RenderFormControl={RenderFormControl}
+				renderProps={renderProps}
+				validationProp={{ onEmailValidation: onEmailValidationHanlder }}
+			/>
+		</>
 	);
 	return app;
 }

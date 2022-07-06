@@ -11,12 +11,12 @@ function UserUsernameFormControlContainer(props) {
 		className = "",
 		required = false,
 		disabled = false,
-		storageObjName = "",
+		storageObjName = constVar.THAINOW_USER_SIGN_UP_STORAGE_OBJ,
 	} = props;
 
 	const username = useSelector(
 		(state) =>
-			state.thainowReducer[`${storageObjName}`][
+			state.thainowReducer[`${storageObjName}`]?.[
 				`${constVar.STORAGE_USERNAME_PROP}`
 			] || ""
 	);
@@ -64,6 +64,7 @@ function UserUsernameFormControlContainer(props) {
 		<FormControlControlled
 			{...(id && { id: id })}
 			value={username}
+			type="search"
 			className={className}
 			placeholder={placeholder}
 			required={required}

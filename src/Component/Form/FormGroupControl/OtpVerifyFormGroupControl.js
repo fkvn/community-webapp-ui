@@ -1,6 +1,6 @@
-import React, { useState } from "react";
-import { Form, Row } from "react-bootstrap";
+import { useState } from "react";
 import OtpFormControlContainer from "../../../Container/FormContainer/FormControlContainer/OtpFormControlContainer.js/OtpFormControlContainer";
+import FormGroupControl from "./FormGroupControl";
 
 function OtpVerifyFormGroupControl({
 	id = "",
@@ -9,7 +9,6 @@ function OtpVerifyFormGroupControl({
 	labelClassName = "",
 	formGroupClassName = "",
 	required = false,
-	disabled = false,
 	displayWaningMessage = true,
 	storageObjName = "",
 }) {
@@ -21,34 +20,21 @@ function OtpVerifyFormGroupControl({
 	};
 
 	const app = (
-		<Row>
-			<Form.Group className={`tedkvn-formGroupControl ${formGroupClassName}`}>
-				{withLabel && (
-					<Form.Label
-						{...(id && { htmlFor: id })}
-						className={`formLabel ${labelClassName} ${
-							required && "tedkvn-required"
-						} }`}
-					>
-						{label}
-					</Form.Label>
-				)}
-
-				<OtpFormControlContainer
-					{...(id && { id: id })}
-					required={required}
-					disabled={disabled}
-					onOtpValidation={onOtpValidationHanlder}
-					storageObjName={storageObjName}
-				/>
-
-				{displayWaningMessage && warningMessage.length > 0 && (
-					<Form.Text className="text-muted">
-						<span className="text-danger">{warningMessage}</span>
-					</Form.Text>
-				)}
-			</Form.Group>
-		</Row>
+		<>
+			<FormGroupControl
+				{...(id && { id: id })}
+				withLabel={withLabel}
+				label={label}
+				{...(labelClassName && { labelClassName: labelClassName })}
+				{...(formGroupClassName && { formGroupClassName: formGroupClassName })}
+				required={required}
+				displayWaningMessage={displayWaningMessage}
+				warningMessage={warningMessage}
+				RenderFormControl={OtpFormControlContainer}
+				renderProps={{ storageObjName: storageObjName }}
+				validationProp={{ onOtpValidation: onOtpValidationHanlder }}
+			/>
+		</>
 	);
 	return app;
 }

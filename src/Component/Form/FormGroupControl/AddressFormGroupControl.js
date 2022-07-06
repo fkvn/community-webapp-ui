@@ -33,7 +33,7 @@ function AddressFromGroupControl({
 				label={label}
 				{...(labelClassName && { labelClassName: labelClassName })}
 				{...(formGroupClassName && { formGroupClassName: formGroupClassName })}
-				placeholder={placeholder}
+				{...(placeholder && { placeholder: placeholder })}
 				required={required}
 				withIcon={withIcon}
 				iconSrc={iconSrc}

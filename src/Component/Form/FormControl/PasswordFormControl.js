@@ -38,12 +38,12 @@ function PasswordFormControl({
 	}, [loading, setLoading, onLoadDefaultValue]);
 
 	const app = (
-		<InputGroup className="mb-3 mx-0">
+		<InputGroup className="mb-3 mx-0 border-0 h-100">
 			<IconButton
 				{...(id && { btnId: id + "hidden-icon" })}
 				imgSrc={visibility ? visibilityIcon : hiddenIcon}
 				btnVariant="white"
-				btnClassName="tedkvn-password-hidden-icon  border"
+				btnClassName="tedkvn-password-hidden-icon  border-0"
 				onClickHandler={() => setVisibility(!visibility)}
 			/>
 
