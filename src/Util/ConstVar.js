@@ -6,6 +6,7 @@ export const THAINOW_SEARCH_OBJ = "thainow.search.info";
 export const THAINOW_USER_SIGN_IN_STORAGE_OBJ = "thainow.user.signin.info";
 
 export const IMAGE_THAINOW_LOGO = "thainowLogo";
+export const IMAGE_GUEST_PROFILE = "guestProfile";
 
 export const ICON_USER_READER = "userReaderIcon";
 export const ICON_LOCATION = "locationIcon";

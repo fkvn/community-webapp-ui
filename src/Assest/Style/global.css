@@ -2,6 +2,67 @@ body {
 	background-color: #f8f8f8;
 }
 
+#right-bar {
+	background-color: #f2f2f7;
+	position: fixed !important;
+	right: 0 !important;
+	top: 5rem !important;
+	overflow: auto;
+}
+
+.polygon {
+	display: inline-block;
+	position: relative;
+	width: 10rem;
+	height: 10rem;
+	/* background: red; */
+	/* border: 2px solid; */
+
+	background: linear-gradient(142.18deg, #a73ee7 12.72%, #00ebff 89.12%);
+
+	box-sizing: border-box;
+
+	clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0 75%, 0 25%);
+	-webkit-clip-path: polygon(
+		50% 0%,
+		100% 25%,
+		100% 75%,
+		50% 100%,
+		0 75%,
+		0 25
+	) !important;
+}
+
+.polygon img {
+	position: absolute;
+	background-color: white;
+	/* equal to border thickness */
+	top: 0.2rem;
+	/* equal to border thickness */
+	left: 0.2rem;
+	/* container height - (border thickness * 2) */
+	width: 9.6rem;
+	/* container height - (border thickness * 2) */
+	height: 9.6rem;
+	clip-path: inherit;
+	-webkit-clip-path: inherit;
+}
+
+/* #shape {
+	background-color: white;
+	width: 10rem;
+	height: 10rem;
+
+	clip-path: polygon(
+		50% 0%,
+		100% 25%,
+		100% 75%,
+		50% 100%,
+		0 75%,
+		0 25%
+	) !important;
+} */
+
 .tedkvn-center {
 	display: flex;
 	justify-content: center;

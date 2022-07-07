@@ -66,7 +66,7 @@ function TopBarNavigation() {
 	);
 
 	const app = (
-		<Row id="topbar" className="border-bottom border-2">
+		<Row id="topbar" className="fixed-top border-bottom bg-white border-2 ">
 			<Col xs={2} className="tedkvn-center">
 				{leftTopBar}
 			</Col>
