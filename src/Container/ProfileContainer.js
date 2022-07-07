@@ -2,16 +2,19 @@ function ProfileContainer() {
 	const profile = {
 		type: "Guest",
 		guest: {
-			src: "",
+			profileUrl: "",
 		},
 		user: {
 			id: "",
-			src: "",
+			profileUrl: "",
 			username: "",
 			location: {
 				publicLocation: false,
-				address: "",
+				description: "",
 				placeid: "",
+				locality: "",
+				state: "",
+				zipcode: "",
 			},
 			firstname: "",
 			lastname: "",
@@ -20,7 +23,29 @@ function ProfileContainer() {
 			phone: "",
 			publicPhone: false,
 		},
-		company: {},
+		company: [
+			{
+				id: "",
+				logoUrl: "",
+				location: {
+					publicLocation: false,
+					description: "",
+					placeid: "",
+					locality: "",
+					state: "",
+					zipcode: "",
+				},
+				description: "",
+				industry: "",
+				website: "",
+				email: "",
+				phone: "",
+				founded: "",
+				size: "",
+				administrator: "",
+				administratorRole: "",
+			},
+		],
 	};
 
 	const app = <></>;
