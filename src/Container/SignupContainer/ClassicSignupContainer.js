@@ -14,7 +14,7 @@ function ClassicSignupContainer() {
 	const continueParams =
 		continueURL.length > 0 ? "?continue=" + continueURL : "";
 
-	const storageObjName = constVar.THAINOW_USER_SIGN_UP_STORAGE_OBJ;
+	const storageObjName = constVar.THAINOW_USER_SIGN_UP_OBJ;
 
 	const submitErrorHandler = (message = "") =>
 		dispatchPromise.submitErrorHandler(message);
@@ -40,12 +40,11 @@ function ClassicSignupContainer() {
 				sessionStorage.removeItem(storageObjName);
 				navigate("/signup/success" + continueParams, {
 					state: {
-						channel:
-							signupInfo[`${constVar.STORAGE_VERIFICATION_METHOD_PROP}`] || "",
-						email: signupInfo[`${constVar.STORAGE_EMAIL_PROP}`] || "",
-						phone: signupInfo[`${constVar.STORAGE_PHONE_PROP}`] || "",
-						password: signupInfo[`${constVar.STORAGE_PASSWORD_PROP}`] || "",
-						username: signupInfo[`${constVar.STORAGE_USERNAME_PROP}`] || "",
+						channel: signupInfo[`${constVar.VERIFICATION_METHOD_PROP}`] || "",
+						email: signupInfo[`${constVar.EMAIL_PROP}`] || "",
+						phone: signupInfo[`${constVar.PHONE_PROP}`] || "",
+						password: signupInfo[`${constVar.PASSWORD_PROP}`] || "",
+						username: signupInfo[`${constVar.USERNAME_PROP}`] || "",
 					},
 				});
 				return new Promise((resolve, _) => resolve());
@@ -71,10 +70,10 @@ function ClassicSignupContainer() {
 		let signupInfo = dispatchPromise.getState()[`${storageObjName}`];
 
 		const { description = "", placeid = "" } =
-			signupInfo[`${constVar.STORAGE_ADDRESS_PROP}`] || {};
+			signupInfo[`${constVar.ADDRESS_PROP}`] || {};
 
 		const isValidPassword =
-			signupInfo[`${constVar.STORAGE_PASSWORD_VALIDATION}`] || false;
+			signupInfo[`${constVar.PASSWORD_VALIDATION}`] || false;
 
 		if (description.length === 0 || placeid.length === 0)
 			return submitErrorHandler("Invalid Location");
@@ -86,11 +85,11 @@ function ClassicSignupContainer() {
 
 	const onSelectVerifyMethodHandler = (channel = "") => {
 		dispatchPromise.patchSignupUserInfo({
-			[`${constVar.STORAGE_VERIFICATION_METHOD_PROP}`]:
-				channel === constVar.STORAGE_EMAIL_PROP
-					? constVar.STORAGE_EMAIL_PROP
-					: channel === constVar.STORAGE_PHONE_PROP
-					? constVar.STORAGE_PHONE_PROP
+			[`${constVar.VERIFICATION_METHOD_PROP}`]:
+				channel === constVar.EMAIL_PROP
+					? constVar.EMAIL_PROP
+					: channel === constVar.PHONE_PROP
+					? constVar.PHONE_PROP
 					: "",
 		});
 	};
@@ -100,14 +99,14 @@ function ClassicSignupContainer() {
 		let signupInfo = dispatchPromise.getState()[`${storageObjName}`];
 
 		const verifyOption =
-			signupInfo[`${constVar.STORAGE_VERIFICATION_METHOD_PROP}`] || "";
+			signupInfo[`${constVar.VERIFICATION_METHOD_PROP}`] || "";
 
 		switch (verifyOption) {
 			// verify by email
-			case constVar.STORAGE_EMAIL_PROP: {
-				const email = signupInfo[`${constVar.STORAGE_EMAIL_PROP}`] || "";
+			case constVar.EMAIL_PROP: {
+				const email = signupInfo[`${constVar.EMAIL_PROP}`] || "";
 				const isValidEmail =
-					signupInfo[`${constVar.STORAGE_EMAIL_VALIDATION}`] || false;
+					signupInfo[`${constVar.EMAIL_VALIDATION}`] || false;
 
 				if (email.length === 0 || !isValidEmail) {
 					return submitErrorHandler(
@@ -121,10 +120,10 @@ function ClassicSignupContainer() {
 			}
 
 			// verify by sms
-			case constVar.STORAGE_PHONE_PROP: {
-				const phone = signupInfo[`${constVar.STORAGE_PHONE_PROP}`] || "";
+			case constVar.PHONE_PROP: {
+				const phone = signupInfo[`${constVar.PHONE_PROP}`] || "";
 				const isValidPhone =
-					signupInfo[`${constVar.STORAGE_PHONE_VALIDATION}`] || false;
+					signupInfo[`${constVar.PHONE_VALIDATION}`] || false;
 
 				if (phone.length === 0 || !isValidPhone) {
 					return submitErrorHandler(
@@ -147,8 +146,8 @@ function ClassicSignupContainer() {
 	const onResetOtpHandler = () => {
 		console.log("reset otp");
 		dispatchPromise.patchSignupUserInfo({
-			[`${constVar.STORAGE_OTP_PROP}`]: "",
-			[`${constVar.STORAGE_OTP_VALIDATION}`]: false,
+			[`${constVar.OTP_PROP}`]: "",
+			[`${constVar.OTP_VALIDATION}`]: false,
 		});
 	};
 
@@ -156,23 +155,21 @@ function ClassicSignupContainer() {
 		// get signup object from redux store
 		let signupInfo = dispatchPromise.getState()[`${storageObjName}`];
 
-		const isValidOtp =
-			signupInfo[`${constVar.STORAGE_OTP_VALIDATION}`] || false;
+		const isValidOtp = signupInfo[`${constVar.OTP_VALIDATION}`] || false;
 
-		const otp =
-			signupInfo[`${constVar.STORAGE_OTP_PROP}`].replace(/[^\d]/g, "") || "";
+		const otp = signupInfo[`${constVar.OTP_PROP}`].replace(/[^\d]/g, "") || "";
 
 		if (otp.length !== 4 || !isValidOtp)
 			return submitErrorHandler("Invalid Code");
 		else {
 			const verifyOption =
-				signupInfo[`${constVar.STORAGE_VERIFICATION_METHOD_PROP}`] || "";
+				signupInfo[`${constVar.VERIFICATION_METHOD_PROP}`] || "";
 
 			const [channel, value] =
-				verifyOption === constVar.STORAGE_EMAIL_PROP
-					? ["email", signupInfo[`${constVar.STORAGE_EMAIL_PROP}`] || ""]
-					: verifyOption === constVar.STORAGE_PHONE_PROP
-					? ["sms", signupInfo[`${constVar.STORAGE_PHONE_PROP}`] || ""]
+				verifyOption === constVar.EMAIL_PROP
+					? ["email", signupInfo[`${constVar.EMAIL_PROP}`] || ""]
+					: verifyOption === constVar.PHONE_PROP
+					? ["sms", signupInfo[`${constVar.PHONE_PROP}`] || ""]
 					: ["", ""];
 
 			return verifyOtpCodeHandler(channel, value, otp).then(() =>

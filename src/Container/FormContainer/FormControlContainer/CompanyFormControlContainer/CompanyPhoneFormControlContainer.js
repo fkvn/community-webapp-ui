@@ -17,35 +17,35 @@ function CompanyPhoneFormControlContainer({
 	const formattedPhone = useSelector(
 		(state) =>
 			state.thainowReducer[`${storageObjName}`][
-				`${constVar.STORAGE_COMPANY_PHONE_PROP}`
+				`${constVar.COMPANY_PHONE_PROP}`
 			] || ""
 	);
 
 	const getSessionPhone = () => {
 		return (
 			util.getSessionStorageObj(storageObjName)[
-				`${constVar.STORAGE_COMPANY_PHONE_PROP}`
+				`${constVar.COMPANY_PHONE_PROP}`
 			] || ""
 		);
 	};
 
 	const updateReduxStorePhone = (formattedPhone = "", isValidPhone = true) => {
 		dispatchPromise.patchSignupCompanyInfo({
-			[`${constVar.STORAGE_COMPANY_PHONE_PROP}`]: formattedPhone,
-			[`${constVar.STORAGE_COMPANY_PHONE_VALIDATION}`]: isValidPhone,
+			[`${constVar.COMPANY_PHONE_PROP}`]: formattedPhone,
+			[`${constVar.COMPANY_PHONE_VALIDATION}`]: isValidPhone,
 		});
 	};
 
 	const updateSessionPhone = (formattedPhone = "", isValidPhone = true) => {
 		util.saveToSessionStore(
 			storageObjName,
-			constVar.STORAGE_COMPANY_PHONE_PROP,
+			constVar.COMPANY_PHONE_PROP,
 			formattedPhone
 		);
 
 		util.saveToSessionStore(
 			storageObjName,
-			constVar.STORAGE_COMPANY_PHONE_VALIDATION,
+			constVar.COMPANY_PHONE_VALIDATION,
 			isValidPhone
 		);
 	};
@@ -79,12 +79,12 @@ function CompanyPhoneFormControlContainer({
 
 		const isValidStorePhone =
 			dispatchPromise.getState()[`${storageObjName}`][
-				`${constVar.STORAGE_COMPANY_PHONE_VALIDATION}`
+				`${constVar.COMPANY_PHONE_VALIDATION}`
 			] || isValidPhone;
 
 		if (isValidStorePhone !== isValidPhone) {
 			dispatchPromise.patchSignupCompanyInfo({
-				[`${constVar.STORAGE_COMPANY_PHONE_VALIDATION}`]: isValidPhone,
+				[`${constVar.COMPANY_PHONE_VALIDATION}`]: isValidPhone,
 			});
 		}
 	}, [formattedPhone, storageObjName, onPhoneValidation]);

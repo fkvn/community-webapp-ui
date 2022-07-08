@@ -9,21 +9,19 @@ function UserAddressFormControlContainer({
 	id = "",
 	placeholder = "Where are you from",
 	required = false,
-	storageObjName = constVar.THAINOW_USER_SIGN_UP_STORAGE_OBJ,
+	storageObjName = constVar.THAINOW_USER_SIGN_UP_OBJ,
 	onAddressValidation = () => {},
 }) {
 	const [address, showAddressList] = useSelector((state) => [
-		state.thainowReducer[`${storageObjName}`]?.[
-			`${constVar.STORAGE_ADDRESS_PROP}`
-		] || {},
+		state.thainowReducer[`${storageObjName}`]?.[`${constVar.ADDRESS_PROP}`] ||
+			{},
 		state.thainowReducer[`${storageObjName}`]?.showAddressList || false,
 	]);
 
 	const getSessionAddress = () => {
 		return (
-			util.getSessionStorageObj(storageObjName)[
-				`${constVar.STORAGE_ADDRESS_PROP}`
-			] || {}
+			util.getSessionStorageObj(storageObjName)[`${constVar.ADDRESS_PROP}`] ||
+			{}
 		);
 	};
 
@@ -33,7 +31,7 @@ function UserAddressFormControlContainer({
 		show = false
 	) => {
 		dispatchPromise.patchSignupUserInfo({
-			[`${constVar.STORAGE_ADDRESS_PROP}`]: {
+			[`${constVar.ADDRESS_PROP}`]: {
 				description: description,
 				...(placeid && { placeid: placeid }),
 			},
@@ -42,7 +40,7 @@ function UserAddressFormControlContainer({
 	};
 
 	const updateSessionAddress = (description = "", placeid = "") => {
-		util.saveToSessionStore(storageObjName, constVar.STORAGE_ADDRESS_PROP, {
+		util.saveToSessionStore(storageObjName, constVar.ADDRESS_PROP, {
 			description: description,
 			...(placeid && { placeid: placeid }),
 		});

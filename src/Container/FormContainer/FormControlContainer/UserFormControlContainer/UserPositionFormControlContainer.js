@@ -12,35 +12,29 @@ function UserPositionFormControlContainer({
 	disabled = false,
 	storageObjName = "",
 }) {
-	const positions = [...constVar.STORAGE_COMPANY_POSTION_LIST];
+	const positions = [...constVar.COMPANY_POSTION_LIST];
 
 	const position = useSelector(
 		(state) =>
-			state.thainowReducer[`${storageObjName}`][
-				`${constVar.STORAGE_POSITION_PROP}`
-			] || ""
+			state.thainowReducer[`${storageObjName}`][`${constVar.POSITION_PROP}`] ||
+			""
 	);
 
 	const getSessionPosition = () => {
 		return (
-			util.getSessionStorageObj(storageObjName)[
-				`${constVar.STORAGE_POSITION_PROP}`
-			] || ""
+			util.getSessionStorageObj(storageObjName)[`${constVar.POSITION_PROP}`] ||
+			""
 		);
 	};
 
 	const updateReduxStorePosition = (position = "") => {
 		dispatchPromise.patchSignupUserInfo({
-			[`${constVar.STORAGE_POSITION_PROP}`]: position,
+			[`${constVar.POSITION_PROP}`]: position,
 		});
 	};
 
 	const updateSessionPosition = (position = "") => {
-		util.saveToSessionStore(
-			storageObjName,
-			constVar.STORAGE_POSITION_PROP,
-			position
-		);
+		util.saveToSessionStore(storageObjName, constVar.POSITION_PROP, position);
 	};
 
 	const onClickHanlder = (e) => {

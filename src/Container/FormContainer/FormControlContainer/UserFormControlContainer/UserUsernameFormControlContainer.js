@@ -11,36 +11,31 @@ function UserUsernameFormControlContainer(props) {
 		className = "",
 		required = false,
 		disabled = false,
-		storageObjName = constVar.THAINOW_USER_SIGN_UP_STORAGE_OBJ,
+		storageObjName = constVar.THAINOW_USER_SIGN_UP_OBJ,
 	} = props;
 
 	const username = useSelector(
 		(state) =>
 			state.thainowReducer[`${storageObjName}`]?.[
-				`${constVar.STORAGE_USERNAME_PROP}`
+				`${constVar.USERNAME_PROP}`
 			] || ""
 	);
 
 	const getSessionUsername = () => {
 		return (
-			util.getSessionStorageObj(storageObjName)[
-				`${constVar.STORAGE_USERNAME_PROP}`
-			] || ""
+			util.getSessionStorageObj(storageObjName)[`${constVar.USERNAME_PROP}`] ||
+			""
 		);
 	};
 
 	const updateReduxStoreUsername = (name = "") => {
 		dispatchPromise.patchSignupUserInfo({
-			[`${constVar.STORAGE_USERNAME_PROP}`]: name,
+			[`${constVar.USERNAME_PROP}`]: name,
 		});
 	};
 
 	const updateSessionUsername = (name = "") => {
-		util.saveToSessionStore(
-			storageObjName,
-			constVar.STORAGE_USERNAME_PROP,
-			name
-		);
+		util.saveToSessionStore(storageObjName, constVar.USERNAME_PROP, name);
 	};
 
 	const onMergeStorageHandler = (value = "") => {

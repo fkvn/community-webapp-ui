@@ -1,6 +1,8 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
+import { useSelector } from "react-redux";
 import { Route, Routes, useLocation } from "react-router-dom";
 import NotFoundPage from "../../Component/Global/NotFoundPage";
+import * as dispatchPromise from "../../redux-store/dispatchPromise";
 import * as constVar from "../../Util/ConstVar";
 import ErrorContainer from "../ErrorContainer";
 import LoginContainer from "../LoginContainer";
@@ -10,24 +12,28 @@ import SignupRouteContainer from "./SignupRouteContainer";
 function RouteBuilder() {
 	const location = useLocation();
 
-	const [user, setUser] = useState({});
+	const profile = useSelector(
+		(state) => state.thainowReducer[`${constVar.THAINOW_PROFILE_OBJ}`] || {}
+	);
 
 	useEffect(() => {
-		const thaiNowObj =
-			JSON.parse(localStorage.getItem(constVar.THAINOW_USER_STORRAGE_OBJ)) ||
-			{};
+		const storageProfile =
+			JSON.parse(localStorage.getItem(constVar.THAINOW_PROFILE_OBJ)) || {};
 
-		if (JSON.stringify(thaiNowObj) !== "{}" && JSON.stringify(user) === "{}") {
-			setUser({ ...thaiNowObj });
+		if (
+			JSON.stringify(storageProfile) !== "{}" &&
+			JSON.stringify(profile) === "{}"
+		) {
+			dispatchPromise.patchProfileInfo({ ...storageProfile }, true);
 		}
-	}, [location, setUser, user]);
+	}, [location, profile]);
 
 	const routes = (
 		<>
 			<Routes>
-				<Route path="/" exact element={<LayoutContainer user={user} />} />
+				<Route path="/" exact element={<LayoutContainer />} />
 				<Route path="signup/*" element={<SignupRouteContainer />} />
-				<Route path="/login" element={<LoginContainer user={user} />} />
+				<Route path="/login" element={<LoginContainer />} />
 				<Route path="*" element={<NotFoundPage />} />
 			</Routes>
 		</>

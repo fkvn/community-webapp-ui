@@ -11,29 +11,26 @@ function UserPhoneFormControlContainer({
 	required = false,
 	disabled = false,
 	onPhoneValidation = () => {},
-	storageObjName = constVar.THAINOW_USER_SIGN_UP_STORAGE_OBJ,
+	storageObjName = constVar.THAINOW_USER_SIGN_UP_OBJ,
 	saveAndLoadValue = true,
 }) {
 	const phone = useSelector(
 		(state) =>
-			state.thainowReducer[`${storageObjName}`]?.[
-				`${constVar.STORAGE_PHONE_PROP}`
-			] || ""
+			state.thainowReducer[`${storageObjName}`]?.[`${constVar.PHONE_PROP}`] ||
+			""
 	);
 
 	const getSessionPhone = () => {
 		return (
-			util.getSessionStorageObj(storageObjName)[
-				`${constVar.STORAGE_PHONE_PROP}`
-			] || ""
+			util.getSessionStorageObj(storageObjName)[`${constVar.PHONE_PROP}`] || ""
 		);
 	};
 
 	const dispatchHandler = ({ ...props }) => {
 		switch (storageObjName) {
-			case constVar.THAINOW_USER_SIGN_UP_STORAGE_OBJ:
+			case constVar.THAINOW_USER_SIGN_UP_OBJ:
 				return dispatchPromise.patchSignupUserInfo({ ...props });
-			case constVar.THAINOW_USER_SIGN_IN_STORAGE_OBJ:
+			case constVar.THAINOW_USER_SIGN_IN_OBJ:
 				return dispatchPromise.patchSigninUserInfo({ ...props });
 			default:
 				return async () => {};
@@ -42,21 +39,21 @@ function UserPhoneFormControlContainer({
 
 	const updateReduxStorePhone = (formattedPhone = "", isValidPhone = true) => {
 		dispatchHandler({
-			[`${constVar.STORAGE_PHONE_PROP}`]: formattedPhone,
-			[`${constVar.STORAGE_PHONE_VALIDATION}`]: isValidPhone,
+			[`${constVar.PHONE_PROP}`]: formattedPhone,
+			[`${constVar.PHONE_VALIDATION}`]: isValidPhone,
 		});
 	};
 
 	const updateSessionPhone = (formattedPhone = "", isValidPhone = true) => {
 		util.saveToSessionStore(
 			storageObjName,
-			constVar.STORAGE_PHONE_PROP,
+			constVar.PHONE_PROP,
 			formattedPhone
 		);
 
 		util.saveToSessionStore(
 			storageObjName,
-			constVar.STORAGE_PHONE_VALIDATION,
+			constVar.PHONE_VALIDATION,
 			isValidPhone
 		);
 	};
@@ -92,12 +89,12 @@ function UserPhoneFormControlContainer({
 
 		const isValidStorePhone =
 			dispatchPromise.getState()[`${storageObjName}`]?.[
-				`${constVar.STORAGE_PHONE_VALIDATION}`
+				`${constVar.PHONE_VALIDATION}`
 			] || isValidPhone;
 
 		if (isValidStorePhone !== isValidPhone) {
 			dispatchHandler({
-				[`${constVar.STORAGE_PHONE_VALIDATION}`]: isValidPhone,
+				[`${constVar.PHONE_VALIDATION}`]: isValidPhone,
 			});
 		}
 	}, [phone, storageObjName, onPhoneValidation]);

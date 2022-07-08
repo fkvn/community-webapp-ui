@@ -17,35 +17,31 @@ function CompanyEmailFormControlContainer({
 	const email = useSelector(
 		(state) =>
 			state.thainowReducer[`${storageObjName}`][
-				`${constVar.STORAGE_COMPANY_EMAIL_PROP}`
+				`${constVar.COMPANY_EMAIL_PROP}`
 			] || ""
 	);
 
 	const getSessionEmail = () => {
 		return (
 			util.getSessionStorageObj(storageObjName)[
-				`${constVar.STORAGE_COMPANY_EMAIL_PROP}`
+				`${constVar.COMPANY_EMAIL_PROP}`
 			] || ""
 		);
 	};
 
 	const updateReduxStoreEmail = (email = "", isValidEmail = true) => {
 		dispatchPromise.patchSignupCompanyInfo({
-			[`${constVar.STORAGE_COMPANY_EMAIL_PROP}`]: email,
-			[`${constVar.STORAGE_COMPANY_EMAIL_VALIDATION}`]: isValidEmail,
+			[`${constVar.COMPANY_EMAIL_PROP}`]: email,
+			[`${constVar.COMPANY_EMAIL_VALIDATION}`]: isValidEmail,
 		});
 	};
 
 	const updateSessionEmail = (email = "", isValidEmail = true) => {
-		util.saveToSessionStore(
-			storageObjName,
-			constVar.STORAGE_COMPANY_EMAIL_PROP,
-			email
-		);
+		util.saveToSessionStore(storageObjName, constVar.COMPANY_EMAIL_PROP, email);
 
 		util.saveToSessionStore(
 			storageObjName,
-			constVar.STORAGE_COMPANY_EMAIL_VALIDATION,
+			constVar.COMPANY_EMAIL_VALIDATION,
 			isValidEmail
 		);
 	};
@@ -79,12 +75,12 @@ function CompanyEmailFormControlContainer({
 
 		const isValidStoreEmail =
 			dispatchPromise.getState()[`${storageObjName}`][
-				`${constVar.STORAGE_COMPANY_EMAIL_VALIDATION}`
+				`${constVar.COMPANY_EMAIL_VALIDATION}`
 			] || isValidEmail;
 
 		if (isValidStoreEmail !== isValidEmail) {
 			dispatchPromise.patchSignupCompanyInfo({
-				[`${constVar.STORAGE_COMPANY_EMAIL_VALIDATION}`]: isValidEmail,
+				[`${constVar.COMPANY_EMAIL_VALIDATION}`]: isValidEmail,
 			});
 		}
 	}, [email, storageObjName, onEmailValidation]);

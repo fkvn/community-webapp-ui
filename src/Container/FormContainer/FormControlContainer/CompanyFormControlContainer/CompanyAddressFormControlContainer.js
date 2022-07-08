@@ -14,7 +14,7 @@ function CompanyAddressFormControlContainer({
 }) {
 	const [address, showAddressList] = useSelector((state) => [
 		state.thainowReducer[`${storageObjName}`]?.[
-			`${constVar.STORAGE_COMPANY_ADDRESS_PROP}`
+			`${constVar.COMPANY_ADDRESS_PROP}`
 		] || {},
 		state.thainowReducer[`${storageObjName}`]?.showAddressList || false,
 	]);
@@ -22,14 +22,14 @@ function CompanyAddressFormControlContainer({
 	const getSessionAddress = () => {
 		return (
 			util.getSessionStorageObj(storageObjName)[
-				`${constVar.STORAGE_COMPANY_ADDRESS_PROP}`
+				`${constVar.COMPANY_ADDRESS_PROP}`
 			] || {}
 		);
 	};
 
 	const updateReduxStoreAddress = (description = "", placeid = "") => {
 		dispatchPromise.patchSignupCompanyInfo({
-			[`${constVar.STORAGE_COMPANY_ADDRESS_PROP}`]: {
+			[`${constVar.COMPANY_ADDRESS_PROP}`]: {
 				description: description,
 				...(placeid && { placeid: placeid }),
 			},
@@ -43,14 +43,10 @@ function CompanyAddressFormControlContainer({
 	};
 
 	const updateSessionAddress = (description = "", placeid = "") => {
-		util.saveToSessionStore(
-			storageObjName,
-			constVar.STORAGE_COMPANY_ADDRESS_PROP,
-			{
-				description: description,
-				...(placeid && { placeid: placeid }),
-			}
-		);
+		util.saveToSessionStore(storageObjName, constVar.COMPANY_ADDRESS_PROP, {
+			description: description,
+			...(placeid && { placeid: placeid }),
+		});
 	};
 
 	const onMergeStorageHandler = (value = "", onSelect = false) => {

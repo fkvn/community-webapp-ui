@@ -13,28 +13,27 @@ function UserPasswordFormControlContainer({
 	disabled = false,
 	onPasswordValidation = () => {},
 	autocomplete = false,
-	storageObjName = constVar.THAINOW_USER_SIGN_UP_STORAGE_OBJ,
+	storageObjName = constVar.THAINOW_USER_SIGN_UP_OBJ,
 }) {
 	const password = useSelector(
 		(state) =>
 			state.thainowReducer[`${storageObjName}`]?.[
-				`${constVar.STORAGE_PASSWORD_PROP}`
+				`${constVar.PASSWORD_PROP}`
 			] || ""
 	);
 
 	const getSessionPassword = () => {
 		return (
-			util.getSessionStorageObj(storageObjName)[
-				`${constVar.STORAGE_PASSWORD_PROP}`
-			] || ""
+			util.getSessionStorageObj(storageObjName)[`${constVar.PASSWORD_PROP}`] ||
+			""
 		);
 	};
 
 	const dispatchHandler = ({ ...props }) => {
 		switch (storageObjName) {
-			case constVar.THAINOW_USER_SIGN_UP_STORAGE_OBJ:
+			case constVar.THAINOW_USER_SIGN_UP_OBJ:
 				return dispatchPromise.patchSignupUserInfo({ ...props });
-			case constVar.THAINOW_USER_SIGN_IN_STORAGE_OBJ:
+			case constVar.THAINOW_USER_SIGN_IN_OBJ:
 				return dispatchPromise.patchSigninUserInfo({ ...props });
 			default:
 				return async () => {};
@@ -43,21 +42,17 @@ function UserPasswordFormControlContainer({
 
 	const updateReduxStorePassword = (password = "", isValidPassword = false) => {
 		dispatchHandler({
-			[`${constVar.STORAGE_PASSWORD_PROP}`]: password,
-			[`${constVar.STORAGE_PASSWORD_VALIDATION}`]: isValidPassword,
+			[`${constVar.PASSWORD_PROP}`]: password,
+			[`${constVar.PASSWORD_VALIDATION}`]: isValidPassword,
 		});
 	};
 
 	const updateSessionPassword = (password = "", isValidPassword = false) => {
-		util.saveToSessionStore(
-			storageObjName,
-			constVar.STORAGE_PASSWORD_PROP,
-			password
-		);
+		util.saveToSessionStore(storageObjName, constVar.PASSWORD_PROP, password);
 
 		util.saveToSessionStore(
 			storageObjName,
-			constVar.STORAGE_PASSWORD_VALIDATION,
+			constVar.PASSWORD_VALIDATION,
 			isValidPassword
 		);
 	};
@@ -92,12 +87,12 @@ function UserPasswordFormControlContainer({
 
 		const isValidStorePassword =
 			dispatchPromise.getState()[`${storageObjName}`]?.[
-				`${constVar.STORAGE_PASSWORD_VALIDATION}`
+				`${constVar.PASSWORD_VALIDATION}`
 			] || isValidPassword;
 
 		if (isValidStorePassword !== isValidPassword) {
 			dispatchHandler({
-				[`${constVar.STORAGE_PASSWORD_VALIDATION}`]: isValidPassword,
+				[`${constVar.PASSWORD_VALIDATION}`]: isValidPassword,
 			});
 		}
 	}, [password, storageObjName, onPasswordValidation]);

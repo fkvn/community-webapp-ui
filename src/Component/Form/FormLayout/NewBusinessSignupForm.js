@@ -112,7 +112,7 @@ function NewBusinessSignupForm({
 	const RenderStep3 = () => (
 		<>
 			<SelectVerifyMethodContainer
-				storageObjName={constVar.THAINOW_USER_SIGN_UP_STORAGE_OBJ}
+				storageObjName={constVar.THAINOW_USER_SIGN_UP_OBJ}
 				onSubmitLoading={onSubmitLoading}
 				onSelectVerifyMethod={onSelectVerifyMethod}
 				onBack={onBack}
@@ -123,7 +123,7 @@ function NewBusinessSignupForm({
 	const RenderStep4 = () => (
 		<>
 			<SendVerifyCodeContainer
-				storageObjName={constVar.THAINOW_USER_SIGN_UP_STORAGE_OBJ}
+				storageObjName={constVar.THAINOW_USER_SIGN_UP_OBJ}
 				onSubmitLoading={onSubmitLoading}
 				onBack={onBack}
 				EmailRenderFormControl={UserEmailFormControlContainer}
@@ -135,7 +135,7 @@ function NewBusinessSignupForm({
 	const RenderStep5 = () => (
 		<>
 			<VerifyCodeContainer
-				storageObjName={constVar.THAINOW_USER_SIGN_UP_STORAGE_OBJ}
+				storageObjName={constVar.THAINOW_USER_SIGN_UP_OBJ}
 				onSubmitLoading={onSubmitLoading}
 				onBack={onBack}
 			/>

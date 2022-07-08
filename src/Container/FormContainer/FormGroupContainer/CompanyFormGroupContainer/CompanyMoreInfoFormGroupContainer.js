@@ -13,12 +13,12 @@ import CompanySizeFormControlContainer from "../../FormControlContainer/CompanyF
 import CompanyWebsiteFormControlContainer from "../../FormControlContainer/CompanyFormControlContainer/CompanyWebsiteFormControlContainer";
 
 function CompanyMoreInfoFormGroupContainer({
-	storageObjName = constVar.THAINOW_COMPANY_SIGN_UP_STORAGE_OBJ,
+	storageObjName = constVar.THAINOW_COMPANY_SIGN_UP_OBJ,
 	formGroupClassName = "",
 }) {
 	const [extraInfo, setExtraInfo] = useState(
 		util.getSessionStorageObj(storageObjName)[
-			`${constVar.STORAGE_COMPANY_SUBMIT_EXTRA_INFO_VALIDATION}`
+			`${constVar.COMPANY_SUBMIT_EXTRA_INFO_VALIDATION}`
 		] || false
 	);
 
@@ -26,7 +26,7 @@ function CompanyMoreInfoFormGroupContainer({
 	const onSubmitExtraInfoHandler = () => {
 		util.saveToSessionStore(
 			storageObjName,
-			constVar.STORAGE_COMPANY_SUBMIT_EXTRA_INFO_VALIDATION,
+			constVar.COMPANY_SUBMIT_EXTRA_INFO_VALIDATION,
 			!extraInfo
 		);
 
@@ -70,7 +70,7 @@ function CompanyMoreInfoFormGroupContainer({
 	const isInformal = useSelector(
 		(state) =>
 			state.thainowReducer[`${storageObjName}`][
-				`${constVar.STORAGE_COMPANY_INFORMAL_PROP}`
+				`${constVar.COMPANY_INFORMAL_PROP}`
 			] || ""
 	);
 
@@ -83,7 +83,7 @@ function CompanyMoreInfoFormGroupContainer({
 				onClick={() => onSubmitExtraInfoHandler()}
 				defaultChecked={
 					util.getSessionStorageObj(storageObjName)[
-						`${constVar.STORAGE_COMPANY_SUBMIT_EXTRA_INFO_VALIDATION}`
+						`${constVar.COMPANY_SUBMIT_EXTRA_INFO_VALIDATION}`
 					]
 				}
 			/>

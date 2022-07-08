@@ -16,16 +16,15 @@ function UserConfirmPasswordFormControl({
 	const onMergeStorageHandler = (isPasswordMatch = false) => {
 		util.saveToSessionStore(
 			storageObjName,
-			constVar.STORAGE_CONFIRM_PASSWORD_VALIDATION,
+			constVar.CONFIRM_PASSWORD_VALIDATION,
 			isPasswordMatch
 		);
 	};
 
 	const onGetCurrentPassword = () => {
 		return (
-			util.getSessionStorageObj(storageObjName)[
-				`${constVar.STORAGE_PASSWORD_PROP}`
-			] || ""
+			util.getSessionStorageObj(storageObjName)[`${constVar.PASSWORD_PROP}`] ||
+			""
 		);
 	};
 

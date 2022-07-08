@@ -12,35 +12,31 @@ function CompanySizeFormControlContainer({
 	disabled = false,
 	storageObjName = "",
 }) {
-	const options = [...constVar.STORAGE_COMPANY_SIZE_LIST];
+	const options = [...constVar.COMPANY_SIZE_LIST];
 
 	const size = useSelector(
 		(state) =>
 			state.thainowReducer[`${storageObjName}`][
-				`${constVar.STORAGE_COMPANY_SIZE_PROP}`
+				`${constVar.COMPANY_SIZE_PROP}`
 			] || ""
 	);
 
 	const getSessionSize = () => {
 		return (
 			util.getSessionStorageObj(storageObjName)[
-				`${constVar.STORAGE_COMPANY_SIZE_PROP}`
+				`${constVar.COMPANY_SIZE_PROP}`
 			] || ""
 		);
 	};
 
 	const updateReduxStoreSize = (size = "") => {
 		dispatchPromise.patchSignupCompanyInfo({
-			[`${constVar.STORAGE_COMPANY_SIZE_PROP}`]: size,
+			[`${constVar.COMPANY_SIZE_PROP}`]: size,
 		});
 	};
 
 	const updateSessionSize = (size = "") => {
-		util.saveToSessionStore(
-			storageObjName,
-			constVar.STORAGE_COMPANY_SIZE_PROP,
-			size
-		);
+		util.saveToSessionStore(storageObjName, constVar.COMPANY_SIZE_PROP, size);
 	};
 
 	const onMergeStorageHandler = (option = "") => {

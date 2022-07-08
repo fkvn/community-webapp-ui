@@ -17,16 +17,16 @@ function VerifyCodeContainer({
 		const callerInfo = dispatchPromise.getState()[`${storageObjName}`] || {};
 
 		const {
-			[`${constVar.STORAGE_VERIFICATION_METHOD_PROP}`]: verifyOption = "",
-			[`${constVar.STORAGE_USERNAME_PROP}`]: username = "",
-			[`${constVar.STORAGE_EMAIL_PROP}`]: email = "",
-			[`${constVar.STORAGE_PHONE_PROP}`]: phone = "",
+			[`${constVar.VERIFICATION_METHOD_PROP}`]: verifyOption = "",
+			[`${constVar.USERNAME_PROP}`]: username = "",
+			[`${constVar.EMAIL_PROP}`]: email = "",
+			[`${constVar.PHONE_PROP}`]: phone = "",
 		} = callerInfo;
 
 		const value =
-			verifyOption === constVar.STORAGE_EMAIL_PROP
+			verifyOption === constVar.EMAIL_PROP
 				? email
-				: verifyOption === constVar.STORAGE_PHONE_PROP
+				: verifyOption === constVar.PHONE_PROP
 				? " +1 " + phone
 				: "";
 
@@ -35,10 +35,10 @@ function VerifyCodeContainer({
 
 	const onBackCallBack = () => {
 		switch (storageObjName) {
-			case constVar.THAINOW_USER_SIGN_UP_STORAGE_OBJ:
+			case constVar.THAINOW_USER_SIGN_UP_OBJ:
 				dispatchPromise.patchSignupUserInfo({
-					[`${constVar.STORAGE_OTP_PROP}`]: "",
-					[`${constVar.STORAGE_OTP_VALIDATION}`]: false,
+					[`${constVar.OTP_PROP}`]: "",
+					[`${constVar.OTP_VALIDATION}`]: false,
 				});
 				break;
 			default:

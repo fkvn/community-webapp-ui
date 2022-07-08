@@ -16,7 +16,7 @@ function UserFirstNameFormControl(props) {
 	// const onMergeStorageHandler = (value = "") => {
 	// 	util.saveToSessionStore(
 	// 		storageObjName,
-	// 		constVar.STORAGE_FIRSTNAME_PROP,
+	// 		constVar.FIRSTNAME_PROP,
 	// 		value
 	// 	);
 	// };
@@ -24,24 +24,19 @@ function UserFirstNameFormControl(props) {
 	// const onLoadDefaultValueHandler = () => {
 	// 	return (
 	// 		util.getSessionStorageObj(storageObjName)[
-	// 			`${constVar.STORAGE_FIRSTNAME_PROP}`
+	// 			`${constVar.FIRSTNAME_PROP}`
 	// 		] || ""
 	// 	);
 	// };
 
 	const onMergeStorageHandler = (value = "") => {
-		util.saveToSessionStore(
-			storageObjName,
-			constVar.STORAGE_FIRSTNAME_PROP,
-			value
-		);
+		util.saveToSessionStore(storageObjName, constVar.FIRSTNAME_PROP, value);
 	};
 
 	const onLoadDefaultValueHandler = () => {
 		return (
-			util.getSessionStorageObj(storageObjName)[
-				`${constVar.STORAGE_FIRSTNAME_PROP}`
-			] || ""
+			util.getSessionStorageObj(storageObjName)[`${constVar.FIRSTNAME_PROP}`] ||
+			""
 		);
 	};
 

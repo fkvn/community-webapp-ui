@@ -81,7 +81,7 @@ function ClassicSignupForm({
 						<span className="fw-bold">
 							{
 								util.getSessionStorageObj(storageObjName)[
-									`${constVar.STORAGE_USERNAME_PROP}`
+									`${constVar.USERNAME_PROP}`
 								]
 							}
 						</span>
@@ -150,8 +150,8 @@ function ClassicSignupForm({
 	);
 
 	const verifyMethod =
-		dispatchPromise.getState()[`${constVar.THAINOW_USER_SIGN_UP_STORAGE_OBJ}`][
-			`${constVar.STORAGE_VERIFICATION_METHOD_PROP}`
+		dispatchPromise.getState()[`${constVar.THAINOW_USER_SIGN_UP_OBJ}`][
+			`${constVar.VERIFICATION_METHOD_PROP}`
 		] || "";
 
 	const step_3_headline = (
@@ -160,17 +160,17 @@ function ClassicSignupForm({
 				<>
 					<p className="text-center">
 						Now we have to verify your
-						{verifyMethod === constVar.STORAGE_EMAIL_PROP
+						{verifyMethod === constVar.EMAIL_PROP
 							? " email address "
-							: verifyMethod === constVar.STORAGE_PHONE_PROP
+							: verifyMethod === constVar.PHONE_PROP
 							? " phone number "
 							: ""}
 					</p>
 					<p className="text-center">
 						To continue, please enter a valid{" "}
-						{verifyMethod === constVar.STORAGE_EMAIL_PROP
+						{verifyMethod === constVar.EMAIL_PROP
 							? " email address "
-							: verifyMethod === constVar.STORAGE_PHONE_PROP
+							: verifyMethod === constVar.PHONE_PROP
 							? " phone number "
 							: ""}
 					</p>
@@ -201,9 +201,9 @@ function ClassicSignupForm({
 	const RenderStep3 = () => (
 		<>
 			{step_3_headline}
-			{verifyMethod === constVar.STORAGE_EMAIL_PROP
+			{verifyMethod === constVar.EMAIL_PROP
 				? emailFormGroupControl
-				: verifyMethod === constVar.STORAGE_PHONE_PROP
+				: verifyMethod === constVar.PHONE_PROP
 				? phoneFormGroupControl
 				: ""}
 			<div className="text-center pt-3">
@@ -232,14 +232,14 @@ function ClassicSignupForm({
 					<p className="text-center">
 						To activate your account, please enter the OTP verification code
 						that we sent to{" "}
-						{verifyMethod === constVar.STORAGE_EMAIL_PROP
+						{verifyMethod === constVar.EMAIL_PROP
 							? util.getSessionStorageObj(storageObjName)[
-									`${constVar.STORAGE_EMAIL_PROP}`
+									`${constVar.EMAIL_PROP}`
 							  ]
-							: verifyMethod === constVar.STORAGE_PHONE_PROP
+							: verifyMethod === constVar.PHONE_PROP
 							? " +1 " +
 							  util.getSessionStorageObj(storageObjName)[
-									`${constVar.STORAGE_PHONE_PROP}`
+									`${constVar.PHONE_PROP}`
 							  ]
 							: ""}
 					</p>

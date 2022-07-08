@@ -1,19 +1,8 @@
-import { Image, Stack } from "react-bootstrap";
-import * as asset from "../../Assest/Asset";
-import * as constVar from "../../Util/ConstVar";
+import { Stack } from "react-bootstrap";
+import ProfilePanelContainer from "../../Container/ProfilePanelContainer";
 
 function RightBar() {
-	const profilePanel = (
-		<Stack className="mx-auto mt-4" gap={3}>
-			<div className="polygon">
-				<Image
-					id="shape"
-					src={asset.images[`${constVar.IMAGE_GUEST_PROFILE}`]}
-					fluid
-				/>
-			</div>
-		</Stack>
-	);
+	const profilePanel = <ProfilePanelContainer />;
 	const actionPanel = <></>;
 	const newsPanel = <></>;
 

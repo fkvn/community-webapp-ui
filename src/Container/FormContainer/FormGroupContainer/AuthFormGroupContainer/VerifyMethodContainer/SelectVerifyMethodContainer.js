@@ -19,18 +19,18 @@ function SelectVerifyMethodContainer({
 		let callerName = "there";
 
 		switch (storageObjName) {
-			case constVar.THAINOW_USER_SIGN_UP_STORAGE_OBJ:
+			case constVar.THAINOW_USER_SIGN_UP_OBJ:
 				callerName =
-					dispatchPromise.getState()[
-						`${constVar.THAINOW_USER_SIGN_UP_STORAGE_OBJ}`
-					]?.[`${constVar.STORAGE_USERNAME_PROP}`] || "there";
+					dispatchPromise.getState()[`${constVar.THAINOW_USER_SIGN_UP_OBJ}`]?.[
+						`${constVar.USERNAME_PROP}`
+					] || "there";
 				break;
 
-			case constVar.THAINOW_COMPANY_SIGN_UP_STORAGE_OBJ:
+			case constVar.THAINOW_COMPANY_SIGN_UP_OBJ:
 				callerName =
 					dispatchPromise.getState()[
-						`${constVar.THAINOW_COMPANY_SIGN_UP_STORAGE_OBJ}`
-					]?.[`${constVar.STORAGE_COMPANY_NAME_PROP}`] || "there";
+						`${constVar.THAINOW_COMPANY_SIGN_UP_OBJ}`
+					]?.[`${constVar.COMPANY_NAME_PROP}`] || "there";
 				break;
 
 			default:

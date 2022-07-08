@@ -1,11 +1,13 @@
 import { useSearchParams } from "react-router-dom";
 import FormContainer from "../../Container/FormContainer/FormContainer";
+import * as constVar from "../../Util/ConstVar";
 import UserSigninFormBody from "../Form/FormLayout/UserSigninFormBody";
 
 function Signin({
 	stepHandlers = [1],
 	onClose = () => {},
-	onSelectVerifyMethod = () => {},
+	signinMethod = constVar.EMAIL_PROP,
+	onSelectSigninMethod = () => {},
 }) {
 	const id = "userSignin";
 
@@ -17,7 +19,8 @@ function Signin({
 		FormComponent: UserSigninFormBody,
 		id: id,
 		continueURL: continueURL,
-		onSelectVerifyMethod: onSelectVerifyMethod,
+		signinMethod: signinMethod,
+		onSelectSigninMethod: onSelectSigninMethod,
 	};
 
 	const app = FormContainer({

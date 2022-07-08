@@ -14,28 +14,28 @@ function CompanyInformalCheckFormControlContainer({
 	const informalStore = useSelector(
 		(state) =>
 			state.thainowReducer[`${storageObjName}`]?.[
-				`${constVar.STORAGE_COMPANY_INFORMAL_PROP}`
+				`${constVar.COMPANY_INFORMAL_PROP}`
 			] || false
 	);
 
 	const getSessionIsOnline = () => {
 		return (
 			util.getSessionStorageObj(storageObjName)[
-				`${constVar.STORAGE_COMPANY_INFORMAL_PROP}`
+				`${constVar.COMPANY_INFORMAL_PROP}`
 			] || false
 		);
 	};
 
 	const updateReduxStoreIsOnline = (informalStore = false) => {
 		dispatchPromise.patchSignupCompanyInfo({
-			[`${constVar.STORAGE_COMPANY_INFORMAL_PROP}`]: informalStore,
+			[`${constVar.COMPANY_INFORMAL_PROP}`]: informalStore,
 		});
 	};
 
 	const updateSessionIsOnline = (informalStore = false) => {
 		util.saveToSessionStore(
 			storageObjName,
-			constVar.STORAGE_COMPANY_INFORMAL_PROP,
+			constVar.COMPANY_INFORMAL_PROP,
 			informalStore
 		);
 	};

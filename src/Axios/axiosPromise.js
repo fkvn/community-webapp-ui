@@ -1,5 +1,4 @@
 import axios from "../Axios/axios";
-import * as constVar from "../Util/ConstVar";
 
 export const getPromise = async (promise = () => {}) => {
 	return promise.then((res) => {
@@ -56,23 +55,17 @@ export const loginPromise = async (
 	phone = "",
 	password = ""
 ) => {
-	return axios
-		.post(`/auth/login`, {
-			channel: channel,
-			email: email,
-			phone: phone,
-			password: password,
-		})
-		.then((res) => {
-			if (res) {
-				localStorage.setItem(
-					constVar.THAINOW_USER_STORRAGE_OBJ,
-					JSON.stringify(res.data)
-				);
-				return "success";
-			}
-			throw new Error("Sign In Failed!");
-		});
+	console.log(channel);
+	console.log(email);
+	console.log(phone);
+	console.log(password);
+
+	return axios.post(`/auth/signin`, {
+		channel: channel,
+		email: email,
+		phone: phone,
+		password: password,
+	});
 };
 
 // User API

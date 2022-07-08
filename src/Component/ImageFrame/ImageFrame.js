@@ -7,6 +7,7 @@ function ImageFrame({
 	frameClassName = "",
 	frameWidth = "1.5rem",
 	frameStyle = {},
+	customFrameStyle = false,
 	src = "",
 	className = "",
 	style = {},
@@ -17,8 +18,7 @@ function ImageFrame({
 		<div
 			className={`tedkvn-center ${frameClassName}`}
 			style={{
-				width: frameWidth,
-				...frameStyle,
+				...(!customFrameStyle && { width: frameWidth, ...frameStyle }),
 			}}
 			{...(id && { id: "imageFrame-" + id })}
 		>

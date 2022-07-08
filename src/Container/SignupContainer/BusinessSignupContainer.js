@@ -18,8 +18,8 @@ function BusinessSignupContainer() {
 		dispatchPromise.submitErrorHandler(message);
 
 	const onCloseHandler = () => {
-		sessionStorage.removeItem(constVar.THAINOW_USER_SIGN_UP_STORAGE_OBJ);
-		sessionStorage.removeItem(constVar.THAINOW_COMPANY_SIGN_UP_STORAGE_OBJ);
+		sessionStorage.removeItem(constVar.THAINOW_USER_SIGN_UP_OBJ);
+		sessionStorage.removeItem(constVar.THAINOW_COMPANY_SIGN_UP_OBJ);
 		navigate(continueURL);
 	};
 
@@ -33,18 +33,16 @@ function BusinessSignupContainer() {
 	const onSubmitStep_1_HandlerPromise = async () => {
 		// get signup object from redux store
 		let companyInfo =
-			dispatchPromise.getState()[
-				`${constVar.THAINOW_COMPANY_SIGN_UP_STORAGE_OBJ}`
-			];
+			dispatchPromise.getState()[`${constVar.THAINOW_COMPANY_SIGN_UP_OBJ}`];
 
 		const {
-			[`${constVar.STORAGE_COMPANY_ADDRESS_PROP}`]: {
+			[`${constVar.COMPANY_ADDRESS_PROP}`]: {
 				description = "",
 				placeid = "",
 			} = {},
-			[`${constVar.STORAGE_COMPANY_WEBSITE_VALIDATION}`]: isValidWebsite = true,
-			[`${constVar.STORAGE_COMPANY_PHONE_VALIDATION}`]: isValidPhone = true,
-			[`${constVar.STORAGE_COMPANY_EMAIL_VALIDATION}`]: isValidEmail = true,
+			[`${constVar.COMPANY_WEBSITE_VALIDATION}`]: isValidWebsite = true,
+			[`${constVar.COMPANY_PHONE_VALIDATION}`]: isValidPhone = true,
+			[`${constVar.COMPANY_EMAIL_VALIDATION}`]: isValidEmail = true,
 		} = companyInfo;
 
 		if (description.length === 0 || placeid.length === 0)
@@ -58,11 +56,11 @@ function BusinessSignupContainer() {
 
 	const onSelectVerifyMethodHandler = (channel = "") => {
 		dispatchPromise.patchSignupUserInfo({
-			[`${constVar.STORAGE_VERIFICATION_METHOD_PROP}`]:
-				channel === constVar.STORAGE_EMAIL_PROP
-					? constVar.STORAGE_EMAIL_PROP
-					: channel === constVar.STORAGE_PHONE_PROP
-					? constVar.STORAGE_PHONE_PROP
+			[`${constVar.VERIFICATION_METHOD_PROP}`]:
+				channel === constVar.EMAIL_PROP
+					? constVar.EMAIL_PROP
+					: channel === constVar.PHONE_PROP
+					? constVar.PHONE_PROP
 					: "",
 		});
 	};
@@ -79,20 +77,18 @@ function BusinessSignupContainer() {
 	const onSubmitStep_4_HandlerPromise = async () => {
 		// get signup object from redux store
 		let signupInfo =
-			dispatchPromise.getState()[
-				`${constVar.THAINOW_USER_SIGN_UP_STORAGE_OBJ}`
-			];
+			dispatchPromise.getState()[`${constVar.THAINOW_USER_SIGN_UP_OBJ}`];
 
 		const {
-			[`${constVar.STORAGE_VERIFICATION_METHOD_PROP}`]: verifyOption = "",
-			[`${constVar.STORAGE_EMAIL_PROP}`]: email = "",
-			[`${constVar.STORAGE_EMAIL_VALIDATION}`]: isValidEmail = true,
-			[`${constVar.STORAGE_PHONE_PROP}`]: phone = "",
-			[`${constVar.STORAGE_PHONE_VALIDATION}`]: isValidPhone = true,
+			[`${constVar.VERIFICATION_METHOD_PROP}`]: verifyOption = "",
+			[`${constVar.EMAIL_PROP}`]: email = "",
+			[`${constVar.EMAIL_VALIDATION}`]: isValidEmail = true,
+			[`${constVar.PHONE_PROP}`]: phone = "",
+			[`${constVar.PHONE_VALIDATION}`]: isValidPhone = true,
 		} = signupInfo;
 
 		const [channel, value, isValidValue, message, validatePromise] =
-			verifyOption === constVar.STORAGE_EMAIL_PROP
+			verifyOption === constVar.EMAIL_PROP
 				? [
 						"email",
 						email,
@@ -100,7 +96,7 @@ function BusinessSignupContainer() {
 						"Invalid Email! Please provide or add a valid email address.",
 						validateEmailHandler,
 				  ]
-				: verifyOption === constVar.STORAGE_PHONE_PROP
+				: verifyOption === constVar.PHONE_PROP
 				? [
 						"sms",
 						phone,
@@ -127,36 +123,32 @@ function BusinessSignupContainer() {
 	const signupHandler = async () => {
 		// get signup object from redux store
 		const businessInfo =
-			dispatchPromise.getState()[
-				`${constVar.THAINOW_USER_SIGN_UP_STORAGE_OBJ}`
-			];
+			dispatchPromise.getState()[`${constVar.THAINOW_USER_SIGN_UP_OBJ}`];
 
 		const companyInfo =
-			dispatchPromise.getState()[
-				`${constVar.THAINOW_COMPANY_SIGN_UP_STORAGE_OBJ}`
-			];
+			dispatchPromise.getState()[`${constVar.THAINOW_COMPANY_SIGN_UP_OBJ}`];
 
 		const {
-			[`${constVar.STORAGE_USERNAME_PROP}`]: username = "",
-			[`${constVar.STORAGE_EMAIL_PROP}`]: email = "",
-			[`${constVar.STORAGE_PHONE_PROP}`]: phone = "",
-			[`${constVar.STORAGE_PASSWORD_PROP}`]: password = "",
-			[`${constVar.STORAGE_ROLE_PROP}`]: role = "BUSINESS",
-			[`${constVar.STORAGE_POSITION_PROP}`]: administratorRole = "",
-			[`${constVar.STORAGE_PRIVILEGES_PROP}`]: privileges = [],
+			[`${constVar.USERNAME_PROP}`]: username = "",
+			[`${constVar.EMAIL_PROP}`]: email = "",
+			[`${constVar.PHONE_PROP}`]: phone = "",
+			[`${constVar.PASSWORD_PROP}`]: password = "",
+			[`${constVar.ROLE_PROP}`]: role = "BUSINESS",
+			[`${constVar.POSITION_PROP}`]: administratorRole = "",
+			[`${constVar.PRIVILEGES_PROP}`]: privileges = [],
 		} = businessInfo;
 
 		const {
-			[`${constVar.STORAGE_COMPANY_NAME_PROP}`]: companyName = "",
-			[`${constVar.STORAGE_COMPANY_EMAIL_PROP}`]: companyEmail = "",
-			[`${constVar.STORAGE_COMPANY_PHONE_PROP}`]: companyPhone = "",
-			[`${constVar.STORAGE_COMPANY_INFORMAL_PROP}`]: informalCompany = false,
-			[`${constVar.STORAGE_COMPANY_INDUSTRY_PROP}`]: companyIndustry = "",
-			[`${constVar.STORAGE_COMPANY_WEBSITE_PROP}`]: companyWebsite = "",
-			[`${constVar.STORAGE_COMPANY_SIZE_PROP}`]: companySize = "",
-			[`${constVar.STORAGE_COMPANY_SUBMIT_EXTRA_INFO_VALIDATION}`]:
+			[`${constVar.COMPANY_NAME_PROP}`]: companyName = "",
+			[`${constVar.COMPANY_EMAIL_PROP}`]: companyEmail = "",
+			[`${constVar.COMPANY_PHONE_PROP}`]: companyPhone = "",
+			[`${constVar.COMPANY_INFORMAL_PROP}`]: informalCompany = false,
+			[`${constVar.COMPANY_INDUSTRY_PROP}`]: companyIndustry = "",
+			[`${constVar.COMPANY_WEBSITE_PROP}`]: companyWebsite = "",
+			[`${constVar.COMPANY_SIZE_PROP}`]: companySize = "",
+			[`${constVar.COMPANY_SUBMIT_EXTRA_INFO_VALIDATION}`]:
 				isSummitExtraInfo = false,
-			[`${constVar.STORAGE_COMPANY_ADDRESS_PROP}`]: {
+			[`${constVar.COMPANY_ADDRESS_PROP}`]: {
 				description = "",
 				placeid = "",
 			} = {},
@@ -196,17 +188,16 @@ function BusinessSignupContainer() {
 			.getPromise(axiosPromise.signupPromise(signupInfo))
 			.then(() => {
 				// remove sign up info
-				sessionStorage.removeItem(constVar.THAINOW_USER_SIGN_UP_STORAGE_OBJ);
-				sessionStorage.removeItem(constVar.THAINOW_COMPANY_SIGN_UP_STORAGE_OBJ);
+				sessionStorage.removeItem(constVar.THAINOW_USER_SIGN_UP_OBJ);
+				sessionStorage.removeItem(constVar.THAINOW_COMPANY_SIGN_UP_OBJ);
 
 				navigate("/signup/success" + continueParams, {
 					state: {
-						channel:
-							signupInfo[`${constVar.STORAGE_VERIFICATION_METHOD_PROP}`] || "",
-						email: signupInfo[`${constVar.STORAGE_EMAIL_PROP}`] || "",
-						phone: signupInfo[`${constVar.STORAGE_PHONE_PROP}`] || "",
-						password: signupInfo[`${constVar.STORAGE_PASSWORD_PROP}`] || "",
-						username: signupInfo[`${constVar.STORAGE_USERNAME_PROP}`] || "",
+						channel: signupInfo[`${constVar.VERIFICATION_METHOD_PROP}`] || "",
+						email: signupInfo[`${constVar.EMAIL_PROP}`] || "",
+						phone: signupInfo[`${constVar.PHONE_PROP}`] || "",
+						password: signupInfo[`${constVar.PASSWORD_PROP}`] || "",
+						username: signupInfo[`${constVar.USERNAME_PROP}`] || "",
 					},
 				});
 				return new Promise((resolve, _) => resolve());
@@ -219,24 +210,22 @@ function BusinessSignupContainer() {
 	const onSubmitStep_5_HandlerPromise = async () => {
 		// get signup object from redux store
 		let signupInfo =
-			dispatchPromise.getState()[
-				`${constVar.THAINOW_USER_SIGN_UP_STORAGE_OBJ}`
-			];
+			dispatchPromise.getState()[`${constVar.THAINOW_USER_SIGN_UP_OBJ}`];
 
 		const {
-			[`${constVar.STORAGE_OTP_VALIDATION}`]: isValidOtp = false,
-			[`${constVar.STORAGE_OTP_PROP}`]: formattedOtp = "",
-			[`${constVar.STORAGE_VERIFICATION_METHOD_PROP}`]: verifyOption = "",
-			[`${constVar.STORAGE_PHONE_PROP}`]: phone = "",
-			[`${constVar.STORAGE_EMAIL_PROP}`]: email = "",
+			[`${constVar.OTP_VALIDATION}`]: isValidOtp = false,
+			[`${constVar.OTP_PROP}`]: formattedOtp = "",
+			[`${constVar.VERIFICATION_METHOD_PROP}`]: verifyOption = "",
+			[`${constVar.PHONE_PROP}`]: phone = "",
+			[`${constVar.EMAIL_PROP}`]: email = "",
 		} = signupInfo;
 
 		const token = formattedOtp.replace(/[^\d]/g, "") || "";
 
 		const [channel, value] =
-			verifyOption === constVar.STORAGE_EMAIL_PROP
+			verifyOption === constVar.EMAIL_PROP
 				? ["email", email]
-				: verifyOption === constVar.STORAGE_PHONE_PROP
+				: verifyOption === constVar.PHONE_PROP
 				? ["sms", phone]
 				: ["", ""];
 

@@ -138,7 +138,7 @@ function UserSignupFormBody({
 		>
 			<SelectVerifyMethodContainer
 				title={titleStep2and3and4}
-				storageObjName={constVar.THAINOW_USER_SIGN_UP_STORAGE_OBJ}
+				storageObjName={constVar.THAINOW_USER_SIGN_UP_OBJ}
 				onBack={onBack}
 				onSelectVerifyMethod={onSelectVerifyMethod}
 				onSubmitLoading={onSubmitLoading}
@@ -156,7 +156,7 @@ function UserSignupFormBody({
 		>
 			<SendVerifyCodeContainer
 				title={titleStep2and3and4}
-				storageObjName={constVar.THAINOW_USER_SIGN_UP_STORAGE_OBJ}
+				storageObjName={constVar.THAINOW_USER_SIGN_UP_OBJ}
 				onBack={onBack}
 				onSubmitLoading={onSubmitLoading}
 				EmailRenderFormControl={UserEmailFormControlContainer}
@@ -175,7 +175,7 @@ function UserSignupFormBody({
 		>
 			<VerifyCodeContainer
 				title={titleStep2and3and4}
-				storageObjName={constVar.THAINOW_USER_SIGN_UP_STORAGE_OBJ}
+				storageObjName={constVar.THAINOW_USER_SIGN_UP_OBJ}
 				onBack={onBack}
 				onSubmitLoading={onSubmitLoading}
 			/>

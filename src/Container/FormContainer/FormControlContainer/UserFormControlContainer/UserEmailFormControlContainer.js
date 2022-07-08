@@ -12,29 +12,26 @@ function UserEmailFormControlContainer({
 	required = false,
 	disabled = false,
 	onEmailValidation = () => {},
-	storageObjName = constVar.THAINOW_USER_SIGN_UP_STORAGE_OBJ,
+	storageObjName = constVar.THAINOW_USER_SIGN_UP_OBJ,
 	saveAndLoadValue = true,
 }) {
 	const email = useSelector(
 		(state) =>
-			state.thainowReducer[`${storageObjName}`]?.[
-				`${constVar.STORAGE_EMAIL_PROP}`
-			] || ""
+			state.thainowReducer[`${storageObjName}`]?.[`${constVar.EMAIL_PROP}`] ||
+			""
 	);
 
 	const getSessionEmail = () => {
 		return (
-			util.getSessionStorageObj(storageObjName)[
-				`${constVar.STORAGE_EMAIL_PROP}`
-			] || ""
+			util.getSessionStorageObj(storageObjName)[`${constVar.EMAIL_PROP}`] || ""
 		);
 	};
 
 	const dispatchHandler = ({ ...props }) => {
 		switch (storageObjName) {
-			case constVar.THAINOW_USER_SIGN_UP_STORAGE_OBJ:
+			case constVar.THAINOW_USER_SIGN_UP_OBJ:
 				return dispatchPromise.patchSignupUserInfo({ ...props });
-			case constVar.THAINOW_USER_SIGN_IN_STORAGE_OBJ:
+			case constVar.THAINOW_USER_SIGN_IN_OBJ:
 				return dispatchPromise.patchSigninUserInfo({ ...props });
 			default:
 				return async () => {};
@@ -43,17 +40,17 @@ function UserEmailFormControlContainer({
 
 	const updateReduxStoreEmail = (email = "", isValidEmail = true) => {
 		dispatchHandler({
-			[`${constVar.STORAGE_EMAIL_PROP}`]: email,
-			[`${constVar.STORAGE_EMAIL_VALIDATION}`]: isValidEmail,
+			[`${constVar.EMAIL_PROP}`]: email,
+			[`${constVar.EMAIL_VALIDATION}`]: isValidEmail,
 		});
 	};
 
 	const updateSessionEmail = (email = "", isValidEmail = true) => {
-		util.saveToSessionStore(storageObjName, constVar.STORAGE_EMAIL_PROP, email);
+		util.saveToSessionStore(storageObjName, constVar.EMAIL_PROP, email);
 
 		util.saveToSessionStore(
 			storageObjName,
-			constVar.STORAGE_EMAIL_VALIDATION,
+			constVar.EMAIL_VALIDATION,
 			isValidEmail
 		);
 	};
@@ -89,12 +86,12 @@ function UserEmailFormControlContainer({
 
 		const isValidStoreEmail =
 			dispatchPromise.getState()[`${storageObjName}`]?.[
-				`${constVar.STORAGE_EMAIL_VALIDATION}`
+				`${constVar.EMAIL_VALIDATION}`
 			] || isValidEmail;
 
 		if (isValidStoreEmail !== isValidEmail) {
 			dispatchHandler({
-				[`${constVar.STORAGE_EMAIL_VALIDATION}`]: isValidEmail,
+				[`${constVar.EMAIL_VALIDATION}`]: isValidEmail,
 			});
 		}
 	}, [email, storageObjName, onEmailValidation]);

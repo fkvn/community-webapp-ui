@@ -26,7 +26,7 @@ function UserSignupContainer() {
 
 	const onCloseHandler = () => {
 		dispatchPromise.patchSignupUserInfo({}, true);
-		sessionStorage.removeItem(constVar.THAINOW_USER_SIGN_UP_STORAGE_OBJ);
+		sessionStorage.removeItem(constVar.THAINOW_USER_SIGN_UP_OBJ);
 		navigate(continueURL, { replace: true });
 	};
 
@@ -35,11 +35,11 @@ function UserSignupContainer() {
 
 	const onSelectVerifyMethodHandler = (channel = "") => {
 		dispatchPromise.patchSignupUserInfo({
-			[`${constVar.STORAGE_VERIFICATION_METHOD_PROP}`]:
-				channel === constVar.STORAGE_EMAIL_PROP
-					? constVar.STORAGE_EMAIL_PROP
-					: channel === constVar.STORAGE_PHONE_PROP
-					? constVar.STORAGE_PHONE_PROP
+			[`${constVar.VERIFICATION_METHOD_PROP}`]:
+				channel === constVar.EMAIL_PROP
+					? constVar.EMAIL_PROP
+					: channel === constVar.PHONE_PROP
+					? constVar.PHONE_PROP
 					: "",
 		});
 	};
@@ -61,22 +61,17 @@ function UserSignupContainer() {
 	const signupHandler = async (verified = false) => {
 		// get signup object from redux store
 		const signupInfo =
-			dispatchPromise.getState()[
-				`${constVar.THAINOW_USER_SIGN_UP_STORAGE_OBJ}`
-			];
+			dispatchPromise.getState()[`${constVar.THAINOW_USER_SIGN_UP_OBJ}`];
 
 		const {
-			[`${constVar.STORAGE_USERNAME_PROP}`]: username = "",
-			[`${constVar.STORAGE_EMAIL_PROP}`]: email = "",
-			[`${constVar.STORAGE_PHONE_PROP}`]: phone = "",
-			[`${constVar.STORAGE_PASSWORD_PROP}`]: password = "",
-			[`${constVar.STORAGE_ROLE_PROP}`]: role = "CLASSIC",
-			[`${constVar.STORAGE_PRIVILEGES_PROP}`]: privileges = [],
-			[`${constVar.STORAGE_ADDRESS_PROP}`]: {
-				description = "",
-				placeid = "",
-			} = {},
-			[`${constVar.STORAGE_VERIFICATION_METHOD_PROP}`]: channel = "",
+			[`${constVar.USERNAME_PROP}`]: username = "",
+			[`${constVar.EMAIL_PROP}`]: email = "",
+			[`${constVar.PHONE_PROP}`]: phone = "",
+			[`${constVar.PASSWORD_PROP}`]: password = "",
+			[`${constVar.ROLE_PROP}`]: role = "CLASSIC",
+			[`${constVar.PRIVILEGES_PROP}`]: privileges = [],
+			[`${constVar.ADDRESS_PROP}`]: { description = "", placeid = "" } = {},
+			[`${constVar.VERIFICATION_METHOD_PROP}`]: channel = "",
 		} = signupInfo;
 
 		const signupSubmitInfo = {
@@ -95,7 +90,7 @@ function UserSignupContainer() {
 			.getPromise(axiosPromise.signupPromise(signupSubmitInfo))
 			.then(() => {
 				dispatchPromise.patchSignupUserInfo({}, true);
-				sessionStorage.removeItem(constVar.THAINOW_USER_SIGN_UP_STORAGE_OBJ);
+				sessionStorage.removeItem(constVar.THAINOW_USER_SIGN_UP_OBJ);
 
 				navigate("/signup/success" + continueParams, {
 					state: {
@@ -116,17 +111,12 @@ function UserSignupContainer() {
 	const onSubmitStep_1_HandlerPromise = async () => {
 		// get signup object from redux store
 		const signupInfo =
-			dispatchPromise.getState()[
-				`${constVar.THAINOW_USER_SIGN_UP_STORAGE_OBJ}`
-			];
+			dispatchPromise.getState()[`${constVar.THAINOW_USER_SIGN_UP_OBJ}`];
 
 		const {
-			[`${constVar.STORAGE_USERNAME_PROP}`]: username = "",
-			[`${constVar.STORAGE_PASSWORD_VALIDATION}`]: isValidPassword = false,
-			[`${constVar.STORAGE_ADDRESS_PROP}`]: {
-				description = "",
-				placeid = "",
-			} = {},
+			[`${constVar.USERNAME_PROP}`]: username = "",
+			[`${constVar.PASSWORD_VALIDATION}`]: isValidPassword = false,
+			[`${constVar.ADDRESS_PROP}`]: { description = "", placeid = "" } = {},
 		} = signupInfo;
 
 		if (!isValidPassword) return submitErrorHandler("Invalid Password");
@@ -140,20 +130,18 @@ function UserSignupContainer() {
 	const onSubmitStep_3_HandlerPromise = async () => {
 		// get signup object from redux store
 		let signupInfo =
-			dispatchPromise.getState()[
-				`${constVar.THAINOW_USER_SIGN_UP_STORAGE_OBJ}`
-			];
+			dispatchPromise.getState()[`${constVar.THAINOW_USER_SIGN_UP_OBJ}`];
 
 		const {
-			[`${constVar.STORAGE_VERIFICATION_METHOD_PROP}`]: verifyOption = "",
-			[`${constVar.STORAGE_EMAIL_PROP}`]: email = "",
-			[`${constVar.STORAGE_EMAIL_VALIDATION}`]: isValidEmail = false,
-			[`${constVar.STORAGE_PHONE_PROP}`]: phone = "",
-			[`${constVar.STORAGE_PHONE_VALIDATION}`]: isValidPhone = false,
+			[`${constVar.VERIFICATION_METHOD_PROP}`]: verifyOption = "",
+			[`${constVar.EMAIL_PROP}`]: email = "",
+			[`${constVar.EMAIL_VALIDATION}`]: isValidEmail = false,
+			[`${constVar.PHONE_PROP}`]: phone = "",
+			[`${constVar.PHONE_VALIDATION}`]: isValidPhone = false,
 		} = signupInfo;
 
 		const [channel, value, isValidValue, message, validatePromise] =
-			verifyOption === constVar.STORAGE_EMAIL_PROP
+			verifyOption === constVar.EMAIL_PROP
 				? [
 						"email",
 						email,
@@ -161,7 +149,7 @@ function UserSignupContainer() {
 						"Invalid Email! Please provide or add a valid email address.",
 						validateEmailHandler,
 				  ]
-				: verifyOption === constVar.STORAGE_PHONE_PROP
+				: verifyOption === constVar.PHONE_PROP
 				? [
 						"sms",
 						phone,
@@ -183,24 +171,22 @@ function UserSignupContainer() {
 	const onSubmitStep_4_HandlerPromise = async () => {
 		// get signup object from redux store
 		let signupInfo =
-			dispatchPromise.getState()[
-				`${constVar.THAINOW_USER_SIGN_UP_STORAGE_OBJ}`
-			];
+			dispatchPromise.getState()[`${constVar.THAINOW_USER_SIGN_UP_OBJ}`];
 
 		const {
-			[`${constVar.STORAGE_OTP_VALIDATION}`]: isValidOtp = false,
-			[`${constVar.STORAGE_OTP_PROP}`]: formattedOtp = "",
-			[`${constVar.STORAGE_VERIFICATION_METHOD_PROP}`]: verifyOption = "",
-			[`${constVar.STORAGE_PHONE_PROP}`]: phone = "",
-			[`${constVar.STORAGE_EMAIL_PROP}`]: email = "",
+			[`${constVar.OTP_VALIDATION}`]: isValidOtp = false,
+			[`${constVar.OTP_PROP}`]: formattedOtp = "",
+			[`${constVar.VERIFICATION_METHOD_PROP}`]: verifyOption = "",
+			[`${constVar.PHONE_PROP}`]: phone = "",
+			[`${constVar.EMAIL_PROP}`]: email = "",
 		} = signupInfo;
 
 		const token = formattedOtp.replace(/[^\d]/g, "") || "";
 
 		const [channel, value] =
-			verifyOption === constVar.STORAGE_EMAIL_PROP
+			verifyOption === constVar.EMAIL_PROP
 				? ["email", email]
-				: verifyOption === constVar.STORAGE_PHONE_PROP
+				: verifyOption === constVar.PHONE_PROP
 				? ["sms", phone]
 				: ["sms", "6268773058"];
 

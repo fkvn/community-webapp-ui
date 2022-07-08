@@ -3,9 +3,7 @@ import * as actionCreators from "../redux-store/actionCreator/actionCreator";
 import store from "../redux-store/store";
 import * as constVar from "../Util/ConstVar";
 
-const thaiNowObj = window.sessionStorage.getItem(
-	constVar.THAINOW_USER_STORRAGE_OBJ
-);
+const thaiNowObj = window.sessionStorage.getItem(constVar.THAINOW_USER_OBJ);
 
 const instance = axios.create({
 	// baseURL: "http://ecst-csproj2.calstatela.edu:6328/api/"

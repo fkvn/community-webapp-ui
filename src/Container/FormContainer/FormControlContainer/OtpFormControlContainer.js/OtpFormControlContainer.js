@@ -13,15 +13,13 @@ function OtpFormControlContainer({
 }) {
 	const formattedOtp = useSelector(
 		(state) =>
-			state.thainowReducer[`${storageObjName}`][
-				`${constVar.STORAGE_OTP_PROP}`
-			] || ""
+			state.thainowReducer[`${storageObjName}`][`${constVar.OTP_PROP}`] || ""
 	);
 
 	const updateReduxStoreOtp = (formattedOtp = "", isValidOtp = false) => {
 		dispatchPromise.patchSignupUserInfo({
-			[`${constVar.STORAGE_OTP_PROP}`]: formattedOtp,
-			[`${constVar.STORAGE_OTP_VALIDATION}`]: isValidOtp,
+			[`${constVar.OTP_PROP}`]: formattedOtp,
+			[`${constVar.OTP_VALIDATION}`]: isValidOtp,
 		});
 	};
 

@@ -1,11 +1,10 @@
-import React from "react";
 import { ButtonGroup, Dropdown } from "react-bootstrap";
 import IconLinkButton from "./IconLinkButton";
 
 import defaultProfileImage from "../../Assest/Image/Profile/UserIcon_Guest.png";
 // import threeBarsIcon from "../../Assest/Image/Icon/3bars-icon.png";
-import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Button } from "react-bootstrap";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
 import * as constVar from "../../Util/ConstVar";
 
@@ -57,7 +56,7 @@ function HeaderProfileButton({ formatFrames = false, user = {} }) {
 				title: "Sign Out",
 				isLink: false,
 				onClickHanlder: () => {
-					localStorage.removeItem(constVar.THAINOW_USER_STORRAGE_OBJ);
+					localStorage.removeItem(constVar.THAINOW_USER_OBJ);
 					if (location.pathname === "/") {
 						window.location.reload();
 					} else {

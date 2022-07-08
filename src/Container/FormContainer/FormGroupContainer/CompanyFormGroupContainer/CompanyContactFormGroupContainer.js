@@ -16,7 +16,7 @@ import CompanyPhoneFormControlContainer from "../../FormControlContainer/Company
 import CompanyWebsiteFormControlContainer from "../../FormControlContainer/CompanyFormControlContainer/CompanyWebsiteFormControlContainer";
 
 function CompanyContactFormGroupContainer({
-	storageObjName = constVar.THAINOW_COMPANY_SIGN_UP_STORAGE_OBJ,
+	storageObjName = constVar.THAINOW_COMPANY_SIGN_UP_OBJ,
 	formGroupClassName = "",
 }) {
 	const companyNameFomrGroupControl = (
@@ -50,7 +50,7 @@ function CompanyContactFormGroupContainer({
 	const isInformal = useSelector(
 		(state) =>
 			state.thainowReducer[`${storageObjName}`][
-				`${constVar.STORAGE_COMPANY_INFORMAL_PROP}`
+				`${constVar.COMPANY_INFORMAL_PROP}`
 			] || ""
 	);
 

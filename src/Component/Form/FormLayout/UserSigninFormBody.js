@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { Button, Stack } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import UserEmailFormControlContainer from "../../../Container/FormContainer/FormControlContainer/UserFormControlContainer/UserEmailFormControlContainer";
@@ -17,9 +16,10 @@ function UserSigninFormBody({
 	step = -1,
 	onSubmitLoading = false,
 	continueURL = "",
-	onSelectVerifyMethod = () => {},
+	signinMethod = constVar.EMAIL_PROP,
+	onSelectSigninMethod = () => {},
 }) {
-	const [signinMethod, setSigninMethod] = useState(constVar.STORAGE_EMAIL_PROP);
+	// const [signinMethod, setSigninMethod] = useState(constVar.EMAIL_PROP);
 
 	const navigate = useNavigate();
 
@@ -56,7 +56,7 @@ function UserSigninFormBody({
 			required={true}
 			RenderFormControl={UserEmailFormControlContainer}
 			renderProps={{
-				storageObjName: constVar.THAINOW_USER_SIGN_IN_STORAGE_OBJ,
+				storageObjName: constVar.THAINOW_USER_SIGN_IN_OBJ,
 			}}
 		/>
 	);
@@ -66,7 +66,7 @@ function UserSigninFormBody({
 			required={true}
 			RenderFormControl={UserPhoneFormControlContainer}
 			renderProps={{
-				storageObjName: constVar.THAINOW_USER_SIGN_IN_STORAGE_OBJ,
+				storageObjName: constVar.THAINOW_USER_SIGN_IN_OBJ,
 			}}
 		/>
 	);
@@ -80,7 +80,7 @@ function UserSigninFormBody({
 			RenderFormControl={UserPasswordFormControlContainer}
 			renderProps={{
 				autocomplete: true,
-				storageObjName: constVar.THAINOW_USER_SIGN_IN_STORAGE_OBJ,
+				storageObjName: constVar.THAINOW_USER_SIGN_IN_OBJ,
 			}}
 		/>
 	);
@@ -95,18 +95,18 @@ function UserSigninFormBody({
 			{signinMethod === "phone" && phoneFormGroupControl}
 
 			<LoadingButton
+				type="button"
 				title={`Sign in with ${
-					signinMethod === constVar.STORAGE_EMAIL_PROP ? "Phone" : "Email"
+					signinMethod === constVar.EMAIL_PROP ? "Phone" : "Email"
 				} instead`}
 				variant="link"
 				className="text-start px-0"
 				onClick={() => {
 					const channel =
-						signinMethod === constVar.STORAGE_EMAIL_PROP
-							? constVar.STORAGE_PHONE_PROP
-							: constVar.STORAGE_EMAIL_PROP;
-					onSelectVerifyMethod(channel);
-					setSigninMethod(channel);
+						signinMethod === constVar.EMAIL_PROP
+							? constVar.PHONE_PROP
+							: constVar.EMAIL_PROP;
+					onSelectSigninMethod(channel);
 				}}
 			/>
 
@@ -114,6 +114,7 @@ function UserSigninFormBody({
 
 			<div className="text-center pt-3">
 				<SubmitButtonFormGroupControl
+					id="signin"
 					className="px-5"
 					title="Sign In"
 					isLoading={onSubmitLoading}

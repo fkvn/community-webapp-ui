@@ -17,35 +17,31 @@ function CompanyWebsiteFormControlContainer({
 	const website = useSelector(
 		(state) =>
 			state.thainowReducer[`${storageObjName}`][
-				`${constVar.STORAGE_COMPANY_WEBSITE_PROP}`
+				`${constVar.COMPANY_WEBSITE_PROP}`
 			] || ""
 	);
 
 	const getSessionWebsite = () => {
 		return (
 			util.getSessionStorageObj(storageObjName)[
-				`${constVar.STORAGE_COMPANY_WEBSITE_PROP}`
+				`${constVar.COMPANY_WEBSITE_PROP}`
 			] || ""
 		);
 	};
 
 	const updateReduxStoreWebsite = (url = "", isValidUrl = true) => {
 		dispatchPromise.patchSignupCompanyInfo({
-			[`${constVar.STORAGE_COMPANY_WEBSITE_PROP}`]: url,
-			[`${constVar.STORAGE_COMPANY_WEBSITE_VALIDATION}`]: isValidUrl,
+			[`${constVar.COMPANY_WEBSITE_PROP}`]: url,
+			[`${constVar.COMPANY_WEBSITE_VALIDATION}`]: isValidUrl,
 		});
 	};
 
 	const updateSessionWebsite = (url = "", isValidUrl = true) => {
-		util.saveToSessionStore(
-			storageObjName,
-			constVar.STORAGE_COMPANY_WEBSITE_PROP,
-			url
-		);
+		util.saveToSessionStore(storageObjName, constVar.COMPANY_WEBSITE_PROP, url);
 
 		util.saveToSessionStore(
 			storageObjName,
-			constVar.STORAGE_COMPANY_WEBSITE_VALIDATION,
+			constVar.COMPANY_WEBSITE_VALIDATION,
 			isValidUrl
 		);
 	};
@@ -79,12 +75,12 @@ function CompanyWebsiteFormControlContainer({
 
 		const isValidStoreWebsite =
 			dispatchPromise.getState()[`${storageObjName}`][
-				`${constVar.STORAGE_COMPANY_WEBSITE_VALIDATION}`
+				`${constVar.COMPANY_WEBSITE_VALIDATION}`
 			] || isValidUrl;
 
 		if (isValidStoreWebsite !== isValidUrl) {
 			dispatchPromise.patchSignupCompanyInfo({
-				[`${constVar.STORAGE_COMPANY_WEBSITE_VALIDATION}`]: isValidUrl,
+				[`${constVar.COMPANY_WEBSITE_VALIDATION}`]: isValidUrl,
 			});
 		}
 	}, [website, storageObjName, onUrlValidation]);

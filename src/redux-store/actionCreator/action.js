@@ -1,43 +1,18 @@
 import * as constVar from "../../Util/ConstVar";
 import * as actionTypes from "./actionType";
 
-// patch user sign up info
-export const dispatchPatchSignupUserInfo = (
-	{ ...newInfo },
-	replace = false
-) => {
-	return {
-		type: actionTypes.DISPATCH_PATCH_SIGNUP_USER_INFO,
-		[`${constVar.THAINOW_USER_SIGN_UP_STORAGE_OBJ}`]: { ...newInfo },
-		replace: replace,
-	};
-};
-
 // patch user sign in info
-export const dispatchPatchSigninUserInfo = (
+export const dispatchPatchStoreRootObjInfo = (
+	objName,
 	{ ...newInfo },
 	replace = false
 ) => {
 	return {
-		type: actionTypes.DISPATCH_PATCH_SIGNIN_USER_INFO,
-		[`${constVar.THAINOW_USER_SIGN_IN_STORAGE_OBJ}`]: { ...newInfo },
+		type: actionTypes.DISPATCH_PATCH_STORE_ROOT_OBJ_INFO,
+		[`${constVar.THAINOW_REDUX_STORE_ROOT_OBJ}`]: objName,
+
+		[`${constVar.THAINOW_REDUX_STORE_ROOT_OBJ_PROPS}`]: { ...newInfo },
 		replace: replace,
-	};
-};
-
-// patch company sign up info
-export const dispatchPatchSignupCompanyInfo = ({ ...newInfo }) => {
-	return {
-		type: actionTypes.DISPATCH_PATCH_SIGNUP_COMPANY_INFO,
-		[`${constVar.THAINOW_COMPANY_SIGN_UP_STORAGE_OBJ}`]: { ...newInfo },
-	};
-};
-
-// patch search info
-export const dispatchPatchSearchInfo = ({ ...newInfo }) => {
-	return {
-		type: actionTypes.DISPATCH_PATCH_SEARCH_INFO,
-		[`${constVar.THAINOW_SEARCH_OBJ}`]: { ...newInfo },
 	};
 };
 

@@ -14,13 +14,13 @@ function CompanyIndustryFormControlContainer({
 }) {
 	const [industry, showIndustryList] = useSelector((state) => [
 		state.thainowReducer[`${storageObjName}`]?.[
-			`${constVar.STORAGE_COMPANY_INDUSTRY_PROP}`
+			`${constVar.COMPANY_INDUSTRY_PROP}`
 		] || "",
 		state.thainowReducer[`${storageObjName}`]?.showIndustryList || false,
 	]);
 
 	const industryList = [
-		...constVar.STORAGE_COMPANY_INDUSTRY_LIST.map((item) => {
+		...constVar.COMPANY_INDUSTRY_LIST.map((item) => {
 			return { description: item, value: item };
 		}),
 	];
@@ -30,7 +30,7 @@ function CompanyIndustryFormControlContainer({
 	const getSessionIndustry = () => {
 		return (
 			util.getSessionStorageObj(storageObjName)[
-				`${constVar.STORAGE_COMPANY_INDUSTRY_PROP}`
+				`${constVar.COMPANY_INDUSTRY_PROP}`
 			] || ""
 		);
 	};
@@ -40,7 +40,7 @@ function CompanyIndustryFormControlContainer({
 		showIndustryList = false
 	) => {
 		dispatchPromise.patchSignupCompanyInfo({
-			[`${constVar.STORAGE_COMPANY_INDUSTRY_PROP}`]: industry,
+			[`${constVar.COMPANY_INDUSTRY_PROP}`]: industry,
 			showIndustryList: showIndustryList,
 		});
 	};
@@ -48,7 +48,7 @@ function CompanyIndustryFormControlContainer({
 	const updateSessionIndustry = (industry = "") => {
 		util.saveToSessionStore(
 			storageObjName,
-			constVar.STORAGE_COMPANY_INDUSTRY_PROP,
+			constVar.COMPANY_INDUSTRY_PROP,
 			industry
 		);
 	};

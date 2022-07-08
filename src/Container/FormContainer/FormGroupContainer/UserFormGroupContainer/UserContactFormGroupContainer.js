@@ -7,7 +7,7 @@ import UserUsernameFormControlContainer from "../../FormControlContainer/UserFor
 import * as constVar from "../../../../Util/ConstVar";
 
 function UserContactFormGroupContainer({
-	storageObjName = constVar.THAINOW_USER_SIGN_UP_STORAGE_OBJ,
+	storageObjName = constVar.THAINOW_USER_SIGN_UP_OBJ,
 }) {
 	const usernameFormGroupControl = (
 		<FormGroupControl

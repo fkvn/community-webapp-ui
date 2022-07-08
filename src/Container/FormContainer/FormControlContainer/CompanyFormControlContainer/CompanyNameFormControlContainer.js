@@ -15,7 +15,7 @@ function CompanyNameFormControlContainer({
 }) {
 	const [name, showCompanyList] = useSelector((state) => [
 		state.thainowReducer[`${storageObjName}`]?.[
-			`${constVar.STORAGE_COMPANY_NAME_PROP}`
+			`${constVar.COMPANY_NAME_PROP}`
 		] || "",
 		state.thainowReducer[`${storageObjName}`]?.showCompanyList || false,
 	]);
@@ -31,7 +31,7 @@ function CompanyNameFormControlContainer({
 	const getSessionName = () => {
 		return (
 			util.getSessionStorageObj(storageObjName)[
-				`${constVar.STORAGE_COMPANY_NAME_PROP}`
+				`${constVar.COMPANY_NAME_PROP}`
 			] || ""
 		);
 	};
