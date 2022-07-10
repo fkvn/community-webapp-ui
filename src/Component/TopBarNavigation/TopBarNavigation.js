@@ -27,16 +27,16 @@ function TopBarNavigation() {
 
 	const leftTopBar = <div>{brandLogo}</div>;
 
-	const signupButton = (
-		<LoadingButton
-			id="signupbutton"
-			size="md"
-			title="Signup"
-			buttonStyle={{ background: "#E94833" }}
-			className="px-2"
-			onClick={() => navigate("/signup" + continueParams)}
-		/>
-	);
+	// const signupButton = (
+	// 	<LoadingButton
+	// 		id="signupbutton"
+	// 		size="md"
+	// 		title="Signup"
+	// 		buttonStyle={{ background: "#E94833" }}
+	// 		className="px-2"
+	// 		onClick={() => navigate("/signup" + continueParams)}
+	// 	/>
+	// );
 
 	const languageButton = (
 		<LoadingButton
@@ -54,13 +54,19 @@ function TopBarNavigation() {
 				id="top-rightbar"
 				direction="horizontal"
 				gap={3}
-				className="h-100 w-100"
+				className="h-100 w-100 "
 			>
 				<div className="mx-auto d-none d-lg-block">
-					<SearchContainer />
+					<SearchContainer expanded={true} />
 				</div>
-				<div className="ms-auto">{languageButton}</div>
-				<div>{signupButton}</div>
+
+				<Stack direction="horizontal" gap={4} className="ms-auto">
+					<div className="d-block d-lg-none">
+						<SearchContainer expanded={false} />
+					</div>
+					{languageButton}
+					{/* {signupButton} */}
+				</Stack>
 			</Stack>
 		</>
 	);

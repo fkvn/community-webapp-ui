@@ -1,5 +1,5 @@
-import { Button, Stack } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
+import { Stack } from "react-bootstrap";
+import { useLocation, useNavigate } from "react-router-dom";
 import UserEmailFormControlContainer from "../../../Container/FormContainer/FormControlContainer/UserFormControlContainer/UserEmailFormControlContainer";
 import UserPasswordFormControlContainer from "../../../Container/FormContainer/FormControlContainer/UserFormControlContainer/UserPasswordFormControlContainer";
 import UserPhoneFormControlContainer from "../../../Container/FormContainer/FormControlContainer/UserFormControlContainer/UserPhoneFormControlContainer";
@@ -15,13 +15,15 @@ function UserSigninFormBody({
 	id = "",
 	step = -1,
 	onSubmitLoading = false,
-	continueURL = "",
 	signinMethod = constVar.EMAIL_PROP,
 	onSelectSigninMethod = () => {},
 }) {
 	// const [signinMethod, setSigninMethod] = useState(constVar.EMAIL_PROP);
 
 	const navigate = useNavigate();
+	const location = useLocation();
+
+	const continueURL = location?.state?.continue || "/";
 
 	const title = (
 		<div className="w-100 text-center">
@@ -36,18 +38,20 @@ function UserSigninFormBody({
 	const signupPrompt = (
 		<div className="text-center">
 			Don't have an account?
-			<Button
-				size="md"
+			<LoadingButton
+				id="signupbutton"
 				className="mb-1 rounded-pill d-inline-block shadow-none"
 				variant="link"
+				size="md"
+				title="Sign up"
 				onClick={() =>
-					navigate(
-						`/signup${continueURL.length > 0 ? "?continue=" + continueURL : ""}`
-					)
+					navigate("/signup", {
+						state: {
+							continue: location.pathname + location.search,
+						},
+					})
 				}
-			>
-				Sign up
-			</Button>
+			/>
 		</div>
 	);
 

@@ -4,7 +4,7 @@ import FormHeader from "../../Component/Form/FormLayout/FormHeader";
 
 function FormContainer({
 	id = "",
-	noHeader = false,
+	noHeader = true,
 	customerHeader = false,
 	header = () => {},
 	body = {},

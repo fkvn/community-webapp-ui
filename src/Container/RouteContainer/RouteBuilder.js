@@ -5,7 +5,9 @@ import NotFoundPage from "../../Component/Global/NotFoundPage";
 import * as dispatchPromise from "../../redux-store/dispatchPromise";
 import * as constVar from "../../Util/ConstVar";
 import ErrorContainer from "../ErrorContainer";
-import LoginContainer from "../LoginContainer";
+import SigninContainer from "../SigninContainer";
+import SignoutContainer from "../SignoutContainer";
+import SwitchProfileContainer from "../SwitchProfileContainer";
 import LayoutContainer from "./LayoutContainer";
 import SignupRouteContainer from "./SignupRouteContainer";
 
@@ -31,9 +33,11 @@ function RouteBuilder() {
 	const routes = (
 		<>
 			<Routes>
-				<Route path="/" exact element={<LayoutContainer />} />
+				<Route path="/" element={<LayoutContainer />} />
 				<Route path="signup/*" element={<SignupRouteContainer />} />
-				<Route path="/login" element={<LoginContainer />} />
+				<Route path="/signin" element={<SigninContainer />} />
+				<Route path="/signout" element={<SignoutContainer />} />
+				<Route path="/switch-profile" element={<SwitchProfileContainer />} />
 				<Route path="*" element={<NotFoundPage />} />
 			</Routes>
 		</>

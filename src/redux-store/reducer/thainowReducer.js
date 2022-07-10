@@ -32,6 +32,9 @@ const initialState = {
 	},
 	[`${constVar.THAINOW_COMPANY_SIGN_UP_OBJ}`]: {},
 	[`${constVar.THAINOW_SEARCH_OBJ}`]: {},
+	[`${constVar.THAINOW_OFF_CANVAS_OBJ}`]: {
+		[`${constVar.SHOW_OFF_CANVAS}`]: false,
+	},
 };
 
 // ==================  Reducer helping functions =========================

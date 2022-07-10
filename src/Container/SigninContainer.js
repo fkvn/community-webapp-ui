@@ -1,24 +1,29 @@
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import * as axiosPromise from "../Axios/axiosPromise";
 import Signin from "../Component/Login/Signin";
 import * as dispatchPromise from "../redux-store/dispatchPromise";
 import * as constVar from "../Util/ConstVar";
+import OffCanvasContainer from "./OffCanvasContainer";
 
-function LoginContainer() {
+function SigninContainer() {
 	const navigate = useNavigate();
 
-	let [searchParams] = useSearchParams();
+	const location = useLocation();
 
-	const continueURL = searchParams.get("continue") || "/";
+	const continueURL = location?.state?.continue || "/";
 
 	const profile = useSelector(
 		(state) => state.thainowReducer[`${constVar.THAINOW_PROFILE_OBJ}`] || {}
 	);
 
 	useEffect(() => {
-		if (JSON.stringify(profile) !== "{}") navigate("/");
+		if (JSON.stringify(profile) !== "{}") navigate(continueURL);
+
+		dispatchPromise.patchOffCanvasInfo({
+			[`${constVar.SHOW_OFF_CANVAS}`]: true,
+		});
 	});
 
 	const signinMethod = useSelector(
@@ -40,9 +45,14 @@ function LoginContainer() {
 	};
 
 	const onCloseHandler = () => {
-		dispatchPromise.patchSigninUserInfo({}, true);
+		dispatchPromise.patchSigninUserInfo(
+			{
+				[`${constVar.SIGNIN_METHOD_PROP}`]: constVar.EMAIL_PROP,
+			},
+			true
+		);
 		sessionStorage.removeItem(constVar.THAINOW_USER_SIGN_IN_OBJ);
-		navigate(continueURL, { replace: true });
+		navigate(continueURL);
 	};
 
 	const loginHanlder = () => {
@@ -77,7 +87,16 @@ function LoginContainer() {
 					JSON.stringify({
 						[`${constVar.PROFILE_TYPE_PROP}`]: constVar.PROFILE_USER_TYPE_PROP,
 						[`${constVar.USER_PROP}`]: userInfo.user,
+						[`${constVar.COMPANY_LIST}`]: userInfo.companies,
 					})
+				);
+
+				// remove signin info in redux-store
+				dispatchPromise.patchSigninUserInfo(
+					{
+						[`${constVar.SIGNIN_METHOD_PROP}`]: constVar.EMAIL_PROP,
+					},
+					true
 				);
 
 				navigate(continueURL, { replace: true });
@@ -96,15 +115,17 @@ function LoginContainer() {
 	];
 
 	const app = (
-		<Signin
-			stepHandlers={stepHandlers}
-			onClose={onCloseHandler}
-			signinMethod={signinMethod}
-			onSelectSigninMethod={onSelectSigninMethodHandler}
-		/>
+		<OffCanvasContainer onClose={onCloseHandler}>
+			<Signin
+				stepHandlers={stepHandlers}
+				// onClose={onCloseHandler}
+				signinMethod={signinMethod}
+				onSelectSigninMethod={onSelectSigninMethodHandler}
+			/>
+		</OffCanvasContainer>
 	);
 
 	return app;
 }
 
-export default LoginContainer;
+export default SigninContainer;

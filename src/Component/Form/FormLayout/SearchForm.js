@@ -8,7 +8,7 @@ import * as constVar from "../../../Util/ConstVar";
 import LoadingButton from "../../Button/LoadingButton";
 import AddressFromGroupControl from "../FormGroupControl/AddressFormGroupControl";
 
-function SearchForm({ expanded = true, isLoading = false }) {
+function SearchForm({ direction = "", gap = 3, isLoading = false }) {
 	const searchInput = (
 		<FormGroupControl
 			withIcon={false}
@@ -42,7 +42,11 @@ function SearchForm({ expanded = true, isLoading = false }) {
 	);
 
 	const app = (
-		<Stack direction="horizontal" gap={3} className="w-100">
+		<Stack
+			{...(direction && { direction: direction })}
+			gap={gap}
+			className="w-100"
+		>
 			<div>{searchInput}</div>
 			<div>{searchLocation}</div>
 			<div>{searchButton}</div>

@@ -17,6 +17,7 @@ function LoadingButton({
 	loadingClassName = "d-inline-block mx-3",
 	withIcon = false,
 	iconSrc = "",
+	iconOnly = false,
 	imgFluid = true,
 	onClick = () => {},
 }) {
@@ -33,19 +34,26 @@ function LoadingButton({
 			onClick={onClick}
 		>
 			<Stack direction="horizontal" gap={1} className="h-100 w-100 px-1">
-				{withIcon && (
-					<ImageFrame {...(id && { id: id })} src={iconSrc} fluid={imgFluid} />
-				)}
-
 				{!isLoading ? (
 					<>
-						<div
-							{...(id && { id: "title-" + id })}
-							style={{ paddingBottom: "0.05rem" }}
-							className="tedkvn-text-ellipsis"
-						>
-							{title}
-						</div>
+						{withIcon && (
+							<ImageFrame
+								{...(id && { id: id })}
+								src={iconSrc}
+								fluid={imgFluid}
+							/>
+						)}
+						{!iconOnly && (
+							<>
+								<div
+									{...(id && { id: "title-" + id })}
+									style={{ paddingBottom: "0.05rem" }}
+									className="tedkvn-text-ellipsis"
+								>
+									{title}
+								</div>
+							</>
+						)}{" "}
 					</>
 				) : (
 					<>

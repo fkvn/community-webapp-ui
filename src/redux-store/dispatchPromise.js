@@ -62,3 +62,13 @@ export const patchSearchInfo = async ({ ...props }, replace = false) => {
 		)
 	);
 };
+
+export const patchOffCanvasInfo = async ({ ...props }, replace = false) => {
+	return store.dispatch(
+		actionCreators.patchStoreRootObjInfo(
+			constVar.THAINOW_OFF_CANVAS_OBJ,
+			{ ...props },
+			replace
+		)
+	);
+};

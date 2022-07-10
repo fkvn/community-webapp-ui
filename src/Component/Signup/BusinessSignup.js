@@ -42,12 +42,12 @@ function BusinessSignup({
 		onSelectVerifyMethod: onSelectVerifyMethod,
 	};
 
-	const app = FormContainer(
-		formHeader,
-		FormBody,
-		stepHandlers,
-		onBackHandlerPromise
-	);
+	const app = FormContainer({
+		id: "businesssignup",
+		body: FormBody,
+		stepHandlers: stepHandlers,
+		onClose: onClose,
+	});
 
 	return app;
 }
