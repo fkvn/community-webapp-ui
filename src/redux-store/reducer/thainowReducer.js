@@ -89,6 +89,7 @@ const reducer = (state = initialState, action) => {
 	switch (action.type) {
 		// patch redux store root obj
 		case actionTypes.DISPATCH_PATCH_STORE_ROOT_OBJ_INFO:
+		case actionTypes.DISPATCH_PATCH_USER_OBJ_INFO:
 		case actionTypes.DISPATCH_PATCH_PROFILE_INFO:
 		case actionTypes.DISPATCH_PATCH_SIGNIN_USER_INFO:
 		case actionTypes.DISPATCH_PATCH_SIGNUP_USER_INFO:

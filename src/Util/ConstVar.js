@@ -63,6 +63,7 @@ export const PRIVILEGES_PROP = "privileges";
 export const POSITION_PROP = "administratorRole";
 export const ROLE_PROP = "role";
 export const PENDING_STATUS_PROP = "pending";
+export const DISABLED_PROP = "disabled";
 
 export const COMPANY_INDUSTRY_LIST = [
 	"Aquarium & Pet",

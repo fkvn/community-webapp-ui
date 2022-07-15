@@ -1,5 +1,5 @@
 import { Stack } from "react-bootstrap";
-import ProfilePanelContainer from "../../Container/ProfilePanelContainer";
+import ProfilePanelContainer from "../../Container/ProfilePanelContainer/ProfilePanelContainer";
 
 function RightBar() {
 	const profilePanel = <ProfilePanelContainer />;

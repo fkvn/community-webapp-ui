@@ -5,11 +5,18 @@ import * as constVar from "../../Util/ConstVar";
 import LoadingButton from "../Button/LoadingButton";
 import ImageFrame from "../ImageFrame/ImageFrame";
 
-function ProfilePanel({ ...profile }) {
+function ProfilePanel({
+	isSignedIn = false,
+	id = "profile-panel",
+	name = "",
+	profileUrl = asset.images[`${constVar.IMAGE_GUEST_PROFILE}`],
+	uploadPhotoOnClickHandler = () => {},
+	myProfileOnClickHander = () => {},
+}) {
 	const navigate = useNavigate();
 	const location = useLocation();
 
-	const UploadPhotoButton = ({ uploadPhotoOnClickHandler = () => {} }) => (
+	const UploadPhotoButton = () => (
 		<LoadingButton
 			title="Upload Photo"
 			variant="link"
@@ -35,13 +42,12 @@ function ProfilePanel({ ...profile }) {
 		/>
 	);
 
-	const TopBar = ({ type = constVar.PROFILE_GUEST_TYPE_PROP }) => (
+	const TopBar = () => (
 		<div>
 			<Stack direction="horizontal" className="mt-2 ">
-				{type === constVar.PROFILE_GUEST_TYPE_PROP && signupButton}
+				{!isSignedIn && signupButton}
 
-				{(type === constVar.PROFILE_USER_TYPE_PROP ||
-					type === constVar.PROFILE_COMPANY_TYPE_PROP) && (
+				{isSignedIn && (
 					<>
 						<LoadingButton
 							variant="none"
@@ -52,12 +58,19 @@ function ProfilePanel({ ...profile }) {
 						/>
 						<div className="ms-auto">
 							<LoadingButton
+								title={`Sign Out`}
+								size="sm"
+								variant="secondary "
+								onClick={() => navigate("/signout")}
+							/>
+
+							{/* <LoadingButton
 								variant="none"
 								size="sm"
 								iconOnly={true}
 								withIcon={true}
 								iconSrc={asset.icons[`${constVar.ICON_THREE_BARS_BLACK}`]}
-							/>
+							/> */}
 						</div>
 					</>
 				)}
@@ -66,19 +79,15 @@ function ProfilePanel({ ...profile }) {
 		</div>
 	);
 
-	const ProfilePicture = ({
-		type = constVar.PROFILE_GUEST_TYPE_PROP,
-		uploadPhotoOnClickHandler = () => {},
-	}) => (
+	const ProfilePicture = () => (
 		<Stack gap={1} className="mx-auto">
 			<ImageFrame
 				frameClassName="polygon"
 				customFrameStyle={true}
-				src={profile[`${constVar.PROFILE_URL_PROP}`]}
+				src={profileUrl}
 				fluid
 			/>
-			{(type === constVar.PROFILE_USER_TYPE_PROP ||
-				type === constVar.PROFILE_COMPANY_TYPE_PROP) && (
+			{isSignedIn && (
 				<UploadPhotoButton
 					uploadPhotoOnClickHandler={uploadPhotoOnClickHandler}
 				/>
@@ -86,21 +95,14 @@ function ProfilePanel({ ...profile }) {
 		</Stack>
 	);
 
-	console.log(profile);
-
-	const ProfileName = ({ name = "" }) => (
-		<div className="text-center fs-4">Hi, {name}</div>
+	const ProfileName = () => (
+		<div className="text-center fs-4">Hi, {name !== "" ? name : "welcome"}</div>
 	);
 
-	const MyProfileButton = ({
-		type = constVar.PROFILE_GUEST_TYPE_PROP,
-		myProfileOnClickHander = () => {},
-	}) => (
+	const MyProfileButton = () => (
 		<>
 			<LoadingButton
-				title={`${
-					type === constVar.PROFILE_GUEST_TYPE_PROP ? "Sign In" : "My Profile"
-				}`}
+				title={`${!isSignedIn ? "Sign In" : "My Profile"}`}
 				size="sm"
 				variant="primary"
 				onClick={myProfileOnClickHander}
@@ -111,52 +113,29 @@ function ProfilePanel({ ...profile }) {
 	const Body = ({ profile = {} }) => (
 		<>
 			<Stack gap={2}>
-				<ProfilePicture
-					type={profile[`${constVar.PROFILE_GUEST_TYPE_PROP}`]}
-					uploadPhotoOnClickHandler={
-						profile[`${constVar.UPLOAD_PHOTO_HANDLER}`]
-					}
-				/>
+				<ProfilePicture />
 				<Stack gap={3}>
 					<Stack gap={1}>
 						<ProfileName name={profile[`${constVar.USERNAME_PROP}`]} />
-						{(profile[`${constVar.PROFILE_TYPE_PROP}`] ===
-							constVar.PROFILE_USER_TYPE_PROP ||
-							profile[`${constVar.PROFILE_TYPE_PROP}`] ===
-								constVar.PROFILE_COMPANY_TYPE_PROP) && (
-							<LoadingButton
-								variant="link"
-								title="Switch Profile"
-								className="shadow-none"
-								onClick={() =>
-									navigate("/switch-profile", {
-										state: {
-											continue: location.pathname + location.search,
-										},
-									})
-								}
-							/>
-						)}
 					</Stack>
 
 					<Stack direction="horizontal" gap={5} className="mx-auto">
-						<MyProfileButton
-							type={profile[`${constVar.PROFILE_TYPE_PROP}`]}
-							myProfileOnClickHander={
-								profile[`${constVar.VISIT_MY_PROFILE_HANDLER}`]
-							}
-						/>
+						<MyProfileButton />
 
 						<div className="ms-auto">
-							{profile[`${constVar.PROFILE_TYPE_PROP}`] ===
-								constVar.PROFILE_USER_TYPE_PROP ||
-							profile[`${constVar.PROFILE_TYPE_PROP}`] ===
-								constVar.PROFILE_COMPANY_TYPE_PROP ? (
+							{isSignedIn ? (
 								<LoadingButton
-									title={`Sign Out`}
+									// variant="info"
 									size="sm"
-									variant="secondary"
-									onClick={() => navigate("/signout")}
+									title="Switch Profile"
+									className="shadow-none "
+									onClick={() =>
+										navigate("/switch-profile", {
+											state: {
+												continue: location.pathname + location.search,
+											},
+										})
+									}
 								/>
 							) : (
 								<LoadingButton
@@ -175,9 +154,9 @@ function ProfilePanel({ ...profile }) {
 
 	const app = (
 		<>
-			<Stack id="profile-panel" className="mx-auto w-100" gap={2}>
-				<TopBar type={profile[`${constVar.PROFILE_TYPE_PROP}`]} />
-				<Body profile={profile} />
+			<Stack id={id} className="mx-auto w-100" gap={2}>
+				<TopBar />
+				<Body />
 			</Stack>
 		</>
 	);

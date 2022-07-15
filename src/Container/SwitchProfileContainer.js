@@ -18,6 +18,10 @@ function SwitchProfileContainer() {
 
 	const users = localStorage.getItem(constVar.THAINOW_USER_OBJ) || [];
 
+	const user = useSelector(
+		(state) => state.thainowReducer[`${constVar.THAINOW_USER_OBJ}`] || {}
+	);
+
 	const profile = useSelector(
 		(state) => state.thainowReducer[`${constVar.THAINOW_PROFILE_OBJ}`] || {}
 	);
@@ -34,14 +38,30 @@ function SwitchProfileContainer() {
 	};
 
 	useEffect(() => {
-		if (users.length === 0) navigate(continueURL);
+		const [storageUser, storageProfile] = [
+			JSON.parse(localStorage.getItem(constVar.THAINOW_USER_OBJ || {})),
+			JSON.parse(localStorage.getItem(constVar.THAINOW_PROFILE_OBJ || {})),
+		];
 
+		if (JSON.stringify(storageUser) !== "{}" && JSON.stringify(user) === "{}") {
+			dispatchPromise.patchUserInfo({ ...storageUser }, true);
+		}
+
+		if (
+			JSON.stringify(storageProfile) !== "{}" &&
+			JSON.stringify(profile) === "{}"
+		) {
+			dispatchPromise.patchProfileInfo({ ...storageProfile }, true);
+		}
+	}, [profile, user]);
+
+	useEffect(() => {
 		if (!showOffCanvas) {
 			dispatchPromise.patchOffCanvasInfo({
 				[`${constVar.SHOW_OFF_CANVAS}`]: true,
 			});
 		}
-	});
+	}, [showOffCanvas]);
 
 	const title = (
 		<div className="w-100 text-center">
@@ -71,63 +91,105 @@ function SwitchProfileContainer() {
 		</Stack>
 	);
 
-	// company list
-	const companies = profile[`${constVar.COMPANY_LIST}`];
+	// company list - except the one that is current profile
+	const companyProfiles = (user?.companies || []).reduce(
+		(res, company) => [
+			...res,
+			company.id !== profile.id && {
+				[`${constVar.ID_PROP}`]: company.id,
+				[`${constVar.PROFILE_TYPE_PROP}`]: constVar.PROFILE_COMPANY_TYPE_PROP,
+				[`${constVar.PROFILE_URL_PROP}`]: company.logoUrl,
+				[`${constVar.PROFILE_NAME_PROP}`]: company.name,
+				[`${constVar.DISABLED_PROP}`]:
+					company?.status === constVar.PENDING_STATUS_PROP || false,
+				[`${constVar.PROFILE_COMPANY_TYPE_PROP}`]: { ...company },
+			},
+		],
+		[]
+	);
 
-	// + 2 = 1 for current account, 1 for add new account
-	const totalProfiles = [profile, ...companies];
+	const totalProfiles = [
+		profile,
+		...(user.user?.id !== profile?.id
+			? [
+					{
+						[`${constVar.ID_PROP}`]: user.user.id,
+						[`${constVar.PROFILE_TYPE_PROP}`]: constVar.PROFILE_USER_TYPE_PROP,
+						[`${constVar.PROFILE_URL_PROP}`]: user.user.profileUrl,
 
+						[`${constVar.PROFILE_NAME_PROP}`]: user.user.username,
+						[`${constVar.PROFILE_USER_TYPE_PROP}`]: { ...user.user },
+					},
+			  ]
+			: []),
+		...companyProfiles,
+	];
+
+	// + 1 = 1 for add new account
 	const totalCard = totalProfiles.length + 1;
 
 	const profileGrid = (
 		<Row xs={2} md={totalCard} className="g-4 text-center">
-			{Array.from({ length: totalCard }).map((_, idx) => (
+			{totalProfiles.map((profile, idx) => (
 				<Col key={idx}>
 					<Button
-						variant="white"
-						className="p-0 m-0"
+						className="p-0 m-0 border-0 "
 						disabled={
-							idx > 1 &&
-							companies[idx + 1].status === constVar.PENDING_STATUS_PROP
+							(idx > 1 && profile[`${constVar.DISABLED_PROP}`]) || false
 						}
 						onClick={() => {}}
 					>
-						<Card>
-							<div
-								className="w-100 tedkvn-center py-2 rounded"
-								style={{
-									background:
-										idx !== totalCard - 1
-											? "linear-gradient(142.18deg, #a73ee7 12.72%, #00ebff 89.12%)"
-											: "#F8F8F8",
-								}}
-							>
+						<Card
+							className={`${idx === 0 && "text-white"} border-0 py-3 px-4`}
+							style={{
+								background:
+									idx === 0
+										? "linear-gradient(142.18deg, #a73ee7 12.72%, #00ebff 89.12%)"
+										: "white",
+							}}
+						>
+							<div className="w-100 tedkvn-center py-2 rounded ">
 								<ImageFrame
 									frameClassName="polygon"
 									customFrameStyle={true}
-									src={
-										idx === 0
-											? profile.user.profileUrl
-											: idx === totalCard - 1
-											? asset.images[`${constVar.IMAGE_ADD_FRAME}`]
-											: asset.images[`${constVar.IMAGE_BUSINESS_PROFILE}`]
-									}
+									src={profile[`${constVar.PROFILE_URL_PROP}`]}
 									fluid
 								/>
 							</div>
 
-							<Card.Body className="mt-4 pt-0">
-								<Card.Title></Card.Title>
-								<Card.Text>
-									This is a longer card with supporting text below as a natural
-									lead-in to additional content. This content is a little bit
-									longer.
-								</Card.Text>
+							<Card.Body className="pt-2">
+								<Card.Title>
+									{profile[`${constVar.PROFILE_NAME_PROP}`]}
+								</Card.Title>
+								<Card.Text>{idx === 0 ? "(current signed-in)" : ""}</Card.Text>
 							</Card.Body>
 						</Card>
 					</Button>
 				</Col>
 			))}
+			<Col>
+				<Button variant="white" className="p-0 m-0 " onClick={() => {}}>
+					<Card
+						className="py-3"
+						style={{
+							background: "#F8F8F8",
+						}}
+					>
+						<div className="w-100 tedkvn-center rounded">
+							<ImageFrame
+								frameClassName="polygon"
+								customFrameStyle={true}
+								src={asset.images[`${constVar.IMAGE_ADD_FRAME}`]}
+								fluid
+							/>
+						</div>
+
+						<Card.Body className="">
+							<Card.Title>Add Company Profile</Card.Title>
+						</Card.Body>
+					</Card>
+				</Button>
+			</Col>
 		</Row>
 	);
 

@@ -184,22 +184,16 @@ export const patchProfileInfo = (type = "", user = {}, company = {}) => {
 
 	switch (type) {
 		case constVar.PROFILE_USER_TYPE_PROP:
-			{
-				profile[`${constVar.ID_PROP}`] = user.id;
-				profile[`${constVar.PROFILE_URL_PROP}`] = user.profileUrl;
-				profile[`${constVar.PROFILE_NAME_PROP}`] = user.username;
-				profile[`${constVar.PROFILE_USER_TYPE_PROP}`] = { ...user };
-			}
+			profile[`${constVar.ID_PROP}`] = user.id;
+			profile[`${constVar.PROFILE_URL_PROP}`] = user.profileUrl;
+			profile[`${constVar.PROFILE_NAME_PROP}`] = user.username;
+			profile[`${constVar.PROFILE_USER_TYPE_PROP}`] = { ...user };
 			break;
 		case constVar.PROFILE_COMPANY_TYPE_PROP:
-			{
-				{
-					profile[`${constVar.ID_PROP}`] = company.id;
-					profile[`${constVar.PROFILE_URL_PROP}`] = company.logoUrl;
-					profile[`${constVar.PROFILE_NAME_PROP}`] = company.name;
-					profile[`${constVar.PROFILE_COMPANY_TYPE_PROP}`] = { ...company };
-				}
-			}
+			profile[`${constVar.ID_PROP}`] = company.id;
+			profile[`${constVar.PROFILE_URL_PROP}`] = company.logoUrl;
+			profile[`${constVar.PROFILE_NAME_PROP}`] = company.name;
+			profile[`${constVar.PROFILE_COMPANY_TYPE_PROP}`] = { ...company };
 			break;
 		default:
 			break;
