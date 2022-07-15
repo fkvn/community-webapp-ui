@@ -22,6 +22,13 @@ function SwitchProfileContainer() {
 		(state) => state.thainowReducer[`${constVar.THAINOW_PROFILE_OBJ}`] || {}
 	);
 
+	const showOffCanvas = useSelector(
+		(state) =>
+			state.thainowReducer[`${constVar.THAINOW_OFF_CANVAS_OBJ}`]?.[
+				`${constVar.SHOW_OFF_CANVAS}`
+			] || false
+	);
+
 	const onCloseHandler = () => {
 		navigate(continueURL);
 	};
@@ -29,9 +36,11 @@ function SwitchProfileContainer() {
 	useEffect(() => {
 		if (users.length === 0) navigate(continueURL);
 
-		dispatchPromise.patchOffCanvasInfo({
-			[`${constVar.SHOW_OFF_CANVAS}`]: true,
-		});
+		if (!showOffCanvas) {
+			dispatchPromise.patchOffCanvasInfo({
+				[`${constVar.SHOW_OFF_CANVAS}`]: true,
+			});
+		}
 	});
 
 	const title = (
@@ -66,7 +75,9 @@ function SwitchProfileContainer() {
 	const companies = profile[`${constVar.COMPANY_LIST}`];
 
 	// + 2 = 1 for current account, 1 for add new account
-	const totalCard = companies + 2;
+	const totalProfiles = [profile, ...companies];
+
+	const totalCard = totalProfiles.length + 1;
 
 	const profileGrid = (
 		<Row xs={2} md={totalCard} className="g-4 text-center">
@@ -86,7 +97,9 @@ function SwitchProfileContainer() {
 								className="w-100 tedkvn-center py-2 rounded"
 								style={{
 									background:
-										"linear-gradient(142.18deg, #a73ee7 12.72%, #00ebff 89.12%)",
+										idx !== totalCard - 1
+											? "linear-gradient(142.18deg, #a73ee7 12.72%, #00ebff 89.12%)"
+											: "#F8F8F8",
 								}}
 							>
 								<ImageFrame
@@ -104,11 +117,7 @@ function SwitchProfileContainer() {
 							</div>
 
 							<Card.Body className="mt-4 pt-0">
-								<Card.Title>
-									{/* {
-								idx === 0 ? :	
-								} */}
-								</Card.Title>
+								<Card.Title></Card.Title>
 								<Card.Text>
 									This is a longer card with supporting text below as a natural
 									lead-in to additional content. This content is a little bit

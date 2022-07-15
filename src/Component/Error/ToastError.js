@@ -11,11 +11,12 @@ function ToastError({ error }) {
 
 	const app = error && (
 		<ToastContainer
-			className="tedkvn-error-toast-container p-3 border-0"
+			id="tedkvn-error-toast-container"
+			className=" border-0 w-50"
 			position="middle-center"
 		>
 			<Toast
-				className="border-0"
+				className="border-0 w-100"
 				onClose={() => setShow(false)}
 				show={show}
 				delay={3000}
@@ -26,9 +27,10 @@ function ToastError({ error }) {
 						variant="danger"
 						onClose={() => setShow(false)}
 						show={show}
+						className="p-4"
 						dismissible
 					>
-						{error[`${constVar.ERROR_MESSAGE}`]}
+						<Alert.Heading> {error[`${constVar.ERROR_MESSAGE}`]}</Alert.Heading>
 					</Alert>
 				</Toast.Body>
 			</Toast>

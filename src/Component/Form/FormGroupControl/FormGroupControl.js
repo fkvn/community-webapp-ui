@@ -18,6 +18,7 @@ function FormGroupControl({
 	validationProp = {},
 	displayWaningMessage = true,
 	warningMessage = "",
+	note = "",
 	// gaps
 	labelGap = 2,
 	messageGap = 1,
@@ -53,6 +54,12 @@ function FormGroupControl({
 					{displayWaningMessage && warningMessage.length > 0 && (
 						<Form.Text className="text-muted">
 							<span className="text-danger">{warningMessage}</span>
+						</Form.Text>
+					)}
+
+					{note.length > 0 && (
+						<Form.Text className="text-muted">
+							<span className="text-danger">{note}</span>
 						</Form.Text>
 					)}
 				</Stack>

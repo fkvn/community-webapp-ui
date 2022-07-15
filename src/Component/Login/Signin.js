@@ -11,8 +11,8 @@ function Signin({
 	const id = "userSignin";
 
 	const FormBody = {
-		FormComponent: UserSigninFormBody,
 		id: id,
+		FormComponent: UserSigninFormBody,
 		signinMethod: signinMethod,
 		onSelectSigninMethod: onSelectSigninMethod,
 	};

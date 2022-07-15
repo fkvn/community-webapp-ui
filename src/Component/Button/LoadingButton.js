@@ -21,8 +21,6 @@ function LoadingButton({
 	imgFluid = true,
 	onClick = () => {},
 }) {
-	console.log("button call");
-
 	const app = (
 		<Button
 			{...(id && { id: "btn-" + id })}

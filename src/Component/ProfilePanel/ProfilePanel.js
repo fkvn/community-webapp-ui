@@ -5,59 +5,9 @@ import * as constVar from "../../Util/ConstVar";
 import LoadingButton from "../Button/LoadingButton";
 import ImageFrame from "../ImageFrame/ImageFrame";
 
-function ProfilePanel(props) {
-	const { user = {}, company = {}, showOffCanvas = () => {}, ...type } = props;
-
+function ProfilePanel({ ...profile }) {
 	const navigate = useNavigate();
 	const location = useLocation();
-
-	const getProfileInfo = (type = "") => {
-		//  return order: ["type", "profileUrl", "uploadPhotoHandler", "username"]
-
-		switch (type) {
-			case constVar.PROFILE_USER_TYPE_PROP:
-				return [
-					type,
-					user.profileUrl,
-					() => {},
-					user[`${constVar.USERNAME_PROP}`],
-					() => {},
-				];
-			case constVar.PROFILE_COMPANY_TYPE_PROP:
-				return [
-					type,
-					company.logoUrl,
-					() => {},
-					company[`${constVar.COMPANY_NAME_PROP}`],
-					() => {},
-				];
-			default:
-				return [
-					constVar.PROFILE_GUEST_TYPE_PROP,
-					asset.images[`${constVar.IMAGE_GUEST_PROFILE}`],
-					() => {},
-					"Welcome",
-					() => {
-						navigate("/signin", {
-							state: {
-								continue: location.pathname + location.search,
-							},
-						});
-					},
-				];
-		}
-	};
-
-	let profile = {};
-	[
-		profile[`${constVar.PROFILE_TYPE_PROP}`],
-		profile[`${constVar.PROFILE_URL_PROP}`],
-		profile[`${constVar.UPLOAD_PHOTO_HANDLER}`],
-		profile[`${constVar.USERNAME_PROP}`],
-		profile[`${constVar.VISIT_MY_PROFILE_HANDLER}`],
-	] = getProfileInfo(type[`${constVar.PROFILE_TYPE_PROP}`]);
-
-	console.log(profile);
 
 	const UploadPhotoButton = ({ uploadPhotoOnClickHandler = () => {} }) => (
 		<LoadingButton
@@ -135,6 +85,8 @@ function ProfilePanel(props) {
 			)}
 		</Stack>
 	);
+
+	console.log(profile);
 
 	const ProfileName = ({ name = "" }) => (
 		<div className="text-center fs-4">Hi, {name}</div>

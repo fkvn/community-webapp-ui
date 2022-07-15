@@ -1,5 +1,6 @@
 export const THAINOW_USER_OBJ = "thainow.user";
 export const THAINOW_PROFILE_OBJ = "thainow.profile";
+export const THAINOW_RECENT_SIGN_IN_OBJ = "thainow.recentSignin";
 export const THAINOW_USER_SIGN_UP_OBJ = "thainow.user.signup.info";
 export const THAINOW_COMPANY_SIGN_UP_OBJ = "thainow.company.signup.info";
 export const THAINOW_SEARCH_OBJ = "thainow.search.info";
@@ -33,6 +34,8 @@ export const PROFILE_TYPE_PROP = "profileType";
 export const PROFILE_GUEST_TYPE_PROP = "guestProfile";
 export const PROFILE_USER_TYPE_PROP = "userProfile";
 export const PROFILE_COMPANY_TYPE_PROP = "companyProfile";
+export const PROFILE_URL_PROP = "profileUrl";
+export const PROFILE_NAME_PROP = "name";
 
 export const UPLOAD_PHOTO_HANDLER = "uploadPhotoHandler";
 export const VISIT_MY_PROFILE_HANDLER = "visitMyProfileHandler";
@@ -59,7 +62,6 @@ export const OTP_VALIDATION = "isValidOtp";
 export const PRIVILEGES_PROP = "privileges";
 export const POSITION_PROP = "administratorRole";
 export const ROLE_PROP = "role";
-export const PROFILE_URL_PROP = "profileUrl";
 export const PENDING_STATUS_PROP = "pending";
 
 export const COMPANY_INDUSTRY_LIST = [

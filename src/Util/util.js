@@ -1,3 +1,5 @@
+import * as constVar from "./ConstVar";
+
 export const loadScript = (url, async = true, defer = false) => {
 	var index = window.document.getElementsByTagName("script")[0];
 
@@ -172,4 +174,36 @@ export const saveToSessionStore = (objName = "", prop = "", value = "") => {
 			[`${prop}`]: value,
 		})
 	);
+};
+
+export const patchProfileInfo = (type = "", user = {}, company = {}) => {
+	let profile = {};
+
+	profile[`${constVar.PROFILE_TYPE_PROP}`] =
+		type || constVar.PROFILE_GUEST_TYPE_PROP;
+
+	switch (type) {
+		case constVar.PROFILE_USER_TYPE_PROP:
+			{
+				profile[`${constVar.ID_PROP}`] = user.id;
+				profile[`${constVar.PROFILE_URL_PROP}`] = user.profileUrl;
+				profile[`${constVar.PROFILE_NAME_PROP}`] = user.username;
+				profile[`${constVar.PROFILE_USER_TYPE_PROP}`] = { ...user };
+			}
+			break;
+		case constVar.PROFILE_COMPANY_TYPE_PROP:
+			{
+				{
+					profile[`${constVar.ID_PROP}`] = company.id;
+					profile[`${constVar.PROFILE_URL_PROP}`] = company.logoUrl;
+					profile[`${constVar.PROFILE_NAME_PROP}`] = company.name;
+					profile[`${constVar.PROFILE_COMPANY_TYPE_PROP}`] = { ...company };
+				}
+			}
+			break;
+		default:
+			break;
+	}
+
+	return profile;
 };

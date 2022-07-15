@@ -1,34 +1,13 @@
-import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
-import * as axiosPromise from "../../Axios/axiosPromise";
-import ClassicSignupSuccess from "../../Component/Signup/ClassicSignupSuccess";
+import UserSignupSuccess from "../../Component/Signup/UserSignupSuccess";
+import * as dispatchPromise from "../../redux-store/dispatchPromise";
+import * as constVar from "../../Util/ConstVar";
 
 function SignupSuccessContainer() {
-	const location = useLocation();
-	let [searchParams] = useSearchParams();
-	const navigate = useNavigate();
-
-	const {
-		channel = "",
-		email = "",
-		phone = "",
-		password = "",
-		username = "",
-	} = location.state || {};
-
-	console.log(location);
-
-	const continueURL = searchParams.get("continue") || "/";
-
-	const loginHanlder = () => {
-		axiosPromise
-			.getPromise(axiosPromise.loginPromise(channel, email, phone, password))
-			.then(() => {
-				navigate(continueURL, { replace: true });
-			});
-	};
+	const signinInfo =
+		dispatchPromise.getState()[`${constVar.THAINOW_USER_SIGN_IN_OBJ}`];
 
 	const app = (
-		<ClassicSignupSuccess loginHanlder={loginHanlder} username={username} />
+		<UserSignupSuccess username={signinInfo[`${constVar.USERNAME_PROP}`]} />
 	);
 	return app;
 }

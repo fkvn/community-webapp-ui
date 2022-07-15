@@ -1,28 +1,35 @@
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useEffect } from "react";
+import { useSelector } from "react-redux";
+import { useLocation, useNavigate } from "react-router-dom";
 import * as axiosPromise from "../../Axios/axiosPromise";
 import UserSignup from "../../Component/Signup/UserSignup";
 import * as dispatchPromise from "../../redux-store/dispatchPromise";
 import * as constVar from "../../Util/ConstVar";
+import OffCanvasContainer from "../OffCanvasContainer";
 
 function UserSignupContainer() {
 	const navigate = useNavigate();
+	const location = useLocation();
 
-	let [searchParams] = useSearchParams();
+	const continueURL = location.state?.continue || "/";
 
-	const continueURL = searchParams.get("continue") || "/";
+	const showOffCanvas = useSelector(
+		(state) =>
+			state.thainowReducer[`${constVar.THAINOW_OFF_CANVAS_OBJ}`]?.[
+				`${constVar.SHOW_OFF_CANVAS}`
+			] || false
+	);
 
-	const continueParams =
-		continueURL.length > 0 ? "?continue=" + continueURL : "";
+	useEffect(() => {
+		if (!showOffCanvas) {
+			dispatchPromise.patchOffCanvasInfo({
+				[`${constVar.SHOW_OFF_CANVAS}`]: true,
+			});
+		}
+	});
 
 	const submitErrorHandler = (message = "") =>
 		dispatchPromise.submitErrorHandler(message);
-
-	const onBackHandlerPromiseHandler = (onBackHandler = () => {}) => {
-		return new Promise((resolve, _) => {
-			onBackHandler();
-			resolve();
-		});
-	};
 
 	const onCloseHandler = () => {
 		dispatchPromise.patchSignupUserInfo({}, true);
@@ -70,7 +77,7 @@ function UserSignupContainer() {
 			[`${constVar.PASSWORD_PROP}`]: password = "",
 			[`${constVar.ROLE_PROP}`]: role = "CLASSIC",
 			[`${constVar.PRIVILEGES_PROP}`]: privileges = [],
-			[`${constVar.ADDRESS_PROP}`]: { description = "", placeid = "" } = {},
+			// [`${constVar.ADDRESS_PROP}`]: { description = "", placeid = "" } = {},
 			[`${constVar.VERIFICATION_METHOD_PROP}`]: channel = "",
 		} = signupInfo;
 
@@ -82,29 +89,34 @@ function UserSignupContainer() {
 			privileges: privileges,
 			verified: verified,
 			role: role,
-			address: description,
-			placeid: placeid,
+			// address: description,
+			// placeid: placeid,
 		};
 
 		return axiosPromise
 			.getPromise(axiosPromise.signupPromise(signupSubmitInfo))
 			.then(() => {
+				// clear sign up info
 				dispatchPromise.patchSignupUserInfo({}, true);
 				sessionStorage.removeItem(constVar.THAINOW_USER_SIGN_UP_OBJ);
 
-				navigate("/signup/success" + continueParams, {
+				// save sign in info
+				dispatchPromise.patchSigninUserInfo(
+					{
+						[`${constVar.SIGNIN_METHOD_PROP}`]: channel,
+						[`${constVar.EMAIL_PROP}`]: email,
+						[`${constVar.PHONE_PROP}`]: phone,
+						[`${constVar.PASSWORD_PROP}`]: password,
+						[`${constVar.USERNAME_PROP}`]: username,
+					},
+					true
+				);
+
+				navigate("/signup/success", {
 					state: {
-						channel: channel,
-						email: email,
-						phone: phone,
-						password: password,
-						username: username,
+						continue: continueURL,
 					},
 				});
-				return new Promise((resolve, _) => resolve());
-			})
-			.catch(() => {
-				return new Promise((_, reject) => reject());
 			});
 	};
 
@@ -116,12 +128,12 @@ function UserSignupContainer() {
 		const {
 			[`${constVar.USERNAME_PROP}`]: username = "",
 			[`${constVar.PASSWORD_VALIDATION}`]: isValidPassword = false,
-			[`${constVar.ADDRESS_PROP}`]: { description = "", placeid = "" } = {},
+			// [`${constVar.ADDRESS_PROP}`]: { description = "", placeid = "" } = {},
 		} = signupInfo;
 
 		if (!isValidPassword) return submitErrorHandler("Invalid Password");
-		else if (description.length === 0 || placeid.length === 0)
-			return submitErrorHandler("Invalid Location");
+		// else if (description.length === 0 || placeid.length === 0)
+		// 	return submitErrorHandler("Invalid Location");
 		else {
 			return validateUsernameHandler(username);
 		}
@@ -161,11 +173,12 @@ function UserSignupContainer() {
 
 		if (!isValidValue || channel === "" || value === "") {
 			return submitErrorHandler(message);
-		} else {
-			return validatePromise(value).then(() =>
-				sendOtpCodeHandler(channel, value)
-			);
 		}
+		// else {
+		// 	return validatePromise(value).then(() =>
+		// 		sendOtpCodeHandler(channel, value)
+		// 	);
+		// }
 	};
 
 	const onSubmitStep_4_HandlerPromise = async () => {
@@ -197,9 +210,10 @@ function UserSignupContainer() {
 				"Sorry, the request failed. Please try again later."
 			);
 		} else {
-			return verifyOtpCodeHandler(channel, value, token).then(() =>
-				signupHandler(true)
-			);
+			signupHandler(true);
+			// return verifyOtpCodeHandler(channel, value, token).then(() =>
+			// 	signupHandler(true)
+			// );
 		}
 	};
 
@@ -225,12 +239,14 @@ function UserSignupContainer() {
 	];
 
 	const app = (
-		<UserSignup
-			stepHandlers={stepHandlers}
-			onClose={onCloseHandler}
-			onBackHandlerPromise={onBackHandlerPromiseHandler}
-			onSelectVerifyMethod={onSelectVerifyMethodHandler}
-		/>
+		<OffCanvasContainer onClose={onCloseHandler}>
+			<UserSignup
+				stepHandlers={stepHandlers}
+				// onClose={onCloseHandler}
+				// onBackHandlerPromise={onBackHandlerPromiseHandler}
+				onSelectVerifyMethod={onSelectVerifyMethodHandler}
+			/>
+		</OffCanvasContainer>
 	);
 	return app;
 }

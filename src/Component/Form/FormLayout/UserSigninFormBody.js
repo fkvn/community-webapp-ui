@@ -23,7 +23,7 @@ function UserSigninFormBody({
 	const navigate = useNavigate();
 	const location = useLocation();
 
-	const continueURL = location?.state?.continue || "/";
+	console.log(location);
 
 	const title = (
 		<div className="w-100 text-center">
@@ -47,7 +47,7 @@ function UserSigninFormBody({
 				onClick={() =>
 					navigate("/signup", {
 						state: {
-							continue: location.pathname + location.search,
+							continue: location.state?.continue || "",
 						},
 					})
 				}

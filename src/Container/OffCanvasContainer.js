@@ -2,6 +2,7 @@ import { Offcanvas } from "react-bootstrap";
 import { useSelector } from "react-redux";
 import * as asset from "../Assest/Asset";
 import ImageFrame from "../Component/ImageFrame/ImageFrame";
+import ErrorContainer from "../Container/ErrorContainer";
 import * as dispatchPromise from "../redux-store/dispatchPromise";
 import * as constVar from "../Util/ConstVar";
 
@@ -44,6 +45,7 @@ function OffCanvasContainer({
 				</Offcanvas.Title>
 			</Offcanvas.Header>
 			<Offcanvas.Body>{children}</Offcanvas.Body>
+			<ErrorContainer />
 		</Offcanvas>
 	);
 

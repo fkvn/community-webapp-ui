@@ -3,14 +3,14 @@ import * as actionTypes from "./actionType";
 
 // patch user sign in info
 export const dispatchPatchStoreRootObjInfo = (
+	type,
 	objName,
 	{ ...newInfo },
 	replace = false
 ) => {
 	return {
-		type: actionTypes.DISPATCH_PATCH_STORE_ROOT_OBJ_INFO,
+		type: type,
 		[`${constVar.THAINOW_REDUX_STORE_ROOT_OBJ}`]: objName,
-
 		[`${constVar.THAINOW_REDUX_STORE_ROOT_OBJ_PROPS}`]: { ...newInfo },
 		replace: replace,
 	};

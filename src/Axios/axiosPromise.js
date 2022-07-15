@@ -55,11 +55,6 @@ export const loginPromise = async (
 	phone = "",
 	password = ""
 ) => {
-	console.log(channel);
-	console.log(email);
-	console.log(phone);
-	console.log(password);
-
 	return axios.post(`/auth/signin`, {
 		channel: channel,
 		email: email,

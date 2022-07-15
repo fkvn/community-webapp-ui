@@ -1,6 +1,5 @@
-import { Button, Stack } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
-import UserAddressFormControlContainer from "../../../Container/FormContainer/FormControlContainer/UserFormControlContainer/UserAddressFormControlContainer";
+import { Stack } from "react-bootstrap";
+import { useLocation, useNavigate } from "react-router-dom";
 import UserEmailFormControlContainer from "../../../Container/FormContainer/FormControlContainer/UserFormControlContainer/UserEmailFormControlContainer";
 import UserPasswordFormControlContainer from "../../../Container/FormContainer/FormControlContainer/UserFormControlContainer/UserPasswordFormControlContainer";
 import UserPhoneFormControlContainer from "../../../Container/FormContainer/FormControlContainer/UserFormControlContainer/UserPhoneFormControlContainer";
@@ -9,11 +8,15 @@ import SelectVerifyMethodContainer from "../../../Container/FormContainer/FormGr
 import SendVerifyCodeContainer from "../../../Container/FormContainer/FormGroupContainer/AuthFormGroupContainer/VerifyMethodContainer/SendVerifyCodeContainer";
 import VerifyCodeContainer from "../../../Container/FormContainer/FormGroupContainer/AuthFormGroupContainer/VerifyMethodContainer/VerifyCodeContainer";
 import * as constVar from "../../../Util/ConstVar";
+import LoadingButton from "../../Button/LoadingButton";
 import AgreementFormControl from "../FormControl/AgreementFormControl";
-import AddressFromGroupControl from "../FormGroupControl/AddressFormGroupControl";
 import FormGroupControl from "../FormGroupControl/FormGroupControl";
 import PasswordFromGroupControl from "../FormGroupControl/PasswordFormGroupControl";
 import SubmitButtonFormGroupControl from "../FormGroupControl/SubmitButtonFormGroupControl";
+
+// import AddressFromGroupControl from "../FormGroupControl/AddressFormGroupControl";
+
+// import UserAddressFormControlContainer from "../../../Container/FormContainer/FormControlContainer/UserFormControlContainer/UserAddressFormControlContainer";
 
 function UserSignupFormBody({
 	id = "",
@@ -24,6 +27,9 @@ function UserSignupFormBody({
 	onSelectVerifyMethod = () => {},
 }) {
 	const navigate = useNavigate();
+	const location = useLocation();
+
+	console.log(location);
 
 	const titleStep1 = (
 		<div className="w-100 text-center">
@@ -38,24 +44,20 @@ function UserSignupFormBody({
 	const loginPrompt = (
 		<div className="text-center">
 			Already have an account?
-			<Button
-				size="md"
+			<LoadingButton
+				id="signinbutton"
 				className="mb-1 rounded-pill d-inline-block shadow-none"
 				variant="link"
+				size="md"
+				title="Sign In"
 				onClick={() =>
-					navigate(
-						`/login${continueURL.length > 0 ? "?continue=" + continueURL : ""}`
-					)
+					navigate("/signin", {
+						state: {
+							continue: location.state?.continue || "",
+						},
+					})
 				}
-			>
-				Log In
-			</Button>
-		</div>
-	);
-
-	const subTitleStep1 = (
-		<div className="w-100 text-center">
-			Thanks for joining ThaiNow community, please provide your information
+			/>
 		</div>
 	);
 
@@ -66,19 +68,20 @@ function UserSignupFormBody({
 			withLabel={true}
 			label="What should we call you?"
 			RenderFormControl={UserUsernameFormControlContainer}
+			note="When you post, share or review content with others, your preferred name will show up with it."
 		/>
 	);
 
-	const addressFormGroupControl = (
-		<AddressFromGroupControl
-			{...(id && { id: id + "-address" })}
-			required={true}
-			withLabel={true}
-			label="Where are you from?"
-			placeholder="at street, city, or zipcode?"
-			RenderFormControl={UserAddressFormControlContainer}
-		/>
-	);
+	// const addressFormGroupControl = (
+	// 	<AddressFromGroupControl
+	// 		{...(id && { id: id + "-address" })}
+	// 		required={true}
+	// 		withLabel={true}
+	// 		label="Where are you from?"
+	// 		placeholder="at street, city, or zipcode?"
+	// 		RenderFormControl={UserAddressFormControlContainer}
+	// 	/>
+	// );
 
 	const passwordFromGroupControl = (
 		<PasswordFromGroupControl
@@ -97,7 +100,7 @@ function UserSignupFormBody({
 			className="col-7 col-xl-5 mx-auto m-4"
 		>
 			{usernameFormGroupControl}
-			{addressFormGroupControl}
+			{/* {addressFormGroupControl} */}
 			{passwordFromGroupControl}
 			<AgreementFormControl />
 			<div className="text-center pt-3">
@@ -115,7 +118,7 @@ function UserSignupFormBody({
 			{" "}
 			{titleStep1}
 			{loginPrompt}
-			{subTitleStep1}
+			{/* {subTitleStep1} */}
 			{formControlsStep1}
 		</>
 	);

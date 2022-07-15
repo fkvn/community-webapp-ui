@@ -24,7 +24,7 @@ import * as constVar from "../../Util/ConstVar";
 import * as actionTypes from "../actionCreator/actionType";
 
 const initialState = {
-	[`${constVar.THAINOW_USER_OBJ}`]: [],
+	[`${constVar.THAINOW_USER_OBJ}`]: {},
 	[`${constVar.THAINOW_PROFILE_OBJ}`]: {},
 	[`${constVar.THAINOW_USER_SIGN_UP_OBJ}`]: {},
 	[`${constVar.THAINOW_USER_SIGN_IN_OBJ}`]: {
@@ -89,6 +89,11 @@ const reducer = (state = initialState, action) => {
 	switch (action.type) {
 		// patch redux store root obj
 		case actionTypes.DISPATCH_PATCH_STORE_ROOT_OBJ_INFO:
+		case actionTypes.DISPATCH_PATCH_PROFILE_INFO:
+		case actionTypes.DISPATCH_PATCH_SIGNIN_USER_INFO:
+		case actionTypes.DISPATCH_PATCH_SIGNUP_USER_INFO:
+		case actionTypes.DISPATCH_PATCH_SIGNUP_COMPANY_INFO:
+		case actionTypes.DISPATCH_PATCH_OFF_CANVAS_INFO:
 			return dispatchPatchStoreRootObjInfo(state, action);
 
 		// Error
