@@ -12,18 +12,18 @@ function CompanyWebsiteFormControlContainer({
 	required = false,
 	disabled = false,
 	onUrlValidation = () => {},
-	storageObjName = "",
+	storageObjName = constVar.THAINOW_COMPANY_SIGN_UP_OBJ,
 }) {
 	const website = useSelector(
 		(state) =>
-			state.thainowReducer[`${storageObjName}`][
+			state.thainowReducer[`${storageObjName}`]?.[
 				`${constVar.COMPANY_WEBSITE_PROP}`
 			] || ""
 	);
 
 	const getSessionWebsite = () => {
 		return (
-			util.getSessionStorageObj(storageObjName)[
+			util.getSessionStorageObj(storageObjName)?.[
 				`${constVar.COMPANY_WEBSITE_PROP}`
 			] || ""
 		);
@@ -74,7 +74,7 @@ function CompanyWebsiteFormControlContainer({
 		const isValidUrl = onUrlValidation(website);
 
 		const isValidStoreWebsite =
-			dispatchPromise.getState()[`${storageObjName}`][
+			dispatchPromise.getState()[`${storageObjName}`]?.[
 				`${constVar.COMPANY_WEBSITE_VALIDATION}`
 			] || isValidUrl;
 

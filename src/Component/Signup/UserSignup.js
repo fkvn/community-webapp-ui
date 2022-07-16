@@ -1,11 +1,7 @@
 import FormContainer from "../../Container/FormContainer/FormContainer";
 import UserSignupFormBody from "../Form/FormLayout/UserSignupFormBody";
 
-function UserSignup({
-	stepHandlers = [],
-	onClose = () => {},
-	onSelectVerifyMethod = () => {},
-}) {
+function UserSignup({ stepHandlers = [], onSelectVerifyMethod = () => {} }) {
 	const id = "userSignup";
 
 	const FormBody = {
@@ -18,7 +14,6 @@ function UserSignup({
 		id: id,
 		body: FormBody,
 		stepHandlers: stepHandlers,
-		onClose: onClose,
 	});
 
 	return app;

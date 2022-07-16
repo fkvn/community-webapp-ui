@@ -10,7 +10,7 @@ function CompanyIndustryFormControlContainer({
 	placeholder = "Busines industry",
 	required = false,
 	disabled = false,
-	storageObjName = "",
+	storageObjName = constVar.THAINOW_COMPANY_SIGN_UP_OBJ,
 }) {
 	const [industry, showIndustryList] = useSelector((state) => [
 		state.thainowReducer[`${storageObjName}`]?.[

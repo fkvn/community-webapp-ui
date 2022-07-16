@@ -11,7 +11,7 @@ function CompanyNameFormControlContainer({
 	placeholder = "Business Name",
 	required = false,
 	disabled = false,
-	storageObjName = "",
+	storageObjName = constVar.THAINOW_COMPANY_SIGN_UP_OBJ,
 }) {
 	const [name, showCompanyList] = useSelector((state) => [
 		state.thainowReducer[`${storageObjName}`]?.[
@@ -64,18 +64,31 @@ function CompanyNameFormControlContainer({
 	};
 
 	const onMergeStorageHandler = (value = "", onSelect = false) => {
-		const { description, ...props } = onSelect
+		const { description, location, ...props } = onSelect
 			? { ...value }
-			: { name: value } || "";
+			: { name: value || "" };
+
+		console.log(props);
+		console.log(location);
 
 		// update store
 		updateReduxStore({
 			...props,
+			[`${constVar.COMPANY_ADDRESS_PROP}`]: {
+				description: location?.description || "",
+				placeid: location?.placeid || "",
+			},
 			showCompanyList: onSelect || name === "" ? false : true,
 		});
 
 		// save progress
-		updateSession({ ...props });
+		updateSession({
+			...props,
+			[`${constVar.COMPANY_ADDRESS_PROP}`]: {
+				description: location?.description || "",
+				placeid: location?.placeid || "",
+			},
+		});
 	};
 
 	const onUpdatePredictionHanlder = (value = "", onSelect = false) => {

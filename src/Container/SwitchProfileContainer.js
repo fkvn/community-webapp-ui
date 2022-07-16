@@ -16,7 +16,7 @@ function SwitchProfileContainer() {
 
 	const continueURL = location?.state?.continue || "/";
 
-	const users = localStorage.getItem(constVar.THAINOW_USER_OBJ) || [];
+	console.log(location);
 
 	const user = useSelector(
 		(state) => state.thainowReducer[`${constVar.THAINOW_USER_OBJ}`] || {}
@@ -113,11 +113,11 @@ function SwitchProfileContainer() {
 		...(user.user?.id !== profile?.id
 			? [
 					{
-						[`${constVar.ID_PROP}`]: user.user.id,
+						[`${constVar.ID_PROP}`]: user.user?.id,
 						[`${constVar.PROFILE_TYPE_PROP}`]: constVar.PROFILE_USER_TYPE_PROP,
-						[`${constVar.PROFILE_URL_PROP}`]: user.user.profileUrl,
+						[`${constVar.PROFILE_URL_PROP}`]: user.user?.profileUrl,
 
-						[`${constVar.PROFILE_NAME_PROP}`]: user.user.username,
+						[`${constVar.PROFILE_NAME_PROP}`]: user.user?.username,
 						[`${constVar.PROFILE_USER_TYPE_PROP}`]: { ...user.user },
 					},
 			  ]
@@ -161,14 +161,27 @@ function SwitchProfileContainer() {
 								<Card.Title>
 									{profile[`${constVar.PROFILE_NAME_PROP}`]}
 								</Card.Title>
-								<Card.Text>{idx === 0 ? "(current signed-in)" : ""}</Card.Text>
+								<Card.Text>
+									{idx === 0 ? "(current signed-profile)" : ""}
+								</Card.Text>
 							</Card.Body>
 						</Card>
 					</Button>
 				</Col>
 			))}
 			<Col>
-				<Button variant="white" className="p-0 m-0 " onClick={() => {}}>
+				<Button
+					variant="white"
+					className="p-0 m-0 "
+					onClick={() =>
+						navigate("/signup/business", {
+							state: {
+								returnUrl: "/switch-profile",
+								continue: continueURL,
+							},
+						})
+					}
+				>
 					<Card
 						className="py-3"
 						style={{
@@ -185,7 +198,7 @@ function SwitchProfileContainer() {
 						</div>
 
 						<Card.Body className="">
-							<Card.Title>Add Company Profile</Card.Title>
+							<Card.Title>New Business Profile</Card.Title>
 						</Card.Body>
 					</Card>
 				</Button>

@@ -9,7 +9,7 @@ function CompanyInformalCheckFormControlContainer({
 	className = "",
 	required = false,
 	disabled = false,
-	storageObjName = "",
+	storageObjName = constVar.THAINOW_COMPANY_SIGN_UP_OBJ,
 }) {
 	const informalStore = useSelector(
 		(state) =>
@@ -63,8 +63,8 @@ function CompanyInformalCheckFormControlContainer({
 		<FormControlControlled
 			{...(id && { id: id })}
 			type="checkbox"
-			label="Self-Employed, Online Store, Host (Housing), Freelancer or Entrepreneur"
-			className={className}
+			label="My business doesn't have a physical location."
+			className={`${className}`}
 			required={required}
 			disabled={disabled}
 			onClick={onClickHanlder}

@@ -49,6 +49,24 @@ export const signupPromise = (
 	});
 };
 
+export const businessRegisterPromise = (
+	businessRegisterInfo = {
+		name: "",
+		informal: false,
+		industry: "",
+		address: "",
+		placeid: "",
+		email: "",
+		phone: "",
+		website: "",
+		administratorId: "",
+	}
+) => {
+	return axios.post(`/companies`, {
+		...businessRegisterInfo,
+	});
+};
+
 export const loginPromise = async (
 	channel = "",
 	email = "",

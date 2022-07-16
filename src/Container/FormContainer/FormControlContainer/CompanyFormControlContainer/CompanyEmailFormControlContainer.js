@@ -12,11 +12,11 @@ function CompanyEmailFormControlContainer({
 	required = false,
 	disabled = false,
 	onEmailValidation = () => {},
-	storageObjName = "",
+	storageObjName = constVar.THAINOW_COMPANY_SIGN_UP_OBJ,
 }) {
 	const email = useSelector(
 		(state) =>
-			state.thainowReducer[`${storageObjName}`][
+			state.thainowReducer[`${storageObjName}`]?.[
 				`${constVar.COMPANY_EMAIL_PROP}`
 			] || ""
 	);

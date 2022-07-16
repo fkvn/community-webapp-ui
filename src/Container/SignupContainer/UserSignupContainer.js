@@ -242,8 +242,6 @@ function UserSignupContainer() {
 		<OffCanvasContainer onClose={onCloseHandler}>
 			<UserSignup
 				stepHandlers={stepHandlers}
-				// onClose={onCloseHandler}
-				// onBackHandlerPromise={onBackHandlerPromiseHandler}
 				onSelectVerifyMethod={onSelectVerifyMethodHandler}
 			/>
 		</OffCanvasContainer>

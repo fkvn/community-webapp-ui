@@ -9,6 +9,7 @@ function FormGroupControl({
 	labelClassName = "",
 	placeholder = "",
 	formGroupClassName = "",
+	inputGroupClassName = "",
 	required = false,
 	disabled = false,
 	withIcon = false,
@@ -20,7 +21,7 @@ function FormGroupControl({
 	warningMessage = "",
 	note = "",
 	// gaps
-	labelGap = 2,
+	labelGap = 0,
 	messageGap = 1,
 }) {
 	const app = (
@@ -40,7 +41,9 @@ function FormGroupControl({
 					</Form.Label>
 				)}
 				<Stack gap={messageGap}>
-					<InputGroup className="tedkvn-formGroupControl-inpurGroup">
+					<InputGroup
+						className={`tedkvn-formGroupControl-inpurGroup ${inputGroupClassName}`}
+					>
 						{withIcon && <ImageFrame src={iconSrc} {...(id && { id: id })} />}
 						<RenderFormControl
 							{...renderProps}

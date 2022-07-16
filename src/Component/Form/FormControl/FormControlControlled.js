@@ -64,7 +64,10 @@ function FormControlControlled(props) {
 					inline={inline}
 					required={required}
 					disabled={disabled}
-					className="text-primary"
+					className={`${
+						!customClassName && " tedkvn-formControl "
+					}${className}`}
+					// className="text-primary"
 					onChange={onClick}
 					{...(type === "checkbox" && { checked: value })}
 					{...(type === "radio" && { value: value, checked: checked })}

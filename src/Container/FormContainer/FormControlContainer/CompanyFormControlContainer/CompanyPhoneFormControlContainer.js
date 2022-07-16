@@ -12,7 +12,7 @@ function CompanyPhoneFormControlContainer({
 	required = false,
 	disabled = false,
 	onPhoneValidation = () => {},
-	storageObjName = "",
+	storageObjName = constVar.THAINOW_COMPANY_SIGN_UP_OBJ,
 }) {
 	const formattedPhone = useSelector(
 		(state) =>

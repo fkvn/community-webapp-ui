@@ -109,6 +109,12 @@ body {
 	/* max-height: 3rem !important; */
 	/* max-width: 17.5rem !important; */
 }
+
+/* .tedkvn-formGroupControl-inpurGroup.checkbox {
+	margin-top: 0.5rem;
+	height: 2.5rem !important;
+} */
+
 label {
 	color: #666666;
 }

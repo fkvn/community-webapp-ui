@@ -22,7 +22,6 @@ function UserSignupFormBody({
 	id = "",
 	step = -1,
 	onSubmitLoading = false,
-	continueURL = "",
 	onBack = () => {},
 	onSelectVerifyMethod = () => {},
 }) {
