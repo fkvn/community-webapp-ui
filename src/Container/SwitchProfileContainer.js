@@ -60,9 +60,11 @@ function SwitchProfileContainer() {
 		}
 
 		if (JSON.stringify(user) !== "{}") {
-			axiosPromise
-				.getUserCompanies(user?.id || -1)
-				.then((res) => setCompanies(res.data || []));
+			console.log(user);
+			axiosPromise.getUserCompanies(user?.id || -1).then((res) => {
+				console.log(res);
+				setCompanies(res.data || []);
+			});
 		}
 	}, [profile, user]);
 
@@ -147,8 +149,6 @@ function SwitchProfileContainer() {
 		...companyProfiles,
 	];
 
-	console.log(totalProfiles);
-
 	// + 1 = 1 for add new account
 	const totalCard = totalProfiles.length + 1;
 
@@ -171,11 +171,11 @@ function SwitchProfileContainer() {
 	};
 
 	const profileGrid = (
-		<Row xs={1} md={totalCard > 3 ? 3 : totalCard} className="g-4 text-center">
+		<Row xs={1} md={totalCard > 3 ? 3 : totalCard} className="g-4  text-center">
 			{totalProfiles.map((profile, idx) => (
-				<Col key={idx}>
+				<Col key={idx} className="h-100">
 					<Button
-						className="p-0 m-0  border-opacity-25"
+						className="p-0 m-0 w-100   border-opacity-25"
 						disabled={
 							(idx > 0 && profile[`${constVar.DISABLED_PROP}`]) || false
 						}
@@ -206,8 +206,8 @@ function SwitchProfileContainer() {
 								/>
 							</div>
 
-							<Card.Body className="pt-2">
-								<Card.Title>
+							<Card.Body className="pt-2 ">
+								<Card.Title className="">
 									{profile[`${constVar.PROFILE_NAME_PROP}`]}
 								</Card.Title>
 								<Card.Text>
@@ -225,7 +225,7 @@ function SwitchProfileContainer() {
 			<Col>
 				<Button
 					variant="white"
-					className="p-0 m-0 "
+					className="p-0 m-0 bg-dark"
 					onClick={() =>
 						navigate("/signup/business", {
 							state: {
@@ -236,10 +236,10 @@ function SwitchProfileContainer() {
 					}
 				>
 					<Card
-						className="py-3"
-						style={{
-							background: "#F8F8F8",
-						}}
+						className="py-3 bg-light"
+						// style={{
+						// 	background: "#F8F8F8",
+						// }}
 					>
 						<div className="w-100 tedkvn-center rounded">
 							<ImageFrame

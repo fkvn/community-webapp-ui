@@ -14,9 +14,9 @@ function BusinessSignupContainer() {
 
 	const continueURL = location.state?.continue || "/";
 
-	console.log(location);
-
 	const returnURL = location.state?.returnUrl || "";
+
+	console.log(location);
 
 	const showOffCanvas = useSelector(
 		(state) =>
@@ -95,7 +95,7 @@ function BusinessSignupContainer() {
 			};
 
 			return axiosPromise
-				.getPromise(axiosPromise.businessRegisterPromise(businessRegisterInfo))
+				.businessRegisterPromise(businessRegisterInfo)
 				.then((res) => {
 					console.log(res);
 
@@ -103,24 +103,24 @@ function BusinessSignupContainer() {
 					dispatchPromise.patchSignupCompanyInfo({}, true);
 					sessionStorage.removeItem(constVar.THAINOW_COMPANY_SIGN_UP_OBJ);
 
-					// update company info
-					const currentUser = JSON.parse(
-						localStorage.getItem(constVar.THAINOW_USER_OBJ) || {}
-					);
+					// // update company info
+					// const currentUser = JSON.parse(
+					// 	localStorage.getItem(constVar.THAINOW_USER_OBJ) || {}
+					// );
 
-					const updatedUserWithCompany = {
-						...currentUser,
-						companies: [...currentUser?.companies, res],
-					};
+					// const updatedUserWithCompany = {
+					// 	...currentUser,
+					// 	companies: [...currentUser?.companies, res],
+					// };
 
-					// save to local storage
-					localStorage.setItem(
-						constVar.THAINOW_USER_OBJ,
-						JSON.stringify(updatedUserWithCompany)
-					);
+					// // save to local storage
+					// localStorage.setItem(
+					// 	constVar.THAINOW_USER_OBJ,
+					// 	JSON.stringify(updatedUserWithCompany)
+					// );
 
 					// update redux-store
-					dispatchPromise.patchUserInfo({ ...updatedUserWithCompany }, true);
+					// dispatchPromise.patchUserInfo({ ...updatedUserWithCompany }, true);
 
 					// navigate
 					navigate(returnURL.length > 0 ? returnURL : continueURL, {

@@ -49,7 +49,7 @@ export const signupPromise = (
 	});
 };
 
-export const businessRegisterPromise = (
+export const businessRegisterPromise = async (
 	businessRegisterInfo = {
 		name: "",
 		informal: false,
@@ -73,19 +73,21 @@ export const loginPromise = async (
 	phone = "",
 	password = ""
 ) => {
-	return axios.post(`/auth/signin`, {
-		channel: channel,
-		email: email,
-		phone: phone,
-		password: password,
-	});
+	return axios
+		.post(`/auth/signin`, {
+			channel: channel,
+			email: email,
+			phone: phone,
+			password: password,
+		})
+		.then((res) => res && res.data);
 };
 
 // User API
 
 export const validateUsernamePromise = (username = "") => {
 	return axios.post(
-		`/users/validateUsername`,
+		`/auth/users/validateUsername`,
 		{},
 		{
 			params: { username: username },
@@ -94,13 +96,13 @@ export const validateUsernamePromise = (username = "") => {
 };
 
 export const validateEmailPromise = (email = "") => {
-	return axios.post(`/users/validateEmail`, {
+	return axios.post(`/auth/users/validateEmail`, {
 		email: email,
 	});
 };
 
 export const validatePhonePromise = (phone = "") => {
-	return axios.post(`/users/validatePhone`, {
+	return axios.post(`/auth/users/validatePhone`, {
 		phone: phone,
 	});
 };
@@ -122,13 +124,13 @@ export const searchCompanyPromise = (
 };
 
 export const validateCompanyEmailPromise = (email = "") => {
-	return axios.post(`/companies/validateEmail`, {
+	return axios.post(`/auth/companies/validateEmail`, {
 		email: email,
 	});
 };
 
 export const validateCompanyPhonePromise = (phone = "") => {
-	return axios.post(`/companies/validatePhone`, {
+	return axios.post(`/auth/companies/validatePhone`, {
 		phone: phone,
 	});
 };

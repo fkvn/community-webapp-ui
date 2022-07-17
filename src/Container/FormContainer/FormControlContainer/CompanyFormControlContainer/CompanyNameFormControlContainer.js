@@ -68,16 +68,15 @@ function CompanyNameFormControlContainer({
 			? { ...value }
 			: { name: value || "" };
 
-		console.log(props);
-		console.log(location);
-
 		// update store
 		updateReduxStore({
 			...props,
-			[`${constVar.COMPANY_ADDRESS_PROP}`]: {
-				description: location?.description || "",
-				placeid: location?.placeid || "",
-			},
+			...(onSelect && {
+				[`${constVar.COMPANY_ADDRESS_PROP}`]: {
+					description: location?.description || "",
+					placeid: location?.placeid || "",
+				},
+			}),
 			showCompanyList: onSelect || name === "" ? false : true,
 		});
 
@@ -107,7 +106,7 @@ function CompanyNameFormControlContainer({
 							showIndustryList: false,
 							showAddressList: false,
 							description:
-								prediction.status === "APPROVED" ? (
+								prediction.status === "REGISTERED" ? (
 									<div>
 										<div className="float-start">{prediction.name} </div>
 										<div className="float-end mx-2"> (REGISTERED)</div>
@@ -115,7 +114,7 @@ function CompanyNameFormControlContainer({
 								) : (
 									<div className="float-start">{prediction.name}</div>
 								),
-							disabled: prediction.status === "APPROVED",
+							disabled: prediction.status === "REGISTERED",
 						};
 					})
 				);

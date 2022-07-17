@@ -27,20 +27,12 @@ function ProfilePanelContainer() {
 			patchProfileInfo({ ...storageProfile }, true);
 		} else {
 			const profileType = profile?.[`${constVar.PROFILE_TYPE_PROP}`] || "";
-			console.log(profile?.[`${constVar.PROFILE_TYPE_PROP}`]);
-			console.log(
-				profile?.[`${constVar.PROFILE_TYPE_PROP}`] ===
-					(constVar.PROFILE_USER_TYPE_PROP ||
-						constVar.PROFILE_COMPANY_TYPE_PROP)
-			);
 			setIsSignedIn(
 				profileType === constVar.PROFILE_USER_TYPE_PROP ||
 					profileType === constVar.PROFILE_COMPANY_TYPE_PROP
 			);
 		}
 	});
-
-	console.log(isSignedIn);
 
 	const app = (
 		<>

@@ -1,5 +1,5 @@
 import { forwardRef, useEffect, useState } from "react";
-import { Button, FormControl, ListGroup, Toast } from "react-bootstrap";
+import { FormControl, ListGroup, Toast } from "react-bootstrap";
 
 function DropDownFormControl(props, _) {
 	const {
@@ -60,27 +60,31 @@ function DropDownFormControl(props, _) {
 				role="presentation"
 			/>
 
-			{showDropdownItems && dropdownItems.length > 0 && (
+			{dropdownItems.length > 0 && (
 				<Toast
 					className="tedkvn-predictionDropDown position-positive w-100 "
 					{...(id && { id: "dropdown-" + id })}
+					delay={3000}
+					show={showDropdownItems}
 				>
 					<Toast.Body className="border-0">
-						<ListGroup as="ul"></ListGroup>
+						<ListGroup></ListGroup>
 						{dropdownItems.map((item, idx) => (
 							<ListGroup.Item
-								as="li"
+								action
 								key={idx}
-								onClick={() => onSelectItemHandler(item)}
 								disabled={item.disabled}
+								onClick={() => onSelectItemHandler(item)}
 							>
-								<Button
+								{item?.description || ""}
+								{/* <Button
 									variant="link"
 									className="text-dark text-decoration-none p-0"
 									disabled={item.disabled}
+									
 								>
 									{item?.description || ""}
-								</Button>
+								</Button> */}
 							</ListGroup.Item>
 						))}
 					</Toast.Body>

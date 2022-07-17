@@ -38,9 +38,9 @@ const errorHandler = (error) => {
 			)
 		);
 
-		setInterval(() => {
-			window.location.replace("/signin");
-		}, 2000);
+		// setInterval(() => {
+		// 	window.location.replace("/signin");
+		// }, 2000);
 	} else {
 		const message = error.response.data.message || "Bad Request";
 		const status = error.response.data.status || "Bad Request";

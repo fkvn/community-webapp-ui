@@ -21,7 +21,7 @@ function CompanyAddressFormControlContainer({
 
 	const getSessionAddress = () => {
 		return (
-			util.getSessionStorageObj(storageObjName)[
+			util.getSessionStorageObj(storageObjName)?.[
 				`${constVar.COMPANY_ADDRESS_PROP}`
 			] || {}
 		);
@@ -76,14 +76,14 @@ function CompanyAddressFormControlContainer({
 		// get information from the first time load
 		const defaultAddress = getSessionAddress();
 
-		// // // update store
+		// update store
 		if (
-			address.description !== defaultAddress.description ||
-			address.placeid !== defaultAddress.placeid
+			JSON.stringify(address) === "{}" &&
+			JSON.stringify(defaultAddress) !== "{}"
 		) {
 			updateReduxStoreAddress(
-				defaultAddress.description,
-				defaultAddress.placeid
+				defaultAddress?.description || "",
+				defaultAddress?.placeid || ""
 			);
 		}
 		// double-check in case placeid is missing

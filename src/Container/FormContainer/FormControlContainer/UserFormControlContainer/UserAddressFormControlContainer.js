@@ -13,8 +13,10 @@ function UserAddressFormControlContainer({
 	onAddressValidation = () => {},
 }) {
 	const [address, showAddressList] = useSelector((state) => [
-		state.thainowReducer[`${storageObjName}`]?.[`${constVar.ADDRESS_PROP}`] ||
-			{},
+		state.thainowReducer[`${storageObjName}`]?.[`${constVar.ADDRESS_PROP}`] || {
+			description: "",
+			placeid: "",
+		},
 		state.thainowReducer[`${storageObjName}`]?.showAddressList || false,
 	]);
 

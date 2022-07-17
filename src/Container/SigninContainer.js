@@ -18,8 +18,8 @@ function SigninContainer() {
 
 	const loginDirect = location.state?.loginDirect || false;
 
-	const profile = useSelector(
-		(state) => state.thainowReducer[`${constVar.THAINOW_PROFILE_OBJ}`] || {}
+	const user = useSelector(
+		(state) => state.thainowReducer[`${constVar.THAINOW_USER_OBJ}`] || {}
 	);
 
 	const showOffCanvas = useSelector(
@@ -70,8 +70,10 @@ function SigninContainer() {
 			[`${constVar.PASSWORD_PROP}`]: password = "",
 		} = signinInfo;
 
+		console.log(location);
+
 		return axiosPromise
-			.getPromise(axiosPromise.loginPromise(channel, email, phone, password))
+			.loginPromise(channel, email, phone, password)
 			.then((userInfo) => {
 				// remove signin info in session
 				sessionStorage.removeItem(constVar.THAINOW_USER_SIGN_IN_OBJ);
@@ -93,7 +95,7 @@ function SigninContainer() {
 					constVar.THAINOW_RECENT_SIGN_IN_OBJ,
 					JSON.stringify({
 						...recentSignin,
-						[`${userInfo.user.id}`]: { ...userInfo },
+						[`${userInfo?.user?.id}`]: { ...userInfo },
 					})
 				);
 
@@ -119,7 +121,12 @@ function SigninContainer() {
 	};
 
 	useEffect(() => {
-		if (JSON.stringify(profile) !== "{}") navigate(continueURL);
+		const [storageUser] = [
+			JSON.parse(localStorage.getItem(constVar.THAINOW_USER_OBJ || {})) || {},
+		];
+
+		if (JSON.stringify(storageUser) !== "{}" && JSON.stringify(user) === "{}")
+			navigate(continueURL);
 
 		if (!showOffCanvas) {
 			dispatchPromise.patchOffCanvasInfo({
