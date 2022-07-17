@@ -1,8 +1,9 @@
-import { useEffect } from "react";
-import { Button, Card, Col, Row, Stack } from "react-bootstrap";
+import { useEffect, useState } from "react";
+import { Button, Card, Col, Row, Spinner, Stack } from "react-bootstrap";
 import { useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 import * as asset from "../Assest/Asset";
+import * as axiosPromise from "../Axios/axiosPromise";
 import LoadingButton from "../Component/Button/LoadingButton";
 import ImageFrame from "../Component/ImageFrame/ImageFrame";
 import * as dispatchPromise from "../redux-store/dispatchPromise";
@@ -16,11 +17,11 @@ function SwitchProfileContainer() {
 
 	const continueURL = location?.state?.continue || "/";
 
-	console.log(location);
-
 	const user = useSelector(
 		(state) => state.thainowReducer[`${constVar.THAINOW_USER_OBJ}`] || {}
 	);
+
+	const [companies, setCompanies] = useState([]);
 
 	const profile = useSelector(
 		(state) => state.thainowReducer[`${constVar.THAINOW_PROFILE_OBJ}`] || {}
@@ -33,28 +34,6 @@ function SwitchProfileContainer() {
 			] || false
 	);
 
-	const onCloseHandler = () => {
-		navigate(continueURL);
-	};
-
-	useEffect(() => {
-		const [storageUser, storageProfile] = [
-			JSON.parse(localStorage.getItem(constVar.THAINOW_USER_OBJ || {})),
-			JSON.parse(localStorage.getItem(constVar.THAINOW_PROFILE_OBJ || {})),
-		];
-
-		if (JSON.stringify(storageUser) !== "{}" && JSON.stringify(user) === "{}") {
-			dispatchPromise.patchUserInfo({ ...storageUser }, true);
-		}
-
-		if (
-			JSON.stringify(storageProfile) !== "{}" &&
-			JSON.stringify(profile) === "{}"
-		) {
-			dispatchPromise.patchProfileInfo({ ...storageProfile }, true);
-		}
-	}, [profile, user]);
-
 	useEffect(() => {
 		if (!showOffCanvas) {
 			dispatchPromise.patchOffCanvasInfo({
@@ -62,6 +41,34 @@ function SwitchProfileContainer() {
 			});
 		}
 	}, [showOffCanvas]);
+
+	useEffect(() => {
+		const [storageUser, storageProfile] = [
+			JSON.parse(localStorage.getItem(constVar.THAINOW_USER_OBJ || {}))?.user ||
+				{},
+			JSON.parse(localStorage.getItem(constVar.THAINOW_PROFILE_OBJ || {})),
+		];
+
+		if (JSON.stringify(storageUser) !== "{}" && JSON.stringify(user) === "{}") {
+			dispatchPromise.patchUserInfo({ ...storageUser }, true);
+		}
+		if (
+			JSON.stringify(storageProfile) !== "{}" &&
+			JSON.stringify(profile) === "{}"
+		) {
+			dispatchPromise.patchProfileInfo({ ...storageProfile }, true);
+		}
+
+		if (JSON.stringify(user) !== "{}") {
+			axiosPromise
+				.getUserCompanies(user?.id || -1)
+				.then((res) => setCompanies(res.data || []));
+		}
+	}, [profile, user]);
+
+	const onCloseHandler = () => {
+		navigate(continueURL);
+	};
 
 	const title = (
 		<div className="w-100 text-center">
@@ -79,7 +86,7 @@ function SwitchProfileContainer() {
 
 	const subTitle = (
 		<div className="w-100 text-center text-muted">
-			You will post, comment, and react as your current signed-profile below
+			You will post, comment, and react as your current signed-profile
 		</div>
 	);
 
@@ -92,61 +99,103 @@ function SwitchProfileContainer() {
 	);
 
 	// company list - except the one that is current profile
-	const companyProfiles = (user?.companies || []).reduce(
-		(res, company) => [
-			...res,
-			company.id !== profile.id && {
-				[`${constVar.ID_PROP}`]: company.id,
-				[`${constVar.PROFILE_TYPE_PROP}`]: constVar.PROFILE_COMPANY_TYPE_PROP,
-				[`${constVar.PROFILE_URL_PROP}`]: company.logoUrl,
-				[`${constVar.PROFILE_NAME_PROP}`]: company.name,
-				[`${constVar.DISABLED_PROP}`]:
-					company?.status === constVar.PENDING_STATUS_PROP || false,
-				[`${constVar.PROFILE_COMPANY_TYPE_PROP}`]: { ...company },
-			},
-		],
+	const companyProfiles = companies.reduce(
+		(res, company) =>
+			company.id !== profile.id
+				? [
+						...res,
+						{
+							[`${constVar.ID_PROP}`]: company.id,
+							[`${constVar.PROFILE_TYPE_PROP}`]:
+								constVar.PROFILE_COMPANY_TYPE_PROP,
+							[`${constVar.PROFILE_URL_PROP}`]: company.logoUrl,
+							[`${constVar.PROFILE_NAME_PROP}`]: company.name,
+							[`${constVar.DISABLED_PROP}`]:
+								company?.status === constVar.PENDING_STATUS_PROP || false,
+
+							...(company?.status === constVar.PENDING_STATUS_PROP && {
+								[`${constVar.COMPANY_STATUS_PROP}`]: company.status,
+							}),
+							[`${constVar.PROFILE_COMPANY_TYPE_PROP}`]: { ...company },
+						},
+				  ]
+				: res,
 		[]
+	);
+
+	const sortedCompanyProfiles = [...companyProfiles].sort(
+		(a, b) =>
+			b[`${constVar.COMPANY_STATUS_PROP}`] -
+			a[`${constVar.COMPANY_STATUS_PROP}`]
 	);
 
 	const totalProfiles = [
 		profile,
-		...(user.user?.id !== profile?.id
+		...(user?.id !== profile?.id
 			? [
 					{
-						[`${constVar.ID_PROP}`]: user.user?.id,
+						[`${constVar.ID_PROP}`]: user?.id,
 						[`${constVar.PROFILE_TYPE_PROP}`]: constVar.PROFILE_USER_TYPE_PROP,
-						[`${constVar.PROFILE_URL_PROP}`]: user.user?.profileUrl,
-
-						[`${constVar.PROFILE_NAME_PROP}`]: user.user?.username,
-						[`${constVar.PROFILE_USER_TYPE_PROP}`]: { ...user.user },
+						[`${constVar.PROFILE_URL_PROP}`]: user?.profileUrl,
+						[`${constVar.DISABLED_PROP}`]: false,
+						[`${constVar.PROFILE_NAME_PROP}`]: user?.username,
+						// [`${constVar.COMPANY_STATUS_PROP}`]: "ACTIVATED",
+						[`${constVar.PROFILE_USER_TYPE_PROP}`]: { ...user },
 					},
 			  ]
 			: []),
 		...companyProfiles,
 	];
 
+	console.log(totalProfiles);
+
 	// + 1 = 1 for add new account
 	const totalCard = totalProfiles.length + 1;
 
+	const onSwitchProfileHanlder = (profile = {}) => {
+		if (JSON.stringify(profile) !== "{}") {
+			// save to storage
+			localStorage.setItem(
+				constVar.THAINOW_PROFILE_OBJ,
+				JSON.stringify(profile)
+			);
+
+			dispatchPromise.patchProfileInfo({ ...profile }, true);
+
+			navigate(continueURL);
+		} else {
+			dispatchPromise.submitErrorHandler(
+				"Switch Profile Failed. Please try again later or contact administrator!"
+			);
+		}
+	};
+
 	const profileGrid = (
-		<Row xs={2} md={totalCard} className="g-4 text-center">
+		<Row xs={1} md={totalCard > 3 ? 3 : totalCard} className="g-4 text-center">
 			{totalProfiles.map((profile, idx) => (
 				<Col key={idx}>
 					<Button
-						className="p-0 m-0 border-0 "
+						className="p-0 m-0  border-opacity-25"
 						disabled={
-							(idx > 1 && profile[`${constVar.DISABLED_PROP}`]) || false
+							(idx > 0 && profile[`${constVar.DISABLED_PROP}`]) || false
 						}
-						onClick={() => {}}
+						onClick={() => onSwitchProfileHanlder(profile)}
 					>
 						<Card
-							className={`${idx === 0 && "text-white"} border-0 py-3 px-4`}
+							className={`${
+								idx === 0 ? "text-white" : "text-dark"
+							} border-0 py-3 px-4`}
 							style={{
 								background:
 									idx === 0
 										? "linear-gradient(142.18deg, #a73ee7 12.72%, #00ebff 89.12%)"
-										: "white",
+										: "aliceblue",
 							}}
+							// style={{
+							// 	background:
+							// 		idx === 0 &&
+							// 		"linear-gradient(142.18deg, #a73ee7 12.72%, #00ebff 89.12%)",
+							// }}
 						>
 							<div className="w-100 tedkvn-center py-2 rounded ">
 								<ImageFrame
@@ -162,7 +211,11 @@ function SwitchProfileContainer() {
 									{profile[`${constVar.PROFILE_NAME_PROP}`]}
 								</Card.Title>
 								<Card.Text>
-									{idx === 0 ? "(current signed-profile)" : ""}
+									{idx === 0
+										? "(current signed-profile)"
+										: profile[`${constVar.COMPANY_STATUS_PROP}`]
+										? `(${profile[`${constVar.COMPANY_STATUS_PROP}`]})`
+										: ""}
 								</Card.Text>
 							</Card.Body>
 						</Card>
@@ -213,6 +266,20 @@ function SwitchProfileContainer() {
 				className={`mt-5 col-12 col-md-${totalCard < 4 ? "6" : "8"} mx-auto`}
 			>
 				{titleSection}
+				{JSON.stringify(user) === "{}" && (
+					<div className="tedkvn-center position-relative">
+						<div>
+							<Spinner animation="border" role="status" />
+						</div>
+						<div className="mx-4">
+							Loading...
+							<span className="text-danger">
+								{" "}
+								Please come back later if it is taking too long!
+							</span>
+						</div>
+					</div>
+				)}
 				{profileGrid}
 			</Stack>
 		</OffCanvasContainer>

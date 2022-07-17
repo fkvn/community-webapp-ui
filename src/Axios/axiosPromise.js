@@ -105,6 +105,10 @@ export const validatePhonePromise = (phone = "") => {
 	});
 };
 
+export const getUserCompanies = async (userId = 0) => {
+	return axios.get(`/users/${userId}/companies`);
+};
+
 // Company API
 
 export const searchCompanyPromise = (

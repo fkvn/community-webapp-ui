@@ -8,7 +8,7 @@ function ErrorContainer() {
 		(state) => state.thainowReducer[`${constVar.ERROR}`]
 	);
 
-	const app = <ToastError error={error} />;
+	const app = JSON.stringify(error) !== "{}" && <ToastError error={error} />;
 
 	return app;
 }

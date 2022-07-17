@@ -120,7 +120,23 @@ function ProfilePanel({
 					</Stack>
 
 					<Stack direction="horizontal" gap={5} className="mx-auto">
-						<MyProfileButton />
+						{!isSignedIn ? (
+							<LoadingButton
+								// variant="info"
+								size="sm"
+								title="Sign In"
+								className="shadow-none "
+								onClick={() =>
+									navigate("/signin", {
+										state: {
+											continue: location.pathname + location.search,
+										},
+									})
+								}
+							/>
+						) : (
+							<MyProfileButton />
+						)}
 
 						<div className="ms-auto">
 							{isSignedIn ? (

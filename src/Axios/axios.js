@@ -3,8 +3,6 @@ import * as actionCreators from "../redux-store/actionCreator/actionCreator";
 import store from "../redux-store/store";
 import * as constVar from "../Util/ConstVar";
 
-const thaiNowObj = window.sessionStorage.getItem(constVar.THAINOW_USER_OBJ);
-
 const instance = axios.create({
 	// baseURL: "http://ecst-csproj2.calstatela.edu:6328/api/"
 	baseURL: "http://localhost:8080/api",
@@ -30,13 +28,19 @@ const errorHandler = (error) => {
 		);
 	} else if (error.response.status === 401) {
 		// unauthorized
-		localStorage.removeItem("thainow.user");
+		localStorage.removeItem(constVar.THAINOW_USER_OBJ);
+		localStorage.removeItem(constVar.THAINOW_PROFILE_OBJ);
 		store.dispatch(
 			actionCreators.initError(
-				error.response.data.message,
+				// error.response.data.message,
+				"Your credentials are incorrect or have expired  .... Please sign in again!",
 				error.response.data.status
 			)
 		);
+
+		setInterval(() => {
+			window.location.replace("/signin");
+		}, 2000);
 	} else {
 		const message = error.response.data.message || "Bad Request";
 		const status = error.response.data.status || "Bad Request";
@@ -45,12 +49,18 @@ const errorHandler = (error) => {
 	}
 };
 
-if (thaiNowObj) {
-	instance.defaults.headers.common["Authorization"] =
-		"Bearer " + JSON.parse(thaiNowObj)["access_token"];
-} else {
-	instance.defaults.headers.common["Authorization"] = null;
-}
+instance.interceptors.request.use(
+	(config) => {
+		const thaiNowObj = localStorage.getItem(constVar.THAINOW_USER_OBJ);
+		if (thaiNowObj) {
+			config.headers.Authorization = `Bearer ${
+				JSON.parse(thaiNowObj)["access_token"]
+			}`;
+		}
+		return config;
+	},
+	(error) => Promise.reject(error)
+);
 
 instance.interceptors.response.use(
 	(response) => responseHandler(response),
