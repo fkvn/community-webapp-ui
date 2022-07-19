@@ -173,12 +173,11 @@ function UserSignupContainer() {
 
 		if (!isValidValue || channel === "" || value === "") {
 			return submitErrorHandler(message);
+		} else {
+			return validatePromise(value).then(() =>
+				sendOtpCodeHandler(channel, value)
+			);
 		}
-		// else {
-		// 	return validatePromise(value).then(() =>
-		// 		sendOtpCodeHandler(channel, value)
-		// 	);
-		// }
 	};
 
 	const onSubmitStep_4_HandlerPromise = async () => {
@@ -210,10 +209,10 @@ function UserSignupContainer() {
 				"Sorry, the request failed. Please try again later."
 			);
 		} else {
-			signupHandler(true);
-			// return verifyOtpCodeHandler(channel, value, token).then(() =>
-			// 	signupHandler(true)
-			// );
+			// signupHandler(true);
+			return verifyOtpCodeHandler(channel, value, token).then(() =>
+				signupHandler(true)
+			);
 		}
 	};
 
