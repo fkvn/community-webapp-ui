@@ -16,8 +16,6 @@ function BusinessSignupContainer() {
 
 	const returnURL = location.state?.returnUrl || "";
 
-	console.log(location);
-
 	const showOffCanvas = useSelector(
 		(state) =>
 			state.thainowReducer[`${constVar.THAINOW_OFF_CANVAS_OBJ}`]?.[

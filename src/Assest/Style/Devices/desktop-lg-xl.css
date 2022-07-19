@@ -1,10 +1,10 @@
 /* Laptop L - 1440 */
-@media only screen and (mix-width: 1024px) {
+@media only screen and (max-width: 1440px) {
 	#signup-otp-verify-formControl {
 		min-width: 25rem !important;
 	}
 
 	#topbar {
-		height: 8rem;
+		height: 5rem;
 	}
 }

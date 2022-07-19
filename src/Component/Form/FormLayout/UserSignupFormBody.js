@@ -28,8 +28,6 @@ function UserSignupFormBody({
 	const navigate = useNavigate();
 	const location = useLocation();
 
-	console.log(location);
-
 	const titleStep1 = (
 		<div className="w-100 text-center">
 			<div className="fs-3">

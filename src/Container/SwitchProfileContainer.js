@@ -8,6 +8,7 @@ import LoadingButton from "../Component/Button/LoadingButton";
 import ImageFrame from "../Component/ImageFrame/ImageFrame";
 import * as dispatchPromise from "../redux-store/dispatchPromise";
 import * as constVar from "../Util/ConstVar";
+import { patchProfileInfo } from "../Util/Util";
 import OffCanvasContainer from "./OffCanvasContainer";
 
 function SwitchProfileContainer() {
@@ -60,9 +61,7 @@ function SwitchProfileContainer() {
 		}
 
 		if (JSON.stringify(user) !== "{}") {
-			console.log(user);
 			axiosPromise.getUserCompanies(user?.id || -1).then((res) => {
-				console.log(res);
 				setCompanies(res.data || []);
 			});
 		}
@@ -107,18 +106,16 @@ function SwitchProfileContainer() {
 				? [
 						...res,
 						{
-							[`${constVar.ID_PROP}`]: company.id,
-							[`${constVar.PROFILE_TYPE_PROP}`]:
-								constVar.PROFILE_COMPANY_TYPE_PROP,
-							[`${constVar.PROFILE_URL_PROP}`]: company.logoUrl,
-							[`${constVar.PROFILE_NAME_PROP}`]: company.name,
+							...patchProfileInfo({
+								type: constVar.PROFILE_COMPANY_TYPE_PROP,
+								company: company,
+							}),
 							[`${constVar.DISABLED_PROP}`]:
 								company?.status === constVar.PENDING_STATUS_PROP || false,
 
 							...(company?.status === constVar.PENDING_STATUS_PROP && {
 								[`${constVar.COMPANY_STATUS_PROP}`]: company.status,
 							}),
-							[`${constVar.PROFILE_COMPANY_TYPE_PROP}`]: { ...company },
 						},
 				  ]
 				: res,
@@ -136,17 +133,15 @@ function SwitchProfileContainer() {
 		...(user?.id !== profile?.id
 			? [
 					{
-						[`${constVar.ID_PROP}`]: user?.id,
-						[`${constVar.PROFILE_TYPE_PROP}`]: constVar.PROFILE_USER_TYPE_PROP,
-						[`${constVar.PROFILE_URL_PROP}`]: user?.profileUrl,
+						...patchProfileInfo({
+							type: constVar.PROFILE_USER_TYPE_PROP,
+							user: user,
+						}),
 						[`${constVar.DISABLED_PROP}`]: false,
-						[`${constVar.PROFILE_NAME_PROP}`]: user?.username,
-						// [`${constVar.COMPANY_STATUS_PROP}`]: "ACTIVATED",
-						[`${constVar.PROFILE_USER_TYPE_PROP}`]: { ...user },
 					},
 			  ]
 			: []),
-		...companyProfiles,
+		...sortedCompanyProfiles,
 	];
 
 	// + 1 = 1 for add new account

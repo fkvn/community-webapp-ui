@@ -70,11 +70,11 @@ function SigninContainer() {
 			[`${constVar.PASSWORD_PROP}`]: password = "",
 		} = signinInfo;
 
-		console.log(location);
-
 		return axiosPromise
 			.loginPromise(channel, email, phone, password)
 			.then((userInfo) => {
+				console.log(userInfo);
+
 				// remove signin info in session
 				sessionStorage.removeItem(constVar.THAINOW_USER_SIGN_IN_OBJ);
 
@@ -109,10 +109,10 @@ function SigninContainer() {
 				localStorage.setItem(
 					constVar.THAINOW_PROFILE_OBJ,
 					JSON.stringify(
-						util.patchProfileInfo(
-							constVar.PROFILE_USER_TYPE_PROP,
-							userInfo.user
-						)
+						util.patchProfileInfo({
+							type: constVar.PROFILE_USER_TYPE_PROP,
+							user: userInfo.user,
+						})
 					)
 				);
 

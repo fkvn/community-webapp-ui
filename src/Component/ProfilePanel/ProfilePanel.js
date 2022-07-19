@@ -1,6 +1,7 @@
 import { Stack } from "react-bootstrap";
 import { useLocation, useNavigate } from "react-router-dom";
 import * as asset from "../../Assest/Asset";
+import UploadAvatarContainer from "../../Container/UploadAvatarContainer";
 import * as constVar from "../../Util/ConstVar";
 import LoadingButton from "../Button/LoadingButton";
 import ImageFrame from "../ImageFrame/ImageFrame";
@@ -10,18 +11,16 @@ function ProfilePanel({
 	id = "profile-panel",
 	name = "",
 	profileUrl = asset.images[`${constVar.IMAGE_GUEST_PROFILE}`],
-	uploadPhotoOnClickHandler = () => {},
+	uploadPhotoOnClick = () => {},
 	myProfileOnClickHander = () => {},
 }) {
 	const navigate = useNavigate();
 	const location = useLocation();
 
 	const UploadPhotoButton = () => (
-		<LoadingButton
-			title="Upload Photo"
-			variant="link"
-			size="sm"
-			onClick={uploadPhotoOnClickHandler}
+		<UploadAvatarContainer
+			className="text-center w-100"
+			uploadPhotoOnClick={uploadPhotoOnClick}
 		/>
 	);
 
@@ -87,11 +86,7 @@ function ProfilePanel({
 				src={profileUrl}
 				fluid
 			/>
-			{isSignedIn && (
-				<UploadPhotoButton
-					uploadPhotoOnClickHandler={uploadPhotoOnClickHandler}
-				/>
-			)}
+			{isSignedIn && <UploadPhotoButton />}
 		</Stack>
 	);
 
@@ -170,6 +165,7 @@ function ProfilePanel({
 
 	const app = (
 		<>
+			{/* {isUploadPhoto && <UploadAvatarContainer />} */}
 			<Stack id={id} className="mx-auto w-100" gap={2}>
 				<TopBar />
 				<Body />

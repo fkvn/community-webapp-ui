@@ -1,4 +1,8 @@
 import axios from "../Axios/axios";
+import {
+	PROFILE_COMPANY_TYPE_PROP,
+	PROFILE_USER_TYPE_PROP,
+} from "../Util/ConstVar";
 
 export const getPromise = async (promise = () => {}) => {
 	return promise.then((res) => {
@@ -80,10 +84,33 @@ export const loginPromise = async (
 			phone: phone,
 			password: password,
 		})
-		.then((res) => res && res.data);
+		.then((res) => (res ? res.data : Promise.reject()));
 };
 
 // User API
+
+export const uploadProfileAvatar = async (
+	type = "",
+	id = -1,
+	formData = new FormData()
+) => {
+	const host =
+		type === PROFILE_USER_TYPE_PROP
+			? `/users/${id}/profile`
+			: type === PROFILE_COMPANY_TYPE_PROP
+			? `/companies/${id}/logo`
+			: "";
+
+	if (id > 0 && host.length > 0) {
+		return axios.post(host, formData, {
+			headers: {
+				"Content-Type": "multipart/form-data",
+			},
+		});
+	}
+
+	return Promise.reject("Invalid Credentials!");
+};
 
 export const validateUsernamePromise = (username = "") => {
 	return axios.post(

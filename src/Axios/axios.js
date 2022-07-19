@@ -27,20 +27,27 @@ const errorHandler = (error) => {
 			)
 		);
 	} else if (error.response.status === 401) {
+		console.log("error");
+
 		// unauthorized
 		localStorage.removeItem(constVar.THAINOW_USER_OBJ);
 		localStorage.removeItem(constVar.THAINOW_PROFILE_OBJ);
-		store.dispatch(
-			actionCreators.initError(
-				// error.response.data.message,
-				"Your credentials are incorrect or have expired  .... Please sign in again!",
-				error.response.data.status
-			)
-		);
 
-		// setInterval(() => {
-		// 	window.location.replace("/signin");
-		// }, 2000);
+		const returnError = error.response.data.error;
+		let message = error.response.data.message;
+
+		if (returnError === "Unauthorized") {
+			message =
+				"Your credentials are incorrect or have expired  .... Please sign in again!";
+
+			setInterval(() => {
+				window.location.replace("/signin");
+			}, 4000);
+		}
+
+		store.dispatch(
+			actionCreators.initError(message, error.response.data.status)
+		);
 	} else {
 		const message = error.response.data.message || "Bad Request";
 		const status = error.response.data.status || "Bad Request";

@@ -23,8 +23,6 @@ function UserSigninFormBody({
 	const navigate = useNavigate();
 	const location = useLocation();
 
-	console.log(location);
-
 	const title = (
 		<div className="w-100 text-center">
 			<div className="fs-3">
