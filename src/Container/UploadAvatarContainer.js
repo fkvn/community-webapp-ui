@@ -13,6 +13,8 @@ function UploadAvatarContainer({
 }) {
 	const [loading, setLoading] = useState(false);
 
+	console.log("uploading");
+
 	const [isValidPhoto, setIsValidPhoto] = useState(false);
 
 	const uploadButton = (
@@ -32,6 +34,8 @@ function UploadAvatarContainer({
 	// };
 
 	const beforeUpload = (file) => {
+		console.log("before uploading");
+
 		const isJpgOrPng = file.type === "image/jpeg" || file.type === "image/png";
 
 		if (!isJpgOrPng) {
@@ -43,8 +47,6 @@ function UploadAvatarContainer({
 		if (!isLt2M) {
 			message.error("Image must smaller than 2MB!");
 		}
-
-		setIsValidPhoto(isJpgOrPng && isLt2M);
 
 		return isJpgOrPng && isLt2M;
 	};
@@ -78,14 +80,12 @@ function UploadAvatarContainer({
 				className={`${className}`}
 				showUploadList={false}
 				customRequest={({ file, onError, onSuccess }) => {
-					if (isValidPhoto) {
-						const formData = new FormData();
-						formData.append("file", file);
+					const formData = new FormData();
+					formData.append("file", file);
 
-						uploadPhotoOnClick(formData)
-							.then(() => onSuccess())
-							.catch(onError);
-					}
+					uploadPhotoOnClick(formData)
+						.then(() => onSuccess())
+						.catch(onError);
 
 					return {
 						abort() {
