@@ -19,6 +19,7 @@ function LoadingButton({
 	iconSrc = "",
 	iconOnly = false,
 	imgFluid = true,
+	imgFrameWidth = "",
 	onClick = () => {},
 }) {
 	const app = (
@@ -39,6 +40,7 @@ function LoadingButton({
 								{...(id && { id: id })}
 								src={iconSrc}
 								fluid={imgFluid}
+								{...(imgFrameWidth && { frameWidth: imgFrameWidth })}
 							/>
 						)}
 						{!iconOnly && (

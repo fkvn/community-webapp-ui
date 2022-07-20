@@ -1,6 +1,9 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { FormControl } from "react-bootstrap";
+import { FormControl, InputGroup } from "react-bootstrap";
+import { icons } from "../../../Assest/Asset";
+import { ICON_US_PHONE } from "../../../Util/ConstVar";
 import * as util from "../../../Util/Util";
+import LoadingButton from "../../Button/LoadingButton";
 
 function PhoneFormControl({
 	id = "",
@@ -52,22 +55,36 @@ function PhoneFormControl({
 	}, [loading, setLoading, ref, cursor, onLoadDefaultValue]);
 
 	const app = !loading && (
-		<FormControl
-			{...(id && { id: id })}
-			type={type}
-			placeholder={placeholder}
-			ref={ref}
-			className={`tedkvn-formControl ${className}`}
-			value={formattedPhone}
-			onChange={(p) =>
-				onPhoneChangeHandler(p.currentTarget.selectionStart, p.target.value)
-			}
-			// size={size}
-			// minLength={minLength}
-			maxLength={maxLength}
-			required={required}
-			disabled={disabled}
-		/>
+		<InputGroup className="mb-3 mx-0 border-0 h-100">
+			<LoadingButton
+				{...(id && { btnId: id + "hidden-icon" })}
+				withIcon={true}
+				iconSrc={icons[`${ICON_US_PHONE}`]}
+				iconOnly={true}
+				className="bg-light border-0 rounded mx-1"
+				imgFrameWidth="50px"
+				// btnVariant="white"
+				// btnSize="sm"
+				// // imgClassName="w-75 "
+				// btnClassName=" border-0"
+			/>
+			<FormControl
+				{...(id && { id: id })}
+				type={type}
+				placeholder={placeholder}
+				ref={ref}
+				className={`tedkvn-formControl ${className}`}
+				value={formattedPhone}
+				onChange={(p) =>
+					onPhoneChangeHandler(p.currentTarget.selectionStart, p.target.value)
+				}
+				// size={size}
+				// minLength={minLength}
+				maxLength={maxLength}
+				required={required}
+				disabled={disabled}
+			/>
+		</InputGroup>
 	);
 	return app;
 }

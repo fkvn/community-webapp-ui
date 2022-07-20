@@ -85,10 +85,11 @@ function SelectVerifyMethodContainer({
 			title="Email Verification"
 			variant="white"
 			withIcon={true}
+			loadingColor="blue"
 			iconSrc={asset.icons[`${constVar.ICON_EMAIL_BLACK}`]}
 			customSubmit={true}
 			onClick={() => {
-				onSelectVerifyMethod("email");
+				onSelectVerifyMethod(constVar.EMAIL_PROP);
 
 				// dispatch submit event
 				// const form = e.target.form;
@@ -106,11 +107,12 @@ function SelectVerifyMethodContainer({
 			title="SMS Verification"
 			variant="white"
 			withIcon={true}
+			loadingColor="blue"
 			iconSrc={asset.icons[`${constVar.ICON_PHONE_BLACK}`]}
 			customSubmit={true}
 			// buttonStyle={{ border: "1px solid rgba(102, 102, 102, 0.5) !important" }}
 			onClick={() => {
-				onSelectVerifyMethod("phone");
+				onSelectVerifyMethod(constVar.PHONE_PROP);
 
 				// dispatch submit event
 				// const form = e.target.form;

@@ -75,22 +75,22 @@ function UserSignupContainer() {
 			[`${constVar.EMAIL_PROP}`]: email = "",
 			[`${constVar.PHONE_PROP}`]: phone = "",
 			[`${constVar.PASSWORD_PROP}`]: password = "",
-			[`${constVar.ROLE_PROP}`]: role = "CLASSIC",
-			[`${constVar.PRIVILEGES_PROP}`]: privileges = [],
-			// [`${constVar.ADDRESS_PROP}`]: { description = "", placeid = "" } = {},
 			[`${constVar.VERIFICATION_METHOD_PROP}`]: channel = "",
 		} = signupInfo;
 
 		const signupSubmitInfo = {
 			username: username,
-			email: email,
-			phone: phone,
 			password: password,
-			privileges: privileges,
+			...(channel === constVar.EMAIL_PROP && {
+				email: email,
+				emailVerified: true,
+			}),
+			...(channel === constVar.PHONE_PROP && {
+				phone: phone,
+				phoneVerified: true,
+			}),
+
 			verified: verified,
-			role: role,
-			// address: description,
-			// placeid: placeid,
 		};
 
 		return axiosPromise

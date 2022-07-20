@@ -59,16 +59,23 @@ function ProfilePanelContainer() {
 				profile[`${constVar.PROFILE_TYPE_PROP}`] ===
 				constVar.PROFILE_USER_TYPE_PROP
 			) {
-				const user = {
+				let storageUser = {
 					...JSON.parse(localStorage.getItem(constVar.THAINOW_USER_OBJ) || {}),
+				};
+
+				storageUser.user = {
+					...storageUser?.user,
 					[`${constVar.PROFILE_URL_PROP}`]: response,
 				};
 
 				// user redux
-				patchUserInfo({ ...user });
+				patchUserInfo({ ...storageUser.user });
 
 				// user storage
-				localStorage.setItem(constVar.THAINOW_USER_OBJ, JSON.stringify(user));
+				localStorage.setItem(
+					constVar.THAINOW_USER_OBJ,
+					JSON.stringify(storageUser)
+				);
 			}
 		});
 	};

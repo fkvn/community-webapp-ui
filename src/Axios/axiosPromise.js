@@ -38,14 +38,12 @@ export const verifyOtpCodePromise = (channel = "", value = "", token = "") => {
 export const signupPromise = (
 	signupInfo = {
 		username: "",
-		email: "",
-		phone: "",
 		password: "",
-		privileges: [],
+		email: "",
+		emailVerified: false,
+		phone: "",
+		phoneVerified: false,
 		verified: true,
-		role: "",
-		address: "",
-		placeid: "",
 	}
 ) => {
 	return axios.post(`/auth/signup`, {
@@ -135,7 +133,9 @@ export const validatePhonePromise = (phone = "") => {
 };
 
 export const getUserCompanies = async (userId = 0) => {
-	return axios.get(`/users/${userId}/companies`);
+	return axios
+		.get(`/users/${userId}/companies`)
+		.then((res) => (res ? res.data : Promise.reject()));
 };
 
 // Company API

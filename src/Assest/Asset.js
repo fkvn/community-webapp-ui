@@ -15,6 +15,7 @@ import notificationIcon from "./Image/Icon/noti-icon.png";
 import phoneIconBlack from "./Image/Icon/phone-icon-black.png";
 import searchIconWhite from "./Image/Icon/search-icon-white.png";
 import searchIcon from "./Image/Icon/search-icon.png";
+import usPhoneIcon from "./Image/Icon/us-phone-icon.png";
 import userReaderIcon from "./Image/Icon/users-reader-icon.png";
 
 export const images = {
@@ -35,4 +36,5 @@ export const icons = {
 	[`${constVar.ICON_PHONE_BLACK}`]: phoneIconBlack,
 	[`${constVar.ICON_NOTIFICATION_BLACK}`]: notificationIcon,
 	[`${constVar.ICON_THREE_BARS_BLACK}`]: threeBarsIcon,
+	[`${constVar.ICON_US_PHONE}`]: usPhoneIcon,
 };

@@ -1,10 +1,10 @@
-import { message, Upload } from "antd";
+import { Upload } from "antd";
 import ImgCrop from "antd-img-crop";
 import { useState } from "react";
 import LoadingButton from "../Component/Button/LoadingButton";
+import { submitErrorHandler } from "../redux-store/dispatchPromise";
 
 function UploadAvatarContainer({
-	customUploadButton = false,
 	className = "",
 	cropAspect = 1 / 1,
 	cropShape = "rect",
@@ -12,10 +12,6 @@ function UploadAvatarContainer({
 	uploadPhotoOnClick = async () => {},
 }) {
 	const [loading, setLoading] = useState(false);
-
-	console.log("uploading");
-
-	const [isValidPhoto, setIsValidPhoto] = useState(false);
 
 	const uploadButton = (
 		<LoadingButton
@@ -34,18 +30,19 @@ function UploadAvatarContainer({
 	// };
 
 	const beforeUpload = (file) => {
-		console.log("before uploading");
-
-		const isJpgOrPng = file.type === "image/jpeg" || file.type === "image/png";
+		const isJpgOrPng =
+			file.type === "image/jpg" ||
+			file.type === "image/jpeg" ||
+			file.type === "image/png";
 
 		if (!isJpgOrPng) {
-			message.error("You can only upload JPG/PNG file!");
+			submitErrorHandler("You can only upload JPG/PNG file!");
 		}
 
 		const isLt2M = file.size / 1024 / 1024 < 2;
 
 		if (!isLt2M) {
-			message.error("Image must smaller than 2MB!");
+			submitErrorHandler("Image must smaller than 2MB!");
 		}
 
 		return isJpgOrPng && isLt2M;
@@ -68,12 +65,7 @@ function UploadAvatarContainer({
 	};
 
 	const app = (
-		<ImgCrop
-			aspect={cropAspect}
-			shape={cropShape}
-			quality={cropQuality}
-			beforeCrop={isValidPhoto}
-		>
+		<ImgCrop aspect={cropAspect} shape={cropShape} quality={cropQuality}>
 			<Upload
 				name="avatar"
 				accept=".png, .jpg, .jpeg"

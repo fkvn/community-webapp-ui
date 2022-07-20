@@ -17,13 +17,15 @@ function UrlFormGroupControl({
 	withIcon = false,
 	iconSrc = "",
 }) {
-	const [warningMessage, setWarningMessage] = useState("");
+	const [warningMessage, setWarningMessage] = useState(
+		"Please provide a valid domain with http(s)://"
+	);
 
 	const onUrlValidationHanlder = (url = "") => {
 		const isValidUrl = util.isValidUrl(url);
 
-		if (isValidUrl) setWarningMessage("");
-		else setWarningMessage("Please  a valid domain with http(s)");
+		// if (isValidUrl) setWarningMessage("");
+		// else setWarningMessage("Please a valid domain with http(s)");
 
 		return isValidUrl;
 	};

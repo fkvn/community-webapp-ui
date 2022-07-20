@@ -141,7 +141,17 @@ function SigninContainer() {
 	}, [loginDirect]);
 
 	const onSubmitStep_1_HandlerPromise = async () => {
-		return loginHanlder();
+		const signinInfo =
+			dispatchPromise.getState()[`${constVar.THAINOW_USER_SIGN_IN_OBJ}`];
+
+		const { [`${constVar.PHONE_VALIDATION}`]: isValidPhone = false } =
+			signinInfo;
+
+		if (!isValidPhone) {
+			return dispatchPromise.submitErrorHandler("Invalid Phone");
+		} else {
+			return loginHanlder();
+		}
 	};
 
 	const stepHandlers = [

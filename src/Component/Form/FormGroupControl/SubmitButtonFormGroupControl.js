@@ -14,6 +14,7 @@ function SubmitButtonFormGroupControl({
 	iconSrc = "",
 	onClick = () => {},
 	buttonStyle = "",
+	loadingColor = "",
 }) {
 	const app = (
 		<Form.Group className={`tedkvn-formGroupControl ${formGroupClassName}`}>
@@ -24,13 +25,17 @@ function SubmitButtonFormGroupControl({
 				type="submit"
 				onClick={onClick}
 				{...(!customSubmit && { type: "submit" })}
-				{...(customSubmit && { type: "submit", onClick: onClick })}
+				{...(customSubmit && {
+					type: "submit",
+					onClick: onClick,
+				})}
 				title={title}
 				isLoading={isLoading}
 				variant={variant}
 				withIcon={withIcon}
 				iconSrc={iconSrc}
 				buttonStyle={buttonStyle}
+				{...(loadingColor && { loadingColor: loadingColor })}
 			/>
 		</Form.Group>
 	);

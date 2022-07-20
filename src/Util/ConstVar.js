@@ -26,6 +26,7 @@ export const ICON_EMAIL_BLACK = "emailIconBlack";
 export const ICON_PHONE_BLACK = "phoneIconBlack";
 export const ICON_NOTIFICATION_BLACK = "notificationBlack";
 export const ICON_THREE_BARS_BLACK = "3barsBlack";
+export const ICON_US_PHONE = "usPhoneIcon";
 
 export const SEARCH_INPUT_PROP = "input";
 export const SEARCH_LOCATION_PROP = "address";

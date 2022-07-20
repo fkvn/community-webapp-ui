@@ -27,12 +27,12 @@ function DropDownFormControl(props, _) {
 		onUpdatePrediction(value);
 	};
 
-	const onSelectItemHandler = (selection = {}) => {
+	const onSelectItemHandler = (selection = {}, idx = -1) => {
 		// update store
-		onMergeStorage(selection, true);
+		onMergeStorage(selection, true, idx);
 
 		// update suggestions
-		onUpdatePrediction(selection, true);
+		onUpdatePrediction(selection, true, idx);
 	};
 
 	useEffect(() => {
@@ -74,7 +74,8 @@ function DropDownFormControl(props, _) {
 								action
 								key={idx}
 								disabled={item.disabled}
-								onClick={() => onSelectItemHandler(item)}
+								onClick={() => onSelectItemHandler(item, idx)}
+								{...(idx === 0 && { className: "bg-secondary text-white" })}
 							>
 								{item?.description || ""}
 								{/* <Button

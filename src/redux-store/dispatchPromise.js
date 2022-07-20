@@ -7,8 +7,12 @@ export const getState = () => {
 	return store.getState().thainowReducer || {};
 };
 
-export const submitErrorHandler = async (message) => {
-	throw store.dispatch(actionCreators.initError(message, ""));
+export const submitErrorHandler = async (message, error = true) => {
+	if (error) {
+		throw store.dispatch(actionCreators.initError(message, ""));
+	} else {
+		return store.dispatch(actionCreators.initError("", ""));
+	}
 };
 
 //  user

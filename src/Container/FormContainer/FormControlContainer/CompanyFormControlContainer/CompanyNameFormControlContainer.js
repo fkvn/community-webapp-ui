@@ -63,7 +63,7 @@ function CompanyNameFormControlContainer({
 		setFilterCompanies([]);
 	};
 
-	const onMergeStorageHandler = (value = "", onSelect = false) => {
+	const onMergeStorageHandler = (value = "", onSelect = false, idx = -1) => {
 		const { description, location, ...props } = onSelect
 			? { ...value }
 			: { name: value || "" };
@@ -77,7 +77,7 @@ function CompanyNameFormControlContainer({
 					placeid: location?.placeid || "",
 				},
 			}),
-			showCompanyList: onSelect || name === "" ? false : true,
+			showCompanyList: onSelect || name === "" || idx === 0 ? false : true,
 		});
 
 		// save progress
@@ -90,16 +90,27 @@ function CompanyNameFormControlContainer({
 		});
 	};
 
-	const onUpdatePredictionHanlder = (value = "", onSelect = false) => {
+	const onUpdatePredictionHanlder = (
+		value = "",
+		onSelect = false,
+		idx = -1
+	) => {
 		const name = onSelect ? "" : value || "";
 
 		// update predictions
-		if (onSelect || name === "") {
+		if (onSelect || name === "" || idx === 0) {
 			setFilterCompanies([]);
 		} else {
 			onGetCompanyPredictionPromise(name).then((predictions = []) => {
-				setFilterCompanies(
-					predictions.map((prediction) => {
+				setFilterCompanies([
+					...(predictions.length > 0
+						? [
+								{
+									description: "None of below - New business",
+								},
+						  ]
+						: []),
+					...predictions.map((prediction) => {
 						return {
 							...prediction,
 							showCompanyList: false,
@@ -116,8 +127,8 @@ function CompanyNameFormControlContainer({
 								),
 							disabled: prediction.status === "REGISTERED",
 						};
-					})
-				);
+					}),
+				]);
 			});
 		}
 	};

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Alert, Toast, ToastContainer } from "react-bootstrap";
 import * as constVar from "../../Util/ConstVar";
 
-function ToastError({ error }) {
+function ToastError({ error = {} }) {
 	const [show, setShow] = useState(false);
 
 	useEffect(() => {

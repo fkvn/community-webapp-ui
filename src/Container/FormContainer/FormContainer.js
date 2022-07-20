@@ -63,11 +63,16 @@ function FormContainer({
 						if (step < MAX_STEP) {
 							setStep(step + 1);
 						}
-						setOnSubmitLoading(false);
+
+						setInterval(() => {
+							setOnSubmitLoading(false);
+						}, 2000);
 					})
 					.catch(() => {
 						// console.log("failed");
-						setOnSubmitLoading(false);
+						setInterval(() => {
+							setOnSubmitLoading(false);
+						}, 2000);
 					})
 		);
 	};

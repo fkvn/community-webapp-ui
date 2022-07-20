@@ -61,9 +61,17 @@ function SwitchProfileContainer() {
 		}
 
 		if (JSON.stringify(user) !== "{}") {
-			axiosPromise.getUserCompanies(user?.id || -1).then((res) => {
-				setCompanies(res.data || []);
-			});
+			axiosPromise
+				.getUserCompanies(user?.id)
+				.then((res = []) => {
+					// no error
+					dispatchPromise.submitErrorHandler("", false);
+					// set companies
+					setCompanies(res);
+				})
+				.catch(() => {
+					onCloseHandler();
+				});
 		}
 	}, [profile, user]);
 

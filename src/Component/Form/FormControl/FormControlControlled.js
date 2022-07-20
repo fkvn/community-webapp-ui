@@ -20,6 +20,7 @@ function FormControlControlled(props) {
 		name = "",
 		inline = false,
 		checked = false,
+		maxLength = "50",
 	} = props;
 
 	const [loading, setLoading] = useState(true);
@@ -49,6 +50,7 @@ function FormControlControlled(props) {
 			placeholder={placeholder}
 			required={required}
 			disabled={disabled}
+			maxLength={maxLength}
 			onChange={(e) => onChangeHandler(e.target.value)}
 		/>
 	);

@@ -65,7 +65,7 @@ function BusinessSignupFormBody({
 			required={true}
 			withLabel={true}
 			label={
-				isInformal ? "Where do you provide your services?" : "Business Location"
+				isInformal ? "Choose your nearby service area" : "Business Location"
 			}
 			RenderFormControl={CompanyAddressFormControlContainer}
 		/>
@@ -110,7 +110,11 @@ function BusinessSignupFormBody({
 			{companyNameFomrGroupControl}
 			{companyIndustryFormGroupControl}
 			{!isInformal && companyAddressFormGroupControl}
-			{isInformal && <>{phoneFormGroupControl}</>}
+			{isInformal && (
+				<>
+					{phoneFormGroupControl} {companyAddressFormGroupControl}
+				</>
+			)}
 			{companyInformalCheckFormGroupControl}
 			{emailFormGroupControl}
 			{!isInformal && phoneFormGroupControl}
