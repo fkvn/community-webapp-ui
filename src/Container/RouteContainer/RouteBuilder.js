@@ -1,39 +1,29 @@
 import { Route, Routes } from "react-router-dom";
 import NotFoundPage from "../../Component/Global/NotFoundPage";
+import SignupRouteContainer from "../AuthContainer/SignupRouteContainer";
+import UserSigninContainer from "../AuthContainer/UserSigninContainer";
 import ErrorContainer from "../ErrorContainer";
-import SigninContainer from "../SigninContainer";
-import SignoutContainer from "../SignoutContainer";
+import ProfileContainer from "../ProfilePanelContainer/ProfileContainer";
 import SwitchProfileContainer from "../SwitchProfileContainer";
+import AuthContainer from "./AuthContainer";
 import LayoutContainer from "./LayoutContainer";
-import SignupRouteContainer from "./SignupRouteContainer";
 
 function RouteBuilder() {
-	// const location = useLocation();
-
-	// const profile = useSelector(
-	// 	(state) => state.thainowReducer[`${constVar.THAINOW_PROFILE_OBJ}`] || {}
-	// );
-
-	// useEffect(() => {
-	// 	const storageProfile =
-	// 		JSON.parse(localStorage.getItem(constVar.THAINOW_PROFILE_OBJ)) || {};
-
-	// 	if (
-	// 		JSON.stringify(storageProfile) !== "{}" &&
-	// 		JSON.stringify(profile) === "{}"
-	// 	) {
-	// 		dispatchPromise.patchProfileInfo({ ...storageProfile }, true);
-	// 	}
-	// }, [location, profile]);
-
 	const routes = (
 		<>
 			<Routes>
 				<Route path="/" element={<LayoutContainer />} />
-				<Route path="signup/*" element={<SignupRouteContainer />} />
-				<Route path="/signin" element={<SigninContainer />} />
-				<Route path="/signout" element={<SignoutContainer />} />
-				<Route path="/switch-profile" element={<SwitchProfileContainer />} />
+				<Route path="/signup/*" element={<SignupRouteContainer />} />
+				<Route path="/signin" element={<UserSigninContainer />} />
+				<Route path="/myprofile/:id" element={<ProfileContainer />} />
+				<Route
+					path="/switch-profile"
+					element={
+						<AuthContainer>
+							<SwitchProfileContainer />
+						</AuthContainer>
+					}
+				/>
 				<Route path="*" element={<NotFoundPage />} />
 			</Routes>
 		</>

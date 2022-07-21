@@ -6,6 +6,8 @@ export const THAINOW_COMPANY_SIGN_UP_OBJ = "thainow.company.signup.info";
 export const THAINOW_SEARCH_OBJ = "thainow.search.info";
 export const THAINOW_USER_SIGN_IN_OBJ = "thainow.user.signin.info";
 export const THAINOW_OFF_CANVAS_OBJ = "thainow.offcanvas.info";
+export const THAINOW_USER_PROFILE_OBJ = "thainow.user.profile";
+export const THAINOW_COMPANY_PROFILE_OBJ = "thainow.company.profile";
 
 export const THAINOW_REDUX_STORE_ROOT_OBJ = "reduxStoreObj";
 export const THAINOW_REDUX_STORE_ROOT_OBJ_PROPS = "reduxStoreObjProps";
@@ -41,9 +43,8 @@ export const PROFILE_NAME_PROP = "name";
 export const UPLOAD_PHOTO_HANDLER = "uploadPhotoHandler";
 export const VISIT_MY_PROFILE_HANDLER = "visitMyProfileHandler";
 
+export const ACCESS_TOKEN_PROP = "access_token";
 export const USER_PROP = "user";
-// export const USER_PROFILE_URL_PROP = "profileUrl";
-
 export const ID_PROP = "id";
 export const USERNAME_PROP = "username";
 export const FIRSTNAME_PROP = "firstname";

@@ -39,7 +39,7 @@ function CompanyIndustryFormControlContainer({
 		industry = "",
 		showIndustryList = false
 	) => {
-		dispatchPromise.patchSignupCompanyInfo({
+		dispatchPromise.patchSignupCompanyInfoPromise({
 			[`${constVar.COMPANY_INDUSTRY_PROP}`]: industry,
 			showIndustryList: showIndustryList,
 		});

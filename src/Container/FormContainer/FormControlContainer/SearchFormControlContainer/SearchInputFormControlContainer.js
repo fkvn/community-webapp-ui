@@ -19,7 +19,7 @@ function SearchInputFormControlContainer({
 	);
 
 	const updateReduxStoreSearchInput = (query = "") => {
-		dispatchPromise.patchSearchInfo({
+		dispatchPromise.patchSearchInfoPromise({
 			[`${constVar.SEARCH_INPUT_PROP}`]: query,
 		});
 	};

@@ -36,7 +36,7 @@ function VerifyCodeContainer({
 	const onBackCallBack = () => {
 		switch (storageObjName) {
 			case constVar.THAINOW_USER_SIGN_UP_OBJ:
-				dispatchPromise.patchSignupUserInfo({
+				dispatchPromise.patchSignupUserInfoPromise({
 					[`${constVar.OTP_PROP}`]: "",
 					[`${constVar.OTP_VALIDATION}`]: false,
 				});

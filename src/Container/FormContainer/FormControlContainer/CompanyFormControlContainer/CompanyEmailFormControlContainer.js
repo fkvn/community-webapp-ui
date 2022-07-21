@@ -30,7 +30,7 @@ function CompanyEmailFormControlContainer({
 	};
 
 	const updateReduxStoreEmail = (email = "", isValidEmail = true) => {
-		dispatchPromise.patchSignupCompanyInfo({
+		dispatchPromise.patchSignupCompanyInfoPromise({
 			[`${constVar.COMPANY_EMAIL_PROP}`]: email,
 			[`${constVar.COMPANY_EMAIL_VALIDATION}`]: isValidEmail,
 		});
@@ -79,7 +79,7 @@ function CompanyEmailFormControlContainer({
 			] || isValidEmail;
 
 		if (isValidStoreEmail !== isValidEmail) {
-			dispatchPromise.patchSignupCompanyInfo({
+			dispatchPromise.patchSignupCompanyInfoPromise({
 				[`${constVar.COMPANY_EMAIL_VALIDATION}`]: isValidEmail,
 			});
 		}

@@ -2,7 +2,7 @@ import { Upload } from "antd";
 import ImgCrop from "antd-img-crop";
 import { useState } from "react";
 import LoadingButton from "../Component/Button/LoadingButton";
-import { submitErrorHandler } from "../redux-store/dispatchPromise";
+import { submitErrorHandlerPromise } from "../redux-store/dispatchPromise";
 
 function UploadAvatarContainer({
 	className = "",
@@ -23,29 +23,33 @@ function UploadAvatarContainer({
 		/>
 	);
 
-	// const getBase64 = (img, callback) => {
-	// 	const reader = new FileReader();
-	// 	reader.addEventListener("load", () => callback(reader.result));
-	// 	reader.readAsDataURL(img);
-	// };
-
-	const beforeUpload = (file) => {
+	const isValidImage = (file) => {
 		const isJpgOrPng =
 			file.type === "image/jpg" ||
 			file.type === "image/jpeg" ||
 			file.type === "image/png";
 
 		if (!isJpgOrPng) {
-			submitErrorHandler("You can only upload JPG/PNG file!");
+			submitErrorHandlerPromise("You can only upload JPG/PNG file!").catch(
+				() => {
+					return;
+				}
+			);
 		}
 
 		const isLt2M = file.size / 1024 / 1024 < 2;
 
 		if (!isLt2M) {
-			submitErrorHandler("Image must smaller than 2MB!");
+			submitErrorHandlerPromise("Image must smaller than 2MB!").catch(() => {
+				return;
+			});
 		}
 
 		return isJpgOrPng && isLt2M;
+	};
+
+	const beforeUpload = (file) => {
+		return isValidImage(file);
 	};
 
 	const handleChange = (info) => {
@@ -54,14 +58,6 @@ function UploadAvatarContainer({
 			return;
 		}
 		setLoading(false);
-
-		// if (info.file.status === "done") {
-		// 	// Get this url from response in real world.
-		// 	getBase64(info.file.originFileObj, () => {
-		// 		setLoading(false);
-		// 		// console.log(url);
-		// 	});
-		// }
 	};
 
 	const app = (
@@ -77,7 +73,7 @@ function UploadAvatarContainer({
 
 					uploadPhotoOnClick(formData)
 						.then(() => onSuccess())
-						.catch(onError);
+						.catch(onError());
 
 					return {
 						abort() {
@@ -85,7 +81,7 @@ function UploadAvatarContainer({
 						},
 					};
 				}}
-				onStart={beforeUpload}
+				beforeUpload={beforeUpload}
 				onChange={handleChange}
 				progress={{
 					strokeColor: {

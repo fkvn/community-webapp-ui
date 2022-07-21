@@ -1,20 +1,10 @@
 import { Col, Image, Row, Stack } from "react-bootstrap";
-import { useNavigate, useSearchParams } from "react-router-dom";
 import * as asset from "../../Assest/Asset";
 import SearchContainer from "../../Container/SearchContainer/SearchContainer";
 import * as constVar from "../../Util/ConstVar";
 import LoadingButton from "../Button/LoadingButton";
 
 function TopBarNavigation() {
-	const navigate = useNavigate();
-
-	let [searchParams] = useSearchParams();
-
-	const continueURL = searchParams.get("continue") || "/";
-
-	const continueParams =
-		continueURL.length > 0 ? "?continue=" + continueURL : "";
-
 	const brandLogo = (
 		<Image
 			src={asset.images[`${constVar.IMAGE_THAINOW_LOGO}`]}

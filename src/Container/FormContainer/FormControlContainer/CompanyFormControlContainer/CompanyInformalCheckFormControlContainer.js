@@ -27,7 +27,7 @@ function CompanyInformalCheckFormControlContainer({
 	};
 
 	const updateReduxStoreIsOnline = (informalStore = false) => {
-		dispatchPromise.patchSignupCompanyInfo({
+		dispatchPromise.patchSignupCompanyInfoPromise({
 			[`${constVar.COMPANY_INFORMAL_PROP}`]: informalStore,
 		});
 	};

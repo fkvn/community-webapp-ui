@@ -30,7 +30,7 @@ function CompanyPhoneFormControlContainer({
 	};
 
 	const updateReduxStorePhone = (formattedPhone = "", isValidPhone = true) => {
-		dispatchPromise.patchSignupCompanyInfo({
+		dispatchPromise.patchSignupCompanyInfoPromise({
 			[`${constVar.COMPANY_PHONE_PROP}`]: formattedPhone,
 			[`${constVar.COMPANY_PHONE_VALIDATION}`]: isValidPhone,
 		});
@@ -83,7 +83,7 @@ function CompanyPhoneFormControlContainer({
 			] || isValidPhone;
 
 		if (isValidStorePhone !== isValidPhone) {
-			dispatchPromise.patchSignupCompanyInfo({
+			dispatchPromise.patchSignupCompanyInfoPromise({
 				[`${constVar.COMPANY_PHONE_VALIDATION}`]: isValidPhone,
 			});
 		}

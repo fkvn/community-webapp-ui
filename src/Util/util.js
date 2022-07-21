@@ -1,3 +1,9 @@
+import { axiosSignInPromise } from "../Axios/axiosPromise";
+import {
+	getState,
+	patchProfileInfoPromise,
+	patchSigninUserInfoPromise,
+} from "../redux-store/dispatchPromise";
 import * as constVar from "./ConstVar";
 
 export const loadScript = (url, async = true, defer = false) => {
@@ -176,7 +182,7 @@ export const saveToSessionStore = (objName = "", prop = "", value = "") => {
 	);
 };
 
-export const patchProfileInfo = ({ type = "", user = {}, company = {} }) => {
+export const convertProfileInfo = ({ type = "", user = {}, company = {} }) => {
 	let profile = {};
 
 	profile[`${constVar.PROFILE_TYPE_PROP}`] =
@@ -200,4 +206,86 @@ export const patchProfileInfo = ({ type = "", user = {}, company = {} }) => {
 	}
 
 	return profile;
+};
+
+export const saveProfileInfo = ({ ...info }, needConverted = true) => {
+	const profile = needConverted ? convertProfileInfo({ ...info }) : { ...info };
+
+	localStorage.setItem(constVar.THAINOW_PROFILE_OBJ, JSON.stringify(profile));
+
+	return profile;
+};
+
+export const saveUserInfo = ({ access_token = "", user = {} }) => {
+	// get the sign in list
+	const recentSignin = JSON.parse(
+		localStorage.getItem(constVar.THAINOW_RECENT_SIGN_IN_OBJ) || "{}"
+	);
+
+	// add new user to sign in list
+	localStorage.setItem(
+		constVar.THAINOW_RECENT_SIGN_IN_OBJ,
+		JSON.stringify({
+			...recentSignin,
+			[`${user?.id}`]: {
+				[`${constVar.ACCESS_TOKEN_PROP}`]: access_token,
+				[`${constVar.USER_PROP}`]: { ...user },
+			},
+		})
+	);
+
+	// set current user to storage
+	localStorage.setItem(
+		constVar.THAINOW_USER_OBJ,
+		JSON.stringify({
+			[`${constVar.ACCESS_TOKEN_PROP}`]: access_token,
+			...user,
+		})
+	);
+};
+
+export const removeUserSigninInfo = () => {
+	patchSigninUserInfoPromise(
+		{
+			[`${constVar.SIGNIN_METHOD_PROP}`]: constVar.EMAIL_PROP,
+		},
+		true
+	);
+	sessionStorage.removeItem(constVar.THAINOW_USER_SIGN_IN_OBJ);
+};
+
+export const signInUserPromise = async (channel = "") => {
+	// get signin object from redux store
+	const signinInfo = getState()[`${constVar.THAINOW_USER_SIGN_IN_OBJ}`];
+
+	const {
+		[`${constVar.EMAIL_PROP}`]: email = "",
+		[`${constVar.PHONE_PROP}`]: phone = "",
+		[`${constVar.PASSWORD_PROP}`]: password = "",
+	} = signinInfo;
+
+	return axiosSignInPromise(channel, email, phone, password).then(
+		({ access_token = "", user = {} }) => {
+			// remove signin info
+			removeUserSigninInfo();
+
+			// save user
+			saveUserInfo({
+				access_token: access_token,
+				user: user,
+			});
+
+			// save profile
+			saveProfileInfo({
+				type: constVar.PROFILE_USER_TYPE_PROP,
+				user: { ...user },
+			});
+		}
+	);
+};
+
+export const signoutUserPromise = async () => {
+	localStorage.removeItem(constVar.THAINOW_USER_OBJ);
+	localStorage.removeItem(constVar.THAINOW_PROFILE_OBJ);
+	patchProfileInfoPromise({}, true);
 };

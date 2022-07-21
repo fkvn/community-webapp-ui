@@ -3,6 +3,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import * as asset from "../../Assest/Asset";
 import UploadAvatarContainer from "../../Container/UploadAvatarContainer";
 import * as constVar from "../../Util/ConstVar";
+import { signoutUserPromise } from "../../Util/Util";
 import LoadingButton from "../Button/LoadingButton";
 import ImageFrame from "../ImageFrame/ImageFrame";
 
@@ -16,6 +17,7 @@ function ProfilePanel({
 }) {
 	const navigate = useNavigate();
 	const location = useLocation();
+	const continueURL = location.state?.continue || "/";
 
 	const UploadPhotoButton = () => (
 		<UploadAvatarContainer
@@ -60,7 +62,9 @@ function ProfilePanel({
 								title={`Sign Out`}
 								size="sm"
 								variant="secondary "
-								onClick={() => navigate("/signout")}
+								onClick={() =>
+									signoutUserPromise().then(() => navigate(continueURL))
+								}
 							/>
 
 							{/* <LoadingButton

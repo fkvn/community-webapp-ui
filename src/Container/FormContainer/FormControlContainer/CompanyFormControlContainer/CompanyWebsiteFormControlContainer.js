@@ -30,7 +30,7 @@ function CompanyWebsiteFormControlContainer({
 	};
 
 	const updateReduxStoreWebsite = (url = "", isValidUrl = true) => {
-		dispatchPromise.patchSignupCompanyInfo({
+		dispatchPromise.patchSignupCompanyInfoPromise({
 			[`${constVar.COMPANY_WEBSITE_PROP}`]: url,
 			[`${constVar.COMPANY_WEBSITE_VALIDATION}`]: isValidUrl,
 		});
@@ -79,7 +79,7 @@ function CompanyWebsiteFormControlContainer({
 			] || isValidUrl;
 
 		if (isValidStoreWebsite !== isValidUrl) {
-			dispatchPromise.patchSignupCompanyInfo({
+			dispatchPromise.patchSignupCompanyInfoPromise({
 				[`${constVar.COMPANY_WEBSITE_VALIDATION}`]: isValidUrl,
 			});
 		}

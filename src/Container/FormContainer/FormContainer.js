@@ -64,13 +64,13 @@ function FormContainer({
 							setStep(step + 1);
 						}
 
-						setInterval(() => {
+						setTimeout(() => {
 							setOnSubmitLoading(false);
 						}, 2000);
 					})
 					.catch(() => {
 						// console.log("failed");
-						setInterval(() => {
+						setTimeout(() => {
 							setOnSubmitLoading(false);
 						}, 2000);
 					})

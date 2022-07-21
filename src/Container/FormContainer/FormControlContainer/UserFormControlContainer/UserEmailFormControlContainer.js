@@ -30,9 +30,9 @@ function UserEmailFormControlContainer({
 	const dispatchHandler = ({ ...props }) => {
 		switch (storageObjName) {
 			case constVar.THAINOW_USER_SIGN_UP_OBJ:
-				return dispatchPromise.patchSignupUserInfo({ ...props });
+				return dispatchPromise.patchSignupUserInfoPromise({ ...props });
 			case constVar.THAINOW_USER_SIGN_IN_OBJ:
-				return dispatchPromise.patchSigninUserInfo({ ...props });
+				return dispatchPromise.patchSigninUserInfoPromise({ ...props });
 			default:
 				return async () => {};
 		}

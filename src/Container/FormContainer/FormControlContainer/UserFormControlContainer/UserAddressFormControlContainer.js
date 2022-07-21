@@ -32,7 +32,7 @@ function UserAddressFormControlContainer({
 		placeid = "",
 		show = false
 	) => {
-		dispatchPromise.patchSignupUserInfo({
+		dispatchPromise.patchSignupUserInfoPromise({
 			[`${constVar.ADDRESS_PROP}`]: {
 				description: description,
 				...(placeid && { placeid: placeid }),

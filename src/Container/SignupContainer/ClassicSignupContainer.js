@@ -17,7 +17,7 @@ function ClassicSignupContainer() {
 	const storageObjName = constVar.THAINOW_USER_SIGN_UP_OBJ;
 
 	const submitErrorHandler = (message = "") =>
-		dispatchPromise.submitErrorHandler(message);
+		dispatchPromise.submitErrorHandlerPromise(message);
 
 	const validateEmailHandler = (email = "") =>
 		axiosPromise.getPromise(axiosPromise.validateEmailPromise(email));
@@ -84,7 +84,7 @@ function ClassicSignupContainer() {
 	};
 
 	const onSelectVerifyMethodHandler = (channel = "") => {
-		dispatchPromise.patchSignupUserInfo({
+		dispatchPromise.patchSignupUserInfoPromise({
 			[`${constVar.VERIFICATION_METHOD_PROP}`]:
 				channel === constVar.EMAIL_PROP
 					? constVar.EMAIL_PROP
@@ -145,7 +145,7 @@ function ClassicSignupContainer() {
 
 	const onResetOtpHandler = () => {
 		console.log("reset otp");
-		dispatchPromise.patchSignupUserInfo({
+		dispatchPromise.patchSignupUserInfoPromise({
 			[`${constVar.OTP_PROP}`]: "",
 			[`${constVar.OTP_VALIDATION}`]: false,
 		});

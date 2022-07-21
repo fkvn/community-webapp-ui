@@ -37,7 +37,7 @@ function CompanyNameFormControlContainer({
 	};
 
 	const updateReduxStore = ({ ...props }) => {
-		dispatchPromise.patchSignupCompanyInfo({
+		dispatchPromise.patchSignupCompanyInfoPromise({
 			...props,
 		});
 	};

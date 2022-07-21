@@ -102,7 +102,7 @@ function SendVerifyCodeContainer({
 	const onBackCallBack = () => {
 		switch (storageObjName) {
 			case constVar.THAINOW_USER_SIGN_UP_OBJ:
-				dispatchPromise.patchSignupUserInfo({
+				dispatchPromise.patchSignupUserInfoPromise({
 					[`${constVar.EMAIL_PROP}`]: "",
 					[`${constVar.PHONE_PROP}`]: "",
 				});

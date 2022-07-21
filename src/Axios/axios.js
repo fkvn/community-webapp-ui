@@ -40,7 +40,7 @@ const errorHandler = (error) => {
 			message =
 				"Your credentials are incorrect or have expired  .... Please sign in again!";
 
-			setInterval(() => {
+			setTimeout(() => {
 				window.location.replace("/signin");
 			}, 4000);
 		}

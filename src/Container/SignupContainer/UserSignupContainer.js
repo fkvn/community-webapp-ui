@@ -22,17 +22,17 @@ function UserSignupContainer() {
 
 	useEffect(() => {
 		if (!showOffCanvas) {
-			dispatchPromise.patchOffCanvasInfo({
+			dispatchPromise.patchOffCanvasInfoPromise({
 				[`${constVar.SHOW_OFF_CANVAS}`]: true,
 			});
 		}
 	});
 
 	const submitErrorHandler = (message = "") =>
-		dispatchPromise.submitErrorHandler(message);
+		dispatchPromise.submitErrorHandlerPromise(message);
 
 	const onCloseHandler = () => {
-		dispatchPromise.patchSignupUserInfo({}, true);
+		dispatchPromise.patchSignupUserInfoPromise({}, true);
 		sessionStorage.removeItem(constVar.THAINOW_USER_SIGN_UP_OBJ);
 		navigate(continueURL, { replace: true });
 	};
@@ -41,7 +41,7 @@ function UserSignupContainer() {
 		axiosPromise.getPromise(axiosPromise.validateUsernamePromise(username));
 
 	const onSelectVerifyMethodHandler = (channel = "") => {
-		dispatchPromise.patchSignupUserInfo({
+		dispatchPromise.patchSignupUserInfoPromise({
 			[`${constVar.VERIFICATION_METHOD_PROP}`]:
 				channel === constVar.EMAIL_PROP
 					? constVar.EMAIL_PROP
@@ -97,11 +97,11 @@ function UserSignupContainer() {
 			.getPromise(axiosPromise.signupPromise(signupSubmitInfo))
 			.then(() => {
 				// clear sign up info
-				dispatchPromise.patchSignupUserInfo({}, true);
+				dispatchPromise.patchSignupUserInfoPromise({}, true);
 				sessionStorage.removeItem(constVar.THAINOW_USER_SIGN_UP_OBJ);
 
 				// save sign in info
-				dispatchPromise.patchSigninUserInfo(
+				dispatchPromise.patchSigninUserInfoPromise(
 					{
 						[`${constVar.SIGNIN_METHOD_PROP}`]: channel,
 						[`${constVar.EMAIL_PROP}`]: email,

@@ -1,9 +1,23 @@
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
-import { patchOffCanvasInfo } from "../../redux-store/dispatchPromise";
-import { SHOW_OFF_CANVAS, THAINOW_OFF_CANVAS_OBJ } from "../../Util/ConstVar";
+import { useLocation, useNavigate } from "react-router-dom";
+import {
+	patchOffCanvasInfoPromise,
+	patchUserProfileInfoPromise,
+} from "../../redux-store/dispatchPromise";
+import {
+	SHOW_OFF_CANVAS,
+	THAINOW_OFF_CANVAS_OBJ,
+	THAINOW_USER_PROFILE_OBJ,
+} from "../../Util/ConstVar";
+import OffCanvasContainer from "../OffCanvasContainer";
 
 function UserProfileContainer() {
+	const navigate = useNavigate();
+	const location = useLocation();
+
+	const continueURL = location.state?.continue || "/";
+
 	const showOffCanvas = useSelector(
 		(state) =>
 			state.thainowReducer[`${THAINOW_OFF_CANVAS_OBJ}`]?.[
@@ -13,13 +27,21 @@ function UserProfileContainer() {
 
 	useEffect(() => {
 		if (!showOffCanvas) {
-			patchOffCanvasInfo({
+			patchOffCanvasInfoPromise({
 				[`${SHOW_OFF_CANVAS}`]: true,
 			});
 		}
 	}, [showOffCanvas]);
 
-	const app = <></>;
+	const onCloseHandler = () => {
+		patchUserProfileInfoPromise({}, true);
+		sessionStorage.removeItem(THAINOW_USER_PROFILE_OBJ);
+		navigate(continueURL, { replace: true });
+	};
+
+	const app = (
+		<OffCanvasContainer onClose={onCloseHandler}></OffCanvasContainer>
+	);
 	return app;
 }
 

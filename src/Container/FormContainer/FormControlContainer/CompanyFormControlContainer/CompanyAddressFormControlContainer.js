@@ -32,7 +32,7 @@ function CompanyAddressFormControlContainer({
 		placeid = "",
 		show = false
 	) => {
-		dispatchPromise.patchSignupCompanyInfo({
+		dispatchPromise.patchSignupCompanyInfoPromise({
 			[`${constVar.COMPANY_ADDRESS_PROP}`]: {
 				description: description,
 				...(placeid && { placeid: placeid }),

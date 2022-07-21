@@ -1,15 +1,8 @@
 import { Button, Col, Container, Image, Row } from "react-bootstrap";
-import { useLocation, useNavigate } from "react-router-dom";
 import successIcon from "../../Assest/Image/Icon/success-icon.png";
 import LoadingButton from "../Button/LoadingButton";
 
-function UserSignupSuccess({ username = "" }) {
-	const navigate = useNavigate();
-
-	const location = useLocation();
-
-	const continueURL = location?.state?.continue || "/";
-
+function UserSignupSuccess({ username = "", signinUser = () => {} }) {
 	const app = (
 		<Container fluid className={`mt-5 vh-100 tedkvn-center `}>
 			<Row className={` tedkvn-center `}>
@@ -33,14 +26,7 @@ function UserSignupSuccess({ username = "" }) {
 							size="lg"
 							className="rounded-pill mt-2 px-4"
 							title="Login and Continue Explore"
-							onClick={() => {
-								navigate("/signin", {
-									state: {
-										loginDirect: true,
-										continue: continueURL,
-									},
-								});
-							}}
+							onClick={signinUser}
 						/>
 					</div>
 					<div className="mt-4">

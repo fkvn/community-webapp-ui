@@ -69,7 +69,7 @@ export const businessRegisterPromise = async (
 	});
 };
 
-export const loginPromise = async (
+export const axiosSignInPromise = async (
 	channel = "",
 	email = "",
 	phone = "",

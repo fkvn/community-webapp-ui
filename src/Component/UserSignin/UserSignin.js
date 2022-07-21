@@ -2,7 +2,7 @@ import FormContainer from "../../Container/FormContainer/FormContainer";
 import * as constVar from "../../Util/ConstVar";
 import UserSigninFormBody from "../Form/FormLayout/UserSigninFormBody";
 
-function Signin({
+function UserSignin({
 	stepHandlers = [1],
 	onClose = () => {},
 	signinMethod = constVar.EMAIL_PROP,
@@ -27,4 +27,4 @@ function Signin({
 	return app;
 }
 
-export default Signin;
+export default UserSignin;

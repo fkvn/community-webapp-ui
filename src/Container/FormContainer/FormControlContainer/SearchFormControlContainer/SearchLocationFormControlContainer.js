@@ -25,7 +25,7 @@ function SearchLocationFormControlContainer({
 		placeid = "",
 		show = false
 	) => {
-		dispatchPromise.patchSearchInfo({
+		dispatchPromise.patchSearchInfoPromise({
 			[`${constVar.SEARCH_LOCATION_PROP}`]: {
 				description: description,
 				...(placeid && { placeid: placeid }),

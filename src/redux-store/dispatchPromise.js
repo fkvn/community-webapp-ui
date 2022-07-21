@@ -7,16 +7,13 @@ export const getState = () => {
 	return store.getState().thainowReducer || {};
 };
 
-export const submitErrorHandler = async (message, error = true) => {
-	if (error) {
-		throw store.dispatch(actionCreators.initError(message, ""));
-	} else {
-		return store.dispatch(actionCreators.initError("", ""));
-	}
+export const submitErrorHandlerPromise = async (message = "") => {
+	setTimeout(() => store.dispatch(actionCreators.initError("", "")), 4000);
+	throw store.dispatch(actionCreators.initError(message, ""));
 };
 
 //  user
-export const patchUserInfo = async ({ ...props }, replace = false) => {
+export const patchUserInfoPromise = async ({ ...props }, replace = false) => {
 	return store.dispatch(
 		actionCreators.patchStoreRootObjInfo(
 			actionTypes.DISPATCH_PATCH_USER_OBJ_INFO,
@@ -28,7 +25,10 @@ export const patchUserInfo = async ({ ...props }, replace = false) => {
 };
 
 //  profile
-export const patchProfileInfo = async ({ ...props }, replace = false) => {
+export const patchProfileInfoPromise = async (
+	{ ...props },
+	replace = false
+) => {
 	return store.dispatch(
 		actionCreators.patchStoreRootObjInfo(
 			actionTypes.DISPATCH_PATCH_PROFILE_INFO,
@@ -39,8 +39,25 @@ export const patchProfileInfo = async ({ ...props }, replace = false) => {
 	);
 };
 
+export const patchUserProfileInfoPromise = async (
+	{ ...props },
+	replace = false
+) => {
+	return store.dispatch(
+		actionCreators.patchStoreRootObjInfo(
+			actionTypes.DISPATCH_PATCH_USER_PROFILE_INFO,
+			constVar.THAINOW_USER_PROFILE_OBJ,
+			{ ...props },
+			replace
+		)
+	);
+};
+
 // user sign up
-export const patchSignupUserInfo = async ({ ...props }, replace = false) => {
+export const patchSignupUserInfoPromise = async (
+	{ ...props },
+	replace = false
+) => {
 	return store.dispatch(
 		actionCreators.patchStoreRootObjInfo(
 			actionTypes.DISPATCH_PATCH_SIGNUP_USER_INFO,
@@ -52,7 +69,10 @@ export const patchSignupUserInfo = async ({ ...props }, replace = false) => {
 };
 
 // user sign in
-export const patchSigninUserInfo = async ({ ...props }, replace = false) => {
+export const patchSigninUserInfoPromise = async (
+	{ ...props },
+	replace = false
+) => {
 	return store.dispatch(
 		actionCreators.patchStoreRootObjInfo(
 			actionTypes.DISPATCH_PATCH_SIGNIN_USER_INFO,
@@ -63,7 +83,10 @@ export const patchSigninUserInfo = async ({ ...props }, replace = false) => {
 	);
 };
 
-export const patchSignupCompanyInfo = async ({ ...props }, replace = false) => {
+export const patchSignupCompanyInfoPromise = async (
+	{ ...props },
+	replace = false
+) => {
 	return store.dispatch(
 		actionCreators.patchStoreRootObjInfo(
 			actionTypes.DISPATCH_PATCH_SIGNUP_COMPANY_INFO,
@@ -74,7 +97,7 @@ export const patchSignupCompanyInfo = async ({ ...props }, replace = false) => {
 	);
 };
 
-export const patchSearchInfo = async ({ ...props }, replace = false) => {
+export const patchSearchInfoPromise = async ({ ...props }, replace = false) => {
 	return store.dispatch(
 		actionCreators.patchStoreRootObjInfo(
 			actionTypes.DISPATCH_PATCH_SEARCH_INFO,
@@ -85,7 +108,10 @@ export const patchSearchInfo = async ({ ...props }, replace = false) => {
 	);
 };
 
-export const patchOffCanvasInfo = async ({ ...props }, replace = false) => {
+export const patchOffCanvasInfoPromise = async (
+	{ ...props },
+	replace = false
+) => {
 	return store.dispatch(
 		actionCreators.patchStoreRootObjInfo(
 			actionTypes.DISPATCH_PATCH_OFF_CANVAS_INFO,

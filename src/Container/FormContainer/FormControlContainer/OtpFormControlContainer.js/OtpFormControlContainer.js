@@ -17,7 +17,7 @@ function OtpFormControlContainer({
 	);
 
 	const updateReduxStoreOtp = (formattedOtp = "", isValidOtp = false) => {
-		dispatchPromise.patchSignupUserInfo({
+		dispatchPromise.patchSignupUserInfoPromise({
 			[`${constVar.OTP_PROP}`]: formattedOtp,
 			[`${constVar.OTP_VALIDATION}`]: isValidOtp,
 		});

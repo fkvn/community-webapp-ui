@@ -62,7 +62,7 @@ const dispatchPatchStoreRootObjInfo = (state, action) => {
 	return {
 		...state,
 		[`${action[`${constVar.THAINOW_REDUX_STORE_ROOT_OBJ}`]}`]: updateInfo,
-		[`${constVar.ERROR}`]: {},
+		// [`${constVar.ERROR}`]: {},
 	};
 };
 

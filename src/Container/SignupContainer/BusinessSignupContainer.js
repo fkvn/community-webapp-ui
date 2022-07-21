@@ -25,17 +25,17 @@ function BusinessSignupContainer() {
 
 	useEffect(() => {
 		if (!showOffCanvas) {
-			dispatchPromise.patchOffCanvasInfo({
+			dispatchPromise.patchOffCanvasInfoPromise({
 				[`${constVar.SHOW_OFF_CANVAS}`]: true,
 			});
 		}
 	}, [showOffCanvas]);
 
 	const submitErrorHandler = (message = "") =>
-		dispatchPromise.submitErrorHandler(message);
+		dispatchPromise.submitErrorHandlerPromise(message);
 
 	const onCloseHandler = () => {
-		dispatchPromise.patchSignupCompanyInfo({}, true);
+		dispatchPromise.patchSignupCompanyInfoPromise({}, true);
 		sessionStorage.removeItem(constVar.THAINOW_COMPANY_SIGN_UP_OBJ);
 		navigate(returnURL.length > 0 ? returnURL : continueURL, {
 			state: {
@@ -98,7 +98,7 @@ function BusinessSignupContainer() {
 					console.log(res);
 
 					// remove sign up info
-					dispatchPromise.patchSignupCompanyInfo({}, true);
+					dispatchPromise.patchSignupCompanyInfoPromise({}, true);
 					sessionStorage.removeItem(constVar.THAINOW_COMPANY_SIGN_UP_OBJ);
 
 					// // update company info

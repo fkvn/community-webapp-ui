@@ -20,7 +20,7 @@ function OffCanvasContainer({
 	);
 
 	const onCloseHanlder = () => {
-		dispatchPromise.patchOffCanvasInfo({
+		dispatchPromise.patchOffCanvasInfoPromise({
 			[`${constVar.SHOW_OFF_CANVAS}`]: false,
 		});
 		onClose();
