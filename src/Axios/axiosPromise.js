@@ -35,7 +35,7 @@ export const verifyOtpCodePromise = (channel = "", value = "", token = "") => {
 	}
 };
 
-export const signupPromise = (
+export const signupPromise = async (
 	signupInfo = {
 		username: "",
 		password: "",

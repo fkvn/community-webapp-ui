@@ -7,9 +7,9 @@ export const getState = () => {
 	return store.getState().thainowReducer || {};
 };
 
-export const submitErrorHandlerPromise = async (message = "") => {
-	setTimeout(() => store.dispatch(actionCreators.initError("", "")), 4000);
-	throw store.dispatch(actionCreators.initError(message, ""));
+export const submitErrorHandlerPromise = async (message = "", status = "") => {
+	setTimeout(() => store.dispatch(actionCreators.initError("", "")), 2000);
+	throw store.dispatch(actionCreators.initError(message, status));
 };
 
 //  user

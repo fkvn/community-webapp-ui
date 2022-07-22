@@ -1,47 +1,39 @@
 import { useEffect } from "react";
-import { useSelector } from "react-redux";
-import { useLocation, useNavigate } from "react-router-dom";
 import * as axiosPromise from "../../Axios/axiosPromise";
 import BusinessSignup from "../../Component/Signup/BusinessSignup";
 import * as dispatchPromise from "../../redux-store/dispatchPromise";
 import * as constVar from "../../Util/ConstVar";
+import { signoutUserPromise } from "../../Util/Util";
 import OffCanvasContainer from "../OffCanvasContainer";
 
 function BusinessSignupContainer() {
-	const navigate = useNavigate();
+	const validateCredentials = () => {
+		const storageUser = localStorage.getItem(constVar.THAINOW_USER_OBJ) || "";
 
-	const location = useLocation();
-
-	const continueURL = location.state?.continue || "/";
-
-	const returnURL = location.state?.returnUrl || "";
-
-	const showOffCanvas = useSelector(
-		(state) =>
-			state.thainowReducer[`${constVar.THAINOW_OFF_CANVAS_OBJ}`]?.[
-				`${constVar.SHOW_OFF_CANVAS}`
-			] || false
-	);
+		if (storageUser === "") {
+			dispatchPromise
+				.submitErrorHandlerPromise(
+					"Your credentials are incorrect or have expired  .... Please sign in again!"
+				)
+				.catch(() => {
+					signoutUserPromise();
+				});
+		}
+	};
 
 	useEffect(() => {
-		if (!showOffCanvas) {
-			dispatchPromise.patchOffCanvasInfoPromise({
+		dispatchPromise
+			.patchOffCanvasInfoPromise({
 				[`${constVar.SHOW_OFF_CANVAS}`]: true,
+			})
+			.then(() => {
+				validateCredentials();
 			});
-		}
-	}, [showOffCanvas]);
-
-	const submitErrorHandler = (message = "") =>
-		dispatchPromise.submitErrorHandlerPromise(message);
+	});
 
 	const onCloseHandler = () => {
 		dispatchPromise.patchSignupCompanyInfoPromise({}, true);
 		sessionStorage.removeItem(constVar.THAINOW_COMPANY_SIGN_UP_OBJ);
-		navigate(returnURL.length > 0 ? returnURL : continueURL, {
-			state: {
-				...(returnURL.length > 0 && { continue: continueURL }),
-			},
-		});
 	};
 
 	const onSubmitStep_1_HandlerPromise = async () => {
@@ -50,8 +42,9 @@ function BusinessSignupContainer() {
 			dispatchPromise.getState()[`${constVar.THAINOW_COMPANY_SIGN_UP_OBJ}`];
 
 		const administratorId =
-			JSON.parse(localStorage.getItem(constVar.THAINOW_USER_OBJ) || {})?.user
-				?.id || "";
+			JSON.parse(localStorage.getItem(constVar.THAINOW_USER_OBJ) || {})?.[
+				`${constVar.ID_PROP}`
+			] || "";
 
 		const {
 			[`${constVar.COMPANY_WEBSITE_VALIDATION}`]: isValidWebsite = true,
@@ -71,14 +64,17 @@ function BusinessSignupContainer() {
 		} = companyInfo;
 
 		if (administratorId.length === 0)
-			return submitErrorHandler(
+			return dispatchPromise.submitErrorHandlerPromise(
 				"Invalid Administrator Credential! Please double-check if user has signed in or not!"
 			);
 		else if (!isInformal && (description.length === 0 || placeid.length === 0))
-			return submitErrorHandler("Invalid Location");
-		else if (!isValidWebsite) return submitErrorHandler("Invalid Website");
-		else if (!isValidPhone) return submitErrorHandler("Invalid Phone");
-		else if (!isValidEmail) return submitErrorHandler("Invalid Email");
+			return dispatchPromise.submitErrorHandlerPromise("Invalid Location");
+		else if (!isValidWebsite)
+			return dispatchPromise.submitErrorHandlerPromise("Invalid Website");
+		else if (!isValidPhone)
+			return dispatchPromise.submitErrorHandlerPromise("Invalid Phone");
+		else if (!isValidEmail)
+			return dispatchPromise.submitErrorHandlerPromise("Invalid Email");
 		else {
 			const businessRegisterInfo = {
 				name: companyName,
@@ -92,40 +88,12 @@ function BusinessSignupContainer() {
 				administratorId: administratorId,
 			};
 
-			return axiosPromise
+			await axiosPromise
 				.businessRegisterPromise(businessRegisterInfo)
-				.then((res) => {
-					console.log(res);
-
+				.then(() => {
 					// remove sign up info
 					dispatchPromise.patchSignupCompanyInfoPromise({}, true);
 					sessionStorage.removeItem(constVar.THAINOW_COMPANY_SIGN_UP_OBJ);
-
-					// // update company info
-					// const currentUser = JSON.parse(
-					// 	localStorage.getItem(constVar.THAINOW_USER_OBJ) || {}
-					// );
-
-					// const updatedUserWithCompany = {
-					// 	...currentUser,
-					// 	companies: [...currentUser?.companies, res],
-					// };
-
-					// // save to local storage
-					// localStorage.setItem(
-					// 	constVar.THAINOW_USER_OBJ,
-					// 	JSON.stringify(updatedUserWithCompany)
-					// );
-
-					// update redux-store
-					// dispatchPromise.patchUserInfo({ ...updatedUserWithCompany }, true);
-
-					// navigate
-					navigate(returnURL.length > 0 ? returnURL : continueURL, {
-						state: {
-							...(returnURL.length > 0 && { continue: continueURL }),
-						},
-					});
 				});
 		}
 	};

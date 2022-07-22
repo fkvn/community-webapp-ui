@@ -19,6 +19,9 @@ export const IMAGE_BUSINESS_PROFILE = "businessProfile";
 export const IMAGE_ADD_FRAME = "addFrameImage";
 
 export const SHOW_OFF_CANVAS = "showOffCanvas";
+export const ON_RETURN_URL = "onReturnURL";
+export const ON_SUCCESS_URL = "onSuccessURL";
+export const ON_CLOSE_URL = "onCloseURL";
 
 export const ICON_USER_READER = "userReaderIcon";
 export const ICON_LOCATION = "locationIcon";

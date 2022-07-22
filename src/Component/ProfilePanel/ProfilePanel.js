@@ -17,7 +17,6 @@ function ProfilePanel({
 }) {
 	const navigate = useNavigate();
 	const location = useLocation();
-	const continueURL = location.state?.continue || "/";
 
 	const UploadPhotoButton = () => (
 		<UploadAvatarContainer
@@ -36,7 +35,8 @@ function ProfilePanel({
 			onClick={() =>
 				navigate("/signup", {
 					state: {
-						continue: location.pathname + location.search,
+						[`${constVar.ON_RETURN_URL}`]: "/signup/success",
+						[`${constVar.ON_SUCCESS_URL}`]: location.pathname + location.search,
 					},
 				})
 			}
@@ -62,9 +62,7 @@ function ProfilePanel({
 								title={`Sign Out`}
 								size="sm"
 								variant="secondary "
-								onClick={() =>
-									signoutUserPromise().then(() => navigate(continueURL))
-								}
+								onClick={() => signoutUserPromise().then(() => navigate("/"))}
 							/>
 
 							{/* <LoadingButton

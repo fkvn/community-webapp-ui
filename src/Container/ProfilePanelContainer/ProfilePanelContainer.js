@@ -30,7 +30,7 @@ function ProfilePanelContainer() {
 						profileType === constVar.PROFILE_COMPANY_TYPE_PROP)
 			);
 		}
-	});
+	}, [profile]);
 
 	const uploadPhotoOnClickHanlder = async (formData = FormData()) => {
 		return uploadProfileAvatar(

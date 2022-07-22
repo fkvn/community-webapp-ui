@@ -13,10 +13,8 @@ import OffCanvasContainer from "./OffCanvasContainer";
 
 function SwitchProfileContainer() {
 	const navigate = useNavigate();
-
 	const location = useLocation();
-
-	const continueURL = location?.state?.continue || "/";
+	const continueURL = location?.state?.[`${constVar.ON_SUCCESS_URL}`] || "/";
 
 	const [profiles, setProfiles] = useState([]);
 
@@ -25,17 +23,6 @@ function SwitchProfileContainer() {
 	const profile = useSelector(
 		(state) => state.thainowReducer[`${constVar.THAINOW_PROFILE_OBJ}`] || {}
 	);
-
-	const showOffCanvas = useSelector(
-		(state) =>
-			state.thainowReducer[`${constVar.THAINOW_OFF_CANVAS_OBJ}`]?.[
-				`${constVar.SHOW_OFF_CANVAS}`
-			] || false
-	);
-
-	const onCloseHandler = () => {
-		navigate(continueURL);
-	};
 
 	const sortCompanyProfiles = (companies = []) => {
 		return [...companies].sort(
@@ -49,8 +36,10 @@ function SwitchProfileContainer() {
 		return axiosPromise.getUserCompanies(user?.id);
 	};
 
-	const getCompanyProfiles = (companies = []) => {
-		return companies.reduce(
+	const getCompanyProfiles = async (user = {}) => {
+		const companies = await getCompaniesPromise(user).then((res = []) => res);
+
+		const companyProfiles = companies.reduce(
 			(res, company) =>
 				company.id !== profile.id
 					? [
@@ -68,9 +57,32 @@ function SwitchProfileContainer() {
 					: res,
 			[]
 		);
+		const sortedCompanyProfiles = sortCompanyProfiles(companyProfiles);
+
+		return sortedCompanyProfiles;
 	};
 
-	const fetchProfiles = () => {
+	const getTotalProfiles = async (user = {}) => {
+		const companyProfiles = await getCompanyProfiles(user);
+
+		return [
+			profile,
+			...(user?.id !== profile?.id
+				? [
+						{
+							...convertProfileInfo({
+								type: constVar.PROFILE_USER_TYPE_PROP,
+								user: user,
+							}),
+							[`${constVar.DISABLED_PROP}`]: false,
+						},
+				  ]
+				: []),
+			...companyProfiles,
+		];
+	};
+
+	const initProfiles = () => {
 		const storageUser = localStorage.getItem(constVar.THAINOW_USER_OBJ) || "";
 
 		if (storageUser === "" || JSON.stringify(profile) === "{}") {
@@ -84,7 +96,8 @@ function SwitchProfileContainer() {
 							() =>
 								navigate("/signin", {
 									state: {
-										continue: continueURL,
+										[`${constVar.ON_RETURN_URL}`]: "/switch-profile",
+										[`${constVar.ON_SUCCESS_URL}`]: continueURL,
 									},
 								}),
 							4000
@@ -92,53 +105,21 @@ function SwitchProfileContainer() {
 					);
 				});
 		}
-		// get companies and update profiles list
-		else {
-			const user = JSON.parse(storageUser) || {};
 
-			getCompaniesPromise(user)
-				.then((res = []) => {
-					const companyProfiles = getCompanyProfiles(res);
-					const sortedCompanyProfiles = sortCompanyProfiles(companyProfiles);
-					const totalProfiles = [
-						profile,
-						...(user?.id !== profile?.id
-							? [
-									{
-										...convertProfileInfo({
-											type: constVar.PROFILE_USER_TYPE_PROP,
-											user: user,
-										}),
-										[`${constVar.DISABLED_PROP}`]: false,
-									},
-							  ]
-							: []),
-						...sortedCompanyProfiles,
-					];
-
-					setProfiles(totalProfiles);
-				})
-				.catch(() => {
-					onCloseHandler();
-				});
-		}
-	};
-
-	const init = () => {
-		if (isLoading) {
-			fetchProfiles();
-			setIsLoading(false);
-		}
-
-		if (!showOffCanvas) {
-			dispatchPromise.patchOffCanvasInfoPromise({
-				[`${constVar.SHOW_OFF_CANVAS}`]: true,
-			});
-		}
+		getTotalProfiles(JSON.parse(storageUser)).then((res) => setProfiles(res));
 	};
 
 	useEffect(() => {
-		init();
+		if (isLoading) {
+			dispatchPromise
+				.patchOffCanvasInfoPromise({
+					[`${constVar.SHOW_OFF_CANVAS}`]: true,
+				})
+				.then(() => {
+					initProfiles();
+					setIsLoading(false);
+				});
+		}
 	});
 
 	const title = (
@@ -180,9 +161,9 @@ function SwitchProfileContainer() {
 				JSON.stringify(profile)
 			);
 
-			dispatchPromise.patchProfileInfoPromise({ ...profile }, true);
-
-			navigate(continueURL);
+			dispatchPromise
+				.patchProfileInfoPromise({ ...profile }, true)
+				.then(() => navigate(continueURL));
 		} else {
 			dispatchPromise.submitErrorHandlerPromise(
 				"Switch Profile Failed. Please try again later or contact administrator!"
@@ -249,8 +230,8 @@ function SwitchProfileContainer() {
 					onClick={() =>
 						navigate("/signup/business", {
 							state: {
-								returnUrl: "/switch-profile",
-								continue: continueURL,
+								[`${constVar.ON_RETURN_URL}`]: "/switch-profile",
+								[`${constVar.ON_SUCCESS_URL}`]: continueURL,
 							},
 						})
 					}
@@ -280,7 +261,7 @@ function SwitchProfileContainer() {
 	);
 
 	const app = (
-		<OffCanvasContainer onClose={onCloseHandler}>
+		<OffCanvasContainer>
 			<Stack
 				gap={5}
 				className={`mt-5 col-12 col-md-${totalCard < 4 ? "6" : "8"} mx-auto`}

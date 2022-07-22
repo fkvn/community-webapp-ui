@@ -1,5 +1,6 @@
 import { Offcanvas } from "react-bootstrap";
 import { useSelector } from "react-redux";
+import { useLocation, useNavigate } from "react-router-dom";
 import * as asset from "../Assest/Asset";
 import ImageFrame from "../Component/ImageFrame/ImageFrame";
 import ErrorContainer from "../Container/ErrorContainer";
@@ -15,6 +16,10 @@ function OffCanvasContainer({
 	backdrop = false,
 	children = {},
 }) {
+	const navigate = useNavigate();
+	const location = useLocation();
+	const onCloseUrl = location?.state?.[`${constVar.ON_CLOSE_URL}`] || "/";
+
 	const offCanvas = useSelector(
 		(state) => state.thainowReducer[`${constVar.THAINOW_OFF_CANVAS_OBJ}`] || {}
 	);
@@ -24,6 +29,7 @@ function OffCanvasContainer({
 			[`${constVar.SHOW_OFF_CANVAS}`]: false,
 		});
 		onClose();
+		navigate(onCloseUrl);
 	};
 
 	const app = (

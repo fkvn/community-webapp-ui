@@ -124,7 +124,7 @@ function BusinessSignupFormBody({
 				<SubmitButtonFormGroupControl
 					title="Register Business"
 					className="px-5"
-					show={onSubmitLoading}
+					isLoading={onSubmitLoading}
 				/>
 			</div>
 		</Stack>

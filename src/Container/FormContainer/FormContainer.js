@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { Form, Spinner } from "react-bootstrap";
+import { useLocation, useNavigate } from "react-router-dom";
 import FormHeader from "../../Component/Form/FormLayout/FormHeader";
+import { ON_RETURN_URL, ON_SUCCESS_URL } from "../../Util/ConstVar";
 
 function FormContainer({
 	id = "",
@@ -12,6 +14,11 @@ function FormContainer({
 	onBackHandlerPromise = async () => {},
 	onClose = () => {},
 }) {
+	const navigate = useNavigate();
+	const location = useLocation();
+	const continueURL = location?.state?.[`${ON_SUCCESS_URL}`] || "/";
+	const returnURL = location.state?.[`${ON_RETURN_URL}`] || "";
+
 	const MIN_STEP = 1;
 	const MAX_STEP = stepHandlers.length;
 
@@ -40,41 +47,64 @@ function FormContainer({
 		);
 	};
 
+	const handlerSubmit = () => {
+		stepHandlers?.[step - 1].onStepHandlerPromise().then(() => {
+			if (step < MAX_STEP) {
+				setStep(step + 1);
+			} else if (step === MAX_STEP) {
+				navigate(returnURL.length > 0 ? returnURL : continueURL, {
+					state: {
+						...(returnURL.length > 0 && {
+							[`${ON_SUCCESS_URL}`]: continueURL,
+						}),
+					},
+				});
+			}
+		});
+		return Promise.resolve();
+	};
+
 	const onSubmitHandler = (e) => {
 		// stop form submit refresh
 		e.preventDefault();
 
+		console.log(e);
+
 		// form submit is processing
 		setOnSubmitLoading(true);
 
-		// console.log("submitte");
+		handlerSubmit().then(() => {
+			// setTimeout(() => {
+			// 	setOnSubmitLoading(false);
+			// });
+		});
 
-		// hanlder step submit
-		stepHandlers.forEach(
-			(stepHandler) =>
-				stepHandler.step === step &&
-				stepHandler
-					.onStepHandlerPromise()
-					.then(() => {
-						// console.log("passed");
-						if (stepHandler.callBack) {
-							stepHandler.callBack();
-						}
-						if (step < MAX_STEP) {
-							setStep(step + 1);
-						}
+		// if (onSubmitLoading) {
+		// 	stepHandlers.forEach(
+		// 		(stepHandler) =>
+		// 			stepHandler.step === step &&
+		// 			stepHandler
 
-						setTimeout(() => {
-							setOnSubmitLoading(false);
-						}, 2000);
-					})
-					.catch(() => {
-						// console.log("failed");
-						setTimeout(() => {
-							setOnSubmitLoading(false);
-						}, 2000);
-					})
-		);
+		// 				.then(() => {
+		// 					if (step < MAX_STEP) {
+		// 						console.log("not delay");
+		// 						setStep(step + 1);
+		// 					}
+
+		// 					if (step === MAX_STEP) {
+
+		// 					}
+
+		// 					setTimeout(() => {
+		// 						setOnSubmitLoading(false);
+		// 					}, 2000);
+		// 				})
+		// 				.catch(() => {
+		// 					console.log("failed");
+		// 					setOnSubmitLoading(false);
+		// 				})
+		// 	);
+		// }
 	};
 
 	const app = (

@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useCallback, useEffect } from "react";
 import { useSelector } from "react-redux";
 import PasswordFormControl from "../../../../Component/Form/FormControl/PasswordFormControl";
 import * as dispatchPromise from "../../../../redux-store/dispatchPromise";
@@ -29,16 +29,19 @@ function UserPasswordFormControlContainer({
 		);
 	};
 
-	const dispatchHandler = ({ ...props }) => {
-		switch (storageObjName) {
-			case constVar.THAINOW_USER_SIGN_UP_OBJ:
-				return dispatchPromise.patchSignupUserInfoPromise({ ...props });
-			case constVar.THAINOW_USER_SIGN_IN_OBJ:
-				return dispatchPromise.patchSigninUserInfoPromise({ ...props });
-			default:
-				return async () => {};
-		}
-	};
+	const dispatchHandler = useCallback(
+		({ ...props }) => {
+			switch (storageObjName) {
+				case constVar.THAINOW_USER_SIGN_UP_OBJ:
+					return dispatchPromise.patchSignupUserInfoPromise({ ...props });
+				case constVar.THAINOW_USER_SIGN_IN_OBJ:
+					return dispatchPromise.patchSigninUserInfoPromise({ ...props });
+				default:
+					return async () => {};
+			}
+		},
+		[storageObjName]
+	);
 
 	const updateReduxStorePassword = (password = "", isValidPassword = false) => {
 		dispatchHandler({
@@ -95,7 +98,7 @@ function UserPasswordFormControlContainer({
 				[`${constVar.PASSWORD_VALIDATION}`]: isValidPassword,
 			});
 		}
-	}, [password, storageObjName, onPasswordValidation]);
+	}, [password, storageObjName, onPasswordValidation, dispatchHandler]);
 
 	const app = (
 		<PasswordFormControl

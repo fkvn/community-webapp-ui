@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useCallback, useEffect } from "react";
 import { useSelector } from "react-redux";
 import FormControlControlled from "../../../../Component/Form/FormControl/FormControlControlled";
 import * as dispatchPromise from "../../../../redux-store/dispatchPromise";
@@ -27,16 +27,19 @@ function UserEmailFormControlContainer({
 		);
 	};
 
-	const dispatchHandler = ({ ...props }) => {
-		switch (storageObjName) {
-			case constVar.THAINOW_USER_SIGN_UP_OBJ:
-				return dispatchPromise.patchSignupUserInfoPromise({ ...props });
-			case constVar.THAINOW_USER_SIGN_IN_OBJ:
-				return dispatchPromise.patchSigninUserInfoPromise({ ...props });
-			default:
-				return async () => {};
-		}
-	};
+	const dispatchHandler = useCallback(
+		({ ...props }) => {
+			switch (storageObjName) {
+				case constVar.THAINOW_USER_SIGN_UP_OBJ:
+					return dispatchPromise.patchSignupUserInfoPromise({ ...props });
+				case constVar.THAINOW_USER_SIGN_IN_OBJ:
+					return dispatchPromise.patchSigninUserInfoPromise({ ...props });
+				default:
+					return async () => {};
+			}
+		},
+		[storageObjName]
+	);
 
 	const updateReduxStoreEmail = (email = "", isValidEmail = true) => {
 		dispatchHandler({
@@ -94,7 +97,7 @@ function UserEmailFormControlContainer({
 				[`${constVar.EMAIL_VALIDATION}`]: isValidEmail,
 			});
 		}
-	}, [email, storageObjName, onEmailValidation]);
+	}, [email, storageObjName, onEmailValidation, dispatchHandler]);
 
 	const app = (
 		<FormControlControlled

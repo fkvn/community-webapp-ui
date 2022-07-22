@@ -1,11 +1,8 @@
 import { Stack } from "react-bootstrap";
 import RightBar from "../../Component/RightBar/RightBar";
 import TopBarNavigation from "../../Component/TopBarNavigation/TopBarNavigation";
-import * as constVar from "../../Util/ConstVar";
 
-function LayoutContainer({ user }) {
-	const test = constVar.ERROR;
-
+function LayoutContainer() {
 	const app = (
 		<>
 			<TopBarNavigation />

@@ -17,7 +17,7 @@ function UrlFormGroupControl({
 	withIcon = false,
 	iconSrc = "",
 }) {
-	const [warningMessage, setWarningMessage] = useState(
+	const [warningMessage] = useState(
 		"Please provide a valid domain with http(s)://"
 	);
 

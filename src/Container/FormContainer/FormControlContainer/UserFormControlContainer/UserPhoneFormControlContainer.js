@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useCallback, useEffect } from "react";
 import { useSelector } from "react-redux";
 import PhoneFormControl from "../../../../Component/Form/FormControl/PhoneFormControl";
 import * as dispatchPromise from "../../../../redux-store/dispatchPromise";
@@ -26,16 +26,19 @@ function UserPhoneFormControlContainer({
 		);
 	};
 
-	const dispatchHandler = ({ ...props }) => {
-		switch (storageObjName) {
-			case constVar.THAINOW_USER_SIGN_UP_OBJ:
-				return dispatchPromise.patchSignupUserInfoPromise({ ...props });
-			case constVar.THAINOW_USER_SIGN_IN_OBJ:
-				return dispatchPromise.patchSigninUserInfoPromise({ ...props });
-			default:
-				return async () => {};
-		}
-	};
+	const dispatchHandler = useCallback(
+		({ ...props }) => {
+			switch (storageObjName) {
+				case constVar.THAINOW_USER_SIGN_UP_OBJ:
+					return dispatchPromise.patchSignupUserInfoPromise({ ...props });
+				case constVar.THAINOW_USER_SIGN_IN_OBJ:
+					return dispatchPromise.patchSigninUserInfoPromise({ ...props });
+				default:
+					return async () => {};
+			}
+		},
+		[storageObjName]
+	);
 
 	const updateReduxStorePhone = (formattedPhone = "", isValidPhone = true) => {
 		dispatchHandler({
@@ -97,7 +100,7 @@ function UserPhoneFormControlContainer({
 				[`${constVar.PHONE_VALIDATION}`]: isValidPhone,
 			});
 		}
-	}, [phone, storageObjName, onPhoneValidation]);
+	}, [phone, storageObjName, onPhoneValidation, dispatchHandler]);
 
 	const app = (
 		<PhoneFormControl

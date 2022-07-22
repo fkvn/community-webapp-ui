@@ -9,6 +9,8 @@ import {
 } from "../../redux-store/dispatchPromise";
 import {
 	EMAIL_PROP,
+	EMAIL_VALIDATION,
+	PHONE_PROP,
 	PHONE_VALIDATION,
 	SHOW_OFF_CANVAS,
 	THAINOW_OFF_CANVAS_OBJ,
@@ -29,10 +31,9 @@ function UserSigninContainer() {
 	*/
 
 	const navigate = useNavigate();
-
 	const location = useLocation();
-
 	const continueURL = location?.state?.continue || "/";
+	const returnURL = location.state?.returnUrl || "";
 
 	const showOffCanvas = useSelector(
 		(state) =>
@@ -45,12 +46,15 @@ function UserSigninContainer() {
 
 	const onCloseHandler = () => {
 		removeUserSigninInfo();
-		navigate(continueURL);
 	};
 
 	const signinHanlder = async () => {
 		return signInUserPromise(signinMethod).then(() => {
-			navigate(continueURL);
+			navigate(returnURL.length > 0 ? returnURL : continueURL, {
+				state: {
+					...(returnURL.length > 0 && { continue: continueURL }),
+				},
+			});
 		});
 	};
 
@@ -70,10 +74,15 @@ function UserSigninContainer() {
 	const onSubmitStep_1_HandlerPromise = async () => {
 		const signinInfo = getState()[`${THAINOW_USER_SIGN_IN_OBJ}`];
 
-		const { [`${PHONE_VALIDATION}`]: isValidPhone = false } = signinInfo;
+		const {
+			[`${PHONE_VALIDATION}`]: isValidPhone = false,
+			[`${EMAIL_VALIDATION}`]: isValidEmail = false,
+		} = signinInfo;
 
-		if (!isValidPhone) {
-			return submitErrorHandlerPromise("Invalid Phone");
+		if (signinMethod === PHONE_PROP && !isValidPhone) {
+			return submitErrorHandlerPromise("Invalid Phone Number");
+		} else if (signinMethod === EMAIL_PROP && !isValidEmail) {
+			return submitErrorHandlerPromise("Invalid Email Address");
 		} else {
 			return signinHanlder(signinMethod);
 		}

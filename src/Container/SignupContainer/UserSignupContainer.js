@@ -1,6 +1,5 @@
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
-import { useLocation, useNavigate } from "react-router-dom";
 import * as axiosPromise from "../../Axios/axiosPromise";
 import UserSignup from "../../Component/Signup/UserSignup";
 import * as dispatchPromise from "../../redux-store/dispatchPromise";
@@ -8,11 +7,6 @@ import * as constVar from "../../Util/ConstVar";
 import OffCanvasContainer from "../OffCanvasContainer";
 
 function UserSignupContainer() {
-	const navigate = useNavigate();
-	const location = useLocation();
-
-	const continueURL = location.state?.continue || "/";
-
 	const showOffCanvas = useSelector(
 		(state) =>
 			state.thainowReducer[`${constVar.THAINOW_OFF_CANVAS_OBJ}`]?.[
@@ -34,7 +28,6 @@ function UserSignupContainer() {
 	const onCloseHandler = () => {
 		dispatchPromise.patchSignupUserInfoPromise({}, true);
 		sessionStorage.removeItem(constVar.THAINOW_USER_SIGN_UP_OBJ);
-		navigate(continueURL, { replace: true });
 	};
 
 	const validateUsernameHandler = (username = "") =>
@@ -93,31 +86,23 @@ function UserSignupContainer() {
 			verified: verified,
 		};
 
-		return axiosPromise
-			.getPromise(axiosPromise.signupPromise(signupSubmitInfo))
-			.then(() => {
-				// clear sign up info
-				dispatchPromise.patchSignupUserInfoPromise({}, true);
-				sessionStorage.removeItem(constVar.THAINOW_USER_SIGN_UP_OBJ);
+		return axiosPromise.signupPromise(signupSubmitInfo).then(() => {
+			// clear sign up info
+			dispatchPromise.patchSignupUserInfoPromise({}, true);
+			sessionStorage.removeItem(constVar.THAINOW_USER_SIGN_UP_OBJ);
 
-				// save sign in info
-				dispatchPromise.patchSigninUserInfoPromise(
-					{
-						[`${constVar.SIGNIN_METHOD_PROP}`]: channel,
-						[`${constVar.EMAIL_PROP}`]: email,
-						[`${constVar.PHONE_PROP}`]: phone,
-						[`${constVar.PASSWORD_PROP}`]: password,
-						[`${constVar.USERNAME_PROP}`]: username,
-					},
-					true
-				);
-
-				navigate("/signup/success", {
-					state: {
-						continue: continueURL,
-					},
-				});
-			});
+			// save sign in info
+			dispatchPromise.patchSigninUserInfoPromise(
+				{
+					[`${constVar.SIGNIN_METHOD_PROP}`]: channel,
+					[`${constVar.EMAIL_PROP}`]: email,
+					[`${constVar.PHONE_PROP}`]: phone,
+					[`${constVar.PASSWORD_PROP}`]: password,
+					[`${constVar.USERNAME_PROP}`]: username,
+				},
+				true
+			);
+		});
 	};
 
 	const onSubmitStep_1_HandlerPromise = async () => {
@@ -174,9 +159,10 @@ function UserSignupContainer() {
 		if (!isValidValue || channel === "" || value === "") {
 			return submitErrorHandler(message);
 		} else {
-			return validatePromise(value).then(() =>
-				sendOtpCodeHandler(channel, value)
-			);
+			return validatePromise(value);
+			// .then(() =>
+			// 	sendOtpCodeHandler(channel, value)
+			// );
 		}
 	};
 
@@ -209,10 +195,10 @@ function UserSignupContainer() {
 				"Sorry, the request failed. Please try again later."
 			);
 		} else {
-			// signupHandler(true);
-			return verifyOtpCodeHandler(channel, value, token).then(() =>
-				signupHandler(true)
-			);
+			return signupHandler(true);
+			// return verifyOtpCodeHandler(channel, value, token).then(() =>
+			// 	signupHandler(true)
+			// );
 		}
 	};
 

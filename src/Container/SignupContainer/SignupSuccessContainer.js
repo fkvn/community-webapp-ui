@@ -9,7 +9,7 @@ function SignupSuccessContainer() {
 
 	const location = useLocation();
 
-	const continueURL = location?.state?.continue || "/";
+	const continueURL = location?.state?.[`${constVar.ON_SUCCESS_URL}`] || "/";
 
 	const signinInfo =
 		dispatchPromise.getState()[`${constVar.THAINOW_USER_SIGN_IN_OBJ}`] || {};
@@ -19,16 +19,10 @@ function SignupSuccessContainer() {
 		[`${constVar.SIGNIN_METHOD_PROP}`]: signinMethod = "",
 	} = signinInfo;
 
-	const signinUserHandler = () => {
-		return signInUserPromise(signinMethod)
-			.then(() => {
-				navigate(continueURL);
-			})
-			.catch(() => {
-				dispatchPromise.submitErrorHandlerPromise(
-					"Unexpected mistake! Please try again or contact the administrator"
-				);
-			});
+	const signinUserHandler = async () => {
+		return signInUserPromise(signinMethod).then(() => {
+			navigate(continueURL);
+		});
 	};
 
 	const app = (

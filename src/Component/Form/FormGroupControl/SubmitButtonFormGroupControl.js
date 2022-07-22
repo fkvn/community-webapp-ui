@@ -16,6 +16,8 @@ function SubmitButtonFormGroupControl({
 	buttonStyle = "",
 	loadingColor = "",
 }) {
+	console.log(isLoading);
+
 	const app = (
 		<Form.Group className={`tedkvn-formGroupControl ${formGroupClassName}`}>
 			<LoadingButton
