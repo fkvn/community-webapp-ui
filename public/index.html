@@ -53,6 +53,7 @@
 			property="og:image"
 			content="https://firebasestorage.googleapis.com/v0/b/mono-thainow.appspot.com/o/thainow-service-worker%2Fnobg_512x512.png?alt=media&token=201fd956-dcaa-4f22-b1b6-6df785b71d8b"
 		/>
+
 		<!-- font -->
 		<link rel="preconnect" href="https://fonts.googleapis.com" />
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -65,12 +66,38 @@
 			async
 			defer
 		></script>
+
+		<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+		<script async defer src="https://apis.google.com/js/api.js"></script> -->
+		<script src="https://accounts.google.com/gsi/client" async defer></script>
+
 		<!-- Title -->
 
 		<title>ThaiNow</title>
 	</head>
 	<body>
 		<noscript>Welcome to ThaiNow.</noscript>
+		<!-- <div
+			id="g_id_onload"
+			data-client_id="776649368023-066tf4h17jo8m2bdfbjbjo7lov8moln8.apps.googleusercontent.com"
+			data-context="signin"
+			data-ux_mode="popup"
+			data-login_uri="http://localhost:3000"
+			data-auto_prompt="false"
+		></div>
+
+		<div
+			className="g_id_signin"
+			data-type="standard"
+			data-shape="pill"
+			data-theme="outline"
+			data-text="signin_with"
+			data-size="large"
+			data-logo_alignment="left"
+		></div> -->
+
+		<script></script>
+
 		<div id="root"></div>
 		<!--
       This HTML file is a template.

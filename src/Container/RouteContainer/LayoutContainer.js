@@ -1,11 +1,15 @@
-import { Stack } from "react-bootstrap";
-import RightBar from "../../Component/RightBar/RightBar";
-import TopBarNavigation from "../../Component/TopBarNavigation/TopBarNavigation";
+// import { Stack } from "react-bootstrap";
+// import RightBar from "../../Component/RightBar/RightBar";
+// import TopBarNavigation from "../../Component/TopBarNavigation/TopBarNavigation";
+
+import GoogleAuthContainer from "../AuthContainer/GoogleAuthContainer";
 
 function LayoutContainer() {
 	const app = (
 		<>
-			<TopBarNavigation />
+			<div>Sign In with Google</div>
+			<GoogleAuthContainer />
+			{/* <TopBarNavigation />
 			<Stack
 				direction="horizontal"
 				className="w-100"
@@ -16,7 +20,7 @@ function LayoutContainer() {
 				<div id="right-bar" className="col-12 col-md-4 h-100 px-3">
 					<RightBar />
 				</div>
-			</Stack>
+			</Stack> */}
 		</>
 	);
 

@@ -65,6 +65,8 @@ instance.interceptors.request.use(
 			config.headers.Authorization = `Bearer ${
 				JSON.parse(thaiNowObj)["access_token"]
 			}`;
+
+			// config.cookie({ sameSite: "Lax" });
 		}
 		return config;
 	},
