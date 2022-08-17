@@ -1,14 +1,11 @@
 // import { Stack } from "react-bootstrap";
-// import RightBar from "../../Component/RightBar/RightBar";
-// import TopBarNavigation from "../../Component/TopBarNavigation/TopBarNavigation";
-
-import GoogleAuthContainer from "../AuthContainer/GoogleAuthContainer";
 
 function LayoutContainer() {
 	const app = (
 		<>
 			<div>Sign In with Google</div>
-			<GoogleAuthContainer />
+			{/* <GoogleAuthContainer /> */}
+			{/* <AppleAuthContainer /> */}
 			{/* <TopBarNavigation />
 			<Stack
 				direction="horizontal"
