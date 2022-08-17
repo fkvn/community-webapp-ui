@@ -2,6 +2,7 @@
 // import RightBar from "../../Component/RightBar/RightBar";
 // import TopBarNavigation from "../../Component/TopBarNavigation/TopBarNavigation";
 
+import AppleAuthContainer from "../AuthContainer/AppleAuthContainer";
 import GoogleAuthContainer from "../AuthContainer/GoogleAuthContainer";
 
 function LayoutContainer() {
@@ -9,6 +10,7 @@ function LayoutContainer() {
 		<>
 			<div>Sign In with Google</div>
 			<GoogleAuthContainer />
+			<AppleAuthContainer />
 			{/* <TopBarNavigation />
 			<Stack
 				direction="horizontal"

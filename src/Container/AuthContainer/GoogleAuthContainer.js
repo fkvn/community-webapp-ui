@@ -10,7 +10,7 @@ function GoogleAuthContainer() {
 	};
 
 	useEffect(() => {
-		if (isLoading) {
+		if (isLoading && window.google.accounts) {
 			new window.google.accounts.id.initialize({
 				client_id:
 					"776649368023-066tf4h17jo8m2bdfbjbjo7lov8moln8.apps.googleusercontent.com",
