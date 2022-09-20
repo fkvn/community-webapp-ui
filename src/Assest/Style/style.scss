@@ -2,31 +2,35 @@
 
 @import "antd/dist/antd.css";
 
-// desktop - re
-@import url(./index.css);
+@import url(./scss/base/_global.scss);
 
-@import url(./global.css);
+@import url(./scss/layout/layout.scss);
 
-@import url(./topbar.css);
+// // desktop - re
+// @import url(./index.css);
 
-@import url(./landingPage.css);
+// @import url(./global.css);
 
-@import url(./login.css);
+// @import url(./topbar.css);
 
-@import url(./signup.css);
+// @import url(./landingPage.css);
 
-@import url(profilePanel.css);
+// @import url(./login.css);
 
-// others
+// @import url(./signup.css);
 
-@import url(./Devices/desktop-xxl.css);
+// @import url(profilePanel.css);
 
-@import url(./Devices/desktop-xl-xxl.css);
+// // others
 
-@import url(./Devices/desktop-lg-xl.css);
+// @import url(./Devices/desktop-xxl.css);
 
-@import url(./Devices/tablet-md.css);
+// @import url(./Devices/desktop-xl-xxl.css);
 
-@import url(./Devices/mobile-lg.css);
+// @import url(./Devices/desktop-lg-xl.css);
 
-@import url(./Devices/mobile-md.css);
+// @import url(./Devices/tablet-md.css);
+
+// @import url(./Devices/mobile-lg.css);
+
+// @import url(./Devices/mobile-md.css);

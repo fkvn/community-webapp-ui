@@ -4,6 +4,19 @@ import {
 	PROFILE_USER_TYPE_PROP,
 } from "../Util/ConstVar";
 
+export const findCompany = ({
+	keywords = "",
+	centerLat = "34.1018097",
+	centerLng = "-118.3035723",
+}) => {
+	// default search at ThaiTown LA
+	return axios.get(
+		`/search/companies?keywords=${keywords}&centerLat=${centerLat}&centerLng=${centerLng}`
+	);
+};
+
+//  ===================================================
+
 export const getPromise = async (promise = () => {}) => {
 	return promise.then((res) => {
 		if (res) return res.data ? res.data : res;

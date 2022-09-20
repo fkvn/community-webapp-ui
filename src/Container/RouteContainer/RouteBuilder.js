@@ -4,6 +4,7 @@ import SignupRouteContainer from "../AuthContainer/SignupRouteContainer";
 import UserSigninContainer from "../AuthContainer/UserSigninContainer";
 import ErrorContainer from "../ErrorContainer";
 import ProfileContainer from "../ProfilePanelContainer/ProfileContainer";
+import SearchContainer from "../SearchContainer/SearchContainer";
 import SwitchProfileContainer from "../SwitchProfileContainer";
 import AuthContainer from "./AuthContainer";
 import LayoutContainer from "./LayoutContainer";
@@ -16,6 +17,7 @@ function RouteBuilder() {
 				<Route path="/signup/*" element={<SignupRouteContainer />} />
 				<Route path="/signin" element={<UserSigninContainer />} />
 				<Route path="/myprofile/:id" element={<ProfileContainer />} />
+				<Route path="/search" element={<SearchContainer />} />
 				<Route
 					path="/switch-profile"
 					element={

@@ -35,6 +35,12 @@ const initialState = {
 	[`${constVar.THAINOW_OFF_CANVAS_OBJ}`]: {
 		[`${constVar.SHOW_OFF_CANVAS}`]: false,
 	},
+	[`${constVar.LOCATION_OBJ}`]: {
+		[`${constVar.ADDRESS_PROP}`]: "Thai Town, Los Angeles, CA, USA",
+		[`${constVar.PLACEID_PROP}`]: "ChIJf2z2Hle_woARaNaIiR198fg",
+		[`${constVar.LAT_PROP}`]: "34.1018097",
+		[`${constVar.LNG_PROP}`]: "-118.3035723",
+	},
 };
 
 // ==================  Reducer helping functions =========================

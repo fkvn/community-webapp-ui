@@ -33,8 +33,13 @@ export const ICON_NOTIFICATION_BLACK = "notificationBlack";
 export const ICON_THREE_BARS_BLACK = "3barsBlack";
 export const ICON_US_PHONE = "usPhoneIcon";
 
+export const LOCATION_OBJ = "location";
+export const PLACEID_PROP = "placeid";
+export const LAT_PROP = "lat";
+export const LNG_PROP = "lng";
+
 export const SEARCH_INPUT_PROP = "input";
-export const SEARCH_LOCATION_PROP = "address";
+export const SEARCH_LOCATION_ADDRESS = "address";
 
 export const PROFILE_TYPE_PROP = "profileType";
 export const PROFILE_GUEST_TYPE_PROP = "guestProfile";

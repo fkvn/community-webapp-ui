@@ -1,0 +1,20 @@
+$default: true !default;
+
+$layout-marginTop: 0 !default;
+$layout-marginBottm: 0 !default;
+$layout-marginLeft: 0 !default;
+$layout-marginRight: 0 !default;
+
+$layout-content-marginTop: 5rem !default;
+
+.tedkvn-center {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+@mixin layout-margin($default: true, $top: 0, $bottom: 0, $left: 0, $right: 0) {
+	@if not$default {
+		margin: $top $right $bottm $left;
+	}
+}

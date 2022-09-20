@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
-import GoogleAutoComplete from "../../../../Component/AutoComplete/GoogleAutoComplete";
+import GoogleAutoComplete from "../../../../Component/AutoComplete/useGoogleAutoComplete";
 import * as dispatchPromise from "../../../../redux-store/dispatchPromise";
 import * as constVar from "../../../../Util/ConstVar";
 import * as util from "../../../../Util/Util";
