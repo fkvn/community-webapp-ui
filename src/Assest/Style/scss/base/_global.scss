@@ -13,6 +13,21 @@ $layout-content-marginTop: 5rem !default;
 	align-items: center;
 }
 
+.anticon-close-circle {
+	/* Remove default */
+	// -webkit-appearance: none;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+
+	/* Now your own custom styles */
+	margin: 0 0.2rem;
+	font-size: 1rem;
+	height: 100%;
+	width: 1.2rem !important;
+	color: red;
+}
+
 @mixin layout-margin($default: true, $top: 0, $bottom: 0, $left: 0, $right: 0) {
 	@if not$default {
 		margin: $top $right $bottm $left;

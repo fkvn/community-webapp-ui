@@ -4,14 +4,10 @@ import {
 	PROFILE_USER_TYPE_PROP,
 } from "../Util/ConstVar";
 
-export const findCompany = ({
-	keywords = "",
-	centerLat = "34.1018097",
-	centerLng = "-118.3035723",
-}) => {
+export const findCompany = ({ keywords = "", address = "", placeid = "" }) => {
 	// default search at ThaiTown LA
 	return axios.get(
-		`/search/companies?keywords=${keywords}&centerLat=${centerLat}&centerLng=${centerLng}`
+		`/search/companies?keywords=${keywords}&address=${address}&placeid=${placeid}`
 	);
 };
 

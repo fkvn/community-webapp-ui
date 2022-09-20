@@ -12,6 +12,20 @@ export const submitErrorHandlerPromise = async (message = "", status = "") => {
 	throw store.dispatch(actionCreators.initError(message, status));
 };
 
+export const patchLocationInfoPromise = async (
+	{ ...props },
+	replace = false
+) => {
+	return store.dispatch(
+		actionCreators.patchStoreRootObjInfo(
+			actionTypes.DISPATCH_PATCH_LOCATION_OBJ_INFO,
+			constVar.LOCATION_OBJ,
+			{ ...props },
+			replace
+		)
+	);
+};
+
 //  user
 export const patchUserInfoPromise = async ({ ...props }, replace = false) => {
 	return store.dispatch(

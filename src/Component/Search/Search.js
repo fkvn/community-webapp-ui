@@ -1,9 +1,11 @@
+import { CloseCircleOutlined } from "@ant-design/icons";
 import { AutoComplete, Button, Form, Input } from "antd";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Stack } from "react-bootstrap";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { LOCATION_OBJ } from "../../Util/ConstVar";
+import { patchLocationInfoPromise } from "../../redux-store/dispatchPromise";
+import { ADDRESS_PROP, LOCATION_OBJ, PLACEID_PROP } from "../../Util/ConstVar";
 import useGoogleAutoComplete from "../AutoComplete/useGoogleAutoComplete";
 
 function Search({ direction = "vertical", gap = 4, defaultKeywords = "" }) {
@@ -11,8 +13,10 @@ function Search({ direction = "vertical", gap = 4, defaultKeywords = "" }) {
 	const keywords = Form.useWatch("keywords", form);
 	const navigate = useNavigate();
 
+	const [searchType] = useState("companies");
+
 	const onFinish = () => {
-		navigate("/search?keywords=" + keywords);
+		navigate(`/search?type=${searchType}&keywords=${keywords}&submit=${true}`);
 	};
 
 	const location = useSelector(
@@ -22,8 +26,6 @@ function Search({ direction = "vertical", gap = 4, defaultKeywords = "" }) {
 	const { fetchPredictions } = useGoogleAutoComplete();
 
 	const [locationOptions, setLocationOptions] = useState([]);
-
-	const [searchLocation, setSearchLocation] = useState("");
 
 	const onSearch = (searchText = "") => {
 		fetchPredictions(searchText).then(({ predictions }) => {
@@ -38,18 +40,40 @@ function Search({ direction = "vertical", gap = 4, defaultKeywords = "" }) {
 		});
 	};
 
-	useEffect(() => {
-		if (searchLocation !== "") {
-		}
-	}, [searchLocation]);
+	const onSelect = (data) => {
+		console.log(data);
 
-	const onSelect = (data, option) => {
-		setSearchLocation(option.label);
-		console.log(JSON.parse(data));
+		const location = {
+			[`${ADDRESS_PROP}`]: JSON.parse(data)?.description || "",
+			[`${PLACEID_PROP}`]: JSON.parse(data)?.place_id || "",
+		};
+
+		patchLocationInfoPromise(location, true).then(() =>
+			sessionStorage.setItem([`${LOCATION_OBJ}`], JSON.stringify(location))
+		);
 	};
 
 	const onChange = (data) => {
-		setSearchLocation(data);
+		patchLocationInfoPromise({ [`${ADDRESS_PROP}`]: data }, true).then(() =>
+			sessionStorage.setItem(
+				[`${LOCATION_OBJ}`],
+				JSON.stringify({
+					[`${ADDRESS_PROP}`]: data,
+				})
+			)
+		);
+	};
+
+	const onBlur = () => {
+		let address = location?.[`${ADDRESS_PROP}`] || "";
+		let placeid = location?.[`${PLACEID_PROP}`] || "";
+
+		const validLocation = address === "" || (address !== "" && placeid !== "");
+
+		if (!validLocation) {
+			sessionStorage.removeItem([`${LOCATION_OBJ}`]);
+			patchLocationInfoPromise({}, true);
+		}
 	};
 
 	const app = (
@@ -60,15 +84,24 @@ function Search({ direction = "vertical", gap = 4, defaultKeywords = "" }) {
 					className="w-100 m-0"
 					initialValue={defaultKeywords}
 				>
-					<Input />
+					<Input placeholder="Hi there, what are you looking for today?" />
 				</Form.Item>
 				<AutoComplete
-					value={searchLocation}
+					value={location[`${ADDRESS_PROP}`]}
 					style={{ width: "50%" }}
+					defaultActiveFirstOption={true}
+					children={
+						<Input
+							allowClear={{
+								clearIcon: <CloseCircleOutlined />,
+							}}
+						/>
+					}
 					options={locationOptions}
 					onSelect={onSelect}
 					onSearch={onSearch}
 					onChange={onChange}
+					onBlur={onBlur}
 					placeholder="street, city, zipcode, or state"
 				></AutoComplete>
 				<Form.Item className="ms-auto m-0">
