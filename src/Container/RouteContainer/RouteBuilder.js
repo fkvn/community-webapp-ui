@@ -14,7 +14,7 @@ function RouteBuilder() {
 		<>
 			<Routes>
 				<Route path="/" element={<LayoutContainer />} />
-				<Route path="/signup/*" element={<SignupRouteContainer />} />
+				<Route path="/register/*" element={<SignupRouteContainer />} />
 				<Route path="/signin" element={<UserSigninContainer />} />
 				<Route path="/myprofile/:id" element={<ProfileContainer />} />
 				<Route path="/search" element={<SearchContainer />} />

@@ -16,6 +16,37 @@
 	}
 }
 
-@media only screen and (min-width: 1400px) {
-	// @include global.layout-margin("#layout", false, 0, 0, 5rem, 5rem);
+#RightLayout {
+	position: fixed;
+	height: 100vh;
+	overflow: auto;
+	max-width: 25%;
+}
+
+#RightLayout::-webkit-scrollbar {
+	display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+#RightLayout {
+	-ms-overflow-style: none; /* IE and Edge */
+	scrollbar-width: none; /* Firefox */
+}
+
+#LeftLayout {
+	// position: fixed;
+	// height: 100vh;
+	overflow: auto;
+}
+
+@media only screen and (min-width: global.$lg) {
+	#searchbar {
+		padding: 0 5rem;
+	}
+}
+
+@media only screen and (min-width: global.$xxl) {
+	#searchbar {
+		padding: 0 15rem;
+	}
 }

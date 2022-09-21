@@ -225,10 +225,7 @@ function UserSignupContainer() {
 
 	const app = (
 		<OffCanvasContainer onClose={onCloseHandler}>
-			<UserSignup
-				stepHandlers={stepHandlers}
-				onSelectVerifyMethod={onSelectVerifyMethodHandler}
-			/>
+			<UserSignup />
 		</OffCanvasContainer>
 	);
 	return app;

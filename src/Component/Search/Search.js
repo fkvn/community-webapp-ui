@@ -1,4 +1,4 @@
-import { CloseCircleOutlined } from "@ant-design/icons";
+import { CloseCircleOutlined, SearchOutlined } from "@ant-design/icons";
 import { AutoComplete, Button, Form, Input } from "antd";
 import { useState } from "react";
 import { Stack } from "react-bootstrap";
@@ -28,21 +28,21 @@ function Search({ direction = "vertical", gap = 4, defaultKeywords = "" }) {
 	const [locationOptions, setLocationOptions] = useState([]);
 
 	const onSearch = (searchText = "") => {
-		fetchPredictions(searchText).then(({ predictions }) => {
-			setLocationOptions(
-				predictions.map((prediction) => {
-					return {
-						label: prediction.description,
-						value: JSON.stringify(prediction),
-					};
-				})
-			);
-		});
+		if (searchText !== "") {
+			fetchPredictions(searchText).then(({ predictions }) => {
+				setLocationOptions(
+					predictions.map((prediction) => {
+						return {
+							label: prediction.description,
+							value: JSON.stringify(prediction),
+						};
+					})
+				);
+			});
+		}
 	};
 
 	const onSelect = (data) => {
-		console.log(data);
-
 		const location = {
 			[`${ADDRESS_PROP}`]: JSON.parse(data)?.description || "",
 			[`${PLACEID_PROP}`]: JSON.parse(data)?.place_id || "",
@@ -84,7 +84,13 @@ function Search({ direction = "vertical", gap = 4, defaultKeywords = "" }) {
 					className="w-100 m-0"
 					initialValue={defaultKeywords}
 				>
-					<Input placeholder="Hi there, what are you looking for today?" />
+					<Input
+						allowClear={{
+							clearIcon: <CloseCircleOutlined />,
+						}}
+						placeholder="Hi there, what are you looking for today?"
+						prefix={<SearchOutlined className="mr-2" />}
+					/>
 				</Form.Item>
 				<AutoComplete
 					value={location[`${ADDRESS_PROP}`]}
@@ -105,8 +111,8 @@ function Search({ direction = "vertical", gap = 4, defaultKeywords = "" }) {
 					placeholder="street, city, zipcode, or state"
 				></AutoComplete>
 				<Form.Item className="ms-auto m-0">
-					<Button type="primary" htmlType="submit">
-						Submit
+					<Button type="danger" htmlType="submit">
+						Search
 					</Button>
 				</Form.Item>
 			</Stack>

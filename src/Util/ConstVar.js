@@ -17,6 +17,7 @@ export const IMAGE_GUEST_PROFILE = "guestProfile";
 export const IMAGE_CLASSIC_PROFILE = "classicProfile";
 export const IMAGE_BUSINESS_PROFILE = "businessProfile";
 export const IMAGE_ADD_FRAME = "addFrameImage";
+export const IMAGE_BLUR_THAINOW = "thainowBlurImage";
 
 export const SHOW_OFF_CANVAS = "showOffCanvas";
 export const ON_RETURN_URL = "onReturnURL";

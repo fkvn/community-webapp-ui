@@ -1,5 +1,7 @@
 import { Col, Layout, Row } from "antd";
-import TopBar from "../TopBar/TopBar";
+import LeftLayout from "./LeftLayout";
+import RightLayout from "./RightLayout";
+import TopBar from "./TopBar";
 
 function PageLayout({ keywords = "" }) {
 	const { Header, Content, Footer } = Layout;
@@ -13,14 +15,13 @@ function PageLayout({ keywords = "" }) {
 				<Content>
 					<Row>
 						<Col xs={24} lg={18}>
-							Left
+							<LeftLayout />
 						</Col>
 						<Col xs={0} lg={6}>
-							Right
+							<RightLayout />
 						</Col>
 					</Row>
 				</Content>
-				<Footer className=""> </Footer>
 			</Col>
 		</Row>
 	);

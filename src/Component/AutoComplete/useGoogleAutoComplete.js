@@ -25,29 +25,7 @@ function useGoogleAutoComplete() {
 		}
 	}, [autoComplete]);
 
-	// const [predictions, setPredictions] = useState([]);
-
-	// const onUpdatePredictionHanlder = (value, onSelect = false) => {
-	// 	const description = onSelect ? value.description : value || "";
-
-	// 	// update predictions
-	// 	if (onSelect || description === "") {
-	// 		setPredictions([]);
-	// 	} else {
-	// 		getPlacePredictionPromise(description).then((res) => {
-	// 			setPredictions(
-	// 				res.predictions.map((prediction) => {
-	// 					return {
-	// 						description: prediction.description,
-	// 						placeid: prediction.place_id,
-	// 					};
-	// 				})
-	// 			);
-	// 		});
-	// 	}
-	// };
-
-	const fetchPredictions = (address) =>
+	const fetchPredictions = (address = "") =>
 		autoComplete.getPlacePredictions({
 			input: address,
 			componentRestrictions: { country: "US" },
@@ -63,10 +41,6 @@ function useGoogleAutoComplete() {
 	}, [init, loading, setLoading]);
 
 	return { fetchPredictions };
-
-	// return app;
 }
 
 export default useGoogleAutoComplete;
-
-// export default GoogleAutoComplete;

@@ -7,6 +7,7 @@ import classicProfile from "./Image/Profile/UserProfile_Classic.png";
 import guestProfile from "./Image/Profile/UserProfile_Guest3.png";
 
 import addFrameImage from "./Image/Others/Add.png";
+import thainowBlurImage from "./Image/Others/img-blur-thainow.png";
 
 import threeBarsIcon from "./Image/Icon/3bars-icon.png";
 import emailIconBlack from "./Image/Icon/email-icon-black.png";
@@ -24,6 +25,7 @@ export const images = {
 	[`${constVar.IMAGE_CLASSIC_PROFILE}`]: classicProfile,
 	[`${constVar.IMAGE_BUSINESS_PROFILE}`]: businessProfile,
 	[`${constVar.IMAGE_ADD_FRAME}`]: addFrameImage,
+	[`${constVar.IMAGE_BLUR_THAINOW}`]: thainowBlurImage,
 	genwar: genwar,
 };
 

@@ -6,7 +6,7 @@ import UserSignupContainer from "../SignupContainer/UserSignupContainer";
 function SignupRouteContainer() {
 	const routes = (
 		<Routes>
-			{/* prefix - parent url : /signup */}
+			{/* prefix - parent url : /register */}
 			<Route path="/" element={<UserSignupContainer />} />
 			{/* <Route path="classic" element={<ClassicSignupContainer />} /> */}
 			<Route path="business" element={<BusinessSignupContainer />} />
