@@ -9,7 +9,8 @@ export const getState = () => {
 
 export const submitErrorHandlerPromise = async (message = "", status = "") => {
 	setTimeout(() => store.dispatch(actionCreators.initError("", "")), 2000);
-	throw store.dispatch(actionCreators.initError(message, status));
+	store.dispatch(actionCreators.initError(message, status));
+	return Promise.reject(message);
 };
 
 export const patchLocationInfoPromise = async (

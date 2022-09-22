@@ -61,6 +61,7 @@ export const LASTNAME_PROP = "lastname";
 export const EMAIL_PROP = "email";
 export const EMAIL_VALIDATION = "isValidEmail";
 export const PHONE_PROP = "phone";
+export const SMS_PROP = "sms";
 export const PHONE_VALIDATION = "isValidPhone";
 export const PASSWORD_PROP = "password";
 export const PASSWORD_VALIDATION = "isValidPassword";

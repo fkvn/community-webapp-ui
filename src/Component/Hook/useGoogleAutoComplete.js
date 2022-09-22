@@ -1,16 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 
 function useGoogleAutoComplete() {
-	// address = "test"
-	// id = "",
-	// required = false,
-	// value = "",
-	// className = "",
-	// placeholder = "Address",
-	// style = {},
-	// onMergeStorage = () => {},
-	// onLoadDefaultValue = () => {},
-	// showAddressList = false,
 	const [loading, setLoading] = useState(true);
 
 	const [autoComplete, setAutoComplete] = useState({});

@@ -14,13 +14,13 @@ const responseHandler = (response) => {
 	return response;
 };
 
-const errorHandler = (error) => {
+const errorHandler = async (error) => {
 	// return Promise.reject(error);
 
 	if (error.message === "Network Error" || error.response.status === 502) {
-		submitErrorHandlerPromise(
+		return Promise.reject(
 			"Network Error! The service is down. Please come to visit the site later"
-		).catch(() => {});
+		);
 
 		// store.dispatch(
 		// 	actionCreators.initError(
@@ -43,7 +43,7 @@ const errorHandler = (error) => {
 			signoutUserPromise();
 		}
 
-		submitErrorHandlerPromise(message, status).catch(() => {});
+		return submitErrorHandlerPromise(message, status).catch(() => {});
 
 		// store.dispatch(
 		// 	actionCreators.initError(message, error.response.data.status)
@@ -52,7 +52,7 @@ const errorHandler = (error) => {
 		const message = error.response.data.message || "Bad Request";
 		const status = error.response.data.status || "Bad Request";
 
-		submitErrorHandlerPromise(message, status).catch(() => {});
+		return submitErrorHandlerPromise(message, status).catch(() => {});
 
 		// store.dispatch(actionCreators.initError(message, status));
 	}

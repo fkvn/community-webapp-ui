@@ -1,14 +1,24 @@
-import { Button, Divider, Form, Input, Space } from "antd";
+import { MailOutlined, MessageOutlined } from "@ant-design/icons";
+import { Alert, Button, Divider, Form, Input, Space, Spin } from "antd";
 import { useState } from "react";
 import { Stack } from "react-bootstrap";
 import { useLocation, useNavigate } from "react-router-dom";
+import { EMAIL_PROP, PHONE_PROP } from "../../Util/ConstVar";
 import AgreementFormControl from "../Form/FormControl/AgreementFormControl";
+import useSendVerifyCode from "../Hook/useTwilio";
 
 function UserSignup({ stepHandlers = [], onSelectVerifyMethod = () => {} }) {
 	const navigate = useNavigate();
 	const location = useLocation();
-
 	const [form] = Form.useForm();
+	const [verifyInfo, setVerifyInfo] = useState({
+		channel: "",
+		sendingCode: false,
+		sentCode: true,
+		verifyAndRegister: false,
+	});
+
+	const { sendVerifyCode } = useSendVerifyCode();
 
 	// const id = "userSignup";
 
@@ -26,7 +36,7 @@ function UserSignup({ stepHandlers = [], onSelectVerifyMethod = () => {} }) {
 
 	const [step, setStep] = useState(1);
 
-	const titleStep1 = (
+	const title = (
 		<div className="w-100 text-center">
 			<div className="fs-3">
 				{" "}
@@ -36,21 +46,23 @@ function UserSignup({ stepHandlers = [], onSelectVerifyMethod = () => {} }) {
 	);
 
 	const loginPrompt = (
-		<div className="text-center">
-			Already have an account?
-			<Button
-				type="link"
-				onClick={() =>
-					navigate("/signin", {
-						state: {
-							continue: location.state?.continue || "",
-						},
-					})
-				}
-			>
-				Sign In
-			</Button>
-		</div>
+		<>
+			<div className="text-center tedkvn-center">
+				Already have an account?{" "}
+				<Button
+					type="link"
+					onClick={() =>
+						navigate("/signin", {
+							state: {
+								continue: location.state?.continue || "",
+							},
+						})
+					}
+				>
+					Sign In
+				</Button>
+			</div>
+		</>
 	);
 
 	const thirdpartyRegisterOptions = [
@@ -125,15 +137,8 @@ function UserSignup({ stepHandlers = [], onSelectVerifyMethod = () => {} }) {
 		console.log("submitting");
 	};
 
-	const onSubmitStep_1_HandlerPromise = () => {
-		form.validateFields().then(() => setStep(step + 1));
-	};
-
-	console.log("render");
-
 	const renderStep1 = (
-		<Space direction="vertical" size={20} style={{ maxWidth: "32rem" }}>
-			{titleStep1}
+		<>
 			{loginPrompt}
 			<Divider orientation="left">Register with</Divider>
 			<Space
@@ -199,11 +204,143 @@ function UserSignup({ stepHandlers = [], onSelectVerifyMethod = () => {} }) {
 					Register
 				</Button>
 			</Form.Item>
-		</Space>
+		</>
+	);
+
+	const step2Prompt = (
+		<div className="text-center">
+			Congratulations, <strong>{form.getFieldValue("preferred name")}</strong>.
+			You're almost done
+		</div>
+	);
+
+	const verifyOptions = (
+		<>
+			<p className="fw-bold my-4">
+				Let's verify your identity to protect a healthy community
+			</p>
+			<Form.Item className="my-2">
+				<Button
+					shape="round"
+					icon={<MailOutlined />}
+					block
+					onClick={() => setVerifyInfo({ ...verifyInfo, channel: EMAIL_PROP })}
+				>
+					Email Verification
+				</Button>
+			</Form.Item>
+			<Form.Item className="my-2">
+				<Button
+					shape="round"
+					icon={<MessageOutlined />}
+					className=""
+					block
+					onClick={() => setVerifyInfo({ ...verifyInfo, channel: PHONE_PROP })}
+				>
+					SMS Verification
+				</Button>
+			</Form.Item>
+			<Form.Item className="my-2">
+				<Button
+					shape="round"
+					className="bg-secondary text-white"
+					block
+					onClick={() => setStep(1)}
+				>
+					Go Back
+				</Button>
+			</Form.Item>
+		</>
+	);
+
+	const sendingOTPCode = (
+		<>
+			{verifyInfo.channel === EMAIL_PROP && (
+				<>
+					<Form.Item
+						name="email"
+						label="Email Address"
+						className="m-0"
+						rules={[
+							{
+								type: "email",
+								message: "The input is not valid E-mail!",
+							},
+							{
+								required: true,
+								message: "Please input your E-mail!",
+							},
+						]}
+					>
+						<Input />
+					</Form.Item>
+					<Button
+						type="link"
+						className="p-0 m-0"
+						onClick={() => {
+							setVerifyInfo({ ...verifyInfo, channel: "", sendingCode: false });
+						}}
+					>
+						Verify by SMS instead
+					</Button>
+					<Form.Item className="my-2">
+						<Button
+							type="primary"
+							shape="round"
+							disabled={verifyInfo.sendingCode}
+							block
+							onClick={() => {
+								setVerifyInfo({ ...verifyInfo, sendingCode: true });
+
+								form.validateFields().then(() => {
+									console.log(
+										sendVerifyCode(EMAIL_PROP, form.getFieldValue("email"))
+											.then(() => {
+												setVerifyInfo({
+													...verifyInfo,
+													sentCode: true,
+													sendingCode: false,
+												});
+											})
+											.catch(() =>
+												setVerifyInfo({ ...verifyInfo, sendingCode: false })
+											)
+									);
+								});
+
+								// sendVerifyCode(EMAIL_PROP, form.getFieldValue("email"))
+								// 	.then(() => {
+								// 		console.log("code was sent!");
+								// 	})
+								// 	.catch(() => {
+								// 		console.log("errossr");
+								// 		setVerifyInfo({ ...verifyInfo, sendingCode: false });
+								// 	});
+							}}
+						>
+							Send Verifycation Code
+						</Button>
+					</Form.Item>
+				</>
+			)}
+		</>
+	);
+
+	const renderStep2 = (
+		<>
+			{step2Prompt}
+			<Space direction="vertical" className="my-2 px-3 w-100">
+				{verifyInfo.channel === "" && verifyOptions}
+				{(verifyInfo.channel === EMAIL_PROP ||
+					verifyInfo.channel === PHONE_PROP) &&
+					!verifyInfo.sentCode &&
+					sendingOTPCode}
+			</Space>
+		</>
 	);
 
 	const app = (
-		<Stack className="my-4 tedkvn-center">
+		<Stack className="py-5  tedkvn-center mx-4">
 			<Form
 				form={form}
 				layout="vertical"
@@ -211,7 +348,22 @@ function UserSignup({ stepHandlers = [], onSelectVerifyMethod = () => {} }) {
 				onFinish={onFinish}
 				autoComplete="off"
 			>
-				{step === 1 && renderStep1}
+				<Space direction="vertical" size={20}>
+					{title}
+					{step === 1 ? (
+						renderStep1
+					) : step === 2 ? (
+						renderStep2
+					) : (
+						<Spin size="large">
+							<Alert
+								message="Register process is loading"
+								description="If the process is taking too long, please try it again later or contact ThaiNow customer service."
+								type="info"
+							/>{" "}
+						</Spin>
+					)}
+				</Space>
 			</Form>
 		</Stack>
 	);

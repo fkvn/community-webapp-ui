@@ -1,18 +1,22 @@
-@use "../base/global" as global;
+@import "../base/global";
+
+body {
+	background-color: #f3f4f6;
+}
 
 #layout {
-	@include global.layout-margin();
+	@include layout-margin();
 
 	header {
 		background-image: url("https://firebasestorage.googleapis.com/v0/b/mono-thainow.appspot.com/o/thainow-service-worker%2Fconfig%2Fimg-top-bar.png?alt=media&token=207d8aa7-a3a9-4b40-a8b9-6d24614c6332");
 
 		background-size: cover;
 
-		height: global.$layout-content-marginTop;
+		height: $layout-content-marginTop;
 	}
 
 	main {
-		margin-top: global.$layout-content-marginTop;
+		margin-top: $layout-content-marginTop;
 	}
 }
 
@@ -39,13 +43,44 @@
 	overflow: auto;
 }
 
-@media only screen and (min-width: global.$lg) {
+.tedkvn-center {
+	@include flex-center;
+}
+
+.tedkvn-text-ellipsis {
+	@include ellipse;
+}
+
+::-webkit-scrollbar {
+	-webkit-appearance: none;
+	-webkit-overflow-scrolling: auto;
+	background-color: #f5f5f5;
+}
+
+::-webkit-scrollbar:vertical {
+	width: 0.5rem;
+}
+
+::-webkit-scrollbar:horizontal {
+	width: 0.5rem;
+}
+
+::-webkit-scrollbar-thumb {
+	background-color: rgb(182, 182, 182);
+	border-radius: 2rem;
+}
+
+::-webkit-scrollbar-track {
+	box-shadow: inset 0 0 0.6rem rgba(104, 140, 240, 0.3);
+}
+
+@media only screen and (min-width: $lg) {
 	#searchbar {
 		padding: 0 5rem;
 	}
 }
 
-@media only screen and (min-width: global.$xxl) {
+@media only screen and (min-width: $xxl) {
 	#searchbar {
 		padding: 0 15rem;
 	}

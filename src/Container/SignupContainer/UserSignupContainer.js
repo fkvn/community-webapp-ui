@@ -1,10 +1,12 @@
+import { CloseOutlined } from "@ant-design/icons";
+import { Button, PageHeader } from "antd";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
+import { useLocation, useNavigate } from "react-router-dom";
 import * as axiosPromise from "../../Axios/axiosPromise";
 import UserSignup from "../../Component/Signup/UserSignup";
 import * as dispatchPromise from "../../redux-store/dispatchPromise";
 import * as constVar from "../../Util/ConstVar";
-import OffCanvasContainer from "../OffCanvasContainer";
 
 function UserSignupContainer() {
 	const showOffCanvas = useSelector(
@@ -223,10 +225,41 @@ function UserSignupContainer() {
 		},
 	];
 
+	const navigate = useNavigate();
+	const location = useLocation();
+	const onCloseUrl = location?.state?.[`${constVar.ON_CLOSE_URL}`] || "/";
+
+	const onCloseHanlder = () => {
+		dispatchPromise.patchOffCanvasInfoPromise({
+			[`${constVar.SHOW_OFF_CANVAS}`]: false,
+		});
+		// onClose();
+		navigate(onCloseUrl);
+	};
+
 	const app = (
-		<OffCanvasContainer onClose={onCloseHandler}>
+		<div id="register-form">
+			<PageHeader
+				className="form-title "
+				ghost={false}
+				title="ThaiNow Registration"
+				backIcon={false}
+				avatar={{
+					shape: "circle",
+					size: "large",
+					src: "https://firebasestorage.googleapis.com/v0/b/mono-thainow.appspot.com/o/thainow-service-worker%2Fconfig%2Fimg-logo-round.png?alt=media&token=184f0afc-beb7-4992-9c24-63e3004444ef",
+					onClick: () => navigate("/"),
+				}}
+				extra={
+					<Button className="border-0 pt-2" icon={<CloseOutlined />}></Button>
+				}
+			/>
 			<UserSignup />
-		</OffCanvasContainer>
+		</div>
+
+		// <OffCanvasContainer onClose={onCloseHandler}>
+
+		// </OffCanvasContainer>
 	);
 	return app;
 }

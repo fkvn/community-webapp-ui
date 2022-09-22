@@ -1,0 +1,25 @@
+@import "../base/_global.scss";
+
+.ant-message-custom-content {
+	@include flex-center;
+}
+
+.anticon-close-circle,
+.anticon-check-circle {
+	/* Remove default */
+	// -webkit-appearance: none;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+
+	/* Now your own custom styles */
+	margin: 0 0.2rem;
+	font-size: 1rem;
+	height: 100%;
+	width: 1.2rem !important;
+}
+
+.ant-divider-horizontal.ant-divider-with-text::before,
+.ant-divider-horizontal.ant-divider-with-text::after {
+	border-top: 0.2px solid rgba(102, 102, 102, 0.25);
+}

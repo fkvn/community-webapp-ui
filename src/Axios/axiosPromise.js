@@ -22,15 +22,30 @@ export const getPromise = async (promise = () => {}) => {
 
 // auth API
 
-export const sendOtpCodePromise = (channel = "", value = "") => {
-	if (channel === "email" || channel === "sms") {
-		return axios.post(`/auth/getToken`, {
+export const sendOtpCodePromise = async (channel = "", value = "") =>
+	axios
+		.post(`/auth/getToken`, {
 			channel: channel,
 			...(channel === "email" && value.length > 0 && { email: value }),
 			...(channel === "sms" && value.length > 0 && { phone: value }),
-		});
-	}
-};
+		})
+		.catch((e) => Promise.reject(e));
+// {
+// 	console.log(channel);
+// 	if (channel === "email" || channel === "sms") {
+// 		console.log(
+// 			axios.post(`/auth/getToken`, {
+// 				channel: channel,
+// 				...(channel === "email" && value.length > 0 && { email: value }),
+// 				...(channel === "sms" && value.length > 0 && { phone: value }),
+// 			})
+// 		);
+// 	}
+
+// 	return new Promise((_, reject) =>
+// 		reject("There was an error in sending the OTP code. Please try again!")
+// 	);
+// };
 
 export const verifyOtpCodePromise = (channel = "", value = "", token = "") => {
 	console.log(channel + " - " + value + " - " + token);

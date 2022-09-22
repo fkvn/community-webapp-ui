@@ -6,7 +6,7 @@ import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { patchLocationInfoPromise } from "../../redux-store/dispatchPromise";
 import { ADDRESS_PROP, LOCATION_OBJ, PLACEID_PROP } from "../../Util/ConstVar";
-import useGoogleAutoComplete from "../AutoComplete/useGoogleAutoComplete";
+import useGoogleAutoComplete from "../Hook/useGoogleAutoComplete";
 
 function Search({ direction = "vertical", gap = 4, defaultKeywords = "" }) {
 	const [form] = Form.useForm();
