@@ -1,11 +1,12 @@
 import { Checkbox, Form } from "antd";
+import { AGREEMENT_PROP } from "../../../Util/ConstVar";
 
 function AgreementFormControl({ withAdsAgreement = true }) {
 	const app = (
 		<>
 			<Form.Item
 				shouldUpdate
-				name="agreement"
+				name={AGREEMENT_PROP}
 				valuePropName="checked"
 				rules={[
 					{

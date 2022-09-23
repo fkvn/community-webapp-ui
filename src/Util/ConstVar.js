@@ -76,6 +76,7 @@ export const POSITION_PROP = "administratorRole";
 export const ROLE_PROP = "role";
 export const PENDING_STATUS_PROP = "PENDING";
 export const DISABLED_PROP = "disabled";
+export const AGREEMENT_PROP = "agreement";
 
 export const COMPANY_INDUSTRY_LIST = [
 	"Aquarium & Pet",

@@ -1,0 +1,348 @@
+import { CloseOutlined } from "@ant-design/icons";
+import { Button, Checkbox, Form, Input, PageHeader } from "antd";
+import { useLocation, useNavigate } from "react-router-dom";
+import {
+	AGREEMENT_PROP,
+	EMAIL_PROP,
+	ON_CLOSE_URL,
+	OTP_PROP,
+	PASSWORD_PROP,
+	PHONE_PROP,
+	USERNAME_PROP,
+} from "../../Util/ConstVar";
+import { formatOtpNumber, formatPhoneNumber } from "../../Util/Util";
+
+function useFormControl() {
+	const navigate = useNavigate();
+	const location = useLocation();
+	const onCloseUrl = location?.state?.[`${ON_CLOSE_URL}`] || "/";
+
+	const onCloseHanlder = (onClose = () => {}) => {
+		console.log("closing");
+		onClose();
+		navigate(onCloseUrl);
+	};
+
+	const pageHeader = (
+		props = {
+			className: "form-title ",
+			ghost: false,
+			title: "ThaiNow Registration",
+			backIcon: false,
+			avatar: {
+				shape: "circle",
+				size: "large",
+				src: "https://firebasestorage.googleapis.com/v0/b/mono-thainow.appspot.com/o/thainow-service-worker%2Fconfig%2Fimg-logo-round.png?alt=media&token=184f0afc-beb7-4992-9c24-63e3004444ef",
+				onClick: () => navigate("/"),
+			},
+			extra: (
+				<Button
+					className="border-0 pt-2"
+					icon={<CloseOutlined />}
+					onClick={() => onCloseHanlder(onClose)}
+				></Button>
+			),
+		},
+		onClose = () => {}
+	) => <PageHeader {...props} />;
+
+	const facebook = {
+		title: "Facebook",
+		icon: (
+			<svg
+				width="1.5rem"
+				viewBox="0 0 32 33"
+				fill="none"
+				xmlns="http://www.w3.org/2000/svg"
+			>
+				<circle cx="16" cy="16.5" r="14" fill="#0C82EE" />
+				<path
+					d="M21.2137 20.7816L21.8356 16.8301H17.9452V14.267C17.9452 13.1857 18.4877 12.1311 20.2302 12.1311H22V8.76699C22 8.76699 20.3945 8.5 18.8603 8.5C15.6548 8.5 13.5617 10.3929 13.5617 13.8184V16.8301H10V20.7816H13.5617V30.3345C14.2767 30.444 15.0082 30.5 15.7534 30.5C16.4986 30.5 17.2302 30.444 17.9452 30.3345V20.7816H21.2137Z"
+					fill="white"
+				/>
+			</svg>
+		),
+	};
+
+	const google = {
+		title: "Google",
+		icon: (
+			<svg
+				width="1.5rem"
+				viewBox="0 0 24 25"
+				fill="none"
+				xmlns="http://www.w3.org/2000/svg"
+			>
+				<path
+					d="M22.5045 12.7326C22.5045 11.8693 22.433 11.2393 22.2783 10.5859H12.2188V14.4826H18.1235C18.0045 15.4509 17.3616 16.9093 15.933 17.8892L15.913 18.0197L19.0936 20.4344L19.314 20.4559C21.3377 18.6242 22.5045 15.9292 22.5045 12.7326Z"
+					fill="#4285F4"
+				/>
+				<path
+					d="M12.212 23.0015C15.1048 23.0015 17.5334 22.0682 19.3072 20.4582L15.9263 17.8914C15.0215 18.5098 13.8072 18.9414 12.212 18.9414C9.37874 18.9414 6.974 17.1098 6.11678 14.5781L5.99113 14.5886L2.68388 17.0969L2.64062 17.2148C4.4025 20.6448 8.02155 23.0015 12.212 23.0015Z"
+					fill="#34A853"
+				/>
+				<path
+					d="M6.119 14.5755C5.89281 13.9222 5.76191 13.2221 5.76191 12.4988C5.76191 11.7754 5.89281 11.0755 6.1071 10.4221L6.10111 10.283L2.75239 7.73438L2.64283 7.78545C1.91667 9.2088 1.5 10.8072 1.5 12.4988C1.5 14.1905 1.91667 15.7888 2.64283 17.2121L6.119 14.5755Z"
+					fill="#FBBC05"
+				/>
+				<path
+					d="M12.2121 6.05997C14.224 6.05997 15.5811 6.91163 16.3549 7.62335L19.3787 4.73C17.5216 3.03834 15.1049 2 12.2121 2C8.02158 2 4.40251 4.35665 2.64062 7.78662L6.1049 10.4233C6.97403 7.89166 9.37878 6.05997 12.2121 6.05997Z"
+					fill="#EB4335"
+				/>
+			</svg>
+		),
+	};
+
+	const apple = {
+		title: "Apple",
+		icon: (
+			<svg
+				width="1.5rem"
+				viewBox="0 0 28 29"
+				fill="none"
+				xmlns="http://www.w3.org/2000/svg"
+			>
+				<path
+					d="M28 14.5C28 22.228 21.735 28.5 14 28.5C6.265 28.5 0 22.228 0 14.5C0 6.765 6.265 0.5 14 0.5C21.735 0.5 28 6.765 28 14.5Z"
+					fill="#333333"
+				/>
+				<path
+					d="M20.5621 10.9574C20.4857 11.002 18.6671 11.9425 18.6671 14.0279C18.7528 16.4061 20.9621 17.2401 21 17.2401C20.9621 17.2847 20.6665 18.3763 19.7907 19.5205C19.0956 20.5062 18.3242 21.5 17.1528 21.5C16.0385 21.5 15.6385 20.8431 14.3528 20.8431C12.972 20.8431 12.5813 21.5 11.5242 21.5C10.3528 21.5 9.52419 20.453 8.79127 19.4766C7.8391 18.1986 7.02978 16.1931 7.00121 14.2675C6.98195 13.2471 7.19189 12.244 7.72481 11.3921C8.47699 10.2026 9.81985 9.39524 11.2863 9.36862C12.4099 9.33331 13.4099 10.0875 14.0956 10.0875C14.7528 10.0875 15.9814 9.36862 17.3714 9.36862C17.9714 9.36919 19.5714 9.53762 20.5621 10.9574ZM14.0006 9.16488C13.8006 8.23303 14.3528 7.30119 14.8671 6.70677C15.5242 5.98792 16.5621 5.5 17.4571 5.5C17.5143 6.43185 17.1522 7.34575 16.505 8.01136C15.9242 8.73021 14.9242 9.27138 14.0006 9.16488Z"
+					fill="white"
+				/>
+			</svg>
+		),
+	};
+
+	const accessByFacebook = (
+		props = {
+			type: "ghost",
+			className: "tedkvn-center text-center bg-white p-3",
+			shape: "round",
+			icon: facebook.icon,
+			size: "large",
+			style: { lineHeight: "5rem" },
+		}
+	) => (
+		<Button {...props}>
+			<div className="d-none d-md-block mx-2">{facebook.title}</div>
+		</Button>
+	);
+
+	const accessByGoogle = (
+		props = {
+			type: "ghost",
+			className: "tedkvn-center text-center bg-white p-3",
+			shape: "round",
+			icon: google.icon,
+			size: "large",
+			style: { lineHeight: "5rem" },
+		}
+	) => (
+		<Button {...props}>
+			<div className="d-none d-md-block mx-2">{google.title}</div>
+		</Button>
+	);
+
+	const accessByApple = (
+		props = {
+			type: "ghost",
+			className: "tedkvn-center text-center bg-white p-3",
+			shape: "round",
+			icon: apple.icon,
+			size: "large",
+			style: { lineHeight: "5rem" },
+		}
+	) => (
+		<Button {...props}>
+			<div className="d-none d-md-block mx-2">{apple.title}</div>
+		</Button>
+	);
+
+	const username = (
+		props = {
+			name: USERNAME_PROP,
+			label: "What should we call you?",
+			rules: [{ required: true, message: "Preferred Name is required" }],
+		},
+		inputProps = {
+			placeholder: "Preferred Name",
+		}
+	) => (
+		<Form.Item {...props}>
+			<Input {...inputProps} />
+		</Form.Item>
+	);
+
+	const password = (
+		props = {
+			label: "Password",
+			name: PASSWORD_PROP,
+			rules: [
+				{ required: true, message: "Please input your password!" },
+				{
+					pattern: /^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?!.* ).{8,20}$/,
+					message:
+						"Use 8 to 20 characters with 1 uppercase, 1 lowercase, and 1 number ",
+				},
+			],
+			hasFeedback: true,
+			shouldUpdate: true,
+		},
+		inputProps = {
+			placeholder: "Enter your password",
+		}
+	) => (
+		<Form.Item {...props}>
+			<Input.Password {...inputProps} />
+		</Form.Item>
+	);
+
+	const agreement = () => (
+		<>
+			<Form.Item
+				shouldUpdate
+				name={AGREEMENT_PROP}
+				valuePropName="checked"
+				rules={[
+					{
+						validator: (_, value) =>
+							value
+								? Promise.resolve()
+								: Promise.reject(
+										new Error(
+											"You must accept ThaiNow terms agreement and privacy policy to register!"
+										)
+								  ),
+					},
+				]}
+			>
+				<Checkbox>
+					By creating an account, you agree to ThaiNow's{" "}
+					<a
+						href="https://terms.thainowapp.com/"
+						target="_blank"
+						className="text-decoration-none"
+						rel="noreferrer"
+					>
+						Terms of Service
+					</a>{" "}
+					and{" "}
+					<a
+						href="https://policy.thainowapp.com/"
+						target="_blank"
+						className="text-decoration-none"
+						rel="noreferrer"
+					>
+						Privacy Policy
+					</a>
+				</Checkbox>
+			</Form.Item>
+			{/* {withAdsAgreement && (
+		<Form.Item name="ads-agreement" valuePropName="checked">
+			<Checkbox>
+				By creating an account, you consent to receive SMS messages and
+				emails, including new feature updates, events, and marketing
+				promotions.
+			</Checkbox>
+		</Form.Item>
+	)} */}
+		</>
+	);
+
+	const email = (
+		props = {
+			name: EMAIL_PROP,
+			label: "Email Address",
+			className: "m-0",
+			rules: [
+				{
+					type: "email",
+					message: "The input is not valid E-mail!",
+				},
+				{
+					required: true,
+					message: "Please input your E-mail!",
+				},
+			],
+		},
+		inputProps = {
+			placeholder: "Enter your email address",
+		}
+	) => (
+		<Form.Item {...props}>
+			<Input {...inputProps} />
+		</Form.Item>
+	);
+
+	const phone = (
+		props = {
+			name: PHONE_PROP,
+			label: "Phone Number (US)",
+			className: "m-0",
+			normalize: (value) => formatPhoneNumber(value),
+			rules: [
+				{ required: true, message: "Please input your phone number!" },
+				{
+					min: 14,
+					max: 14,
+					message: "Please input a valid US phone number",
+				},
+			],
+		},
+		inputProps = {
+			placeholder: "Enter your phone number",
+			addonBefore: "+1",
+			maxLength: 14,
+		}
+	) => (
+		<Form.Item {...props}>
+			<Input {...inputProps} />
+		</Form.Item>
+	);
+
+	const otp = (
+		props = {
+			name: OTP_PROP,
+			label: "OTP Verofocatopn Code (4-digits)",
+			className: "m-0",
+			normalize: (value) => {
+				const [formattedValue] = formatOtpNumber(value);
+				return formattedValue;
+			},
+			rules: [
+				{
+					validator: (_, value) =>
+						value.replace(/[^\d]/g, "").length === 4
+							? Promise.resolve()
+							: Promise.reject(
+									new Error("Verification code must have 4-digits!")
+							  ),
+				},
+			],
+		},
+		inputProps = {
+			placeholder: "Enter 4-digits OTP code",
+			maxLength: 7,
+		}
+	) => (
+		<Form.Item {...props}>
+			<Input {...inputProps} />
+		</Form.Item>
+	);
+
+	return {
+		pageHeader,
+		accessByFacebook,
+		accessByGoogle,
+		accessByApple,
+		username,
+		password,
+		agreement,
+		email,
+		phone,
+		otp,
+	};
+}
+
+export default useFormControl;

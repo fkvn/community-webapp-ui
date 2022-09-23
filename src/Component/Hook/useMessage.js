@@ -18,7 +18,7 @@ function useMessage(key = "thainow-message") {
 			})
 			.then(() => Promise.resolve());
 
-	const successMessage = async (content = "Success", duration = 1) =>
+	const successMessage = async (content = "Success", duration = 2) =>
 		message
 			.success({
 				content: content,

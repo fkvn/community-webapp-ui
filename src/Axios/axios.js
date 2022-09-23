@@ -1,5 +1,4 @@
 import axios from "axios";
-import { submitErrorHandlerPromise } from "../redux-store/dispatchPromise";
 import * as constVar from "../Util/ConstVar";
 import { signoutUserPromise } from "../Util/Util";
 
@@ -15,26 +14,18 @@ const responseHandler = (response) => {
 };
 
 const errorHandler = async (error) => {
-	// return Promise.reject(error);
+	let message = error.message || "Bad Request";
 
-	if (error.message === "Network Error" || error.response.status === 502) {
-		return Promise.reject(
-			"Network Error! The service is down. Please come to visit the site later"
-		);
-
-		// store.dispatch(
-		// 	actionCreators.initError(
-		// 		"Network Error! The service is down. Please come to visit the site later",
-		// 		"BAD GATEWAY"
-		// 	)
-		// );
+	if (message === "Network Error" || error.response.status === 502) {
+		message =
+			"Network Error! The service is down. Please come to visit the site later";
 	} else if (error.response.status === 401) {
 		// unauthorized
 		localStorage.removeItem(constVar.THAINOW_USER_OBJ);
 		localStorage.removeItem(constVar.THAINOW_PROFILE_OBJ);
 
 		const returnError = error.response.data.error;
-		let message = error.response.data.message || "Unauthorized";
+		message = error.response.data.message || "Unauthorized";
 		const status = error.response.data.status || "Bad Request";
 
 		if (returnError === "Unauthorized") {
@@ -42,19 +33,9 @@ const errorHandler = async (error) => {
 				"Your credentials are incorrect or have expired  .... Please sign in again!";
 			signoutUserPromise();
 		}
-
-		return submitErrorHandlerPromise(message, status).catch(() => {});
-
-		// store.dispatch(
-		// 	actionCreators.initError(message, error.response.data.status)
-		// );
 	} else {
-		const message = error.response.data.message || "Bad Request";
-		const status = error.response.data.status || "Bad Request";
-
-		return submitErrorHandlerPromise(message, status).catch(() => {});
-
-		// store.dispatch(actionCreators.initError(message, status));
+		message = error.response.data.message;
+		return Promise.reject(message);
 	}
 };
 

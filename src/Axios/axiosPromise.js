@@ -1,7 +1,9 @@
 import axios from "../Axios/axios";
 import {
+	EMAIL_PROP,
 	PROFILE_COMPANY_TYPE_PROP,
 	PROFILE_USER_TYPE_PROP,
+	SMS_PROP,
 } from "../Util/ConstVar";
 
 export const findCompany = ({ keywords = "", address = "", placeid = "" }) => {
@@ -26,53 +28,39 @@ export const sendOtpCodePromise = async (channel = "", value = "") =>
 	axios
 		.post(`/auth/getToken`, {
 			channel: channel,
-			...(channel === "email" && value.length > 0 && { email: value }),
-			...(channel === "sms" && value.length > 0 && { phone: value }),
+			...(channel === EMAIL_PROP && value.length > 0 && { email: value }),
+			...(channel === SMS_PROP && value.length > 0 && { phone: value }),
 		})
 		.catch((e) => Promise.reject(e));
-// {
-// 	console.log(channel);
-// 	if (channel === "email" || channel === "sms") {
-// 		console.log(
-// 			axios.post(`/auth/getToken`, {
-// 				channel: channel,
-// 				...(channel === "email" && value.length > 0 && { email: value }),
-// 				...(channel === "sms" && value.length > 0 && { phone: value }),
-// 			})
-// 		);
-// 	}
 
-// 	return new Promise((_, reject) =>
-// 		reject("There was an error in sending the OTP code. Please try again!")
-// 	);
-// };
-
-export const verifyOtpCodePromise = (channel = "", value = "", token = "") => {
-	console.log(channel + " - " + value + " - " + token);
-	if (channel === "email" || channel === "sms") {
-		return axios.post(`/auth/verifyToken`, {
+export const verifyOtpCodePromise = async (
+	channel = "",
+	value = "",
+	token = ""
+) =>
+	axios
+		.post(`/auth/verifyToken`, {
 			channel: channel,
-			...(channel === "email" && value.length > 0 && { email: value }),
-			...(channel === "sms" && value.length > 0 && { phone: value }),
+			...(channel === EMAIL_PROP && value.length > 0 && { email: value }),
+			...(channel === SMS_PROP && value.length > 0 && { phone: value }),
 			token: token,
-		});
-	}
-};
+		})
+		.catch((e) => Promise.reject(e));
 
-export const signupPromise = async (
-	signupInfo = {
-		username: "",
-		password: "",
-		email: "",
-		emailVerified: false,
-		phone: "",
-		phoneVerified: false,
-		verified: true,
+export const registerPromise = async (channel = "thainow", signupInfo = {}) => {
+	switch (channel) {
+		case "thainow":
+			return axios
+				.post(`/auth/${channel}/register`, {
+					...signupInfo,
+				})
+				.catch((e) => Promise.reject(e));
+
+		default:
+			return Promise.reject(
+				"Registration Failed! Please try again later or contact the ThaiNow customer service."
+			);
 	}
-) => {
-	return axios.post(`/auth/signup`, {
-		...signupInfo,
-	});
 };
 
 export const businessRegisterPromise = async (

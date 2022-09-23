@@ -108,29 +108,27 @@ export const formatOtpNumber = (value = "") => {
 		if (value.length === 0) return [value, 0];
 
 		// clean the input for any non-digit values.
-		const otp = value.replace(/[^\d]/g, "");
+		let otp = value.replace(/[^\d]/g, "");
+		let formattedOtp = `_ _ _ _`;
 
-		const otpNumberLength = otp.length;
+		const otpLength = otp.length;
 
 		// US format - 10 digits max
-		if (otpNumberLength === 1) {
-			return [otp, otpNumberLength];
-		} else if (otpNumberLength === 2) {
-			return [`${otp.slice(0, 1)} ${otp.slice(1, 2)}`, otpNumberLength];
-		} else if (otpNumberLength === 3) {
-			return [
-				`${otp.slice(0, 1)} ${otp.slice(1, 2)} ${otp.slice(2, 3)}`,
-				otpNumberLength,
-			];
-		} else {
-			return [
-				`${otp.slice(0, 1)} ${otp.slice(1, 2)} ${otp.slice(2, 3)} ${otp.slice(
-					3,
-					4
-				)}`,
-				otpNumberLength,
-			];
+		if (otpLength === 1) formattedOtp = otp;
+		else if (otpLength === 2)
+			formattedOtp = `${otp.slice(0, 1)} ${otp.slice(1, 2)}`;
+		else if (otpLength === 3)
+			formattedOtp = `${otp.slice(0, 1)} ${otp.slice(1, 2)} ${otp.slice(2, 3)}`;
+		else {
+			formattedOtp = `${otp.slice(0, 1)} ${otp.slice(1, 2)} ${otp.slice(
+				2,
+				3
+			)} ${otp.slice(3, 4)}`;
 		}
+
+		otp = formattedOtp.replace(/[^\d]/g, "");
+
+		return [formattedOtp, otpLength, otp];
 	}
 
 	const formattedValue = value.replace(/[^\d]/g, "");
@@ -208,38 +206,18 @@ export const convertProfileInfo = ({ type = "", user = {}, company = {} }) => {
 	return profile;
 };
 
-export const saveProfileInfo = ({ ...info }, needConverted = true) => {
-	const profile = needConverted ? convertProfileInfo({ ...info }) : { ...info };
-
+export const saveProfileInfo = (profile = {}) => {
 	localStorage.setItem(constVar.THAINOW_PROFILE_OBJ, JSON.stringify(profile));
 
-	return profile;
+	patchProfileInfoPromise(profile, true);
 };
 
-export const saveUserInfo = ({ access_token = "", user = {} }) => {
-	// get the sign in list
-	const recentSignin = JSON.parse(
-		localStorage.getItem(constVar.THAINOW_RECENT_SIGN_IN_OBJ) || "{}"
-	);
-
-	// add new user to sign in list
-	localStorage.setItem(
-		constVar.THAINOW_RECENT_SIGN_IN_OBJ,
-		JSON.stringify({
-			...recentSignin,
-			[`${user?.id}`]: {
-				[`${constVar.ACCESS_TOKEN_PROP}`]: access_token,
-				[`${constVar.USER_PROP}`]: { ...user },
-			},
-		})
-	);
-
+export const saveUserInfo = ({ access_token = "" }) => {
 	// set current user to storage
 	localStorage.setItem(
 		constVar.THAINOW_USER_OBJ,
 		JSON.stringify({
 			[`${constVar.ACCESS_TOKEN_PROP}`]: access_token,
-			...user,
 		})
 	);
 };
