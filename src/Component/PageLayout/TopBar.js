@@ -2,6 +2,7 @@ import { MenuOutlined } from "@ant-design/icons";
 import { Dropdown, Image, Menu } from "antd";
 import { Button, Navbar, Stack } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
+import { thainowLogoRound } from "../../Assest/Asset";
 import Search from "../Search/Search";
 
 function TopBar({ keywords = "" }) {
@@ -60,7 +61,7 @@ function TopBar({ keywords = "" }) {
 			<Navbar.Brand>
 				<Image
 					width={45}
-					src="https://firebasestorage.googleapis.com/v0/b/mono-thainow.appspot.com/o/thainow-service-worker%2Fconfig%2Fimg-logo-round.png?alt=media&token=184f0afc-beb7-4992-9c24-63e3004444ef"
+					src={thainowLogoRound}
 					preview={false}
 					onClick={() => navigate("/")}
 				/>

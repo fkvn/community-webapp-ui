@@ -1,6 +1,7 @@
 import { CloseOutlined } from "@ant-design/icons";
 import { Button, Checkbox, Form, Input, PageHeader } from "antd";
 import { useLocation, useNavigate } from "react-router-dom";
+import { thainowLogoRound } from "../../Assest/Asset";
 import {
 	AGREEMENT_PROP,
 	EMAIL_PROP,
@@ -10,6 +11,7 @@ import {
 	PHONE_PROP,
 	USERNAME_PROP,
 } from "../../Util/ConstVar";
+
 import { formatOtpNumber, formatPhoneNumber } from "../../Util/Util";
 
 function useFormControl() {
@@ -18,7 +20,6 @@ function useFormControl() {
 	const onCloseUrl = location?.state?.[`${ON_CLOSE_URL}`] || "/";
 
 	const onCloseHanlder = (onClose = () => {}) => {
-		console.log("closing");
 		onClose();
 		navigate(onCloseUrl);
 	};
@@ -32,7 +33,7 @@ function useFormControl() {
 			avatar: {
 				shape: "circle",
 				size: "large",
-				src: "https://firebasestorage.googleapis.com/v0/b/mono-thainow.appspot.com/o/thainow-service-worker%2Fconfig%2Fimg-logo-round.png?alt=media&token=184f0afc-beb7-4992-9c24-63e3004444ef",
+				src: thainowLogoRound,
 				onClick: () => navigate("/"),
 			},
 			extra: (

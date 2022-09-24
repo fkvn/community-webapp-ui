@@ -1,13 +1,11 @@
 import * as constVar from "../Util/ConstVar";
 
 import thaiNowLogo from "./Image/Brand/thainowLogo.png";
+import addFrameImage from "./Image/Others/Add.png";
 import genwar from "./Image/Profile/genwar.jpg";
 import businessProfile from "./Image/Profile/UserProfile_Business.png";
 import classicProfile from "./Image/Profile/UserProfile_Classic.png";
 import guestProfile from "./Image/Profile/UserProfile_Guest3.png";
-
-import addFrameImage from "./Image/Others/Add.png";
-import thainowBlurImage from "./Image/Others/img-blur-thainow.png";
 
 import threeBarsIcon from "./Image/Icon/3bars-icon.png";
 import emailIconBlack from "./Image/Icon/email-icon-black.png";
@@ -19,13 +17,25 @@ import searchIcon from "./Image/Icon/search-icon.png";
 import usPhoneIcon from "./Image/Icon/us-phone-icon.png";
 import userReaderIcon from "./Image/Icon/users-reader-icon.png";
 
+export const thainowLogoRound =
+	"/cdn/image/thainow-service-worker%2Fconfig%2Fimg-logo-round.png?alt=media&token=184f0afc-beb7-4992-9c24-63e3004444ef";
+
+export const topbarBg =
+	"https://assest.searchforthai.com/thainow-service-worker%2Fconfig%2Fimg-top-bar.png?alt=media&token=207d8aa7-a3a9-4b40-a8b9-6d24614c6332";
+
+export const guestAvatar =
+	"https://assest.searchforthai.com/thainow-service-worker%2Fconfig%2Fimg-avatar-guest.png?alt=media&token=fba2745b-46fb-44ea-aa65-dcb6e008cccd";
+
+export const thainowBlurImage = "./Image/Others/img-blur-thainow.png";
+
+// export const successImage =
+
 export const images = {
 	[`${constVar.IMAGE_THAINOW_LOGO}`]: thaiNowLogo,
 	[`${constVar.IMAGE_GUEST_PROFILE}`]: guestProfile,
 	[`${constVar.IMAGE_CLASSIC_PROFILE}`]: classicProfile,
 	[`${constVar.IMAGE_BUSINESS_PROFILE}`]: businessProfile,
 	[`${constVar.IMAGE_ADD_FRAME}`]: addFrameImage,
-	[`${constVar.IMAGE_BLUR_THAINOW}`]: thainowBlurImage,
 	genwar: genwar,
 };
 

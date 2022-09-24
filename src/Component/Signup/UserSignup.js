@@ -302,40 +302,47 @@ function UserSignup({ stepHandlers = [], onSelectVerifyMethod = () => {} }) {
 			});
 	};
 
-	const verifyingOTPCode = verifyInfo.sentCode && !verifyInfo.sentCode && (
-		<>
-			<p className="text-center my-4">
-				Next, please enter a <strong>4-digits</strong> verification code that we
-				send to <strong>{form.getFieldValue(verifyInfo.field)}</strong>
-			</p>
-			{otpVerifySelection}
-			<Button
-				type="link"
-				className="p-0 m-0"
-				onClick={() => {
-					setVerifyInfo({
-						...verifyInfo,
-						sentCode: false,
-						verifyingCode: false,
-					});
-					form.setFieldValue(OTP_PROP, "");
-				}}
-			>
-				Resend Code
-			</Button>
-			<Form.Item className="my-2 ">
+	const verifyingOTPCode = verifyInfo.sentCode &&
+		!verifyInfo.verifyAndRegister && (
+			<>
+				<p className="text-center my-4">
+					Next, please enter a <strong>4-digits</strong> verification code that
+					we send to <strong>{form.getFieldValue(verifyInfo.field)}</strong>
+				</p>
+				{otpVerifySelection}
 				<Button
-					type="primary"
-					shape="round"
-					disabled={verifyInfo.verifyingCode}
-					block
-					onClick={onVerifyCode}
+					type="link"
+					className="p-0 m-0"
+					onClick={() => {
+						setVerifyInfo({
+							...verifyInfo,
+							sentCode: false,
+							verifyingCode: false,
+						});
+						form.setFieldValue(OTP_PROP, "");
+					}}
 				>
-					Verify OTP Code
+					Resend Code
 				</Button>
-			</Form.Item>
-		</>
-	);
+				<Form.Item className="my-2 ">
+					<Button
+						type="primary"
+						shape="round"
+						disabled={verifyInfo.verifyingCode}
+						block
+						onClick={onVerifyCode}
+					>
+						Verify OTP Code
+					</Button>
+				</Form.Item>
+			</>
+		);
+
+	// 	const registedSuccess = verifyInfo.verifyAndRegister && <>						<Image
+	// 	src={picture}
+	// 	width={100}
+	// 	className="rounded-circle my-3"
+	// /></>
 
 	const renderStep2 = (
 		<>

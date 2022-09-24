@@ -13,6 +13,7 @@ export const THAINOW_REDUX_STORE_ROOT_OBJ = "reduxStoreObj";
 export const THAINOW_REDUX_STORE_ROOT_OBJ_PROPS = "reduxStoreObjProps";
 
 export const IMAGE_THAINOW_LOGO = "thainowLogo";
+export const IMAGE_THAINOW_LOGO_ROUND = "thainowLogoRound";
 export const IMAGE_GUEST_PROFILE = "guestProfile";
 export const IMAGE_CLASSIC_PROFILE = "classicProfile";
 export const IMAGE_BUSINESS_PROFILE = "businessProfile";

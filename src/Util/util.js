@@ -6,6 +6,8 @@ import {
 } from "../redux-store/dispatchPromise";
 import * as constVar from "./ConstVar";
 
+export const emptyProject = (object = {}) => JSON.stringify(object) === "{}";
+
 export const loadScript = (url, async = true, defer = false) => {
 	var index = window.document.getElementsByTagName("script")[0];
 

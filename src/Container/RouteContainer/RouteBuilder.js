@@ -1,5 +1,10 @@
+import { useEffect } from "react";
+import { useSelector } from "react-redux";
 import { Route, Routes } from "react-router-dom";
 import NotFoundPage from "../../Component/Global/NotFoundPage";
+import { patchProfileInfoPromise } from "../../redux-store/dispatchPromise";
+import { THAINOW_PROFILE_OBJ } from "../../Util/ConstVar";
+import { emptyProject } from "../../Util/Util";
 import SignupRouteContainer from "../AuthContainer/SignupRouteContainer";
 import UserSigninContainer from "../AuthContainer/UserSigninContainer";
 import ErrorContainer from "../ErrorContainer";
@@ -10,6 +15,20 @@ import AuthContainer from "./AuthContainer";
 import LayoutContainer from "./LayoutContainer";
 
 function RouteBuilder() {
+	// load profile
+	const profile = useSelector(
+		(state) => state.thainowReducer[`${THAINOW_PROFILE_OBJ}`] || {}
+	);
+
+	useEffect(() => {
+		const storedProfile =
+			JSON.parse(localStorage.getItem(THAINOW_PROFILE_OBJ)) || {};
+
+		if (emptyProject(profile) && !emptyProject(storedProfile)) {
+			patchProfileInfoPromise(JSON.parse(storedProfile));
+		}
+	}, [profile]);
+
 	const routes = (
 		<>
 			<Routes>

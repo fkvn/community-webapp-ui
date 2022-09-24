@@ -1,12 +1,24 @@
 import { Button, Card, Image, Space } from "antd";
 import Meta from "antd/lib/card/Meta";
 import { Stack } from "react-bootstrap";
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import * as asset from "../../Assest/Asset";
-import { IMAGE_BLUR_THAINOW } from "../../Util/ConstVar";
+import { guestAvatar, thainowBlurImage } from "../../Assest/Asset";
+import { THAINOW_PROFILE_OBJ } from "../../Util/ConstVar";
+import { emptyProject } from "../../Util/Util";
 
 function RightLayout() {
 	const navigate = useNavigate();
+
+	const profile = useSelector(
+		(state) => state.thainowReducer[`${THAINOW_PROFILE_OBJ}`] || {}
+	);
+
+	const { picture, name, description } = emptyProject(profile)
+		? { picture: guestAvatar, name: "Hi Welcome", description: "ThaiNow" }
+		: { ...profile.info, description: "" };
+
+	console.log(emptyProject(profile));
 
 	const app = (
 		<Stack
@@ -15,31 +27,34 @@ function RightLayout() {
 			className="px-4 py-3 w-100"
 			gap={4}
 		>
-			<Button
-				type="outline-primary"
-				block
-				onClick={() => navigate("/register")}
-			>
-				Register ThaiNow Account
-			</Button>
+			{emptyProject(profile) && (
+				<Button
+					type="outline-primary"
+					block
+					onClick={() => navigate("/register")}
+				>
+					Register ThaiNow Account
+				</Button>
+			)}
 
 			<Card className="w-100 text-center" bodyStyle={{ paddingTop: 0 }}>
 				<Space direction="vertical" className="w-100" size={15}>
-					<Space direction="vertical" className="w-100 tedkvn-center">
+					<Space direction="vertical" className="w-100 my-3 tedkvn-center">
 						{" "}
 						<Image
-							src={`https://firebasestorage.googleapis.com/v0/b/mono-thainow.appspot.com/o/thainow-service-worker%2Fconfig%2Fimg-avatar-guest.png?alt=media&token=fba2745b-46fb-44ea-aa65-dcb6e008cccd`}
+							src={picture}
 							width={100}
+							className="rounded-circle my-3"
 							placeholder={
 								<Image
 									preview={false}
-									src={asset.images[`${IMAGE_BLUR_THAINOW}`]}
+									src={thainowBlurImage}
 									width={100}
 									className="fluid"
 								/>
 							}
 						/>
-						<Meta title="Hi Welcome" description="ThaiNow" />
+						<Meta title={name} description={description} />
 					</Space>
 					<Button type="outline-primary" block>
 						Sign In

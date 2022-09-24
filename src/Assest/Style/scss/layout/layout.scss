@@ -8,8 +8,6 @@ body {
 	@include layout-margin();
 
 	header {
-		background-image: url("https://firebasestorage.googleapis.com/v0/b/mono-thainow.appspot.com/o/thainow-service-worker%2Fconfig%2Fimg-top-bar.png?alt=media&token=207d8aa7-a3a9-4b40-a8b9-6d24614c6332");
-
 		background-size: cover;
 
 		height: $layout-content-marginTop;

@@ -1,4 +1,5 @@
 import { Col, Layout, Row } from "antd";
+import { topbarBg } from "../../Assest/Asset";
 import LeftLayout from "./LeftLayout";
 import RightLayout from "./RightLayout";
 import TopBar from "./TopBar";
@@ -9,7 +10,10 @@ function PageLayout({ keywords = "" }) {
 	const app = (
 		<Row id="layout">
 			<Col xs={24}>
-				<Header className="fixed-top tedkvn-center p-0">
+				<Header
+					className="fixed-top tedkvn-center p-0"
+					style={{ backgroundImage: `url(${topbarBg})` }}
+				>
 					<TopBar keywords={keywords} />
 				</Header>
 				<Content>
