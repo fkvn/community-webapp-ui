@@ -1,3 +1,4 @@
+const { log } = require("console");
 const functions = require("firebase-functions");
 const https = require("https");
 const sharp = require("sharp");
@@ -73,13 +74,22 @@ exports.imageTransform = functions.https.onRequest((request, response) => {
 	let sourceUrl;
 	let options;
 	try {
-		console.log(request.url);
-		const [optionsStr, sourceUrlStr] = tokenizeUrl(request.url);
+		const url = request.url.replace(
+			"thainow-service-worker/config/",
+			"thainow-service-worker%2Fconfig%2F"
+		);
+
+		console.log(url);
+
+		const [optionsStr, sourceUrlStr] = tokenizeUrl(url);
 
 		console.log(sourceUrlStr);
 		// console.log(optionsStr);
 
 		sourceUrl = new URL(sourceUrlStr);
+
+		console.log(sourceUrlStr);
+
 		options = parseOptions(optionsStr);
 
 		console.log(options);

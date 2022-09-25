@@ -25,7 +25,7 @@ function RouteBuilder() {
 			JSON.parse(localStorage.getItem(THAINOW_PROFILE_OBJ)) || {};
 
 		if (emptyProject(profile) && !emptyProject(storedProfile)) {
-			patchProfileInfoPromise(JSON.parse(storedProfile));
+			patchProfileInfoPromise(storedProfile);
 		}
 	}, [profile]);
 

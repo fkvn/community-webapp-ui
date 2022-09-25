@@ -17,16 +17,23 @@ import searchIcon from "./Image/Icon/search-icon.png";
 import usPhoneIcon from "./Image/Icon/us-phone-icon.png";
 import userReaderIcon from "./Image/Icon/users-reader-icon.png";
 
-export const thainowLogoRound =
-	"/cdn/image/thainow-service-worker%2Fconfig%2Fimg-logo-round.png?alt=media&token=184f0afc-beb7-4992-9c24-63e3004444ef";
+const PRODUCTION_CDN_SOURCE_URL = "";
+const LOCAL_SOURCE_URL =
+	"https://firebasestorage.googleapis.com/v0/b/mono-thainow.appspot.com/o/thainow-service-worker%2Fconfig%2F";
 
-export const topbarBg =
-	"https://assest.searchforthai.com/thainow-service-worker%2Fconfig%2Fimg-top-bar.png?alt=media&token=207d8aa7-a3a9-4b40-a8b9-6d24614c6332";
+const localEnv = true;
 
-export const guestAvatar =
-	"https://assest.searchforthai.com/thainow-service-worker%2Fconfig%2Fimg-avatar-guest.png?alt=media&token=fba2745b-46fb-44ea-aa65-dcb6e008cccd";
+const SOURCE_URL = localEnv ? LOCAL_SOURCE_URL : PRODUCTION_CDN_SOURCE_URL;
 
-export const thainowBlurImage = "./Image/Others/img-blur-thainow.png";
+export const thainowLogoRound = `${SOURCE_URL}img-logo-round.png?alt=media&token=184f0afc-beb7-4992-9c24-63e3004444ef`;
+
+export const topbarBg = `${SOURCE_URL}img-top-bar.png?alt=media&token=207d8aa7-a3a9-4b40-a8b9-6d24614c6332`;
+
+export const guestAvatar = `${SOURCE_URL}img-avatar-guest.png?alt=media&token=fba2745b-46fb-44ea-aa65-dcb6e008cccd`;
+
+export const thainowBlurImage = `${SOURCE_URL}img-logo-blur.png?alt=media&token=184f0afc-beb7-4992-9c24-63e3004444ef`;
+
+export const noPhotoImage = `${SOURCE_URL}img-no-photo.png?alt=media&token=184f0afc-beb7-4992-9c24-63e3004444ef`;
 
 // export const successImage =
 

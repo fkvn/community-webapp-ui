@@ -23,3 +23,10 @@
 .ant-divider-horizontal.ant-divider-with-text::after {
 	border-top: 0.2px solid rgba(102, 102, 102, 0.25);
 }
+
+.ant-card-bordered,
+.ant-input-affix-wrapper,
+.ant-btn {
+	border-color: #d9d9d9;
+	border-radius: 0.8rem;
+}

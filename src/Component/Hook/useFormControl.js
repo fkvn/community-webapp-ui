@@ -19,13 +19,8 @@ function useFormControl() {
 	const location = useLocation();
 	const onCloseUrl = location?.state?.[`${ON_CLOSE_URL}`] || "/";
 
-	const onCloseHanlder = (onClose = () => {}) => {
-		onClose();
-		navigate(onCloseUrl);
-	};
-
-	const pageHeader = (
-		props = {
+	const pageHeader = (props = {}, onClose = async () => {}) =>
+		((props = {}) => <PageHeader {...props} />)({
 			className: "form-title ",
 			ghost: false,
 			title: "ThaiNow Registration",
@@ -40,12 +35,11 @@ function useFormControl() {
 				<Button
 					className="border-0 pt-2"
 					icon={<CloseOutlined />}
-					onClick={() => onCloseHanlder(onClose)}
+					onClick={() => onClose().then(() => navigate(onCloseUrl))}
 				></Button>
 			),
-		},
-		onClose = () => {}
-	) => <PageHeader {...props} />;
+			...props,
+		});
 
 	const facebook = {
 		title: "Facebook",
@@ -115,89 +109,113 @@ function useFormControl() {
 		),
 	};
 
-	const accessByFacebook = (
-		props = {
-			type: "ghost",
-			className: "tedkvn-center text-center bg-white p-3",
-			shape: "round",
-			icon: facebook.icon,
-			size: "large",
-			style: { lineHeight: "5rem" },
-		}
-	) => (
-		<Button {...props}>
-			<div className="d-none d-md-block mx-2">{facebook.title}</div>
-		</Button>
-	);
+	const accessByFacebook = (buttonProps = {}, contentProps = {}) =>
+		((props = {}, contentProps = {}) => (
+			<Button {...props}>
+				<div {...contentProps}>{facebook.title}</div>
+			</Button>
+		))(
+			{
+				type: "ghost",
+				className: "tedkvn-center text-center bg-white p-3",
+				shape: "round",
+				icon: facebook.icon,
+				size: "large",
+				style: { lineHeight: "5rem" },
+				...buttonProps,
+			},
+			{
+				className: "d-none d-md-block mx-2",
+				...contentProps,
+			}
+		);
 
-	const accessByGoogle = (
-		props = {
-			type: "ghost",
-			className: "tedkvn-center text-center bg-white p-3",
-			shape: "round",
-			icon: google.icon,
-			size: "large",
-			style: { lineHeight: "5rem" },
-		}
-	) => (
-		<Button {...props}>
-			<div className="d-none d-md-block mx-2">{google.title}</div>
-		</Button>
-	);
+	const accessByGoogle = (buttonProps = {}, contentProps = {}) =>
+		((props = {}, contentProps = {}) => (
+			<Button {...props}>
+				<div {...contentProps}>{google.title}</div>
+			</Button>
+		))(
+			{
+				type: "ghost",
+				className: "tedkvn-center text-center bg-white p-3",
+				shape: "round",
+				icon: google.icon,
+				size: "large",
+				style: { lineHeight: "5rem" },
+				...buttonProps,
+			},
+			{
+				className: "d-none d-md-block mx-2",
+				...contentProps,
+			}
+		);
 
-	const accessByApple = (
-		props = {
-			type: "ghost",
-			className: "tedkvn-center text-center bg-white p-3",
-			shape: "round",
-			icon: apple.icon,
-			size: "large",
-			style: { lineHeight: "5rem" },
-		}
-	) => (
-		<Button {...props}>
-			<div className="d-none d-md-block mx-2">{apple.title}</div>
-		</Button>
-	);
+	const accessByApple = (buttonProps = {}, contentProps = {}) =>
+		((props = {}, contentProps = {}) => (
+			<Button {...props}>
+				<div {...contentProps}>{apple.title}</div>
+			</Button>
+		))(
+			{
+				type: "ghost",
+				className: "tedkvn-center text-center bg-white p-3",
+				shape: "round",
+				icon: apple.icon,
+				size: "large",
+				style: { lineHeight: "5rem" },
+				...buttonProps,
+			},
+			{
+				className: "d-none d-md-block mx-2",
+				...contentProps,
+			}
+		);
 
-	const username = (
-		props = {
-			name: USERNAME_PROP,
-			label: "What should we call you?",
-			rules: [{ required: true, message: "Preferred Name is required" }],
-		},
-		inputProps = {
-			placeholder: "Preferred Name",
-		}
-	) => (
-		<Form.Item {...props}>
-			<Input {...inputProps} />
-		</Form.Item>
-	);
+	const username = (itemProps = {}, inputProps = {}) =>
+		((props = {}, inputProps = {}) => (
+			<Form.Item {...props}>
+				<Input {...inputProps} />
+			</Form.Item>
+		))(
+			{
+				name: USERNAME_PROP,
+				label: "What should we call you?",
+				rules: [{ required: true, message: "Preferred Name is required" }],
+				...itemProps,
+			},
+			{
+				placeholder: "Preferred Name",
+				...inputProps,
+			}
+		);
 
-	const password = (
-		props = {
-			label: "Password",
-			name: PASSWORD_PROP,
-			rules: [
-				{ required: true, message: "Please input your password!" },
-				{
-					pattern: /^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?!.* ).{8,20}$/,
-					message:
-						"Use 8 to 20 characters with 1 uppercase, 1 lowercase, and 1 number ",
-				},
-			],
-			hasFeedback: true,
-			shouldUpdate: true,
-		},
-		inputProps = {
-			placeholder: "Enter your password",
-		}
-	) => (
-		<Form.Item {...props}>
-			<Input.Password {...inputProps} />
-		</Form.Item>
-	);
+	const password = (itemProps = {}, inputProps = {}) =>
+		((props = {}, inputProps = {}) => (
+			<Form.Item {...props}>
+				<Input.Password {...inputProps} />
+			</Form.Item>
+		))(
+			{
+				label: "Password",
+				name: PASSWORD_PROP,
+				rules: [
+					{ required: true, message: "Please input your password!" },
+					{
+						pattern: /^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?!.* ).{8,20}$/,
+						message:
+							"Use 8 to 20 characters with 1 uppercase, 1 lowercase, and 1 number ",
+					},
+				],
+				hasFeedback: true,
+				shouldUpdate: true,
+				...itemProps,
+			},
+			{
+				placeholder: "Preferred Name",
+				...inputProps,
+			}
+		);
 
 	const agreement = () => (
 		<>
@@ -251,86 +269,95 @@ function useFormControl() {
 		</>
 	);
 
-	const email = (
-		props = {
-			name: EMAIL_PROP,
-			label: "Email Address",
-			className: "m-0",
-			rules: [
-				{
-					type: "email",
-					message: "The input is not valid E-mail!",
-				},
-				{
-					required: true,
-					message: "Please input your E-mail!",
-				},
-			],
-		},
-		inputProps = {
-			placeholder: "Enter your email address",
-		}
-	) => (
-		<Form.Item {...props}>
-			<Input {...inputProps} />
-		</Form.Item>
-	);
-
-	const phone = (
-		props = {
-			name: PHONE_PROP,
-			label: "Phone Number (US)",
-			className: "m-0",
-			normalize: (value) => formatPhoneNumber(value),
-			rules: [
-				{ required: true, message: "Please input your phone number!" },
-				{
-					min: 14,
-					max: 14,
-					message: "Please input a valid US phone number",
-				},
-			],
-		},
-		inputProps = {
-			placeholder: "Enter your phone number",
-			addonBefore: "+1",
-			maxLength: 14,
-		}
-	) => (
-		<Form.Item {...props}>
-			<Input {...inputProps} />
-		</Form.Item>
-	);
-
-	const otp = (
-		props = {
-			name: OTP_PROP,
-			label: "OTP Verofocatopn Code (4-digits)",
-			className: "m-0",
-			normalize: (value) => {
-				const [formattedValue] = formatOtpNumber(value);
-				return formattedValue;
+	const email = (itemProps = {}, inputProps = {}) =>
+		((props = {}, inputProps = {}) => (
+			<Form.Item {...props}>
+				<Input {...inputProps} />
+			</Form.Item>
+		))(
+			{
+				name: EMAIL_PROP,
+				label: "Email Address",
+				className: "m-0",
+				rules: [
+					{
+						type: "email",
+						message: "The input is not valid E-mail!",
+					},
+					{
+						required: true,
+						message: "Please input your E-mail!",
+					},
+				],
+				...itemProps,
 			},
-			rules: [
-				{
-					validator: (_, value) =>
-						value.replace(/[^\d]/g, "").length === 4
-							? Promise.resolve()
-							: Promise.reject(
-									new Error("Verification code must have 4-digits!")
-							  ),
+			{
+				placeholder: "Enter your email address",
+				...inputProps,
+			}
+		);
+
+	const phone = (itemProps = {}, inputProps = {}) =>
+		((props = {}, inputProps = {}) => (
+			<Form.Item {...props}>
+				<Input {...inputProps} />
+			</Form.Item>
+		))(
+			{
+				name: PHONE_PROP,
+				label: "Phone Number (US)",
+				className: "m-0",
+				normalize: (value) => formatPhoneNumber(value),
+				rules: [
+					{ required: true, message: "Please input your phone number!" },
+					{
+						min: 14,
+						max: 14,
+						message: "Please input a valid US phone number",
+					},
+				],
+				...itemProps,
+			},
+			{
+				placeholder: "Enter your phone number",
+				addonBefore: "+1",
+				maxLength: 14,
+				...inputProps,
+			}
+		);
+
+	const otp = (itemProps = {}, inputProps = {}) =>
+		((props = {}, inputProps = {}) => (
+			<Form.Item {...props}>
+				<Input {...inputProps} />
+			</Form.Item>
+		))(
+			{
+				name: OTP_PROP,
+				label: "OTP Verofocatopn Code (4-digits)",
+				className: "m-0",
+				normalize: (value) => {
+					const [formattedValue] = formatOtpNumber(value);
+					return formattedValue;
 				},
-			],
-		},
-		inputProps = {
-			placeholder: "Enter 4-digits OTP code",
-			maxLength: 7,
-		}
-	) => (
-		<Form.Item {...props}>
-			<Input {...inputProps} />
-		</Form.Item>
-	);
+				rules: [
+					{
+						validator: (_, value) =>
+							value.replace(/[^\d]/g, "").length === 4
+								? Promise.resolve()
+								: Promise.reject(
+										new Error("Verification code must have 4-digits!")
+								  ),
+					},
+				],
+				...itemProps,
+			},
+			{
+				placeholder: "Enter 4-digits OTP code",
+				maxLength: 7,
+				...inputProps,
+			}
+		);
 
 	return {
 		pageHeader,

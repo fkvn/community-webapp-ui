@@ -1,12 +1,11 @@
 import { MenuOutlined } from "@ant-design/icons";
-import { Dropdown, Image, Menu } from "antd";
+import { Dropdown, Menu } from "antd";
 import { Button, Navbar, Stack } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
-import { thainowLogoRound } from "../../Assest/Asset";
+import useImage from "../Hook/useImage";
 import Search from "../Search/Search";
 
 function TopBar({ keywords = "" }) {
-	const navigate = useNavigate();
+	const { image } = useImage();
 
 	const menu = (
 		<Menu
@@ -19,7 +18,7 @@ function TopBar({ keywords = "" }) {
 							rel="noopener noreferrer"
 							href="https://www.antgroup.com"
 						>
-							1st menu item
+							3 menu item
 						</a>
 					),
 				},
@@ -55,23 +54,24 @@ function TopBar({ keywords = "" }) {
 		<Stack
 			direction="horizontal"
 			id="topbar"
-			className="mx-4 mx-lg-5 w-100"
+			className="mx-4 mx-lg-5 w-100 "
 			gap={4}
 		>
-			<Navbar.Brand>
-				<Image
-					width={45}
-					src={thainowLogoRound}
-					preview={false}
-					onClick={() => navigate("/")}
-				/>
+			<Navbar.Brand as="div" className="tedkvn-center">
+				{image({
+					className: "rounded-circle ",
+				})}
 			</Navbar.Brand>
-			<div id="searchbar" className="ms-auto w-100">
-				<Search defaultKeywords={keywords} direction="horizontal" />
+
+			<div id="searchbar" className=" ms-auto w-100">
+				<div className="d-none  d-md-block">
+					{" "}
+					<Search defaultKeywords={keywords} direction="horizontal" />
+				</div>
 			</div>
 
 			<Dropdown overlay={menu} placement="bottomRight" arrow>
-				<Button className="tedkvn-center">
+				<Button className="tedkvn-center bg-white text-primary">
 					<MenuOutlined />
 				</Button>
 			</Dropdown>
