@@ -1,18 +1,24 @@
-import { CloseOutlined } from "@ant-design/icons";
-import { Button, Checkbox, Form, Input, PageHeader } from "antd";
+import { CloseCircleOutlined, CloseOutlined } from "@ant-design/icons";
+import { AutoComplete, Button, Checkbox, Form, Input, PageHeader } from "antd";
+import { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { thainowLogoRound } from "../../Assest/Asset";
+import { imageThainowLogoRound } from "../../Assest/Asset";
 import {
+	ADDRESS_PROP,
 	AGREEMENT_PROP,
 	EMAIL_PROP,
+	LOCATION_OBJ,
 	ON_CLOSE_URL,
 	OTP_PROP,
 	PASSWORD_PROP,
 	PHONE_PROP,
+	PLACEID_PROP,
 	USERNAME_PROP,
+	WEBSITE_PROP,
 } from "../../Util/ConstVar";
 
 import { formatOtpNumber, formatPhoneNumber } from "../../Util/Util";
+import useGoogleAutoComplete from "./useGoogleAutoComplete";
 
 function useFormControl() {
 	const navigate = useNavigate();
@@ -28,7 +34,7 @@ function useFormControl() {
 			avatar: {
 				shape: "circle",
 				size: "large",
-				src: thainowLogoRound,
+				src: imageThainowLogoRound,
 				onClick: () => navigate("/"),
 			},
 			extra: (
@@ -181,7 +187,8 @@ function useFormControl() {
 			{
 				name: USERNAME_PROP,
 				label: "What should we call you?",
-				rules: [{ required: true, message: "Preferred Name is required" }],
+				className: "m-0",
+				rules: [{ required: true, message: "Name is required" }],
 				...itemProps,
 			},
 			{
@@ -269,7 +276,7 @@ function useFormControl() {
 		</>
 	);
 
-	const email = (itemProps = {}, inputProps = {}) =>
+	const email = (itemProps = {}, inputProps = {}, required = true) =>
 		((props = {}, inputProps = {}) => (
 			<Form.Item {...props}>
 				<Input {...inputProps} />
@@ -285,7 +292,7 @@ function useFormControl() {
 						message: "The input is not valid E-mail!",
 					},
 					{
-						required: true,
+						required: required,
 						message: "Please input your E-mail!",
 					},
 				],
@@ -359,6 +366,175 @@ function useFormControl() {
 			}
 		);
 
+	/* options = [{label: "", value: ""}] */
+	const autoComplete = (
+		{ rules = [], ...itemProps },
+		inputProps = {},
+		options = [],
+		required = false,
+		errorMessage = "Please input a value!"
+	) =>
+		((props = {}, inputProps = {}) => (
+			<Form.Item {...props}>
+				<AutoComplete {...inputProps} />
+			</Form.Item>
+		))(
+			{
+				className: "m-0",
+				rules: [
+					{
+						required: required,
+						message: errorMessage,
+					},
+					...rules,
+				],
+				...itemProps,
+			},
+			{
+				style: { width: 200 },
+				options: options,
+				className: "w-100",
+				placeholder: "Search here",
+				filterOption: (inputValue, option) =>
+					option?.value.toUpperCase().indexOf(inputValue.toUpperCase()) !== -1,
+				...inputProps,
+			}
+		);
+
+	const { fetchPredictions } = useGoogleAutoComplete();
+	const [address, setAddress] = useState({
+		location: {
+			[`${ADDRESS_PROP}`]: "",
+			[`${PLACEID_PROP}`]: "",
+		},
+		predictions: [],
+	});
+
+	const addressAutoComplete = (
+		{ rules = [], ...itemProps },
+		inputProps = {},
+		required = false,
+		errorMessage = "Please enter a valid address"
+	) => {
+		const onSearch = (searchText = "") => {
+			if (searchText !== "") {
+				fetchPredictions(searchText).then(({ predictions }) => {
+					setAddress({
+						...address,
+						predictions: predictions.map((prediction) => {
+							return {
+								label: prediction.description,
+								value: prediction.description,
+								location: prediction,
+							};
+						}),
+					});
+				});
+			}
+		};
+
+		const onSelect = (_, option = {}) => {
+			const location = {
+				[`${ADDRESS_PROP}`]: option?.location?.description || "",
+				[`${PLACEID_PROP}`]: option?.location?.place_id || "",
+			};
+
+			setAddress({ location: { ...location } });
+		};
+
+		const onBlur = () => {
+			let addressValue = address.location?.[`${ADDRESS_PROP}`] || "";
+			let placeidValue = address.location?.[`${PLACEID_PROP}`] || "";
+
+			const validLocation =
+				addressValue === "" || (addressValue !== "" && placeidValue !== "");
+
+			if (!validLocation) {
+				setAddress({
+					value: "",
+				});
+			}
+		};
+
+		return (
+			<>
+				{/* this is to collect custom location object */}
+				<Form.Item name={LOCATION_OBJ} hidden className="d-none">
+					<Input value={address.location} />
+				</Form.Item>
+
+				{autoComplete(
+					{
+						name: ADDRESS_PROP,
+						rules: [
+							({ setFieldValue }) => ({
+								validator(_, value) {
+									const location = value === "" ? {} : address.location || {};
+									setFieldValue(LOCATION_OBJ, location);
+
+									if (required && value === "") return Promise.reject();
+									else return Promise.resolve();
+								},
+							}),
+							...rules,
+						],
+						...itemProps,
+					},
+					{
+						children: (
+							<Input
+								className="rounded-0"
+								allowClear={{
+									clearIcon: <CloseCircleOutlined />,
+								}}
+							/>
+						),
+						options: address.predictions || [],
+						onSelect: onSelect,
+						onSearch: onSearch,
+						onBlur: onBlur,
+						placeholder: "street, city, zipcode, or state",
+						...inputProps,
+					},
+					[],
+					required,
+					errorMessage
+				)}
+			</>
+		);
+	};
+
+	const url = (
+		{ rules = [], ...itemProps },
+		inputProps = {},
+		required = false
+	) =>
+		((props = {}, inputProps = {}) => (
+			<Form.Item {...props}>
+				<Input {...inputProps} />
+			</Form.Item>
+		))(
+			{
+				name: WEBSITE_PROP,
+				className: "m-0 ",
+				rules: [
+					{ required: required, message: "Please input your password!" },
+					{
+						pattern:
+							/(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_+.~#?&//=]*)/g,
+						message: "Please provide a valid domain with http(s)://",
+					},
+				],
+				shouldUpdate: true,
+				...itemProps,
+			},
+			{
+				className: "rounded-0",
+				placeholder: "Enter a valid domain with http(s)://",
+				...inputProps,
+			}
+		);
+
 	return {
 		pageHeader,
 		accessByFacebook,
@@ -370,6 +546,9 @@ function useFormControl() {
 		email,
 		phone,
 		otp,
+		autoComplete,
+		addressAutoComplete,
+		url,
 	};
 }
 

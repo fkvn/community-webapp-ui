@@ -3,6 +3,7 @@ import { Alert, Button, Divider, Form, Space, Spin } from "antd";
 import { useState } from "react";
 import { Stack } from "react-bootstrap";
 import { useLocation, useNavigate } from "react-router-dom";
+import { imageSuccess } from "../../Assest/Asset";
 import {
 	AGREEMENT_PROP,
 	EMAIL_PROP,
@@ -14,9 +15,10 @@ import {
 } from "../../Util/ConstVar";
 import useAuth from "../Hook/useAuth";
 import useFormControl from "../Hook/useFormControl";
+import useImage from "../Hook/useImage";
 import useSendVerifyCode from "../Hook/useTwilio";
 
-function UserSignup({ stepHandlers = [], onSelectVerifyMethod = () => {} }) {
+function UserSignup() {
 	const navigate = useNavigate();
 	const location = useLocation();
 	const [form] = Form.useForm();
@@ -29,6 +31,7 @@ function UserSignup({ stepHandlers = [], onSelectVerifyMethod = () => {} }) {
 		verifyAndRegister: false,
 	});
 	const { sendVerifyCode, verifyCode } = useSendVerifyCode();
+	const { image } = useImage();
 
 	const {
 		accessByFacebook,
@@ -48,9 +51,9 @@ function UserSignup({ stepHandlers = [], onSelectVerifyMethod = () => {} }) {
 
 	const title = (
 		<div className="w-100 text-center">
-			<div className="fs-3">
+			<div className="fs-2">
 				{" "}
-				Create a <span style={{ color: "#E94833" }}>ThaiNow</span> Account
+				Register a <span style={{ color: "#E94833" }}>ThaiNow</span> Account
 			</div>
 		</div>
 	);
@@ -74,10 +77,6 @@ function UserSignup({ stepHandlers = [], onSelectVerifyMethod = () => {} }) {
 			</div>
 		</>
 	);
-
-	const onFinish = () => {
-		console.log("submitting");
-	};
 
 	const renderStep1 = (
 		<>
@@ -200,7 +199,7 @@ function UserSignup({ stepHandlers = [], onSelectVerifyMethod = () => {} }) {
 			<p className=" my-4 text-center">
 				Great, now please enter a valid <strong>email address</strong>
 			</p>
-			{email()}
+			{email({}, { autoFocus: true })}
 		</>
 	);
 
@@ -209,7 +208,7 @@ function UserSignup({ stepHandlers = [], onSelectVerifyMethod = () => {} }) {
 			<p className=" my-4 text-center">
 				Great, now please enter a valid <strong>US (+1) phone number</strong>
 			</p>
-			{phone()}
+			{phone({}, { autoFocus: true })}
 		</>
 	);
 
@@ -247,7 +246,8 @@ function UserSignup({ stepHandlers = [], onSelectVerifyMethod = () => {} }) {
 			</>
 		);
 
-	const otpVerifySelection = verifyInfo.sentCode && otp();
+	const otpVerifySelection =
+		verifyInfo.sentCode && otp({}, { autoFocus: true });
 
 	const fetchRegisterInfo = () => {
 		const email = form.getFieldValue(EMAIL_PROP);
@@ -261,22 +261,12 @@ function UserSignup({ stepHandlers = [], onSelectVerifyMethod = () => {} }) {
 		};
 
 		const registerInfo = {
-			verified: false,
+			isVerified: true,
 			username: form.getFieldValue(USERNAME_PROP),
 			...credentials,
 		};
 
 		return registerInfo;
-	};
-
-	const fetchSigninInfo = () => {
-		return {
-			...(verifyInfo.channel === EMAIL_PROP &&
-				email.length > 0 && { email: email, channel: "email" }),
-			...(verifyInfo.channel === SMS_PROP &&
-				phone.length > 0 && { phone: phone, channel: "phone" }),
-			password: form.getFieldValue(PASSWORD_PROP),
-		};
 	};
 
 	const onVerifyCode = () => {
@@ -288,13 +278,11 @@ function UserSignup({ stepHandlers = [], onSelectVerifyMethod = () => {} }) {
 					verifyInfo.channel,
 					form.getFieldValue(verifyInfo.field),
 					form.getFieldValue(OTP_PROP).replace(/[^\d]/g, "")
-				).then(() => {
+				).then(() =>
 					thainowRegister(fetchRegisterInfo()).then(() =>
-						thainowSignin(fetchSigninInfo()).then(() =>
-							setVerifyInfo({ ...verifyInfo, verifyAndRegister: true })
-						)
-					);
-				});
+						setVerifyInfo({ ...verifyInfo, verifyAndRegister: true })
+					)
+				);
 			})
 			.finally(() => {
 				form.setFieldValue(OTP_PROP, "");
@@ -338,11 +326,62 @@ function UserSignup({ stepHandlers = [], onSelectVerifyMethod = () => {} }) {
 			</>
 		);
 
-	// 	const registedSuccess = verifyInfo.verifyAndRegister && <>						<Image
-	// 	src={picture}
-	// 	width={100}
-	// 	className="rounded-circle my-3"
-	// /></>
+	const registedSuccess = verifyInfo.verifyAndRegister && (
+		<Space direction="vertical" className="my-2 text-center w-100">
+			{image({
+				src: imageSuccess,
+				width: 200,
+				className: "rounded-circle my-3",
+			})}
+
+			<p className="fs-4 fw-bold">Congratulations</p>
+			<p className="fs-4 fw-bold">Your account has been succesfully created.</p>
+			<p>
+				Now, you can login with your{" "}
+				{verifyInfo.channel === EMAIL_PROP ? `email address ` : `phone number `}{" "}
+				<strong>{form.getFieldValue(verifyInfo.field)} </strong>
+			</p>
+			<div className="text-center tedkvn-center">
+				Business Owner?{" "}
+				<Button
+					type="link"
+					className="border-0"
+					onClick={() =>
+						thainowSignin(
+							verifyInfo.channel === SMS_PROP ? PHONE_PROP : verifyInfo.channel,
+							form.getFieldValue(verifyInfo.field),
+							form.getFieldValue(PASSWORD_PROP),
+							false
+						).then(() => navigate("/register/business"))
+					}
+				>
+					Activate your business profile
+				</Button>
+			</div>
+			<Button
+				type="primary"
+				block
+				className="p-4 my-4"
+				onClick={() =>
+					thainowSignin(
+						verifyInfo.channel === SMS_PROP ? PHONE_PROP : verifyInfo.channel,
+						form.getFieldValue(verifyInfo.field),
+						form.getFieldValue(PASSWORD_PROP)
+					)
+				}
+			>
+				Sign in to {form.getFieldValue(verifyInfo.field)}
+			</Button>
+			<Button
+				type="link"
+				block
+				className="border-0"
+				onClick={() => navigate("/")}
+			>
+				Back to home
+			</Button>
+		</Space>
+	);
 
 	const renderStep2 = (
 		<>
@@ -360,11 +399,10 @@ function UserSignup({ stepHandlers = [], onSelectVerifyMethod = () => {} }) {
 				form={form}
 				layout="vertical"
 				className="mx-2 mx-xl-5"
-				onFinish={onFinish}
 				autoComplete="off"
 			>
 				<Space direction="vertical" size={20}>
-					{!verifyInfo.verifyAndRegister && (
+					{!verifyInfo.verifyAndRegister ? (
 						<>
 							{title}
 							{step === 1 ? (
@@ -381,6 +419,8 @@ function UserSignup({ stepHandlers = [], onSelectVerifyMethod = () => {} }) {
 								</Spin>
 							)}
 						</>
+					) : (
+						registedSuccess
 					)}
 				</Space>
 			</Form>

@@ -1,23 +1,20 @@
 import { Button, Card, Space } from "antd";
 import Meta from "antd/lib/card/Meta";
 import { Stack } from "react-bootstrap";
-import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { guestAvatar } from "../../Assest/Asset";
-import { THAINOW_PROFILE_OBJ } from "../../Util/ConstVar";
+import { imageGuestAvatar } from "../../Assest/Asset";
 import { emptyProject } from "../../Util/Util";
+import useAuth from "../Hook/useAuth";
 import useImage from "../Hook/useImage";
 
 function RightLayout() {
 	const navigate = useNavigate();
 	const { image } = useImage();
 
-	const profile = useSelector(
-		(state) => state.thainowReducer[`${THAINOW_PROFILE_OBJ}`] || {}
-	);
+	const { profile } = useAuth();
 
 	const { picture, name, description } = emptyProject(profile)
-		? { picture: guestAvatar, name: "Hi Welcome", description: "ThaiNow" }
+		? { picture: imageGuestAvatar, name: "Hi Welcome", description: "ThaiNow" }
 		: { ...profile.info, description: "" };
 
 	const app = (
@@ -32,7 +29,7 @@ function RightLayout() {
 					type="default"
 					className="p-2  fw-bold border-danger"
 					block
-					onClick={() => navigate("/register")}
+					onClick={() => navigate("/register/user")}
 				>
 					Register ThaiNow Account
 				</Button>

@@ -1,6 +1,7 @@
 import axios from "../Axios/axios";
 import {
 	EMAIL_PROP,
+	PHONE_PROP,
 	PROFILE_COMPANY_TYPE_PROP,
 	PROFILE_USER_TYPE_PROP,
 	SMS_PROP,
@@ -47,21 +48,12 @@ export const verifyOtpCodePromise = async (
 		})
 		.catch((e) => Promise.reject(e));
 
-export const registerPromise = async (channel = "thainow", signupInfo = {}) => {
-	switch (channel) {
-		case "thainow":
-			return axios
-				.post(`/auth/${channel}/register`, {
-					...signupInfo,
-				})
-				.catch((e) => Promise.reject(e));
-
-		default:
-			return Promise.reject(
-				"Registration Failed! Please try again later or contact the ThaiNow customer service."
-			);
-	}
-};
+export const registerPromise = async (signupInfo = {}) =>
+	axios
+		.post(`/auth/thainow/register`, {
+			...signupInfo,
+		})
+		.catch((e) => Promise.reject(e));
 
 export const businessRegisterPromise = async (
 	businessRegisterInfo = {
@@ -81,23 +73,16 @@ export const businessRegisterPromise = async (
 	});
 };
 
-export const axiosSignInPromise = async (
-	channel = "",
-	email = "",
-	phone = "",
-	password = ""
-) => {
-	return axios
-		.post(`/auth/signin`, {
+export const signinPromise = async (channel = "", value = "", password = "") =>
+	axios
+		.post(`/auth/thainow/signin`, {
 			channel: channel,
-			email: email,
-			phone: phone,
+			...(channel === EMAIL_PROP && value.length > 0 && { email: value }),
+			...(channel === PHONE_PROP && value.length > 0 && { phone: value }),
 			password: password,
 		})
-		.then((res) => (res ? res.data : Promise.reject()));
-};
-
-// User API
+		.then(({ data }) => Promise.resolve(data))
+		.catch((e) => Promise.reject(e));
 
 export const uploadProfileAvatar = async (
 	type = "",

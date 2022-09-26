@@ -1,4 +1,5 @@
-import { axiosSignInPromise } from "../Axios/axiosPromise";
+import jwt_decode from "jwt-decode";
+import { signinPromise } from "../Axios/axiosPromise";
 import {
 	getState,
 	patchProfileInfoPromise,
@@ -244,7 +245,7 @@ export const signInUserPromise = async (channel = "") => {
 		[`${constVar.PASSWORD_PROP}`]: password = "",
 	} = signinInfo;
 
-	return axiosSignInPromise(channel, email, phone, password).then(
+	return signinPromise(channel, email, phone, password).then(
 		({ access_token = "", user = {} }) => {
 			// remove signin info
 			removeUserSigninInfo();
@@ -268,4 +269,22 @@ export const signoutUserPromise = async () => {
 	localStorage.removeItem(constVar.THAINOW_USER_OBJ);
 	localStorage.removeItem(constVar.THAINOW_PROFILE_OBJ);
 	patchProfileInfoPromise({}, true);
+};
+
+export const validateToken = (access_token = "") => {
+	console.log(access_token);
+
+	if (access_token.length > 0) {
+		try {
+			console.log("validating");
+			console.log(jwt_decode(access_token).exp);
+			console.log(Date.now() / 1000);
+
+			console.log(jwt_decode(access_token).exp < Date.now() / 1000);
+			if (jwt_decode(access_token).exp < Date.now() / 1000) {
+				console.log("expired");
+				signoutUserPromise();
+			}
+		} catch (e) {}
+	}
 };

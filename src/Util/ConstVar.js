@@ -56,6 +56,7 @@ export const VISIT_MY_PROFILE_HANDLER = "visitMyProfileHandler";
 export const ACCESS_TOKEN_PROP = "access_token";
 export const USER_PROP = "user";
 export const ID_PROP = "id";
+export const NAME_PROP = "name";
 export const USERNAME_PROP = "username";
 export const FIRSTNAME_PROP = "firstname";
 export const LASTNAME_PROP = "lastname";
@@ -78,6 +79,7 @@ export const ROLE_PROP = "role";
 export const PENDING_STATUS_PROP = "PENDING";
 export const DISABLED_PROP = "disabled";
 export const AGREEMENT_PROP = "agreement";
+export const WEBSITE_PROP = "website";
 
 export const COMPANY_INDUSTRY_LIST = [
 	"Aquarium & Pet",

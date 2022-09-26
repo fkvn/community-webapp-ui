@@ -1,6 +1,6 @@
 import axios from "axios";
 import * as constVar from "../Util/ConstVar";
-import { signoutUserPromise } from "../Util/Util";
+import { signoutUserPromise, validateToken } from "../Util/Util";
 
 const instance = axios.create({
 	// baseURL: "http://ecst-csproj2.calstatela.edu:6328/api/"
@@ -26,7 +26,6 @@ const errorHandler = async (error) => {
 
 		const returnError = error.response.data.error;
 		message = error.response.data.message || "Unauthorized";
-		const status = error.response.data.status || "Bad Request";
 
 		if (returnError === "Unauthorized") {
 			message =
@@ -35,17 +34,19 @@ const errorHandler = async (error) => {
 		}
 	} else {
 		message = error.response.data.message;
-		return Promise.reject(message);
 	}
+
+	return Promise.reject(message);
 };
 
 instance.interceptors.request.use(
 	(config) => {
 		const thaiNowObj = localStorage.getItem(constVar.THAINOW_USER_OBJ);
+
 		if (thaiNowObj) {
-			config.headers.Authorization = `Bearer ${
-				JSON.parse(thaiNowObj)["access_token"]
-			}`;
+			let access_token = JSON.parse(thaiNowObj)["access_token"] || "";
+			validateToken(access_token);
+			config.headers.Authorization = `Bearer ${access_token}`;
 
 			// config.cookie({ sameSite: "Lax" });
 		}

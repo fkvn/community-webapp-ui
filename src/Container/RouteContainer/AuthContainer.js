@@ -1,17 +1,13 @@
 import jwt_decode from "jwt-decode";
-import { useEffect, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import {useEffect, useState} from "react";
+import {useLocation, useNavigate} from "react-router-dom";
 import {
-	patchProfileInfoPromise,
-	submitErrorHandlerPromise,
+	submitErrorHandlerPromise
 } from "../../redux-store/dispatchPromise";
 import {
-	ACCESS_TOKEN_PROP,
-	PROFILE_USER_TYPE_PROP,
-	THAINOW_PROFILE_OBJ,
-	THAINOW_USER_OBJ,
+	ACCESS_TOKEN_PROP, THAINOW_USER_OBJ
 } from "../../Util/ConstVar";
-import { saveProfileInfo, signoutUserPromise } from "../../Util/Util";
+import {signoutUserPromise} from "../../Util/Util";
 
 function AuthContainer({ children = {} }) {
 	/* Description
@@ -129,20 +125,7 @@ function AuthContainer({ children = {} }) {
 				);
 			});
 		} else {
-			let storageProfile = localStorage.getItem(THAINOW_PROFILE_OBJ) || "";
-
-			if (storageProfile === "") {
-				storageProfile = saveProfileInfo({
-					type: PROFILE_USER_TYPE_PROP,
-					user: { ...storageUser },
-				});
-			} else {
-				storageProfile = JSON.parse(storageProfile);
-			}
-
-			patchProfileInfoPromise({ ...storageProfile }).then(() =>
-				setIsAuthenticated(true)
-			);
+			setIsAuthenticated(true)
 		}
 	};
 

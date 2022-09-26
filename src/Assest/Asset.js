@@ -25,17 +25,17 @@ const localEnv = true;
 
 const SOURCE_URL = localEnv ? LOCAL_SOURCE_URL : PRODUCTION_CDN_SOURCE_URL;
 
-export const thainowLogoRound = `${SOURCE_URL}img-logo-round.png?alt=media&token=184f0afc-beb7-4992-9c24-63e3004444ef`;
+export const imageThainowLogoRound = `${SOURCE_URL}img-logo-round.png?alt=media&token=184f0afc-beb7-4992-9c24-63e3004444ef`;
 
-export const topbarBg = `${SOURCE_URL}img-top-bar.png?alt=media&token=207d8aa7-a3a9-4b40-a8b9-6d24614c6332`;
+export const imageTopbarBg = `${SOURCE_URL}img-top-bar.png?alt=media&token=207d8aa7-a3a9-4b40-a8b9-6d24614c6332`;
 
-export const guestAvatar = `${SOURCE_URL}img-avatar-guest.png?alt=media&token=fba2745b-46fb-44ea-aa65-dcb6e008cccd`;
+export const imageGuestAvatar = `${SOURCE_URL}img-avatar-guest.png?alt=media&token=fba2745b-46fb-44ea-aa65-dcb6e008cccd`;
 
-export const thainowBlurImage = `${SOURCE_URL}img-logo-blur.png?alt=media&token=184f0afc-beb7-4992-9c24-63e3004444ef`;
+export const imageThainowBlur = `${SOURCE_URL}img-logo-blur.png?alt=media&token=184f0afc-beb7-4992-9c24-63e3004444ef`;
 
-export const noPhotoImage = `${SOURCE_URL}img-no-photo.png?alt=media&token=184f0afc-beb7-4992-9c24-63e3004444ef`;
+export const imageNoPhoto = `${SOURCE_URL}img-no-photo.png?alt=media&token=184f0afc-beb7-4992-9c24-63e3004444ef`;
 
-// export const successImage =
+export const imageSuccess = `${SOURCE_URL}img-success.png?alt=media&token=184f0afc-beb7-4992-9c24-63e3004444ef`;
 
 export const images = {
 	[`${constVar.IMAGE_THAINOW_LOGO}`]: thaiNowLogo,
