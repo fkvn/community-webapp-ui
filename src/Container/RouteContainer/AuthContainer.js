@@ -1,15 +1,9 @@
-import jwt_decode from "jwt-decode";
-import {useEffect, useState} from "react";
-import {useLocation, useNavigate} from "react-router-dom";
-import {
-	submitErrorHandlerPromise
-} from "../../redux-store/dispatchPromise";
-import {
-	ACCESS_TOKEN_PROP, THAINOW_USER_OBJ
-} from "../../Util/ConstVar";
-import {signoutUserPromise} from "../../Util/Util";
+import { useEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import useAuth from "../../Component/Hook/useAuth";
+import useUrls from "../../Component/Hook/useUrls";
 
-function AuthContainer({ children = {} }) {
+function AuthContainer({ returnUrl = "/", continueUrl = "/", children = {} }) {
 	/* Description
 
 		Prerequisite -> When sign in the following information must be save:
@@ -81,66 +75,23 @@ function AuthContainer({ children = {} }) {
 
 	*/
 
+	const [loading, setLoading] = useState(true);
 	const navigate = useNavigate();
 	const location = useLocation();
-	const continueURL = location.state?.continue || "/";
 
-	const [isAuthenticated, setIsAuthenticated] = useState(false);
-
-	const validateToken = (access_token = "") => {
-		if (access_token.length > 0) {
-			let isExpiredToken = true;
-
-			try {
-				isExpiredToken = jwt_decode(access_token).exp < Date.now() / 1000;
-			} catch (e) {}
-
-			return !isExpiredToken;
-		}
-		return false;
-	};
-
-	const validateSignInCredentials = () => {
-		const storageUser =
-			JSON.parse(localStorage.getItem(THAINOW_USER_OBJ)) || {};
-
-		const access_token = storageUser?.[`${ACCESS_TOKEN_PROP}`] || "";
-
-		const isValidToken = validateToken(access_token);
-
-		if (!isValidToken) {
-			submitErrorHandlerPromise(
-				"Your credentials are incorrect or have expired  .... Please sign in again!"
-			).catch(() => {
-				signoutUserPromise().then(() =>
-					setTimeout(
-						() =>
-							navigate("/signin", {
-								state: {
-									continue: continueURL,
-								},
-							}),
-						2000
-					)
-				);
-			});
-		} else {
-			setIsAuthenticated(true)
-		}
-	};
-
-	const init = () => {
-		if (!isAuthenticated) {
-			validateSignInCredentials();
-		}
-	};
+	const { forwardUrl } = useUrls();
+	const { auth } = useAuth();
 
 	useEffect(() => {
-		init();
+		if (loading) {
+			auth(returnUrl, continueUrl, navigate, location)
+				.then(() => setLoading(false))
+				.catch(() => forwardUrl(returnUrl, continueUrl));
+		}
 	});
 
-	const app = <>{isAuthenticated && children}</>;
-	return app;
+	const app = <>{children}</>;
+	return !loading ? app : null;
 }
 
 export default AuthContainer;

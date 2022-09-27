@@ -14,8 +14,8 @@ import {
 } from "../../Util/ConstVar";
 import { validateToken } from "../../Util/Util";
 import BusinessSignupFormBody from "../Form/FormLayout/BusinessSignupFormBody";
-import useAuth from "../Hook/useAuth";
 import useFormControl from "../Hook/useFormControl";
+import useProfile from "../Hook/useProfile";
 
 function BusinessSignup({
 	stepHandlers = [],
@@ -35,7 +35,9 @@ function BusinessSignup({
 
 	const [registering, setRegistering] = useState(false);
 
-	const { profile } = useAuth();
+	const { profile } = useProfile();
+
+	console.log(profile);
 
 	const { username, autoComplete, addressAutoComplete, phone, email, url } =
 		useFormControl();
@@ -48,7 +50,7 @@ function BusinessSignup({
 				Register a <span style={{ color: "#E94833" }}>Business</span> Profile
 			</p>
 			<p className="fs-5">
-				Hi <strong>{profile.info[`${NAME_PROP}`]}</strong>
+				Hi <strong>{profile?.info?.[`${NAME_PROP}`]}</strong>
 			</p>
 			<p>Please enter your business information</p>
 		</div>

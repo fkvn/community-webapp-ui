@@ -4,14 +4,16 @@ import { Stack } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { imageGuestAvatar } from "../../Assest/Asset";
 import { emptyProject } from "../../Util/Util";
-import useAuth from "../Hook/useAuth";
 import useImage from "../Hook/useImage";
+import useProfile from "../Hook/useProfile";
+import useSignin from "../Hook/useSignin";
 
 function RightLayout() {
 	const navigate = useNavigate();
 	const { image } = useImage();
+	const { thainowSignin } = useSignin();
 
-	const { profile } = useAuth();
+	const { profile } = useProfile();
 
 	const { picture, name, description } = emptyProject(profile)
 		? { picture: imageGuestAvatar, name: "Hi Welcome", description: "ThaiNow" }
@@ -45,7 +47,7 @@ function RightLayout() {
 						})}
 						<Meta title={name} description={description} />
 					</Space>
-					<Button type="primary" block>
+					<Button type="primary" block onClick={() => thainowSignin()}>
 						Sign In
 					</Button>
 				</Space>

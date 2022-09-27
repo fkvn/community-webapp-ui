@@ -265,26 +265,54 @@ export const signInUserPromise = async (channel = "") => {
 	);
 };
 
-export const signoutUserPromise = async () => {
+export const signoutUserPromise = () => {
 	localStorage.removeItem(constVar.THAINOW_USER_OBJ);
 	localStorage.removeItem(constVar.THAINOW_PROFILE_OBJ);
 	patchProfileInfoPromise({}, true);
+	// window.location.href = "/";
 };
 
-export const validateToken = (access_token = "") => {
-	console.log(access_token);
+export const validateToken = () => {
+	const access_token =
+		JSON.parse(localStorage.getItem(constVar.THAINOW_USER_OBJ))?.access_token ||
+		"";
 
 	if (access_token.length > 0) {
 		try {
-			console.log("validating");
-			console.log(jwt_decode(access_token).exp);
-			console.log(Date.now() / 1000);
-
-			console.log(jwt_decode(access_token).exp < Date.now() / 1000);
 			if (jwt_decode(access_token).exp < Date.now() / 1000) {
-				console.log("expired");
+				// token is still expired
 				signoutUserPromise();
+				return Promise.reject();
+			} else {
+				// token is still active
+				return Promise.resolve();
 			}
-		} catch (e) {}
+		} catch (e) {
+			return Promise.reject();
+		}
 	}
+
+	return Promise.reject();
+};
+
+export const forwardUrl = (
+	customUrls = {},
+	navigate = () => {},
+	location = () => {}
+) => {
+	let returnUrl = location?.state?.[`${constVar.ON_RETURN_URL}`] || "/";
+	let continueUrl = location?.state?.[`${constVar.ON_SUCCESS_URL}`] || "/";
+
+	if (!emptyProject(customUrls)) {
+		returnUrl = customUrls?.[`${constVar.ON_RETURN_URL}`] || "/";
+		continueUrl = customUrls?.[`${constVar.ON_SUCCESS_URL}`] || "/";
+	}
+
+	navigate(returnUrl.length > 1 ? returnUrl : continueUrl, {
+		state: {
+			...(returnUrl.length > 1 && {
+				[`${constVar.ON_SUCCESS_URL}`]: continueUrl,
+			}),
+		},
+	});
 };

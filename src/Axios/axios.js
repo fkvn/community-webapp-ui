@@ -1,6 +1,6 @@
 import axios from "axios";
 import * as constVar from "../Util/ConstVar";
-import { signoutUserPromise, validateToken } from "../Util/Util";
+import { signoutUserPromise } from "../Util/Util";
 
 const instance = axios.create({
 	// baseURL: "http://ecst-csproj2.calstatela.edu:6328/api/"
@@ -45,9 +45,7 @@ instance.interceptors.request.use(
 
 		if (thaiNowObj) {
 			let access_token = JSON.parse(thaiNowObj)["access_token"] || "";
-			validateToken(access_token);
 			config.headers.Authorization = `Bearer ${access_token}`;
-
 			// config.cookie({ sameSite: "Lax" });
 		}
 		return config;

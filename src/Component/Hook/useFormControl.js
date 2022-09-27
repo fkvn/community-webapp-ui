@@ -1,14 +1,13 @@
 import { CloseCircleOutlined, CloseOutlined } from "@ant-design/icons";
 import { AutoComplete, Button, Checkbox, Form, Input, PageHeader } from "antd";
 import { useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { imageThainowLogoRound } from "../../Assest/Asset";
 import {
 	ADDRESS_PROP,
 	AGREEMENT_PROP,
 	EMAIL_PROP,
 	LOCATION_OBJ,
-	ON_CLOSE_URL,
 	OTP_PROP,
 	PASSWORD_PROP,
 	PHONE_PROP,
@@ -19,11 +18,14 @@ import {
 
 import { formatOtpNumber, formatPhoneNumber } from "../../Util/Util";
 import useGoogleAutoComplete from "./useGoogleAutoComplete";
+import useUrls from "./useUrls";
 
 function useFormControl() {
+	const { forwardUrl } = useUrls();
 	const navigate = useNavigate();
-	const location = useLocation();
-	const onCloseUrl = location?.state?.[`${ON_CLOSE_URL}`] || "/";
+	// const { pageHeader } = usePageHeader();
+
+	console.log("aaa");
 
 	const pageHeader = (props = {}, onClose = async () => {}) =>
 		((props = {}) => <PageHeader {...props} />)({
@@ -41,7 +43,7 @@ function useFormControl() {
 				<Button
 					className="border-0 pt-2"
 					icon={<CloseOutlined />}
-					onClick={() => onClose().then(() => navigate(onCloseUrl))}
+					onClick={() => onClose().then(() => forwardUrl())}
 				></Button>
 			),
 			...props,

@@ -13,9 +13,10 @@ import {
 	SMS_PROP,
 	USERNAME_PROP,
 } from "../../Util/ConstVar";
-import useAuth from "../Hook/useAuth";
 import useFormControl from "../Hook/useFormControl";
 import useImage from "../Hook/useImage";
+import useRegister from "../Hook/useRegister";
+import useSignin from "../Hook/useSignin";
 import useSendVerifyCode from "../Hook/useTwilio";
 
 function UserSignup() {
@@ -45,7 +46,8 @@ function UserSignup() {
 		otp,
 	} = useFormControl();
 
-	const { thainowRegister, thainowSignin } = useAuth();
+	const { thainowSignin } = useSignin();
+	const { thainowRegister } = useRegister();
 
 	const [step, setStep] = useState(1);
 

@@ -1,24 +1,20 @@
-import {
-	sendOtpCodePromise,
-	verifyOtpCodePromise,
-} from "../../Axios/axiosPromise";
-import useMessage from "./useMessage";
+import { loadingMessage } from "./useMessage";
 
 function useTwilio() {
-	const { loadingMessage, successMessage, errorMessage } = useMessage();
+	// const { loadingMessage, successMessage, errorMessage } = useMessage();
 
 	const sendVerifyCode = async (channel = "", value = "") => {
-		loadingMessage("Sending OTP Code...", 0);
-		return sendOtpCodePromise(channel, value)
-			.then(() => successMessage("OTP Code was sent sccessfully!"))
-			.catch((e) => errorMessage(e));
+		return loadingMessage("Sending OTP Code...");
+		// return sendOtpCodePromise(channel, value)
+		// 	.then(() => successMessage("OTP Code was sent sccessfully!"))
+		// 	.catch((e) => errorMessage(e));
 	};
 
 	const verifyCode = async (channel = "", value = "", token = "") => {
-		loadingMessage("Verifying OTP Code...", 0);
-		return verifyOtpCodePromise(channel, value, token)
-			.then(() => successMessage("OTP Code was verified sccessfully!"))
-			.catch((e) => errorMessage(e));
+		return loadingMessage("Verifying OTP Code...");
+		// return verifyOtpCodePromise(channel, value, token)
+		// 	.then(() => successMessage("OTP Code was verified sccessfully!"))
+		// 	.catch((e) => errorMessage(e));
 	};
 
 	return { sendVerifyCode, verifyCode };

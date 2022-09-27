@@ -1,7 +1,8 @@
+import { Button } from "antd";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
-import UserSignin from "../../Component/UserSignin/UserSignin";
+import useSignin from "../../Component/Hook/useSignin";
 import {
 	getState,
 	patchOffCanvasInfoPromise,
@@ -95,13 +96,18 @@ function UserSigninContainer() {
 		},
 	];
 
+	console.log(location);
+
+	const { thainowSignin } = useSignin();
+
 	const app = (
 		<OffCanvasContainer onClose={onCloseHandler}>
-			<UserSignin
+			<Button onClick={() => thainowSignin("", "", "", true)}>Sign in</Button>
+			{/* <UserSignin
 				stepHandlers={stepHandlers}
 				signinMethod={signinMethod}
 				onSelectSigninMethod={setSigninMethod}
-			/>
+			/> */}
 		</OffCanvasContainer>
 	);
 

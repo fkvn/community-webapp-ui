@@ -26,7 +26,7 @@
 
 .ant-card-bordered,
 .ant-input-affix-wrapper,
-.ant-btn {
+.ant-btn:not(.ant-btn-link) {
 	border-color: #d9d9d9;
 	border-radius: 0.8rem;
 }
