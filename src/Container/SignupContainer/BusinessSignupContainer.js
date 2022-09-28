@@ -1,15 +1,13 @@
-import useFormControl from "../../Component/Hook/useFormControl";
+import usePageHeader from "../../Component/Hook/FormHook/usePageheader";
 import BusinessSignup from "../../Component/Signup/BusinessSignup";
-import AuthContainer from "../RouteContainer/AuthContainer";
+import AuthContainer from "../AuthContainer/AuthContainer";
 
 function BusinessSignupContainer() {
-	const { pageHeader } = useFormControl();
-
 	const app = (
 		<>
 			<AuthContainer returnUrl="/signin" continueUrl="/register/business">
 				<div id="register-form">
-					{pageHeader()}
+					{usePageHeader()}
 					<BusinessSignup />
 				</div>
 			</AuthContainer>

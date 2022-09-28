@@ -1,12 +1,12 @@
 import { Route, Routes } from "react-router-dom";
 import NotFoundPage from "../../Component/Global/NotFoundPage";
+import AuthContainer from "../AuthContainer/AuthContainer";
 import SignupRouteContainer from "../AuthContainer/SignupRouteContainer";
 import UserSigninContainer from "../AuthContainer/UserSigninContainer";
 import ErrorContainer from "../ErrorContainer";
 import ProfileContainer from "../ProfilePanelContainer/ProfileContainer";
 import SearchContainer from "../SearchContainer/SearchContainer";
 import SwitchProfileContainer from "../SwitchProfileContainer";
-import AuthContainer from "./AuthContainer";
 import LayoutContainer from "./LayoutContainer";
 
 function RouteBuilder() {

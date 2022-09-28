@@ -13,22 +13,15 @@ import {
 	WEBSITE_PROP,
 } from "../../Util/ConstVar";
 import { validateToken } from "../../Util/Util";
-import BusinessSignupFormBody from "../Form/FormLayout/BusinessSignupFormBody";
-import useFormControl from "../Hook/useFormControl";
+import useAddress from "../Hook/FormHook/useAddress";
+import useAutocomplete from "../Hook/FormHook/useAutocomplete";
+import useEmail from "../Hook/FormHook/useEmail";
+import usePhone from "../Hook/FormHook/usePhone";
+import useUrl from "../Hook/FormHook/useUrl";
+import useUsername from "../Hook/FormHook/useUsername";
 import useProfile from "../Hook/useProfile";
 
-function BusinessSignup({
-	stepHandlers = [],
-	onSelectVerifyMethod = () => {},
-}) {
-	const id = "businessSignup";
-
-	const FormBody = {
-		id: id,
-		FormComponent: BusinessSignupFormBody,
-		onSelectVerifyMethod: onSelectVerifyMethod,
-	};
-
+function BusinessSignup() {
 	const [form] = Form.useForm();
 
 	const [register, setRegister] = useState(false);
@@ -36,11 +29,6 @@ function BusinessSignup({
 	const [registering, setRegistering] = useState(false);
 
 	const { profile } = useProfile();
-
-	console.log(profile);
-
-	const { username, autoComplete, addressAutoComplete, phone, email, url } =
-		useFormControl();
 
 	const [hasLocation, setHasLocation] = useState(true);
 
@@ -80,44 +68,52 @@ function BusinessSignup({
 		return registerInfo;
 	};
 
+	const name = useUsername(
+		{ name: COMPANY_NAME_PROP, label: "Business Name" },
+		{ placeholder: "Enter your business name" }
+	);
+
+	const industry = useAutocomplete(
+		{ name: COMPANY_INDUSTRY_PROP, label: "Business Industry" },
+		{ placeholder: "Enter your business Industry" },
+		COMPANY_INDUSTRY_LIST.reduce((res, item) => [...res, { value: item }], []),
+		true,
+		"Please provide a business industry"
+	);
+
+	const address = useAddress(
+		{
+			label: hasLocation
+				? "Business Location"
+				: "Business Service Area (Optional)",
+			...(!hasLocation && {
+				extra: (
+					<div className="py-2 text-danger">
+						<small>
+							If no service area is selected, people hardly search for business
+						</small>
+					</div>
+				),
+			}),
+			shouldUpdate: true,
+		},
+		{},
+		hasLocation
+	);
+
+	const email = useEmail({ label: "Business Email (Optional)" }, {}, false);
+
+	const phone = usePhone({ label: "Business Phone Number " });
+
+	const website = useUrl({ label: "Business Website Address" });
+
 	const renderForm = () => (
 		<Space direction="vertical" className="my-2 w-100" size={20}>
 			{title}
-			{username(
-				{ name: COMPANY_NAME_PROP, label: "Business Name" },
-				{ placeholder: "Enter your business name" }
-			)}
-			{autoComplete(
-				{ name: COMPANY_INDUSTRY_PROP, label: "Business Industry" },
-				{ placeholder: "Enter your business Industry" },
-				COMPANY_INDUSTRY_LIST.reduce(
-					(res, item) => [...res, { value: item }],
-					[]
-				),
-				true,
-				"Please provide a business industry"
-			)}
-			{!hasLocation && phone({ label: "Business Phone Number " })}
-			{addressAutoComplete(
-				{
-					label: hasLocation
-						? "Business Location"
-						: "Business Service Area (Optional)",
-					...(!hasLocation && {
-						extra: (
-							<div className="py-2 text-danger">
-								<small>
-									If no service area is selected, people hardly search for
-									business
-								</small>
-							</div>
-						),
-					}),
-					shouldUpdate: true,
-				},
-				{},
-				hasLocation
-			)}
+			{name}
+			{industry}
+			{!hasLocation && phone}
+			{address}
 			<Checkbox
 				onChange={() => {
 					form.validateFields();
@@ -126,8 +122,8 @@ function BusinessSignup({
 			>
 				My business doesn’t have a physical location
 			</Checkbox>
-			{!hasLocation && email({ label: "Business Email (Optional)" }, {}, false)}
-			{!hasLocation && url({ label: "Business Website Address" })}
+			{!hasLocation && email}
+			{!hasLocation && website}
 			<Form.Item className="my-2">
 				<Button
 					type="primary"

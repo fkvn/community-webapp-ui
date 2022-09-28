@@ -4,11 +4,9 @@ import { useNavigate } from "react-router-dom";
 import { imageThainowLogoRound } from "../../../Assest/Asset";
 import useUrls from "../useUrls";
 
-export default function usePageHeader() {
+function usePageHeader(props = {}, onClose = async () => {}) {
 	const { forwardUrl } = useUrls();
 	const navigate = useNavigate();
-
-	console.log("page layout");
 
 	const pageHeader = (props = {}, onClose = async () => {}) =>
 		((props = {}) => <PageHeader {...props} />)({
@@ -32,5 +30,7 @@ export default function usePageHeader() {
 			...props,
 		});
 
-	return pageHeader;
+	return pageHeader(props, onClose);
 }
+
+export default usePageHeader;

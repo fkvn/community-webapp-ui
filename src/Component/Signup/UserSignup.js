@@ -13,7 +13,15 @@ import {
 	SMS_PROP,
 	USERNAME_PROP,
 } from "../../Util/ConstVar";
-import useFormControl from "../Hook/useFormControl";
+import useAppleAccess from "../Hook/FormHook/useAppleAccess";
+import useEmail from "../Hook/FormHook/useEmail";
+import useEULA from "../Hook/FormHook/useEULA";
+import useFacebookAccess from "../Hook/FormHook/useFacebookAccess";
+import useGoogleAccess from "../Hook/FormHook/useGoogleAccess";
+import useOtp from "../Hook/FormHook/useOtp";
+import usePassword from "../Hook/FormHook/usePassword";
+import usePhone from "../Hook/FormHook/usePhone";
+import useUsername from "../Hook/FormHook/useUsername";
 import useImage from "../Hook/useImage";
 import useRegister from "../Hook/useRegister";
 import useSignin from "../Hook/useSignin";
@@ -33,19 +41,6 @@ function UserSignup() {
 	});
 	const { sendVerifyCode, verifyCode } = useSendVerifyCode();
 	const { image } = useImage();
-
-	const {
-		accessByFacebook,
-		accessByGoogle,
-		accessByApple,
-		username,
-		password,
-		agreement,
-		email,
-		phone,
-		otp,
-	} = useFormControl();
-
 	const { thainowSignin } = useSignin();
 	const { thainowRegister } = useRegister();
 
@@ -91,15 +86,15 @@ function UserSignup() {
 				wrap
 				align="center"
 			>
-				{accessByFacebook()}
-				{accessByGoogle()}
-				{accessByApple()}
+				{useFacebookAccess()}
+				{useGoogleAccess()}
+				{useAppleAccess()}
 			</Space>
 			<Divider>OR ThaiNow Account </Divider>
 
-			{username()}
-			{password()}
-			{agreement()}
+			{useUsername()}
+			{usePassword()}
+			{useEULA()}
 
 			<Form.Item className="my-2">
 				<Button
@@ -115,6 +110,15 @@ function UserSignup() {
 					Register
 				</Button>
 			</Form.Item>
+		</>
+	);
+
+	const emailVerifySelection = (
+		<>
+			<p className=" my-4 text-center">
+				Great, now please enter a valid <strong>email address</strong>
+			</p>
+			{useEmail({}, { autoFocus: true })}
 		</>
 	);
 
@@ -196,21 +200,12 @@ function UserSignup() {
 			.catch(() => {});
 	};
 
-	const emailVerifySelection = verifyInfo.channel === EMAIL_PROP && (
-		<>
-			<p className=" my-4 text-center">
-				Great, now please enter a valid <strong>email address</strong>
-			</p>
-			{email({}, { autoFocus: true })}
-		</>
-	);
-
-	const smsVerifySelection = verifyInfo.channel === SMS_PROP && (
+	const smsVerifySelection = (
 		<>
 			<p className=" my-4 text-center">
 				Great, now please enter a valid <strong>US (+1) phone number</strong>
 			</p>
-			{phone({}, { autoFocus: true })}
+			{usePhone({}, { autoFocus: true })}
 		</>
 	);
 
@@ -218,8 +213,8 @@ function UserSignup() {
 		verifyInfo.channel === SMS_PROP) &&
 		!verifyInfo.sentCode && (
 			<>
-				{emailVerifySelection}
-				{smsVerifySelection}
+				{verifyInfo.channel === EMAIL_PROP && emailVerifySelection}
+				{verifyInfo.channel === SMS_PROP && smsVerifySelection}
 				<Button
 					type="link"
 					className="p-0 m-0"
@@ -248,8 +243,7 @@ function UserSignup() {
 			</>
 		);
 
-	const otpVerifySelection =
-		verifyInfo.sentCode && otp({}, { autoFocus: true });
+	const otpVerifySelection = useOtp({}, { autoFocus: true });
 
 	const fetchRegisterInfo = () => {
 		const email = form.getFieldValue(EMAIL_PROP);

@@ -11,7 +11,6 @@ function UserSignupContainer() {
 
 	useEffect(() => {
 		if (!emptyProject(profile)) {
-			console.log("user");
 			navigate("/");
 		}
 	});
