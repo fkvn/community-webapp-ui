@@ -6,12 +6,10 @@ import { imageGuestAvatar } from "../../Assest/Asset";
 import { emptyProject } from "../../Util/Util";
 import useImage from "../Hook/useImage";
 import useProfile from "../Hook/useProfile";
-import useSignin from "../Hook/useSignin";
 
 function RightLayout() {
 	const navigate = useNavigate();
 	const { image } = useImage();
-	const { thainowSignin } = useSignin();
 
 	const { profile } = useProfile();
 
@@ -47,9 +45,11 @@ function RightLayout() {
 						})}
 						<Meta title={name} description={description} />
 					</Space>
-					<Button type="primary" block onClick={() => thainowSignin()}>
-						Sign In
-					</Button>
+					{emptyProject(profile) && (
+						<Button type="primary" block onClick={() => navigate("/signin")}>
+							Sign In
+						</Button>
+					)}
 				</Space>
 			</Card>
 		</Stack>

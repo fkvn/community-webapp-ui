@@ -12,7 +12,7 @@ function usePageHeader(props = {}, onClose = async () => {}) {
 		((props = {}) => <PageHeader {...props} />)({
 			className: "form-title ",
 			ghost: false,
-			title: "ThaiNow Registration",
+			title: "ThaiNow",
 			backIcon: false,
 			avatar: {
 				shape: "circle",

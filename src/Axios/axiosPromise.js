@@ -48,30 +48,19 @@ export const verifyOtpCodePromise = async (
 		})
 		.catch((e) => Promise.reject(e));
 
-export const registerPromise = async (signupInfo = {}) =>
+export const registerPromise = async (registerInfo = {}) =>
 	axios
 		.post(`/auth/thainow/register`, {
-			...signupInfo,
+			...registerInfo,
 		})
 		.catch((e) => Promise.reject(e));
 
-export const businessRegisterPromise = async (
-	businessRegisterInfo = {
-		name: "",
-		informal: false,
-		industry: "",
-		address: "",
-		placeid: "",
-		email: "",
-		phone: "",
-		website: "",
-		administratorId: "",
-	}
-) => {
-	return axios.post(`/companies`, {
-		...businessRegisterInfo,
-	});
-};
+export const businessRegisterPromise = async (registerInfo = {}) =>
+	axios
+		.post(`/profiles/business`, {
+			...registerInfo,
+		})
+		.catch((e) => Promise.reject(e));
 
 export const signinPromise = async (channel = "", value = "", password = "") =>
 	axios

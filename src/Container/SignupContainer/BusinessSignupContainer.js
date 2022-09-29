@@ -1,5 +1,5 @@
+import BusinessSignup from "../../Component/Auth/BusinessSignup";
 import usePageHeader from "../../Component/Hook/FormHook/usePageheader";
-import BusinessSignup from "../../Component/Signup/BusinessSignup";
 import AuthContainer from "../AuthContainer/AuthContainer";
 
 function BusinessSignupContainer() {

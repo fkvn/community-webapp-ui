@@ -1,5 +1,6 @@
+import { signinPromise } from "../../Axios/axiosPromise";
 import { saveProfileInfo, saveUserInfo } from "../../Util/Util";
-import { errorMessage } from "./useMessage";
+import { errorMessage, loadingMessage, successMessage } from "./useMessage";
 import useUrls from "./useUrls";
 
 function useSignin() {
@@ -31,25 +32,9 @@ function useSignin() {
 		forward = false,
 		returnUrl = "",
 		continueUrl = ""
-	) =>
-		// signinPromise(channel, value, password)
-		Promise.resolve({
-			access_token:
-				"eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI4YjQ3YTI0Yy1kNjc3LTQ5YmMtOGU3Ni1iYTUzNDM4MmE2OWUiLCJpYXQiOjE2NjQyMjA1NjAsImV4cCI6MTY4MjIxMDYyNX0.rzXIV_UJhtN8LkKxZcp0CtXy9EcUaNAFKF6iW3ckhPrL2pv-hF0ZqS40iD8RuvTkA-xX0-t7gWjocGdLQt-zDQ",
-
-			profile: {
-				id: 1331,
-				info: {
-					picture:
-						"https://firebasestorage.googleapis.com/v0/b/mono-thainow.appspot.com/o/thainow-service-worker%2F0817531b-7c27-4a11-ae0a-c56b3d99abfd.png?alt=media",
-					createdOn: "2022-09-26 12:26:56",
-					name: "(626) 877-3222",
-				},
-				avgRating: 0,
-				totalReview: 0,
-				type: "USER_PROFILE",
-			},
-		})
+	) => {
+		loadingMessage("Signing in ...", 0);
+		return signinPromise(channel, value, password)
 			.then((res) => {
 				// save user
 				saveUserInfo({
@@ -59,12 +44,16 @@ function useSignin() {
 				// save profile
 				saveProfileInfo(res.profile);
 
-				if (forward) {
-					console.log("forward");
-					forwardUrl(returnUrl, continueUrl);
-				} else return Promise.resolve();
+				successMessage("Signing in successfully").then(() =>
+					forward ? forwardUrl(returnUrl, continueUrl) : Promise.resolve()
+				);
+
+				// if (forward) {
+				// 	;
+				// } else return Promise.resolve();
 			})
 			.catch((e) => errorMessage(e));
+	};
 
 	return {
 		thainowSignin,

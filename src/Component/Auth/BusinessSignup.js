@@ -1,6 +1,8 @@
 import { Button, Checkbox, Form, Space } from "antd";
 import { useState } from "react";
 import { Stack } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
+import { imageSuccess } from "../../Assest/Asset";
 import {
 	COMPANY_INDUSTRY_LIST,
 	COMPANY_INDUSTRY_PROP,
@@ -9,22 +11,24 @@ import {
 	LOCATION_OBJ,
 	NAME_PROP,
 	PHONE_PROP,
-	THAINOW_USER_OBJ,
 	WEBSITE_PROP,
 } from "../../Util/ConstVar";
-import { validateToken } from "../../Util/Util";
 import useAddress from "../Hook/FormHook/useAddress";
 import useAutocomplete from "../Hook/FormHook/useAutocomplete";
 import useEmail from "../Hook/FormHook/useEmail";
 import usePhone from "../Hook/FormHook/usePhone";
 import useUrl from "../Hook/FormHook/useUrl";
 import useUsername from "../Hook/FormHook/useUsername";
+import useImage from "../Hook/useImage";
 import useProfile from "../Hook/useProfile";
+import useRegister from "../Hook/useRegister";
 
 function BusinessSignup() {
+	const navigate = useNavigate();
+
 	const [form] = Form.useForm();
 
-	const [register, setRegister] = useState(false);
+	const [register, setRegister] = useState(true);
 
 	const [registering, setRegistering] = useState(false);
 
@@ -107,7 +111,9 @@ function BusinessSignup() {
 
 	const website = useUrl({ label: "Business Website Address" });
 
-	const renderForm = () => (
+	const { businessRegister } = useRegister();
+
+	const renderForm = (
 		<Space direction="vertical" className="my-2 w-100" size={20}>
 			{title}
 			{name}
@@ -128,25 +134,66 @@ function BusinessSignup() {
 				<Button
 					type="primary"
 					disabled={registering}
-					onClick={() =>
+					onClick={() => {
+						setRegistering(true);
 						form
 							.validateFields()
-							.then(() => {
-								const thaiNowObj = localStorage.getItem(THAINOW_USER_OBJ) || {};
-								let access_token = JSON.parse(thaiNowObj)["access_token"] || "";
-								validateToken(access_token);
-
-								// setRegistering(true);
-								console.log("registered");
-								console.log(fetchRegisterInfo());
-							})
-							.catch(() => {})
-					}
+							.then(() =>
+								form
+									.validateFields()
+									.then(() =>
+										businessRegister(fetchRegisterInfo()).then(() =>
+											setRegister(true)
+										)
+									)
+							)
+							.finally(() => setRegistering(false));
+					}}
 					block
 				>
 					Register
 				</Button>
 			</Form.Item>
+		</Space>
+	);
+
+	const { image } = useImage();
+
+	const registedSuccess = register && (
+		<Space direction="vertical" className="my-2 text-center w-100">
+			{image({
+				src: imageSuccess,
+				width: 200,
+				className: "rounded-circle my-3",
+			})}
+
+			<p className="fs-4 fw-bold">Thanks {profile?.info?.[`${NAME_PROP}`]}</p>
+			<p>
+				Now, your Business
+				<strong>{form.getFieldValue(COMPANY_NAME_PROP)} </strong> registration
+				is currently under <span className="text-danger">review</span>, we will
+				contact you soon!
+			</p>
+
+			<Button
+				type="primary"
+				block
+				className="p-4 my-4"
+				onClick={() => navigate("/")}
+			>
+				Back to Home
+			</Button>
+
+			<div className="text-center tedkvn-center">
+				Need Help?{" "}
+				<Button
+					type="link"
+					className="border-0"
+					onClick={() => navigate("/helpcenter")}
+				>
+					Contact Us
+				</Button>
+			</div>
 		</Space>
 	);
 
@@ -159,7 +206,7 @@ function BusinessSignup() {
 				autoComplete="off"
 			>
 				<Space direction="vertical" size={20}>
-					{!register ? <>{renderForm()}</> : <>Register Success</>}
+					{!register ? renderForm : registedSuccess}
 				</Space>
 			</Form>
 		</Stack>

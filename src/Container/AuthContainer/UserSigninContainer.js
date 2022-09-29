@@ -1,117 +1,38 @@
-import { Button } from "antd";
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
-import { useLocation, useNavigate } from "react-router-dom";
-import useSignin from "../../Component/Hook/useSignin";
-import {
-	getState,
-	patchOffCanvasInfoPromise,
-	submitErrorHandlerPromise,
-} from "../../redux-store/dispatchPromise";
-import {
-	EMAIL_PROP,
-	EMAIL_VALIDATION,
-	PHONE_PROP,
-	PHONE_VALIDATION,
-	SHOW_OFF_CANVAS,
-	THAINOW_OFF_CANVAS_OBJ,
-	THAINOW_USER_OBJ,
-	THAINOW_USER_SIGN_IN_OBJ,
-} from "../../Util/ConstVar";
-import { removeUserSigninInfo, signInUserPromise } from "../../Util/Util";
-import OffCanvasContainer from "../OffCanvasContainer";
+import { useNavigate } from "react-router-dom";
+import UserSignin from "../../Component/Auth/UserSignin";
+import usePageHeader from "../../Component/Hook/FormHook/usePageheader";
+import useAuth from "../../Component/Hook/useAuth";
+import { successMessage } from "../../Component/Hook/useMessage";
 
 function UserSigninContainer() {
-	/* Description 
-	
-		When sign in the following information must be save:
-
-		1. Storage.user {access_token, {...user}}
-		2. Storage.profile {type, id, name, profileUrl }		
-	
-	*/
-
+	const { auth } = useAuth();
 	const navigate = useNavigate();
-	const location = useLocation();
-	const continueURL = location?.state?.continue || "/";
-	const returnURL = location.state?.returnUrl || "";
 
-	const showOffCanvas = useSelector(
-		(state) =>
-			state.thainowReducer[`${THAINOW_OFF_CANVAS_OBJ}`]?.[
-				`${SHOW_OFF_CANVAS}`
-			] || false
-	);
-
-	const [signinMethod, setSigninMethod] = useState(EMAIL_PROP);
-
-	const onCloseHandler = () => {
-		removeUserSigninInfo();
-	};
-
-	const signinHanlder = async () => {
-		return signInUserPromise(signinMethod).then(() => {
-			navigate(returnURL.length > 0 ? returnURL : continueURL, {
-				state: {
-					...(returnURL.length > 0 && { continue: continueURL }),
-				},
-			});
-		});
-	};
+	const [loading, setLoading] = useState(true);
 
 	useEffect(() => {
-		const storageUser =
-			JSON.parse(localStorage.getItem(THAINOW_USER_OBJ)) || {};
-
-		if (JSON.stringify(storageUser) !== "{}") navigate(continueURL);
-
-		if (!showOffCanvas) {
-			patchOffCanvasInfoPromise({
-				[`${SHOW_OFF_CANVAS}`]: true,
-			});
+		if (loading) {
+			auth(false)
+				.then(() =>
+					successMessage("You have already signed in ...").then(() =>
+						navigate("/")
+					)
+				)
+				.catch(() => setLoading(false));
 		}
 	});
 
-	const onSubmitStep_1_HandlerPromise = async () => {
-		const signinInfo = getState()[`${THAINOW_USER_SIGN_IN_OBJ}`];
-
-		const {
-			[`${PHONE_VALIDATION}`]: isValidPhone = false,
-			[`${EMAIL_VALIDATION}`]: isValidEmail = false,
-		} = signinInfo;
-
-		if (signinMethod === PHONE_PROP && !isValidPhone) {
-			return submitErrorHandlerPromise("Invalid Phone Number");
-		} else if (signinMethod === EMAIL_PROP && !isValidEmail) {
-			return submitErrorHandlerPromise("Invalid Email Address");
-		} else {
-			return signinHanlder(signinMethod);
-		}
-	};
-
-	const stepHandlers = [
-		{
-			step: 1,
-			onStepHandlerPromise: onSubmitStep_1_HandlerPromise,
-		},
-	];
-
-	console.log(location);
-
-	const { thainowSignin } = useSignin();
-
 	const app = (
-		<OffCanvasContainer onClose={onCloseHandler}>
-			<Button onClick={() => thainowSignin("", "", "", true)}>Sign in</Button>
-			{/* <UserSignin
-				stepHandlers={stepHandlers}
-				signinMethod={signinMethod}
-				onSelectSigninMethod={setSigninMethod}
-			/> */}
-		</OffCanvasContainer>
+		<>
+			{usePageHeader({
+				title: "ThaiNow Sign In",
+			})}
+			<UserSignin />
+		</>
 	);
 
-	return app;
+	return !loading && app;
 }
 
 export default UserSigninContainer;

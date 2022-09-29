@@ -1,5 +1,5 @@
 import { Route, Routes } from "react-router-dom";
-import NotFoundPage from "../../Component/Global/NotFoundPage";
+import NotFoundPage from "../../Component/PageLayout/NotFoundPage";
 import BusinessSignupContainer from "../SignupContainer/BusinessSignupContainer";
 import UserSignupContainer from "../SignupContainer/UserSignupContainer";
 
