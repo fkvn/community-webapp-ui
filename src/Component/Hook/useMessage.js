@@ -10,29 +10,40 @@ const CONFIG = {
 	},
 };
 
-export const loadingMessage = (content = "Loading", duration = 1) =>
+export const loadingMessage = (
+	content = "Loading",
+	duration = 1,
+	config = {}
+) =>
 	message
 		.loading({
 			content: content,
 			duration: duration,
 			...CONFIG,
+			...config,
 		})
 		.then(() => Promise.resolve());
 
-export const successMessage = (content = "Success", duration = 2) =>
+export const successMessage = (
+	content = "Success",
+	duration = 2,
+	config = {}
+) =>
 	message
 		.success({
 			content: content,
 			duration: duration,
 			...CONFIG,
+			...config,
 		})
 		.then(() => Promise.resolve());
 
-export const errorMessage = (content = "Error", duration = 2) =>
+export const errorMessage = (content = "Error", duration = 2, config = {}) =>
 	message
 		.error({
 			content: content,
 			duration: duration,
 			...CONFIG,
+			...config,
 		})
 		.then(() => Promise.reject(content));

@@ -1,7 +1,7 @@
 import { useSelector } from "react-redux";
 import { patchProfileInfoPromise } from "../../redux-store/dispatchPromise";
 import { THAINOW_PROFILE_OBJ } from "../../Util/ConstVar";
-import { emptyProject } from "../../Util/Util";
+import { isObjectEmpty } from "../../Util/Util";
 
 function useProfile() {
 	const storedProfile =
@@ -22,7 +22,7 @@ function useProfile() {
 		(state) => state.thainowReducer[`${THAINOW_PROFILE_OBJ}`] || {}
 	);
 
-	if (emptyProject(profile) && !emptyProject(storedProfile)) {
+	if (isObjectEmpty(profile) && !isObjectEmpty(storedProfile)) {
 		patchProfileInfoPromise(storedProfile);
 	}
 

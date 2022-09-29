@@ -40,9 +40,6 @@ export const PLACEID_PROP = "placeid";
 export const LAT_PROP = "lat";
 export const LNG_PROP = "lng";
 
-export const SEARCH_INPUT_PROP = "input";
-export const SEARCH_LOCATION_ADDRESS = "address";
-
 export const PROFILE_TYPE_PROP = "profileType";
 export const PROFILE_GUEST_TYPE_PROP = "guestProfile";
 export const PROFILE_USER_TYPE_PROP = "userProfile";
@@ -80,6 +77,16 @@ export const PENDING_STATUS_PROP = "PENDING";
 export const DISABLED_PROP = "disabled";
 export const AGREEMENT_PROP = "agreement";
 export const WEBSITE_PROP = "website";
+export const PICTURE_PROP = "picture";
+
+export const SEARCH_INPUT_PROP = "input";
+export const SEARCH_LOCATION_ADDRESS = "address";
+export const SEARCH_BUSINESS = "business";
+export const SEARCH_KEYWORD = "keywords";
+export const SEARCH_DEFAULT_LOCATION = {
+	[`${ADDRESS_PROP}`]: "Thai Town, Los Angeles, CA 90027, USA",
+	[`${PLACEID_PROP}`]: "ChIJf2z2Hle_woARaNaIiR198fg",
+};
 
 export const COMPANY_INDUSTRY_LIST = [
 	"Aquarium & Pet",

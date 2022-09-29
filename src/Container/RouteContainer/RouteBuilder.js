@@ -5,7 +5,6 @@ import SignupRouteContainer from "../AuthContainer/SignupRouteContainer";
 import UserSigninContainer from "../AuthContainer/UserSigninContainer";
 import ErrorContainer from "../ErrorContainer";
 import ProfileContainer from "../ProfilePanelContainer/ProfileContainer";
-import SearchContainer from "../SearchContainer/SearchContainer";
 import SwitchProfileContainer from "../SwitchProfileContainer";
 import LayoutContainer from "./LayoutContainer";
 
@@ -13,11 +12,10 @@ function RouteBuilder() {
 	const routes = (
 		<>
 			<Routes>
-				<Route path="/" element={<LayoutContainer />} />
 				<Route path="/register/*" element={<SignupRouteContainer />} />
 				<Route path="/signin" element={<UserSigninContainer />} />
 				<Route path="/myprofile/:id" element={<ProfileContainer />} />
-				<Route path="/search" element={<SearchContainer />} />
+				{/* <Route path="/search" element={<SearchContainer />} /> */}
 				<Route
 					path="/switch-profile"
 					element={
@@ -26,6 +24,7 @@ function RouteBuilder() {
 						</AuthContainer>
 					}
 				/>
+				<Route path="/*" element={<LayoutContainer />} />
 				<Route path="*" element={<NotFoundPage />} />
 			</Routes>
 		</>

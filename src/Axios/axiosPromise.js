@@ -10,7 +10,7 @@ import {
 export const findCompany = ({ keywords = "", address = "", placeid = "" }) => {
 	// default search at ThaiTown LA
 	return axios.get(
-		`/search/companies?keywords=${keywords}&address=${address}&placeid=${placeid}`
+		`/search/business?keywords=${keywords}&address=${address}&placeid=${placeid}`
 	);
 };
 

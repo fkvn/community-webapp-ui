@@ -79,7 +79,11 @@ function BusinessSignup() {
 
 	const industry = useAutocomplete(
 		{ name: COMPANY_INDUSTRY_PROP, label: "Business Industry" },
-		{ placeholder: "Enter your business Industry" },
+		{
+			filterOption: (inputValue, option) =>
+				option?.value.toUpperCase().indexOf(inputValue.toUpperCase()) !== -1,
+			placeholder: "Enter your business Industry",
+		},
 		COMPANY_INDUSTRY_LIST.reduce((res, item) => [...res, { value: item }], []),
 		true,
 		"Please provide a business industry"

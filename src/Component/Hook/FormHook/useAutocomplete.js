@@ -28,8 +28,6 @@ const useAutocomplete = (
 			options: options,
 			className: "w-100",
 			placeholder: "Search here",
-			filterOption: (inputValue, option) =>
-				option?.value.toUpperCase().indexOf(inputValue.toUpperCase()) !== -1,
 			...inputProps,
 		}
 	);

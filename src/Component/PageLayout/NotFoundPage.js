@@ -11,6 +11,7 @@ function NotFoundPage() {
 				src={PageNotFound}
 				alt="not found"
 				className="fluid vw-100 vh-100 "
+				style={{ maxWidth: "100%", maxHeight: "100%" }}
 				onClick={() => navigate("/")}
 			/>
 		</div>

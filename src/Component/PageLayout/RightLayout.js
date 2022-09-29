@@ -3,17 +3,17 @@ import Meta from "antd/lib/card/Meta";
 import { Stack } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { imageGuestAvatar } from "../../Assest/Asset";
-import { emptyProject } from "../../Util/Util";
+import { isObjectEmpty } from "../../Util/Util";
 import useImage from "../Hook/useImage";
 import useProfile from "../Hook/useProfile";
 
-function RightLayout() {
+function RightLayout({ style = {} }) {
 	const navigate = useNavigate();
 	const { image } = useImage();
 
 	const { profile } = useProfile();
 
-	const { picture, name, description } = emptyProject(profile)
+	const { picture, name, description } = isObjectEmpty(profile)
 		? { picture: imageGuestAvatar, name: "Hi Welcome", description: "ThaiNow" }
 		: { ...profile.info, description: "" };
 
@@ -22,9 +22,10 @@ function RightLayout() {
 			id="RightLayout"
 			direction="vertical"
 			className="px-4 py-3 w-100"
+			style={style}
 			gap={4}
 		>
-			{emptyProject(profile) && (
+			{isObjectEmpty(profile) && (
 				<Button
 					type="default"
 					className="p-2  fw-bold border-danger"
@@ -45,7 +46,7 @@ function RightLayout() {
 						})}
 						<Meta title={name} description={description} />
 					</Space>
-					{emptyProject(profile) && (
+					{isObjectEmpty(profile) && (
 						<Button type="primary" block onClick={() => navigate("/signin")}>
 							Sign In
 						</Button>

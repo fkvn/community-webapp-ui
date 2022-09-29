@@ -1,6 +1,7 @@
-import { CloseCircleOutlined } from "@ant-design/icons";
+import Icon, { CloseCircleOutlined } from "@ant-design/icons";
 import { Form, Input } from "antd";
 import { useState } from "react";
+import { iconLocationBlack } from "../../../Assest/Asset";
 import {
 	ADDRESS_PROP,
 	LOCATION_OBJ,
@@ -13,7 +14,8 @@ function useAddress(
 	itemProps = {},
 	inputProps = {},
 	required = false,
-	errorMessage = "Please enter a valid address"
+	errorMessage = "Please enter a valid address",
+	options = []
 ) {
 	const { fetchPredictions } = useGoogleAutoComplete();
 	const [address, setAddress] = useState({
@@ -21,7 +23,7 @@ function useAddress(
 			[`${ADDRESS_PROP}`]: "",
 			[`${PLACEID_PROP}`]: "",
 		},
-		predictions: [],
+		predictions: options || [],
 	});
 
 	const autoComplete = useAutocomplete;
@@ -102,9 +104,12 @@ function useAddress(
 							allowClear={{
 								clearIcon: <CloseCircleOutlined />,
 							}}
+							prefix={
+								<Icon component={() => iconLocationBlack} className="mr-2 " />
+							}
 						/>
 					),
-					options: address.predictions || [],
+					options: address.predictions,
 					onSelect: onSelect,
 					onSearch: onSearch,
 					onBlur: onBlur,
@@ -118,7 +123,13 @@ function useAddress(
 		</>
 	);
 
-	return addressAutoComplete(itemProps, inputProps, required, errorMessage);
+	return addressAutoComplete(
+		itemProps,
+		inputProps,
+		options,
+		required,
+		errorMessage
+	);
 }
 
 export default useAddress;

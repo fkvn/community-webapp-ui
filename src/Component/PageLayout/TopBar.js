@@ -1,10 +1,14 @@
 import { MenuOutlined } from "@ant-design/icons";
 import { Dropdown, Menu } from "antd";
 import { Button, Navbar, Stack } from "react-bootstrap";
+import { imageGuestAvatar } from "../../Assest/Asset";
+import { PICTURE_PROP } from "../../Util/ConstVar";
+import { isObjectEmpty } from "../../Util/Util";
 import useImage from "../Hook/useImage";
+import useProfile from "../Hook/useProfile";
 import Search from "../Search/Search";
 
-function TopBar({ keywords = "" }) {
+function TopBar({ setShowRightBar = () => alert("elll") }) {
 	const { image } = useImage();
 
 	const menu = (
@@ -50,6 +54,8 @@ function TopBar({ keywords = "" }) {
 		/>
 	);
 
+	const { profile } = useProfile();
+
 	const app = (
 		<Stack
 			direction="horizontal"
@@ -63,18 +69,29 @@ function TopBar({ keywords = "" }) {
 				})}
 			</Navbar.Brand>
 
-			<div id="searchbar" className=" ms-auto w-100">
-				<div className="d-none  d-md-block">
-					{" "}
-					<Search defaultKeywords={keywords} direction="horizontal" />
-				</div>
+			<div id="searchbar" className="ms-auto w-100 d-none  d-md-block">
+				<Search direction="horizontal" />
 			</div>
 
-			<Dropdown overlay={menu} placement="bottomRight" arrow>
-				<Button className="tedkvn-center bg-white text-primary">
-					<MenuOutlined />
-				</Button>
-			</Dropdown>
+			<div className="d-none d-md-block">
+				<Dropdown overlay={menu} placement="bottomRight" arrow>
+					<Button className="tedkvn-center bg-white text-primary">
+						<MenuOutlined />
+					</Button>
+				</Dropdown>
+			</div>
+
+			<div className="ms-auto  d-block d-md-none">
+				<div className="tedkvn-center">
+					{image({
+						className: "rounded-circle border-0 p-1",
+						src: isObjectEmpty(profile)
+							? imageGuestAvatar
+							: profile?.info?.[`${PICTURE_PROP}`],
+						onClick: setShowRightBar,
+					})}
+				</div>
+			</div>
 		</Stack>
 	);
 

@@ -7,7 +7,7 @@ import {
 } from "../redux-store/dispatchPromise";
 import * as constVar from "./ConstVar";
 
-export const emptyProject = (object = {}) => JSON.stringify(object) === "{}";
+export const isObjectEmpty = (object = {}) => JSON.stringify(object) === "{}";
 
 export const loadScript = (url, async = true, defer = false) => {
 	var index = window.document.getElementsByTagName("script")[0];
@@ -303,7 +303,7 @@ export const forwardUrl = (
 	let returnUrl = location?.state?.[`${constVar.ON_RETURN_URL}`] || "/";
 	let continueUrl = location?.state?.[`${constVar.ON_SUCCESS_URL}`] || "/";
 
-	if (!emptyProject(customUrls)) {
+	if (!isObjectEmpty(customUrls)) {
 		returnUrl = customUrls?.[`${constVar.ON_RETURN_URL}`] || "/";
 		continueUrl = customUrls?.[`${constVar.ON_SUCCESS_URL}`] || "/";
 	}
