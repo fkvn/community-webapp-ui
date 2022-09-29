@@ -4,20 +4,11 @@ import { imageTopbarBg } from "../../Assest/Asset";
 import LeftLayout from "../../Component/PageLayout/LeftLayout";
 import RightLayout from "../../Component/PageLayout/RightLayout";
 import TopBar from "../../Component/PageLayout/TopBar";
-import SearchContainer from "../SearchContainer/SearchContainer";
 
 function LayoutContainer() {
 	const { Header, Content, Footer } = Layout;
 
 	const [showRightBar, setShowRightBar] = useState(false);
-
-	const searchRightBar = (
-		<div className="tedkvn-center">
-			{" "}
-			<SearchContainer />
-		</div>
-	);
-	console.log("kay");
 
 	const layout = (
 		<Row id="layout">
