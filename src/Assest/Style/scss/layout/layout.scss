@@ -21,8 +21,11 @@ body,
 }
 
 .nav-up {
-	transition: top 0.3s;
 	display: none !important;
+	transition-property: display;
+	transition-duration: 2s;
+	transition-timing-function: linear;
+	transition-delay: 1s;
 }
 
 #topbar {
