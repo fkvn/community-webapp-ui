@@ -1,4 +1,4 @@
-import { Button, Divider, Form, Space, Tabs } from "antd";
+import { Button, Divider, Form, Segmented, Space, Tabs } from "antd";
 import { useForm } from "antd/lib/form/Form";
 import { useState } from "react";
 import { Stack } from "react-bootstrap";
@@ -58,8 +58,8 @@ function UserSignin() {
 		</Space>
 	);
 
-	const email = useEmail({ className: "pb-1" }, { autoFocus: true });
-	const phone = usePhone({ className: "pb-1" }, { autoFocus: true });
+	const email = useEmail({}, { autoFocus: true });
+	const phone = usePhone({}, { autoFocus: true });
 	const password = usePassword({
 		extra: (
 			<Button
@@ -77,7 +77,7 @@ function UserSignin() {
 			{signinChannel === EMAIL_PROP && email}
 			{signinChannel === PHONE_PROP && phone}
 			{password}
-			<Form.Item className="my-2">
+			<Form.Item>
 				<Button type="primary" htmlType="submit" block disabled={signing}>
 					Sign In
 				</Button>
@@ -140,6 +140,26 @@ function UserSignin() {
 			.finally(() => setSigning(false));
 	};
 
+	const signinSection = (
+		<>
+			<Segmented
+				block
+				options={[
+					{
+						label: "Email Address",
+						value: EMAIL_PROP,
+					},
+					{
+						label: "Phone Number",
+						value: PHONE_PROP,
+					},
+				]}
+				onChange={(value) => setSigninChannel(value)}
+			/>
+			{signInTabChildren}
+		</>
+	);
+
 	const app = (
 		<Stack className="py-5 tedkvn-center mx-4 overflow-auto">
 			<Form
@@ -149,13 +169,14 @@ function UserSignin() {
 				className="mx-2 mx-xl-5"
 				autoComplete="off"
 			>
-				<Space direction="vertical" size={20}>
+				<Space direction="vertical" size={20} style={{ whiteSpace: "normal" }}>
 					{title}
 					{loginPrompt}
 					<Divider orientation="left">Continue with</Divider>
 					{thirdPartySigninOptions}
 					<Divider>OR</Divider>
-					{signInTabs}
+					{/* {signInTabs} */}
+					{signinSection}
 				</Space>
 			</Form>
 		</Stack>

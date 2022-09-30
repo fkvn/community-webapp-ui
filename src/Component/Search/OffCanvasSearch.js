@@ -7,12 +7,12 @@ function OffCanvasSearch({ show = false, onHide = () => {} }) {
 			id="offcanvas-search"
 			show={show}
 			onHide={onHide}
-			className="p-0 m-0 border-0 "
+			className="p-0 m-0  border-0 "
 			scroll={true}
 			backdrop={true}
 			placement="end"
 		>
-			<Offcanvas.Header closeButton className="border-0 bg-white">
+			<Offcanvas.Header closeButton className="border-0  px-4 bg-white">
 				<Offcanvas.Title>Search for Thai</Offcanvas.Title>
 			</Offcanvas.Header>
 			<Offcanvas.Body>

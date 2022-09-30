@@ -118,11 +118,11 @@ export const validatePhonePromise = (phone = "") => {
 	});
 };
 
-export const getUserCompanies = async (userId = 0) => {
-	return axios
-		.get(`/users/${userId}/companies`)
-		.then((res) => (res ? res.data : Promise.reject()));
-};
+export const findProfiles = async () =>
+	axios
+		.get(`/profiles`)
+		.then(({ data }) => Promise.resolve(data))
+		.catch((e) => Promise.reject(e));
 
 // Company API
 

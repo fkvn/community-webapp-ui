@@ -5,7 +5,7 @@ import AuthContainer from "../AuthContainer/AuthContainer";
 function BusinessSignupContainer() {
 	const app = (
 		<>
-			<AuthContainer returnUrl="/signin" continueUrl="/register/business">
+			<AuthContainer returnUrl="/register/business" continueUrl="/signin">
 				<div id="register-form">
 					{usePageHeader()}
 					<BusinessSignup />

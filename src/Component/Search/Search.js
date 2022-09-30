@@ -224,7 +224,7 @@ function Search({
 							<Tag
 								color={tag.name === searchType ? tag.color : tag.unCheckedColor}
 								onClick={() => setSearchType(tag.name)}
-								className="p-1 px-4 m-0 rounded lh-base"
+								className="p-1 px-3 m-0 rounded lh-base"
 							>
 								{tag.title}
 							</Tag>

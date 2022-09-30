@@ -1,11 +1,10 @@
 import { Route, Routes } from "react-router-dom";
 import NotFoundPage from "../../Component/PageLayout/NotFoundPage";
-import AuthContainer from "../AuthContainer/AuthContainer";
 import SignupRouteContainer from "../AuthContainer/SignupRouteContainer";
+import SwitchProfileContainer from "../AuthContainer/SwitchProfileContainer1";
 import UserSigninContainer from "../AuthContainer/UserSigninContainer";
 import ErrorContainer from "../ErrorContainer";
 import ProfileContainer from "../ProfilePanelContainer/ProfileContainer";
-import SwitchProfileContainer from "../SwitchProfileContainer";
 import LayoutContainer from "./LayoutContainer";
 
 function RouteBuilder() {
@@ -16,14 +15,7 @@ function RouteBuilder() {
 				<Route path="/signin" element={<UserSigninContainer />} />
 				<Route path="/myprofile/:id" element={<ProfileContainer />} />
 				{/* <Route path="/search" element={<SearchContainer />} /> */}
-				<Route
-					path="/switch-profile"
-					element={
-						<AuthContainer>
-							<SwitchProfileContainer />
-						</AuthContainer>
-					}
-				/>
+				<Route path="/switch-profiles" element={<SwitchProfileContainer />} />
 				<Route path="/*" element={<LayoutContainer />} />
 				<Route path="*" element={<NotFoundPage />} />
 			</Routes>

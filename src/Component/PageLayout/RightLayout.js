@@ -7,7 +7,7 @@ import { isObjectEmpty, signoutUserPromise } from "../../Util/Util";
 import useImage from "../Hook/useImage";
 import useProfile from "../Hook/useProfile";
 
-function RightLayout({ style = {}, showSetting = false }) {
+function RightLayout({ showSetting = false, ...props }) {
 	const navigate = useNavigate();
 	const { image } = useImage();
 
@@ -22,7 +22,7 @@ function RightLayout({ style = {}, showSetting = false }) {
 			? [
 					{
 						title: (
-							<Button type="link" className="p-0 m-0" href="/help-center">
+							<Button type="link" className="p-0 m-0 " href="/help-center">
 								Help Center
 							</Button>
 						),
@@ -40,14 +40,14 @@ function RightLayout({ style = {}, showSetting = false }) {
 			? [
 					{
 						title: (
-							<Button type="link" className="p-0 m-0" href="/switch-profiles">
+							<Button type="link" className="p-0  " href="/switch-profiles">
 								Switch Profiles
 							</Button>
 						),
 					},
 					{
 						title: (
-							<Button type="link" className="p-0 m-0" href="/change-password">
+							<Button type="link" className="p-0" href="/change-password">
 								Change Password
 							</Button>
 						),
@@ -56,7 +56,7 @@ function RightLayout({ style = {}, showSetting = false }) {
 						title: (
 							<Button
 								type="link"
-								className="p-0 m-0 text-secondary"
+								className="p-0 text-secondary"
 								onClick={() => signoutUserPromise()}
 							>
 								Sign out
@@ -72,7 +72,7 @@ function RightLayout({ style = {}, showSetting = false }) {
 			id="RightLayout"
 			direction="vertical"
 			className="px-4 py-3 w-100"
-			style={style}
+			{...props}
 			gap={4}
 		>
 			{isObjectEmpty(profile) && (
@@ -117,10 +117,11 @@ function RightLayout({ style = {}, showSetting = false }) {
 								dataSource={settingItems}
 								renderItem={(item) => (
 									<List.Item
-										className="text-start "
+										className="text-start m-0"
 										style={{ borderBottom: "1px solid wheat" }}
 									>
-										<List.Item.Meta title={item.title} />
+										{item.title}
+										{/* <List.Item.Meta title={item.title} /> */}
 									</List.Item>
 								)}
 							/>

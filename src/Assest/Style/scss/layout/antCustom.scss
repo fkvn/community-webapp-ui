@@ -41,3 +41,12 @@
 .ant-message {
 	z-index: 2000;
 }
+
+.ant-space-item:has(> div.tedkvn-text-ellipsis) {
+	@include ellipse;
+}
+
+.ant-drawer {
+	z-index: 1045;
+	background-color: #f3f4f6;
+}
