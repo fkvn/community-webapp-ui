@@ -4,7 +4,7 @@ import { Route, Routes } from "react-router-dom";
 import NotFoundPage from "./NotFoundPage";
 
 function LeftLayout() {
-	const searchRightBar = <div className="tedkvn-center"> Searching</div>;
+	const searchPage = <div className="tedkvn-center"> Searching</div>;
 
 	const landingPage = (
 		<p>
@@ -134,7 +134,7 @@ function LeftLayout() {
 		<Stack id="LeftLayout" direction="vertical" className="" gap={4}>
 			<Routes>
 				<Route path="/" element={landingPage} />
-				<Route path="/search" element={searchRightBar} />
+				<Route path="/search" element={searchPage} />
 				<Route path="/*" element={<NotFoundPage />} />
 			</Routes>
 			<Footer id="footer"> </Footer>

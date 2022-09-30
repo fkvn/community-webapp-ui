@@ -105,7 +105,7 @@ function useAddress(
 								clearIcon: <CloseCircleOutlined />,
 							}}
 							prefix={
-								<Icon component={() => iconLocationBlack} className="mr-2 " />
+								<Icon component={() => iconLocationBlack()} className="mr-2 " />
 							}
 						/>
 					),

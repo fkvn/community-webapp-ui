@@ -1,6 +1,6 @@
 import { Col, Layout, Row } from "antd";
 import { useState } from "react";
-import { imageTopbarBg } from "../../Assest/Asset";
+import { imageTopbarBg, imageTopbarBgMobile } from "../../Assest/Asset";
 import LeftLayout from "../../Component/PageLayout/LeftLayout";
 import RightLayout from "../../Component/PageLayout/RightLayout";
 import TopBar from "../../Component/PageLayout/TopBar";
@@ -14,11 +14,18 @@ function LayoutContainer() {
 		<Row id="layout">
 			<Col xs={24}>
 				<Header
-					className="fixed-top tedkvn-center p-0"
+					className="fixed-top tedkvn-center p-0 d-none d-md-block"
 					style={{ backgroundImage: `url(${imageTopbarBg})` }}
 				>
 					<TopBar setShowRightBar={() => setShowRightBar(!showRightBar)} />
 				</Header>
+				<Header
+					className="fixed-top tedkvn-center p-0 d-block d-md-none"
+					style={{ backgroundImage: `url(${imageTopbarBgMobile})` }}
+				>
+					<TopBar setShowRightBar={() => setShowRightBar(!showRightBar)} />
+				</Header>
+
 				<Content>
 					<Row>
 						<Col xs={24} lg={18}>

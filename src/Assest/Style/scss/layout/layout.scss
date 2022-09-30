@@ -1,6 +1,7 @@
 @import "../base/global";
 
-body {
+body,
+#offcanvas-search {
 	background-color: #f3f4f6;
 }
 
@@ -9,13 +10,23 @@ body {
 
 	header {
 		background-size: cover;
+		height: fit-content;
 
-		height: $layout-content-marginTop;
+		// height: $layout-content-marginTop;
 	}
 
-	main {
-		margin-top: $layout-content-marginTop;
-	}
+	// main {
+	// 	margin-top: $layout-content-marginTop;
+	// }
+}
+
+.nav-up {
+	transition: top 0.3s;
+	display: none !important;
+}
+
+#topbar {
+	padding: 0.5rem 0;
 }
 
 #RightLayout {
@@ -43,6 +54,14 @@ body {
 
 .tedkvn-center {
 	@include flex-center;
+}
+
+.tedkvn-center-left {
+	@include flex-center-left;
+}
+
+.tedkvn-center-right {
+	@include flex-center-right;
 }
 
 .tedkvn-text-ellipsis {

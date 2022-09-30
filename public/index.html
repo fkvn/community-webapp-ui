@@ -105,14 +105,20 @@
 			// 1. use the api
 			// 2. call manually -> get access_token -> get userinfo (check POSTMAN for more detail)
 		</script>
-
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 		<title>ThaiNow</title>
 	</head>
 	<body>
 		<noscript>Welcome to ThaiNow.</noscript>
 
 		<div id="root"></div>
-
+		<script>
+			$(document).ready(function () {
+				$(window).resize(function () {
+					$("#layout main").css("margin-top", $("#layout header").height());
+				});
+			});
+		</script>
 		<!--
       This HTML file is a template.
       If you open it directly in the browser, you will see an empty page.

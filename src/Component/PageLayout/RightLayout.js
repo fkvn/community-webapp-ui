@@ -1,13 +1,13 @@
-import { Button, Card, Space } from "antd";
+import { Button, Card, List, Space } from "antd";
 import Meta from "antd/lib/card/Meta";
 import { Stack } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { imageGuestAvatar } from "../../Assest/Asset";
-import { isObjectEmpty } from "../../Util/Util";
+import { isObjectEmpty, signoutUserPromise } from "../../Util/Util";
 import useImage from "../Hook/useImage";
 import useProfile from "../Hook/useProfile";
 
-function RightLayout({ style = {} }) {
+function RightLayout({ style = {}, showSetting = false }) {
 	const navigate = useNavigate();
 	const { image } = useImage();
 
@@ -16,6 +16,56 @@ function RightLayout({ style = {} }) {
 	const { picture, name, description } = isObjectEmpty(profile)
 		? { picture: imageGuestAvatar, name: "Hi Welcome", description: "ThaiNow" }
 		: { ...profile.info, description: "" };
+
+	const settingItems = [
+		...(showSetting
+			? [
+					{
+						title: (
+							<Button type="link" className="p-0 m-0" href="/help-center">
+								Help Center
+							</Button>
+						),
+					},
+					{
+						title: (
+							<Button type="link" className="p-0 m-0" href="/aboutus">
+								About Us
+							</Button>
+						),
+					},
+			  ]
+			: []),
+		...(!isObjectEmpty(profile)
+			? [
+					{
+						title: (
+							<Button type="link" className="p-0 m-0" href="/switch-profiles">
+								Switch Profiles
+							</Button>
+						),
+					},
+					{
+						title: (
+							<Button type="link" className="p-0 m-0" href="/change-password">
+								Change Password
+							</Button>
+						),
+					},
+					{
+						title: (
+							<Button
+								type="link"
+								className="p-0 m-0 text-secondary"
+								onClick={() => signoutUserPromise()}
+							>
+								Sign out
+							</Button>
+						),
+					},
+			  ]
+			: []),
+	];
 
 	const app = (
 		<Stack
@@ -46,10 +96,35 @@ function RightLayout({ style = {} }) {
 						})}
 						<Meta title={name} description={description} />
 					</Space>
-					{isObjectEmpty(profile) && (
-						<Button type="primary" block onClick={() => navigate("/signin")}>
-							Sign In
-						</Button>
+
+					<Button
+						type="primary"
+						block
+						onClick={() =>
+							isObjectEmpty(profile)
+								? navigate("/signin")
+								: alert("Coming soon")
+						}
+					>
+						{isObjectEmpty(profile) ? "Sign In" : "My Profile"}
+					</Button>
+
+					{settingItems.length > 0 && (
+						<>
+							<List
+								itemLayout="horizontal"
+								className=""
+								dataSource={settingItems}
+								renderItem={(item) => (
+									<List.Item
+										className="text-start "
+										style={{ borderBottom: "1px solid wheat" }}
+									>
+										<List.Item.Meta title={item.title} />
+									</List.Item>
+								)}
+							/>
+						</>
 					)}
 				</Space>
 			</Card>

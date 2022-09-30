@@ -37,3 +37,7 @@
 .ant-space-item:has(> div.d-none) {
 	display: none;
 }
+
+.ant-message {
+	z-index: 2000;
+}

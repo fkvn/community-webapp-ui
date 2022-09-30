@@ -14,6 +14,20 @@ $lg: 992px !default;
 $xl: 1200px !default;
 $xxl: 1600px !default;
 
+$primaryColor: #116acc;
+$businessColor: #fba704;
+$jobColor: #00965f;
+$housingColor: #fb5123;
+$marketplaceColor: #de2258;
+
+:export {
+	primaryColor: $primaryColor;
+	businessColor: $businessColor;
+	jobColor: $jobColor;
+	housingColor: $housingColor;
+	marketplaceColor: $marketplaceColor;
+}
+
 @mixin layout-margin($default: true, $top: 0, $bottom: 0, $left: 0, $right: 0) {
 	@if not$default {
 		margin: $top $right $bottm $left;
@@ -35,4 +49,16 @@ $xxl: 1600px !default;
 	flex-grow: 0;
 	flex-shrink: 0;
 	flex-basis: content;
+}
+
+@mixin flex-center-left() {
+	display: flex !important;
+	justify-content: left;
+	align-items: center;
+}
+
+@mixin flex-center-right() {
+	display: flex !important;
+	justify-content: right;
+	align-items: center;
 }

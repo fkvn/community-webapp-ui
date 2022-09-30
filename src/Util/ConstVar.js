@@ -79,9 +79,14 @@ export const AGREEMENT_PROP = "agreement";
 export const WEBSITE_PROP = "website";
 export const PICTURE_PROP = "picture";
 
+export const SEARCH_OBJ = "searchObj";
 export const SEARCH_INPUT_PROP = "input";
 export const SEARCH_LOCATION_ADDRESS = "address";
 export const SEARCH_BUSINESS = "business";
+export const SEARCH_DEAL = "deals";
+export const SEARCH_JOB = "jobs";
+export const SEARCH_HOUSING = "housings";
+export const SEARCH_MARKETPLACE = "marketplaces";
 export const SEARCH_KEYWORD = "keywords";
 export const SEARCH_DEFAULT_LOCATION = {
 	[`${ADDRESS_PROP}`]: "Thai Town, Los Angeles, CA 90027, USA",
