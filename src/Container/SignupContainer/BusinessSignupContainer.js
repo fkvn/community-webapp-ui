@@ -1,13 +1,14 @@
 import BusinessSignup from "../../Component/Auth/BusinessSignup";
 import usePageHeader from "../../Component/Hook/FormHook/usePageheader";
+
 import AuthContainer from "../AuthContainer/AuthContainer";
 
 function BusinessSignupContainer() {
 	const app = (
 		<>
-			<AuthContainer returnUrl="/register/business" continueUrl="/signin">
+			<AuthContainer closeUrl="/register/business" continueUrl="/signin">
 				<div id="register-form">
-					{usePageHeader()}
+					{usePageHeader({})}
 					<BusinessSignup />
 				</div>
 			</AuthContainer>

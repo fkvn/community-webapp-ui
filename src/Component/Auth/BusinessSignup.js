@@ -22,13 +22,16 @@ import useUsername from "../Hook/FormHook/useUsername";
 import useImage from "../Hook/useImage";
 import useProfile from "../Hook/useProfile";
 import useRegister from "../Hook/useRegister";
+import useUrls from "../Hook/useUrls";
 
 function BusinessSignup() {
 	const navigate = useNavigate();
 
+	const { forwardUrl } = useUrls();
+
 	const [form] = Form.useForm();
 
-	const [register, setRegister] = useState(true);
+	const [register, setRegister] = useState(false);
 
 	const [registering, setRegistering] = useState(false);
 
@@ -183,9 +186,9 @@ function BusinessSignup() {
 				type="primary"
 				block
 				className="p-4 my-4"
-				onClick={() => navigate("/")}
+				onClick={() => forwardUrl()}
 			>
-				Back to Home
+				Continue
 			</Button>
 
 			<div className="text-center tedkvn-center">

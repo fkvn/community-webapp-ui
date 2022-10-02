@@ -9,7 +9,7 @@ function SignupSuccessContainer() {
 
 	const location = useLocation();
 
-	const continueURL = location?.state?.[`${constVar.ON_SUCCESS_URL}`] || "/";
+	const continueUrl = location?.state?.[`${constVar.ON_SUCCESS_URL}`] || "/";
 
 	const signinInfo =
 		dispatchPromise.getState()[`${constVar.THAINOW_USER_SIGN_IN_OBJ}`] || {};
@@ -21,7 +21,7 @@ function SignupSuccessContainer() {
 
 	const signinUserHandler = async () => {
 		return signInUserPromise(signinMethod).then(() => {
-			navigate(continueURL);
+			navigate(continueUrl);
 		});
 	};
 

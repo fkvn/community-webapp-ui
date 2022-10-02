@@ -41,6 +41,8 @@ export const imageSuccess = `${SOURCE_URL}img-success.png?alt=media&token=184f0a
 
 export const imageThainowLogo = `${SOURCE_URL}img-thainow-logo.png?alt=media&token=184f0afc-beb7-4992-9c24-63e3004444ef`;
 
+export const imagePlusGray = `${SOURCE_URL}img-plus.png?alt=media&token=184f0afc-beb7-4992-9c24-63e3004444ef`;
+
 export const iconLocationBlack = (size = "1rem") => (
 	<svg
 		width={size}

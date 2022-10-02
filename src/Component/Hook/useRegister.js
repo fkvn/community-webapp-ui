@@ -1,7 +1,4 @@
-import {
-	businessRegisterPromise,
-	registerPromise,
-} from "../../Axios/axiosPromise";
+import { businessRegisterAxios, registerAxios } from "../../Axios/axiosPromise";
 import { errorMessage, loadingMessage, successMessage } from "./useMessage";
 import useUrls from "./useUrls";
 
@@ -11,14 +8,14 @@ function useRegister() {
 	const thainowRegister = async (
 		registerInfo = {},
 		forward = false,
-		returnUrl = "",
+		closeUrl = "",
 		continueUrl = ""
 	) => {
 		loadingMessage("Registering...", 0);
-		return registerPromise(registerInfo)
+		return registerAxios(registerInfo)
 			.then(() => {
 				successMessage("Registration successfully!").then(() =>
-					forward ? forwardUrl(returnUrl, continueUrl) : Promise.resolve()
+					forward ? forwardUrl(closeUrl, continueUrl) : Promise.resolve()
 				);
 			})
 			.catch((e) => errorMessage(e));
@@ -27,14 +24,14 @@ function useRegister() {
 	const businessRegister = async (
 		registerInfo = {},
 		forward = false,
-		returnUrl = "",
+		closeUrl = "",
 		continueUrl = ""
 	) => {
 		loadingMessage("Registering...", 0);
-		return businessRegisterPromise(registerInfo)
+		return businessRegisterAxios(registerInfo)
 			.then(() => {
 				successMessage("Registration successfully!").then(() =>
-					forward ? forwardUrl(returnUrl, continueUrl) : Promise.resolve()
+					forward ? forwardUrl(closeUrl, continueUrl) : Promise.resolve()
 				);
 			})
 			.catch((e) => errorMessage(e));

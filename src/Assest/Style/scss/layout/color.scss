@@ -1,0 +1,9 @@
+@import "../base/global";
+
+.c-primary {
+	@include color-primary;
+}
+
+.c-business {
+	@include color-business;
+}

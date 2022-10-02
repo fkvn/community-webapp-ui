@@ -3,7 +3,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import useAuth from "../../Component/Hook/useAuth";
 import useUrls from "../../Component/Hook/useUrls";
 
-function AuthContainer({ returnUrl = "/", continueUrl = "/", children = {} }) {
+function AuthContainer({ closeUrl = "/", continueUrl = "/", children = {} }) {
 	/* Description
 
 		Prerequisite -> When sign in the following information must be save:
@@ -84,9 +84,9 @@ function AuthContainer({ returnUrl = "/", continueUrl = "/", children = {} }) {
 
 	useEffect(() => {
 		if (loading) {
-			auth(returnUrl, continueUrl, navigate, location)
+			auth(closeUrl, continueUrl, navigate, location)
 				.then(() => setLoading(false))
-				.catch(() => forwardUrl(returnUrl, continueUrl));
+				.catch(() => forwardUrl(closeUrl, continueUrl));
 		}
 	});
 

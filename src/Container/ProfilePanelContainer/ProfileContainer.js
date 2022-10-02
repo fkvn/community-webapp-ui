@@ -7,7 +7,7 @@ import { THAINOW_PROFILE_OBJ } from "../../Util/ConstVar";
 function ProfileContainer() {
 	const navigate = useNavigate();
 	const location = useLocation();
-	const continueURL = location.state?.continue || "/";
+	const continueUrl = location.state?.continue || "/";
 
 	const profile = useSelector(
 		(state) => state.thainowReducer[`${THAINOW_PROFILE_OBJ}`] || {}
@@ -28,7 +28,7 @@ function ProfileContainer() {
 			setTimeout(() => {
 				navigate("/signin", {
 					state: {
-						continue: continueURL,
+						continue: continueUrl,
 					},
 				});
 			}, 4000);

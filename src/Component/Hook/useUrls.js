@@ -1,25 +1,47 @@
 import { useLocation, useNavigate } from "react-router-dom";
-import { ON_RETURN_URL, ON_SUCCESS_URL } from "../../Util/ConstVar";
+import { CLOSE_URL, CONTINUE_URL, SUCCESS_URL } from "../../Util/ConstVar";
 
 function useUrls() {
 	const navigate = useNavigate();
 	const location = useLocation();
 
-	const forwardUrl = (returnUrl = "/", continueUrl = "/", successUrl = "/") => {
-		if (returnUrl.length === 0) {
-			returnUrl = location?.state?.[`${ON_RETURN_URL}`] || "/";
+	const forwardUrl = (closeUrl = "/", continueUrl = "/", successUrl = "/") => {
+		if (closeUrl.length === 0) {
+			closeUrl = location?.state?.[`${CLOSE_URL}`] || "/";
+		}
+
+		if (continueUrl.length === 0) {
+			continueUrl = location?.state?.[`${CONTINUE_URL}`] || "/";
 		}
 
 		if (successUrl.length === 0) {
-			successUrl = location?.state?.[`${ON_SUCCESS_URL}`] || "/";
+			successUrl = location?.state?.[`${SUCCESS_URL}`] || "/";
 		}
 
-		navigate(continueUrl.length > 1 ? continueUrl : returnUrl, {
+		console.log(continueUrl);
+		console.log(closeUrl);
+		console.log(successUrl);
+
+		const [next, state] =
+			continueUrl.length > 1
+				? [
+						continueUrl,
+						{
+							[`${CLOSE_URL}`]: closeUrl,
+							[`${SUCCESS_URL}`]: successUrl,
+						},
+				  ]
+				: successUrl.length > 1
+				? [successUrl, {}]
+				: [closeUrl, {}];
+
+		console.log(location);
+
+		console.log(next);
+
+		navigate(next, {
 			state: {
-				...(continueUrl.length > 1 && {
-					[`${ON_RETURN_URL}`]: returnUrl,
-					[`${ON_SUCCESS_URL}`]: successUrl,
-				}),
+				...state,
 			},
 		});
 	};

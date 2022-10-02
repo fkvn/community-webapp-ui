@@ -25,7 +25,7 @@ export const getPromise = async (promise = () => {}) => {
 
 // auth API
 
-export const sendOtpCodePromise = async (channel = "", value = "") =>
+export const sendOtpCodeAxios = async (channel = "", value = "") =>
 	axios
 		.post(`/auth/getToken`, {
 			channel: channel,
@@ -48,21 +48,21 @@ export const verifyOtpCodePromise = async (
 		})
 		.catch((e) => Promise.reject(e));
 
-export const registerPromise = async (registerInfo = {}) =>
+export const registerAxios = async (registerInfo = {}) =>
 	axios
 		.post(`/auth/thainow/register`, {
 			...registerInfo,
 		})
 		.catch((e) => Promise.reject(e));
 
-export const businessRegisterPromise = async (registerInfo = {}) =>
+export const businessRegisterAxios = async (registerInfo = {}) =>
 	axios
 		.post(`/profiles/business`, {
 			...registerInfo,
 		})
 		.catch((e) => Promise.reject(e));
 
-export const signinPromise = async (channel = "", value = "", password = "") =>
+export const signinAxios = async (channel = "", value = "", password = "") =>
 	axios
 		.post(`/auth/thainow/signin`, {
 			channel: channel,
@@ -71,6 +71,44 @@ export const signinPromise = async (channel = "", value = "", password = "") =>
 			password: password,
 		})
 		.then(({ data }) => Promise.resolve(data))
+		.catch((e) => Promise.reject(e));
+
+// validation
+
+export const validateUsernamePromise = (username = "") => {
+	return axios.post(
+		`/auth/users/validateUsername`,
+		{},
+		{
+			params: { username: username },
+		}
+	);
+};
+
+export const validateEmailPromise = (email = "") => {
+	return axios.post(`/auth/users/validateEmail`, {
+		email: email,
+	});
+};
+
+export const validatePhonePromise = (phone = "") => {
+	return axios.post(`/auth/users/validatePhone`, {
+		phone: phone,
+	});
+};
+
+// profiles
+
+export const findProfilesAxios = async () =>
+	axios
+		.get(`/profiles`)
+		.then(({ data }) => Promise.resolve(data))
+		.catch((e) => Promise.reject(e));
+
+export const removeBusinessProfileAxios = (id = -1) =>
+	axios
+		.delete(`/profiles/business/${id}`)
+		.then(() => Promise.resolve())
 		.catch((e) => Promise.reject(e));
 
 export const uploadProfileAvatar = async (
@@ -96,34 +134,6 @@ export const uploadProfileAvatar = async (
 	return Promise.reject("Invalid Credentials!");
 };
 
-export const validateUsernamePromise = (username = "") => {
-	return axios.post(
-		`/auth/users/validateUsername`,
-		{},
-		{
-			params: { username: username },
-		}
-	);
-};
-
-export const validateEmailPromise = (email = "") => {
-	return axios.post(`/auth/users/validateEmail`, {
-		email: email,
-	});
-};
-
-export const validatePhonePromise = (phone = "") => {
-	return axios.post(`/auth/users/validatePhone`, {
-		phone: phone,
-	});
-};
-
-export const findProfiles = async () =>
-	axios
-		.get(`/profiles`)
-		.then(({ data }) => Promise.resolve(data))
-		.catch((e) => Promise.reject(e));
-
 // Company API
 
 export const searchCompanyPromise = (
@@ -133,17 +143,5 @@ export const searchCompanyPromise = (
 ) => {
 	return axios.get("/companies/searchName", {
 		params: { keywords: keywords, fetchAll: fetchAll, fetchLimit: fetchLimit },
-	});
-};
-
-export const validateCompanyEmailPromise = (email = "") => {
-	return axios.post(`/auth/companies/validateEmail`, {
-		email: email,
-	});
-};
-
-export const validateCompanyPhonePromise = (phone = "") => {
-	return axios.post(`/auth/companies/validatePhone`, {
-		phone: phone,
 	});
 };

@@ -1,5 +1,5 @@
 import jwt_decode from "jwt-decode";
-import { signinPromise } from "../Axios/axiosPromise";
+import { signinAxios } from "../Axios/axiosPromise";
 import {
 	getState,
 	patchProfileInfoPromise,
@@ -192,13 +192,13 @@ export const convertProfileInfo = ({ type = "", user = {}, company = {} }) => {
 	switch (type) {
 		case constVar.PROFILE_USER_TYPE_PROP:
 			profile[`${constVar.ID_PROP}`] = user.id;
-			profile[`${constVar.PROFILE_URL_PROP}`] = user.profileUrl;
+			profile[`${constVar.PROFILE_PICTURE_PROP}`] = user.profileUrl;
 			profile[`${constVar.PROFILE_NAME_PROP}`] = user.username;
 			// profile[`${constVar.PROFILE_USER_TYPE_PROP}`] = { ...user };
 			break;
 		case constVar.PROFILE_COMPANY_TYPE_PROP:
 			profile[`${constVar.ID_PROP}`] = company.id;
-			profile[`${constVar.PROFILE_URL_PROP}`] = company.logoUrl;
+			profile[`${constVar.PROFILE_PICTURE_PROP}`] = company.logoUrl;
 			profile[`${constVar.PROFILE_NAME_PROP}`] = company.name;
 			// profile[`${constVar.PROFILE_COMPANY_TYPE_PROP}`] = { ...company };
 			break;
@@ -245,7 +245,7 @@ export const signInUserPromise = async (channel = "") => {
 		[`${constVar.PASSWORD_PROP}`]: password = "",
 	} = signinInfo;
 
-	return signinPromise(channel, email, phone, password).then(
+	return signinAxios(channel, email, phone, password).then(
 		({ access_token = "", user = {} }) => {
 			// remove signin info
 			removeUserSigninInfo();
@@ -300,18 +300,18 @@ export const forwardUrl = (
 	navigate = () => {},
 	location = () => {}
 ) => {
-	let returnUrl = location?.state?.[`${constVar.ON_RETURN_URL}`] || "/";
-	let continueUrl = location?.state?.[`${constVar.ON_SUCCESS_URL}`] || "/";
+	let closeUrl = location?.state?.[`${constVar.CONTINUE_URL}`] || "/";
+	let continueUrl = location?.state?.[`${constVar.SUCCESS_URL}`] || "/";
 
 	if (!isObjectEmpty(customUrls)) {
-		returnUrl = customUrls?.[`${constVar.ON_RETURN_URL}`] || "/";
-		continueUrl = customUrls?.[`${constVar.ON_SUCCESS_URL}`] || "/";
+		closeUrl = customUrls?.[`${constVar.CONTINUE_URL}`] || "/";
+		continueUrl = customUrls?.[`${constVar.SUCCESS_URL}`] || "/";
 	}
 
-	navigate(returnUrl.length > 1 ? returnUrl : continueUrl, {
+	navigate(closeUrl.length > 1 ? closeUrl : continueUrl, {
 		state: {
-			...(returnUrl.length > 1 && {
-				[`${constVar.ON_SUCCESS_URL}`]: continueUrl,
+			...(closeUrl.length > 1 && {
+				[`${constVar.SUCCESS_URL}`]: continueUrl,
 			}),
 		},
 	});

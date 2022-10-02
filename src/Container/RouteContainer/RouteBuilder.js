@@ -1,7 +1,7 @@
 import { Route, Routes } from "react-router-dom";
 import NotFoundPage from "../../Component/PageLayout/NotFoundPage";
 import SignupRouteContainer from "../AuthContainer/SignupRouteContainer";
-import SwitchProfileContainer from "../AuthContainer/SwitchProfileContainer1";
+import SwitchProfileContainer from "../AuthContainer/SwitchProfileContainer";
 import UserSigninContainer from "../AuthContainer/UserSigninContainer";
 import ErrorContainer from "../ErrorContainer";
 import ProfileContainer from "../ProfilePanelContainer/ProfileContainer";

@@ -1,0 +1,5 @@
+@import "../base/global";
+
+.border-default {
+	@include border-default();
+}

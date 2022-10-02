@@ -16,7 +16,7 @@ function UserProfileContainer() {
 	const navigate = useNavigate();
 	const location = useLocation();
 
-	const continueURL = location.state?.continue || "/";
+	const continueUrl = location.state?.continue || "/";
 
 	const showOffCanvas = useSelector(
 		(state) =>
@@ -36,7 +36,7 @@ function UserProfileContainer() {
 	const onCloseHandler = () => {
 		patchUserProfileInfoPromise({}, true);
 		sessionStorage.removeItem(THAINOW_USER_PROFILE_OBJ);
-		navigate(continueURL, { replace: true });
+		navigate(continueUrl, { replace: true });
 	};
 
 	const app = (

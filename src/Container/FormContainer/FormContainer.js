@@ -16,8 +16,8 @@ function FormContainer({
 }) {
 	const navigate = useNavigate();
 	const location = useLocation();
-	const continueURL = location?.state?.[`${ON_SUCCESS_URL}`] || "/";
-	const returnURL = location.state?.[`${ON_RETURN_URL}`] || "";
+	const continueUrl = location?.state?.[`${ON_SUCCESS_URL}`] || "/";
+	const closeUrl = location.state?.[`${ON_RETURN_URL}`] || "";
 
 	const MIN_STEP = 1;
 	const MAX_STEP = stepHandlers.length;
@@ -52,10 +52,10 @@ function FormContainer({
 			if (step < MAX_STEP) {
 				setStep(step + 1);
 			} else if (step === MAX_STEP) {
-				navigate(returnURL.length > 0 ? returnURL : continueURL, {
+				navigate(closeUrl.length > 0 ? closeUrl : continueUrl, {
 					state: {
-						...(returnURL.length > 0 && {
-							[`${ON_SUCCESS_URL}`]: continueURL,
+						...(closeUrl.length > 0 && {
+							[`${ON_SUCCESS_URL}`]: continueUrl,
 						}),
 					},
 				});

@@ -19,6 +19,7 @@ $businessColor: #fba704;
 $jobColor: #00965f;
 $housingColor: #fb5123;
 $marketplaceColor: #de2258;
+$grayBorderColor: rgba(102, 102, 102, 0.25);
 
 :export {
 	primaryColor: $primaryColor;
@@ -61,4 +62,16 @@ $marketplaceColor: #de2258;
 	display: flex !important;
 	justify-content: right;
 	align-items: center;
+}
+
+@mixin color-primary() {
+	color: $primaryColor;
+}
+
+@mixin color-business() {
+	color: $businessColor;
+}
+
+@mixin border-default() {
+	border: 0.2px solid $grayBorderColor;
 }

@@ -9,10 +9,10 @@ function ClassicSignupContainer() {
 
 	let [searchParams] = useSearchParams();
 
-	const continueURL = searchParams.get("continue") || "/";
+	const continueUrl = searchParams.get("continue") || "/";
 
 	const continueParams =
-		continueURL.length > 0 ? "?continue=" + continueURL : "";
+		continueUrl.length > 0 ? "?continue=" + continueUrl : "";
 
 	const storageObjName = constVar.THAINOW_USER_SIGN_UP_OBJ;
 
@@ -26,7 +26,7 @@ function ClassicSignupContainer() {
 		axiosPromise.getPromise(axiosPromise.validatePhonePromise(phone));
 
 	const sendOtpCodeHandler = (channel = "", value = "") =>
-		axiosPromise.getPromise(axiosPromise.sendOtpCodePromise(channel, value));
+		axiosPromise.getPromise(axiosPromise.sendOtpCodeAxios(channel, value));
 
 	const verifyOtpCodeHandler = (channel = "", value = "", token = "") =>
 		axiosPromise.getPromise(
@@ -55,7 +55,7 @@ function ClassicSignupContainer() {
 
 	const onCloseHandler = () => {
 		sessionStorage.removeItem(storageObjName);
-		navigate(continueURL);
+		navigate(continueUrl);
 	};
 
 	const onBackHandlerPromise = (onBackHandler = () => {}) => {

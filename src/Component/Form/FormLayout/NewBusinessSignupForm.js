@@ -25,10 +25,10 @@ function NewBusinessSignupForm({
 
 	let [searchParams] = useSearchParams();
 
-	const continueURL = searchParams.get("continue") || "/";
+	const continueUrl = searchParams.get("continue") || "/";
 
 	const continueParams =
-		continueURL.length > 0 ? "?continue=" + continueURL : "";
+		continueUrl.length > 0 ? "?continue=" + continueUrl : "";
 
 	const step_1_headline = (
 		<ReadOnlyFormGroupControl

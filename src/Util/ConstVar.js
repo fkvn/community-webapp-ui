@@ -21,9 +21,14 @@ export const IMAGE_ADD_FRAME = "addFrameImage";
 export const IMAGE_BLUR_THAINOW = "thainowBlurImage";
 
 export const SHOW_OFF_CANVAS = "showOffCanvas";
-export const ON_RETURN_URL = "onReturnURL";
-export const ON_SUCCESS_URL = "onSuccessURL";
-export const ON_CLOSE_URL = "onCloseURL";
+
+export const FORWARD_CONTINUE = "continue";
+export const FORWARD_CLOSE = "close";
+export const FORWARD_SUCCESS = "success";
+
+export const CONTINUE_URL = "continueUrl";
+export const SUCCESS_URL = "successUrl";
+export const CLOSE_URL = "closeUrl";
 
 export const ICON_USER_READER = "userReaderIcon";
 export const ICON_LOCATION = "locationIcon";
@@ -40,13 +45,13 @@ export const PLACEID_PROP = "placeid";
 export const LAT_PROP = "lat";
 export const LNG_PROP = "lng";
 
-export const PROFILE_TYPE_PROP = "profileType";
+export const PROFILE_TYPE_PROP = "type";
 export const PROFILE_GUEST_TYPE_PROP = "guestProfile";
-export const PROFILE_USER_TYPE_PROP = "userProfile";
-export const PROFILE_COMPANY_TYPE_PROP = "companyProfile";
-export const PROFILE_URL_PROP = "profileUrl";
+export const PROFILE_USER_TYPE_PROP = "USER_PROFILE";
+export const PROFILE_COMPANY_TYPE_PROP = "BUSINESS_PROFILE";
+export const PROFILE_PICTURE_PROP = "picture";
 export const PROFILE_NAME_PROP = "name";
-
+export const PROFILE_STATUS_PROP = "status";
 export const UPLOAD_PHOTO_HANDLER = "uploadPhotoHandler";
 export const VISIT_MY_PROFILE_HANDLER = "visitMyProfileHandler";
 
