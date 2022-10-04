@@ -1,4 +1,5 @@
 import { businessRegisterAxios, registerAxios } from "../../Axios/axiosPromise";
+import { FORWARD_SUCCESS } from "../../Util/ConstVar";
 import { errorMessage, loadingMessage, successMessage } from "./useMessage";
 import useUrls from "./useUrls";
 
@@ -24,14 +25,17 @@ function useRegister() {
 	const businessRegister = async (
 		registerInfo = {},
 		forward = false,
-		closeUrl = "",
-		continueUrl = ""
+		fowardAction = FORWARD_SUCCESS,
+		continueUrl = "",
+		successUrl = ""
 	) => {
 		loadingMessage("Registering...", 0);
 		return businessRegisterAxios(registerInfo)
 			.then(() => {
 				successMessage("Registration successfully!").then(() =>
-					forward ? forwardUrl(closeUrl, continueUrl) : Promise.resolve()
+					forward
+						? forwardUrl(fowardAction, "", continueUrl, successUrl)
+						: Promise.resolve()
 				);
 			})
 			.catch((e) => errorMessage(e));

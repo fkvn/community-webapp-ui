@@ -70,7 +70,7 @@ function useAddress(
 
 	const addressAutoComplete = (
 		{ rules = [], ...itemProps },
-		inputProps = {},
+		{ prefix = true, ...inputProps },
 		required = false,
 		errorMessage = "Please enter a valid address"
 	) => (
@@ -86,7 +86,7 @@ function useAddress(
 					rules: [
 						({ setFieldValue }) => ({
 							validator(_, value) {
-								const location = value === "" ? {} : address.location || {};
+								const location = value === "" ? {} : address?.location || {};
 								setFieldValue(LOCATION_OBJ, location);
 
 								if (required && value === "") return Promise.reject();
@@ -104,9 +104,14 @@ function useAddress(
 							allowClear={{
 								clearIcon: <CloseCircleOutlined />,
 							}}
-							prefix={
-								<Icon component={() => iconLocationBlack()} className="mr-2 " />
-							}
+							{...(prefix && {
+								prefix: (
+									<Icon
+										component={() => iconLocationBlack()}
+										className="mr-2 "
+									/>
+								),
+							})}
 						/>
 					),
 					options: address.predictions,

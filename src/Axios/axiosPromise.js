@@ -2,7 +2,7 @@ import axios from "../Axios/axios";
 import {
 	EMAIL_PROP,
 	PHONE_PROP,
-	PROFILE_COMPANY_TYPE_PROP,
+	PROFILE_BUSINESS_TYPE_PROP,
 	PROFILE_USER_TYPE_PROP,
 	SMS_PROP,
 } from "../Util/ConstVar";
@@ -119,7 +119,7 @@ export const uploadProfileAvatar = async (
 	const host =
 		type === PROFILE_USER_TYPE_PROP
 			? `/users/${id}/profile`
-			: type === PROFILE_COMPANY_TYPE_PROP
+			: type === PROFILE_BUSINESS_TYPE_PROP
 			? `/companies/${id}/logo`
 			: "";
 

@@ -1,26 +1,58 @@
 import { Avatar, Button, Card, Skeleton, Space } from "antd";
 import Meta from "antd/lib/card/Meta";
-import React, { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useCallback, useEffect, useState } from "react";
 import { imagePlusGray } from "../../Assest/Asset";
+import { findProfilesAxios } from "../../Axios/axiosPromise";
 import {
-	CLOSE_URL,
+	FORWARD_CONTINUE,
+	ID_PROP,
+	PROFILE_BUSINESS_TYPE_PROP,
 	PROFILE_NAME_PROP,
 	PROFILE_PICTURE_PROP,
 	PROFILE_STATUS_PROP,
 	PROFILE_TYPE_PROP,
 	PROFILE_USER_TYPE_PROP,
-	SUCCESS_URL,
 } from "../../Util/ConstVar";
+import { isObjectEmpty } from "../../Util/Util";
 import useImage from "../Hook/useImage";
+import { errorMessage } from "../Hook/useMessage";
+import useProfile from "../Hook/useProfile";
+import useUrls from "../Hook/useUrls";
+import RemoveProfile from "./RemoveProfile";
 
-function SwitchProfile({
-	profiles = [],
-	profile = {},
-	switchProfile = async () => {},
-	removeBusinessProfile = async () => {},
-}) {
+function SwitchProfile() {
 	const { image } = useImage();
+
+	const { forwardUrl } = useUrls();
+
+	const [profiles, setProfiles] = useState([]);
+
+	const [fetchProfiles, setFetchProfiles] = useState(false);
+
+	const { profile, switchProfile, removeBusinessProfile } = useProfile();
+
+	const fetchProfilesPromise = useCallback(
+		(user = {}) =>
+			findProfilesAxios(user?.id).then((profiles = []) =>
+				onRenderProfiles(profiles)
+			),
+		[]
+	);
+
+	const onRenderProfiles = (profiles = []) => {
+		setFetchProfiles(true);
+		setProfiles(profiles);
+	};
+
+	useEffect(() => {
+		if (!fetchProfiles && !isObjectEmpty(profile)) {
+			fetchProfilesPromise();
+		}
+	}, [profile, fetchProfiles, fetchProfilesPromise]);
+
+	useEffect(() => {
+		setProfiles(profiles);
+	}, [profile, profiles]);
 
 	const normalizeProfiles = (profiles = []) =>
 		profiles.reduce(
@@ -32,10 +64,6 @@ function SwitchProfile({
 					: [...(first ? [first] : []), ...res, cur],
 			[]
 		);
-
-	useEffect(() => {
-		normalizeProfiles(profiles);
-	}, [profiles]);
 
 	const renderProfiles =
 		profiles.length > 0
@@ -55,7 +83,17 @@ function SwitchProfile({
 		</div>
 	);
 
-	const navigate = useNavigate();
+	const onRemoveProfile = (profile = {}) => {
+		switch (profile?.[`${PROFILE_TYPE_PROP}`]) {
+			case PROFILE_USER_TYPE_PROP:
+				return errorMessage("comming soon");
+			case PROFILE_BUSINESS_TYPE_PROP:
+				// return Promise.resolve();
+				return removeBusinessProfile(profile?.[`${ID_PROP}`]);
+			default:
+				return Promise.reject("Invalid Request!");
+		}
+	};
 
 	const app = (
 		<>
@@ -111,26 +149,33 @@ function SwitchProfile({
 										type="link"
 										disabled={
 											profile?.id === renPro?.id ||
-											profile?.info?.[`${PROFILE_STATUS_PROP}`] === "DISABLED"
+											(renPro?.[`${PROFILE_TYPE_PROP}`] ===
+												PROFILE_BUSINESS_TYPE_PROP &&
+												renPro?.info?.[`${PROFILE_STATUS_PROP}`] !==
+													"REGISTERED")
 										}
-										onClick={() => switchProfile(renPro, true)}
+										onClick={() => switchProfile(renPro)}
 									>
 										{profile?.id === renPro?.id
 											? "Signed In"
 											: "Switch Profile"}
 									</Button>,
-									<Button
-										type="link"
-										className="text-danger"
-										onClick={
-											renPro?.[`${PROFILE_TYPE_PROP}`] ===
-											PROFILE_USER_TYPE_PROP
-												? () => alert("account remove")
-												: removeBusinessProfile(renPro?.id || -1)
+									<RemoveProfile
+										profile={renPro}
+										onRemoveProfile={(profile = {}) =>
+											onRemoveProfile(profile).then(async () =>
+												setProfiles(
+													profiles.reduce(
+														(res, cur) =>
+															cur?.[`${ID_PROP}`] === profile?.[`${ID_PROP}`]
+																? res
+																: [...res, cur],
+														[]
+													)
+												)
+											)
 										}
-									>
-										Remove Profile
-									</Button>,
+									/>,
 								]
 							}
 							style={{ maxWidth: 280 }}
@@ -145,72 +190,67 @@ function SwitchProfile({
 								/>
 							</Skeleton>
 						</Card>
-
-						{idx < 6 && (
-							<Card
-								cover={
-									<Space
-										direction="vertical"
-										className="tedkvn-center mt-5 "
-										style={{ padding: "0 3.3rem" }}
-										gap={1}
-									>
-										{profiles.length > 0 ? (
-											<>
-												<Avatar
-													size={150}
-													style={{
-														maxWidth: "100%",
-													}}
-													shape="circle"
-													className="border-default"
-													src={image({
-														width: "100%",
-														src: imagePlusGray,
-														preview: true,
-													})}
-													preview={{ visible: false }}
-												/>
-											</>
-										) : (
-											<Skeleton.Avatar
-												shape="circle"
-												size={150}
-												active={true}
-											/>
-										)}
-									</Space>
-								}
-								className="m-4 overflow-hidden"
-								actions={
-									profiles.length > 0 && [
-										<Button
-											type="link"
-											onClick={() =>
-												navigate("/register/business", {
-													state: {
-														[`${CLOSE_URL}`]: "/switch-profiles",
-														[`${SUCCESS_URL}`]: "/switch-profiles",
-													},
-												})
-											}
-										>
-											Add Business Profile
-										</Button>,
-									]
-								}
-								style={{ maxWidth: 250 }}
-							>
-								<Skeleton loading={profiles.length < 1} active>
-									<Meta
-										className="text-center tedkvn-center"
-										description="For business owners, host, self-employed, or freelancers"
-									/>
-								</Skeleton>
-							</Card>
-						)}
 					</React.Fragment>
 				))}
+				{profiles.length < 6 && (
+					<Card
+						cover={
+							<Space
+								direction="vertical"
+								className="tedkvn-center mt-5 "
+								style={{ padding: "0 3.3rem" }}
+								gap={1}
+							>
+								{profiles.length > 0 ? (
+									<>
+										<Avatar
+											size={150}
+											style={{
+												maxWidth: "100%",
+											}}
+											shape="circle"
+											className="border-default"
+											src={image({
+												width: "100%",
+												src: imagePlusGray,
+												preview: true,
+											})}
+											preview={{ visible: false }}
+										/>
+									</>
+								) : (
+									<Skeleton.Avatar shape="circle" size={150} active={true} />
+								)}
+							</Space>
+						}
+						className="m-4 overflow-hidden"
+						actions={
+							profiles.length > 0 && [
+								<Button
+									type="link"
+									onClick={() =>
+										forwardUrl(
+											FORWARD_CONTINUE,
+											"/switch-profiles",
+											"/register/business",
+											"/switch-profiles"
+										)
+									}
+								>
+									Add Business Profile
+								</Button>,
+							]
+						}
+						style={{ maxWidth: 250 }}
+					>
+						<Skeleton loading={profiles.length < 1} active>
+							<Meta
+								className="text-center tedkvn-center"
+								description="For business owners, host, self-employed, or freelancers"
+							/>
+						</Skeleton>
+					</Card>
+				)}
 			</Space>
 		</>
 	);

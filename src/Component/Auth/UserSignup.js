@@ -2,11 +2,11 @@ import { MailOutlined, MessageOutlined } from "@ant-design/icons";
 import { Alert, Button, Divider, Form, Space, Spin } from "antd";
 import { useState } from "react";
 import { Stack } from "react-bootstrap";
-import { useLocation, useNavigate } from "react-router-dom";
 import { imageSuccess } from "../../Assest/Asset";
 import {
 	AGREEMENT_PROP,
 	EMAIL_PROP,
+	FORWARD_CONTINUE,
 	OTP_PROP,
 	PASSWORD_PROP,
 	PHONE_PROP,
@@ -26,10 +26,9 @@ import useImage from "../Hook/useImage";
 import useRegister from "../Hook/useRegister";
 import useSignin from "../Hook/useSignin";
 import useSendVerifyCode from "../Hook/useTwilio";
+import useUrls from "../Hook/useUrls";
 
 function UserSignup() {
-	const navigate = useNavigate();
-	const location = useLocation();
 	const [form] = Form.useForm();
 	const [verifyInfo, setVerifyInfo] = useState({
 		channel: "",
@@ -46,6 +45,8 @@ function UserSignup() {
 
 	const [step, setStep] = useState(1);
 
+	const { forwardUrl } = useUrls();
+
 	const title = (
 		<div className="w-100 text-center">
 			<div className="fs-2">
@@ -61,13 +62,7 @@ function UserSignup() {
 				Already have an account?{" "}
 				<Button
 					type="link"
-					onClick={() =>
-						navigate("/signin", {
-							state: {
-								continue: location.state?.continue || "",
-							},
-						})
-					}
+					onClick={() => forwardUrl(FORWARD_CONTINUE, "", "/signin")}
 				>
 					Sign In
 				</Button>
@@ -103,7 +98,6 @@ function UserSignup() {
 						form
 							.validateFields([USERNAME_PROP, PASSWORD_PROP, AGREEMENT_PROP])
 							.then(() => setStep(2))
-							.catch(() => {})
 					}
 					block
 				>
@@ -183,21 +177,18 @@ function UserSignup() {
 				"There was an error in sending the OTP code. Please try again!"
 			);
 
-		form
-			.validateFields([verifyInfo.field])
-			.then(() => {
-				setVerifyInfo({ ...verifyInfo, sendingCode: true });
-				sendVerifyCode(verifyInfo.channel, form.getFieldValue(verifyInfo.field))
-					.then(() => {
-						setVerifyInfo({
-							...verifyInfo,
-							sentCode: true,
-							sendingCode: false,
-						});
-					})
-					.catch(() => setVerifyInfo({ ...verifyInfo, sendingCode: false }));
-			})
-			.catch(() => {});
+		form.validateFields([verifyInfo.field]).then(() => {
+			setVerifyInfo({ ...verifyInfo, sendingCode: true });
+			sendVerifyCode(verifyInfo.channel, form.getFieldValue(verifyInfo.field))
+				.then(() => {
+					setVerifyInfo({
+						...verifyInfo,
+						sentCode: true,
+						sendingCode: false,
+					});
+				})
+				.catch(() => setVerifyInfo({ ...verifyInfo, sendingCode: false }));
+		});
 	};
 
 	const smsVerifySelection = (
@@ -347,8 +338,10 @@ function UserSignup() {
 							verifyInfo.channel === SMS_PROP ? PHONE_PROP : verifyInfo.channel,
 							form.getFieldValue(verifyInfo.field),
 							form.getFieldValue(PASSWORD_PROP),
-							false
-						).then(() => navigate("/register/business"))
+							true,
+							FORWARD_CONTINUE,
+							"/register/business"
+						)
 					}
 				>
 					Activate your business profile
@@ -372,7 +365,7 @@ function UserSignup() {
 				type="link"
 				block
 				className="border-0"
-				onClick={() => navigate("/")}
+				onClick={() => forwardUrl()}
 			>
 				Back to home
 			</Button>

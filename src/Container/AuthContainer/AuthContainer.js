@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
 import useAuth from "../../Component/Hook/useAuth";
 import useUrls from "../../Component/Hook/useUrls";
+import { FORWARD_CONTINUE } from "../../Util/ConstVar";
 
 function AuthContainer({ closeUrl = "/", continueUrl = "/", children = {} }) {
 	/* Description
@@ -76,17 +76,15 @@ function AuthContainer({ closeUrl = "/", continueUrl = "/", children = {} }) {
 	*/
 
 	const [loading, setLoading] = useState(true);
-	const navigate = useNavigate();
-	const location = useLocation();
 
 	const { forwardUrl } = useUrls();
 	const { auth } = useAuth();
 
 	useEffect(() => {
 		if (loading) {
-			auth(closeUrl, continueUrl, navigate, location)
+			auth()
 				.then(() => setLoading(false))
-				.catch(() => forwardUrl(closeUrl, continueUrl));
+				.catch(() => forwardUrl(FORWARD_CONTINUE, closeUrl, continueUrl));
 		}
 	});
 

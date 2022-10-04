@@ -1,11 +1,23 @@
 import { useLocation, useNavigate } from "react-router-dom";
-import { CLOSE_URL, CONTINUE_URL, SUCCESS_URL } from "../../Util/ConstVar";
+import {
+	CLOSE_URL,
+	CONTINUE_URL,
+	FORWARD_CLOSE,
+	FORWARD_CONTINUE,
+	FORWARD_SUCCESS,
+	SUCCESS_URL,
+} from "../../Util/ConstVar";
 
 function useUrls() {
 	const navigate = useNavigate();
 	const location = useLocation();
 
-	const forwardUrl = (closeUrl = "/", continueUrl = "/", successUrl = "/") => {
+	const forwardUrl = (
+		action = "",
+		closeUrl = "",
+		continueUrl = "",
+		successUrl = ""
+	) => {
 		if (closeUrl.length === 0) {
 			closeUrl = location?.state?.[`${CLOSE_URL}`] || "/";
 		}
@@ -18,12 +30,8 @@ function useUrls() {
 			successUrl = location?.state?.[`${SUCCESS_URL}`] || "/";
 		}
 
-		console.log(continueUrl);
-		console.log(closeUrl);
-		console.log(successUrl);
-
 		const [next, state] =
-			continueUrl.length > 1
+			action === FORWARD_CONTINUE
 				? [
 						continueUrl,
 						{
@@ -31,12 +39,13 @@ function useUrls() {
 							[`${SUCCESS_URL}`]: successUrl,
 						},
 				  ]
-				: successUrl.length > 1
+				: action === FORWARD_CLOSE
+				? [closeUrl, {}]
+				: action === FORWARD_SUCCESS
 				? [successUrl, {}]
-				: [closeUrl, {}];
+				: ["/", {}];
 
-		console.log(location);
-
+		console.log(action);
 		console.log(next);
 
 		navigate(next, {

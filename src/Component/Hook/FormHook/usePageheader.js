@@ -2,6 +2,7 @@ import { CloseOutlined } from "@ant-design/icons";
 import { Button, PageHeader } from "antd";
 import { useNavigate } from "react-router-dom";
 import { imageThainowLogoRound } from "../../../Assest/Asset";
+import { FORWARD_CLOSE } from "../../../Util/ConstVar";
 import useUrls from "../useUrls";
 
 function usePageHeader(props = {}, onClose = async () => {}) {
@@ -24,7 +25,7 @@ function usePageHeader(props = {}, onClose = async () => {}) {
 				<Button
 					className="border-0 pt-2"
 					icon={<CloseOutlined />}
-					onClick={() => onClose().then(() => forwardUrl())}
+					onClick={() => onClose().then(() => forwardUrl(FORWARD_CLOSE))}
 				></Button>
 			),
 			...props,

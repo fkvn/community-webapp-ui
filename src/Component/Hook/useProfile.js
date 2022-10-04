@@ -1,10 +1,11 @@
 import { useSelector } from "react-redux";
-import {
-	findProfilesAxios,
-	removeBusinessProfileAxios,
-} from "../../Axios/axiosPromise";
+import { removeBusinessProfileAxios } from "../../Axios/axiosPromise";
 import { patchProfileInfoPromise } from "../../redux-store/dispatchPromise";
-import { PROFILE_NAME_PROP, THAINOW_PROFILE_OBJ } from "../../Util/ConstVar";
+import {
+	FORWARD_SUCCESS,
+	PROFILE_NAME_PROP,
+	THAINOW_PROFILE_OBJ,
+} from "../../Util/ConstVar";
 import { isObjectEmpty } from "../../Util/Util";
 import { errorMessage, successMessage } from "./useMessage";
 import useUrls from "./useUrls";
@@ -39,9 +40,9 @@ function useProfile(init = true) {
 	const switchProfile = (
 		profile = {},
 		forward = false,
-		closeUrl = "",
+		fowardAction = FORWARD_SUCCESS,
 		continueUrl = "",
-		succesUrl = ""
+		successUrl = ""
 	) =>
 		patchProfileInfoPromise({ ...profile }, true)
 			.then(async () =>
@@ -56,7 +57,7 @@ function useProfile(init = true) {
 					</span>
 				).then(() =>
 					forward
-						? forwardUrl(closeUrl, continueUrl, succesUrl)
+						? forwardUrl(fowardAction, "", continueUrl, successUrl)
 						: Promise.resolve()
 				)
 			)
@@ -65,36 +66,22 @@ function useProfile(init = true) {
 	const removeBusinessProfile = (
 		id = -1,
 		forward = false,
-		closeUrl = "",
+		fowardAction = FORWARD_SUCCESS,
 		continueUrl = "",
-		succesUrl = ""
+		successUrl = ""
 	) =>
 		removeBusinessProfileAxios(id)
 			.then(() =>
-				findProfilesAxios()
-					.then((profiles = []) =>
-						patchProfileInfoPromise(profiles[0], true)
-							.then(async () =>
-								localStorage.setItem(
-									THAINOW_PROFILE_OBJ,
-									JSON.stringify(profiles[0])
-								)
-							)
-							.then(() =>
-								successMessage(
-									<span>
-										Switch Profile to{" "}
-										<strong>{profile?.info?.[`${PROFILE_NAME_PROP}`]}</strong>{" "}
-										successfully
-									</span>
-								).then(() =>
-									forward
-										? forwardUrl(closeUrl, continueUrl, succesUrl)
-										: Promise.resolve()
-								)
-							)
-					)
-					.catch((e) => errorMessage(e))
+				successMessage(
+					<span>
+						Successfully removed profile{" "}
+						<strong>{profile?.info?.[`${PROFILE_NAME_PROP}`]}</strong>
+					</span>
+				).then(() =>
+					forward
+						? forwardUrl(fowardAction, "", continueUrl, successUrl)
+						: Promise.resolve()
+				)
 			)
 			.catch((e) => errorMessage(e));
 

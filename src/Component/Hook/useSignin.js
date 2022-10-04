@@ -1,4 +1,5 @@
 import { signinAxios } from "../../Axios/axiosPromise";
+import { FORWARD_SUCCESS } from "../../Util/ConstVar";
 import { saveProfileInfo, saveUserInfo } from "../../Util/Util";
 import { errorMessage, loadingMessage, successMessage } from "./useMessage";
 import useUrls from "./useUrls";
@@ -25,15 +26,17 @@ function useSignin() {
 		})
 	
 	*/
-	const thainowSignin = (
+	const thainowSignin = async (
 		channel = "",
 		value = "",
 		password = "",
 		forward = false,
-		closeUrl = "",
-		continueUrl = ""
+		fowardAction = FORWARD_SUCCESS,
+		continueUrl = "",
+		successUrl = ""
 	) => {
 		loadingMessage("Signing in ...", 0);
+
 		return signinAxios(channel, value, password)
 			.then((res) => {
 				// save user
@@ -45,7 +48,9 @@ function useSignin() {
 				saveProfileInfo(res.profile);
 
 				successMessage("Signing in successfully", 1).then(() =>
-					forward ? forwardUrl(closeUrl, continueUrl) : Promise.resolve()
+					forward
+						? forwardUrl(fowardAction, "", continueUrl, successUrl)
+						: Promise.resolve()
 				);
 
 				// if (forward) {

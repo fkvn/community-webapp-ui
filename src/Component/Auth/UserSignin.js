@@ -1,4 +1,4 @@
-import { Button, Divider, Form, Segmented, Space, Tabs } from "antd";
+import { Button, Divider, Form, Segmented, Space } from "antd";
 import { useForm } from "antd/lib/form/Form";
 import { useState } from "react";
 import { Stack } from "react-bootstrap";
@@ -83,46 +83,6 @@ function UserSignin() {
 				</Button>
 			</Form.Item>
 		</>
-	);
-
-	const signInTabs = (
-		// <Space className="w-100">
-		<Tabs
-			className=" px-2 px-md-5"
-			centered
-			defaultActiveKey={signinChannel}
-			onTabClick={(key) => setSigninChannel(key)}
-			items={[
-				{
-					label: (
-						<div
-							className={`${
-								signinChannel === EMAIL_PROP && "bg-white"
-							} text-center p-2 px-3 px-lg-5`}
-						>
-							Email Address
-						</div>
-					),
-					// style: { padding: "20rem !important" },
-					key: EMAIL_PROP,
-					children: signInTabChildren,
-				},
-				{
-					label: (
-						<div
-							className={`${
-								signinChannel === PHONE_PROP && "bg-white"
-							} text-center p-2 px-3 px-lg-5`}
-						>
-							Phone Number
-						</div>
-					),
-					key: PHONE_PROP,
-					children: signInTabChildren,
-				},
-			]}
-		/>
-		// </Space>
 	);
 
 	const onFinish = () => {

@@ -196,7 +196,7 @@ export const convertProfileInfo = ({ type = "", user = {}, company = {} }) => {
 			profile[`${constVar.PROFILE_NAME_PROP}`] = user.username;
 			// profile[`${constVar.PROFILE_USER_TYPE_PROP}`] = { ...user };
 			break;
-		case constVar.PROFILE_COMPANY_TYPE_PROP:
+		case constVar.PROFILE_BUSINESS_TYPE_PROP:
 			profile[`${constVar.ID_PROP}`] = company.id;
 			profile[`${constVar.PROFILE_PICTURE_PROP}`] = company.logoUrl;
 			profile[`${constVar.PROFILE_NAME_PROP}`] = company.name;

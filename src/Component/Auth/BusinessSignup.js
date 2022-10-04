@@ -8,6 +8,7 @@ import {
 	COMPANY_INDUSTRY_PROP,
 	COMPANY_NAME_PROP,
 	EMAIL_PROP,
+	FORWARD_SUCCESS,
 	LOCATION_OBJ,
 	NAME_PROP,
 	PHONE_PROP,
@@ -108,7 +109,7 @@ function BusinessSignup() {
 			}),
 			shouldUpdate: true,
 		},
-		{},
+		{ prefix: "" },
 		hasLocation
 	);
 
@@ -119,6 +120,20 @@ function BusinessSignup() {
 	const website = useUrl({ label: "Business Website Address" });
 
 	const { businessRegister } = useRegister();
+
+	const onRegister = () => {
+		setRegistering(true);
+		form
+			.validateFields()
+			.then(() =>
+				form
+					.validateFields()
+					.then(() =>
+						businessRegister(fetchRegisterInfo()).then(() => setRegister(true))
+					)
+			)
+			.finally(() => setRegistering(false));
+	};
 
 	const renderForm = (
 		<Space direction="vertical" className="my-2 w-100" size={20}>
@@ -141,21 +156,7 @@ function BusinessSignup() {
 				<Button
 					type="primary"
 					disabled={registering}
-					onClick={() => {
-						setRegistering(true);
-						form
-							.validateFields()
-							.then(() =>
-								form
-									.validateFields()
-									.then(() =>
-										businessRegister(fetchRegisterInfo()).then(() =>
-											setRegister(true)
-										)
-									)
-							)
-							.finally(() => setRegistering(false));
-					}}
+					onClick={onRegister}
 					block
 				>
 					Register
@@ -176,7 +177,7 @@ function BusinessSignup() {
 
 			<p className="fs-4 fw-bold">Thanks {profile?.info?.[`${NAME_PROP}`]}</p>
 			<p>
-				Now, your Business
+				Now, your Business{" "}
 				<strong>{form.getFieldValue(COMPANY_NAME_PROP)} </strong> registration
 				is currently under <span className="text-danger">review</span>, we will
 				contact you soon!
@@ -186,7 +187,7 @@ function BusinessSignup() {
 				type="primary"
 				block
 				className="p-4 my-4"
-				onClick={() => forwardUrl()}
+				onClick={() => forwardUrl(FORWARD_SUCCESS)}
 			>
 				Continue
 			</Button>
