@@ -19,6 +19,7 @@
 	width: 1.2rem !important;
 }
 
+.ant-divider,
 .ant-divider-horizontal.ant-divider-with-text::before,
 .ant-divider-horizontal.ant-divider-with-text::after {
 	border-top: 0.2px solid rgba(102, 102, 102, 0.25);
@@ -44,6 +45,10 @@
 
 .ant-space-item:has(> div.tedkvn-text-ellipsis) {
 	@include ellipse;
+}
+
+.ant-space-item:has(> .ant-typography-ellipsis:first-child) {
+	width: 100%;
 }
 
 .ant-drawer {

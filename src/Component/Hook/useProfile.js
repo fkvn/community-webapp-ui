@@ -1,12 +1,16 @@
 import { useSelector } from "react-redux";
-import { removeBusinessProfileAxios } from "../../Axios/axiosPromise";
+import {
+	removeAccountProfileAxios,
+	removeBusinessProfileAxios,
+} from "../../Axios/axiosPromise";
 import { patchProfileInfoPromise } from "../../redux-store/dispatchPromise";
 import {
 	FORWARD_SUCCESS,
+	ID_PROP,
 	PROFILE_NAME_PROP,
 	THAINOW_PROFILE_OBJ,
 } from "../../Util/ConstVar";
-import { isObjectEmpty } from "../../Util/Util";
+import { isObjectEmpty, signoutUserPromise } from "../../Util/Util";
 import { errorMessage, successMessage } from "./useMessage";
 import useUrls from "./useUrls";
 
@@ -64,13 +68,13 @@ function useProfile(init = true) {
 			.catch((e) => errorMessage(e));
 
 	const removeBusinessProfile = (
-		id = -1,
+		profile = {},
 		forward = false,
 		fowardAction = FORWARD_SUCCESS,
 		continueUrl = "",
 		successUrl = ""
 	) =>
-		removeBusinessProfileAxios(id)
+		removeBusinessProfileAxios(profile?.[`${ID_PROP}`])
 			.then(() =>
 				successMessage(
 					<span>
@@ -89,11 +93,28 @@ function useProfile(init = true) {
 		initProfile();
 	}
 
+	const removeAccountProfile = (profile = {}) =>
+		removeAccountProfileAxios(profile?.[`${ID_PROP}`])
+			.then(() =>
+				successMessage(
+					<span>
+						Successfully removed profile{" "}
+						<strong>{profile?.info?.[`${PROFILE_NAME_PROP}`]}</strong>
+					</span>
+				).then(() =>
+					signoutUserPromise().then(() =>
+						forwardUrl(FORWARD_SUCCESS, "", "", "/")
+					)
+				)
+			)
+			.catch((e) => errorMessage(e));
+
 	return {
 		profile,
 		initProfile,
 		switchProfile,
 		removeBusinessProfile,
+		removeAccountProfile,
 	};
 }
 

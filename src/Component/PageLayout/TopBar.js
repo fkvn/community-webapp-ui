@@ -16,6 +16,7 @@ import useLocation from "../Hook/useLocation";
 import useProfile from "../Hook/useProfile";
 import OffCanvasProfile from "../Profile/OffCanvasProfile";
 import OffCanvasSearch from "../Search/OffCanvasSearch";
+import EllipsisMiddle from "../Typography/EllipsisMiddle";
 
 function TopBar() {
 	const { image } = useImage();
@@ -93,7 +94,7 @@ function TopBar() {
 	// };
 
 	useEffect(() => {
-		$("#layout main").css("margin-top", $("#layout header").height());
+		$("#layout main").css("margin-top", $("#layout header").height() + 20);
 		// activateScrolling();
 	});
 
@@ -132,12 +133,11 @@ function TopBar() {
 								width={50}
 								className="tedkvn-center "
 							/>
-							<div className="tedkvn-center tedkvn-text-ellipsis">
+							<EllipsisMiddle suffixCount={5} className="text-white">
 								{location?.[`${ADDRESS_PROP}`]}
-							</div>
+							</EllipsisMiddle>
 						</Space>
 					</Stack>
-					{/* <Search direction="horizontal" /> */}
 				</div>
 
 				<div className="ms-auto d-none d-md-block">
@@ -182,12 +182,9 @@ function TopBar() {
 						className="tedkvn-center"
 						style={{ margin: "1rem 0" }}
 					/>
-					<div
-						className="my-auto tedkvn-text-ellipsis"
-						style={{ width: "100%" }}
-					>
+					<EllipsisMiddle suffixCount={5} className="text-white">
 						{location?.[`${ADDRESS_PROP}`]}
-					</div>
+					</EllipsisMiddle>
 				</Space>
 			</div>
 

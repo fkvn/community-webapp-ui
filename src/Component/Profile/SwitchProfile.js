@@ -15,7 +15,6 @@ import {
 } from "../../Util/ConstVar";
 import { isObjectEmpty } from "../../Util/Util";
 import useImage from "../Hook/useImage";
-import { errorMessage } from "../Hook/useMessage";
 import useProfile from "../Hook/useProfile";
 import useUrls from "../Hook/useUrls";
 import RemoveProfile from "./RemoveProfile";
@@ -29,7 +28,12 @@ function SwitchProfile() {
 
 	const [fetchProfiles, setFetchProfiles] = useState(false);
 
-	const { profile, switchProfile, removeBusinessProfile } = useProfile();
+	const {
+		profile,
+		switchProfile,
+		removeBusinessProfile,
+		removeAccountProfile,
+	} = useProfile();
 
 	const fetchProfilesPromise = useCallback(
 		(user = {}) =>
@@ -86,10 +90,11 @@ function SwitchProfile() {
 	const onRemoveProfile = (profile = {}) => {
 		switch (profile?.[`${PROFILE_TYPE_PROP}`]) {
 			case PROFILE_USER_TYPE_PROP:
-				return errorMessage("comming soon");
+				// return alert(profile?.[`${ID_PROP}`]);
+				return removeAccountProfile(profile);
 			case PROFILE_BUSINESS_TYPE_PROP:
 				// return Promise.resolve();
-				return removeBusinessProfile(profile?.[`${ID_PROP}`]);
+				return removeBusinessProfile(profile);
 			default:
 				return Promise.reject("Invalid Request!");
 		}

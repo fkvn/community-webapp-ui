@@ -1,3 +1,5 @@
+@use "sass:map";
+
 $default: true !default;
 
 $layout-marginTop: 0 !default;
@@ -64,13 +66,53 @@ $grayBorderColor: rgba(102, 102, 102, 0.25);
 	align-items: center;
 }
 
-@mixin color-primary() {
-	color: $primaryColor;
+$theme-colors: (
+	"primary": $primaryColor,
+	"business": $businessColor,
+	"job": $jobColor,
+	"housing": $housingColor,
+	"marketplace": $marketplaceColor,
+);
+
+@mixin color($name, $important: false) {
+	@if $important {
+		color: map.get($theme-colors, $name) !important;
+	} @else {
+		color: map.get($theme-colors, $name);
+	}
 }
 
-@mixin color-business() {
-	color: $businessColor;
-}
+// @mixin color-business($important: false) {
+// 	@if $important {
+// 		color: $businessColor !important;
+// 	} @else {
+// 		color: $businessColor;
+// 	}
+// }
+
+// @mixin color-job($important: false) {
+// 	@if $important {
+// 		color: $jobColor !important;
+// 	} @else {
+// 		color: $jobColor;
+// 	}
+// }
+
+// @mixin color-housing($important: false) {
+// 	@if $important {
+// 		color: $housingColor !important;
+// 	} @else {
+// 		color: $housingColor;
+// 	}
+// }
+
+// @mixin color-marketplace($important: false) {
+// 	@if $important {
+// 		color: $marketplaceColor !important;
+// 	} @else {
+// 		color: $marketplaceColor;
+// 	}
+// }
 
 @mixin border-default() {
 	border: 0.2px solid $grayBorderColor;

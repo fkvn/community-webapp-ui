@@ -1,11 +1,8 @@
 import { Image } from "antd";
-import { useNavigate } from "react-router-dom";
 import { imageNoPhoto, imageThainowLogoRound } from "../../Assest/Asset";
 
 function useImage() {
-	const navigate = useNavigate();
-
-	const image = (inputProps = {}) =>
+	const image = ({ className = "", ...inputProps }, center = true) =>
 		((props = {}) => <Image {...props} />)({
 			width: 45,
 			src: imageThainowLogoRound,
@@ -15,8 +12,8 @@ function useImage() {
 				e.target.style.padding = "0.5rem";
 			},
 			fallback: imageNoPhoto,
+			className: `${className} ${center ? "tedkvn-center" : ""} `,
 			...inputProps,
-			className: `${inputProps.className} tedkvn-center`,
 		});
 
 	return { image };

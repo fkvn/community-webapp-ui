@@ -41,7 +41,49 @@ export const imageSuccess = `${SOURCE_URL}img-success.png?alt=media&token=184f0a
 
 export const imageThainowLogo = `${SOURCE_URL}img-thainow-logo.png?alt=media&token=184f0afc-beb7-4992-9c24-63e3004444ef`;
 
+export const svgThainowLogo = `${SOURCE_URL}svg-thainow-logo.svg?alt=media&token=184f0afc-beb7-4992-9c24-63e3004444ef`;
+
 export const imagePlusGray = `${SOURCE_URL}img-plus.png?alt=media&token=184f0afc-beb7-4992-9c24-63e3004444ef`;
+
+export const imageBannerBg = `${SOURCE_URL}img-banner-bg.png?alt=media&token=184f0afc-beb7-4992-9c24-63e3004444ef`;
+
+export const svgAppleStoreBadgeBlack = `${SOURCE_URL}svg-apple-store-badge-black.svg?alt=media&token=184f0afc-beb7-4992-9c24-63e3004444ef`;
+
+export const svgGooglePlayBadgeBlack = `${SOURCE_URL}svg-google-play-badge-black.svg?alt=media&token=184f0afc-beb7-4992-9c24-63e3004444ef`;
+
+export const svgBusinessIcon = `${SOURCE_URL}svg-business-icon.svg?alt=media&token=184f0afc-beb7-4992-9c24-63e3004444ef`;
+
+export const svgDealIcon = `${SOURCE_URL}svg-deal-icon.svg?alt=media&token=184f0afc-beb7-4992-9c24-63e3004444ef`;
+
+export const svgJobIcon = `${SOURCE_URL}svg-job-icon.svg?alt=media&token=184f0afc-beb7-4992-9c24-63e3004444ef`;
+
+export const svgHousingIcon = `${SOURCE_URL}svg-housing-icon.svg?alt=media&token=184f0afc-beb7-4992-9c24-63e3004444ef`;
+
+export const svgMarketplaceIcon = `${SOURCE_URL}svg-marketplace-icon.svg?alt=media&token=184f0afc-beb7-4992-9c24-63e3004444ef`;
+
+export const svgFacebookLogo = `${SOURCE_URL}svg-logo-facebook.svg?alt=media&token=184f0afc-beb7-4992-9c24-63e3004444ef`;
+
+export const svgYoutubeLogo = `${SOURCE_URL}svg-logo-youtube.svg?alt=media&token=184f0afc-beb7-4992-9c24-63e3004444ef`;
+
+export const svgIgLogo = `${SOURCE_URL}svg-logo-ig.svg?alt=media&token=184f0afc-beb7-4992-9c24-63e3004444ef`;
+
+export const imageDealSample = `${SOURCE_URL}img-deal-sample.jpeg?alt=media&token=184f0afc-beb7-4992-9c24-63e3004444ef`;
+
+export const imageJobSample = `${SOURCE_URL}img-employer-sample.png?alt=media&token=184f0afc-beb7-4992-9c24-63e3004444ef`;
+
+export const imageHousingSample = `${SOURCE_URL}img-housing-sample.jpg?alt=media&token=184f0afc-beb7-4992-9c24-63e3004444ef`;
+
+export const imageMarketplaceSample = `${SOURCE_URL}img-marketplace-sample.jpg?alt=media&token=184f0afc-beb7-4992-9c24-63e3004444ef`;
+
+export const imageTestimonialSample1 = `${SOURCE_URL}img-testimonial-sample-1.jpg?alt=media&token=184f0afc-beb7-4992-9c24-63e3004444ef`;
+
+export const imageTestimonialSample2 = `${SOURCE_URL}img-testimonial-sample-2.jpg?alt=media&token=184f0afc-beb7-4992-9c24-63e3004444ef`;
+
+export const imageTestimonialSample3 = `${SOURCE_URL}img-testimonial-sample-3.jpg?alt=media&token=184f0afc-beb7-4992-9c24-63e3004444ef`;
+
+export const imageTestimonialSample4 = `${SOURCE_URL}img-testimonial-sample-4.jpg?alt=media&token=184f0afc-beb7-4992-9c24-63e3004444ef`;
+
+export const imageTestimonialSample5 = `${SOURCE_URL}img-testimonial-sample-5.jpg?alt=media&token=184f0afc-beb7-4992-9c24-63e3004444ef`;
 
 export const iconLocationBlack = (size = "1rem") => (
 	<svg

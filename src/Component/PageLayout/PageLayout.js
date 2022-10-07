@@ -5,7 +5,7 @@ import RightLayout from "./RightLayout";
 import TopBar from "./TopBar";
 
 function PageLayout({ keywords = "" }) {
-	const { Header, Content, Footer } = Layout;
+	const { Header, Content } = Layout;
 
 	const app = (
 		<Row id="layout">

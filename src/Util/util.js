@@ -265,7 +265,7 @@ export const signInUserPromise = async (channel = "") => {
 	);
 };
 
-export const signoutUserPromise = () => {
+export const signoutUserPromise = async () => {
 	localStorage.removeItem(constVar.THAINOW_USER_OBJ);
 	localStorage.removeItem(constVar.THAINOW_PROFILE_OBJ);
 	patchProfileInfoPromise({}, true);

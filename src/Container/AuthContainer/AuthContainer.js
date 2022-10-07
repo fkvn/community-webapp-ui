@@ -3,7 +3,12 @@ import useAuth from "../../Component/Hook/useAuth";
 import useUrls from "../../Component/Hook/useUrls";
 import { FORWARD_CONTINUE } from "../../Util/ConstVar";
 
-function AuthContainer({ closeUrl = "/", continueUrl = "/", children = {} }) {
+function AuthContainer({
+	closeUrl = "/",
+	continueUrl = "/",
+	successUrl = "/",
+	children = {},
+}) {
 	/* Description
 
 		Prerequisite -> When sign in the following information must be save:
@@ -84,7 +89,9 @@ function AuthContainer({ closeUrl = "/", continueUrl = "/", children = {} }) {
 		if (loading) {
 			auth()
 				.then(() => setLoading(false))
-				.catch(() => forwardUrl(FORWARD_CONTINUE, closeUrl, continueUrl));
+				.catch(() =>
+					forwardUrl(FORWARD_CONTINUE, closeUrl, continueUrl, successUrl)
+				);
 		}
 	});
 

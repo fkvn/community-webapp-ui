@@ -1,9 +1,15 @@
 @import "../base/global";
 
-.c-primary {
-	@include color-primary;
-}
+$typies: "primary", "business", "job", "housing", "marketplace";
 
-.c-business {
-	@include color-business;
+@each $type in $typies {
+	.c {
+		&-#{$type} {
+			@include color($type);
+
+			&-important {
+				@include color($type, true);
+			}
+		}
+	}
 }

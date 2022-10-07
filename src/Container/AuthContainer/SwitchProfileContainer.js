@@ -4,7 +4,11 @@ import AuthContainer from "./AuthContainer";
 
 function SwitchProfileContainer() {
 	const app = (
-		<AuthContainer continueUrl="/signin" successUrl="/switch-profiles">
+		<AuthContainer
+			closeUrl="/"
+			continueUrl="/signin"
+			successUrl="/switch-profiles"
+		>
 			<div id="switch-profiles" className="pb-2">
 				{usePageHeader()}
 				<SwitchProfile />

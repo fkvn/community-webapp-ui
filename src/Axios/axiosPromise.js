@@ -111,6 +111,12 @@ export const removeBusinessProfileAxios = (id = -1) =>
 		.then(() => Promise.resolve())
 		.catch((e) => Promise.reject(e));
 
+export const removeAccountProfileAxios = (id = -1) =>
+	axios
+		.delete(`/profiles/users/${id}`)
+		.then(() => Promise.resolve())
+		.catch((e) => Promise.reject(e));
+
 export const uploadProfileAvatar = async (
 	type = "",
 	id = -1,
