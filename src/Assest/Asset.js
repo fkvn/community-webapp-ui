@@ -51,15 +51,15 @@ export const svgAppleStoreBadgeBlack = `${SOURCE_URL}svg-apple-store-badge-black
 
 export const svgGooglePlayBadgeBlack = `${SOURCE_URL}svg-google-play-badge-black.svg?alt=media&token=184f0afc-beb7-4992-9c24-63e3004444ef`;
 
-export const svgBusinessIcon = `${SOURCE_URL}svg-business-icon.svg?alt=media&token=184f0afc-beb7-4992-9c24-63e3004444ef`;
+export const svgBusinessBadge = `${SOURCE_URL}svg-business-badge.svg?alt=media&token=184f0afc-beb7-4992-9c24-63e3004444ef`;
 
-export const svgDealIcon = `${SOURCE_URL}svg-deal-icon.svg?alt=media&token=184f0afc-beb7-4992-9c24-63e3004444ef`;
+export const svgDealBadge = `${SOURCE_URL}svg-deal-badge.svg?alt=media&token=184f0afc-beb7-4992-9c24-63e3004444ef`;
 
-export const svgJobIcon = `${SOURCE_URL}svg-job-icon.svg?alt=media&token=184f0afc-beb7-4992-9c24-63e3004444ef`;
+export const svgJobBadge = `${SOURCE_URL}svg-job-badge.svg?alt=media&token=184f0afc-beb7-4992-9c24-63e3004444ef`;
 
-export const svgHousingIcon = `${SOURCE_URL}svg-housing-icon.svg?alt=media&token=184f0afc-beb7-4992-9c24-63e3004444ef`;
+export const svgHousingBadge = `${SOURCE_URL}svg-housing-badge.svg?alt=media&token=184f0afc-beb7-4992-9c24-63e3004444ef`;
 
-export const svgMarketplaceIcon = `${SOURCE_URL}svg-marketplace-icon.svg?alt=media&token=184f0afc-beb7-4992-9c24-63e3004444ef`;
+export const svgMarketplaceBadge = `${SOURCE_URL}svg-marketplace-badge.svg?alt=media&token=184f0afc-beb7-4992-9c24-63e3004444ef`;
 
 export const svgFacebookLogo = `${SOURCE_URL}svg-logo-facebook.svg?alt=media&token=184f0afc-beb7-4992-9c24-63e3004444ef`;
 

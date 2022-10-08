@@ -1,6 +1,6 @@
 import { Avatar, Card, Carousel, Grid, List, Space, Typography } from "antd";
 import Meta from "antd/lib/card/Meta";
-import { useState } from "react";
+import React, { useState } from "react";
 import { Stack } from "react-bootstrap";
 import { Route, Routes } from "react-router-dom";
 import {
@@ -14,16 +14,15 @@ import {
 	imageTestimonialSample3,
 	imageTestimonialSample4,
 	imageTestimonialSample5,
-	svgAppleStoreBadgeBlack,
-	svgBusinessIcon,
-	svgDealIcon,
-	svgGooglePlayBadgeBlack,
-	svgHousingIcon,
-	svgJobIcon,
-	svgMarketplaceIcon,
 } from "../../Assest/Asset";
 import global from "../../Assest/Style/scss/base/_global.scss";
-import useImage from "../Hook/useImage";
+import AppStoreBadge from "../Badge/AppStoreBadge";
+import BusinessBadge from "../Badge/BusinessBadge";
+import DealBadge from "../Badge/DealBadge";
+import GooglePlayBadge from "../Badge/GooglePlayBadge";
+import HousingBadge from "../Badge/HousingBadge";
+import JobBadge from "../Badge/JobBadge";
+import MarketplaceBadge from "../Badge/MarketplaceBadge";
 import Footer from "./Footer";
 import NotFoundPage from "./NotFoundPage";
 
@@ -41,31 +40,23 @@ function LeftLayout() {
 		padding: "2rem",
 	};
 
-	const { image } = useImage();
-
 	const { Title } = Typography;
 
 	const resourceItems = [
-		{
-			src: svgBusinessIcon,
-			title: "Thai Business",
-		},
-		{
-			src: svgDealIcon,
-			title: "Local Deal",
-		},
-		{
-			src: svgJobIcon,
-			title: "Hiring Job",
-		},
-		{
-			src: svgHousingIcon,
-			title: "Housing",
-		},
-		{
-			src: svgMarketplaceIcon,
-			title: "Marketplace",
-		},
+		(props = {}) => (
+			<BusinessBadge onClick={() => alert("Business click")} {...props} />
+		),
+		(props = {}) => (
+			<DealBadge onClick={() => alert("Deal click")} {...props} />
+		),
+
+		(props = {}) => <JobBadge onClick={() => alert("Job click")} {...props} />,
+		(props = {}) => (
+			<HousingBadge onClick={() => alert("Housing click")} {...props} />
+		),
+		(props = {}) => (
+			<MarketplaceBadge onClick={() => alert("Marketplace click")} {...props} />
+		),
 	];
 
 	const recommendItems = [
@@ -159,19 +150,8 @@ function LeftLayout() {
 							gap={20}
 							className="pt-5 pb-2 overflow-hidden"
 						>
-							{image({
-								width: "100%",
-								className: "mx-1 mx-lg-3",
-								style: { maxWidth: "8rem" },
-								src: svgAppleStoreBadgeBlack,
-							})}
-
-							{image({
-								width: "100%",
-								className: "mx-1 mx-lg-3",
-								style: { maxWidth: "8.5rem" },
-								src: svgGooglePlayBadgeBlack,
-							})}
+							<AppStoreBadge className="mx-1 mx-lg-3" />
+							<GooglePlayBadge className="mx-1 mx-lg-3" />
 						</Space>
 					</div>
 				</div>
@@ -187,10 +167,11 @@ function LeftLayout() {
 				wrap
 			>
 				{resourceItems.map((item, idx) => (
-					<div className="m-3 m-md-5" style={{ maxWidth: "7rem" }} key={idx}>
-						{image({ width: "3.8rem", src: item.src })}{" "}
-						<Title level={5}>{item.title}</Title>
-					</div>
+					<React.Fragment key={idx}>
+						{item({
+							containerClassName: "m-3 m-md-5",
+						})}
+					</React.Fragment>
 				))}
 			</Space>
 
@@ -265,7 +246,7 @@ function LeftLayout() {
 				<Meta
 					className="text-dark px-4 mt-4"
 					description={
-						<Typography.Paragraph>
+						<Typography.Paragraph italic>
 							{testimonialItems[testimonialIdx].speech}
 						</Typography.Paragraph>
 					}

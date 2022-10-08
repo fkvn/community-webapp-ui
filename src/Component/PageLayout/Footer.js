@@ -1,12 +1,12 @@
 import { Avatar, Card, Divider, Layout, List, Space, Typography } from "antd";
 import {
-	svgAppleStoreBadgeBlack,
 	svgFacebookLogo,
-	svgGooglePlayBadgeBlack,
 	svgIgLogo,
 	svgThainowLogo,
 	svgYoutubeLogo,
 } from "../../Assest/Asset";
+import AppStoreBadge from "../Badge/AppStoreBadge";
+import GooglePlayBadge from "../Badge/GooglePlayBadge";
 import useImage from "../Hook/useImage";
 
 function Footer() {
@@ -104,19 +104,8 @@ function Footer() {
 						Download Now
 					</Title>
 					<Space direction="horizontal" gap={20} className="py-2">
-						{image({
-							width: "100%",
-							// className: "mx-1 mx-lg-3",
-							style: { maxWidth: "8rem", maxHeight: "2.2rem" },
-							src: svgAppleStoreBadgeBlack,
-						})}
-
-						{image({
-							width: "100%",
-							// className: "mx-1 mx-lg-3",
-							style: { maxWidth: "8.5rem", maxHeight: "2.2rem" },
-							src: svgGooglePlayBadgeBlack,
-						})}
+						<AppStoreBadge maxHeight="2.2rem" />
+						<GooglePlayBadge maxHeight="2.2rem" />
 					</Space>
 				</>
 			),

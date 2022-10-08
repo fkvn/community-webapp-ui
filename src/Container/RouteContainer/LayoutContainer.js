@@ -5,11 +5,11 @@ import RightLayout from "../../Component/PageLayout/RightLayout";
 import TopBar from "../../Component/PageLayout/TopBar";
 
 function LayoutContainer() {
-	const { Header, Content, Footer } = Layout;
+	const { Header, Content } = Layout;
 
 	const layout = (
 		<Row id="layout">
-			<Col xs={24}>
+			<Col xs={24} xxl={{ span: 18, offset: 3 }}>
 				<Header
 					className="fixed-top tedkvn-center p-0 d-none d-md-block"
 					style={{ backgroundImage: `url(${imageTopbarBg})` }}
