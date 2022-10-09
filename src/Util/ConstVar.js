@@ -86,6 +86,7 @@ export const PICTURE_PROP = "picture";
 
 export const SEARCH_OBJ = "searchObj";
 export const SEARCH_INPUT_PROP = "input";
+export const SEARCH_TYPE_PROP = "type";
 export const SEARCH_LOCATION_ADDRESS = "address";
 export const SEARCH_BUSINESS = "business";
 export const SEARCH_DEAL = "deals";

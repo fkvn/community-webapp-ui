@@ -17,7 +17,8 @@ import searchIcon from "./Image/Icon/search-icon.png";
 import usPhoneIcon from "./Image/Icon/us-phone-icon.png";
 import userReaderIcon from "./Image/Icon/users-reader-icon.png";
 
-const PRODUCTION_CDN_SOURCE_URL = "";
+const PRODUCTION_CDN_SOURCE_URL =
+	"/cdn/image/thainow-service-worker%2Fconfig%2F";
 const LOCAL_SOURCE_URL =
 	"https://firebasestorage.googleapis.com/v0/b/mono-thainow.appspot.com/o/thainow-service-worker%2Fconfig%2F";
 

@@ -1,15 +1,15 @@
 import { CloseCircleOutlined, SearchOutlined } from "@ant-design/icons";
 import { Form, Input } from "antd";
-import { SEARCH_KEYWORD } from "../../../Util/ConstVar";
+import { SEARCH_INPUT_PROP } from "../../../Util/ConstVar";
 
-const useSearch = (itemProps = {}, inputProps = {}) =>
+const useSearchKeyword = (itemProps = {}, inputProps = {}) =>
 	((props = {}, inputProps = {}) => (
 		<Form.Item {...props}>
 			<Input {...inputProps} />
 		</Form.Item>
 	))(
 		{
-			name: SEARCH_KEYWORD,
+			name: SEARCH_INPUT_PROP,
 			className: "m-0",
 			...itemProps,
 		},
@@ -23,4 +23,4 @@ const useSearch = (itemProps = {}, inputProps = {}) =>
 		}
 	);
 
-export default useSearch;
+export default useSearchKeyword;

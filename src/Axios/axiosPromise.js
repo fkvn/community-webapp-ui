@@ -7,11 +7,19 @@ import {
 	SMS_PROP,
 } from "../Util/ConstVar";
 
-export const findCompany = ({ keywords = "", address = "", placeid = "" }) => {
+export const searchCompanyAxios = async ({
+	keywords = "",
+	address = "",
+	placeid = "",
+}) => {
 	// default search at ThaiTown LA
-	return axios.get(
-		`/search/business?keywords=${keywords}&address=${address}&placeid=${placeid}`
-	);
+	try {
+		return await axios.get(
+			`/search/business?keywords=${keywords}&address=${address}&placeid=${placeid}`
+		);
+	} catch (e) {
+		return await Promise.reject(e);
+	}
 };
 
 //  ===================================================

@@ -24,17 +24,7 @@ import * as constVar from "../../Util/ConstVar";
 import * as actionTypes from "../actionCreator/actionType";
 
 const initialState = {
-	[`${constVar.THAINOW_USER_OBJ}`]: {},
 	[`${constVar.THAINOW_PROFILE_OBJ}`]: {},
-	[`${constVar.THAINOW_USER_SIGN_UP_OBJ}`]: {},
-	[`${constVar.THAINOW_USER_SIGN_IN_OBJ}`]: {
-		[`${constVar.SIGNIN_METHOD_PROP}`]: constVar.EMAIL_PROP,
-	},
-	[`${constVar.THAINOW_COMPANY_SIGN_UP_OBJ}`]: {},
-	[`${constVar.THAINOW_SEARCH_OBJ}`]: {},
-	[`${constVar.THAINOW_OFF_CANVAS_OBJ}`]: {
-		[`${constVar.SHOW_OFF_CANVAS}`]: false,
-	},
 };
 
 // ==================  Reducer helping functions =========================

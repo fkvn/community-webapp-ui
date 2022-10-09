@@ -1,10 +1,8 @@
 import { CloseOutlined } from "@ant-design/icons";
-import { Button, Divider, Form, List, Space, Tag } from "antd";
-import { useState } from "react";
+import { Button, Divider, Form, List, Space } from "antd";
+import React, { useState } from "react";
 import { Stack } from "react-bootstrap";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import global from "../../Assest/Style/scss/base/_global.scss";
-import { findCompany } from "../../Axios/axiosPromise";
 import { patchLocationInfoPromise } from "../../redux-store/dispatchPromise";
 import {
 	ADDRESS_PROP,
@@ -14,15 +12,22 @@ import {
 	SEARCH_DEAL,
 	SEARCH_DEFAULT_LOCATION,
 	SEARCH_HOUSING,
+	SEARCH_INPUT_PROP,
 	SEARCH_JOB,
 	SEARCH_KEYWORD,
 	SEARCH_MARKETPLACE,
 	SEARCH_OBJ,
+	SEARCH_TYPE_PROP,
 } from "../../Util/ConstVar";
+import BusinessBadge from "../Badge/BusinessBadge";
+import DealBadge from "../Badge/DealBadge";
+import HousingBadge from "../Badge/HousingBadge";
+import JobBadge from "../Badge/JobBadge";
+import MarketplaceBadge from "../Badge/MarketplaceBadge";
 import useAddress from "../Hook/FormHook/useAddress";
-import useSearch from "../Hook/FormHook/useSearch";
+import useSearchKeyword from "../Hook/FormHook/useSearchKeyword";
 import useLocation from "../Hook/useLocation";
-import { loadingMessage, successMessage } from "../Hook/useMessage";
+import useSearch from "../Hook/useSearch";
 
 function Search({
 	direction = "",
@@ -42,13 +47,17 @@ function Search({
 
 	const [searchParams] = useSearchParams();
 
-	const keywords = searchParams.get("keywords") || "";
-
 	const [searchType, setSearchType] = useState(
 		searchParams.get("type") || SEARCH_BUSINESS
 	);
 
+	const { dispatchSearch } = useSearch();
+
 	const { getStoredLocation } = useLocation();
+
+	const [recentSearch, setRecentSearch] = useState(
+		JSON.parse(sessionStorage.getItem(SEARCH_OBJ)) || []
+	);
 
 	const getLocation = () => {
 		let addressValue = form.getFieldValue(LOCATION_OBJ)?.[`${ADDRESS_PROP}`];
@@ -76,27 +85,6 @@ function Search({
 		return location;
 	};
 
-	const dispatchSearch = async (type = "") => {
-		loadingMessage(`Searching for ${searchType} in the area ...`, 0, {
-			className: "",
-			style: { marginTop: "8vh" },
-		});
-
-		switch (type) {
-			case SEARCH_BUSINESS:
-				return findCompany({
-					keywords: form.getFieldValue(SEARCH_KEYWORD),
-					...getLocation(),
-				});
-			default:
-				return Promise.reject();
-		}
-	};
-
-	const [recentSearch, setRecentSearch] = useState(
-		JSON.parse(sessionStorage.getItem(SEARCH_OBJ)) || []
-	);
-
 	const addRecentSearch = (keyword = "") => {
 		if (keyword !== "") {
 			setRecentSearch([...recentSearch, keyword]);
@@ -122,28 +110,29 @@ function Search({
 		}
 	};
 
-	const getRecentSearch = () => {
+	const fetchRecentSearch = () => {
 		return recentSearch.map((key, idx) => {
 			return { title: key, idx: idx };
 		});
 	};
 
 	const onSearch = () =>
-		dispatchSearch(searchType).then(() => {
+		dispatchSearch(searchType, {
+			[`${SEARCH_KEYWORD}`]: form.getFieldValue(SEARCH_INPUT_PROP),
+			...getLocation(),
+		}).then(() => {
 			hideOffCanvas();
-			successMessage(`done`, 1, { className: "d-none" }).then(() => {
-				addRecentSearch(form.getFieldValue(SEARCH_KEYWORD));
-				navigate(
-					`/search?type=${searchType}&keywords=${form.getFieldValue(
-						SEARCH_KEYWORD
-					)}`
-				);
-			});
+			addRecentSearch(form.getFieldValue(SEARCH_INPUT_PROP));
+			navigate(
+				`/search?${SEARCH_TYPE_PROP}=${searchType}&${SEARCH_KEYWORD}=${form.getFieldValue(
+					SEARCH_INPUT_PROP
+				)}`
+			);
 		});
 
-	const keyword = useSearch({
+	const keywordInput = useSearchKeyword({
 		className: "w-100 m-0",
-		initialValue: keywords,
+		initialValue: searchParams.get("keywords") || "",
 		...searchProps,
 	});
 
@@ -162,37 +151,46 @@ function Search({
 	);
 
 	const tagItems = [
-		{
-			name: SEARCH_BUSINESS,
-			title: "Business",
-			unCheckedColor: "#9CA3AF",
-			color: global.businessColor,
-			onClick: () => setSearchType("business"),
-		},
-		{
-			name: SEARCH_DEAL,
-			title: "Local Deal",
-			unCheckedColor: "#9CA3AF",
-			color: global.primaryColor,
-		},
-		{
-			name: SEARCH_JOB,
-			title: "Job Hiring",
-			unCheckedColor: "#9CA3AF",
-			color: global.jobColor,
-		},
-		{
-			name: SEARCH_HOUSING,
-			title: "Housing",
-			unCheckedColor: "#9CA3AF",
-			color: global.housingColor,
-		},
-		{
-			name: SEARCH_MARKETPLACE,
-			title: "Marketplace",
-			unCheckedColor: "#9CA3AF",
-			color: global.marketplaceColor,
-		},
+		(props = {}) => (
+			<BusinessBadge
+				type="tag"
+				active={searchType === SEARCH_BUSINESS}
+				onClick={() => setSearchType(SEARCH_BUSINESS)}
+				{...props}
+			/>
+		),
+		(props = {}) => (
+			<DealBadge
+				type="tag"
+				active={searchType === SEARCH_DEAL}
+				onClick={() => setSearchType(SEARCH_DEAL)}
+				{...props}
+			/>
+		),
+		(props = {}) => (
+			<JobBadge
+				type="tag"
+				active={searchType === SEARCH_JOB}
+				onClick={() => setSearchType(SEARCH_JOB)}
+				{...props}
+			/>
+		),
+		(props = {}) => (
+			<HousingBadge
+				type="tag"
+				active={searchType === SEARCH_HOUSING}
+				onClick={() => setSearchType(SEARCH_HOUSING)}
+				{...props}
+			/>
+		),
+		(props = {}) => (
+			<MarketplaceBadge
+				type="tag"
+				active={searchType === SEARCH_MARKETPLACE}
+				onClick={() => setSearchType(SEARCH_MARKETPLACE)}
+				{...props}
+			/>
+		),
 	];
 
 	const app = (
@@ -211,24 +209,12 @@ function Search({
 				direction={direction === "horizontal" ? "horizontal" : "vertical"}
 				gap={gap}
 			>
-				{keyword}
+				{keywordInput}
 				{address}
 				<Divider className="text-muted m-0">Choose category to search </Divider>
 				<Space direction="horizontal " wrap gap={3}>
 					{tagItems.map((tag, idx) => (
-						<Button
-							type="ghost"
-							key={idx}
-							className="p-0 m-0 border-0 rounded lh-base"
-						>
-							<Tag
-								color={tag.name === searchType ? tag.color : tag.unCheckedColor}
-								onClick={() => setSearchType(tag.name)}
-								className="p-1 px-3 m-0 rounded lh-base"
-							>
-								{tag.title}
-							</Tag>
-						</Button>
+						<React.Fragment key={idx}>{tag()}</React.Fragment>
 					))}
 				</Space>
 
@@ -249,7 +235,7 @@ function Search({
 								</div>
 							}
 							itemLayout="horizontal"
-							dataSource={getRecentSearch()}
+							dataSource={fetchRecentSearch()}
 							renderItem={(item) => (
 								<List.Item style={{ borderBottom: "1px solid wheat" }}>
 									<List.Item.Meta

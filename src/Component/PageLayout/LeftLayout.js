@@ -2,7 +2,7 @@ import { Avatar, Card, Carousel, Grid, List, Space, Typography } from "antd";
 import Meta from "antd/lib/card/Meta";
 import React, { useState } from "react";
 import { Stack } from "react-bootstrap";
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, useNavigate } from "react-router-dom";
 import {
 	imageBannerBg,
 	imageDealSample,
@@ -16,6 +16,7 @@ import {
 	imageTestimonialSample5,
 } from "../../Assest/Asset";
 import global from "../../Assest/Style/scss/base/_global.scss";
+import { SEARCH_BUSINESS } from "../../Util/ConstVar";
 import AppStoreBadge from "../Badge/AppStoreBadge";
 import BusinessBadge from "../Badge/BusinessBadge";
 import DealBadge from "../Badge/DealBadge";
@@ -42,9 +43,14 @@ function LeftLayout() {
 
 	const { Title } = Typography;
 
+	const navigate = useNavigate();
+
 	const resourceItems = [
 		(props = {}) => (
-			<BusinessBadge onClick={() => alert("Business click")} {...props} />
+			<BusinessBadge
+				onClick={() => navigate(`/search?type=${SEARCH_BUSINESS}`)}
+				{...props}
+			/>
 		),
 		(props = {}) => (
 			<DealBadge onClick={() => alert("Deal click")} {...props} />
