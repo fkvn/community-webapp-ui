@@ -130,13 +130,16 @@ function Search({
 			);
 		});
 
-	const keywordInput = useSearchKeyword({
-		className: "w-100 m-0",
-		initialValue: searchParams.get("keywords") || "",
-		...searchProps,
-	});
+	const keywordInput = useSearchKeyword(
+		{
+			className: "w-100 m-0",
+			initialValue: searchParams.get("keywords") || "",
+			...searchProps,
+		},
+		{ autoFocus: true }
+	);
 
-	const defaultOptions = [
+	const defaultLocationOptions = [
 		{
 			value: SEARCH_DEFAULT_LOCATION[`${ADDRESS_PROP}`],
 		},
@@ -147,7 +150,7 @@ function Search({
 		{},
 		false,
 		"",
-		defaultOptions
+		defaultLocationOptions
 	);
 
 	const tagItems = [
@@ -223,6 +226,7 @@ function Search({
 						Search
 					</Button>
 				</Form.Item>
+
 				{showRecentSearch && (
 					<>
 						<List
