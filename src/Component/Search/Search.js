@@ -2,7 +2,7 @@ import { CloseOutlined } from "@ant-design/icons";
 import { Button, Divider, Form, List, Space } from "antd";
 import React, { useState } from "react";
 import { Stack } from "react-bootstrap";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import { patchLocationInfoPromise } from "../../redux-store/dispatchPromise";
 import {
 	ADDRESS_PROP,
@@ -12,12 +12,10 @@ import {
 	SEARCH_DEAL,
 	SEARCH_DEFAULT_LOCATION,
 	SEARCH_HOUSING,
-	SEARCH_INPUT_PROP,
 	SEARCH_JOB,
 	SEARCH_KEYWORD,
 	SEARCH_MARKETPLACE,
 	SEARCH_OBJ,
-	SEARCH_TYPE_PROP,
 } from "../../Util/ConstVar";
 import BusinessBadge from "../Badge/BusinessBadge";
 import DealBadge from "../Badge/DealBadge";
@@ -26,7 +24,7 @@ import JobBadge from "../Badge/JobBadge";
 import MarketplaceBadge from "../Badge/MarketplaceBadge";
 import useAddress from "../Hook/FormHook/useAddress";
 import useSearchKeyword from "../Hook/FormHook/useSearchKeyword";
-import useLocation from "../Hook/useLocation";
+import useCurrentLocation from "../Hook/useCurrentLocation";
 import useSearch from "../Hook/useSearch";
 
 function Search({
@@ -53,11 +51,13 @@ function Search({
 
 	const { dispatchSearch } = useSearch();
 
-	const { getStoredLocation } = useLocation();
+	const { getStoredLocation } = useCurrentLocation();
 
 	const [recentSearch, setRecentSearch] = useState(
 		JSON.parse(sessionStorage.getItem(SEARCH_OBJ)) || []
 	);
+
+	const [searching, setSearching] = useState(false);
 
 	const getLocation = () => {
 		let addressValue = form.getFieldValue(LOCATION_OBJ)?.[`${ADDRESS_PROP}`];
@@ -87,10 +87,10 @@ function Search({
 
 	const addRecentSearch = (keyword = "") => {
 		if (keyword !== "") {
-			setRecentSearch([...recentSearch, keyword]);
+			setRecentSearch([...recentSearch, keyword.toString()]);
 			sessionStorage.setItem(
 				SEARCH_OBJ,
-				JSON.stringify([...recentSearch, keyword])
+				JSON.stringify([...recentSearch, keyword.toString()])
 			);
 		}
 	};
@@ -116,19 +116,31 @@ function Search({
 		});
 	};
 
-	const onSearch = () =>
-		dispatchSearch(searchType, {
-			[`${SEARCH_KEYWORD}`]: form.getFieldValue(SEARCH_INPUT_PROP),
-			...getLocation(),
-		}).then(() => {
-			hideOffCanvas();
-			addRecentSearch(form.getFieldValue(SEARCH_INPUT_PROP));
-			navigate(
-				`/search?${SEARCH_TYPE_PROP}=${searchType}&${SEARCH_KEYWORD}=${form.getFieldValue(
-					SEARCH_INPUT_PROP
-				)}`
-			);
-		});
+	const routeLocation = useLocation();
+
+	const onSearch = (keyword = "") =>
+		((callBack = async () => {}) => {
+			setSearching(true);
+			callBack
+				.then(() => {
+					hideOffCanvas();
+					addRecentSearch(keyword);
+					// routeLocation?.pathname !== "/search" &&
+					// 	navigate(
+					// 		`/search?${SEARCH_TYPE_PROP}=${searchType}&${SEARCH_KEYWORD}=${form.getFieldValue(
+					// 			SEARCH_INPUT_PROP
+					// 		)}`
+					// 	);
+				})
+				.finally(() => setSearching(false));
+		})(
+			routeLocation?.pathname === "/search"
+				? dispatchSearch(searchType, {
+						[`${SEARCH_KEYWORD}`]: keyword,
+						...getLocation(),
+				  })
+				: Promise.resolve()
+		);
 
 	const keywordInput = useSearchKeyword(
 		{
@@ -196,6 +208,12 @@ function Search({
 		),
 	];
 
+	const onEnterSearch = (e) => {
+		if (e.keyCode === 13) {
+			onSearch();
+		}
+	};
+
 	const app = (
 		<Form
 			form={form}
@@ -206,6 +224,7 @@ function Search({
 					SEARCH_DEFAULT_LOCATION[`${ADDRESS_PROP}`],
 				[LOCATION_OBJ]: getStoredLocation(),
 			}}
+			onKeyDown={onEnterSearch}
 			{...formProps}
 		>
 			<Stack
@@ -222,7 +241,12 @@ function Search({
 				</Space>
 
 				<Form.Item className="ms-auto m-0" {...itemProps}>
-					<Button type="danger" onClick={onSearch} {...buttonProps}>
+					<Button
+						type="danger"
+						onClick={onSearch}
+						{...buttonProps}
+						disabled={searching}
+					>
 						Search
 					</Button>
 				</Form.Item>
@@ -243,7 +267,15 @@ function Search({
 							renderItem={(item) => (
 								<List.Item style={{ borderBottom: "1px solid wheat" }}>
 									<List.Item.Meta
-										title={<a href="https://ant.design">{item.title}</a>}
+										title={
+											<Button
+												type="link"
+												className="m-0 p-0"
+												// onClick={() => }
+											>
+												{item.title}
+											</Button>
+										}
 									/>
 									<div className="tedkvn-center h-100 px-2">
 										<CloseOutlined

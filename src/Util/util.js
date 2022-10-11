@@ -316,3 +316,12 @@ export const forwardUrl = (
 		},
 	});
 };
+
+export const getSearchParamsObj = (searchParams = {}) => {
+	let currentParamsObj = {};
+	for (const [key, value] of searchParams?.entries()) {
+		currentParamsObj = { ...currentParamsObj, [`${key}`]: value };
+	}
+
+	return currentParamsObj;
+};

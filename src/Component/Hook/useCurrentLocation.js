@@ -1,4 +1,7 @@
+import Icon from "@ant-design/icons";
+import { Space } from "antd";
 import { useSelector } from "react-redux";
+import { iconLocationWhite } from "../../Assest/Asset";
 import { patchLocationInfoPromise } from "../../redux-store/dispatchPromise";
 import {
 	ADDRESS_PROP,
@@ -7,8 +10,9 @@ import {
 	SEARCH_DEFAULT_LOCATION,
 } from "../../Util/ConstVar";
 import { isObjectEmpty } from "../../Util/Util";
+import EllipsisMiddle from "../Typography/EllipsisMiddle";
 
-function useLocation(init = true) {
+function useCurrentLocation(init = true) {
 	const location = useSelector(
 		(state) => state.thainowReducer[`${LOCATION_OBJ}`] || {}
 	);
@@ -45,11 +49,37 @@ function useLocation(init = true) {
 		initLocation();
 	}
 
+	const displayLocation = (
+		props = {
+			onClick: () => {},
+			width: 50,
+			containerClassName: "text-white w-100",
+			iconStyle: {},
+		}
+	) => (
+		<Space
+			direction="horizontal"
+			className={props.containerClassName}
+			onClick={props.onClick}
+		>
+			<Icon
+				component={() => iconLocationWhite(20)}
+				width={props.width}
+				className="tedkvn-center"
+				style={props.iconStyle}
+			/>
+			<EllipsisMiddle suffixCount={5} className="text-white">
+				{location?.[`${ADDRESS_PROP}`]}
+			</EllipsisMiddle>
+		</Space>
+	);
+
 	return {
 		location,
 		initLocation,
 		getStoredLocation,
+		displayLocation,
 	};
 }
 
-export default useLocation;
+export default useCurrentLocation;

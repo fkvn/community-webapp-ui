@@ -68,6 +68,8 @@ export const svgYoutubeLogo = `${SOURCE_URL}svg-logo-youtube.svg?alt=media&token
 
 export const svgIgLogo = `${SOURCE_URL}svg-logo-ig.svg?alt=media&token=184f0afc-beb7-4992-9c24-63e3004444ef`;
 
+export const svgSearchWhiteIcon = `${SOURCE_URL}svg-icon-search-white.svg?alt=media&token=184f0afc-beb7-4992-9c24-63e3004444ef`;
+
 export const imageDealSample = `${SOURCE_URL}img-deal-sample.jpeg?alt=media&token=184f0afc-beb7-4992-9c24-63e3004444ef`;
 
 export const imageJobSample = `${SOURCE_URL}img-employer-sample.png?alt=media&token=184f0afc-beb7-4992-9c24-63e3004444ef`;

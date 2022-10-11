@@ -20,7 +20,7 @@ function MarketplaceBadge({
 	// button tag style -> type ="tag"
 	active = false,
 	activeColor = global.marketplaceColor,
-	defautColor = global.grayColor,
+	defautColor = "gray",
 	buttonClassName = "p-0 m-0 border-0 rounded lh-base",
 	tagClassName = "p-1 px-3 m-0 rounded lh-base",
 

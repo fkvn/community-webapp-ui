@@ -13,14 +13,14 @@ function JobBadge({
 	imgWidth = "3.8rem",
 	imgSrc = svgJobBadge,
 	withTitle = true,
-	title = "Hiring Job",
+	title = "Job Hiring",
 	titleLevel = 5,
 	cursor = "pointer",
 
 	// button tag style -> type ="tag"
 	active = false,
 	activeColor = global.jobColor,
-	defautColor = global.grayColor,
+	defautColor = "gray",
 	buttonClassName = "p-0 m-0 border-0 rounded lh-base",
 	tagClassName = "p-1 px-3 m-0 rounded lh-base",
 

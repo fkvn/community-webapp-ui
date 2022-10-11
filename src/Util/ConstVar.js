@@ -94,6 +94,9 @@ export const SEARCH_JOB = "jobs";
 export const SEARCH_HOUSING = "housings";
 export const SEARCH_MARKETPLACE = "marketplaces";
 export const SEARCH_KEYWORD = "keywords";
+export const SEARCH_SORT = "sort";
+export const SEARCH_SORT_DATE = "Date";
+export const SEARCH_SORT_DISTANCE = "Distance";
 export const SEARCH_DEFAULT_LOCATION = {
 	[`${ADDRESS_PROP}`]: "Thai Town, Los Angeles, CA 90027, USA",
 	[`${PLACEID_PROP}`]: "ChIJf2z2Hle_woARaNaIiR198fg",

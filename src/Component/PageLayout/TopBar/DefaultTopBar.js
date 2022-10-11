@@ -1,39 +1,30 @@
-import Icon, { MenuOutlined } from "@ant-design/icons";
-import { Button, Dropdown, Form, Grid, Menu, Space } from "antd";
+import { MenuOutlined } from "@ant-design/icons";
+import { Button, Dropdown, Form, Grid, Menu } from "antd";
 import { useForm } from "antd/lib/form/Form";
 import $ from "jquery";
 import { useEffect, useState } from "react";
 import { Navbar, Stack } from "react-bootstrap";
 import { useSearchParams } from "react-router-dom";
-import {
-	iconLocationWhite,
-	imageGuestAvatar,
-	imageThainowLogo,
-} from "../../Assest/Asset";
-import {
-	ADDRESS_PROP,
-	PICTURE_PROP,
-	SEARCH_INPUT_PROP,
-} from "../../Util/ConstVar";
-import { isObjectEmpty } from "../../Util/Util";
-import useSearchKeyword from "../Hook/FormHook/useSearchKeyword";
-import useImage from "../Hook/useImage";
-import useLocation from "../Hook/useLocation";
-import useProfile from "../Hook/useProfile";
-import OffCanvasProfile from "../Profile/OffCanvasProfile";
-import OffCanvasSearch from "../Search/OffCanvasSearch";
-import EllipsisMiddle from "../Typography/EllipsisMiddle";
+import { imageGuestAvatar, imageThainowLogo } from "../../../Assest/Asset";
+import { PICTURE_PROP, SEARCH_INPUT_PROP } from "../../../Util/ConstVar";
+import { isObjectEmpty } from "../../../Util/Util";
+import useSearchKeyword from "../../Hook/FormHook/useSearchKeyword";
+import useCurrentLocation from "../../Hook/useCurrentLocation";
+import useImage from "../../Hook/useImage";
+import useProfile from "../../Hook/useProfile";
+import OffCanvasProfile from "../../Profile/OffCanvasProfile";
+import OffCanvasSearch from "../../Search/OffCanvasSearch";
 
-function TopBar() {
+function DefaultTopBar() {
+	const [searchParams] = useSearchParams();
 	const { useBreakpoint } = Grid;
 	const screens = useBreakpoint();
-
 	const [form] = useForm();
-
-	const [searchParams] = useSearchParams();
-
 	const { image } = useImage();
-	const { location } = useLocation(true);
+	const { displayLocation } = useCurrentLocation();
+	const { profile } = useProfile();
+	const [showSearch, setShowSearch] = useState(false);
+	const [showProfile, setShowProfile] = useState(false);
 
 	const menu = (
 		<Menu
@@ -58,7 +49,6 @@ function TopBar() {
 		/>
 	);
 
-	const { profile } = useProfile();
 	const keywordInput = useSearchKeyword(
 		{
 			onClick: () => setShowSearch(true),
@@ -74,16 +64,8 @@ function TopBar() {
 		form.setFieldValue(SEARCH_INPUT_PROP, keywordParam);
 	});
 
-	const [showSearch, setShowSearch] = useState(false);
-	const [showProfile, setShowProfile] = useState(false);
-
 	const app = (
-		<Stack
-			direction="vertical"
-			id="topbar"
-			className="mx-4 mx-lg-5 w-100"
-			gap={2}
-		>
+		<>
 			<Stack direction="horizontal" gap={4}>
 				<Navbar.Brand
 					as="div"
@@ -105,20 +87,10 @@ function TopBar() {
 								<Form form={form} style={{ width: "60%" }}>
 									{keywordInput}
 								</Form>
-								<Space
-									direction="horizontal"
-									className="text-white w-25 h-100 "
-									onClick={() => setShowSearch(true)}
-								>
-									<Icon
-										component={() => iconLocationWhite(20)}
-										width={50}
-										className="tedkvn-center "
-									/>
-									<EllipsisMiddle suffixCount={5} className="text-white">
-										{location?.[`${ADDRESS_PROP}`]}
-									</EllipsisMiddle>
-								</Space>
+								{displayLocation({
+									onClick: () => setShowSearch(true),
+									containerClassName: "text-white w-25 h-100",
+								})}
 							</Stack>
 						</div>
 
@@ -156,21 +128,11 @@ function TopBar() {
 					}}
 				>
 					<Form form={form}>{keywordInput}</Form>
-					<Space
-						direction="horizontal"
-						className="text-white w-100"
-						onClick={() => setShowSearch(true)}
-					>
-						<Icon
-							component={() => iconLocationWhite(20)}
-							width={50}
-							className="tedkvn-center"
-							style={{ margin: "1rem 0" }}
-						/>
-						<EllipsisMiddle suffixCount={5} className="text-white">
-							{location?.[`${ADDRESS_PROP}`]}
-						</EllipsisMiddle>
-					</Space>
+					{displayLocation({
+						onClick: () => setShowSearch(true),
+						containerClassName: "w-75",
+						iconStyle: { margin: "1rem .1rem" },
+					})}
 				</div>
 			)}
 
@@ -179,10 +141,9 @@ function TopBar() {
 				show={showProfile}
 				onHide={() => setShowProfile(false)}
 			/>
-		</Stack>
+		</>
 	);
-
 	return app;
 }
 
-export default TopBar;
+export default DefaultTopBar;

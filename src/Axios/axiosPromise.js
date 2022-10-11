@@ -7,20 +7,24 @@ import {
 	SMS_PROP,
 } from "../Util/ConstVar";
 
-export const searchCompanyAxios = async ({
-	keywords = "",
-	address = "",
-	placeid = "",
-}) => {
-	// default search at ThaiTown LA
-	try {
-		return await axios.get(
-			`/search/business?keywords=${keywords}&address=${address}&placeid=${placeid}`
-		);
-	} catch (e) {
-		return await Promise.reject(e);
-	}
-};
+const controller = new AbortController();
+
+export const searchCompanyAxios = async (params = "") =>
+	axios
+		.get(`/search/business?${params}`)
+		.then(({ data }) => Promise.resolve(data))
+		.catch((e) => Promise.reject(e));
+
+// {
+// 	// default search at ThaiTown LA
+// 	try {
+// 		// return await axios.get(
+// 		// 	`/search/business?keywords=${keywords}&address=${address}&placeid=${placeid}`
+// 		// );
+// 	} catch (e) {
+// 		return await Promise.reject(e);
+// 	}
+// }
 
 //  ===================================================
 
@@ -159,3 +163,5 @@ export const searchCompanyPromise = (
 		params: { keywords: keywords, fetchAll: fetchAll, fetchLimit: fetchLimit },
 	});
 };
+
+controller.abort();
