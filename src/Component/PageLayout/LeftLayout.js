@@ -7,8 +7,6 @@ import NotFoundPage from "./NotFoundPage";
 import SearchResultPage from "./SearchResultPage";
 
 function LeftLayout() {
-	const searchPage = <div className="tedkvn-center"> Searching</div>;
-
 	const app = (
 		<Stack id="LeftLayout" direction="vertical" className="" gap={4}>
 			<Routes>

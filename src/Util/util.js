@@ -210,7 +210,7 @@ export const convertProfileInfo = ({ type = "", user = {}, company = {} }) => {
 };
 
 export const saveProfileInfo = (profile = {}) => {
-	localStorage.setItem(constVar.THAINOW_PROFILE_OBJ, JSON.stringify(profile));
+	localStorage.setItem(constVar.PROFILE_OBJ, JSON.stringify(profile));
 
 	patchProfileInfoPromise(profile, true);
 };
@@ -267,7 +267,7 @@ export const signInUserPromise = async (channel = "") => {
 
 export const signoutUserPromise = async () => {
 	localStorage.removeItem(constVar.THAINOW_USER_OBJ);
-	localStorage.removeItem(constVar.THAINOW_PROFILE_OBJ);
+	localStorage.removeItem(constVar.PROFILE_OBJ);
 	patchProfileInfoPromise({}, true);
 	// window.location.href = "/";
 };
@@ -324,4 +324,52 @@ export const getSearchParamsObj = (searchParams = {}) => {
 	}
 
 	return currentParamsObj;
+};
+
+export const formatTime = (time = "") => {
+	const timeObj = new Date(time);
+
+	if (timeObj == "Invalid Date") return "";
+	const month = timeObj.getMonth() + 1;
+	const date = timeObj.getDate();
+	const year = timeObj.getFullYear();
+
+	const currentTimeObj = new Date();
+
+	// get hours - less than 1hr -> just now
+
+	const hourDiff = Math.abs(
+		Math.round((timeObj.getTime() - currentTimeObj.getTime()) / 1000 / 60 / 60)
+	);
+
+	const dayDiff = Math.abs(Math.round(hourDiff / 24));
+
+	// if > 10 days -> display date
+	if (dayDiff > 10) return month + "/" + date + "/" + year;
+	//  if > 1 day -> display <dayDiff> "d"
+	else if (dayDiff > 1) return dayDiff + " days";
+	// if  > 1 hr -> display <hours>
+	else if (hourDiff > 1) {
+		return hourDiff + " hours";
+	}
+
+	// less than 1hr -> just now
+	return "Just now";
+};
+
+export const formatLocation = (location = {}) => {
+	const locality = location?.[`${constVar.LOCALITY_PROP}`] || "";
+	const zipcode = location?.[`${constVar.ZIP_CODE_PROP}`] || "";
+	const state = location?.[`${constVar.STATE_PROP}`] || "";
+
+	let formattedLocation = "";
+
+	if (locality.length > 0) formattedLocation += locality;
+
+	if (state.length > 0 || zipcode > 0) formattedLocation += ", ";
+
+	if (state.length > 0 && zipcode.length === 0) formattedLocation += state;
+	else formattedLocation += state + " - " + zipcode;
+
+	return formattedLocation;
 };

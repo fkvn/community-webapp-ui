@@ -8,15 +8,14 @@ import {
 	FORWARD_SUCCESS,
 	ID_PROP,
 	PROFILE_NAME_PROP,
-	THAINOW_PROFILE_OBJ,
+	PROFILE_OBJ,
 } from "../../Util/ConstVar";
 import { isObjectEmpty, signoutUserPromise } from "../../Util/Util";
 import { errorMessage, successMessage } from "./useMessage";
 import useUrls from "./useUrls";
 
 function useProfile(init = true) {
-	const storedProfile =
-		JSON.parse(localStorage.getItem(THAINOW_PROFILE_OBJ)) || {};
+	const storedProfile = JSON.parse(localStorage.getItem(PROFILE_OBJ)) || {};
 
 	/* proifle format {
 		id: 1,
@@ -30,7 +29,7 @@ function useProfile(init = true) {
 		type= "USER_PROFILE"
 	} */
 	const profile = useSelector(
-		(state) => state.thainowReducer[`${THAINOW_PROFILE_OBJ}`] || {}
+		(state) => state.thainowReducer[`${PROFILE_OBJ}`] || {}
 	);
 
 	const { forwardUrl } = useUrls();
@@ -50,7 +49,7 @@ function useProfile(init = true) {
 	) =>
 		patchProfileInfoPromise({ ...profile }, true)
 			.then(async () =>
-				localStorage.setItem(THAINOW_PROFILE_OBJ, JSON.stringify(profile))
+				localStorage.setItem(PROFILE_OBJ, JSON.stringify(profile))
 			)
 			.then(() =>
 				successMessage(

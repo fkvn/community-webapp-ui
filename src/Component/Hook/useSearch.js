@@ -1,8 +1,14 @@
+import { useSelector } from "react-redux";
 import { useSearchParams } from "react-router-dom";
 import { searchCompanyAxios } from "../../Axios/axiosPromise";
 import {
+	patchLocationInfoPromise,
+	patchSearchResultInfoPromise,
+} from "../../redux-store/dispatchPromise";
+import {
 	SEARCH_BUSINESS,
 	SEARCH_KEYWORD,
+	SEARCH_RESULT_OBJ,
 	SEARCH_TYPE_PROP,
 } from "../../Util/ConstVar";
 import { getSearchParamsObj } from "../../Util/Util";
@@ -12,6 +18,10 @@ function useSearch() {
 	const [searchParams, setSearchParams] = useSearchParams();
 	const keywordParam = searchParams.get(SEARCH_KEYWORD) || "";
 	const searchTypeParam = searchParams.get(SEARCH_TYPE_PROP) || "";
+
+	const searchResult = useSelector(
+		(state) => state.thainowReducer[`${SEARCH_RESULT_OBJ}`] || {}
+	);
 
 	const searchCompany = (params = "") =>
 		searchCompanyAxios(params).catch((e) => errorMessage(e));
@@ -34,7 +44,8 @@ function useSearch() {
 		if (type !== searchTypeParam) {
 			params = {
 				[`${SEARCH_TYPE_PROP}`]: type,
-				[`${SEARCH_KEYWORD}`]: keywordParam,
+				[`${SEARCH_KEYWORD}`]:
+					params?.[`${SEARCH_KEYWORD}`] || keywordParam || "",
 			};
 		} else {
 			const currentParamsObj = getSearchParamsObj(searchParams);
@@ -47,15 +58,24 @@ function useSearch() {
 
 		params = new URLSearchParams(params);
 
-		return onSearchHandle(type, params.toString()).then(() =>
-			successMessage(`done`, 1, { className: "d-none" }).then(() => {
-				setSearchParams(params);
-				return Promise.resolve();
-			})
+		return onSearchHandle(type, params.toString()).then(
+			({ location = {}, ...result }) =>
+				patchLocationInfoPromise(location).then(() =>
+					patchSearchResultInfoPromise({
+						[`${SEARCH_TYPE_PROP}`]: type,
+						...result,
+					}).then(() =>
+						successMessage(`done`, 1, { className: "d-none" }).then(() => {
+							setSearchParams(params);
+							return Promise.resolve(params);
+						})
+					)
+				)
 		);
 	};
 
 	return {
+		searchResult,
 		dispatchSearch,
 	};
 }

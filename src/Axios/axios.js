@@ -22,7 +22,7 @@ const errorHandler = async (error) => {
 	} else if (error.response.status === 401) {
 		// unauthorized
 		localStorage.removeItem(constVar.THAINOW_USER_OBJ);
-		localStorage.removeItem(constVar.THAINOW_PROFILE_OBJ);
+		localStorage.removeItem(constVar.PROFILE_OBJ);
 
 		const returnError = error.response.data.error;
 		message = error.response.data.message || "Unauthorized";

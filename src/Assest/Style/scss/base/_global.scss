@@ -83,6 +83,14 @@ $theme-colors: (
 	}
 }
 
+@mixin background($name, $important: false) {
+	@if $important {
+		background-color: map.get($theme-colors, $name) !important;
+	} @else {
+		background-color: map.get($theme-colors, $name);
+	}
+}
+
 // @mixin color-business($important: false) {
 // 	@if $important {
 // 		color: $businessColor !important;

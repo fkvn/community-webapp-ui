@@ -33,11 +33,11 @@ function LayoutContainer() {
 
 				<Content>
 					<Row>
-						<Col xs={24} lg={18}>
+						<Col xs={24} lg={18} xxl={{ span: 16, offset: 1 }}>
 							<LeftLayout />
 						</Col>
 						<Col xs={0} lg={6}>
-							<RightLayout style={{ maxWidth: "25%" }} />
+							<RightLayout style={{ maxWidth: screens?.xxl ? "20%" : "25%" }} />
 						</Col>
 					</Row>
 				</Content>

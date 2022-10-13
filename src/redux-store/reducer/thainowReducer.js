@@ -24,7 +24,8 @@ import * as constVar from "../../Util/ConstVar";
 import * as actionTypes from "../actionCreator/actionType";
 
 const initialState = {
-	[`${constVar.THAINOW_PROFILE_OBJ}`]: {},
+	[`${constVar.PROFILE_OBJ}`]: {},
+	[`${constVar.LOCATION_OBJ}`]: constVar.SEARCH_DEFAULT_LOCATION,
 };
 
 // ==================  Reducer helping functions =========================
@@ -86,6 +87,7 @@ const reducer = (state = initialState, action) => {
 		case actionTypes.DISPATCH_PATCH_SIGNIN_USER_INFO:
 		case actionTypes.DISPATCH_PATCH_SIGNUP_USER_INFO:
 		case actionTypes.DISPATCH_PATCH_SIGNUP_COMPANY_INFO:
+		case actionTypes.DISPATCH_PATCH_SEARCH_RESULT_OBJ_INFO:
 		case actionTypes.DISPATCH_PATCH_OFF_CANVAS_INFO:
 			return dispatchPatchStoreRootObjInfo(state, action);
 

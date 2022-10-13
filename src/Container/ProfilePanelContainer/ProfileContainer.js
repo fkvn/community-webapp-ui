@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 import { submitErrorHandlerPromise } from "../../redux-store/dispatchPromise";
-import { THAINOW_PROFILE_OBJ } from "../../Util/ConstVar";
+import { PROFILE_OBJ } from "../../Util/ConstVar";
 
 function ProfileContainer() {
 	const navigate = useNavigate();
@@ -10,12 +10,11 @@ function ProfileContainer() {
 	const continueUrl = location.state?.continue || "/";
 
 	const profile = useSelector(
-		(state) => state.thainowReducer[`${THAINOW_PROFILE_OBJ}`] || {}
+		(state) => state.thainowReducer[`${PROFILE_OBJ}`] || {}
 	);
 
 	useEffect(() => {
-		const storageProfile =
-			JSON.parse(localStorage.getItem(THAINOW_PROFILE_OBJ)) || {};
+		const storageProfile = JSON.parse(localStorage.getItem(PROFILE_OBJ)) || {};
 
 		if (
 			JSON.stringify(storageProfile) === "{}" &&

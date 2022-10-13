@@ -8,6 +8,7 @@ import {
 	ADDRESS_PROP,
 	LOCATION_OBJ,
 	PLACEID_PROP,
+	SEARCH_INPUT_PROP,
 	SEARCH_BUSINESS,
 	SEARCH_DEAL,
 	SEARCH_DEFAULT_LOCATION,
@@ -118,28 +119,29 @@ function Search({
 
 	const routeLocation = useLocation();
 
-	const onSearch = (keyword = "") =>
+	const onSearch = () =>
 		((callBack = async () => {}) => {
 			setSearching(true);
 			callBack
-				.then(() => {
+				.then((params = "") => {
 					hideOffCanvas();
-					addRecentSearch(keyword);
-					// routeLocation?.pathname !== "/search" &&
-					// 	navigate(
-					// 		`/search?${SEARCH_TYPE_PROP}=${searchType}&${SEARCH_KEYWORD}=${form.getFieldValue(
-					// 			SEARCH_INPUT_PROP
-					// 		)}`
-					// 	);
+					addRecentSearch(form.getFieldValue(SEARCH_INPUT_PROP));
+					routeLocation?.pathname !== "/search" &&
+						navigate(`/search?${params}`);
 				})
 				.finally(() => setSearching(false));
 		})(
 			routeLocation?.pathname === "/search"
 				? dispatchSearch(searchType, {
-						[`${SEARCH_KEYWORD}`]: keyword,
+						[`${SEARCH_KEYWORD}`]: form.getFieldValue(SEARCH_INPUT_PROP),
 						...getLocation(),
 				  })
-				: Promise.resolve()
+				: Promise.resolve(
+						new URLSearchParams({
+							[`${SEARCH_KEYWORD}`]: form.getFieldValue(SEARCH_INPUT_PROP),
+							...getLocation(),
+						}).toString()
+				  )
 		);
 
 	const keywordInput = useSearchKeyword(

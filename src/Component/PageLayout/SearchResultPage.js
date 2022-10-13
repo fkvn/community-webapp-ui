@@ -1,25 +1,24 @@
-import {
-	ArrowDownOutlined,
-	CloseOutlined,
-	FilterOutlined,
-} from "@ant-design/icons";
+import { ArrowDownOutlined, CloseOutlined } from "@ant-design/icons";
 import {
 	Button,
+	Card,
 	Col,
 	Divider,
 	Dropdown,
 	Grid,
 	Menu,
 	Row,
+	Skeleton,
 	Space,
 	Tag,
 	Typography,
 } from "antd";
 import React, { useEffect, useState } from "react";
-import { useLocation, useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 import {
 	SEARCH_BUSINESS,
 	SEARCH_DEAL,
+	SEARCH_FETCH_RESULT_PROP,
 	SEARCH_HOUSING,
 	SEARCH_JOB,
 	SEARCH_KEYWORD,
@@ -35,6 +34,7 @@ import HousingBadge from "../Badge/HousingBadge";
 import JobBadge from "../Badge/JobBadge";
 import MarketplaceBadge from "../Badge/MarketplaceBadge";
 import useSearch from "../Hook/useSearch";
+import BusinessCard from "../ServiceCard/BusinessCard";
 
 function SearchResultPage() {
 	const { useBreakpoint } = Grid;
@@ -42,16 +42,22 @@ function SearchResultPage() {
 
 	const { Title } = Typography;
 
-	const [searchParams, setSearchParams] = useSearchParams();
+	const [searchParams] = useSearchParams();
 	const keywordParam = searchParams.get(SEARCH_KEYWORD) || "";
-	const searchTypeParam = searchParams.get(SEARCH_TYPE_PROP) || "";
+	const searchTypeParam = searchParams.get(SEARCH_TYPE_PROP) || SEARCH_BUSINESS;
 	const sortParam = searchParams.get(SEARCH_SORT) || SEARCH_SORT_DATE;
 
-	const { location } = useLocation();
-	const { dispatchSearch } = useSearch();
+	const { searchResult, dispatchSearch } = useSearch();
+
+	const { [`${SEARCH_FETCH_RESULT_PROP}`]: fetchResults = [] } = searchResult;
+
+	const [loading, setLoading] = useState(true);
 
 	useEffect(() => {
-		dispatchSearch();
+		if (loading) {
+			dispatchSearch();
+			setLoading(false);
+		}
 	}, []);
 
 	const tagItems = [
@@ -116,13 +122,13 @@ function SearchResultPage() {
 		</>
 	);
 
-	const [showSearchFilter, setShowSearchFilter] = useState(false);
+	// const [showSearchFilter, setShowSearchFilter] = useState(false);
 
-	const filterBtn = (
-		<Button typeof="ghost" icon={<FilterOutlined />}>
-			{searchTypeParam === SEARCH_BUSINESS ? "Type Business" : "Add Filter"}
-		</Button>
-	);
+	// const filterBtn = (
+	// 	<Button typeof="ghost" icon={<FilterOutlined />}>
+	// 		{searchTypeParam === SEARCH_BUSINESS ? "Type Business" : "Add Filter"}
+	// 	</Button>
+	// );
 
 	const sortOptions = [
 		{
@@ -154,69 +160,89 @@ function SearchResultPage() {
 		</Dropdown>
 	);
 
+	const keywordTag = (
+		<Tag>
+			<div className="tedkvn-center">
+				{keywordParam}
+				<CloseOutlined
+					className="mx-2"
+					style={{
+						cursor: "pointer",
+					}}
+					onClick={() =>
+						dispatchSearch(searchTypeParam, {
+							[`${SEARCH_KEYWORD}`]: "",
+						})
+					}
+				/>
+			</div>
+		</Tag>
+	);
+
 	const resultHeader = (
 		<>
 			<Row justify="space-between" align="middle" className="my-0 my-md-4">
-				{screens?.md && (
-					<>
-						<Col>
-							<Title level={2}>
-								All {keywordParam.length > 0 && `" ${keywordParam} "`} Results
-							</Title>
-						</Col>
-						<Col>
-							<Space direction="horizontal">
-								{filterBtn} {sortBtn}
-							</Space>
-						</Col>
-					</>
-				)}
-				{screens?.xs && (
-					<>
-						<Col span={24}>
-							<Space direction="horizontal">
-								{filterBtn} {sortBtn}
-							</Space>
-						</Col>
-						<Col span={24}>
-							<Title level={3} className="my-4">
-								All {keywordParam.length > 0 && `" ${keywordParam} "`} Results
-							</Title>
-						</Col>{" "}
-					</>
-				)}
+				<Col
+					order={screens?.xs && 2}
+					{...(screens?.xs && { xs: 24, className: "mt-4" })}
+				>
+					<Title level={2}>
+						All {keywordParam.length > 0 && `" ${keywordParam} "`} Results
+					</Title>
+				</Col>
+				<Col>
+					<Space direction="horizontal">
+						{/* {filterBtn}  */}
+						{sortBtn}
+					</Space>
+				</Col>
+
 				{keywordParam.length > 0 && (
-					<Col span={24}>
-						<Tag className="">
-							<div className="tedkvn-center">
-								{keywordParam}
-								<CloseOutlined
-									className="mx-2 pt-1"
-									style={{
-										cursor: "pointer",
-									}}
-									onClick={() =>
-										dispatchSearch(searchTypeParam, {
-											[`${SEARCH_KEYWORD}`]: "",
-										})
-									}
-								/>
-							</div>
-						</Tag>
+					<Col xs={24} order={3}>
+						{keywordTag}
 					</Col>
 				)}
 			</Row>
 		</>
 	);
 
-	const results = <>{resultHeader}</>;
+	const results = (
+		<>
+			{resultHeader}
+			{fetchResults.length > 0 && (
+				<Row gutter={[50, 50]} className="mt-4">
+					{fetchResults.map((rel, idx) => (
+						<Col xs={24} md={12} key={idx}>
+							{searchResult?.[`${SEARCH_TYPE_PROP}`] === SEARCH_BUSINESS && (
+								<BusinessCard card={rel} />
+							)}
+						</Col>
+					))}
+				</Row>
+			)}
+		</>
+	);
+
+	const skeletonCard = (
+		<Card
+			cover={
+				<div className="tedkvn-center mt-5 " style={{ padding: "0 3.3rem" }}>
+					<Skeleton.Avatar shape="circle" size={150} active={true} />
+				</div>
+			}
+			className="m-4 overflow-hidden"
+		>
+			<Skeleton loading={loading} active />
+		</Card>
+	);
 
 	const app = (
-		<div className="m-4">
+		<div className="m-4 overflow-hidden">
 			{screens?.md && header}
-			{results}
+			{loading ? skeletonCard : results}
 		</div>
 	);
+
 	return app;
 }
 

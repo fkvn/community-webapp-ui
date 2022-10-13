@@ -1,5 +1,4 @@
 export const THAINOW_USER_OBJ = "thainow.user";
-export const THAINOW_PROFILE_OBJ = "thainow.profile";
 export const THAINOW_RECENT_SIGN_IN_OBJ = "thainow.recentSignin";
 export const THAINOW_USER_SIGN_UP_OBJ = "thainow.user.signup.info";
 export const THAINOW_COMPANY_SIGN_UP_OBJ = "thainow.company.signup.info";
@@ -40,11 +39,17 @@ export const ICON_NOTIFICATION_BLACK = "notificationBlack";
 export const ICON_THREE_BARS_BLACK = "3barsBlack";
 export const ICON_US_PHONE = "usPhoneIcon";
 
-export const LOCATION_OBJ = "location";
+export const LOCATION_OBJ = "locationObj";
+export const LOCATION_PROP = "location";
+export const LOCALITY_PROP = "locality";
+export const ADDRESS_PROP = "address";
 export const PLACEID_PROP = "placeid";
+export const ZIP_CODE_PROP = "zipcode";
+export const STATE_PROP = "state";
 export const LAT_PROP = "lat";
 export const LNG_PROP = "lng";
 
+export const PROFILE_OBJ = "profileObj";
 export const PROFILE_TYPE_PROP = "type";
 export const PROFILE_GUEST_TYPE_PROP = "guestProfile";
 export const PROFILE_USER_TYPE_PROP = "USER_PROFILE";
@@ -58,19 +63,22 @@ export const VISIT_MY_PROFILE_HANDLER = "visitMyProfileHandler";
 export const ACCESS_TOKEN_PROP = "access_token";
 export const USER_PROP = "user";
 export const ID_PROP = "id";
+export const INFO_PROP = "info";
 export const NAME_PROP = "name";
 export const USERNAME_PROP = "username";
 export const FIRSTNAME_PROP = "firstname";
 export const LASTNAME_PROP = "lastname";
 export const EMAIL_PROP = "email";
 export const EMAIL_VALIDATION = "isValidEmail";
+export const IS_EMAIL_PUBLIC_PROP = "emailPublic";
 export const PHONE_PROP = "phone";
 export const SMS_PROP = "sms";
 export const PHONE_VALIDATION = "isValidPhone";
+export const IS_PHONE_PUBLIC_PROP = "phonePublic";
 export const PASSWORD_PROP = "password";
 export const PASSWORD_VALIDATION = "isValidPassword";
 export const CONFIRM_PASSWORD_VALIDATION = "isPasswordMatch";
-export const ADDRESS_PROP = "address";
+
 export const VERIFICATION_METHOD_PROP = "verifyMethod";
 export const SIGNIN_METHOD_PROP = "channel";
 export const OTP_PROP = "otp";
@@ -82,9 +90,23 @@ export const PENDING_STATUS_PROP = "PENDING";
 export const DISABLED_PROP = "disabled";
 export const AGREEMENT_PROP = "agreement";
 export const WEBSITE_PROP = "website";
+export const IS_WEBSITE_PUBLIC_PROP = "websitePublic";
 export const PICTURE_PROP = "picture";
+export const TOTAL_REVIEW_PROP = "totalReview";
+export const AVG_RATING_PROP = "avgRating";
+export const COVER_PICTURES_PROP = "coverPictures";
+export const DESCRIPTION_PROP = "description";
+export const IS_DESCRIPTION_PUBLIC_PROP = "descriptionPublic";
+export const SIZE_PROP = "size";
+export const IS_SIZE_PUBLIC_PROP = "sizePublic";
+export const UPDATED_ON_PROP = "updatedOn";
+export const STATUS_PROP = "status";
 
 export const SEARCH_OBJ = "searchObj";
+export const SEARCH_RESULT_OBJ = "searchResultObj";
+export const SEARCH_FETCH_RESULT_PROP = "fetchResult";
+export const SEARCH_TOTAL_COUNT_PROP = "totalCount";
+export const SEARCH_TOTAL_PAGE_PROP = "totalPage";
 export const SEARCH_INPUT_PROP = "input";
 export const SEARCH_TYPE_PROP = "type";
 export const SEARCH_LOCATION_ADDRESS = "address";
@@ -180,22 +202,24 @@ export const COMPANY_SIZE_LIST = [
 	"No preference",
 ];
 
-export const COMPANY_PROP = "company";
-export const COMPANY_LIST = "companies";
+// export const COMPANY_PROP = "company";
+// export const COMPANY_LIST = "companies";
 export const COMPANY_INDUSTRY_PROP = "industry";
+export const COMPANY_FOUNDED_PROP = "founded";
 export const COMPANY_NAME_PROP = "name";
-export const COMPANY_ADDRESS_PROP = "address";
-export const COMPANY_INFORMAL_PROP = "informal";
-export const COMPANY_EMAIL_PROP = "email";
-export const COMPANY_EMAIL_VALIDATION = "isValidEmail";
-export const COMPANY_PHONE_PROP = "phone";
-export const COMPANY_PHONE_VALIDATION = "isValidPhone";
-export const COMPANY_WEBSITE_PROP = "website";
-export const COMPANY_WEBSITE_VALIDATION = "isValidWebsite";
-export const COMPANY_SIZE_PROP = "size";
-export const COMPANY_SUBMIT_EXTRA_INFO_VALIDATION = "isSummitExtraInfo";
+export const COMPANY_REVENUE_PROP = "revenue";
 
-export const COMPANY_STATUS_PROP = "status";
+// export const COMPANY_ADDRESS_PROP = "address";
+// export const COMPANY_INFORMAL_PROP = "informal";
+// export const COMPANY_EMAIL_PROP = "email";
+// export const COMPANY_EMAIL_VALIDATION = "isValidEmail";
+// export const COMPANY_PHONE_PROP = "phone";
+// export const COMPANY_PHONE_VALIDATION = "isValidPhone";
+// export const COMPANY_WEBSITE_PROP = "website";
+// export const COMPANY_WEBSITE_VALIDATION = "isValidWebsite";
+
+// export const COMPANY_SUBMIT_EXTRA_INFO_VALIDATION = "isSummitExtraInfo";
+// export const COMPANY_STATUS_PROP = "status";
 
 export const ERROR = "ERROR";
 export const ERROR_MESSAGE = "ERROR_MESSAGE";

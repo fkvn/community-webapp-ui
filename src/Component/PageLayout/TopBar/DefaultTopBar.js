@@ -21,7 +21,7 @@ function DefaultTopBar() {
 	const screens = useBreakpoint();
 	const [form] = useForm();
 	const { image } = useImage();
-	const { displayLocation } = useCurrentLocation();
+	const { displayLocation } = useCurrentLocation(false);
 	const { profile } = useProfile();
 	const [showSearch, setShowSearch] = useState(false);
 	const [showProfile, setShowProfile] = useState(false);

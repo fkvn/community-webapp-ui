@@ -12,4 +12,14 @@ $typies: "primary", "business", "job", "housing", "marketplace";
 			}
 		}
 	}
+
+	.bg {
+		&-#{$type} {
+			@include background($type);
+
+			&-important {
+				@include background($type, true);
+			}
+		}
+	}
 }

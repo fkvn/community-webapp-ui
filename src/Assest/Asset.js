@@ -54,6 +54,10 @@ export const svgGooglePlayBadgeBlack = `${SOURCE_URL}svg-google-play-badge-black
 
 export const svgBusinessBadge = `${SOURCE_URL}svg-business-badge.svg?alt=media&token=184f0afc-beb7-4992-9c24-63e3004444ef`;
 
+export const svgBusinessIcon = `${SOURCE_URL}svg-business-icon.svg?alt=media&token=184f0afc-beb7-4992-9c24-63e3004444ef`;
+
+export const svgBusinessIconWhite = `${SOURCE_URL}svg-business-icon-white.svg?alt=media&token=184f0afc-beb7-4992-9c24-63e3004444ef`;
+
 export const svgDealBadge = `${SOURCE_URL}svg-deal-badge.svg?alt=media&token=184f0afc-beb7-4992-9c24-63e3004444ef`;
 
 export const svgJobBadge = `${SOURCE_URL}svg-job-badge.svg?alt=media&token=184f0afc-beb7-4992-9c24-63e3004444ef`;

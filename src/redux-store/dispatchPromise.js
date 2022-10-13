@@ -27,6 +27,20 @@ export const patchLocationInfoPromise = async (
 	);
 };
 
+export const patchSearchResultInfoPromise = async (
+	{ ...props },
+	replace = false
+) => {
+	return store.dispatch(
+		actionCreators.patchStoreRootObjInfo(
+			actionTypes.DISPATCH_PATCH_SEARCH_RESULT_OBJ_INFO,
+			constVar.SEARCH_RESULT_OBJ,
+			{ ...props },
+			replace
+		)
+	);
+};
+
 //  user
 export const patchUserInfoPromise = async ({ ...props }, replace = false) => {
 	return store.dispatch(
@@ -47,7 +61,7 @@ export const patchProfileInfoPromise = async (
 	return store.dispatch(
 		actionCreators.patchStoreRootObjInfo(
 			actionTypes.DISPATCH_PATCH_PROFILE_INFO,
-			constVar.THAINOW_PROFILE_OBJ,
+			constVar.PROFILE_OBJ,
 			{ ...props },
 			replace
 		)
