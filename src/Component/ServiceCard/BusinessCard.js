@@ -138,10 +138,7 @@ function BusinessCard({ card = DEFAULT_CARD_INFO }) {
 
 	const cover = (
 		<div style={{ position: "relative" }}>
-			<Carousel
-				dots={true}
-				// autoplay
-			>
+			<Carousel dots={true} autoplay>
 				<div style={{ position: "relative" }}>
 					<div className="w-100">
 						{image({

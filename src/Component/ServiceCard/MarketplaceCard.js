@@ -142,10 +142,7 @@ function MarketplaceCard({ card = DEFAULT_CARD_INFO }) {
 
 	const cover = (
 		<div style={{ position: "relative" }}>
-			<Carousel
-				dots={true}
-				// autoplay
-			>
+			<Carousel dots={true} autoplay>
 				{marketplaceInfo?.[`${PICTURE_LIST_PROP}`].map((img, idx) => (
 					<div key={idx}>
 						<div>
