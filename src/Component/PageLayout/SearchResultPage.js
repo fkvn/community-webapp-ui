@@ -35,6 +35,10 @@ import JobBadge from "../Badge/JobBadge";
 import MarketplaceBadge from "../Badge/MarketplaceBadge";
 import useSearch from "../Hook/useSearch";
 import BusinessCard from "../ServiceCard/BusinessCard";
+import DealCard from "../ServiceCard/DealCard";
+import HousingCard from "../ServiceCard/HousingCard";
+import JobCard from "../ServiceCard/JobCard";
+import MarketplaceCard from "../ServiceCard/MarketplaceCard";
 
 function SearchResultPage() {
 	const { useBreakpoint } = Grid;
@@ -55,7 +59,7 @@ function SearchResultPage() {
 
 	useEffect(() => {
 		if (loading) {
-			dispatchSearch();
+			dispatchSearch(searchTypeParam);
 			setLoading(false);
 		}
 	}, []);
@@ -215,6 +219,22 @@ function SearchResultPage() {
 						<Col xs={24} md={12} key={idx}>
 							{searchResult?.[`${SEARCH_TYPE_PROP}`] === SEARCH_BUSINESS && (
 								<BusinessCard card={rel} />
+							)}
+
+							{searchResult?.[`${SEARCH_TYPE_PROP}`] === SEARCH_DEAL && (
+								<DealCard card={rel} />
+							)}
+
+							{searchResult?.[`${SEARCH_TYPE_PROP}`] === SEARCH_JOB && (
+								<JobCard card={rel} />
+							)}
+
+							{searchResult?.[`${SEARCH_TYPE_PROP}`] === SEARCH_HOUSING && (
+								<HousingCard card={rel} />
+							)}
+
+							{searchResult?.[`${SEARCH_TYPE_PROP}`] === SEARCH_MARKETPLACE && (
+								<MarketplaceCard card={rel} />
 							)}
 						</Col>
 					))}

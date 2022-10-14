@@ -8,15 +8,16 @@ import {
 	ADDRESS_PROP,
 	LOCATION_OBJ,
 	PLACEID_PROP,
-	SEARCH_INPUT_PROP,
 	SEARCH_BUSINESS,
 	SEARCH_DEAL,
 	SEARCH_DEFAULT_LOCATION,
 	SEARCH_HOUSING,
+	SEARCH_INPUT_PROP,
 	SEARCH_JOB,
 	SEARCH_KEYWORD,
 	SEARCH_MARKETPLACE,
 	SEARCH_OBJ,
+	SEARCH_TYPE_PROP,
 } from "../../Util/ConstVar";
 import BusinessBadge from "../Badge/BusinessBadge";
 import DealBadge from "../Badge/DealBadge";
@@ -138,6 +139,7 @@ function Search({
 				  })
 				: Promise.resolve(
 						new URLSearchParams({
+							[`${SEARCH_TYPE_PROP}`]: searchType,
 							[`${SEARCH_KEYWORD}`]: form.getFieldValue(SEARCH_INPUT_PROP),
 							...getLocation(),
 						}).toString()

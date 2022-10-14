@@ -60,11 +60,19 @@ export const svgBusinessIconWhite = `${SOURCE_URL}svg-business-icon-white.svg?al
 
 export const svgDealBadge = `${SOURCE_URL}svg-deal-badge.svg?alt=media&token=184f0afc-beb7-4992-9c24-63e3004444ef`;
 
+export const svgDealIconWhite = `${SOURCE_URL}svg-deal-icon-white.svg?alt=media&token=184f0afc-beb7-4992-9c24-63e3004444ef`;
+
 export const svgJobBadge = `${SOURCE_URL}svg-job-badge.svg?alt=media&token=184f0afc-beb7-4992-9c24-63e3004444ef`;
+
+export const svgJobIconWhite = `${SOURCE_URL}svg-job-icon-white.svg?alt=media&token=184f0afc-beb7-4992-9c24-63e3004444ef`;
 
 export const svgHousingBadge = `${SOURCE_URL}svg-housing-badge.svg?alt=media&token=184f0afc-beb7-4992-9c24-63e3004444ef`;
 
+export const svgHousingIconWhite = `${SOURCE_URL}svg-housing-icon-white.svg?alt=media&token=184f0afc-beb7-4992-9c24-63e3004444ef`;
+
 export const svgMarketplaceBadge = `${SOURCE_URL}svg-marketplace-badge.svg?alt=media&token=184f0afc-beb7-4992-9c24-63e3004444ef`;
+
+export const svgMarketplaceIconWhite = `${SOURCE_URL}svg-marketplace-icon-white.svg?alt=media&token=184f0afc-beb7-4992-9c24-63e3004444ef`;
 
 export const svgFacebookLogo = `${SOURCE_URL}svg-logo-facebook.svg?alt=media&token=184f0afc-beb7-4992-9c24-63e3004444ef`;
 
@@ -72,7 +80,7 @@ export const svgYoutubeLogo = `${SOURCE_URL}svg-logo-youtube.svg?alt=media&token
 
 export const svgIgLogo = `${SOURCE_URL}svg-logo-ig.svg?alt=media&token=184f0afc-beb7-4992-9c24-63e3004444ef`;
 
-export const svgSearchWhiteIcon = `${SOURCE_URL}svg-icon-search-white.svg?alt=media&token=184f0afc-beb7-4992-9c24-63e3004444ef`;
+export const svgSearchWhiteIcon = `${SOURCE_URL}svg-search-icon-white.svg?alt=media&token=184f0afc-beb7-4992-9c24-63e3004444ef`;
 
 export const imageDealSample = `${SOURCE_URL}img-deal-sample.jpeg?alt=media&token=184f0afc-beb7-4992-9c24-63e3004444ef`;
 

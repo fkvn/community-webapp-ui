@@ -67,3 +67,28 @@
 .ant-card-body {
 	padding: 1.2rem;
 }
+
+.ant-carousel .slick-dots li.slick-active {
+	width: 2.5rem;
+}
+
+.ant-carousel .slick-dots li {
+	width: 1.5rem;
+}
+
+.ant-carousel .slick-dots li.slick-active button {
+	background: black !important;
+}
+
+.ant-carousel .slick-dots li button {
+	background: black !important;
+	padding: 0.3rem 0.25rem !important;
+	border: 2px solid white !important;
+	border-radius: 1rem !important;
+}
+
+ul.ant-rate li {
+	margin-left: 0;
+	margin-right: 0.4rem !important;
+	padding: 0 !important;
+}

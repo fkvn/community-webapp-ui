@@ -4,6 +4,11 @@ import {
 	PHONE_PROP,
 	PROFILE_BUSINESS_TYPE_PROP,
 	PROFILE_USER_TYPE_PROP,
+	SEARCH_BUSINESS,
+	SEARCH_DEAL,
+	SEARCH_HOUSING,
+	SEARCH_JOB,
+	SEARCH_MARKETPLACE,
 	SMS_PROP,
 } from "../Util/ConstVar";
 
@@ -11,20 +16,33 @@ const controller = new AbortController();
 
 export const searchCompanyAxios = async (params = "") =>
 	axios
-		.get(`/search/business?${params}`)
+		.get(`/search/${SEARCH_BUSINESS}?${params}`)
 		.then(({ data }) => Promise.resolve(data))
 		.catch((e) => Promise.reject(e));
 
-// {
-// 	// default search at ThaiTown LA
-// 	try {
-// 		// return await axios.get(
-// 		// 	`/search/business?keywords=${keywords}&address=${address}&placeid=${placeid}`
-// 		// );
-// 	} catch (e) {
-// 		return await Promise.reject(e);
-// 	}
-// }
+export const searchDealsAxios = async (params = "") =>
+	axios
+		.get(`/search/${SEARCH_DEAL}?${params}`)
+		.then(({ data }) => Promise.resolve(data))
+		.catch((e) => Promise.reject(e));
+
+export const searchJobsAxios = async (params = "") =>
+	axios
+		.get(`/search/${SEARCH_JOB}?${params}`)
+		.then(({ data }) => Promise.resolve(data))
+		.catch((e) => Promise.reject(e));
+
+export const searchHousingsAxios = async (params = "") =>
+	axios
+		.get(`/search/${SEARCH_HOUSING}?${params}`)
+		.then(({ data }) => Promise.resolve(data))
+		.catch((e) => Promise.reject(e));
+
+export const searchMarketplacesAxios = async (params = "") =>
+	axios
+		.get(`/search/${SEARCH_MARKETPLACE}?${params}`)
+		.then(({ data }) => Promise.resolve(data))
+		.catch((e) => Promise.reject(e));
 
 //  ===================================================
 

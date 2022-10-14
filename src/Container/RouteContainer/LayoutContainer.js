@@ -31,7 +31,7 @@ function LayoutContainer() {
 					</Header>
 				)}
 
-				<Content>
+				<Content className="mx-3">
 					<Row>
 						<Col xs={24} lg={18} xxl={{ span: 16, offset: 1 }}>
 							<LeftLayout />

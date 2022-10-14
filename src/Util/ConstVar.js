@@ -101,6 +101,11 @@ export const SIZE_PROP = "size";
 export const IS_SIZE_PUBLIC_PROP = "sizePublic";
 export const UPDATED_ON_PROP = "updatedOn";
 export const STATUS_PROP = "status";
+export const CATEGORY_PROP = "category";
+export const CONTACT_INFO_PROP = "contactInfo";
+export const EXPIRED_ON_PROP = "expiredOn";
+export const TITLE_PROP = "title";
+export const PICTURE_LIST_PROP = "pictures";
 
 export const SEARCH_OBJ = "searchObj";
 export const SEARCH_RESULT_OBJ = "searchResultObj";
@@ -108,7 +113,7 @@ export const SEARCH_FETCH_RESULT_PROP = "fetchResult";
 export const SEARCH_TOTAL_COUNT_PROP = "totalCount";
 export const SEARCH_TOTAL_PAGE_PROP = "totalPage";
 export const SEARCH_INPUT_PROP = "input";
-export const SEARCH_TYPE_PROP = "type";
+export const SEARCH_TYPE_PROP = "searchType";
 export const SEARCH_LOCATION_ADDRESS = "address";
 export const SEARCH_BUSINESS = "business";
 export const SEARCH_DEAL = "deals";
@@ -220,6 +225,131 @@ export const COMPANY_REVENUE_PROP = "revenue";
 
 // export const COMPANY_SUBMIT_EXTRA_INFO_VALIDATION = "isSummitExtraInfo";
 // export const COMPANY_STATUS_PROP = "status";
+
+export const POST_OWNER_PROP = "postOwner";
+export const CREATED_ON_PROP = "createdOn";
+export const DEFAULT_POST_OWNER_INFO = {
+	[`${ID_PROP}`]: -1,
+	[`${TOTAL_REVIEW_PROP}`]: 0,
+	[`${AVG_RATING_PROP}`]: 0,
+	[`${INFO_PROP}`]: {},
+};
+
+export const BUSINESS_HEADLINE_PROP = "Thai Business";
+export const DEFAULT_BUSINESS_INFO = {
+	[`${PICTURE_LIST_PROP}`]: [],
+	[`${DESCRIPTION_PROP}`]: "",
+	[`${IS_DESCRIPTION_PUBLIC_PROP}`]: true,
+	[`${EMAIL_PROP}`]: "",
+	[`${IS_EMAIL_PUBLIC_PROP}`]: true,
+	[`${COMPANY_FOUNDED_PROP}`]: "",
+	[`${COMPANY_INDUSTRY_PROP}`]: "",
+	[`${COMPANY_NAME_PROP}`]: "",
+	[`${PHONE_PROP}`]: "",
+	[`${IS_PHONE_PUBLIC_PROP}`]: true,
+	[`${PICTURE_PROP}`]: "",
+	[`${COMPANY_REVENUE_PROP}`]: "",
+	[`${SIZE_PROP}`]: "",
+	[`${IS_SIZE_PUBLIC_PROP}`]: true,
+	[`${STATUS_PROP}`]: "UNREGISTERED",
+	[`${UPDATED_ON_PROP}`]: "",
+	[`${WEBSITE_PROP}`]: "",
+	[`${IS_WEBSITE_PUBLIC_PROP}`]: true,
+	[`${LOCATION_PROP}`]: {},
+};
+
+export const DEFAULT_CONTACT_INFO = {
+	[`${EMAIL_PROP}`]: "",
+	[`${PHONE_PROP}`]: "",
+	[`${WEBSITE_PROP}`]: "",
+};
+
+export const DEAL_HEADLINE_PROP = "Local Deals";
+export const DEFAULT_DEAL_INFO = {
+	[`${CATEGORY_PROP}`]: "",
+	[`${CONTACT_INFO_PROP}`]: { ...DEFAULT_CONTACT_INFO },
+	[`${EXPIRED_ON_PROP}`]: "",
+	[`${TITLE_PROP}`]: "",
+	[`${PICTURE_LIST_PROP}`]: [],
+	[`${STATUS_PROP}`]: "",
+	[`${UPDATED_ON_PROP}`]: "",
+	[`${DESCRIPTION_PROP}`]: "",
+	[`${LOCATION_PROP}`]: {},
+};
+
+export const JOB_HEADLINE_PROP = "Job Hiring";
+export const EXPERIENCE_PROP = "experience";
+export const POSITION_LIST_PROP = "positions";
+export const REMOTE_PROP = "remote";
+export const SALARY_PROP = "salary";
+export const SKILL_PROP = "skills";
+export const DEFAULT_JOB_CARD = {
+	[`${EXPERIENCE_PROP}`]: "",
+	[`${CONTACT_INFO_PROP}`]: { ...DEFAULT_CONTACT_INFO },
+	[`${EXPIRED_ON_PROP}`]: "",
+	[`${TITLE_PROP}`]: "",
+	[`${PICTURE_LIST_PROP}`]: [],
+	[`${POSITION_LIST_PROP}`]: [],
+	[`${REMOTE_PROP}`]: false,
+	[`${SALARY_PROP}`]: "",
+	[`${SKILL_PROP}`]: "",
+	[`${STATUS_PROP}`]: "",
+	[`${UPDATED_ON_PROP}`]: "",
+	[`${DESCRIPTION_PROP}`]: "",
+	[`${LOCATION_PROP}`]: {},
+};
+
+export const HOUSING_HEADLINE_PROP = "Housing";
+export const AMENITY_LIST_PROP = "amenities";
+export const ANNUAL_COST_PROP = "annualCost";
+export const DALLY_COST_PROP = "dailyCost";
+export const DEPOSIT_COST_PROP = "depositCost";
+export const MONTHLY_COST_PROP = "monthlyCost";
+export const INTERIRO_LIST_PROP = "interior";
+export const HOUSING_TYPE_PROP = "type";
+export const DEFAULT_HOUSING_CARD = {
+	[`${AMENITY_LIST_PROP}`]: [],
+	[`${ANNUAL_COST_PROP}`]: "",
+	[`${DALLY_COST_PROP}`]: "",
+	[`${MONTHLY_COST_PROP}`]: "",
+	[`${DEPOSIT_COST_PROP}`]: "",
+	[`${CATEGORY_PROP}`]: "",
+	[`${CONTACT_INFO_PROP}`]: { ...DEFAULT_CONTACT_INFO },
+	[`${DESCRIPTION_PROP}`]: "",
+	[`${EXPIRED_ON_PROP}`]: "",
+	[`${PICTURE_LIST_PROP}`]: [],
+	[`${INTERIRO_LIST_PROP}`]: [],
+	[`${STATUS_PROP}`]: "",
+	[`${TITLE_PROP}`]: "",
+	[`${HOUSING_TYPE_PROP}`]: "",
+	[`${UPDATED_ON_PROP}`]: "",
+	[`${LOCATION_PROP}`]: {},
+};
+
+export const MARKETPLACE_HEADLINE_PROP = "Marketplace";
+export const CONDITION_PROP = "condition";
+export const COST_PROP = "cost";
+export const DEFAULT_MARKETPLACE_CARD = {
+	[`${CATEGORY_PROP}`]: "",
+	[`${CONDITION_PROP}`]: "",
+	[`${COST_PROP}`]: "",
+	[`${CONTACT_INFO_PROP}`]: { ...DEFAULT_CONTACT_INFO },
+	[`${DESCRIPTION_PROP}`]: "",
+	[`${EXPIRED_ON_PROP}`]: "",
+	[`${PICTURE_LIST_PROP}`]: [],
+	[`${LOCATION_PROP}`]: {},
+	[`${STATUS_PROP}`]: "",
+	[`${TITLE_PROP}`]: "",
+	[`${UPDATED_ON_PROP}`]: "",
+};
+
+export const DEFAULT_CARD_INFO = {
+	[`${ID_PROP}`]: -1,
+	[`${TOTAL_REVIEW_PROP}`]: 0,
+	[`${AVG_RATING_PROP}`]: 0,
+	[`${POST_OWNER_PROP}`]: {},
+	// [`${SEARCH_TYPE_PROP}`]: SEARCH_BUSINESS,
+};
 
 export const ERROR = "ERROR";
 export const ERROR_MESSAGE = "ERROR_MESSAGE";
