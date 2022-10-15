@@ -80,7 +80,7 @@ function DefaultTopBar() {
 					})}
 				</Navbar.Brand>
 
-				{screens?.md && (
+				{!screens?.xs ? (
 					<>
 						<div id="searchbar" className="ms-auto w-100 ">
 							<Stack direction="horizontal" gap={4}>
@@ -100,9 +100,7 @@ function DefaultTopBar() {
 							</Button>
 						</Dropdown>
 					</>
-				)}
-
-				{screens?.xs && (
+				) : (
 					<div className="ms-auto">
 						<div className="tedkvn-center">
 							{image({

@@ -15,9 +15,9 @@ function TopBar() {
 			className="mx-4 mx-lg-5 w-100 overflow-hidden"
 			gap={2}
 		>
-			{screens?.md && <DefaultTopBar />}
-
-			{screens?.xs && (
+			{!screens?.xs ? (
+				<DefaultTopBar />
+			) : (
 				<Routes>
 					<Route path="/search" element={<MobileSearchTopBar />} />
 					<Route path="*" element={<DefaultTopBar />} />

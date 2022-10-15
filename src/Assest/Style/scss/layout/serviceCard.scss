@@ -1,0 +1,14 @@
+#service-card {
+	& div:has(> .service-tag-overlay) {
+		position: relative;
+	}
+
+	& .service-tag-overlay {
+		position: absolute;
+		width: 100%;
+		left: 0%;
+		bottom: 1%;
+		z-index: 800;
+		opacity: "90%";
+	}
+}

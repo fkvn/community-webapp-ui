@@ -82,6 +82,7 @@ function MobileSearchTopBar() {
 				{...props}
 			/>
 		),
+
 		(props = {}) => (
 			<DealBadge
 				type="tag"
@@ -90,6 +91,7 @@ function MobileSearchTopBar() {
 				{...props}
 			/>
 		),
+
 		(props = {}) => (
 			<JobBadge
 				type="tag"
@@ -98,6 +100,7 @@ function MobileSearchTopBar() {
 				{...props}
 			/>
 		),
+
 		(props = {}) => (
 			<HousingBadge
 				type="tag"
@@ -106,6 +109,7 @@ function MobileSearchTopBar() {
 				{...props}
 			/>
 		),
+
 		(props = {}) => (
 			<MarketplaceBadge
 				type="tag"
@@ -199,6 +203,7 @@ function MobileSearchTopBar() {
 					))}
 				</Space>
 			</PageHeader>
+
 			<OffCanvasSearch show={showSearch} onHide={() => setShowSearch(false)} />
 			<OffCanvasProfile
 				show={showProfile}

@@ -5,6 +5,7 @@ import {
 	Card,
 	Carousel,
 	Col,
+	Grid,
 	Rate,
 	Row,
 	Space,
@@ -19,6 +20,7 @@ import {
 	DEFAULT_JOB_CARD,
 	DEFAULT_POST_OWNER_INFO,
 	EXPERIENCE_PROP,
+	ID_PROP,
 	INFO_PROP,
 	JOB_HEADLINE_PROP,
 	LAT_PROP,
@@ -35,6 +37,9 @@ import { formatTime } from "../../Util/Util";
 import useImage from "../Hook/useImage";
 
 function JobCard({ card = DEFAULT_CARD_INFO }) {
+	const { useBreakpoint } = Grid;
+	const screens = useBreakpoint();
+
 	const { info, postOwner, ...rest } = card;
 
 	const postOwnerInfo = { ...DEFAULT_POST_OWNER_INFO, ...postOwner };
@@ -76,39 +81,37 @@ function JobCard({ card = DEFAULT_CARD_INFO }) {
 		<div
 			style={{
 				position: "absolute",
-				maxWidth: "100%",
-				maxHeight: "4rem",
-				padding: ".5rem 1.2rem .5rem 0.5rem",
+				width: "100%",
 				left: 0,
-				bottom: 30,
+				bottom: 5,
 				zIndex: 800,
-				border: "1px solid whitesmoke",
-				borderRadius: "0 1rem 1rem 0rem",
+				opacity: "90%",
 			}}
 			className="bg-job-important"
 		>
-			<Space direction="horizontal">
-				<div className="tedkvn-center">
+			<Space direction="horizontal" className="w-100 p-2 px-3">
+				<div className="tedkvn-center h-100">
 					{image({
-						width: 25,
+						width: screens?.xs ? 15 : 20,
 						src: svgJobIconWhite,
 					})}
 				</div>
 				<Meta
-					{...(jobInfo?.[`${EXPERIENCE_PROP}`]?.length > 0 && {
-						title: (
-							<Typography.Title
-								level={5}
-								className="text-white mb-0 w-100"
-								ellipsis
+					title={
+						<Typography.Title level={5} className="text-white m-0 p-1" ellipsis>
+							<span
+								{...(screens?.xs && {
+									style: { fontSize: ".8rem" },
+								})}
 							>
-								{jobInfo?.[`${EXPERIENCE_PROP}`].toUpperCase()}
-							</Typography.Title>
-						),
-					})}
-					description={
-						<Typography.Title level={5} ellipsis className="text-white m-0 ">
-							{JOB_HEADLINE_PROP}
+								{jobInfo?.[`${EXPERIENCE_PROP}`]?.length > 0 && (
+									<>
+										{jobInfo?.[`${EXPERIENCE_PROP}`].toUpperCase()}
+										{" - "}
+									</>
+								)}{" "}
+								{JOB_HEADLINE_PROP.toUpperCase()}
+							</span>
 						</Typography.Title>
 					}
 				/>
@@ -118,37 +121,42 @@ function JobCard({ card = DEFAULT_CARD_INFO }) {
 
 	const title = (
 		<Meta
-			className="tedkvn-center-left"
+			className="tedkvn-center-left m-0 m-sm-1"
 			avatar={
-				<Avatar src={postOwnerInfo?.[`${INFO_PROP}`]?.[`${PICTURE_PROP}`]} />
+				<Avatar
+					className="m-0 mx-sm-2"
+					size={{ xs: 24 }}
+					src={postOwnerInfo?.[`${INFO_PROP}`]?.[`${PICTURE_PROP}`]}
+				/>
 			}
 			title={
-				<Typography.Title className="m-0 p-0 c-primary-important" level={3}>
+				<Typography.Title
+					className="m-0 p-0 c-primary-important"
+					level={screens?.xs ? 5 : 3}
+				>
 					{postOwner?.[`${INFO_PROP}`]?.[`${NAME_PROP}`]}
 				</Typography.Title>
 			}
-			// description={
-			// 	<small>
-			// 		{postOwnerInfo?.[`${PROFILE_TYPE_PROP}`] ===
-			// 		PROFILE_BUSINESS_TYPE_PROP
-			// 			? postOwner?.[`${INFO_PROP}`]?.[`${COMPANY_INDUSTRY_PROP}`]
-			// 			: `Member since ${formatTime(
-			// 					postOwnerInfo?.[`${INFO_PROP}`]?.[`${CREATED_ON_PROP}`]
-			// 			  )}`}
-			// 	</small>
-			// }
 		/>
 	);
 
 	const cover = (
 		<div style={{ position: "relative" }}>
-			<Carousel dots={true} autoplay>
+			<Carousel
+				dots={{
+					className: "py-5",
+				}}
+				autoplay
+			>
 				{jobInfo?.[`${PICTURE_LIST_PROP}`].map((img, idx) => (
 					<div key={idx}>
 						<div>
 							{image({
 								width: "100%",
-								style: { maxHeight: "18rem", objectFit: "cover" },
+								style: {
+									maxHeight: screens?.xs ? "15rem" : "18rem",
+									objectFit: "cover",
+								},
 								src: img,
 							})}
 						</div>
@@ -163,7 +171,7 @@ function JobCard({ card = DEFAULT_CARD_INFO }) {
 	const body = (
 		<>
 			<Row justify="space-between" className="mb-2">
-				<Col className="w-75">
+				<Col>
 					<Meta
 						title={
 							<Typography.Title level={3} className="m-0 " ellipsis>
@@ -177,7 +185,7 @@ function JobCard({ card = DEFAULT_CARD_INFO }) {
 									defaultValue={cardInfo?.[`${AVG_RATING_PROP}`]}
 									allowHalf
 									style={{ fontSize: "1rem" }}
-									className="c-housing-important m-0"
+									className="c-housing-important m-0 mt-1"
 								/>
 								<span className="ant-rate-text c-housing-important">
 									{cardInfo?.[`${TOTAL_REVIEW_PROP}`]} Reviews
@@ -218,16 +226,20 @@ function JobCard({ card = DEFAULT_CARD_INFO }) {
 		<Typography.Link href="/">
 			<Card
 				title={title}
+				headStyle={{
+					padding: "0 0.5rem",
+				}}
 				style={{ maxWidth: "100%", borderRadius: "1rem" }}
 				className="overflow-hidden"
 				cover={cover}
 				extra={[
 					<Button
+						key={cardInfo?.[`${ID_PROP}`]}
 						type="ghost border-0"
 						icon={
 							<ShareAltOutlined
 								style={{
-									fontSize: "1.4rem",
+									fontSize: screens?.xs ? "1.1rem" : "1.4rem",
 								}}
 								className="c-primary"
 							/>

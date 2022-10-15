@@ -13,16 +13,14 @@ function LayoutContainer() {
 	const layout = (
 		<Row id="layout">
 			<Col xs={24} xxl={{ span: 18, offset: 3 }}>
-				{screens?.md && (
+				{!screens?.xs ? (
 					<Header
 						className="fixed-top tedkvn-center p-0 d-none d-md-block"
 						style={{ backgroundImage: `url(${imageTopbarBg})` }}
 					>
 						<TopBar />
 					</Header>
-				)}
-
-				{screens?.xs && (
+				) : (
 					<Header
 						className="fixed-top tedkvn-center p-0"
 						style={{ backgroundImage: `url(${imageTopbarBgMobile})` }}

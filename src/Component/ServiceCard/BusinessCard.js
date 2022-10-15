@@ -5,22 +5,23 @@ import {
 	Card,
 	Carousel,
 	Col,
+	Grid,
 	Rate,
 	Row,
 	Space,
 	Typography,
 } from "antd";
 import Meta from "antd/lib/card/Meta";
-import { svgBusinessIconWhite } from "../../Assest/Asset";
+import { svgBusinessIcon } from "../../Assest/Asset";
 import {
 	ADDRESS_PROP,
 	AVG_RATING_PROP,
-	BUSINESS_HEADLINE_PROP,
 	COMPANY_INDUSTRY_PROP,
 	COMPANY_NAME_PROP,
 	DEFAULT_BUSINESS_INFO,
 	DEFAULT_CARD_INFO,
 	DESCRIPTION_PROP,
+	ID_PROP,
 	LAT_PROP,
 	LNG_PROP,
 	LOCATION_PROP,
@@ -35,6 +36,9 @@ import { formatTime } from "../../Util/Util";
 import useImage from "../Hook/useImage";
 
 function BusinessCard({ card = DEFAULT_CARD_INFO }) {
+	const { useBreakpoint } = Grid;
+	const screens = useBreakpoint();
+
 	const { info, ...rest } = card;
 
 	const businessInfo = { ...DEFAULT_BUSINESS_INFO, ...info };
@@ -70,43 +74,39 @@ function BusinessCard({ card = DEFAULT_CARD_INFO }) {
 	// 		</Space>
 	// 	</div>
 	// );
-
 	const serviceTagOverlay = (
 		<div
 			style={{
 				position: "absolute",
-				maxWidth: "100%",
-				maxHeight: "4rem",
-				padding: ".5rem 1.2rem .5rem 0.5rem",
+				width: "100%",
 				left: 0,
-				bottom: 30,
-				zIndex: 5000,
-				border: "1px solid whitesmoke",
-				borderRadius: "0 1rem 1rem 0rem",
+				bottom: 5,
+				zIndex: 800,
+				opacity: "90%",
 			}}
-			className="bg-business-important"
+			className="bg-dark"
 		>
-			<Space direction="horizontal">
-				<div className="tedkvn-center">
+			<Space direction="horizontal" className="w-100 p-2 px-3">
+				<div className="tedkvn-center h-100">
 					{image({
-						width: 25,
-						src: svgBusinessIconWhite,
+						width: screens?.xs ? 20 : 25,
+						src: svgBusinessIcon,
 					})}
 				</div>
 				<Meta
-					// className="w-50"
 					title={
 						<Typography.Title
 							level={5}
-							className="text-white mb-0 w-100"
+							className="c-business-important m-0 p-1"
 							ellipsis
 						>
-							{businessInfo?.[`${COMPANY_INDUSTRY_PROP}`].toUpperCase()}
-						</Typography.Title>
-					}
-					description={
-						<Typography.Title className="text-white m-0" level={5} ellipsis>
-							{BUSINESS_HEADLINE_PROP}
+							<span
+								{...(screens?.xs && {
+									style: { fontSize: ".8rem" },
+								})}
+							>
+								{businessInfo?.[`${COMPANY_INDUSTRY_PROP}`].toUpperCase()}
+							</span>
 						</Typography.Title>
 					}
 				/>
@@ -116,23 +116,23 @@ function BusinessCard({ card = DEFAULT_CARD_INFO }) {
 
 	const title = (
 		<Meta
-			className="tedkvn-center-left"
-			avatar={<Avatar src={businessInfo?.[`${PICTURE_PROP}`]} />}
+			className="tedkvn-center-left m-0 m-sm-1"
+			avatar={
+				<Avatar
+					className="m-0 mx-sm-2"
+					size={{ xs: 24 }}
+					src={businessInfo?.[`${PICTURE_PROP}`]}
+				/>
+			}
 			title={
-				<Typography.Title className="m-0 p-0 c-primary-important" level={3}>
+				<Typography.Title
+					className="m-0 p-0 c-primary-important"
+					level={screens?.xs ? 5 : 3}
+					ellipsis
+				>
 					{businessInfo?.[`${NAME_PROP}`]}
 				</Typography.Title>
 			}
-			// description={
-			// 	<small>
-			// 		{postOwnerInfo?.[`${PROFILE_TYPE_PROP}`] ===
-			// 		PROFILE_BUSINESS_TYPE_PROP
-			// 			? postOwner?.[`${INFO_PROP}`]?.[`${COMPANY_INDUSTRY_PROP}`]
-			// 			: `Member since ${formatTime(
-			// 					postOwnerInfo?.[`${INFO_PROP}`]?.[`${CREATED_ON_PROP}`]
-			// 			  )}`}
-			// 	</small>
-			// }
 		/>
 	);
 
@@ -143,7 +143,10 @@ function BusinessCard({ card = DEFAULT_CARD_INFO }) {
 					<div className="w-100">
 						{image({
 							width: "100%",
-							style: { maxHeight: "18rem", objectFit: "cover" },
+							style: {
+								maxHeight: screens?.xs ? "15rem" : "18rem",
+								objectFit: "cover",
+							},
 							src: businessInfo?.[`${PICTURE_PROP}`],
 						})}
 					</div>
@@ -153,7 +156,10 @@ function BusinessCard({ card = DEFAULT_CARD_INFO }) {
 						<div>
 							{image({
 								width: "100%",
-								style: { maxHeight: "18rem", objectFit: "cover" },
+								style: {
+									maxHeight: screens?.xs ? "7.5rem" : "18rem",
+									objectFit: "cover",
+								},
 								src: img,
 							})}
 						</div>
@@ -167,7 +173,7 @@ function BusinessCard({ card = DEFAULT_CARD_INFO }) {
 
 	const body = (
 		<>
-			<Row justify="space-between" align="middle" className="mb-2">
+			<Row justify="space-between" className="mb-2">
 				<Col>
 					<span>
 						<Rate
@@ -189,10 +195,9 @@ function BusinessCard({ card = DEFAULT_CARD_INFO }) {
 				</Col>
 			</Row>
 
-			<Row justify="space-between" className="">
+			<Row justify="space-between">
 				<Col className="w-75">
 					<Meta
-						className="w-75"
 						title={
 							<Typography.Title level={4} className="m-0 mb-1" ellipsis>
 								{businessInfo?.[`${DESCRIPTION_PROP}`]}
@@ -226,16 +231,20 @@ function BusinessCard({ card = DEFAULT_CARD_INFO }) {
 		<Typography.Link href="/">
 			<Card
 				title={title}
+				headStyle={{
+					padding: "0 0.5rem",
+				}}
 				style={{ maxWidth: "100%", borderRadius: "1rem" }}
 				className="overflow-hidden"
 				cover={cover}
 				extra={[
 					<Button
+						key={cardInfo?.[`${ID_PROP}`]}
 						type="ghost border-0"
 						icon={
 							<ShareAltOutlined
 								style={{
-									fontSize: "1.4rem",
+									fontSize: screens?.xs ? "1.1rem" : "1.4rem",
 								}}
 								className="c-primary"
 							/>

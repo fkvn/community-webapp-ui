@@ -71,6 +71,15 @@ body,
 	@include ellipse;
 }
 
+#service-card .ant-card-head {
+	min-height: 2rem !important;
+}
+
+#service-card .ant-card-extra,
+#service-card .ant-card-head-title {
+	padding: 0.5rem;
+}
+
 ::-webkit-scrollbar {
 	-webkit-appearance: none;
 	-webkit-overflow-scrolling: auto;
