@@ -2,7 +2,7 @@ import { Button, Form, PageHeader, Space, Typography } from "antd";
 import { useForm } from "antd/lib/form/Form";
 import $ from "jquery";
 import React, { useEffect, useState } from "react";
-import { useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import {
 	imageGuestAvatar,
 	imageThainowLogo,
@@ -34,6 +34,8 @@ import OffCanvasProfile from "../../Profile/OffCanvasProfile";
 import OffCanvasSearch from "../../Search/OffCanvasSearch";
 
 function MobileSearchTopBar() {
+	const navigate = useNavigate();
+
 	const [searchParams, setSearchParams] = useSearchParams();
 	const keywordParam = searchParams.get(SEARCH_KEYWORD) || "";
 	const searchTypeParam = searchParams.get(SEARCH_TYPE_PROP) || "";
@@ -133,7 +135,7 @@ function MobileSearchTopBar() {
 			<PageHeader
 				ghost={true}
 				className="p-0 mt-3 w-100"
-				onBack={() => window.history.back()}
+				onBack={() => navigate("/")}
 				backIcon={image({
 					src: imageThainowLogo,
 				})}
