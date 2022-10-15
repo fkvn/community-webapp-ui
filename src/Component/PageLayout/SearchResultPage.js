@@ -186,20 +186,17 @@ function SearchResultPage() {
 	const resultHeader = (
 		<>
 			<Row justify="space-between" align="middle" className="my-0 my-md-4">
-				<Col
-					order={screens?.xs && 2}
-					{...(screens?.xs && { xs: 24, className: "mt-4" })}
-				>
+				<Col order={screens?.xs && 2} {...(screens?.xs && { xs: 24 })}>
 					<Title level={2}>
 						All {keywordParam.length > 0 && `" ${keywordParam} "`} Results
 					</Title>
 				</Col>
-				<Col>
+				{/* <Col>
 					<Space direction="horizontal">
-						{/* {filterBtn}  */}
+						{filterBtn} 
 						{sortBtn}
 					</Space>
-				</Col>
+				</Col> */}
 
 				{keywordParam.length > 0 && (
 					<Col xs={24} order={3}>

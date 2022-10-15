@@ -1,4 +1,13 @@
-import { Button, Form, PageHeader, Space, Typography } from "antd";
+import { ArrowDownOutlined } from "@ant-design/icons";
+import {
+	Button,
+	Dropdown,
+	Form,
+	Menu,
+	PageHeader,
+	Space,
+	Typography,
+} from "antd";
 import { useForm } from "antd/lib/form/Form";
 import $ from "jquery";
 import React, { useEffect, useState } from "react";
@@ -17,6 +26,9 @@ import {
 	SEARCH_JOB,
 	SEARCH_KEYWORD,
 	SEARCH_MARKETPLACE,
+	SEARCH_SORT,
+	SEARCH_SORT_DATE,
+	SEARCH_SORT_DISTANCE,
 	SEARCH_TYPE_PROP,
 } from "../../../Util/ConstVar";
 import { isObjectEmpty } from "../../../Util/Util";
@@ -39,6 +51,7 @@ function MobileSearchTopBar() {
 	const [searchParams, setSearchParams] = useSearchParams();
 	const keywordParam = searchParams.get(SEARCH_KEYWORD) || "";
 	const searchTypeParam = searchParams.get(SEARCH_TYPE_PROP) || "";
+	const sortParam = searchParams.get(SEARCH_SORT) || SEARCH_SORT_DATE;
 
 	const { image } = useImage();
 
@@ -122,12 +135,99 @@ function MobileSearchTopBar() {
 		),
 	];
 
+	const activateScrolling = () => {
+		const heightToHideFrom = $("#layout header").outerHeight();
+
+		const threshold = 0;
+		let lastScrollY = window.pageYOffset;
+		let ticking = false;
+
+		const updateScrollDir = () => {
+			const scrollY = window.pageYOffset;
+
+			if (Math.abs(scrollY - lastScrollY) < threshold) {
+				ticking = false;
+				return;
+			}
+
+			if (scrollY > lastScrollY) {
+				$("#layout header").css({
+					transform: "translateY(-100%)",
+					transition: "transform 1s, visibility 1s",
+				});
+
+				$("#layout main").css({
+					"margin-top": "8rem",
+					transform: "margin-top",
+					transition: "transform 1s, visibility 1s",
+				});
+			} else {
+				if (scrollY === 0) {
+					$("#layout main").css({
+						"margin-top": heightToHideFrom + 20,
+						transform: "margin-top",
+					});
+				}
+
+				$("#layout header").css({
+					transform: "translateY(0)",
+				});
+			}
+
+			lastScrollY = scrollY > 0 ? scrollY : 0;
+
+			ticking = false;
+		};
+
+		const onScroll = () => {
+			if (!ticking) {
+				window.requestAnimationFrame(updateScrollDir);
+				ticking = true;
+			}
+		};
+
+		window.addEventListener("scroll", onScroll);
+
+		return () => window.removeEventListener("scroll", onScroll);
+	};
+
+	const sortOptions = [
+		{
+			key: SEARCH_SORT_DATE,
+			label: "Sort by Date",
+		},
+		{
+			key: SEARCH_SORT_DISTANCE,
+			label: "Sort by Distance",
+		},
+	];
+
+	const sortOptionMenu = (
+		<Menu
+			items={sortOptions}
+			onClick={({ key }) =>
+				dispatchSearch(searchTypeParam, {
+					[`${SEARCH_SORT}`]: key,
+				})
+			}
+		/>
+	);
+
+	const sortBtn = (
+		<Dropdown overlay={sortOptionMenu} placement="bottomRight">
+			<Button typeof="ghost" size="small" icon={<ArrowDownOutlined />}>
+				Sort By {sortParam}
+			</Button>
+		</Dropdown>
+	);
+
 	useEffect(() => {
 		$("#layout main").css("margin-top", $("#layout header").height() + 20);
 		const keywordParam = searchParams.get("keywords") || "";
 		if (keywordParam.length > 0) {
 			form.setFieldValue(SEARCH_INPUT_PROP, keywordParam);
 		}
+		activateScrolling();
 	});
 
 	const app = (
@@ -205,6 +305,11 @@ function MobileSearchTopBar() {
 					))}
 				</Space>
 			</PageHeader>
+
+			<Space direction="horizontal" className="mb-2">
+				{/* {filterBtn}  */}
+				{sortBtn}
+			</Space>
 
 			<OffCanvasSearch show={showSearch} onHide={() => setShowSearch(false)} />
 			<OffCanvasProfile
