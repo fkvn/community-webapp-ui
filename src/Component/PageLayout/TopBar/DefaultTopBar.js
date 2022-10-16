@@ -1,30 +1,26 @@
 import { MenuOutlined } from "@ant-design/icons";
-import { Button, Dropdown, Form, Grid, Menu } from "antd";
+import { Button, Dropdown, Form, Menu } from "antd";
 import { useForm } from "antd/lib/form/Form";
 import $ from "jquery";
 import { useEffect, useState } from "react";
 import { Navbar, Stack } from "react-bootstrap";
+import { useSelector } from "react-redux";
 import { useSearchParams } from "react-router-dom";
-import { imageGuestAvatar, imageThainowLogo } from "../../../Assest/Asset";
-import { PICTURE_PROP, SEARCH_INPUT_PROP } from "../../../Util/ConstVar";
-import { isObjectEmpty } from "../../../Util/Util";
+import { imageThainowLogo } from "../../../Assest/Asset";
+import { thainowReducer } from "../../../redux-store/reducer/thainowReducer";
+import { LOCATION_OBJ, SEARCH_INPUT_PROP } from "../../../Util/ConstVar";
 import useSearchKeyword from "../../Hook/FormHook/useSearchKeyword";
 import useCurrentLocation from "../../Hook/useCurrentLocation";
 import useImage from "../../Hook/useImage";
-import useProfile from "../../Hook/useProfile";
-import OffCanvasProfile from "../../Profile/OffCanvasProfile";
 import OffCanvasSearch from "../../Search/OffCanvasSearch";
 
 function DefaultTopBar() {
 	const [searchParams] = useSearchParams();
-	const { useBreakpoint } = Grid;
-	const screens = useBreakpoint();
 	const [form] = useForm();
 	const { image } = useImage();
 	const { displayLocation } = useCurrentLocation(false);
-	const { profile } = useProfile();
+	const { [`${LOCATION_OBJ}`]: location } = useSelector(thainowReducer);
 	const [showSearch, setShowSearch] = useState(false);
-	const [showProfile, setShowProfile] = useState(false);
 
 	const menu = (
 		<Menu
@@ -80,65 +76,32 @@ function DefaultTopBar() {
 					})}
 				</Navbar.Brand>
 
-				{!screens?.xs ? (
-					<>
-						<div id="searchbar" className="ms-auto w-100 ">
-							<Stack direction="horizontal" gap={4}>
-								<Form form={form} style={{ width: "60%" }}>
-									{keywordInput}
-								</Form>
-								{displayLocation({
-									onClick: () => setShowSearch(true),
-									containerClassName: "text-white w-25 h-100",
-								})}
-							</Stack>
-						</div>
-
-						<Dropdown overlay={menu} placement="bottomRight" arrow>
-							<Button className="tedkvn-center bg-white text-primary">
-								<MenuOutlined />
-							</Button>
-						</Dropdown>
-					</>
-				) : (
-					<div className="ms-auto">
-						<div className="tedkvn-center">
-							{image({
-								width: 35,
-								className: "rounded-circle bg-white",
-								style: { padding: ".15rem" },
-								src: isObjectEmpty(profile)
-									? imageGuestAvatar
-									: profile?.info?.[`${PICTURE_PROP}`],
-								onClick: () => setShowProfile(true),
-							})}
-						</div>
-					</div>
-				)}
-			</Stack>
-
-			{screens?.xs && (
-				<div
-					id="mobile-searchbar"
-					className="w-100 mt-1"
-					style={{
-						lineHeight: "normal",
-					}}
-				>
-					<Form form={form}>{keywordInput}</Form>
-					{displayLocation({
-						onClick: () => setShowSearch(true),
-						containerClassName: "w-75",
-						iconStyle: { margin: "1rem .1rem" },
-					})}
+				<div id="searchbar" className="ms-auto w-100 ">
+					<Stack direction="horizontal" gap={4}>
+						<Form form={form} style={{ width: "60%" }}>
+							{keywordInput}
+						</Form>
+						{displayLocation(
+							{
+								onClick: () => setShowSearch(true),
+								containerClassName: "text-white w-25 h-100",
+							},
+							location
+						)}
+					</Stack>
 				</div>
-			)}
 
-			<OffCanvasSearch show={showSearch} onHide={() => setShowSearch(false)} />
-			<OffCanvasProfile
-				show={showProfile}
-				onHide={() => setShowProfile(false)}
-			/>
+				<Dropdown overlay={menu} placement="bottomRight" arrow>
+					<Button className="tedkvn-center bg-white text-primary">
+						<MenuOutlined />
+					</Button>
+				</Dropdown>
+
+				<OffCanvasSearch
+					show={showSearch}
+					onHide={() => setShowSearch(false)}
+				/>
+			</Stack>
 		</>
 	);
 	return app;

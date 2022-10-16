@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import {
 	removeAccountProfileAxios,
@@ -88,9 +89,11 @@ function useProfile(init = true) {
 			)
 			.catch((e) => errorMessage(e));
 
-	if (init) {
-		initProfile();
-	}
+	useEffect(() => {
+		if (init) {
+			initProfile();
+		}
+	}, []);
 
 	const removeAccountProfile = (profile = {}) =>
 		removeAccountProfileAxios(profile?.[`${ID_PROP}`])

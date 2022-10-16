@@ -14,7 +14,9 @@ import {
 	Typography,
 } from "antd";
 import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import { useSearchParams } from "react-router-dom";
+import { thainowReducer } from "../../redux-store/reducer/thainowReducer";
 import {
 	SEARCH_BUSINESS,
 	SEARCH_DEAL,
@@ -23,6 +25,7 @@ import {
 	SEARCH_JOB,
 	SEARCH_KEYWORD,
 	SEARCH_MARKETPLACE,
+	SEARCH_RESULT_OBJ,
 	SEARCH_SORT,
 	SEARCH_SORT_DATE,
 	SEARCH_SORT_DISTANCE,
@@ -51,7 +54,10 @@ function SearchResultPage() {
 	const searchTypeParam = searchParams.get(SEARCH_TYPE_PROP) || SEARCH_BUSINESS;
 	const sortParam = searchParams.get(SEARCH_SORT) || SEARCH_SORT_DATE;
 
-	const { searchResult, dispatchSearch } = useSearch();
+	const { dispatchSearch } = useSearch();
+
+	const { [`${SEARCH_RESULT_OBJ}`]: searchResult = {} } =
+		useSelector(thainowReducer);
 
 	const { [`${SEARCH_FETCH_RESULT_PROP}`]: fetchResults = [] } = searchResult;
 
@@ -191,12 +197,6 @@ function SearchResultPage() {
 						All {keywordParam.length > 0 && `" ${keywordParam} "`} Results
 					</Title>
 				</Col>
-				{/* <Col>
-					<Space direction="horizontal">
-						{filterBtn} 
-						{sortBtn}
-					</Space>
-				</Col> */}
 
 				{keywordParam.length > 0 && (
 					<Col xs={24} order={3}>

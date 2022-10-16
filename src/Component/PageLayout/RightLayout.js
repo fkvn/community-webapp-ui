@@ -10,7 +10,6 @@ import useProfile from "../Hook/useProfile";
 function RightLayout({ showSetting = false, ...props }) {
 	const navigate = useNavigate();
 	const { image } = useImage();
-
 	const { profile } = useProfile();
 
 	const { picture, name, description } = isObjectEmpty(profile)

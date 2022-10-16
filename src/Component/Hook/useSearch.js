@@ -11,14 +11,15 @@ import {
 	patchLocationInfoPromise,
 	patchSearchResultInfoPromise,
 } from "../../redux-store/dispatchPromise";
+import { thainowReducer } from "../../redux-store/reducer/thainowReducer";
 import {
+	LOCATION_OBJ,
 	SEARCH_BUSINESS,
 	SEARCH_DEAL,
 	SEARCH_HOUSING,
 	SEARCH_JOB,
 	SEARCH_KEYWORD,
 	SEARCH_MARKETPLACE,
-	SEARCH_RESULT_OBJ,
 	SEARCH_TYPE_PROP,
 } from "../../Util/ConstVar";
 import { getSearchParamsObj } from "../../Util/Util";
@@ -29,9 +30,7 @@ function useSearch() {
 	const keywordParam = searchParams.get(SEARCH_KEYWORD) || "";
 	const searchTypeParam = searchParams.get(SEARCH_TYPE_PROP) || "";
 
-	const searchResult = useSelector(
-		(state) => state.thainowReducer[`${SEARCH_RESULT_OBJ}`] || {}
-	);
+	const { [`${LOCATION_OBJ}`]: location = {} } = useSelector(thainowReducer);
 
 	const searchCompany = (params = "") =>
 		searchCompanyAxios(params).catch((e) => errorMessage(e));
@@ -65,7 +64,14 @@ function useSearch() {
 		}
 	};
 
+	// console.log(location);
+
 	const dispatchSearch = async (type = SEARCH_BUSINESS, params = {}) => {
+		window.scrollTo({
+			top: 0,
+			behavior: "smooth",
+		});
+
 		loadingMessage(`Searching for ${type} in the area ...`, 0, {
 			className: "",
 			style: { marginTop: "8vh" },
@@ -86,7 +92,14 @@ function useSearch() {
 			};
 		}
 
+		//  add location
+		params = { ...params, ...location };
+
+		console.log("use search");
+
 		params = new URLSearchParams(params);
+
+		console.log(params.toString());
 
 		return onSearchHandle(type, params.toString()).then(
 			async ({ location = {}, ...result }) => {
@@ -103,7 +116,6 @@ function useSearch() {
 	};
 
 	return {
-		searchResult,
 		dispatchSearch,
 	};
 }

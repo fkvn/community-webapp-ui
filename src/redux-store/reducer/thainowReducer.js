@@ -23,9 +23,28 @@
 import * as constVar from "../../Util/ConstVar";
 import * as actionTypes from "../actionCreator/actionType";
 
+export const getStoredLocation = () => {
+	const storedLocation =
+		JSON.parse(sessionStorage.getItem(constVar.LOCATION_OBJ)) || {};
+
+	const address = storedLocation?.[`${constVar.ADDRESS_PROP}`] || "";
+
+	const placeid = storedLocation?.[`${constVar.PLACEID_PROP}`] || "";
+
+	if (address === "" || placeid === "") {
+		return {
+			...constVar.SEARCH_DEFAULT_LOCATION,
+		};
+	}
+
+	return storedLocation;
+};
+
+export const thainowReducer = (state) => state.thainowReducer;
+
 const initialState = {
 	[`${constVar.PROFILE_OBJ}`]: {},
-	[`${constVar.LOCATION_OBJ}`]: constVar.SEARCH_DEFAULT_LOCATION,
+	[`${constVar.LOCATION_OBJ}`]: getStoredLocation(),
 };
 
 // ==================  Reducer helping functions =========================

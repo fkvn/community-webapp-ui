@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { Stack } from "react-bootstrap";
 import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import { patchLocationInfoPromise } from "../../redux-store/dispatchPromise";
+import { getStoredLocation } from "../../redux-store/reducer/thainowReducer";
 import {
 	ADDRESS_PROP,
 	LOCATION_OBJ,
@@ -26,7 +27,6 @@ import JobBadge from "../Badge/JobBadge";
 import MarketplaceBadge from "../Badge/MarketplaceBadge";
 import useAddress from "../Hook/FormHook/useAddress";
 import useSearchKeyword from "../Hook/FormHook/useSearchKeyword";
-import useCurrentLocation from "../Hook/useCurrentLocation";
 import useSearch from "../Hook/useSearch";
 
 function Search({
@@ -53,15 +53,13 @@ function Search({
 
 	const { dispatchSearch } = useSearch();
 
-	const { getStoredLocation } = useCurrentLocation();
-
 	const [recentSearch, setRecentSearch] = useState(
 		JSON.parse(sessionStorage.getItem(SEARCH_OBJ)) || []
 	);
 
 	const [searching, setSearching] = useState(false);
 
-	const getLocation = () => {
+	const fetchLocation = async () => {
 		let addressValue = form.getFieldValue(LOCATION_OBJ)?.[`${ADDRESS_PROP}`];
 
 		let placeidValue = form.getFieldValue(LOCATION_OBJ)?.[`${PLACEID_PROP}`];
@@ -79,12 +77,10 @@ function Search({
 			};
 		}
 
-		patchLocationInfoPromise(location, true).then(() => {
+		return patchLocationInfoPromise(location, true).then(() => {
 			sessionStorage.setItem([`${LOCATION_OBJ}`], JSON.stringify(location));
 			return Promise.resolve();
 		});
-
-		return location;
 	};
 
 	const addRecentSearch = (keyword = "") => {
@@ -132,18 +128,18 @@ function Search({
 				})
 				.finally(() => setSearching(false));
 		})(
-			routeLocation?.pathname === "/search"
-				? dispatchSearch(searchType, {
-						[`${SEARCH_KEYWORD}`]: form.getFieldValue(SEARCH_INPUT_PROP),
-						...getLocation(),
-				  })
-				: Promise.resolve(
-						new URLSearchParams({
-							[`${SEARCH_TYPE_PROP}`]: searchType,
+			fetchLocation().then(() =>
+				routeLocation?.pathname === "/search"
+					? dispatchSearch(searchType, {
 							[`${SEARCH_KEYWORD}`]: form.getFieldValue(SEARCH_INPUT_PROP),
-							...getLocation(),
-						}).toString()
-				  )
+					  })
+					: Promise.resolve(
+							new URLSearchParams({
+								[`${SEARCH_TYPE_PROP}`]: searchType,
+								[`${SEARCH_KEYWORD}`]: form.getFieldValue(SEARCH_INPUT_PROP),
+							}).toString()
+					  )
+			)
 		);
 
 	const keywordInput = useSearchKeyword(
@@ -169,7 +165,7 @@ function Search({
 		defaultLocationOptions
 	);
 
-	const tagItems = [
+	const tagItems = () => [
 		(props = {}) => (
 			<BusinessBadge
 				type="tag"
@@ -239,7 +235,7 @@ function Search({
 				{address}
 				<Divider className="text-muted m-0">Choose category to search </Divider>
 				<Space direction="horizontal " wrap gap={3}>
-					{tagItems.map((tag, idx) => (
+					{tagItems().map((tag, idx) => (
 						<React.Fragment key={idx}>{tag()}</React.Fragment>
 					))}
 				</Space>
