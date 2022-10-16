@@ -50,7 +50,7 @@ import useSearch from "../../Hook/useSearch";
 import OffCanvasProfile from "../../Profile/OffCanvasProfile";
 import OffCanvasSearch from "../../Search/OffCanvasSearch";
 
-function MobileSearchTopBar() {
+function MobileTopBar() {
 	const navigate = useNavigate();
 
 	const [searchParams] = useSearchParams();
@@ -345,4 +345,4 @@ function MobileSearchTopBar() {
 	return app;
 }
 
-export default MobileSearchTopBar;
+export default MobileTopBar;

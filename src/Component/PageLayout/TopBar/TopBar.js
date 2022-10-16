@@ -1,7 +1,7 @@
 import { Grid } from "antd";
 import { Stack } from "react-bootstrap";
 import DefaultTopBar from "./DefaultTopBar";
-import MobileSearchTopBar from "./MobileSearchTopBar";
+import MobileTopBar from "./MobileTopBar";
 
 function TopBar() {
 	const { useBreakpoint } = Grid;
@@ -14,7 +14,7 @@ function TopBar() {
 			className="mx-4 mx-lg-5 w-100 overflow-hidden"
 			gap={2}
 		>
-			{screens?.lg ? <DefaultTopBar /> : <MobileSearchTopBar />}
+			{screens?.lg ? <DefaultTopBar /> : <MobileTopBar />}
 		</Stack>
 	);
 
