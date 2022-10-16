@@ -1,6 +1,9 @@
 import React from "react";
 import { Stack } from "react-bootstrap";
 import { Route, Routes } from "react-router-dom";
+import ProfilePageContainer from "../../Container/ServicePageContainer/ProfilePageContainer";
+import ServicePageContainer from "../../Container/ServicePageContainer/ServicePageContainer";
+import { SEARCH_PROFILE, SEARCH_SERVICE } from "../../Util/ConstVar";
 import Footer from "./Footer";
 import LandingPage from "./LandingPage";
 import NotFoundPage from "./NotFoundPage";
@@ -11,7 +14,12 @@ function LeftLayout() {
 		<Stack id="LeftLayout" direction="vertical" className="" gap={4}>
 			<Routes>
 				<Route path="/" element={<LandingPage />} />
+				<Route
+					path={`/${SEARCH_PROFILE}/:id`}
+					element={<ProfilePageContainer />}
+				/>
 				<Route path="/search" element={<SearchResultPage />} />
+				<Route path={`/${SEARCH_SERVICE}`} element={<ServicePageContainer />} />
 				<Route path="/*" element={<NotFoundPage />} />
 			</Routes>
 			<Footer />

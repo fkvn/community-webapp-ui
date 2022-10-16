@@ -28,6 +28,7 @@ import {
 	NAME_PROP,
 	PICTURE_LIST_PROP,
 	PICTURE_PROP,
+	SEARCH_PROFILE,
 	TOTAL_REVIEW_PROP,
 	UPDATED_ON_PROP,
 } from "../../Util/ConstVar";
@@ -46,34 +47,6 @@ function BusinessCard({ card = DEFAULT_CARD_INFO }) {
 
 	const { image } = useImage();
 
-	// const imageOverlay = (
-	// 	<div
-	// 		style={{
-	// 			width: "100%",
-	// 			position: "absolute",
-	// 			top: 0,
-	// 			right: 0,
-	// 			zIndex: 5000,
-	// 			// borderRadius: "1rem 1rem 0 0",
-	// 			opacity: "70%",
-	// 		}}
-	// 		className="bg-secondary p-1 "
-	// 	>
-	// 		<Space direction="horizontal" className="float-end">
-	// 			<Button
-	// 				type="ghost border-0 mx-3"
-	// 				icon={
-	// 					<ShareAltOutlined
-	// 						style={{
-	// 							fontSize: "1.5rem",
-	// 							color: "white",
-	// 						}}
-	// 					/>
-	// 				}
-	// 			></Button>
-	// 		</Space>
-	// 	</div>
-	// );
 	const serviceTagOverlay = (
 		<div
 			style={{
@@ -228,7 +201,7 @@ function BusinessCard({ card = DEFAULT_CARD_INFO }) {
 	);
 
 	const app = (
-		<Typography.Link href="/">
+		<Typography.Link href={`/${SEARCH_PROFILE}/${cardInfo?.[`${ID_PROP}`]}`}>
 			<Card
 				title={title}
 				headStyle={{

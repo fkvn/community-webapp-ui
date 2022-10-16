@@ -58,8 +58,6 @@ function MobileTopBar() {
 	const searchTypeParam = searchParams.get(SEARCH_TYPE_PROP) || "";
 	const sortParam = searchParams.get(SEARCH_SORT) || SEARCH_SORT_DATE;
 
-	console.log("mobile search");
-
 	const { image } = useImage();
 
 	const [showSearch, setShowSearch] = useState(false);

@@ -10,7 +10,7 @@ function NotFoundPage() {
 			<img
 				src={PageNotFound}
 				alt="not found"
-				className="fluid vw-100 vh-100 "
+				className="fluid "
 				style={{ maxWidth: "100%", maxHeight: "100%" }}
 				onClick={() => navigate("/")}
 			/>
