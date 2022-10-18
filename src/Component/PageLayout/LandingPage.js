@@ -180,7 +180,7 @@ function LandingPage() {
 				{resourceItems.map((item, idx) => (
 					<React.Fragment key={idx}>
 						{item({
-							containerClassName: "m-3 m-md-5",
+							containerClassName: "m-4 m-xxl-5",
 						})}
 					</React.Fragment>
 				))}
@@ -191,7 +191,7 @@ function LandingPage() {
 	const recommendations = (
 		<>
 			<List
-				className="w-100 px-4 px-md-5"
+				className="w-100 px-0 px-xxl-5"
 				grid={{ gutter: 16, xs: 1, column: 2 }}
 				dataSource={recommendItems}
 				renderItem={(item) => (
@@ -222,7 +222,7 @@ function LandingPage() {
 	const testimonials = (
 		<Card
 			title={
-				<Title className="c-primary-important text-center mt-2">
+				<Title className="c-primary-important text-center mt-2 ">
 					Testimonials
 					<div>
 						<svg
@@ -256,7 +256,7 @@ function LandingPage() {
 				</Title>
 			}
 			headStyle={{ border: 0 }}
-			className="m-0 m-md-4 text-center px-0 px-md-5"
+			className="m-0 m-md-4 text-center px-0 px-xxl-5"
 			style={{ backgroundColor: "transparent " }}
 			bordered={false}
 			bodyStyle={{ padding: "0" }}

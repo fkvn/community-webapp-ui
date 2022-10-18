@@ -14,7 +14,7 @@ function LeftLayout() {
 		<Stack
 			id="LeftLayout"
 			direction="vertical"
-			className="m-0 m-md-2 mx-md-4"
+			className="m-0 m-xl-2 mx-xl-4"
 			gap={4}
 		>
 			<Routes>

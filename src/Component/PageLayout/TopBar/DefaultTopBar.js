@@ -55,10 +55,9 @@ function DefaultTopBar() {
 	);
 
 	useEffect(() => {
-		$("#layout main").css("margin-top", $("#layout header").height() + 20);
 		const keywordParam = searchParams.get("keywords") || "";
 		form.setFieldValue(SEARCH_INPUT_PROP, keywordParam);
-		window.addEventListener("scroll", () => {});
+		$("#layout main").css("margin-top", $("#layout header").outerHeight() + 20);
 	});
 
 	const app = (

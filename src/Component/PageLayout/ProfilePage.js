@@ -1,6 +1,5 @@
 import Icon, {
 	AimOutlined,
-	CloseOutlined,
 	LinkOutlined,
 	MailOutlined,
 	MoreOutlined,
@@ -16,6 +15,7 @@ import {
 	Descriptions,
 	Divider,
 	Dropdown,
+	Empty,
 	Grid,
 	Image,
 	Menu,
@@ -24,14 +24,13 @@ import {
 	Row,
 	Segmented,
 	Space,
-	Tag,
 	Typography,
 } from "antd";
 import Meta from "antd/lib/card/Meta";
 import { isEmptyObject } from "jquery";
 import React, { useCallback, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useLocation, useSearchParams } from "react-router-dom";
 import { iconLocationBlack } from "../../Assest/Asset";
 import DealBadge from "../../Component/Badge/DealBadge";
 import HousingBadge from "../../Component/Badge/HousingBadge";
@@ -46,6 +45,7 @@ import {
 	COMPANY_INDUSTRY_PROP,
 	DESCRIPTION_PROP,
 	EMAIL_PROP,
+	FORWARD_CLOSE,
 	ID_PROP,
 	INFO_PROP,
 	IS_DESCRIPTION_PUBLIC_PROP,
@@ -84,6 +84,12 @@ import {
 	WEBSITE_PROP,
 } from "../../Util/ConstVar";
 import { formatTime } from "../../Util/Util";
+import DealCard from "../ServiceCard/DealCard";
+import HousingCard from "../ServiceCard/HousingCard";
+import JobCard from "../ServiceCard/JobCard";
+import MarketplaceCard from "../ServiceCard/MarketplaceCard";
+
+import useUrls from "../../Component/Hook/useUrls";
 
 function ProfilePage({ isOwner = false, profile = {} }) {
 	const {
@@ -97,17 +103,20 @@ function ProfilePage({ isOwner = false, profile = {} }) {
 	const { useBreakpoint } = Grid;
 	const screens = useBreakpoint();
 
-	const navigate = useNavigate();
-
 	const { image } = useImage();
 
 	const [visible, setVisible] = useState(false);
+
+	const { forwardUrl } = useUrls();
+
+	const location = useLocation();
+	console.log(location);
 
 	const header = (
 		<PageHeader
 			ghost={true}
 			className="p-0"
-			onBack={() => navigate(-1)}
+			onBack={() => forwardUrl(FORWARD_CLOSE)}
 			title="Back"
 		/>
 	);
@@ -230,7 +239,7 @@ function ProfilePage({ isOwner = false, profile = {} }) {
 			label: <AimOutlined />,
 			title: (
 				<Typography.Link>
-					{info?.[`${COMPANY_INDUSTRY_PROP}`] || (
+					{info?.[`${COMPANY_INDUSTRY_PROP}`] + " Business " || (
 						<span className="text-secondary">Unavailable</span>
 					)}
 				</Typography.Link>
@@ -302,9 +311,13 @@ function ProfilePage({ isOwner = false, profile = {} }) {
 			  ]
 			: []),
 		{
-			label: <Typography.Text type="secondary">Last updated:</Typography.Text>,
+			label: (
+				<Typography.Text type="secondary" className="mt-2">
+					Last updated:
+				</Typography.Text>
+			),
 			title: (
-				<Typography.Text type="secondary">
+				<Typography.Text type="secondary" className="mt-2">
 					{formatTime(info?.[`${UPDATED_ON_PROP}`])}
 				</Typography.Text>
 			),
@@ -394,7 +407,7 @@ function ProfilePage({ isOwner = false, profile = {} }) {
 
 	const initSearch = useCallback(
 		async (actionType = SEARCH_SERVICE) => {
-			if (actionType === SEARCH_SERVICE) {
+			if (actionCall?.searching && actionType === SEARCH_SERVICE) {
 				dispatchSearch(
 					searchTypeParam,
 					{
@@ -403,19 +416,17 @@ function ProfilePage({ isOwner = false, profile = {} }) {
 					false
 				);
 			}
+			setActionCall({
+				actionType: actionType,
+				searching: false,
+			});
 		},
-		[dispatchSearch, id, searchTypeParam]
+		[actionCall?.searching, dispatchSearch, id, searchTypeParam]
 	);
 
 	useEffect(() => {
-		if (actionCall?.searching) {
-			initSearch();
-			setActionCall({
-				actionType: SEARCH_SERVICE,
-				searching: false,
-			});
-		}
-	}, [actionCall?.searching]);
+		initSearch();
+	}, []);
 
 	const serviceTagItems = [
 		(props = {}) => (
@@ -454,25 +465,6 @@ function ProfilePage({ isOwner = false, profile = {} }) {
 			/>
 		),
 	];
-
-	const searchKeywordTag = (
-		<Tag>
-			<div className="tedkvn-center">
-				{keywordParam}
-				<CloseOutlined
-					className="mx-2"
-					style={{
-						cursor: "pointer",
-					}}
-					onClick={() =>
-						dispatchSearch(searchTypeParam, {
-							[`${SEARCH_KEYWORD}`]: "",
-						})
-					}
-				/>
-			</div>
-		</Tag>
-	);
 
 	const serviceTitle = (
 		<Space
@@ -544,17 +536,49 @@ function ProfilePage({ isOwner = false, profile = {} }) {
 						serviceResultHeaderMenu
 					)}
 				</Col>
-
-				{keywordParam.length > 0 && (
-					<Col xs={24} order={3}>
-						{searchKeywordTag}
-					</Col>
-				)}
 			</Row>
 		</>
 	);
 
-	const serviceResult = <>{serviceResultHeader}</>;
+	const tableServiceResult = <></>;
+
+	const cardServiceResult =
+		fetchResults.length > 0 ? (
+			<Row gutter={[{ xs: 20, sm: 50 }, 50]} className="mt-4">
+				{fetchResults.map((rel, idx) => (
+					<Col xs={24} sm={12} key={idx} id="service-card">
+						{searchResult?.[`${SEARCH_TYPE_PROP}`] === SEARCH_DEAL && (
+							<DealCard card={rel} />
+						)}
+
+						{searchResult?.[`${SEARCH_TYPE_PROP}`] === SEARCH_JOB && (
+							<JobCard card={rel} />
+						)}
+
+						{searchResult?.[`${SEARCH_TYPE_PROP}`] === SEARCH_HOUSING && (
+							<HousingCard card={rel} />
+						)}
+
+						{searchResult?.[`${SEARCH_TYPE_PROP}`] === SEARCH_MARKETPLACE && (
+							<MarketplaceCard card={rel} />
+						)}
+					</Col>
+				))}
+			</Row>
+		) : (
+			<Empty
+				description={`This profile hasn't posted any ${
+					searchResult?.[`${SEARCH_TYPE_PROP}`]
+				} yet`}
+			/>
+		);
+
+	const serviceResult = (
+		<>
+			{serviceResultHeader}
+			{isOwner ? <></> : cardServiceResult}
+		</>
+	);
 
 	const action = {
 		[`${SEARCH_SERVICE}`]: {
@@ -591,6 +615,7 @@ function ProfilePage({ isOwner = false, profile = {} }) {
 			block
 			options={actionTitleOptions}
 			onChange={(value) => {
+				console.log("vasd");
 				if (value !== actionCall?.actionType) {
 					setActionCall({
 						actionType: value,

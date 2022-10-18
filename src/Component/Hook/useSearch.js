@@ -1,5 +1,5 @@
 import { useSelector } from "react-redux";
-import { useSearchParams } from "react-router-dom";
+import { useLocation, useSearchParams } from "react-router-dom";
 import {
 	searchCompanyAxios,
 	searchDealsAxios,
@@ -26,9 +26,11 @@ import { getSearchParamsObj } from "../../Util/Util";
 import { errorMessage, loadingMessage, successMessage } from "./useMessage";
 
 function useSearch() {
-	const [searchParams, setSearchParams] = useSearchParams();
+	const [searchParams, setSearchParams] = useSearchParams({ replace: false });
 	const keywordParam = searchParams.get(SEARCH_KEYWORD) || "";
 	const searchTypeParam = searchParams.get(SEARCH_TYPE_PROP) || "";
+
+	const routeState = useLocation()?.state || {};
 
 	const { [`${LOCATION_OBJ}`]: location = {} } = useSelector(thainowReducer);
 
@@ -96,6 +98,8 @@ function useSearch() {
 			};
 		}
 
+		console.log(searchParams);
+
 		//  add location
 		params = { ...params, ...location };
 
@@ -103,7 +107,9 @@ function useSearch() {
 
 		return onSearchHandle(type, params.toString()).then(
 			async ({ location = {}, ...result }) => {
-				setSearchParams(params);
+				setSearchParams(params, {
+					state: { ...routeState },
+				});
 
 				return patchLocationInfoPromise(location).then(() =>
 					patchSearchResultInfoPromise({

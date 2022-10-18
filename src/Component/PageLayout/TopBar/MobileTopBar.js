@@ -4,6 +4,7 @@ import {
 	Col,
 	Dropdown,
 	Form,
+	Grid,
 	Menu,
 	PageHeader,
 	Row,
@@ -51,6 +52,9 @@ import OffCanvasProfile from "../../Profile/OffCanvasProfile";
 import OffCanvasSearch from "../../Search/OffCanvasSearch";
 
 function MobileTopBar() {
+	const { useBreakpoint } = Grid;
+	const screens = useBreakpoint();
+
 	const navigate = useNavigate();
 
 	const [searchParams] = useSearchParams();
@@ -136,6 +140,7 @@ function MobileTopBar() {
 
 	const activateScrolling = () => {
 		const heightToHideFrom = $("#layout header").outerHeight();
+		console.log("calling");
 
 		const threshold = 0;
 		let lastScrollY = window.pageYOffset;
@@ -193,7 +198,7 @@ function MobileTopBar() {
 
 		window.addEventListener("scroll", onScroll);
 
-		return () => window.removeEventListener("scroll", onScroll);
+		return onScroll;
 	};
 
 	const sortOptions = [
@@ -227,12 +232,13 @@ function MobileTopBar() {
 	);
 
 	useEffect(() => {
-		$("#layout main").css("margin-top", $("#layout header").height() + 20);
 		const keywordParam = searchParams.get("keywords") || "";
 		if (keywordParam.length > 0) {
 			form.setFieldValue(SEARCH_INPUT_PROP, keywordParam);
 		}
-		activateScrolling();
+
+		// clean up event listener
+		return () => window.removeEventListener("scroll", activateScrolling());
 	});
 
 	const searchTopBar = (

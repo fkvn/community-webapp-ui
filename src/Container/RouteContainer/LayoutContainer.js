@@ -13,17 +13,17 @@ function LayoutContainer() {
 	const layout = (
 		<Row id="layout">
 			<Col xs={24} xxl={{ span: 18, offset: 3 }}>
-				{!screens?.xs ? (
+				{screens?.xs === true || screens?.sm === true ? (
 					<Header
-						className="fixed-top tedkvn-center p-0 d-none d-md-block"
-						style={{ backgroundImage: `url(${imageTopbarBg})` }}
+						className="fixed-top tedkvn-center p-0"
+						style={{ backgroundImage: `url(${imageTopbarBgMobile})` }}
 					>
 						<TopBar />
 					</Header>
 				) : (
 					<Header
-						className="fixed-top tedkvn-center p-0"
-						style={{ backgroundImage: `url(${imageTopbarBgMobile})` }}
+						className="fixed-top tedkvn-center p-0 d-none d-md-block"
+						style={{ backgroundImage: `url(${imageTopbarBg})` }}
 					>
 						<TopBar />
 					</Header>
@@ -31,11 +31,13 @@ function LayoutContainer() {
 
 				<Content className="mx-3">
 					<Row>
-						<Col xs={24} lg={18} xxl={{ span: 16, offset: 1 }}>
+						<Col xs={24} xl={18}>
 							<LeftLayout />
 						</Col>
-						<Col xs={0} lg={6}>
-							<RightLayout style={{ maxWidth: screens?.xxl ? "20%" : "25%" }} />
+						<Col xs={0} xl={6}>
+							<RightLayout
+								style={{ maxWidth: screens?.xxl === true ? "20%" : "25%" }}
+							/>
 						</Col>
 					</Row>
 				</Content>
