@@ -1,11 +1,12 @@
 import jwt_decode from "jwt-decode";
-import { useEffect, useRef } from "react";
+import {useEffect, useRef} from "react";
+import useSignin from "../useSignin";
 
 function useGoogleAccess(buttonProps = {}) {
-	const handleCredentialResponse = (response) => {
-		console.log("Encoded JWT ID token: " + response.credential);
-		console.log(jwt_decode(response.credential));
-	};
+
+	const {googleSignin} = useSignin()
+
+	const handleCredentialResponse = (response) => googleSignin(jwt_decode(response.credential)) ;
 
 	const divRef = useRef(null);
 
