@@ -45,9 +45,6 @@ function useUrls() {
 				? [successUrl, {}]
 				: ["/", {}];
 
-		console.log(action);
-		console.log(next);
-
 		navigate(next, {
 			state: {
 				...state,
