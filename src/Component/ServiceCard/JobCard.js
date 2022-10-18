@@ -48,35 +48,6 @@ function JobCard({ card = DEFAULT_CARD_INFO }) {
 
 	const { image } = useImage();
 
-	// const imageOverlay = (
-	// 	<div
-	// 		style={{
-	// 			width: "100%",
-	// 			position: "absolute",
-	// 			top: 0,
-	// 			right: 0,
-	// 			zIndex: 800,
-	// 			// borderRadius: "1rem 1rem 0 0",
-	// 			opacity: "70%",
-	// 		}}
-	// 		className="bg-secondary p-1 "
-	// 	>
-	// 		<Space direction="horizontal" className="float-end">
-	// 			<Button
-	// 				type="ghost border-0 mx-3"
-	// 				icon={
-	// 					<ShareAltOutlined
-	// 						style={{
-	// 							fontSize: "1.5rem",
-	// 							color: "white",
-	// 						}}
-	// 					/>
-	// 				}
-	// 			></Button>
-	// 		</Space>
-	// 	</div>
-	// );
-
 	const serviceTagOverlay = (
 		<div
 			style={{
@@ -171,7 +142,7 @@ function JobCard({ card = DEFAULT_CARD_INFO }) {
 	const body = (
 		<>
 			<Row justify="space-between" className="mb-2">
-				<Col>
+				<Col style={{ maxWidth: "80%" }}>
 					<Meta
 						title={
 							<Typography.Title level={3} className="m-0 " ellipsis>
@@ -195,7 +166,7 @@ function JobCard({ card = DEFAULT_CARD_INFO }) {
 					/>
 				</Col>
 				<Col>
-					<Typography.Text ellipsis className="text-muted">
+					<Typography.Text ellipsis className="text-muted mt-1">
 						{formatTime(jobInfo?.[`${UPDATED_ON_PROP}`])}
 					</Typography.Text>
 				</Col>

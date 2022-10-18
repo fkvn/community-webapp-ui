@@ -77,9 +77,11 @@ function Search({
 			};
 		}
 
+		console.log(location);
+
 		return patchLocationInfoPromise(location, true).then(() => {
 			sessionStorage.setItem([`${LOCATION_OBJ}`], JSON.stringify(location));
-			return Promise.resolve();
+			return Promise.resolve(location);
 		});
 	};
 
@@ -128,10 +130,11 @@ function Search({
 				})
 				.finally(() => setSearching(false));
 		})(
-			fetchLocation().then(() =>
+			fetchLocation().then((location = {}) =>
 				routeLocation?.pathname === "/search"
 					? dispatchSearch(searchType, {
 							[`${SEARCH_KEYWORD}`]: form.getFieldValue(SEARCH_INPUT_PROP),
+							...location,
 					  })
 					: Promise.resolve(
 							new URLSearchParams({

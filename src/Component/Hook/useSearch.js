@@ -14,6 +14,7 @@ import {
 import { thainowReducer } from "../../redux-store/reducer/thainowReducer";
 import {
 	LOCATION_OBJ,
+	POST_OWNER_ID_PROP,
 	SEARCH_BUSINESS,
 	SEARCH_DEAL,
 	SEARCH_HOUSING,
@@ -88,6 +89,7 @@ function useSearch() {
 				[`${SEARCH_TYPE_PROP}`]: type,
 				[`${SEARCH_KEYWORD}`]:
 					params?.[`${SEARCH_KEYWORD}`] || keywordParam || "",
+				[`${POST_OWNER_ID_PROP}`]: params?.[`${POST_OWNER_ID_PROP}`] || -1,
 			};
 		} else {
 			const currentParamsObj = getSearchParamsObj(searchParams);
@@ -98,10 +100,10 @@ function useSearch() {
 			};
 		}
 
-		console.log(searchParams);
-
 		//  add location
-		params = { ...params, ...location };
+		params = { ...location, ...params };
+
+		console.log(params);
 
 		params = new URLSearchParams(params);
 

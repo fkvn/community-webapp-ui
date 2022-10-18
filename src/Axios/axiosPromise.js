@@ -104,6 +104,14 @@ export const signinAxios = async (channel = "", value = "", password = "") =>
 		.then(({ data }) => Promise.resolve(data))
 		.catch((e) => Promise.reject(e));
 
+export const accessWithGoogleAxios = (credential = {}) =>
+	axios
+		.post(`/auth/google/access`, {
+			...credential,
+		})
+		.then(({ data }) => Promise.resolve(data))
+		.catch((e) => Promise.reject(e));
+
 // validation
 
 export const validateUsernamePromise = (username = "") => {

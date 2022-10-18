@@ -132,7 +132,7 @@ function MarketplaceCard({ card = DEFAULT_CARD_INFO }) {
 	const body = (
 		<>
 			<Row justify="space-between" className="mb-2">
-				<Col>
+				<Col style={{ maxWidth: "80%" }}>
 					<Meta
 						title={
 							<Typography.Title level={3} className="m-0 " ellipsis>
@@ -156,7 +156,7 @@ function MarketplaceCard({ card = DEFAULT_CARD_INFO }) {
 					/>
 				</Col>
 				<Col>
-					<Typography.Text ellipsis className="text-muted">
+					<Typography.Text ellipsis className="text-muted mt-1">
 						{formatTime(marketplaceInfo?.[`${UPDATED_ON_PROP}`])}
 					</Typography.Text>
 				</Col>

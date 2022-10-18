@@ -3,6 +3,7 @@ import {
 	Card,
 	Col,
 	Divider,
+	Empty,
 	Grid,
 	Row,
 	Skeleton,
@@ -205,7 +206,7 @@ function SearchResultPage() {
 	const results = (
 		<>
 			{resultHeader}
-			{fetchResults.length > 0 && (
+			{fetchResults.length > 0 ? (
 				<Row gutter={[{ xs: 20, sm: 50 }, 50]} className="mt-4">
 					{fetchResults.map((rel, idx) => (
 						<Col xs={24} sm={12} key={idx} id="service-card">
@@ -231,6 +232,34 @@ function SearchResultPage() {
 						</Col>
 					))}
 				</Row>
+			) : (
+				<Empty
+					description={
+						<>
+							<Typography.Title level={3}>
+								No results for {searchResult?.[`${SEARCH_TYPE_PROP}`]} in the
+								current map area yet.
+							</Typography.Title>
+
+							<Typography.Title level={3} type="success">
+								Try to find better results with:{" "}
+							</Typography.Title>
+
+							<Space direction="vertical" size={20}>
+								<Typography.Text strong>
+									Try a larger search area
+								</Typography.Text>
+
+								<Typography.Text strong>Check spellings</Typography.Text>
+
+								<Typography.Text strong>
+									Search with a more general search, e.g. "Restaurant" instead
+									of "Thai or Japanese Restaurant"`
+								</Typography.Text>
+							</Space>
+						</>
+					}
+				/>
 			)}
 		</>
 	);

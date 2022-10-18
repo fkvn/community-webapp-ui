@@ -4,7 +4,6 @@ import { useState } from "react";
 import { Stack } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { EMAIL_PROP, PASSWORD_PROP, PHONE_PROP } from "../../Util/ConstVar";
-import useAppleAccess from "../Hook/FormHook/useAppleAccess";
 import useEmail from "../Hook/FormHook/useEmail";
 import useFacebookAccess from "../Hook/FormHook/useFacebookAccess";
 import useGoogleAccess from "../Hook/FormHook/useGoogleAccess";
@@ -45,17 +44,20 @@ function UserSignin() {
 	);
 
 	const thirdPartySigninOptions = (
-		<Space
-			direction="horizontal"
-			className="mx-4"
-			size={40}
-			wrap
-			align="center"
-		>
-			{useFacebookAccess()}
-			{useGoogleAccess()}
-			{useAppleAccess()}
-		</Space>
+		<>
+			<Divider orientation="left">Continue with </Divider>
+			<Space
+				direction="horizontal"
+				className="mx-2 tedkvn-center"
+				size={20}
+				wrap
+				align="center"
+			>
+				{useFacebookAccess()}
+				{useGoogleAccess()}
+				{/* {useAppleAccess()} */}
+			</Space>
+		</>
 	);
 
 	const email = useEmail({}, { autoFocus: true });
@@ -129,10 +131,15 @@ function UserSignin() {
 				className="mx-2 mx-xl-5"
 				autoComplete="off"
 			>
-				<Space direction="vertical" size={20} style={{ whiteSpace: "normal" }}>
+				<Space
+					direction="vertical"
+					size={20}
+					className="px-2"
+					style={{ whiteSpace: "normal" }}
+				>
 					{title}
 					{loginPrompt}
-					<Divider orientation="left">Continue with</Divider>
+
 					{thirdPartySigninOptions}
 					<Divider>OR</Divider>
 					{/* {signInTabs} */}

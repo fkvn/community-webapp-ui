@@ -140,7 +140,6 @@ function MobileTopBar() {
 
 	const activateScrolling = () => {
 		const heightToHideFrom = $("#layout header").outerHeight();
-		console.log("calling");
 
 		const threshold = 0;
 		let lastScrollY = window.pageYOffset;
@@ -236,9 +235,12 @@ function MobileTopBar() {
 		if (keywordParam.length > 0) {
 			form.setFieldValue(SEARCH_INPUT_PROP, keywordParam);
 		}
+		$("#layout main").css("margin-top", $("#layout header").outerHeight() + 25);
+
+		const scroll = activateScrolling();
 
 		// clean up event listener
-		return () => window.removeEventListener("scroll", activateScrolling());
+		return () => window.removeEventListener("scroll", scroll);
 	});
 
 	const searchTopBar = (

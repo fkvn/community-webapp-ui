@@ -1,9 +1,8 @@
 import Icon from "@ant-design/icons";
-import { Space } from "antd";
+import { Space, Typography } from "antd";
 import { isEmptyObject } from "jquery";
 import { iconLocationWhite } from "../../Assest/Asset";
 import { ADDRESS_PROP } from "../../Util/ConstVar";
-import EllipsisMiddle from "../Typography/EllipsisMiddle";
 
 function useCurrentLocation() {
 	const displayLocation = (
@@ -27,9 +26,9 @@ function useCurrentLocation() {
 					className="tedkvn-center"
 					style={props.iconStyle}
 				/>
-				<EllipsisMiddle suffixCount={5} className="text-white">
+				<Typography.Text ellipsis className="text-white">
 					{location?.[`${ADDRESS_PROP}`]}
-				</EllipsisMiddle>
+				</Typography.Text>
 			</Space>
 		);
 

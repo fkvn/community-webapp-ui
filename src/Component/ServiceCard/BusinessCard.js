@@ -80,7 +80,8 @@ function BusinessCard({ card = DEFAULT_CARD_INFO }) {
 									style: { fontSize: ".8rem" },
 								})}
 							>
-								{businessInfo?.[`${COMPANY_INDUSTRY_PROP}`].toUpperCase()}
+								{businessInfo?.[`${COMPANY_INDUSTRY_PROP}`].toUpperCase()}{" "}
+								BUSINESS
 							</span>
 						</Typography.Title>
 					}

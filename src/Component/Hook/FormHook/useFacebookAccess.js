@@ -35,7 +35,7 @@ function useFacebookAccess(buttonProps = {}, contentProps = {}) {
 				...buttonProps,
 			},
 			{
-				className: "d-none d-md-block mx-2",
+				className: "mx-2",
 				...contentProps,
 			}
 		);

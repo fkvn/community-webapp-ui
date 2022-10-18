@@ -6,9 +6,9 @@ function TopBar() {
 	const { useBreakpoint } = Grid;
 	const screens = useBreakpoint();
 
-	console.log(screens);
-	console.log(screens?.xs === true);
-	console.log(screens?.xs === false && screens?.xl === false);
+	console.log(
+		screens?.xs === true || (screens?.xs === false && screens?.xl === false)
+	);
 
 	const app = (
 		<Stack
@@ -17,10 +17,14 @@ function TopBar() {
 			className="mx-4 mx-xl-5 w-100 overflow-hidden"
 			gap={2}
 		>
-			{!screens?.xs === true && screens?.xl === true && <DefaultTopBar />}
+			{!screens?.xs === true && screens?.xl === true ? (
+				<DefaultTopBar />
+			) : (
+				<MobileTopBar />
+			)}
 
-			{screens?.xs === true ||
-				(screens?.xs === false && screens?.xl === false && <MobileTopBar />)}
+			{/* {screens?.xs === true ||
+				(screens?.xs === false && screens?.xl === false && )} */}
 		</Stack>
 	);
 

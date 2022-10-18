@@ -110,7 +110,6 @@ function ProfilePage({ isOwner = false, profile = {} }) {
 	const { forwardUrl } = useUrls();
 
 	const location = useLocation();
-	console.log(location);
 
 	const header = (
 		<PageHeader
@@ -138,7 +137,7 @@ function ProfilePage({ isOwner = false, profile = {} }) {
 						})}
 					</div>
 				</div>
-				{info?.[`${PICTURE_LIST_PROP}`].map((img, idx) => (
+				{(info?.[`${PICTURE_LIST_PROP}`] || []).map((img, idx) => (
 					<div key={idx}>
 						<div>
 							{image({
@@ -405,21 +404,41 @@ function ProfilePage({ isOwner = false, profile = {} }) {
 		searching: true,
 	});
 
+	const onSearchHandle = (
+		actionType = SEARCH_SERVICE,
+		searchType = searchTypeParam,
+		params = {}
+	) => {
+		if (id > 0 && actionType === SEARCH_SERVICE) {
+			return dispatchSearch(
+				searchType,
+				{
+					[`${POST_OWNER_ID_PROP}`]: id,
+					...params,
+				},
+				false
+			);
+		}
+		return Promise.reject();
+	};
+
 	const initSearch = useCallback(
-		async (actionType = SEARCH_SERVICE) => {
-			if (actionCall?.searching && actionType === SEARCH_SERVICE) {
-				dispatchSearch(
-					searchTypeParam,
-					{
-						[`${POST_OWNER_ID_PROP}`]: id,
-					},
-					false
-				);
-			}
+		async (
+			actionType = SEARCH_SERVICE,
+			searchType = searchTypeParam,
+			params = {}
+		) => {
 			setActionCall({
 				actionType: actionType,
-				searching: false,
+				searching: true,
 			});
+
+			onSearchHandle(actionType, searchType, params).then(() =>
+				setActionCall({
+					actionType: actionType,
+					searching: false,
+				})
+			);
 		},
 		[actionCall?.searching, dispatchSearch, id, searchTypeParam]
 	);
@@ -433,7 +452,15 @@ function ProfilePage({ isOwner = false, profile = {} }) {
 			<DealBadge
 				type="tag"
 				active={searchTypeParam === SEARCH_DEAL}
-				onClick={() => alert(SEARCH_DEAL)}
+				onClick={() => {
+					if (id > 0) {
+						setActionCall({
+							actionType: SEARCH_SERVICE,
+							searching: true,
+						});
+						initSearch(SEARCH_SERVICE, SEARCH_DEAL);
+					}
+				}}
 				{...props}
 			/>
 		),
@@ -442,7 +469,15 @@ function ProfilePage({ isOwner = false, profile = {} }) {
 			<JobBadge
 				type="tag"
 				active={searchTypeParam === SEARCH_JOB}
-				onClick={() => alert(SEARCH_JOB)}
+				onClick={() => {
+					if (id > 0) {
+						setActionCall({
+							actionType: SEARCH_SERVICE,
+							searching: true,
+						});
+						initSearch(SEARCH_SERVICE, SEARCH_JOB);
+					}
+				}}
 				{...props}
 			/>
 		),
@@ -451,7 +486,15 @@ function ProfilePage({ isOwner = false, profile = {} }) {
 			<HousingBadge
 				type="tag"
 				active={searchTypeParam === SEARCH_HOUSING}
-				onClick={() => alert(SEARCH_HOUSING)}
+				onClick={() => {
+					if (id > 0) {
+						setActionCall({
+							actionType: SEARCH_SERVICE,
+							searching: true,
+						});
+						initSearch(SEARCH_SERVICE, SEARCH_HOUSING);
+					}
+				}}
 				{...props}
 			/>
 		),
@@ -460,7 +503,15 @@ function ProfilePage({ isOwner = false, profile = {} }) {
 			<MarketplaceBadge
 				type="tag"
 				active={searchTypeParam === SEARCH_MARKETPLACE}
-				onClick={() => alert(SEARCH_MARKETPLACE)}
+				onClick={() => {
+					if (id > 0) {
+						setActionCall({
+							actionType: SEARCH_SERVICE,
+							searching: true,
+						});
+						initSearch(SEARCH_SERVICE, SEARCH_MARKETPLACE);
+					}
+				}}
 				{...props}
 			/>
 		),
@@ -494,22 +545,26 @@ function ProfilePage({ isOwner = false, profile = {} }) {
 			}}
 			items={[
 				{
-					key: SEARCH_SORT + "2",
+					key: SEARCH_SORT,
 					label: "Sort By",
 					style: { cursor: "pointer" },
 					children: [
 						{
-							key: SEARCH_SORT_DATE + "3",
+							key: SEARCH_SORT_DATE,
 							label: "Sort by Date",
 						},
 						{
-							key: SEARCH_SORT_DISTANCE + "4",
+							key: SEARCH_SORT_DISTANCE,
 							label: "Sort by Distance",
 						},
 					],
 				},
 			]}
-			onClick={({ key }) => console.log(key)}
+			onClick={({ key }) =>
+				initSearch(SEARCH_SERVICE, searchTypeParam, {
+					[`${SEARCH_SORT}`]: key,
+				})
+			}
 		/>
 	);
 
@@ -584,15 +639,10 @@ function ProfilePage({ isOwner = false, profile = {} }) {
 		[`${SEARCH_SERVICE}`]: {
 			title: serviceTitle,
 			children: serviceResult,
-			loading: actionCall?.searching,
 		},
 
-		[`${SEARCH_WISHLIST}`]: {
-			loading: true,
-		},
-		[`${SEARCH_REVIEW}`]: {
-			loading: true,
-		},
+		[`${SEARCH_WISHLIST}`]: {},
+		[`${SEARCH_REVIEW}`]: {},
 	};
 
 	const actionTitleOptions = [
@@ -615,12 +665,7 @@ function ProfilePage({ isOwner = false, profile = {} }) {
 			block
 			options={actionTitleOptions}
 			onChange={(value) => {
-				console.log("vasd");
 				if (value !== actionCall?.actionType) {
-					setActionCall({
-						actionType: value,
-						searching: true,
-					});
 					initSearch(value);
 				}
 			}}
@@ -637,7 +682,7 @@ function ProfilePage({ isOwner = false, profile = {} }) {
 				headStyle={{
 					paddingTop: "0",
 				}}
-				loading={action?.[`${actionCall?.actionType}`]?.loading}
+				loading={actionCall?.searching}
 			>
 				{action?.[`${actionCall?.actionType}`]?.children}
 			</Card>
