@@ -1,16 +1,18 @@
 import { Button, Card, List, Space } from "antd";
 import Meta from "antd/lib/card/Meta";
 import { Stack } from "react-bootstrap";
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { imageGuestAvatar } from "../../Assest/Asset";
+import { thainowReducer } from "../../redux-store/reducer/thainowReducer";
+import { PROFILE_OBJ } from "../../Util/ConstVar";
 import { isObjectEmpty, signoutUserPromise } from "../../Util/Util";
 import useImage from "../Hook/useImage";
-import useProfile from "../Hook/useProfile";
 
 function RightLayout({ showSetting = false, ...props }) {
 	const navigate = useNavigate();
 	const { image } = useImage();
-	const { profile } = useProfile();
+	const { [`${PROFILE_OBJ}`]: profile = {} } = useSelector(thainowReducer);
 
 	const { picture, name, description } = isObjectEmpty(profile)
 		? { picture: imageGuestAvatar, name: "Hi Welcome", description: "ThaiNow" }
@@ -85,7 +87,7 @@ function RightLayout({ showSetting = false, ...props }) {
 				</Button>
 			)}
 
-			<Card className="w-100 text-center" bodyStyle={{ paddingTop: 0 }}>
+			<Card className="w-100 text-center pb-4" bodyStyle={{ paddingTop: 0 }}>
 				<Space direction="vertical" className="w-100" size={15}>
 					<Space direction="vertical" className="w-100 my-3 tedkvn-center">
 						{image({

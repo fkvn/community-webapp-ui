@@ -42,6 +42,7 @@ export const ICON_US_PHONE = "usPhoneIcon";
 export const LOCATION_OBJ = "locationObj";
 export const LOCATION_PROP = "location";
 export const LOCALITY_PROP = "locality";
+export const IS_LOCATION_PUBLIC = "locationPublic";
 export const ADDRESS_PROP = "address";
 export const PLACEID_PROP = "placeid";
 export const ZIP_CODE_PROP = "zipcode";
@@ -117,6 +118,8 @@ export const SEARCH_TYPE_PROP = "searchType";
 export const SEARCH_LOCATION_ADDRESS = "address";
 export const SEARCH_PROFILE = "profiles";
 export const SEARCH_SERVICE = "services";
+export const SEARCH_WISHLIST = "wishlists";
+export const SEARCH_REVIEW = "reviews";
 export const SEARCH_USER = "users";
 export const SEARCH_BUSINESS = "business";
 export const SEARCH_DEAL = "deals";
@@ -230,6 +233,7 @@ export const COMPANY_REVENUE_PROP = "revenue";
 // export const COMPANY_STATUS_PROP = "status";
 
 export const POST_OWNER_PROP = "postOwner";
+export const POST_OWNER_ID_PROP = "ownerId";
 export const CREATED_ON_PROP = "createdOn";
 export const DEFAULT_POST_OWNER_INFO = {
 	[`${ID_PROP}`]: -1,

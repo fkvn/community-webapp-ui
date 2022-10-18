@@ -1,5 +1,3 @@
-import { useEffect } from "react";
-import { useSelector } from "react-redux";
 import {
 	removeAccountProfileAxios,
 	removeBusinessProfileAxios,
@@ -11,35 +9,12 @@ import {
 	PROFILE_NAME_PROP,
 	PROFILE_OBJ,
 } from "../../Util/ConstVar";
-import { isObjectEmpty, signoutUserPromise } from "../../Util/Util";
+import { signoutUserPromise } from "../../Util/Util";
 import { errorMessage, successMessage } from "./useMessage";
 import useUrls from "./useUrls";
 
-function useProfile(init = true) {
-	const storedProfile = JSON.parse(localStorage.getItem(PROFILE_OBJ)) || {};
-
-	/* proifle format {
-		id: 1,
-		info: {
-			picture: "url",
-			name: "",
-			picture: ""
-		}
-		avgRating: 0,
-		totalReview: 0,
-		type= "USER_PROFILE"
-	} */
-	const profile = useSelector(
-		(state) => state.thainowReducer[`${PROFILE_OBJ}`] || {}
-	);
-
+function useProfile() {
 	const { forwardUrl } = useUrls();
-
-	const initProfile = () => {
-		if (isObjectEmpty(profile) && !isObjectEmpty(storedProfile)) {
-			patchProfileInfoPromise(storedProfile);
-		}
-	};
 
 	const switchProfile = (
 		profile = {},
@@ -89,12 +64,6 @@ function useProfile(init = true) {
 			)
 			.catch((e) => errorMessage(e));
 
-	useEffect(() => {
-		if (init) {
-			initProfile();
-		}
-	}, []);
-
 	const removeAccountProfile = (profile = {}) =>
 		removeAccountProfileAxios(profile?.[`${ID_PROP}`])
 			.then(() =>
@@ -112,8 +81,6 @@ function useProfile(init = true) {
 			.catch((e) => errorMessage(e));
 
 	return {
-		profile,
-		initProfile,
 		switchProfile,
 		removeBusinessProfile,
 		removeAccountProfile,

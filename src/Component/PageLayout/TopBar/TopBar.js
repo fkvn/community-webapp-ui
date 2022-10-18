@@ -14,7 +14,9 @@ function TopBar() {
 			className="mx-4 mx-lg-5 w-100 overflow-hidden"
 			gap={2}
 		>
-			{screens?.lg ? <DefaultTopBar /> : <MobileTopBar />}
+			{screens?.md && <DefaultTopBar />}
+
+			{screens?.xs && <MobileTopBar />}
 		</Stack>
 	);
 

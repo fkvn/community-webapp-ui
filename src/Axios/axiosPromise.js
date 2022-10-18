@@ -9,6 +9,7 @@ import {
 	SEARCH_HOUSING,
 	SEARCH_JOB,
 	SEARCH_MARKETPLACE,
+	SEARCH_PROFILE,
 	SMS_PROP,
 } from "../Util/ConstVar";
 
@@ -128,6 +129,12 @@ export const validatePhonePromise = (phone = "") => {
 };
 
 // profiles
+
+export const findProfileAxios = (id = -1) =>
+	axios
+		.get(`/${SEARCH_PROFILE}/${id}`)
+		.then(({ data }) => Promise.resolve(data))
+		.catch((e) => Promise.reject(e));
 
 export const findProfilesAxios = async () =>
 	axios

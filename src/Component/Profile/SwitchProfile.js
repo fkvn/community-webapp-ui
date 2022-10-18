@@ -1,13 +1,16 @@
 import { Avatar, Button, Card, Skeleton, Space } from "antd";
 import Meta from "antd/lib/card/Meta";
 import React, { useCallback, useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import { imagePlusGray } from "../../Assest/Asset";
 import { findProfilesAxios } from "../../Axios/axiosPromise";
+import { thainowReducer } from "../../redux-store/reducer/thainowReducer";
 import {
 	FORWARD_CONTINUE,
 	ID_PROP,
 	PROFILE_BUSINESS_TYPE_PROP,
 	PROFILE_NAME_PROP,
+	PROFILE_OBJ,
 	PROFILE_PICTURE_PROP,
 	PROFILE_STATUS_PROP,
 	PROFILE_TYPE_PROP,
@@ -28,18 +31,14 @@ function SwitchProfile() {
 
 	const [fetchProfiles, setFetchProfiles] = useState(false);
 
-	const {
-		profile,
-		switchProfile,
-		removeBusinessProfile,
-		removeAccountProfile,
-	} = useProfile();
+	const { [`${PROFILE_OBJ}`]: profile = {} } = useSelector(thainowReducer);
+
+	const { switchProfile, removeBusinessProfile, removeAccountProfile } =
+		useProfile();
 
 	const fetchProfilesPromise = useCallback(
-		(user = {}) =>
-			findProfilesAxios(user?.id).then((profiles = []) =>
-				onRenderProfiles(profiles)
-			),
+		() =>
+			findProfilesAxios().then((profiles = []) => onRenderProfiles(profiles)),
 		[]
 	);
 
@@ -49,7 +48,9 @@ function SwitchProfile() {
 	};
 
 	useEffect(() => {
+		console.log("fetcj2");
 		if (!fetchProfiles && !isObjectEmpty(profile)) {
+			console.log("fetcj");
 			fetchProfilesPromise();
 		}
 	}, [profile, fetchProfiles, fetchProfilesPromise]);

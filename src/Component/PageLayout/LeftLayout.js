@@ -11,7 +11,12 @@ import SearchResultPage from "./SearchResultPage";
 
 function LeftLayout() {
 	const app = (
-		<Stack id="LeftLayout" direction="vertical" className="" gap={4}>
+		<Stack
+			id="LeftLayout"
+			direction="vertical"
+			className="m-0 m-md-2 mx-md-4"
+			gap={4}
+		>
 			<Routes>
 				<Route path="/" element={<LandingPage />} />
 				<Route

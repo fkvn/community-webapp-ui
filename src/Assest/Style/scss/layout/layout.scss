@@ -113,7 +113,7 @@ body,
 	box-shadow: inset 0 0 0.6rem rgba(104, 140, 240, 0.3);
 }
 
-#tag-search-top-bar::-webkit-scrollbar:horizontal {
+.hideScrollHorizontal::-webkit-scrollbar:horizontal {
 	display: none !important;
 }
 

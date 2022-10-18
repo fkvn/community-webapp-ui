@@ -23,7 +23,7 @@
 import * as constVar from "../../Util/ConstVar";
 import * as actionTypes from "../actionCreator/actionType";
 
-export const getStoredLocation = () => {
+export const fetchStoredLocation = () => {
 	const storedLocation =
 		JSON.parse(sessionStorage.getItem(constVar.LOCATION_OBJ)) || {};
 
@@ -40,11 +40,30 @@ export const getStoredLocation = () => {
 	return storedLocation;
 };
 
+/* proifle format {
+		id: 1,
+		info: {
+			picture: "url",
+			name: "",
+			picture: ""
+		}
+		avgRating: 0,
+		totalReview: 0,
+		type= "USER_PROFILE"
+	} */
+const fetchStoredProfile = () => {
+	const storedProfile =
+		JSON.parse(localStorage.getItem(constVar.PROFILE_OBJ)) || {};
+	return {
+		...storedProfile,
+	};
+};
+
 export const thainowReducer = (state) => state.thainowReducer;
 
 const initialState = {
-	[`${constVar.PROFILE_OBJ}`]: {},
-	[`${constVar.LOCATION_OBJ}`]: getStoredLocation(),
+	[`${constVar.PROFILE_OBJ}`]: fetchStoredProfile(),
+	[`${constVar.LOCATION_OBJ}`]: fetchStoredLocation(),
 };
 
 // ==================  Reducer helping functions =========================

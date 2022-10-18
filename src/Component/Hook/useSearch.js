@@ -64,13 +64,17 @@ function useSearch() {
 		}
 	};
 
-	// console.log(location);
-
-	const dispatchSearch = async (type = SEARCH_BUSINESS, params = {}) => {
-		window.scrollTo({
-			top: 0,
-			behavior: "smooth",
-		});
+	const dispatchSearch = async (
+		type = SEARCH_BUSINESS,
+		params = {},
+		backToTop = true
+	) => {
+		if (backToTop) {
+			window.scrollTo({
+				top: 0,
+				behavior: "smooth",
+			});
+		}
 
 		loadingMessage(`Searching for ${type} in the area ...`, 0, {
 			className: "",
@@ -95,11 +99,7 @@ function useSearch() {
 		//  add location
 		params = { ...params, ...location };
 
-		console.log("use search");
-
 		params = new URLSearchParams(params);
-
-		console.log(params.toString());
 
 		return onSearchHandle(type, params.toString()).then(
 			async ({ location = {}, ...result }) => {

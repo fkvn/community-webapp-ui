@@ -1,12 +1,9 @@
-import { ArrowDownOutlined, CloseOutlined } from "@ant-design/icons";
+import { CloseOutlined } from "@ant-design/icons";
 import {
-	Button,
 	Card,
 	Col,
 	Divider,
-	Dropdown,
 	Grid,
-	Menu,
 	Row,
 	Skeleton,
 	Space,
@@ -28,7 +25,6 @@ import {
 	SEARCH_RESULT_OBJ,
 	SEARCH_SORT,
 	SEARCH_SORT_DATE,
-	SEARCH_SORT_DISTANCE,
 	SEARCH_TYPE_PROP,
 } from "../../Util/ConstVar";
 import BusinessBadge from "../Badge/BusinessBadge";
@@ -65,8 +61,7 @@ function SearchResultPage() {
 
 	useEffect(() => {
 		if (loading) {
-			dispatchSearch(searchTypeParam);
-			setLoading(false);
+			dispatchSearch(searchTypeParam).then(() => setLoading(false));
 		}
 	}, []);
 
@@ -140,35 +135,35 @@ function SearchResultPage() {
 	// 	</Button>
 	// );
 
-	const sortOptions = [
-		{
-			key: SEARCH_SORT_DATE,
-			label: "Sort by Date",
-		},
-		{
-			key: SEARCH_SORT_DISTANCE,
-			label: "Sort by Distance",
-		},
-	];
+	// const sortOptions = [
+	// 	{
+	// 		key: SEARCH_SORT_DATE,
+	// 		label: "Sort by Date",
+	// 	},
+	// 	{
+	// 		key: SEARCH_SORT_DISTANCE,
+	// 		label: "Sort by Distance",
+	// 	},
+	// ];
 
-	const sortOptionMenu = (
-		<Menu
-			items={sortOptions}
-			onClick={({ key }) =>
-				dispatchSearch(searchTypeParam, {
-					[`${SEARCH_SORT}`]: key,
-				})
-			}
-		/>
-	);
+	// const sortOptionMenu = (
+	// 	<Menu
+	// 		items={sortOptions}
+	// 		onClick={({ key }) =>
+	// 			dispatchSearch(searchTypeParam, {
+	// 				[`${SEARCH_SORT}`]: key,
+	// 			})
+	// 		}
+	// 	/>
+	// );
 
-	const sortBtn = (
-		<Dropdown overlay={sortOptionMenu} placement="bottomRight">
-			<Button typeof="ghost" icon={<ArrowDownOutlined />}>
-				Sort By {sortParam}
-			</Button>
-		</Dropdown>
-	);
+	// const sortBtn = (
+	// 	<Dropdown overlay={sortOptionMenu} placement="bottomRight">
+	// 		<Button typeof="ghost" icon={<ArrowDownOutlined />}>
+	// 			Sort By {sortParam}
+	// 		</Button>
+	// 	</Dropdown>
+	// );
 
 	const keywordTag = (
 		<Tag>

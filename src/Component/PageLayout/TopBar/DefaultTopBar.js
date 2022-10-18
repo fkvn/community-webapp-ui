@@ -58,6 +58,7 @@ function DefaultTopBar() {
 		$("#layout main").css("margin-top", $("#layout header").height() + 20);
 		const keywordParam = searchParams.get("keywords") || "";
 		form.setFieldValue(SEARCH_INPUT_PROP, keywordParam);
+		window.addEventListener("scroll", () => {});
 	});
 
 	const app = (

@@ -12,6 +12,7 @@ import {
 	Typography,
 } from "antd";
 import Meta from "antd/lib/card/Meta";
+import { useNavigate } from "react-router-dom";
 import { svgBusinessIcon } from "../../Assest/Asset";
 import {
 	ADDRESS_PROP,
@@ -200,8 +201,12 @@ function BusinessCard({ card = DEFAULT_CARD_INFO }) {
 		</>
 	);
 
+	const navigate = useNavigate();
+
 	const app = (
-		<Typography.Link href={`/${SEARCH_PROFILE}/${cardInfo?.[`${ID_PROP}`]}`}>
+		<Typography.Link
+			onClick={() => navigate(`/${SEARCH_PROFILE}/${cardInfo?.[`${ID_PROP}`]}`)}
+		>
 			<Card
 				title={title}
 				headStyle={{

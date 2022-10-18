@@ -24,6 +24,7 @@ import { thainowReducer } from "../../../redux-store/reducer/thainowReducer";
 import {
 	LOCATION_OBJ,
 	PICTURE_PROP,
+	PROFILE_OBJ,
 	SEARCH_BUSINESS,
 	SEARCH_DEAL,
 	SEARCH_HOUSING,
@@ -45,7 +46,6 @@ import MarketplaceBadge from "../../Badge/MarketplaceBadge";
 import useSearchKeyword from "../../Hook/FormHook/useSearchKeyword";
 import useLocation from "../../Hook/useCurrentLocation";
 import useImage from "../../Hook/useImage";
-import useProfile from "../../Hook/useProfile";
 import useSearch from "../../Hook/useSearch";
 import OffCanvasProfile from "../../Profile/OffCanvasProfile";
 import OffCanvasSearch from "../../Search/OffCanvasSearch";
@@ -79,7 +79,7 @@ function MobileTopBar() {
 		}
 	);
 
-	const { profile } = useProfile();
+	const { [`${PROFILE_OBJ}`]: profile = {} } = useSelector(thainowReducer);
 	const [showProfile, setShowProfile] = useState(false);
 
 	const onSearchHanlder = (type = SEARCH_BUSINESS) =>
@@ -263,8 +263,7 @@ function MobileTopBar() {
 
 			<Space
 				direction="horizontal"
-				id="tag-search-top-bar"
-				className="my-1 w-100"
+				className="hideScrollHorizontal my-1 w-100"
 				style={{
 					overflowX: "scroll",
 				}}

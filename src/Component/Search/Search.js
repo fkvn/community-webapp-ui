@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { Stack } from "react-bootstrap";
 import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import { patchLocationInfoPromise } from "../../redux-store/dispatchPromise";
-import { getStoredLocation } from "../../redux-store/reducer/thainowReducer";
+import { fetchStoredLocation } from "../../redux-store/reducer/thainowReducer";
 import {
 	ADDRESS_PROP,
 	LOCATION_OBJ,
@@ -220,9 +220,9 @@ function Search({
 			autoComplete="off"
 			initialValues={{
 				[ADDRESS_PROP]:
-					getStoredLocation()?.[`${ADDRESS_PROP}`] ||
+					fetchStoredLocation()?.[`${ADDRESS_PROP}`] ||
 					SEARCH_DEFAULT_LOCATION[`${ADDRESS_PROP}`],
-				[LOCATION_OBJ]: getStoredLocation(),
+				[LOCATION_OBJ]: fetchStoredLocation(),
 			}}
 			onKeyDown={onEnterSearch}
 			{...formProps}
