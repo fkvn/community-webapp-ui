@@ -4,12 +4,12 @@ import Icon, {
 	ArrowUpOutlined,
 	LinkOutlined,
 	MailOutlined,
-	MoreOutlined,
+	MenuOutlined,
 	PhoneOutlined,
 	TeamOutlined,
+	UserOutlined,
 } from "@ant-design/icons";
 import {
-	Avatar,
 	Button,
 	Card,
 	Carousel,
@@ -47,6 +47,7 @@ import {
 	ADDRESS_PROP,
 	AVG_RATING_PROP,
 	COMPANY_INDUSTRY_PROP,
+	CREATED_ON_PROP,
 	DESCRIPTION_PROP,
 	EMAIL_PROP,
 	FORWARD_CLOSE,
@@ -92,13 +93,13 @@ import {
 	UPDATED_ON_PROP,
 	WEBSITE_PROP,
 } from "../../Util/ConstVar";
-import { formatTime } from "../../Util/Util";
 import DealCard from "../ServiceCard/DealCard";
 import HousingCard from "../ServiceCard/HousingCard";
 import JobCard from "../ServiceCard/JobCard";
 import MarketplaceCard from "../ServiceCard/MarketplaceCard";
 
 import useUrls from "../../Component/Hook/useUrls";
+import { formatTime } from "../../Util/Util";
 
 function ProfilePage({ isOwner = false, profile = {} }) {
 	const {
@@ -176,12 +177,13 @@ function ProfilePage({ isOwner = false, profile = {} }) {
 	const infoTitle = (
 		<Meta
 			className="mt-2"
-			avatar={<Avatar size={60} src={info?.[`${PICTURE_PROP}`]} />}
+			// avatar={<Avatar size={60} src={info?.[`${PICTURE_PROP}`]} />}
 			title={
 				<Space direction="vertical" size={0}>
 					<Typography.Title level={2} className="m-0">
 						{info?.[`${NAME_PROP}`]}
 					</Typography.Title>
+
 					<span className="p-">
 						<Rate
 							disabled
@@ -201,25 +203,86 @@ function ProfilePage({ isOwner = false, profile = {} }) {
 
 	const userData = [
 		{
-			title: `Address: ${
-				info?.[`${IS_LOCATION_PUBLIC}`] &&
-				info?.[`${LOCATION_PROP}`]?.[`${ADDRESS_PROP}`]
-					? info?.[`${LOCATION_PROP}`]?.[`${ADDRESS_PROP}`]
-					: "Unavailable"
-			}`,
+			label: <UserOutlined />,
+			title: (
+				<Typography.Link className="mt-1" ellipsis>
+					Member since{" "}
+					{(info?.[`${CREATED_ON_PROP}`] || "").split(" ")?.[0].split("-")?.[0]}
+				</Typography.Link>
+			),
+			visible: true,
 		},
 		{
-			title: "Ant Design Title 2",
+			label: <Icon component={() => iconLocationBlack(15)} />,
+			title: (
+				<Typography.Link
+					ellipsis
+					{...(info?.[`${IS_LOCATION_PUBLIC}`] && {
+						onClick: () =>
+							window.open(
+								`https://www.google.com/maps/place/${info?.[`${NAME_PROP}`]}/@${
+									info?.[`${LOCATION_PROP}`]?.[`${LAT_PROP}`]
+								},${info?.[`${LOCATION_PROP}`]?.[`${LNG_PROP}`]} `,
+								"_blank"
+							),
+					})}
+				>
+					{info?.[`${LOCATION_PROP}`]?.[`${ADDRESS_PROP}`] || "Unavailable"}
+				</Typography.Link>
+			),
+			visible: info?.[`${IS_LOCATION_PUBLIC}`],
 		},
 		{
-			title: "Ant Design Title 3",
+			label: <MailOutlined />,
+			title: (
+				<Typography.Link>
+					{info?.[`${EMAIL_PROP}`] || "Unavailable"}
+				</Typography.Link>
+			),
+			visible: info?.[`${IS_EMAIL_PUBLIC_PROP}`],
 		},
 		{
-			title: "Ant Design Title 4",
+			label: <PhoneOutlined />,
+			title: (
+				<Typography.Link>
+					{info?.[`${PHONE_PROP}`] || "Unavailable"}
+				</Typography.Link>
+			),
+			visible: info?.[`${IS_PHONE_PUBLIC_PROP}`],
 		},
+		{
+			label: <LinkOutlined />,
+			title: (
+				<Typography.Link>
+					{info?.[`${WEBSITE_PROP}`] || "Unavailable"}
+				</Typography.Link>
+			),
+			visible: info?.[`${IS_WEBSITE_PUBLIC_PROP}`],
+		},
+		...(info?.[`${IS_DESCRIPTION_PUBLIC_PROP}`] && info?.[`${DESCRIPTION_PROP}`]
+			? [
+					{
+						title: (
+							<Typography.Paragraph italic>
+								{info?.[`${DESCRIPTION_PROP}`]}
+							</Typography.Paragraph>
+						),
+						visible: info?.[`${IS_DESCRIPTION_PUBLIC_PROP}`],
+					},
+			  ]
+			: []),
 	];
 
 	const businessData = [
+		{
+			label: <UserOutlined />,
+			title: (
+				<Typography.Link className="mt-1" ellipsis>
+					{info?.[`${STATUS_PROP}`] + " BUSINESS"}
+				</Typography.Link>
+			),
+			visible: true,
+		},
 		{
 			label: <Icon component={() => iconLocationBlack(15)} />,
 			title: (
@@ -256,11 +319,7 @@ function ProfilePage({ isOwner = false, profile = {} }) {
 			label: <MailOutlined />,
 			title: (
 				<Typography.Link>
-					{info?.[`${IS_EMAIL_PUBLIC_PROP}`] && info?.[`${EMAIL_PROP}`] ? (
-						info?.[`${EMAIL_PROP}`]
-					) : (
-						<span className="text-secondary">Unavailable</span>
-					)}
+					{info?.[`${EMAIL_PROP}`] || "Unavailable"}
 				</Typography.Link>
 			),
 			visible: info?.[`${IS_EMAIL_PUBLIC_PROP}`],
@@ -269,11 +328,7 @@ function ProfilePage({ isOwner = false, profile = {} }) {
 			label: <PhoneOutlined />,
 			title: (
 				<Typography.Link>
-					{info?.[`${IS_PHONE_PUBLIC_PROP}`] && info?.[`${PHONE_PROP}`] ? (
-						info?.[`${PHONE_PROP}`]
-					) : (
-						<span className="text-secondary">Unavailable</span>
-					)}
+					{info?.[`${PHONE_PROP}`] || "Unavailable"}
 				</Typography.Link>
 			),
 			visible: info?.[`${IS_PHONE_PUBLIC_PROP}`],
@@ -282,11 +337,7 @@ function ProfilePage({ isOwner = false, profile = {} }) {
 			label: <LinkOutlined />,
 			title: (
 				<Typography.Link>
-					{info?.[`${IS_WEBSITE_PUBLIC_PROP}`] && info?.[`${WEBSITE_PROP}`] ? (
-						info?.[`${WEBSITE_PROP}`]
-					) : (
-						<span className="text-secondary">Unavailable</span>
-					)}
+					{info?.[`${WEBSITE_PROP}`] || "Unavailable"}
 				</Typography.Link>
 			),
 			visible: info?.[`${IS_WEBSITE_PUBLIC_PROP}`],
@@ -295,11 +346,7 @@ function ProfilePage({ isOwner = false, profile = {} }) {
 			label: <TeamOutlined />,
 			title: (
 				<Typography.Link>
-					{info?.[`${IS_SIZE_PUBLIC_PROP}`] && info?.[`${SIZE_PROP}`] ? (
-						info?.[`${SIZE_PROP}`]
-					) : (
-						<span className="text-secondary">Unavailable</span>
-					)}
+					{info?.[`${SIZE_PROP}`] || "Unavailable"}
 				</Typography.Link>
 			),
 			visible: info?.[`${IS_SIZE_PUBLIC_PROP}`],
@@ -312,22 +359,10 @@ function ProfilePage({ isOwner = false, profile = {} }) {
 								{info?.[`${DESCRIPTION_PROP}`]}
 							</Typography.Paragraph>
 						),
-						visible: info?.[`${IS_SIZE_PUBLIC_PROP}`],
+						visible: info?.[`${IS_DESCRIPTION_PUBLIC_PROP}`],
 					},
 			  ]
 			: []),
-		{
-			label: (
-				<Typography.Text type="secondary" className="mt-2">
-					Last updated:
-				</Typography.Text>
-			),
-			title: (
-				<Typography.Text type="secondary" className="mt-2">
-					{formatTime(info?.[`${UPDATED_ON_PROP}`])}
-				</Typography.Text>
-			),
-		},
 	];
 
 	const infoDescription = (
@@ -336,7 +371,8 @@ function ProfilePage({ isOwner = false, profile = {} }) {
 			colon={false}
 			title={
 				<Typography.Title level={3} className="p-0 m-0 w-75" ellipsis>
-					Business Information
+					{type === PROFILE_BUSINESS_TYPE_PROP ? "Business" : "More"}{" "}
+					Information
 				</Typography.Title>
 			}
 			className="mt-3"
@@ -353,7 +389,7 @@ function ProfilePage({ isOwner = false, profile = {} }) {
 			{(type === PROFILE_BUSINESS_TYPE_PROP
 				? businessData
 				: userData || []
-			).map((item, idx) => (
+			).map((item, idx, row) => (
 				<Descriptions.Item
 					key={idx}
 					contentStyle={{
@@ -370,9 +406,14 @@ function ProfilePage({ isOwner = false, profile = {} }) {
 					}}
 					label={<>{item.label}</>}
 				>
-					{item.title}
+					{item.visible ? (
+						item.title
+					) : (
+						<span className="text-primary">Unavailable</span>
+					)}
 					<br />
-					{isOwner && item.visible && (
+
+					{isOwner && item.visible && idx !== 0 && (
 						<div>
 							<Typography.Text className="text-danger">
 								This information is public to everyone
@@ -390,6 +431,11 @@ function ProfilePage({ isOwner = false, profile = {} }) {
 			bordered={false}
 			title={infoTitle}
 			loading={isEmptyObject(profile)}
+			extra={[
+				<Typography.Text type="secondary" className="m-0 p-0" ellipsis>
+					{formatTime(info?.[`${UPDATED_ON_PROP}`])}
+				</Typography.Text>,
+			]}
 		>
 			<Divider />
 			{infoDescription}
@@ -547,7 +593,7 @@ function ProfilePage({ isOwner = false, profile = {} }) {
 	const serviceResultHeaderMenu = (
 		<Menu
 			mode="horizontal"
-			className="px-2"
+			className="px-2 "
 			triggerSubMenuAction="click"
 			style={{
 				lineHeight: "2rem",
@@ -556,7 +602,7 @@ function ProfilePage({ isOwner = false, profile = {} }) {
 				{
 					key: SEARCH_SORT,
 					label: "Sort By",
-					style: { cursor: "pointer" },
+					style: { cursor: "pointer", zIndex: 200 },
 					children: [
 						{
 							key: SEARCH_SORT_DATE,
@@ -593,8 +639,8 @@ function ProfilePage({ isOwner = false, profile = {} }) {
 	const serviceResultHeader = (
 		<>
 			<Row justify="space-between" align="middle" className="my-0 my-md-4">
-				<Col>
-					<Typography.Title level={3} className="m-0">
+				<Col style={{ maxWidth: "75%" }}>
+					<Typography.Title level={3}>
 						All {keywordParam.length > 0 && `" ${keywordParam} "`} Results
 					</Typography.Title>
 				</Col>
@@ -602,15 +648,11 @@ function ProfilePage({ isOwner = false, profile = {} }) {
 				{fetchResults?.length > 0 && (
 					<Col>
 						{screens?.xs ? (
-							<Dropdown
-								overlay={serviceResultHeaderMenu}
-								trigger={["click"]}
-								open
-							>
+							<Dropdown overlay={serviceResultHeaderMenu} trigger={["click"]}>
 								<Space>
-									<MoreOutlined
-										className="c-primary-important"
-										style={{ cursor: "pointer" }}
+									<MenuOutlined
+										className="c-primary-important mt-2"
+										style={{ cursor: "pointer", fontSize: "1rem" }}
 									/>
 								</Space>
 							</Dropdown>
@@ -679,7 +721,8 @@ function ProfilePage({ isOwner = false, profile = {} }) {
 				columns={tableServiceResultColumns}
 				dataSource={tableServiceResultData}
 				pagination={{ pageSize: 20 }}
-				scroll={{ y: 240 }}
+				scroll={{ x: true, y: 240 }}
+				className="my-3"
 			/>
 		) : (
 			<Empty
