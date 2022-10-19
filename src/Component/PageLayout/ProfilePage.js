@@ -499,7 +499,7 @@ function ProfilePage({ isOwner = false, profile = {} }) {
 
 	useEffect(() => {
 		initSearch();
-	}, []);
+	}, [id]);
 
 	const serviceTagItems = [
 		(props = {}) => (

@@ -103,8 +103,6 @@ function useSearch() {
 		//  add location
 		params = { ...location, ...params };
 
-		console.log(params);
-
 		params = new URLSearchParams(params);
 
 		return onSearchHandle(type, params.toString()).then(

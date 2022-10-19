@@ -103,10 +103,10 @@ function SwitchProfile() {
 
 	const app = (
 		<>
-			<Space direction="vertical" gap={5} className="m-5 mb-2 tedkvn-center ">
+			<Space direction="vertical" size={5} className="m-5 mb-2 tedkvn-center ">
 				{title}
 			</Space>
-			<Space direction="horizontal" gap={5} wrap className="tedkvn-center">
+			<Space direction="horizontal" size={5} wrap className="tedkvn-center">
 				{renderProfiles.map((renPro, idx) => (
 					<React.Fragment key={idx}>
 						<Card
@@ -148,7 +148,7 @@ function SwitchProfile() {
 									)}
 								</Space>
 							}
-							className="m-4 overflow-hidden"
+							className="m-4 overflow-hidden pb-0"
 							actions={
 								profiles.length > 0 && [
 									<Button
@@ -188,7 +188,7 @@ function SwitchProfile() {
 						>
 							<Skeleton loading={profiles.length < 1} active>
 								<Meta
-									className="text-center tedkvn-center"
+									className="text-center tedkvn-center mt-2"
 									title={renPro?.info?.[`${PROFILE_NAME_PROP}`]}
 									description={
 										renPro?.info?.[`${PROFILE_STATUS_PROP}`] || <br />
@@ -229,7 +229,7 @@ function SwitchProfile() {
 								)}
 							</Space>
 						}
-						className="m-4 overflow-hidden"
+						className="m-4 overflow-hidden pb-0"
 						actions={
 							profiles.length > 0 && [
 								<Button
@@ -251,7 +251,7 @@ function SwitchProfile() {
 					>
 						<Skeleton loading={profiles.length < 1} active>
 							<Meta
-								className="text-center tedkvn-center"
+								className="text-center tedkvn-center my-2"
 								description="For business owners, host, self-employed, or freelancers"
 							/>
 						</Skeleton>
