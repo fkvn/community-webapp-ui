@@ -6,10 +6,6 @@ function TopBar() {
 	const { useBreakpoint } = Grid;
 	const screens = useBreakpoint();
 
-	console.log(
-		screens?.xs === true || (screens?.xs === false && screens?.xl === false)
-	);
-
 	const app = (
 		<Stack
 			direction="vertical"
@@ -22,9 +18,6 @@ function TopBar() {
 			) : (
 				<MobileTopBar />
 			)}
-
-			{/* {screens?.xs === true ||
-				(screens?.xs === false && screens?.xl === false && )} */}
 		</Stack>
 	);
 

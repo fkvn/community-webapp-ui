@@ -60,7 +60,13 @@ function useSignin() {
 			.catch((e) => errorMessage(e));
 	};
 
-	const googleSignin = async (credential = {}) =>
+	const googleSignin = async (
+		credential = {},
+		forward = false,
+		fowardAction = FORWARD_SUCCESS,
+		continueUrl = "",
+		successUrl = ""
+	) =>
 		accessWithGoogleAxios(credential)
 			.then((res) => {
 				// save user

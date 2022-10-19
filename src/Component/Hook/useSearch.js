@@ -109,7 +109,10 @@ function useSearch() {
 
 		return onSearchHandle(type, params.toString()).then(
 			async ({ location = {}, ...result }) => {
-				setSearchParams(params, {
+				const { [`${POST_OWNER_ID_PROP}`]: ownerId = -1, ...updatedParams } =
+					getSearchParamsObj(params);
+
+				setSearchParams(new URLSearchParams(updatedParams), {
 					state: { ...routeState },
 				});
 

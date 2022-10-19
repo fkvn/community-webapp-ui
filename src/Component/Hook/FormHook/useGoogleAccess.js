@@ -1,12 +1,13 @@
 import jwt_decode from "jwt-decode";
-import {useEffect, useRef} from "react";
+import { useEffect, useRef } from "react";
+import { FORWARD_SUCCESS } from "../../../Util/ConstVar";
 import useSignin from "../useSignin";
 
 function useGoogleAccess(buttonProps = {}) {
+	const { googleSignin } = useSignin();
 
-	const {googleSignin} = useSignin()
-
-	const handleCredentialResponse = (response) => googleSignin(jwt_decode(response.credential)) ;
+	const handleCredentialResponse = (response) =>
+		googleSignin(jwt_decode(response.credential), true, FORWARD_SUCCESS);
 
 	const divRef = useRef(null);
 

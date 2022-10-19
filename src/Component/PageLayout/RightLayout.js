@@ -2,15 +2,22 @@ import { Button, Card, List, Space } from "antd";
 import Meta from "antd/lib/card/Meta";
 import { Stack } from "react-bootstrap";
 import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { imageGuestAvatar } from "../../Assest/Asset";
 import { thainowReducer } from "../../redux-store/reducer/thainowReducer";
-import { PROFILE_OBJ } from "../../Util/ConstVar";
+import {
+	CLOSE_URL,
+	ID_PROP,
+	PROFILE_OBJ,
+	SEARCH_PROFILE,
+	SUCCESS_URL,
+} from "../../Util/ConstVar";
 import { isObjectEmpty, signoutUserPromise } from "../../Util/Util";
 import useImage from "../Hook/useImage";
 
 function RightLayout({ showSetting = false, ...props }) {
 	const navigate = useNavigate();
+	const location = useLocation();
 	const { image } = useImage();
 	const { [`${PROFILE_OBJ}`]: profile = {} } = useSelector(thainowReducer);
 
@@ -41,7 +48,20 @@ function RightLayout({ showSetting = false, ...props }) {
 			? [
 					{
 						title: (
-							<Button type="link" className="p-0  " href="/switch-profiles">
+							<Button
+								type="link"
+								className="p-0"
+								onClick={() =>
+									navigate("/switch-profiles", {
+										state: {
+											[`${CLOSE_URL}`]:
+												location?.pathname + location?.search || "/",
+											[`${SUCCESS_URL}`]:
+												location?.pathname + location?.search || "/",
+										},
+									})
+								}
+							>
 								Switch Profiles
 							</Button>
 						),
@@ -103,8 +123,20 @@ function RightLayout({ showSetting = false, ...props }) {
 						block
 						onClick={() =>
 							isObjectEmpty(profile)
-								? navigate("/signin")
-								: alert("Coming soon")
+								? navigate("/signin", {
+										state: {
+											[`${CLOSE_URL}`]:
+												location?.pathname + location?.search || "/",
+											[`${SUCCESS_URL}`]:
+												location?.pathname + location?.search || "/",
+										},
+								  })
+								: navigate(`/${SEARCH_PROFILE}/${profile?.[`${ID_PROP}`]}`, {
+										state: {
+											[`${CLOSE_URL}`]:
+												location?.pathname + location?.search || "/",
+										},
+								  })
 						}
 					>
 						{isObjectEmpty(profile) ? "Sign In" : "My Profile"}
@@ -122,7 +154,6 @@ function RightLayout({ showSetting = false, ...props }) {
 										style={{ borderBottom: "1px solid wheat" }}
 									>
 										{item.title}
-										{/* <List.Item.Meta title={item.title} /> */}
 									</List.Item>
 								)}
 							/>

@@ -1,5 +1,7 @@
 import Icon, {
 	AimOutlined,
+	ArrowDownOutlined,
+	ArrowUpOutlined,
 	LinkOutlined,
 	MailOutlined,
 	MoreOutlined,
@@ -24,13 +26,15 @@ import {
 	Row,
 	Segmented,
 	Space,
+	Table,
+	Tag,
 	Typography,
 } from "antd";
 import Meta from "antd/lib/card/Meta";
 import { isEmptyObject } from "jquery";
 import React, { useCallback, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { useLocation, useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 import { iconLocationBlack } from "../../Assest/Asset";
 import DealBadge from "../../Component/Badge/DealBadge";
 import HousingBadge from "../../Component/Badge/HousingBadge";
@@ -74,11 +78,16 @@ import {
 	SEARCH_REVIEW,
 	SEARCH_SERVICE,
 	SEARCH_SORT,
+	SEARCH_SORT_ACS,
 	SEARCH_SORT_DATE,
+	SEARCH_SORT_DESC,
 	SEARCH_SORT_DISTANCE,
+	SEARCH_SORT_ORDER,
 	SEARCH_TYPE_PROP,
 	SEARCH_WISHLIST,
 	SIZE_PROP,
+	STATUS_PROP,
+	TITLE_PROP,
 	TOTAL_REVIEW_PROP,
 	UPDATED_ON_PROP,
 	WEBSITE_PROP,
@@ -108,8 +117,6 @@ function ProfilePage({ isOwner = false, profile = {} }) {
 	const [visible, setVisible] = useState(false);
 
 	const { forwardUrl } = useUrls();
-
-	const location = useLocation();
 
 	const header = (
 		<PageHeader
@@ -180,7 +187,7 @@ function ProfilePage({ isOwner = false, profile = {} }) {
 							disabled
 							defaultValue={avgRating}
 							allowHalf
-							style={{ fontSize: "1rem", backgroundColor: "gray !important" }}
+							style={{ backgroundColor: "gray !important" }}
 							className="c-housing-important m-0"
 						/>
 						<span className="ant-rate-text c-housing-important">
@@ -392,7 +399,8 @@ function ProfilePage({ isOwner = false, profile = {} }) {
 	const [searchParams] = useSearchParams();
 	const keywordParam = searchParams.get(SEARCH_KEYWORD) || "";
 	const searchTypeParam = searchParams.get(SEARCH_TYPE_PROP) || SEARCH_DEAL;
-	const sortParam = searchParams.get(SEARCH_SORT) || SEARCH_SORT_DATE;
+	const sortOrderParam =
+		searchParams.get(SEARCH_SORT_ORDER) || SEARCH_SORT_DESC;
 	const { dispatchSearch } = useSearch();
 	const { [`${SEARCH_RESULT_OBJ}`]: searchResult = {} } =
 		useSelector(thainowReducer);
@@ -540,6 +548,7 @@ function ProfilePage({ isOwner = false, profile = {} }) {
 		<Menu
 			mode="horizontal"
 			className="px-2"
+			triggerSubMenuAction="click"
 			style={{
 				lineHeight: "2rem",
 			}}
@@ -551,7 +560,16 @@ function ProfilePage({ isOwner = false, profile = {} }) {
 					children: [
 						{
 							key: SEARCH_SORT_DATE,
-							label: "Sort by Date",
+							label: (
+								<>
+									Sort by Date{" "}
+									{sortOrderParam === SEARCH_SORT_DESC ? (
+										<ArrowUpOutlined style={{ verticalAlign: "none" }} />
+									) : (
+										<ArrowDownOutlined />
+									)}
+								</>
+							),
 						},
 						{
 							key: SEARCH_SORT_DISTANCE,
@@ -563,6 +581,10 @@ function ProfilePage({ isOwner = false, profile = {} }) {
 			onClick={({ key }) =>
 				initSearch(SEARCH_SERVICE, searchTypeParam, {
 					[`${SEARCH_SORT}`]: key,
+					[`${SEARCH_SORT_ORDER}`]:
+						sortOrderParam === SEARCH_SORT_DESC
+							? SEARCH_SORT_ACS
+							: SEARCH_SORT_DESC,
 				})
 			}
 		/>
@@ -577,25 +599,95 @@ function ProfilePage({ isOwner = false, profile = {} }) {
 					</Typography.Title>
 				</Col>
 
-				<Col>
-					{screens?.xs ? (
-						<Dropdown overlay={serviceResultHeaderMenu} trigger={["click"]}>
-							<Space>
-								<MoreOutlined
-									className="c-primary-important"
-									style={{ cursor: "pointer" }}
-								/>
-							</Space>
-						</Dropdown>
-					) : (
-						serviceResultHeaderMenu
-					)}
-				</Col>
+				{fetchResults?.length > 0 && (
+					<Col>
+						{screens?.xs ? (
+							<Dropdown
+								overlay={serviceResultHeaderMenu}
+								trigger={["click"]}
+								open
+							>
+								<Space>
+									<MoreOutlined
+										className="c-primary-important"
+										style={{ cursor: "pointer" }}
+									/>
+								</Space>
+							</Dropdown>
+						) : (
+							serviceResultHeaderMenu
+						)}
+					</Col>
+				)}
 			</Row>
 		</>
 	);
 
-	const tableServiceResult = <></>;
+	const tableServiceResultColumns = [
+		{
+			title: "Title",
+			dataIndex: "title",
+			render: (text) => <Typography.Link>{text}</Typography.Link>,
+			ellipsis: true,
+		},
+		{
+			title: "Status",
+			dataIndex: "status",
+			render: (status) =>
+				status === "AVAILABLE" ? (
+					<Tag color="success">PUBLIC</Tag>
+				) : (
+					<Tag color="warning">{status}</Tag>
+				),
+			ellipsis: true,
+		},
+		{
+			title: "Date",
+			dataIndex: "date",
+			// render: (time) => formatTime(time),
+			ellipsis: true,
+		},
+		{
+			title: "Action",
+			dataIndex: "action",
+			render: () => (
+				<Space size="middle">
+					<Button type="link" className="border-0 p-0">
+						Edit
+					</Button>
+					<Button type="link" className="border-0 p-0 text-danger">
+						Delete
+					</Button>
+				</Space>
+			),
+			ellipsis: true,
+		},
+	];
+
+	const tableServiceResultData = fetchResults.map((res, idx) => {
+		return {
+			key: idx,
+			title: res?.[`${INFO_PROP}`]?.[`${TITLE_PROP}`],
+			status: res?.[`${INFO_PROP}`]?.[`${STATUS_PROP}`],
+			date: res?.[`${INFO_PROP}`]?.[`${UPDATED_ON_PROP}`],
+		};
+	});
+
+	const tableServiceResult =
+		fetchResults.length > 0 ? (
+			<Table
+				columns={tableServiceResultColumns}
+				dataSource={tableServiceResultData}
+				pagination={{ pageSize: 20 }}
+				scroll={{ y: 240 }}
+			/>
+		) : (
+			<Empty
+				description={`This profile hasn't posted any ${
+					searchResult?.[`${SEARCH_TYPE_PROP}`]
+				} yet`}
+			/>
+		);
 
 	const cardServiceResult =
 		fetchResults.length > 0 ? (
@@ -631,7 +723,7 @@ function ProfilePage({ isOwner = false, profile = {} }) {
 	const serviceResult = (
 		<>
 			{serviceResultHeader}
-			{isOwner ? <></> : cardServiceResult}
+			{isOwner ? tableServiceResult : cardServiceResult}
 		</>
 	);
 
