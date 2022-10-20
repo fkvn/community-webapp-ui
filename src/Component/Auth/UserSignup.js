@@ -72,10 +72,10 @@ function UserSignup() {
 	const renderStep1 = (
 		<>
 			{loginPrompt}
-			<Divider orientation="left">Register with</Divider>
+			<Divider orientation="left">Continue with</Divider>
 			<Space
 				direction="horizontal"
-				className="mx-4"
+				className="mx-2 tedkvn-center"
 				size={40}
 				wrap
 				align="center"
@@ -84,7 +84,7 @@ function UserSignup() {
 				{useAppleAccess()}
 				{useGoogleAccess()}
 			</Space>
-			<Divider>OR ThaiNow Account </Divider>
+			<Divider>OR Create ThaiNow Account </Divider>
 
 			{useUsername()}
 			{usePassword()}
