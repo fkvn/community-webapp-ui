@@ -432,7 +432,7 @@ function ProfilePage({ isOwner = false, profile = {} }) {
 			title={infoTitle}
 			loading={isEmptyObject(profile)}
 			extra={[
-				<Typography.Text type="secondary" className="m-0 p-0" ellipsis>
+				<Typography.Text key={id} type="secondary" className="m-0 p-0" ellipsis>
 					{formatTime(info?.[`${UPDATED_ON_PROP}`])}
 				</Typography.Text>,
 			]}
