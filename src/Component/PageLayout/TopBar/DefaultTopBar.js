@@ -57,7 +57,7 @@ function DefaultTopBar() {
 	useEffect(() => {
 		const keywordParam = searchParams.get("keywords") || "";
 		form.setFieldValue(SEARCH_INPUT_PROP, keywordParam);
-		$("#layout main").css("margin-top", $("#layout header").outerHeight() + 20);
+		$("#layout main").css("margin-top", $("#layout header").outerHeight() + 25);
 	});
 
 	const app = (

@@ -10,6 +10,7 @@ import Icon, {
 	UserOutlined,
 } from "@ant-design/icons";
 import {
+	Avatar,
 	Button,
 	Card,
 	Carousel,
@@ -131,20 +132,22 @@ function ProfilePage({ isOwner = false, profile = {} }) {
 	const cover = (
 		<div>
 			<Carousel dots={true} autoplay>
-				<div>
-					<div className="w-100">
-						{image({
-							width: "100%",
-							onClick: () => setVisible(true),
-							preview: { visible: false },
-							style: {
-								maxHeight: screens?.xs ? "15rem" : "25rem",
-								objectFit: "cover",
-							},
-							src: info?.[`${PICTURE_PROP}`],
-						})}
+				{info?.[`${PICTURE_LIST_PROP}`]?.length === 0 && (
+					<div>
+						<div className="w-100">
+							{image({
+								width: "100%",
+								onClick: () => setVisible(true),
+								preview: { visible: false },
+								style: {
+									maxHeight: screens?.xs ? "15rem" : "25rem",
+									objectFit: "cover",
+								},
+								src: info?.[`${PICTURE_PROP}`],
+							})}
+						</div>
 					</div>
-				</div>
+				)}
 				{(info?.[`${PICTURE_LIST_PROP}`] || []).map((img, idx) => (
 					<div key={idx}>
 						<div>
@@ -177,7 +180,9 @@ function ProfilePage({ isOwner = false, profile = {} }) {
 	const infoTitle = (
 		<Meta
 			className="mt-2"
-			// avatar={<Avatar size={60} src={info?.[`${PICTURE_PROP}`]} />}
+			{...(info?.[`${PICTURE_LIST_PROP}`]?.length > 0 && {
+				avatar: <Avatar size={50} src={info?.[`${PICTURE_PROP}`]} />,
+			})}
 			title={
 				<Space direction="vertical" size={0}>
 					<Typography.Title level={2} className="m-0">
@@ -207,7 +212,7 @@ function ProfilePage({ isOwner = false, profile = {} }) {
 			title: (
 				<Typography.Link className="mt-1" ellipsis>
 					Member since{" "}
-					{(info?.[`${CREATED_ON_PROP}`] || "").split(" ")?.[0].split("-")?.[0]}
+					{(info?.[`${CREATED_ON_PROP}`] || "").split(" ")?.[0].split("-")?.[2]}
 				</Typography.Link>
 			),
 			visible: true,
@@ -431,11 +436,18 @@ function ProfilePage({ isOwner = false, profile = {} }) {
 			bordered={false}
 			title={infoTitle}
 			loading={isEmptyObject(profile)}
-			extra={[
-				<Typography.Text key={id} type="secondary" className="m-0 p-0" ellipsis>
-					{formatTime(info?.[`${UPDATED_ON_PROP}`])}
-				</Typography.Text>,
-			]}
+			{...(!screens?.xs && {
+				extra: [
+					<Typography.Text
+						key={id}
+						type="secondary"
+						className="m-0 p-0"
+						ellipsis
+					>
+						{formatTime(info?.[`${UPDATED_ON_PROP}`])}
+					</Typography.Text>,
+				],
+			})}
 		>
 			<Divider />
 			{infoDescription}
