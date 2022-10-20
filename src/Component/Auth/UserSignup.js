@@ -13,15 +13,14 @@ import {
 	SMS_PROP,
 	USERNAME_PROP,
 } from "../../Util/ConstVar";
-import useAppleAccess from "../Hook/FormHook/useAppleAccess";
 import useEmail from "../Hook/FormHook/useEmail";
 import useEULA from "../Hook/FormHook/useEULA";
-import useFacebookAccess from "../Hook/FormHook/useFacebookAccess";
-import useGoogleAccess from "../Hook/FormHook/useGoogleAccess";
 import useOtp from "../Hook/FormHook/useOtp";
 import usePassword from "../Hook/FormHook/usePassword";
 import usePhone from "../Hook/FormHook/usePhone";
 import useUsername from "../Hook/FormHook/useUsername";
+import useAppleAccess from "../Hook/ThirdPartyHook/useAppleAccess";
+import useGoogleAccess from "../Hook/ThirdPartyHook/useGoogleAccess";
 import useImage from "../Hook/useImage";
 import useRegister from "../Hook/useRegister";
 import useSignin from "../Hook/useSignin";
@@ -81,9 +80,9 @@ function UserSignup() {
 				wrap
 				align="center"
 			>
-				{useFacebookAccess()}
-				{useGoogleAccess()}
+				{/* {useFacebookAccess()} */}
 				{useAppleAccess()}
+				{useGoogleAccess()}
 			</Space>
 			<Divider>OR ThaiNow Account </Divider>
 

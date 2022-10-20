@@ -188,7 +188,7 @@ function SwitchProfile() {
 						>
 							<Skeleton loading={profiles.length < 1} active>
 								<Meta
-									className="text-center tedkvn-center mt-2"
+									className="text-center tedkvn-center my-3"
 									title={renPro?.info?.[`${PROFILE_NAME_PROP}`]}
 									description={
 										renPro?.info?.[`${PROFILE_STATUS_PROP}`] || <br />

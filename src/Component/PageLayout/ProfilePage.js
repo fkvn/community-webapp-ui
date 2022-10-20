@@ -277,7 +277,7 @@ function ProfilePage({ isOwner = false, profile = {} }) {
 		{
 			label: <UserOutlined />,
 			title: (
-				<Typography.Link className="mt-1" ellipsis>
+				<Typography.Link ellipsis>
 					{info?.[`${STATUS_PROP}`] + " BUSINESS"}
 				</Typography.Link>
 			),
@@ -413,7 +413,7 @@ function ProfilePage({ isOwner = false, profile = {} }) {
 					)}
 					<br />
 
-					{isOwner && item.visible && idx !== 0 && (
+					{isOwner && item.visible && (
 						<div>
 							<Typography.Text className="text-danger">
 								This information is public to everyone

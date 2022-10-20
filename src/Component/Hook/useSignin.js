@@ -1,4 +1,8 @@
-import { accessWithGoogleAxios, signinAxios } from "../../Axios/axiosPromise";
+import {
+	accessWithAppleAxios,
+	accessWithGoogleAxios,
+	signinAxios,
+} from "../../Axios/axiosPromise";
 import { FORWARD_SUCCESS } from "../../Util/ConstVar";
 import { saveProfileInfo, saveUserInfo } from "../../Util/Util";
 import { errorMessage, loadingMessage, successMessage } from "./useMessage";
@@ -85,9 +89,35 @@ function useSignin() {
 			})
 			.catch((e) => errorMessage(e));
 
+	const appleSignin = async (
+		credential = {},
+		forward = false,
+		fowardAction = FORWARD_SUCCESS,
+		continueUrl = "",
+		successUrl = ""
+	) =>
+		accessWithAppleAxios(credential)
+			.then((res) => {
+				// save user
+				saveUserInfo({
+					access_token: res.access_token,
+				});
+
+				// save profile
+				saveProfileInfo(res.profile);
+
+				successMessage("Signing in successfully", 1).then(() =>
+					forward
+						? forwardUrl(fowardAction, "", continueUrl, successUrl)
+						: Promise.resolve()
+				);
+			})
+			.catch((e) => errorMessage(e));
+
 	return {
 		thainowSignin,
 		googleSignin,
+		appleSignin,
 	};
 }
 

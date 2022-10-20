@@ -112,6 +112,14 @@ export const accessWithGoogleAxios = (credential = {}) =>
 		.then(({ data }) => Promise.resolve(data))
 		.catch((e) => Promise.reject(e));
 
+export const accessWithAppleAxios = (credential = {}) =>
+	axios
+		.post(`/auth/apple/access`, {
+			...credential,
+		})
+		.then(({ data }) => Promise.resolve(data))
+		.catch((e) => Promise.reject(e));
+
 // validation
 
 export const validateUsernamePromise = (username = "") => {

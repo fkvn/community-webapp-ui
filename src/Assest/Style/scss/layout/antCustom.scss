@@ -114,7 +114,8 @@ ul.ant-rate li {
 	background-color: rgba(0, 0, 0, 0.7);
 }
 
-.ant-rate-star-zero .ant-rate-star-second {
+.ant-rate-star-zero .ant-rate-star-second,
+.ant-rate-star-half .ant-rate-star-second {
 	color: lightgray !important;
 }
 

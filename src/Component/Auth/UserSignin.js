@@ -5,10 +5,10 @@ import { Stack } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { EMAIL_PROP, PASSWORD_PROP, PHONE_PROP } from "../../Util/ConstVar";
 import useEmail from "../Hook/FormHook/useEmail";
-import useFacebookAccess from "../Hook/FormHook/useFacebookAccess";
-import useGoogleAccess from "../Hook/FormHook/useGoogleAccess";
 import usePassword from "../Hook/FormHook/usePassword";
 import usePhone from "../Hook/FormHook/usePhone";
+import useAppleAccess from "../Hook/ThirdPartyHook/useAppleAccess";
+import useGoogleAccess from "../Hook/ThirdPartyHook/useGoogleAccess";
 import useSignin from "../Hook/useSignin";
 
 function UserSignin() {
@@ -53,9 +53,9 @@ function UserSignin() {
 				wrap
 				align="center"
 			>
-				{useFacebookAccess()}
+				{/* {useFacebookAccess()} */}
+				{useAppleAccess()}
 				{useGoogleAccess()}
-				{/* {useAppleAccess()} */}
 			</Space>
 		</>
 	);
