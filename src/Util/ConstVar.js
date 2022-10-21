@@ -79,6 +79,7 @@ export const IS_PHONE_PUBLIC_PROP = "phonePublic";
 export const PASSWORD_PROP = "password";
 export const PASSWORD_VALIDATION = "isValidPassword";
 export const CONFIRM_PASSWORD_VALIDATION = "isPasswordMatch";
+export const URL_PROP = "url";
 
 export const VERIFICATION_METHOD_PROP = "verifyMethod";
 export const SIGNIN_METHOD_PROP = "channel";

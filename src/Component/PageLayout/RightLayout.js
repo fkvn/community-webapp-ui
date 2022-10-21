@@ -3,7 +3,6 @@ import Meta from "antd/lib/card/Meta";
 import { Stack } from "react-bootstrap";
 import { useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
-import { imageGuestAvatar } from "../../Assest/Asset";
 import { thainowReducer } from "../../redux-store/reducer/thainowReducer";
 import {
 	CLOSE_URL,
@@ -14,15 +13,16 @@ import {
 } from "../../Util/ConstVar";
 import { isObjectEmpty, signoutUserPromise } from "../../Util/Util";
 import useImage from "../Hook/useImage";
+import useProfile from "../Hook/useProfile";
 
 function RightLayout({ showSetting = false, ...props }) {
 	const navigate = useNavigate();
 	const location = useLocation();
-	const { image } = useImage();
+	const { avatar } = useImage();
 	const { [`${PROFILE_OBJ}`]: profile = {} } = useSelector(thainowReducer);
 
 	const { picture, name, description } = isObjectEmpty(profile)
-		? { picture: imageGuestAvatar, name: "Hi Welcome", description: "ThaiNow" }
+		? { name: "Hi Welcome", description: "ThaiNow" }
 		: { ...profile.info, description: "" };
 
 	const settingItems = [
@@ -88,6 +88,8 @@ function RightLayout({ showSetting = false, ...props }) {
 			: []),
 	];
 
+	const { uploadProfileAvatar } = useProfile();
+
 	const app = (
 		<Stack
 			id="RightLayout"
@@ -108,16 +110,19 @@ function RightLayout({ showSetting = false, ...props }) {
 			)}
 
 			<Card className="w-100 text-center pb-4" bodyStyle={{ paddingTop: 0 }}>
-				<Space direction="vertical" className="w-100" size={15}>
-					<Space direction="vertical" className="w-100 my-3 tedkvn-center">
-						{image({
-							src: picture,
-							width: 100,
-							className: "rounded-circle my-3",
-						})}
-						<Meta title={name} description={description} />
+				<Space direction="vertical" className="w-100" size={10}>
+					<Space direction="vertical" className="w-100 my-4 tedkvn-center">
+						{avatar(
+							{
+								src: picture,
+								size: 100,
+							},
+							profile?.[`${ID_PROP}`] && true,
+							(formData = new FormData()) =>
+								uploadProfileAvatar(profile?.[`${ID_PROP}`], formData)
+						)}
+						<Meta className="mt-2" title={name} description={description} />
 					</Space>
-
 					<Button
 						type="primary"
 						block

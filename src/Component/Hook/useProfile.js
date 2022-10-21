@@ -1,20 +1,50 @@
 import {
 	removeAccountProfileAxios,
 	removeBusinessProfileAxios,
+	uploadFileAxios,
+	uploadProfileAvatarAxios,
 } from "../../Axios/axiosPromise";
-import { patchProfileInfoPromise } from "../../redux-store/dispatchPromise";
+import {
+	getState,
+	patchProfileInfoPromise,
+} from "../../redux-store/dispatchPromise";
 import {
 	FORWARD_SUCCESS,
 	ID_PROP,
+	INFO_PROP,
+	PICTURE_PROP,
 	PROFILE_NAME_PROP,
 	PROFILE_OBJ,
 } from "../../Util/ConstVar";
 import { signoutUserPromise } from "../../Util/Util";
-import { errorMessage, successMessage } from "./useMessage";
+import { errorMessage, loadingMessage, successMessage } from "./useMessage";
 import useUrls from "./useUrls";
 
 function useProfile() {
 	const { forwardUrl } = useUrls();
+
+	const uploadProfileAvatar = async (id = -1, formData = new FormData()) => {
+		loadingMessage("Uploading ...", 0);
+
+		return uploadFileAxios(formData).then((res = {}) =>
+			uploadProfileAvatarAxios(id, res).then((url = "") => {
+				const storedProfile = getState()?.[`${PROFILE_OBJ}`];
+				const updatedProfile = {
+					...storedProfile,
+					[`${INFO_PROP}`]: {
+						...storedProfile?.[`${INFO_PROP}`],
+						[`${PICTURE_PROP}`]: url,
+					},
+				};
+
+				return patchProfileInfoPromise(updatedProfile, true)
+					.then(async () =>
+						localStorage.setItem(PROFILE_OBJ, JSON.stringify(updatedProfile))
+					)
+					.then(() => successMessage("Uploaded successfully"));
+			})
+		);
+	};
 
 	const switchProfile = (
 		profile = {},
@@ -84,6 +114,7 @@ function useProfile() {
 		switchProfile,
 		removeBusinessProfile,
 		removeAccountProfile,
+		uploadProfileAvatar,
 	};
 }
 

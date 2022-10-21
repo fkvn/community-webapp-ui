@@ -7,10 +7,9 @@ import Icon, {
 	MenuOutlined,
 	PhoneOutlined,
 	TeamOutlined,
-	UserOutlined,
+	UserOutlined
 } from "@ant-design/icons";
 import {
-	Avatar,
 	Button,
 	Card,
 	Carousel,
@@ -29,21 +28,21 @@ import {
 	Space,
 	Table,
 	Tag,
-	Typography,
+	Typography
 } from "antd";
 import Meta from "antd/lib/card/Meta";
-import { isEmptyObject } from "jquery";
-import React, { useCallback, useEffect, useState } from "react";
-import { useSelector } from "react-redux";
-import { useSearchParams } from "react-router-dom";
-import { iconLocationBlack } from "../../Assest/Asset";
+import {isEmptyObject} from "jquery";
+import React, {useCallback, useEffect, useState} from "react";
+import {useSelector} from "react-redux";
+import {useSearchParams} from "react-router-dom";
+import {iconLocationBlack} from "../../Assest/Asset";
 import DealBadge from "../../Component/Badge/DealBadge";
 import HousingBadge from "../../Component/Badge/HousingBadge";
 import JobBadge from "../../Component/Badge/JobBadge";
 import MarketplaceBadge from "../../Component/Badge/MarketplaceBadge";
 import useImage from "../../Component/Hook/useImage";
 import useSearch from "../../Component/Hook/useSearch";
-import { thainowReducer } from "../../redux-store/reducer/thainowReducer";
+import {thainowReducer} from "../../redux-store/reducer/thainowReducer";
 import {
 	ADDRESS_PROP,
 	AVG_RATING_PROP,
@@ -92,7 +91,7 @@ import {
 	TITLE_PROP,
 	TOTAL_REVIEW_PROP,
 	UPDATED_ON_PROP,
-	WEBSITE_PROP,
+	WEBSITE_PROP
 } from "../../Util/ConstVar";
 import DealCard from "../ServiceCard/DealCard";
 import HousingCard from "../ServiceCard/HousingCard";
@@ -100,7 +99,7 @@ import JobCard from "../ServiceCard/JobCard";
 import MarketplaceCard from "../ServiceCard/MarketplaceCard";
 
 import useUrls from "../../Component/Hook/useUrls";
-import { formatTime } from "../../Util/Util";
+import {formatTime} from "../../Util/Util";
 
 function ProfilePage({ isOwner = false, profile = {} }) {
 	const {
@@ -114,7 +113,7 @@ function ProfilePage({ isOwner = false, profile = {} }) {
 	const { useBreakpoint } = Grid;
 	const screens = useBreakpoint();
 
-	const { image } = useImage();
+	const { image, avatar } = useImage();
 
 	const [visible, setVisible] = useState(false);
 
@@ -180,8 +179,11 @@ function ProfilePage({ isOwner = false, profile = {} }) {
 	const infoTitle = (
 		<Meta
 			className="mt-2"
-			{...(info?.[`${PICTURE_LIST_PROP}`]?.length > 0 && {
-				avatar: <Avatar size={50} src={info?.[`${PICTURE_PROP}`]} />,
+			{...(info?.[`${PICTURE_LIST_PROP}`]?.length === 0 && {
+				avatar: avatar({
+					src: info?.[`${PICTURE_PROP}`],
+					size: 50,
+				}),
 			})}
 			title={
 				<Space direction="vertical" size={0}>

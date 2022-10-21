@@ -211,7 +211,6 @@ export const convertProfileInfo = ({ type = "", user = {}, company = {} }) => {
 
 export const saveProfileInfo = (profile = {}) => {
 	localStorage.setItem(constVar.PROFILE_OBJ, JSON.stringify(profile));
-
 	patchProfileInfoPromise(profile, true);
 };
 
@@ -337,7 +336,6 @@ export const formatTime = (time = "") => {
 	const currentTimeObj = new Date();
 
 	// get hours - less than 1hr -> just now
-
 	const hourDiff = Math.abs(
 		Math.round((timeObj.getTime() - currentTimeObj.getTime()) / 1000 / 60 / 60)
 	);
@@ -347,10 +345,10 @@ export const formatTime = (time = "") => {
 	// if > 10 days -> display date
 	if (dayDiff > 10) return month + "/" + date + "/" + year;
 	//  if > 1 day -> display <dayDiff> "d"
-	else if (dayDiff > 1) return dayDiff + " days";
+	else if (dayDiff > 1) return dayDiff + "d ago";
 	// if  > 1 hr -> display <hours>
 	else if (hourDiff > 1) {
-		return hourDiff + " hours";
+		return hourDiff + " hr ago";
 	}
 
 	// less than 1hr -> just now

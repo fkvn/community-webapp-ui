@@ -110,6 +110,11 @@ ul.ant-rate li {
 	line-height: 2rem;
 }
 
+.ant-image-preview-mask,
+.ant-image-preview-wrap {
+	z-index: 2000;
+}
+
 .ant-image-preview-operations {
 	background-color: rgba(0, 0, 0, 0.7);
 }
