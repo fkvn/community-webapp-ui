@@ -1,7 +1,7 @@
 import { UserOutlined } from "@ant-design/icons";
 import { Avatar, Image, Tooltip } from "antd";
 import { imageNoPhoto, imageThainowLogoRound } from "../../Assest/Asset";
-import UploadAvatarContainer from "../../Container/UploadAvatarContainer";
+import UploadAvatarContainer from "../Upload/UploadPicture";
 import useUpload from "./useUpload";
 
 function useImage() {

@@ -1,9 +1,9 @@
 import { CameraOutlined } from "@ant-design/icons";
 import { Avatar, Badge, Upload } from "antd";
 import ImgCrop from "antd-img-crop";
-import { errorMessage } from "../Component/Hook/useMessage";
+import { errorMessage } from "../Hook/useMessage";
 
-function UploadAvatarContainer({
+function UploadPicture({
 	className = "",
 	cropAspect = 1 / 1,
 	cropShape = "rect",
@@ -114,4 +114,4 @@ function UploadAvatarContainer({
 	return app;
 }
 
-export default UploadAvatarContainer;
+export default UploadPicture;

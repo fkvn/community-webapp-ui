@@ -1,11 +1,11 @@
 import { Stack } from "react-bootstrap";
 import { useLocation, useNavigate } from "react-router-dom";
 import * as asset from "../../Assest/Asset";
-import UploadAvatarContainer from "../../Container/UploadAvatarContainer";
 import * as constVar from "../../Util/ConstVar";
 import { signoutUserPromise } from "../../Util/Util";
 import LoadingButton from "../Button/LoadingButton";
 import ImageFrame from "../ImageFrame/ImageFrame";
+import UploadAvatarContainer from "../Upload/UploadPicture";
 
 function ProfilePanel({
 	isSignedIn = false,
