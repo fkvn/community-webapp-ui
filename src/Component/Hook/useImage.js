@@ -24,8 +24,7 @@ function useImage() {
 	const avatar = (
 		{ ...inputProps },
 		editable = false,
-		uploadPhotoOnClick = uploadFile,
-		tooltip = true
+		uploadPhotoOnClick = uploadFile
 	) =>
 		((props = {}) =>
 			editable ? (

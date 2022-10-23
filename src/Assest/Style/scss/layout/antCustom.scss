@@ -1,5 +1,9 @@
 @import "../base/_global.scss";
 
+// .anticon {
+// 	@include flex-center;
+// }
+
 .ant-message-custom-content {
 	@include flex-center;
 }
@@ -56,7 +60,8 @@
 	background-color: #f3f4f6;
 }
 
-.ant-popover-buttons button {
+.ant-popover-buttons button,
+.ant-upload-list-item-actions button {
 	display: inline-block !important;
 }
 
@@ -110,9 +115,15 @@ ul.ant-rate li {
 	line-height: 2rem;
 }
 
+.ant-modal-mask,
+.ant-modal-wrap,
 .ant-image-preview-mask,
 .ant-image-preview-wrap {
 	z-index: 2000;
+}
+
+.img-crop-modal button {
+	display: inline-block !important;
 }
 
 .ant-image-preview-operations {

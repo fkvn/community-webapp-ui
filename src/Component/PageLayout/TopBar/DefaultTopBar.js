@@ -1,7 +1,6 @@
 import { MenuOutlined } from "@ant-design/icons";
 import { Button, Dropdown, Form, Menu } from "antd";
 import { useForm } from "antd/lib/form/Form";
-import $ from "jquery";
 import { useEffect, useState } from "react";
 import { Navbar, Stack } from "react-bootstrap";
 import { useSelector } from "react-redux";
@@ -13,6 +12,8 @@ import useSearchKeyword from "../../Hook/FormHook/useSearchKeyword";
 import useCurrentLocation from "../../Hook/useCurrentLocation";
 import useImage from "../../Hook/useImage";
 import OffCanvasSearch from "../../Search/OffCanvasSearch";
+
+import $ from "jquery";
 
 function DefaultTopBar() {
 	const [searchParams] = useSearchParams();
@@ -55,9 +56,9 @@ function DefaultTopBar() {
 	);
 
 	useEffect(() => {
+		$("#layout main").css("margin-top", $("#layout header").height() + 25);
 		const keywordParam = searchParams.get("keywords") || "";
 		form.setFieldValue(SEARCH_INPUT_PROP, keywordParam);
-		$("#layout main").css("margin-top", $("#layout header").outerHeight() + 25);
 	});
 
 	const app = (

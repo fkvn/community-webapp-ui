@@ -1,6 +1,7 @@
 import React from "react";
 import { Stack } from "react-bootstrap";
 import { Route, Routes } from "react-router-dom";
+import EditProfileContainer from "../../Container/ProfilePanelContainer/EditProfileContainer";
 import ProfilePageContainer from "../../Container/ServicePageContainer/ProfilePageContainer";
 import ServicePageContainer from "../../Container/ServicePageContainer/ServicePageContainer";
 import { SEARCH_PROFILE, SEARCH_SERVICE } from "../../Util/ConstVar";
@@ -22,6 +23,10 @@ function LeftLayout() {
 				<Route
 					path={`/${SEARCH_PROFILE}/:id`}
 					element={<ProfilePageContainer />}
+				/>
+				<Route
+					path={`/${SEARCH_PROFILE}/:id/edit-profile`}
+					element={<EditProfileContainer />}
 				/>
 				<Route path="/search" element={<SearchResultPage />} />
 				<Route path={`/${SEARCH_SERVICE}`} element={<ServicePageContainer />} />

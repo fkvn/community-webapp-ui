@@ -8,8 +8,8 @@ function OffCanvasSearch({ show = false, onHide = () => {} }) {
 			show={show}
 			onHide={onHide}
 			className="p-0 m-0  border-0 "
-			scroll={true}
-			backdrop={true}
+			// scroll={true}
+			// backdrop={true}
 			placement="end"
 		>
 			<Offcanvas.Header closeButton className="border-0  px-4 bg-white">

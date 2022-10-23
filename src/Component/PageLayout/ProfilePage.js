@@ -7,7 +7,7 @@ import Icon, {
 	MenuOutlined,
 	PhoneOutlined,
 	TeamOutlined,
-	UserOutlined
+	UserOutlined,
 } from "@ant-design/icons";
 import {
 	Button,
@@ -28,21 +28,21 @@ import {
 	Space,
 	Table,
 	Tag,
-	Typography
+	Typography,
 } from "antd";
 import Meta from "antd/lib/card/Meta";
-import {isEmptyObject} from "jquery";
-import React, {useCallback, useEffect, useState} from "react";
-import {useSelector} from "react-redux";
-import {useSearchParams} from "react-router-dom";
-import {iconLocationBlack} from "../../Assest/Asset";
+import { isEmptyObject } from "jquery";
+import React, { useCallback, useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import { useSearchParams } from "react-router-dom";
+import { iconLocationBlack } from "../../Assest/Asset";
 import DealBadge from "../../Component/Badge/DealBadge";
 import HousingBadge from "../../Component/Badge/HousingBadge";
 import JobBadge from "../../Component/Badge/JobBadge";
 import MarketplaceBadge from "../../Component/Badge/MarketplaceBadge";
 import useImage from "../../Component/Hook/useImage";
 import useSearch from "../../Component/Hook/useSearch";
-import {thainowReducer} from "../../redux-store/reducer/thainowReducer";
+import { thainowReducer } from "../../redux-store/reducer/thainowReducer";
 import {
 	ADDRESS_PROP,
 	AVG_RATING_PROP,
@@ -51,6 +51,7 @@ import {
 	DESCRIPTION_PROP,
 	EMAIL_PROP,
 	FORWARD_CLOSE,
+	FORWARD_SUCCESS,
 	ID_PROP,
 	INFO_PROP,
 	IS_DESCRIPTION_PUBLIC_PROP,
@@ -75,6 +76,7 @@ import {
 	SEARCH_JOB,
 	SEARCH_KEYWORD,
 	SEARCH_MARKETPLACE,
+	SEARCH_PROFILE,
 	SEARCH_RESULT_OBJ,
 	SEARCH_REVIEW,
 	SEARCH_SERVICE,
@@ -91,7 +93,7 @@ import {
 	TITLE_PROP,
 	TOTAL_REVIEW_PROP,
 	UPDATED_ON_PROP,
-	WEBSITE_PROP
+	WEBSITE_PROP,
 } from "../../Util/ConstVar";
 import DealCard from "../ServiceCard/DealCard";
 import HousingCard from "../ServiceCard/HousingCard";
@@ -99,7 +101,7 @@ import JobCard from "../ServiceCard/JobCard";
 import MarketplaceCard from "../ServiceCard/MarketplaceCard";
 
 import useUrls from "../../Component/Hook/useUrls";
-import {formatTime} from "../../Util/Util";
+import { formatTime } from "../../Util/Util";
 
 function ProfilePage({ isOwner = false, profile = {} }) {
 	const {
@@ -386,7 +388,19 @@ function ProfilePage({ isOwner = false, profile = {} }) {
 			extra={[
 				...(isOwner
 					? [
-							<Button type="primary" shape="round" key={id}>
+							<Button
+								type="primary"
+								shape="round"
+								key={id}
+								onClick={() =>
+									forwardUrl(
+										FORWARD_SUCCESS,
+										`/${SEARCH_PROFILE}/${id}`,
+										"",
+										`/edit-profile/${id}`
+									)
+								}
+							>
 								Edit Profile
 							</Button>,
 					  ]

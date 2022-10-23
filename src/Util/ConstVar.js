@@ -246,6 +246,26 @@ export const DEFAULT_POST_OWNER_INFO = {
 	[`${INFO_PROP}`]: {},
 };
 
+export const DEFAULT_USER_INFO = {
+	[`${CREATED_ON_PROP}`]: "",
+	[`${DESCRIPTION_PROP}`]: "",
+	[`${IS_DESCRIPTION_PUBLIC_PROP}`]: false,
+	[`${EMAIL_PROP}`]: "",
+	[`${IS_EMAIL_PUBLIC_PROP}`]: false,
+	[`${FIRSTNAME_PROP}`]: "",
+	[`${LASTNAME_PROP}`]: "",
+	[`${LOCATION_PROP}`]: {},
+	[`${IS_LOCATION_PUBLIC}`]: false,
+	[`${NAME_PROP}`]: "",
+	[`${PHONE_PROP}`]: "",
+	[`${IS_PHONE_PUBLIC_PROP}`]: false,
+	[`${PICTURE_PROP}`]: "",
+	[`${PICTURE_LIST_PROP}`]: [],
+	[`${WEBSITE_PROP}`]: "",
+	[`${IS_WEBSITE_PUBLIC_PROP}`]: false,
+	[`${UPDATED_ON_PROP}`]: "",
+};
+
 export const BUSINESS_HEADLINE_PROP = "Thai Business";
 export const DEFAULT_BUSINESS_INFO = {
 	[`${PICTURE_LIST_PROP}`]: [],

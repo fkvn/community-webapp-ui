@@ -139,7 +139,7 @@ function MobileTopBar() {
 	];
 
 	const activateScrolling = () => {
-		const heightToHideFrom = $("#layout header").outerHeight();
+		// const heightToHideFrom = $("#layout header").outerHeight();
 
 		const threshold = 0;
 		let lastScrollY = window.pageYOffset;
@@ -160,9 +160,9 @@ function MobileTopBar() {
 				});
 
 				$("#layout main").css({
-					"margin-top": "10rem",
+					"margin-top": "5rem",
 					transform: "margin-top",
-					transition: "transform 5s, visibility 1s",
+					transition: "transform 1s, visibility 1s",
 				});
 			} else {
 				if (scrollY === 0) {
@@ -171,12 +171,20 @@ function MobileTopBar() {
 						$("#layout header").height() + 20
 					);
 
-					$("#layout main").css({
-						"margin-top": heightToHideFrom + 20,
-						transform: "margin-top",
-						transition: "transform 5s, visibility 1s",
-					});
+					// $("#layout main").css({
+					// 	"margin-top": heightToHideFrom + 20,
+					// 	transform: "margin-top",
+					// 	transition: "transform 5s, visibility 1s",
+					// });
 				}
+
+				// $("#layout main").css("margin-top", $("#layout header").height() + 20);
+
+				// $("#layout main").css({
+				// 	"margin-top": heightToHideFrom + 20,
+				// 	transform: "margin-top",
+				// 	transition: "transform 1s, visibility 1s",
+				// });
 
 				$("#layout header").css({
 					transform: "translateY(0)",
@@ -235,7 +243,7 @@ function MobileTopBar() {
 		if (keywordParam.length > 0) {
 			form.setFieldValue(SEARCH_INPUT_PROP, keywordParam);
 		}
-		$("#layout main").css("margin-top", $("#layout header").outerHeight() + 25);
+		$("#layout main").css("margin-top", $("#layout header").height() + 25);
 
 		const scroll = activateScrolling();
 

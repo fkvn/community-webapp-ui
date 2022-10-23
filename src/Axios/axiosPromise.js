@@ -168,12 +168,13 @@ export const removeAccountProfileAxios = (id = -1) =>
 		.then(() => Promise.resolve())
 		.catch((e) => Promise.reject(e));
 
-export const uploadFileAxios = (formData = new FormData()) =>
+export const uploadFileAxios = (formData = new FormData(), config = {}) =>
 	axios
 		.post(`/storages`, formData, {
 			headers: {
 				"Content-Type": "multipart/form-data",
 			},
+			...config,
 		})
 		.then(({ data }) => Promise.resolve(data))
 		.catch((e) => Promise.reject(e));

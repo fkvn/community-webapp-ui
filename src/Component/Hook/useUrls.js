@@ -47,7 +47,7 @@ function useUrls() {
 				: action === FORWARD_CLOSE
 				? [closeUrl, {}]
 				: action === FORWARD_SUCCESS
-				? [successUrl, {}]
+				? [successUrl, { [`${CLOSE_URL}`]: closeUrl }]
 				: ["/", {}];
 
 		navigate(next, {

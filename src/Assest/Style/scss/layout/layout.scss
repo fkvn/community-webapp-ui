@@ -10,7 +10,8 @@ body,
 
 	header {
 		background-size: cover;
-		height: fit-content;
+		height: auto;
+		min-height: fit-content;
 
 		// height: $layout-content-marginTop;
 	}
