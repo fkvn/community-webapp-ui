@@ -160,13 +160,11 @@ function Search({
 		},
 	];
 
-	const address = useAddress(
-		{ style: { width: "50%" }, ...addressProps },
-		{},
-		false,
-		"",
-		defaultLocationOptions
-	);
+	const address = useAddress({
+		itemProps: { style: { width: "50%" }, ...addressProps },
+		required: false,
+		options: defaultLocationOptions,
+	});
 
 	const tagItems = () => [
 		(props = {}) => (

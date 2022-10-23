@@ -1,7 +1,7 @@
 import { Form, Input } from "antd";
 import { EMAIL_PROP } from "../../../Util/ConstVar";
 
-const useEmail = (itemProps = {}, inputProps = {}, required = true) =>
+const useEmail = ({ itemProps = {}, inputProps = {}, required = true }) =>
 	((props = {}, inputProps = {}) => (
 		<Form.Item {...props}>
 			<Input {...inputProps} />
@@ -9,7 +9,6 @@ const useEmail = (itemProps = {}, inputProps = {}, required = true) =>
 	))(
 		{
 			name: EMAIL_PROP,
-			label: "Email Address",
 			className: "m-0",
 			rules: [
 				{
@@ -22,6 +21,9 @@ const useEmail = (itemProps = {}, inputProps = {}, required = true) =>
 				},
 			],
 			...itemProps,
+			label: `${itemProps?.label || "Email Address"} ${
+				required ? "" : "(Optional)"
+			}`,
 		},
 		{
 			placeholder: "Enter your email address",

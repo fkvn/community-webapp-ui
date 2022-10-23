@@ -108,6 +108,7 @@ export const CONTACT_INFO_PROP = "contactInfo";
 export const EXPIRED_ON_PROP = "expiredOn";
 export const TITLE_PROP = "title";
 export const PICTURE_LIST_PROP = "pictures";
+export const CHECKBOX_PROP = "checkbox";
 
 export const SEARCH_OBJ = "searchObj";
 export const SEARCH_RESULT_OBJ = "searchResultObj";

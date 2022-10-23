@@ -111,7 +111,9 @@ function UserSignup() {
 			<p className=" my-4 text-center">
 				Great, now please enter a valid <strong>email address</strong>
 			</p>
-			{useEmail({}, { autoFocus: true })}
+			{useEmail({
+				inputProps: { autoFocus: true },
+			})}
 		</>
 	);
 
@@ -195,7 +197,9 @@ function UserSignup() {
 			<p className=" my-4 text-center">
 				Great, now please enter a valid <strong>US (+1) phone number</strong>
 			</p>
-			{usePhone({}, { autoFocus: true })}
+			{usePhone({
+				inputProps: { autoFocus: true },
+			})}
 		</>
 	);
 

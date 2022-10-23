@@ -60,8 +60,12 @@ function UserSignin() {
 		</>
 	);
 
-	const email = useEmail({}, { autoFocus: true });
-	const phone = usePhone({}, { autoFocus: true });
+	const email = useEmail({
+		inputProps: { autoFocus: true },
+	});
+	const phone = usePhone({
+		inputProps: { autoFocus: true },
+	});
 	const password = usePassword({
 		extra: (
 			<Button

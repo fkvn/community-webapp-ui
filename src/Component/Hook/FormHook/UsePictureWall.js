@@ -1,5 +1,5 @@
 import { PlusOutlined } from "@ant-design/icons";
-import { Form, Input, Modal, Upload } from "antd";
+import { Form, Modal, Upload } from "antd";
 import ImgCrop from "antd-img-crop";
 import React, { useState } from "react";
 import { uploadFileAxios } from "../../../Axios/axiosPromise";
@@ -20,11 +20,12 @@ function usePictureWall({
 	cropShape = "rect",
 	cropQuality = 0.4,
 	cropOk = "Save",
+	[`${PICTURE_LIST_PROP}`]: pictureList = [],
 }) {
 	const [previewOpen, setPreviewOpen] = useState(false);
 	const [previewImage, setPreviewImage] = useState("");
 	const [previewTitle, setPreviewTitle] = useState("");
-	const [fileList, setFileList] = useState([]);
+	const [fileList, setFileList] = useState(pictureList || []);
 
 	const handleCancel = () => setPreviewOpen(false);
 	const handlePreview = async (file) => {
@@ -58,9 +59,9 @@ function usePictureWall({
 	);
 	return (
 		<>
-			{/* this is to collect custom picture list object */}
 			<Form.Item
 				name={PICTURE_LIST_PROP}
+				className="m-0"
 				initialValue={fileList}
 				rules={[
 					{ required: required, message: "Please provide at least 1 picture!" },
@@ -70,86 +71,88 @@ function usePictureWall({
 					required ? "" : "(Optional)"
 				}`}
 			>
-				<ImgCrop
-					maxZoom={8}
-					rotate={true}
-					aspect={cropAspect}
-					shape={cropShape}
-					quality={cropQuality}
-					modalOk={cropOk}
-				>
-					<Upload
-						listType="picture-card"
-						fileList={fileList}
-						onPreview={handlePreview}
-						onChange={handleChange}
-						customRequest={({ file = {} }) => {
-							const formData = new FormData();
-							formData.append("file", file);
-
-							let newFileList = [
-								...fileList,
-								{
-									uid: file?.uid,
-									status: "uploading",
-									percent: 30,
-								},
-							];
-							form?.setFieldValue(PICTURE_LIST_PROP, newFileList);
-							setFileList(newFileList);
-
-							uploadFileAxios(formData)
-								.then((res = {}) => {
-									newFileList = newFileList.map((f) => {
-										return {
-											...f,
-											...(f?.uid === file?.uid && {
-												uid: file?.uid,
-												status: "done",
-												percent: 100,
-												...res,
-											}),
-										};
-									});
-									setFileList(newFileList);
-									form?.setFieldValue(PICTURE_LIST_PROP, newFileList);
-									form.validateFields([PICTURE_LIST_PROP]);
-								})
-								.catch(() =>
-									setFileList([
-										...fileList,
-										{
-											name: "Upload failed",
-											status: "error",
-										},
-									])
-								);
-
-							return {
-								abort() {
-									// console.log("upload progress is aborted.");
-								},
-							};
-						}}
+				<>
+					{" "}
+					<ImgCrop
+						maxZoom={8}
+						rotate={true}
+						aspect={cropAspect}
+						shape={cropShape}
+						quality={cropQuality}
+						modalOk={cropOk}
 					>
-						{fileList.length >= 12 ? null : uploadButton}
-					</Upload>
-				</ImgCrop>
-				<Modal
-					open={previewOpen}
-					title={previewTitle}
-					footer={null}
-					onCancel={handleCancel}
-				>
-					<img
-						alt="example"
-						style={{
-							width: "100%",
-						}}
-						src={previewImage}
-					/>
-				</Modal>
-				<Input className="d-none" />
+						<Upload
+							listType="picture-card"
+							fileList={fileList}
+							onPreview={handlePreview}
+							onChange={handleChange}
+							customRequest={({ file = {} }) => {
+								const formData = new FormData();
+								formData.append("file", file);
+
+								let newFileList = [
+									...fileList,
+									{
+										uid: file?.uid,
+										status: "uploading",
+										percent: 30,
+									},
+								];
+								form?.setFieldValue(PICTURE_LIST_PROP, newFileList);
+								setFileList(newFileList);
+
+								uploadFileAxios(formData)
+									.then((res = {}) => {
+										newFileList = newFileList.map((f) => {
+											return {
+												...f,
+												...(f?.uid === file?.uid && {
+													uid: file?.uid,
+													status: "done",
+													percent: 100,
+													...res,
+												}),
+											};
+										});
+										setFileList(newFileList);
+										form?.setFieldValue(PICTURE_LIST_PROP, newFileList);
+										form.validateFields([PICTURE_LIST_PROP]);
+									})
+									.catch(() =>
+										setFileList([
+											...fileList,
+											{
+												name: "Upload failed",
+												status: "error",
+											},
+										])
+									);
+
+								return {
+									abort() {
+										// console.log("upload progress is aborted.");
+									},
+								};
+							}}
+						>
+							{fileList.length >= 12 ? null : uploadButton}
+						</Upload>
+					</ImgCrop>
+					<Modal
+						open={previewOpen}
+						title={previewTitle}
+						footer={null}
+						onCancel={handleCancel}
+					>
+						<img
+							alt="example"
+							style={{
+								width: "100%",
+							}}
+							src={previewImage}
+						/>
+					</Modal>
+				</>
 			</Form.Item>
 		</>
 	);

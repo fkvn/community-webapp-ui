@@ -2,7 +2,7 @@ import { Form, Input } from "antd";
 import { PHONE_PROP } from "../../../Util/ConstVar";
 import { formatPhoneNumber } from "../../../Util/Util";
 
-const usePhone = (itemProps = {}, inputProps = {}) =>
+const usePhone = ({ itemProps = {}, inputProps = {}, required = true }) =>
 	((props = {}, inputProps = {}) => (
 		<Form.Item {...props}>
 			<Input {...inputProps} />
@@ -10,11 +10,10 @@ const usePhone = (itemProps = {}, inputProps = {}) =>
 	))(
 		{
 			name: PHONE_PROP,
-			label: "Phone Number (US)",
 			className: "m-0",
 			normalize: (value) => formatPhoneNumber(value),
 			rules: [
-				{ required: true, message: "Please input your phone number!" },
+				{ required: required, message: "Please input your phone number!" },
 				{
 					min: 14,
 					max: 14,
@@ -22,6 +21,9 @@ const usePhone = (itemProps = {}, inputProps = {}) =>
 				},
 			],
 			...itemProps,
+			label: `${itemProps?.label || "Phone Number (US)"} ${
+				required ? "" : "(Optional)"
+			}`,
 		},
 		{
 			placeholder: "Enter your phone number",

@@ -1,11 +1,11 @@
 import { Form, Input } from "antd";
 import { WEBSITE_PROP } from "../../../Util/ConstVar";
 
-const useUrl = (
-	{ rules = [], ...itemProps },
+const useUrl = ({
+	itemsProps: { rules = [], ...itemProps } = {},
 	inputProps = {},
-	required = false
-) =>
+	required = false,
+}) =>
 	((props = {}, inputProps = {}) => (
 		<Form.Item {...props}>
 			<Input {...inputProps} />
@@ -24,6 +24,9 @@ const useUrl = (
 			],
 			shouldUpdate: true,
 			...itemProps,
+			label: `${itemProps?.label || "Website Address"} ${
+				required ? "" : "(Optional)"
+			}`,
 		},
 		{
 			className: "rounded-0",

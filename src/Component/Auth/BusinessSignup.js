@@ -76,10 +76,10 @@ function BusinessSignup() {
 		return registerInfo;
 	};
 
-	const name = useUsername(
-		{ name: COMPANY_NAME_PROP, label: "Business Name" },
-		{ placeholder: "Enter your business name" }
-	);
+	const name = useUsername({
+		itemProps: { name: COMPANY_NAME_PROP, label: "Business Name" },
+		inputProps: { placeholder: "Enter your business name" },
+	});
 
 	const industry = useAutocomplete(
 		{ name: COMPANY_INDUSTRY_PROP, label: "Business Industry" },
@@ -93,8 +93,8 @@ function BusinessSignup() {
 		"Please provide a business industry"
 	);
 
-	const address = useAddress(
-		{
+	const address = useAddress({
+		itemProps: {
 			label: hasLocation
 				? "Business Location"
 				: "Business Service Area (Optional)",
@@ -109,13 +109,19 @@ function BusinessSignup() {
 			}),
 			shouldUpdate: true,
 		},
-		{ prefix: "" },
-		hasLocation
-	);
+		required: hasLocation,
+	});
 
-	const email = useEmail({ label: "Business Email (Optional)" }, {}, false);
+	const email = useEmail({
+		itemProps: {
+			label: "Business Email",
+		},
+		required: false,
+	});
 
-	const phone = usePhone({ label: "Business Phone Number " });
+	const phone = usePhone({
+		itemProps: { label: "Business Phone Number " },
+	});
 
 	const website = useUrl({ label: "Business Website Address" });
 
