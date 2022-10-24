@@ -161,8 +161,7 @@ function Search({
 	];
 
 	const address = useAddress({
-		itemProps: { style: { width: "50%" }, ...addressProps },
-		required: false,
+		itemProps: { label: "", style: { width: "50%" }, ...addressProps },
 		options: defaultLocationOptions,
 	});
 

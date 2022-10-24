@@ -13,7 +13,7 @@ import useAutocomplete from "./useAutocomplete";
 function useAddress({
 	itemProps = {},
 	inputProps = {},
-	required = false,
+	required = true,
 	defaultLocation = {
 		[`${ADDRESS_PROP}`]: "",
 		[`${PLACEID_PROP}`]: "",
@@ -30,6 +30,7 @@ function useAddress({
 	const autoComplete = useAutocomplete;
 
 	const onSearch = (searchText = "") => {
+		console.log(searchText);
 		if (searchText !== "") {
 			fetchPredictions(searchText).then(({ predictions }) => {
 				setAddress({
@@ -72,7 +73,7 @@ function useAddress({
 	const addressAutoComplete = (
 		{ rules = [], ...itemProps },
 		{ prefix = true, ...inputProps },
-		required = false,
+		required = true,
 		defaultLocation = {},
 		options = [],
 		errorMessage = "Please enter a valid address"
@@ -83,7 +84,7 @@ function useAddress({
 				name={LOCATION_OBJ}
 				initialValue={defaultLocation}
 				hidden
-				className="d-none"
+				// className="d-none"
 			>
 				<Input value={address.location} />
 			</Form.Item>
@@ -105,9 +106,9 @@ function useAddress({
 						...rules,
 					],
 					...itemProps,
-					label: `${itemProps?.label || "Address"} ${
-						required ? "" : "(Optional)"
-					}`,
+					...(itemProps?.label && {
+						label: `${itemProps.label} ${required ? "" : "(Optional)"}`,
+					}),
 				},
 				{
 					children: (

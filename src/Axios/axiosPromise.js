@@ -162,7 +162,7 @@ export const removeBusinessProfileAxios = (id = -1) =>
 		.then(() => Promise.resolve())
 		.catch((e) => Promise.reject(e));
 
-export const removeAccountProfileAxios = (id = -1) =>
+export const removeUserProfileAxios = (id = -1) =>
 	axios
 		.delete(`/profiles/users/${id}`)
 		.then(() => Promise.resolve())
@@ -185,7 +185,19 @@ export const uploadProfileAvatarAxios = async (id = -1, storageRequest = {}) =>
 		.then(({ data }) => Promise.resolve(data))
 		.catch((e) => Promise.reject(e));
 
+export const patchUserProfileAxios = (id = -1, info = {}) =>
+	axios
+		.patch(`/profiles/users/${id}`, info)
+		.then(() => Promise.resolve())
+		.catch((e) => Promise.reject(e));
+
 // Company API
+
+export const patchBusinessProfileAxios = (id = -1, info = {}) =>
+	axios
+		.patch(`/profiles/business/${id}`, info)
+		.then(() => Promise.resolve())
+		.catch((e) => Promise.reject(e));
 
 export const searchCompanyPromise = (
 	keywords = "",

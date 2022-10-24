@@ -19,7 +19,11 @@ function UploadPicture({
 }) {
 	const uploadButton = (
 		<Badge>
-			<Avatar size={uploadIconSize} icon={<CameraOutlined />} />
+			<Avatar
+				size={uploadIconSize}
+				icon={<CameraOutlined />}
+				style={{ border: "1px solid white" }}
+			/>
 		</Badge>
 	);
 
@@ -79,8 +83,6 @@ function UploadPicture({
 						customRequest={({ file, onError, onSuccess }) => {
 							const formData = new FormData();
 							formData.append("file", file);
-
-							console.log(formData);
 
 							uploadPhotoOnClick(formData)
 								.then(() => onSuccess())

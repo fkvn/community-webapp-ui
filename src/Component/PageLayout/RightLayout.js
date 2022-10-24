@@ -112,15 +112,15 @@ function RightLayout({ showSetting = false, ...props }) {
 			<Card className="w-100 text-center pb-4" bodyStyle={{ paddingTop: 0 }}>
 				<Space direction="vertical" className="w-100" size={10}>
 					<Space direction="vertical" className="w-100 my-4 tedkvn-center">
-						{avatar(
-							{
+						{avatar({
+							inputProps: {
 								src: picture,
 								size: 100,
 							},
-							profile?.[`${ID_PROP}`] && true,
-							(formData = new FormData()) =>
-								uploadProfileAvatar(profile?.[`${ID_PROP}`], formData)
-						)}
+							editable: profile?.[`${ID_PROP}`] && true,
+							uploadPhotoOnClick: (formData = new FormData()) =>
+								uploadProfileAvatar(profile?.[`${ID_PROP}`], formData),
+						})}
 						<Meta className="mt-2" title={name} description={description} />
 					</Space>
 					<Button

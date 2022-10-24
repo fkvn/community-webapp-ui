@@ -17,7 +17,7 @@ const useTextarea = ({ itemProps = {}, inputProps = {}, required = false }) =>
 			}`,
 		},
 		{
-			placeholder: "Let people understand about you more",
+			placeholder: "Let people understand more about you",
 			...inputProps,
 		}
 	);

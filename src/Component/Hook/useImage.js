@@ -1,7 +1,7 @@
 import { UserOutlined } from "@ant-design/icons";
 import { Avatar, Image, Tooltip } from "antd";
 import { imageNoPhoto, imageThainowLogoRound } from "../../Assest/Asset";
-import UploadAvatarContainer from "../Upload/UploadPicture";
+import UploadPicture from "../Upload/UploadPicture";
 import useUpload from "./useUpload";
 
 function useImage() {
@@ -21,16 +21,18 @@ function useImage() {
 
 	const { uploadFile } = useUpload();
 
-	const avatar = (
-		{ ...inputProps },
+	const avatar = ({
+		inputProps = {},
 		editable = false,
-		uploadPhotoOnClick = uploadFile
-	) =>
+		uploadProps = {},
+		uploadPhotoOnClick = uploadFile,
+	}) =>
 		((props = {}) =>
 			editable ? (
-				<UploadAvatarContainer
+				<UploadPicture
 					cropShape="round"
 					uploadPhotoOnClick={uploadPhotoOnClick}
+					{...uploadProps}
 				>
 					<Tooltip
 						arrowPointAtCente={true}
@@ -39,7 +41,7 @@ function useImage() {
 					>
 						<Avatar {...props} />
 					</Tooltip>
-				</UploadAvatarContainer>
+				</UploadPicture>
 			) : (
 				<Tooltip
 					arrowPointAtCente={true}

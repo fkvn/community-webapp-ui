@@ -1,6 +1,8 @@
 import {
-	removeAccountProfileAxios,
+	patchBusinessProfileAxios,
+	patchUserProfileAxios,
 	removeBusinessProfileAxios,
+	removeUserProfileAxios,
 	uploadFileAxios,
 	uploadProfileAvatarAxios,
 } from "../../Axios/axiosPromise";
@@ -41,7 +43,11 @@ function useProfile() {
 					.then(async () =>
 						localStorage.setItem(PROFILE_OBJ, JSON.stringify(updatedProfile))
 					)
-					.then(() => successMessage("Uploaded successfully"));
+					.then(() =>
+						successMessage("Uploaded successfully").then(() =>
+							Promise.resolve(url)
+						)
+					);
 			})
 		);
 	};
@@ -94,8 +100,8 @@ function useProfile() {
 			)
 			.catch((e) => errorMessage(e));
 
-	const removeAccountProfile = (profile = {}) =>
-		removeAccountProfileAxios(profile?.[`${ID_PROP}`])
+	const removeUserProfile = (profile = {}) =>
+		removeUserProfileAxios(profile?.[`${ID_PROP}`])
 			.then(() =>
 				successMessage(
 					<span>
@@ -110,11 +116,23 @@ function useProfile() {
 			)
 			.catch((e) => errorMessage(e));
 
+	const patchUserProfile = (id = -1, info = {}) =>
+		patchUserProfileAxios(id, info)
+			.then(() => successMessage(<span>Updated profile successfully!</span>))
+			.catch((e) => errorMessage(e));
+
+	const patchBusinessProfile = (id = -1, info = {}) =>
+		patchBusinessProfileAxios(id, info)
+			.then(() => successMessage(<span>Updated profile successfully!</span>))
+			.catch((e) => errorMessage(e));
+
 	return {
 		switchProfile,
 		removeBusinessProfile,
-		removeAccountProfile,
+		removeAccountProfile: removeUserProfile,
 		uploadProfileAvatar,
+		patchUserProfile,
+		patchBusinessProfile,
 	};
 }
 

@@ -70,6 +70,7 @@ import {
 	POST_OWNER_ID_PROP,
 	PROFILE_BUSINESS_TYPE_PROP,
 	PROFILE_TYPE_PROP,
+	SEARCH_BUSINESS,
 	SEARCH_DEAL,
 	SEARCH_FETCH_RESULT_PROP,
 	SEARCH_HOUSING,
@@ -117,7 +118,10 @@ function ProfilePage({ isOwner = false, profile = {} }) {
 
 	const { image, avatar } = useImage();
 
-	const [visible, setVisible] = useState(false);
+	const [visible, setVisible] = useState({
+		value: false,
+		idx: 0,
+	});
 
 	const { forwardUrl } = useUrls();
 
@@ -138,10 +142,10 @@ function ProfilePage({ isOwner = false, profile = {} }) {
 						<div className="w-100">
 							{image({
 								width: "100%",
-								onClick: () => setVisible(true),
+								onClick: () => setVisible({ value: true, idx: 0 }),
 								preview: { visible: false },
 								style: {
-									maxHeight: screens?.xs ? "15rem" : "25rem",
+									maxHeight: screens?.xs ? "20rem" : "30rem",
 									objectFit: "cover",
 								},
 								src: info?.[`${PICTURE_PROP}`],
@@ -154,7 +158,10 @@ function ProfilePage({ isOwner = false, profile = {} }) {
 						<div>
 							{image({
 								width: "100%",
+								onClick: () => setVisible({ value: true, idx: idx }),
+								preview: { visible: false },
 								style: {
+									maxHeight: screens?.xs ? "20rem" : "30rem",
 									objectFit: "cover",
 								},
 								src: img,
@@ -163,12 +170,18 @@ function ProfilePage({ isOwner = false, profile = {} }) {
 					</div>
 				))}
 			</Carousel>
-			{visible && (
+			{visible?.value && (
 				<div style={{ display: "none" }}>
 					<Image.PreviewGroup
-						preview={{ visible, onVisibleChange: (vis) => setVisible(vis) }}
+						preview={{
+							visible,
+							onVisibleChange: (vis) =>
+								setVisible({
+									value: vis,
+								}),
+							current: visible?.idx || 0,
+						}}
 					>
-						<Image src={info?.[`${PICTURE_PROP}`]} />
 						{info?.[`${PICTURE_LIST_PROP}`].map((img, idx) => (
 							<Image key={idx} src={img} />
 						))}
@@ -181,10 +194,9 @@ function ProfilePage({ isOwner = false, profile = {} }) {
 	const infoTitle = (
 		<Meta
 			className="mt-2"
-			{...(info?.[`${PICTURE_LIST_PROP}`]?.length === 0 && {
+			{...(info?.[`${PICTURE_LIST_PROP}`]?.length >= 0 && {
 				avatar: avatar({
-					src: info?.[`${PICTURE_PROP}`],
-					size: 50,
+					inputProps: { src: info?.[`${PICTURE_PROP}`], size: 50 },
 				}),
 			})}
 			title={
@@ -223,52 +235,69 @@ function ProfilePage({ isOwner = false, profile = {} }) {
 		},
 		{
 			label: <Icon component={() => iconLocationBlack(15)} />,
-			title: (
-				<Typography.Link
-					ellipsis
-					{...(info?.[`${IS_LOCATION_PUBLIC}`] && {
-						onClick: () =>
-							window.open(
-								`https://www.google.com/maps/place/${info?.[`${NAME_PROP}`]}/@${
-									info?.[`${LOCATION_PROP}`]?.[`${LAT_PROP}`]
-								},${info?.[`${LOCATION_PROP}`]?.[`${LNG_PROP}`]} `,
-								"_blank"
-							),
-					})}
-				>
-					{info?.[`${LOCATION_PROP}`]?.[`${ADDRESS_PROP}`] || "Unavailable"}
-				</Typography.Link>
-			),
-			visible: info?.[`${IS_LOCATION_PUBLIC}`],
+			...(!isEmptyObject(info?.[`${LOCATION_PROP}`])
+				? {
+						title: (
+							<Typography.Link
+								ellipsis
+								onClick={() =>
+									window.open(
+										`https://www.google.com/maps/place/${
+											info?.[`${NAME_PROP}`]
+										}/@${info?.[`${LOCATION_PROP}`]?.[`${LAT_PROP}`]},${
+											info?.[`${LOCATION_PROP}`]?.[`${LNG_PROP}`]
+										} `,
+										"_blank"
+									)
+								}
+							>
+								{info?.[`${LOCATION_PROP}`]?.[`${ADDRESS_PROP}`]}
+							</Typography.Link>
+						),
+						visible: info?.[`${IS_LOCATION_PUBLIC}`],
+				  }
+				: {}),
 		},
 		{
 			label: <MailOutlined />,
-			title: (
-				<Typography.Link>
-					{info?.[`${EMAIL_PROP}`] || "Unavailable"}
-				</Typography.Link>
-			),
-			visible: info?.[`${IS_EMAIL_PUBLIC_PROP}`],
+			...(info?.[`${EMAIL_PROP}`]
+				? {
+						title: (
+							<Typography.Link href={`mailto:${info?.[`${EMAIL_PROP}`]}`}>
+								{info?.[`${EMAIL_PROP}`]}
+							</Typography.Link>
+						),
+						visible: info?.[`${IS_EMAIL_PUBLIC_PROP}`],
+				  }
+				: {}),
 		},
 		{
 			label: <PhoneOutlined />,
-			title: (
-				<Typography.Link>
-					{info?.[`${PHONE_PROP}`] || "Unavailable"}
-				</Typography.Link>
-			),
-			visible: info?.[`${IS_PHONE_PUBLIC_PROP}`],
+			...(info?.[`${PHONE_PROP}`]
+				? {
+						title: (
+							<Typography.Link href={`tel:${info?.[`${PHONE_PROP}`]}`}>
+								{info?.[`${PHONE_PROP}`]}
+							</Typography.Link>
+						),
+						visible: info?.[`${IS_PHONE_PUBLIC_PROP}`],
+				  }
+				: {}),
 		},
 		{
 			label: <LinkOutlined />,
-			title: (
-				<Typography.Link>
-					{info?.[`${WEBSITE_PROP}`] || "Unavailable"}
-				</Typography.Link>
-			),
-			visible: info?.[`${IS_WEBSITE_PUBLIC_PROP}`],
+			...(info?.[`${WEBSITE_PROP}`]
+				? {
+						title: (
+							<Typography.Link href={info?.[`${WEBSITE_PROP}`]} target="_blank">
+								{info?.[`${WEBSITE_PROP}`]}
+							</Typography.Link>
+						),
+						visible: info?.[`${IS_WEBSITE_PUBLIC_PROP}`],
+				  }
+				: {}),
 		},
-		...(info?.[`${IS_DESCRIPTION_PUBLIC_PROP}`] && info?.[`${DESCRIPTION_PROP}`]
+		...(info?.[`${DESCRIPTION_PROP}`]
 			? [
 					{
 						title: (
@@ -294,29 +323,39 @@ function ProfilePage({ isOwner = false, profile = {} }) {
 		},
 		{
 			label: <Icon component={() => iconLocationBlack(15)} />,
-			title: (
-				<Typography.Link
-					ellipsis
-					onClick={() =>
-						window.open(
-							`https://www.google.com/maps/place/${info?.[`${NAME_PROP}`]}/@${
-								info?.[`${LOCATION_PROP}`]?.[`${LAT_PROP}`]
-							},${info?.[`${LOCATION_PROP}`]?.[`${LNG_PROP}`]} `,
-							"_blank"
-						)
-					}
-				>
-					{info?.[`${LOCATION_PROP}`]?.[`${ADDRESS_PROP}`] || (
-						<span className="text-secondary">Unavailable</span>
-					)}
-				</Typography.Link>
-			),
-			visible: true,
+			...(!isEmptyObject(info?.[`${LOCATION_PROP}`])
+				? {
+						title: (
+							<Typography.Link
+								ellipsis
+								onClick={() =>
+									window.open(
+										`https://www.google.com/maps/place/${
+											info?.[`${NAME_PROP}`]
+										}/@${info?.[`${LOCATION_PROP}`]?.[`${LAT_PROP}`]},${
+											info?.[`${LOCATION_PROP}`]?.[`${LNG_PROP}`]
+										} `,
+										"_blank"
+									)
+								}
+							>
+								{info?.[`${LOCATION_PROP}`]?.[`${ADDRESS_PROP}`] || (
+									<span className="text-secondary">Unavailable</span>
+								)}
+							</Typography.Link>
+						),
+						visible: true,
+				  }
+				: {}),
 		},
 		{
 			label: <AimOutlined />,
 			title: (
-				<Typography.Link>
+				<Typography.Link
+					href={`/search?${SEARCH_KEYWORD}=${
+						info?.[`${COMPANY_INDUSTRY_PROP}`]
+					}&${SEARCH_TYPE_PROP}=${SEARCH_BUSINESS}`}
+				>
 					{info?.[`${COMPANY_INDUSTRY_PROP}`] + " Business " || (
 						<span className="text-secondary">Unavailable</span>
 					)}
@@ -326,41 +365,57 @@ function ProfilePage({ isOwner = false, profile = {} }) {
 		},
 		{
 			label: <MailOutlined />,
-			title: (
-				<Typography.Link>
-					{info?.[`${EMAIL_PROP}`] || "Unavailable"}
-				</Typography.Link>
-			),
-			visible: info?.[`${IS_EMAIL_PUBLIC_PROP}`],
+			...(info?.[`${EMAIL_PROP}`]
+				? {
+						title: (
+							<Typography.Link href={`mailto:${info?.[`${EMAIL_PROP}`]}`}>
+								{info?.[`${EMAIL_PROP}`]}
+							</Typography.Link>
+						),
+						visible: info?.[`${IS_EMAIL_PUBLIC_PROP}`],
+				  }
+				: {}),
 		},
 		{
 			label: <PhoneOutlined />,
-			title: (
-				<Typography.Link>
-					{info?.[`${PHONE_PROP}`] || "Unavailable"}
-				</Typography.Link>
-			),
-			visible: info?.[`${IS_PHONE_PUBLIC_PROP}`],
+			...(info?.[`${PHONE_PROP}`]
+				? {
+						title: (
+							<Typography.Link href={`tel:${info?.[`${PHONE_PROP}`]}`}>
+								{info?.[`${PHONE_PROP}`]}
+							</Typography.Link>
+						),
+						visible: info?.[`${IS_PHONE_PUBLIC_PROP}`],
+				  }
+				: {}),
 		},
 		{
 			label: <LinkOutlined />,
-			title: (
-				<Typography.Link>
-					{info?.[`${WEBSITE_PROP}`] || "Unavailable"}
-				</Typography.Link>
-			),
-			visible: info?.[`${IS_WEBSITE_PUBLIC_PROP}`],
+			...(info?.[`${WEBSITE_PROP}`]
+				? {
+						title: (
+							<Typography.Link href={info?.[`${WEBSITE_PROP}`]} target="_blank">
+								{info?.[`${WEBSITE_PROP}`]}
+							</Typography.Link>
+						),
+						visible: info?.[`${IS_WEBSITE_PUBLIC_PROP}`],
+				  }
+				: {}),
 		},
 		{
 			label: <TeamOutlined />,
-			title: (
-				<Typography.Link>
-					{info?.[`${SIZE_PROP}`] || "Unavailable"}
-				</Typography.Link>
-			),
-			visible: info?.[`${IS_SIZE_PUBLIC_PROP}`],
+			...(info?.[`${SIZE_PROP}`]
+				? {
+						title: (
+							<Typography.Link>
+								{info?.[`${SIZE_PROP}`] || "Unavailable"}
+							</Typography.Link>
+						),
+						visible: info?.[`${IS_SIZE_PUBLIC_PROP}`],
+				  }
+				: {}),
 		},
-		...(info?.[`${IS_DESCRIPTION_PUBLIC_PROP}`] && info?.[`${DESCRIPTION_PROP}`]
+		...(info?.[`${DESCRIPTION_PROP}`]
 			? [
 					{
 						title: (
@@ -410,7 +465,7 @@ function ProfilePage({ isOwner = false, profile = {} }) {
 			{(type === PROFILE_BUSINESS_TYPE_PROP
 				? businessData
 				: userData || []
-			).map((item, idx, row) => (
+			).map((item, idx) => (
 				<Descriptions.Item
 					key={idx}
 					contentStyle={{
@@ -427,10 +482,10 @@ function ProfilePage({ isOwner = false, profile = {} }) {
 					}}
 					label={<>{item.label}</>}
 				>
-					{item.visible ? (
+					{item?.title && (isOwner || item.visible) ? (
 						item.title
 					) : (
-						<span className="text-primary">Unavailable</span>
+						<span className="text-secondary">Unavailable</span>
 					)}
 					<br />
 

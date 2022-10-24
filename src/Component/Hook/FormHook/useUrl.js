@@ -2,7 +2,7 @@ import { Form, Input } from "antd";
 import { WEBSITE_PROP } from "../../../Util/ConstVar";
 
 const useUrl = ({
-	itemsProps: { rules = [], ...itemProps } = {},
+	itemProps: { rules = [], ...itemProps } = {},
 	inputProps = {},
 	required = false,
 }) =>
