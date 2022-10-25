@@ -116,7 +116,10 @@
 		<script>
 			$(document).ready(function () {
 				$(window).resize(function () {
-					$("#layout main").css("margin-top", $("#layout header").height());
+					$("#layout-main").css(
+						"margin-top",
+						$("#layout header").outerHeight() + 25
+					);
 				});
 			});
 		</script>

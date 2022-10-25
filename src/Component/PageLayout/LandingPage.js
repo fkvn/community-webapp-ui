@@ -189,34 +189,32 @@ function LandingPage() {
 	);
 
 	const recommendations = (
-		<>
-			<List
-				className="w-100 px-0 px-xxl-5"
-				grid={{ gutter: 16, xs: 1, column: 2 }}
-				dataSource={recommendItems}
-				renderItem={(item) => (
-					<List.Item className="m-0 my-3 m-md-4 ">
-						<Card
-							title={item.title}
-							headStyle={{ backgroundColor: item.bg, color: "white" }}
-							className="overflow-hidden"
-							cover={
-								<img
-									alt="example"
-									src={item.src}
-									style={{
-										height: "13rem",
-										objectFit: "cover",
-									}}
-								/>
-							}
-						>
-							<Meta title={item.content} description={item.owner} />
-						</Card>
-					</List.Item>
-				)}
-			/>
-		</>
+		<List
+			className="w-100 p-2 px-3 p-xxl-5"
+			grid={{ xs: 1, column: 2 }}
+			dataSource={recommendItems}
+			renderItem={(item) => (
+				<List.Item className="m-0 my-3 m-md-4 ">
+					<Card
+						title={item.title}
+						headStyle={{ backgroundColor: item.bg, color: "white" }}
+						className="overflow-hidden"
+						cover={
+							<img
+								alt="example"
+								src={item.src}
+								style={{
+									height: "13rem",
+									objectFit: "cover",
+								}}
+							/>
+						}
+					>
+						<Meta title={item.content} description={item.owner} />
+					</Card>
+				</List.Item>
+			)}
+		/>
 	);
 
 	const testimonials = (

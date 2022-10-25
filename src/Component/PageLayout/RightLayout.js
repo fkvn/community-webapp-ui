@@ -1,6 +1,5 @@
-import { Button, Card, List, Space } from "antd";
+import { Button, Card, Col, List, Row, Space } from "antd";
 import Meta from "antd/lib/card/Meta";
-import { Stack } from "react-bootstrap";
 import { useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 import { thainowReducer } from "../../redux-store/reducer/thainowReducer";
@@ -90,85 +89,81 @@ function RightLayout({ showSetting = false, ...props }) {
 
 	const { uploadProfileAvatar } = useProfile();
 
-	const app = (
-		<Stack
-			id="RightLayout"
-			direction="vertical"
-			className="px-4 py-3 w-100"
-			{...props}
-			gap={4}
-		>
-			{isObjectEmpty(profile) && (
-				<Button
-					type="default"
-					className="p-2  fw-bold border-danger"
-					block
-					onClick={() => navigate("/register/user")}
-				>
-					Register ThaiNow Account
-				</Button>
-			)}
-
-			<Card className="w-100 text-center pb-4" bodyStyle={{ paddingTop: 0 }}>
-				<Space direction="vertical" className="w-100" size={10}>
-					<Space direction="vertical" className="w-100 my-4 tedkvn-center">
-						{avatar({
-							inputProps: {
-								src: picture,
-								size: 100,
-							},
-							editable: profile?.[`${ID_PROP}`] && true,
-							uploadPhotoOnClick: (formData = new FormData()) =>
-								uploadProfileAvatar(profile?.[`${ID_PROP}`], formData),
-						})}
-						<Meta className="mt-2" title={name} description={description} />
-					</Space>
+	const app1 = (
+		<Row justify="center" className="w-100 px-4" gutter={[20]}>
+			<Col xs={24}>
+				{isObjectEmpty(profile) && (
 					<Button
-						type="primary"
+						type="default"
+						className="p-2 fw-bold border-danger my-4"
 						block
-						onClick={() =>
-							isObjectEmpty(profile)
-								? navigate("/signin", {
-										state: {
-											[`${CLOSE_URL}`]:
-												location?.pathname + location?.search || "/",
-											[`${SUCCESS_URL}`]:
-												location?.pathname + location?.search || "/",
-										},
-								  })
-								: navigate(`/${SEARCH_PROFILE}/${profile?.[`${ID_PROP}`]}`, {
-										state: {
-											[`${CLOSE_URL}`]:
-												location?.pathname + location?.search || "/",
-										},
-								  })
-						}
+						onClick={() => navigate("/register/user")}
 					>
-						{isObjectEmpty(profile) ? "Sign In" : "My Profile"}
+						Register ThaiNow Account
 					</Button>
+				)}
 
-					{settingItems.length > 0 && (
-						<>
-							<List
-								itemLayout="horizontal"
-								className=""
-								dataSource={settingItems}
-								renderItem={(item) => (
-									<List.Item
-										className="text-start m-0"
-										style={{ borderBottom: "1px solid wheat" }}
-									>
-										{item.title}
-									</List.Item>
-								)}
-							/>
-						</>
-					)}
-				</Space>
-			</Card>
-		</Stack>
+				<Card className="w-100 text-center pb-4" bodyStyle={{ paddingTop: 0 }}>
+					<Space direction="vertical" className="w-100" size={10}>
+						<Space direction="vertical" className="w-100 my-4 tedkvn-center">
+							{avatar({
+								inputProps: {
+									src: picture,
+									size: 100,
+								},
+								editable: profile?.[`${ID_PROP}`] && true,
+								uploadPhotoOnClick: (formData = new FormData()) =>
+									uploadProfileAvatar(profile?.[`${ID_PROP}`], formData),
+							})}
+							<Meta className="mt-2" title={name} description={description} />
+						</Space>
+						<Button
+							type="primary"
+							block
+							onClick={() =>
+								isObjectEmpty(profile)
+									? navigate("/signin", {
+											state: {
+												[`${CLOSE_URL}`]:
+													location?.pathname + location?.search || "/",
+												[`${SUCCESS_URL}`]:
+													location?.pathname + location?.search || "/",
+											},
+									  })
+									: navigate(`/${SEARCH_PROFILE}/${profile?.[`${ID_PROP}`]}`, {
+											state: {
+												[`${CLOSE_URL}`]:
+													location?.pathname + location?.search || "/",
+											},
+									  })
+							}
+						>
+							{isObjectEmpty(profile) ? "Sign In" : "My Profile"}
+						</Button>
+
+						{settingItems.length > 0 && (
+							<>
+								<List
+									itemLayout="horizontal"
+									className=""
+									dataSource={settingItems}
+									renderItem={(item) => (
+										<List.Item
+											className="text-start m-0"
+											style={{ borderBottom: "1px solid wheat" }}
+										>
+											{item.title}
+										</List.Item>
+									)}
+								/>
+							</>
+						)}
+					</Space>
+				</Card>
+			</Col>
+		</Row>
 	);
-	return app;
+	return app1;
 }
 
 export default RightLayout;

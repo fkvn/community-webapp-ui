@@ -1,5 +1,5 @@
 import { Col, Grid, Layout, Row } from "antd";
-import { imageTopbarBg, imageTopbarBgMobile } from "../../Assest/Asset";
+import { imageTopbarBgMobile } from "../../Assest/Asset";
 import LeftLayout from "../../Component/PageLayout/LeftLayout";
 import RightLayout from "../../Component/PageLayout/RightLayout";
 import TopBar from "../../Component/PageLayout/TopBar/TopBar";
@@ -8,39 +8,30 @@ function LayoutContainer() {
 	const { useBreakpoint } = Grid;
 	const screens = useBreakpoint();
 
-	const { Header, Content } = Layout;
+	const { Header } = Layout;
 
 	const layout = (
-		<Row id="layout">
-			<Col xs={24} xxl={{ span: 18, offset: 3 }}>
-				{screens?.xs === true || screens?.sm === true ? (
-					<Header
-						className="fixed-top tedkvn-center p-0"
-						style={{ backgroundImage: `url(${imageTopbarBgMobile})` }}
-					>
-						<TopBar />
-					</Header>
-				) : (
-					<Header
-						className="fixed-top tedkvn-center p-0 d-none d-md-block"
-						style={{ backgroundImage: `url(${imageTopbarBg})` }}
-					>
-						<TopBar />
-					</Header>
-				)}
+		<Row id="layout" justify="center">
+			<Col xs={24} xxl={18}>
+				<Header
+					className="fixed-top p-0"
+					style={{
+						backgroundImage: `url(${
+							screens?.md ? imageTopbarBgMobile : imageTopbarBgMobile
+						})`,
+					}}
+				>
+					<TopBar />
+				</Header>
 
-				<Content className="mx-3">
-					<Row>
-						<Col xs={24} xl={18}>
-							<LeftLayout />
-						</Col>
-						<Col xs={0} xl={6}>
-							<RightLayout
-								style={{ maxWidth: screens?.xxl === true ? "20%" : "25%" }}
-							/>
-						</Col>
-					</Row>
-				</Content>
+				<Row id="layout-main" justify="space-between">
+					<Col xs={24} xl={18}>
+						<LeftLayout />
+					</Col>
+					<Col xs={0} xl={6}>
+						<RightLayout />
+					</Col>
+				</Row>
 			</Col>
 		</Row>
 	);

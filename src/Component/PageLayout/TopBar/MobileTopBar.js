@@ -139,7 +139,7 @@ function MobileTopBar() {
 	];
 
 	const activateScrolling = () => {
-		// const heightToHideFrom = $("#layout header").outerHeight();
+		const heightToHideFrom = $("#layout header").outerHeight();
 
 		const threshold = 0;
 		let lastScrollY = window.pageYOffset;
@@ -153,30 +153,29 @@ function MobileTopBar() {
 				return;
 			}
 
-			if (scrollY > lastScrollY) {
+			if (scrollY > lastScrollY && scrollY > 0.5 * heightToHideFrom) {
 				$("#layout header").css({
-					transform: "translateY(-80%)",
+					transform: "translateY(-60%)",
 					transition: "transform 1s, visibility 1s",
 				});
 
-				$("#layout main").css({
-					"margin-top": "5rem",
-					transform: "margin-top",
-					transition: "transform 1s, visibility 1s",
-				});
-			} else {
-				if (scrollY === 0) {
-					$("#layout main").css(
-						"margin-top",
-						$("#layout header").height() + 20
-					);
-
-					// $("#layout main").css({
-					// 	"margin-top": heightToHideFrom + 20,
-					// 	transform: "margin-top",
-					// 	transition: "transform 5s, visibility 1s",
-					// });
-				}
+				// $("#layout main").css({
+				// 	"margin-top": "5rem",
+				// 	transform: "margin-top",
+				// 	transition: "transform 1s, visibility 1s",
+				// });
+			} else if (scrollY < heightToHideFrom) {
+				// if (scrollY === 0) {
+				// 	// $("#layout main").css(
+				// 	// 	"margin-top",
+				// 	// 	$("#layout header").height() + 20
+				// 	// );
+				// 	// $("#layout main").css({
+				// 	// 	"margin-top": heightToHideFrom + 20,
+				// 	// 	transform: "margin-top",
+				// 	// 	transition: "transform 5s, visibility 1s",
+				// 	// });
+				// }
 
 				// $("#layout main").css("margin-top", $("#layout header").height() + 20);
 
@@ -243,9 +242,10 @@ function MobileTopBar() {
 		if (keywordParam.length > 0) {
 			form.setFieldValue(SEARCH_INPUT_PROP, keywordParam);
 		}
-		$("#layout main").css("margin-top", $("#layout header").height() + 25);
 
 		const scroll = activateScrolling();
+
+		$("#layout-main").css("margin-top", $("#layout header").height() + 25);
 
 		// clean up event listener
 		return () => window.removeEventListener("scroll", scroll);
@@ -302,58 +302,63 @@ function MobileTopBar() {
 	);
 
 	const app = (
-		<>
-			<PageHeader
-				ghost={true}
-				className="p-0 mt-3 w-100"
-				onBack={() => navigate("/")}
-				backIcon={image({
-					src: imageThainowLogo,
-				})}
-				extra={[
-					...(keywordParam.length === 0
-						? [
-								<Button
-									key={0}
-									type="ghost"
-									className="p-0 tedkvn-center border-0 mt-2"
-									onClick={() => setShowSearch(true)}
-								>
-									{image({
-										width: 30,
-										src: svgSearchWhiteIcon,
-									})}
-								</Button>,
-						  ]
-						: []),
-					<Button
-						type="ghost"
-						className="p-0 tedkvn-center border-0 mt-2"
-						key={1}
-					>
-						{image({
-							width: 35,
-							className: "rounded-circle bg-white",
-							style: { padding: ".15rem" },
-							src: isObjectEmpty(profile)
-								? imageGuestAvatar
-								: profile?.info?.[`${PICTURE_PROP}`],
-							onClick: () => setShowProfile(true),
-						})}
-					</Button>,
-				]}
-			>
-				<Routes>
-					<Route path="/search" element={searchTopBar} />
-				</Routes>
-			</PageHeader>
+		<Row
+			justify="center"
+			style={{
+				overflow: "hidden !important",
+			}}
+		>
+			<Col xs={24}>
+				<PageHeader
+					ghost={true}
+					onBack={() => navigate("/")}
+					backIcon={image({
+						src: imageThainowLogo,
+					})}
+					extra={[
+						...(keywordParam.length === 0
+							? [
+									<Button
+										key={0}
+										type="ghost"
+										className="p-0 border-0 mt-2"
+										onClick={() => setShowSearch(true)}
+									>
+										{image({
+											width: 30,
+											src: svgSearchWhiteIcon,
+										})}
+									</Button>,
+							  ]
+							: []),
+						<Button type="ghost" className="p-0 border-0 mt-2" key={1}>
+							{image({
+								width: 35,
+								className: "rounded-circle bg-white",
+								style: { padding: ".15rem" },
+								src: isObjectEmpty(profile)
+									? imageGuestAvatar
+									: profile?.info?.[`${PICTURE_PROP}`],
+								onClick: () => setShowProfile(true),
+							})}
+						</Button>,
+					]}
+				>
+					<Routes>
+						<Route path="/search" element={searchTopBar} />
+					</Routes>
+				</PageHeader>
 
-			<OffCanvasSearch show={showSearch} onHide={() => setShowSearch(false)} />
-			<OffCanvasProfile
-				show={showProfile}
-				onHide={() => setShowProfile(false)}
-			/>
-		</>
+				<OffCanvasSearch
+					show={showSearch}
+					onHide={() => setShowSearch(false)}
+				/>
+				<OffCanvasProfile
+					show={showProfile}
+					onHide={() => setShowProfile(false)}
+				/>
+			</Col>
+		</Row>
 	);
 	return app;
 }

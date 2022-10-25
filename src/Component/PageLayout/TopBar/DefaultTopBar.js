@@ -1,8 +1,9 @@
 import { MenuOutlined } from "@ant-design/icons";
-import { Button, Dropdown, Form, Menu } from "antd";
+import { Button, Col, Dropdown, Form, Menu, Row } from "antd";
 import { useForm } from "antd/lib/form/Form";
+import $ from "jquery";
 import { useEffect, useState } from "react";
-import { Navbar, Stack } from "react-bootstrap";
+import { Navbar } from "react-bootstrap";
 import { useSelector } from "react-redux";
 import { useSearchParams } from "react-router-dom";
 import { imageThainowLogo } from "../../../Assest/Asset";
@@ -12,8 +13,6 @@ import useSearchKeyword from "../../Hook/FormHook/useSearchKeyword";
 import useCurrentLocation from "../../Hook/useCurrentLocation";
 import useImage from "../../Hook/useImage";
 import OffCanvasSearch from "../../Search/OffCanvasSearch";
-
-import $ from "jquery";
 
 function DefaultTopBar() {
 	const [searchParams] = useSearchParams();
@@ -56,17 +55,20 @@ function DefaultTopBar() {
 	);
 
 	useEffect(() => {
-		$("#layout main").css("margin-top", $("#layout header").height() + 25);
 		const keywordParam = searchParams.get("keywords") || "";
 		form.setFieldValue(SEARCH_INPUT_PROP, keywordParam);
+		$("#layout-main").css("margin-top", $("#layout header").outerHeight() + 25);
 	});
 
 	const app = (
-		<>
-			<Stack direction="horizontal" gap={4}>
+		<Row
+			justify="space-start"
+			align="middle"
+			className="w-100 px-4 px-lg-5 py-0 py-lg-2"
+		>
+			<Col xs={2}>
 				<Navbar.Brand
 					as="div"
-					className="tedkvn-center"
 					onClick={() => window.open("/", "_self")}
 					style={{ cursor: "pointer" }}
 				>
@@ -76,35 +78,40 @@ function DefaultTopBar() {
 						className: "my-2",
 					})}
 				</Navbar.Brand>
+			</Col>
 
-				<div id="searchbar" className="ms-auto w-100 ">
-					<Stack direction="horizontal" gap={4}>
-						<Form form={form} style={{ width: "60%" }}>
-							{keywordInput}
-						</Form>
+			<Col xs={20}>
+				<Row justify="center" className="mx-5" align="middle">
+					<Col flex={3}>
+						<Form form={form}>{keywordInput}</Form>
+					</Col>
+					<Col flex="auto">
 						{displayLocation(
 							{
 								onClick: () => setShowSearch(true),
-								containerClassName: "text-white w-25 h-100",
+								containerClassName: "text-white mx-4 mt-1",
 							},
 							location
 						)}
-					</Stack>
-				</div>
-
-				<Dropdown overlay={menu} placement="bottomRight" arrow>
-					<Button className="tedkvn-center bg-white text-primary">
-						<MenuOutlined />
-					</Button>
-				</Dropdown>
+					</Col>
+				</Row>
 
 				<OffCanvasSearch
 					show={showSearch}
 					onHide={() => setShowSearch(false)}
 				/>
-			</Stack>
-		</>
+			</Col>
+
+			<Col xs={2}>
+				<Dropdown overlay={menu} placement="bottomRight" arrow>
+					<Button className=" bg-white text-primary float-end">
+						<MenuOutlined />
+					</Button>
+				</Dropdown>
+			</Col>
+		</Row>
 	);
+
 	return app;
 }
 

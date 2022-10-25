@@ -1,42 +1,21 @@
 @import "../base/global";
 
+html,
+body {
+	overscroll-behavior: none;
+}
+
 body,
 .offcanvas {
 	background-color: #f3f4f6;
 }
 
 #layout {
-	@include layout-margin();
-
 	header {
 		background-size: cover;
 		height: auto;
-		min-height: fit-content;
-
-		// height: $layout-content-marginTop;
+		// min-height: fit-content;
 	}
-
-	// main {
-	// 	margin-top: $layout-content-marginTop;
-	// }
-}
-
-.nav-up {
-	// display: none !important;
-	// transition-property: display;
-	// transition-duration: 2s;
-	// transition: visibility 0s, opacity 0.5s linear;
-	// transition-timing-function: linear;
-	// transition-delay: 1s;
-
-	transform: translateY(-100%);
-	transition: transform 1s, visibility 1s;
-	// visibility: hidden;
-}
-
-.nav-down {
-	transform: translateY(0);
-	visibility: visible;
 }
 
 #topbar {
@@ -63,7 +42,7 @@ body,
 #LeftLayout {
 	// position: fixed;
 	// height: 100vh;
-	overflow: auto;
+	// overflow-x: hidden;
 }
 
 .tedkvn-center {

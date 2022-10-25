@@ -1,5 +1,5 @@
-import { Grid } from "antd";
-import { Stack } from "react-bootstrap";
+import { Col, Grid, Row } from "antd";
+import { isEmptyObject } from "jquery";
 import DefaultTopBar from "./DefaultTopBar";
 import MobileTopBar from "./MobileTopBar";
 function TopBar() {
@@ -7,18 +7,16 @@ function TopBar() {
 	const screens = useBreakpoint();
 
 	const app = (
-		<Stack
-			direction="vertical"
-			id="topbar"
-			className="mx-4 mx-xl-5 w-100 overflow-hidden"
-			gap={2}
-		>
-			{!screens?.xs === true && screens?.xl === true ? (
-				<DefaultTopBar />
-			) : (
-				<MobileTopBar />
-			)}
-		</Stack>
+		<Row>
+			<Col xs={24}>
+				{isEmptyObject(screens) ||
+				(screens?.xs === false && screens?.xl === true) ? (
+					<DefaultTopBar />
+				) : (
+					<MobileTopBar />
+				)}
+			</Col>
+		</Row>
 	);
 
 	return app;

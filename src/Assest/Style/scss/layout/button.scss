@@ -2,7 +2,7 @@
 
 button:not(.ant-btn-link) {
 	@include flex-center;
-	max-width: 20rem;
+	// max-width: 20rem;
 }
 
 button span:not([role]) {
