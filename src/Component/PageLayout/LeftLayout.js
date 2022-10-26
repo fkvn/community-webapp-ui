@@ -13,7 +13,7 @@ import SearchResultPage from "./SearchResultPage";
 function LeftLayout() {
 	const app = (
 		<Row justify="center">
-			<Col xs={24}>
+			<Col xs={24} className="px-2 px-md-0">
 				<Routes>
 					<Route path="/" element={<LandingPage />} />
 					<Route

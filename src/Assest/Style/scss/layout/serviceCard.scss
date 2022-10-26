@@ -10,5 +10,10 @@
 		bottom: 1%;
 		z-index: 800;
 		opacity: "90%";
+		border: 1px solid gainsboro;
+	}
+
+	& .ant-card-body {
+		padding: 0 1rem;
 	}
 }

@@ -243,6 +243,8 @@ function MobileTopBar() {
 			form.setFieldValue(SEARCH_INPUT_PROP, keywordParam);
 		}
 
+		$("#tag-bar").scrollLeft($(`#${searchTypeParam}`).offset()?.left);
+
 		const scroll = activateScrolling();
 
 		$("#layout-main").css("margin-top", $("#layout header").height() + 25);
@@ -279,8 +281,10 @@ function MobileTopBar() {
 
 			<Space
 				direction="horizontal"
+				id="tag-bar"
 				className="hideScrollHorizontal my-1 w-100"
 				style={{
+					position: "relative",
 					overflowX: "scroll",
 				}}
 				gap={3}

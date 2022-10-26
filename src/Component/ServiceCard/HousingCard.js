@@ -12,11 +12,13 @@ import {
 	Typography,
 } from "antd";
 import Meta from "antd/lib/card/Meta";
+import { useLocation, useNavigate } from "react-router-dom";
 import { svgHousingIconWhite } from "../../Assest/Asset";
 import {
 	ADDRESS_PROP,
 	AVG_RATING_PROP,
 	CATEGORY_PROP,
+	CLOSE_URL,
 	DEFAULT_CARD_INFO,
 	DEFAULT_HOUSING_CARD,
 	DEFAULT_POST_OWNER_INFO,
@@ -29,6 +31,7 @@ import {
 	NAME_PROP,
 	PICTURE_LIST_PROP,
 	PICTURE_PROP,
+	SEARCH_HOUSING,
 	TITLE_PROP,
 	TOTAL_REVIEW_PROP,
 	UPDATED_ON_PROP,
@@ -39,53 +42,45 @@ import useImage from "../Hook/useImage";
 function HousingCard({ card = DEFAULT_CARD_INFO }) {
 	const { useBreakpoint } = Grid;
 	const screens = useBreakpoint();
+	const navigate = useNavigate();
+	const location = useLocation();
+	const { image } = useImage();
 
 	const { info, postOwner, ...rest } = card;
 
-	const postOwnerInfo = { ...DEFAULT_POST_OWNER_INFO, ...postOwner };
-	const housingInfo = { ...DEFAULT_HOUSING_CARD, ...info };
-	const cardInfo = { ...DEFAULT_CARD_INFO, ...rest };
-
-	const { image } = useImage();
+	const ownerInfo = { ...DEFAULT_POST_OWNER_INFO, ...postOwner };
+	const detailInfo = { ...DEFAULT_HOUSING_CARD, ...info };
+	const basicInfo = { ...DEFAULT_CARD_INFO, ...rest };
 
 	const serviceTagOverlay = (
-		<div
-			style={{
-				position: "absolute",
-				width: "100%",
-				left: 0,
-				bottom: 5,
-				zIndex: 800,
-				opacity: "90%",
-			}}
-			className="bg-housing-important"
-		>
-			<Space direction="horizontal" className="w-100 p-2 px-3">
+		<div className="bg-housing-important service-tag-overlay">
+			<Space
+				direction="horizontal"
+				className=" p-0 px-2 py-1 py-md-2 px-md-3"
+				style={{
+					width: "80%",
+				}}
+			>
 				<div className="tedkvn-center h-100">
 					{image({
-						width: screens?.xs ? 20 : 25,
+						width: screens.md === true ? 20 : 20,
 						src: svgHousingIconWhite,
 					})}
 				</div>
-				<Meta
-					title={
-						<Typography.Title level={5} className="text-white m-0 p-1" ellipsis>
-							<span
-								{...(screens?.xs && {
-									style: { fontSize: ".8rem" },
-								})}
-							>
-								{housingInfo?.[`${CATEGORY_PROP}`]?.length > 0 && (
-									<>
-										{housingInfo?.[`${CATEGORY_PROP}`].toUpperCase()}
-										{" - "}
-									</>
-								)}{" "}
-								{HOUSING_HEADLINE_PROP.toUpperCase()}
-							</span>
-						</Typography.Title>
-					}
-				/>
+
+				<Typography.Title level={5} className="text-white m-0 p-0" ellipsis>
+					<span
+						{...(screens.xs === true && {
+							style: { fontSize: ".9rem" },
+						})}
+					>
+						{(screens.xs
+							? detailInfo?.[`${TITLE_PROP}`]
+							: detailInfo?.[`${CATEGORY_PROP}`]
+						).toUpperCase()}{" "}
+						{screens.md && HOUSING_HEADLINE_PROP.toUpperCase()}
+					</span>
+				</Typography.Title>
 			</Space>
 		</div>
 	);
@@ -97,7 +92,7 @@ function HousingCard({ card = DEFAULT_CARD_INFO }) {
 				<Avatar
 					className="m-0 mx-sm-2"
 					size={{ xs: 24 }}
-					src={postOwnerInfo?.[`${INFO_PROP}`]?.[`${PICTURE_PROP}`]}
+					src={ownerInfo?.[`${INFO_PROP}`]?.[`${PICTURE_PROP}`]}
 				/>
 			}
 			title={
@@ -111,22 +106,31 @@ function HousingCard({ card = DEFAULT_CARD_INFO }) {
 		/>
 	);
 
+	const shareButton = (
+		<Button
+			key={basicInfo?.[`${ID_PROP}`]}
+			type="ghost border-0"
+			icon={
+				<ShareAltOutlined
+					style={{
+						fontSize: screens.xs ? "1rem" : "1.4rem",
+					}}
+					className="c-primary"
+				/>
+			}
+		/>
+	);
+
 	const cover = (
 		<div style={{ position: "relative" }}>
-			<Carousel
-				dots={{
-					className: "py-5",
-				}}
-				autoplay
-			>
-				{housingInfo?.[`${PICTURE_LIST_PROP}`].map((img, idx) => (
+			<Carousel dots={true} autoplay>
+				{detailInfo?.[`${PICTURE_LIST_PROP}`].map((img, idx) => (
 					<div key={idx}>
 						<div>
 							{image({
 								width: "100%",
 								style: {
-									maxHeight: screens?.xs ? "15rem" : "18rem",
-									objectFit: "cover",
+									maxHeight: screens.xs ? "10rem" : "25rem",
 								},
 								src: img,
 							})}
@@ -134,32 +138,45 @@ function HousingCard({ card = DEFAULT_CARD_INFO }) {
 					</div>
 				))}
 			</Carousel>
-			{/* {imageOverlay} */}
+			{screens.xs && (
+				<div
+					style={{
+						position: "absolute",
+						top: 10,
+						right: 10,
+						backgroundColor: "white",
+						border: "1px solid whitesmoke",
+						borderRadius: "50%",
+					}}
+				>
+					{shareButton}
+				</div>
+			)}
 			{serviceTagOverlay}
 		</div>
 	);
 
 	const body = (
 		<>
-			<Row justify="space-between" className="mb-2">
+			<Row justify="space-between" className="my-3">
 				<Col style={{ maxWidth: "80%" }}>
 					<Meta
 						title={
 							<Typography.Title level={3} className="m-0 " ellipsis>
-								{housingInfo?.[`${TITLE_PROP}`]}
+								{detailInfo?.[`${TITLE_PROP}`]}
 							</Typography.Title>
 						}
 						description={
 							<span>
 								<Rate
 									disabled
-									defaultValue={cardInfo?.[`${AVG_RATING_PROP}`]}
+									defaultValue={basicInfo?.[`${AVG_RATING_PROP}`]}
 									allowHalf
 									style={{ fontSize: "1rem" }}
 									className="c-housing-important m-0 mt-1"
 								/>
 								<span className="ant-rate-text c-housing-important">
-									{cardInfo?.[`${TOTAL_REVIEW_PROP}`]} Reviews
+									{basicInfo?.[`${TOTAL_REVIEW_PROP}`]} Reviews
 								</span>
 							</span>
 						}
@@ -167,7 +184,7 @@ function HousingCard({ card = DEFAULT_CARD_INFO }) {
 				</Col>
 				<Col>
 					<Typography.Text ellipsis className="text-muted mt-1">
-						{formatTime(housingInfo?.[`${UPDATED_ON_PROP}`])}
+						{formatTime(detailInfo?.[`${UPDATED_ON_PROP}`])}
 					</Typography.Text>
 				</Col>
 			</Row>
@@ -179,21 +196,21 @@ function HousingCard({ card = DEFAULT_CARD_INFO }) {
 						onClick={() =>
 							window.open(
 								`https://www.google.com/maps/place/${
-									housingInfo?.[`${LOCATION_PROP}`]?.[`${LAT_PROP}`]
-								},${housingInfo?.[`${LOCATION_PROP}`]?.[`${LNG_PROP}`]}`,
+									detailInfo?.[`${LOCATION_PROP}`]?.[`${LAT_PROP}`]
+								},${detailInfo?.[`${LOCATION_PROP}`]?.[`${LNG_PROP}`]}`,
 								"_blank"
 							)
 						}
 						ellipsis
 					>
-						{housingInfo?.[`${LOCATION_PROP}`]?.[`${ADDRESS_PROP}`]}
+						{detailInfo?.[`${LOCATION_PROP}`]?.[`${ADDRESS_PROP}`]}
 					</Typography.Text>
 				</Col>
 			</Row>
 		</>
 	);
 
-	const app = (
+	const defaultCard = (
 		<Typography.Link href="/">
 			<Card
 				title={title}
@@ -205,7 +222,7 @@ function HousingCard({ card = DEFAULT_CARD_INFO }) {
 				cover={cover}
 				extra={[
 					<Button
-						key={cardInfo?.[`${ID_PROP}`]}
+						key={basicInfo?.[`${ID_PROP}`]}
 						type="ghost border-0"
 						icon={
 							<ShareAltOutlined
@@ -222,6 +239,70 @@ function HousingCard({ card = DEFAULT_CARD_INFO }) {
 			</Card>
 		</Typography.Link>
 	);
+
+	const mobileBody = (
+		<>
+			<Row justify="space-between" className="my-2">
+				<Col>
+					<span>
+						<Rate
+							disabled
+							defaultValue={basicInfo?.[`${AVG_RATING_PROP}`]}
+							allowHalf
+							style={{ fontSize: "1rem" }}
+							className="c-housing-important m-0"
+						/>
+					</span>
+				</Col>
+			</Row>
+
+			<Row justify="space-between">
+				<Col className="w-100">
+					<Meta
+						description={
+							<Typography.Text
+								className="c-primary-important"
+								onClick={() =>
+									window.open(
+										`https://www.google.com/maps/place/${
+											detailInfo?.[`${LOCATION_PROP}`]?.[`${LAT_PROP}`]
+										},${detailInfo?.[`${LOCATION_PROP}`]?.[`${LNG_PROP}`]}`,
+										"_blank"
+									)
+								}
+								ellipsis
+							>
+								{detailInfo?.[`${LOCATION_PROP}`]?.[`${ADDRESS_PROP}`]}
+							</Typography.Text>
+						}
+					/>
+				</Col>
+			</Row>
+		</>
+	);
+
+	const mobileCard = (
+		<Typography.Link
+			onClick={() =>
+				navigate(`/${SEARCH_HOUSING}/${basicInfo?.[`${ID_PROP}`]}`, {
+					state: {
+						[`${CLOSE_URL}`]: location?.pathname + location?.search || "/",
+					},
+				})
+			}
+		>
+			<Card
+				style={{ maxWidth: "100%", borderRadius: "1rem" }}
+				className=" overflow-hidden"
+				cover={cover}
+			>
+				{mobileBody}
+			</Card>
+		</Typography.Link>
+	);
+
+	const app = screens.md ? defaultCard : mobileCard;
+
 	return app;
 }
 

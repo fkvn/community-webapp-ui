@@ -1,9 +1,11 @@
 import { Button, Tag, Typography } from "antd";
 import { svgBusinessBadge } from "../../Assest/Asset";
 import global from "../../Assest/Style/scss/base/_global.scss";
+import { SEARCH_BUSINESS } from "../../Util/ConstVar";
 import useImage from "../Hook/useImage";
 
 function BusinessBadge({
+	id = SEARCH_BUSINESS,
 	type = "image",
 
 	// image with text style -> type ="image" as default
@@ -35,6 +37,7 @@ function BusinessBadge({
 		<>
 			{type === "image" && (
 				<div
+					id={id}
 					className={containerClassName}
 					style={{
 						maxWidth: containerMaxWidth,
@@ -51,7 +54,7 @@ function BusinessBadge({
 			)}
 
 			{type === "tag" && (
-				<Button type="ghost" className={buttonClassName}>
+				<Button id={id} type="ghost" className={buttonClassName}>
 					<Tag
 						color={active ? activeColor : defautColor}
 						className={tagClassName}

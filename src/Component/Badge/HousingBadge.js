@@ -1,9 +1,11 @@
 import { Button, Tag, Typography } from "antd";
 import { svgHousingBadge } from "../../Assest/Asset";
 import global from "../../Assest/Style/scss/base/_global.scss";
+import { SEARCH_HOUSING } from "../../Util/ConstVar";
 import useImage from "../Hook/useImage";
 
 function HousingBadge({
+	id = SEARCH_HOUSING,
 	type = "image",
 
 	// image with text style -> type ="image" as default
@@ -35,6 +37,7 @@ function HousingBadge({
 		<>
 			{type === "image" && (
 				<div
+					id={id}
 					className={containerClassName}
 					style={{
 						maxWidth: containerMaxWidth,
@@ -50,7 +53,7 @@ function HousingBadge({
 				</div>
 			)}
 			{type === "tag" && (
-				<Button type="ghost" className={buttonClassName}>
+				<Button id={id} type="ghost" className={buttonClassName}>
 					<Tag
 						color={active ? activeColor : defautColor}
 						className={tagClassName}

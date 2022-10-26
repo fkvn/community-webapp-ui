@@ -207,9 +207,19 @@ function SearchResultPage() {
 		<>
 			{resultHeader}
 			{fetchResults.length > 0 ? (
-				<Row gutter={[{ xs: 20, sm: 50 }, 50]} className="mt-4">
+				<Row
+					gutter={[
+						{ xs: 15, sm: 50 },
+						{ xs: 20, sm: 50 },
+					]}
+					className="mt-4"
+				>
 					{fetchResults.map((rel, idx) => (
-						<Col xs={24} sm={12} key={idx} id="service-card">
+						<Col
+							xs={fetchResults.length === 1 ? 24 : 12}
+							key={idx}
+							id="service-card"
+						>
 							{searchResult?.[`${SEARCH_TYPE_PROP}`] === SEARCH_BUSINESS && (
 								<BusinessCard card={rel} />
 							)}

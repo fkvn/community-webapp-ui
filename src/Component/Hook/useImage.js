@@ -17,6 +17,10 @@ function useImage() {
 			fallback: imageNoPhoto,
 			className: `${className} ${center ? "tedkvn-center" : ""} `,
 			...inputProps,
+			style: {
+				objectFit: "cover",
+				...inputProps?.style,
+			},
 		});
 
 	const { uploadFile } = useUpload();

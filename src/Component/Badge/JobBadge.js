@@ -1,9 +1,11 @@
 import { Button, Tag, Typography } from "antd";
 import { svgJobBadge } from "../../Assest/Asset";
 import global from "../../Assest/Style/scss/base/_global.scss";
+import { SEARCH_JOB } from "../../Util/ConstVar";
 import useImage from "../Hook/useImage";
 
 function JobBadge({
+	id = SEARCH_JOB,
 	type = "image",
 
 	// image with text style -> type ="image" as default
@@ -35,6 +37,7 @@ function JobBadge({
 		<>
 			{type === "image" && (
 				<div
+					id={id}
 					className={containerClassName}
 					style={{
 						maxWidth: containerMaxWidth,
@@ -50,7 +53,7 @@ function JobBadge({
 				</div>
 			)}
 			{type === "tag" && (
-				<Button type="ghost" className={buttonClassName}>
+				<Button id={id} type="ghost" className={buttonClassName}>
 					<Tag
 						color={active ? activeColor : defautColor}
 						className={tagClassName}
