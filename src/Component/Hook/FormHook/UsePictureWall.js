@@ -18,7 +18,7 @@ function usePictureWall({
 	required = false,
 	cropAspect = 1 / 1,
 	cropShape = "rect",
-	cropQuality = 0.4,
+	cropQuality = 0.8,
 	cropOk = "Save",
 	[`${PICTURE_LIST_PROP}`]: pictureList = [],
 }) {

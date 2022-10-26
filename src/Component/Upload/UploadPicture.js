@@ -5,6 +5,7 @@ import { errorMessage } from "../Hook/useMessage";
 
 function UploadPicture({
 	className = "",
+	cropRotate = true,
 	cropAspect = 1 / 1,
 	cropShape = "rect",
 	cropQuality = 0.4,
@@ -70,6 +71,7 @@ function UploadPicture({
 				}}
 			>
 				<ImgCrop
+					rotate={cropRotate}
 					aspect={cropAspect}
 					shape={cropShape}
 					quality={cropQuality}

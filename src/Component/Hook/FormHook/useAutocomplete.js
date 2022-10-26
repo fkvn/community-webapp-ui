@@ -1,12 +1,12 @@
 import { AutoComplete, Form } from "antd";
 
-const useAutocomplete = (
-	{ rules = [], ...itemProps },
+const useAutocomplete = ({
+	itemProps: { rules = [], ...itemProps } = {},
 	inputProps = {},
 	options = [],
 	required = false,
-	errorMessage = "Please input a value!"
-) =>
+	errorMessage = "Please input a value!",
+}) =>
 	((props = {}, inputProps = {}) => (
 		<Form.Item {...props}>
 			<AutoComplete {...inputProps} />
@@ -22,11 +22,15 @@ const useAutocomplete = (
 				...rules,
 			],
 			...itemProps,
+			label: `${itemProps?.label || "Selection"} ${
+				required ? "" : "(Optional)"
+			}`,
 		},
 		{
-			style: { width: 200 },
-			options: options,
 			className: "w-100",
+			options: options,
+			filterOption: (inputValue, option) =>
+				option?.value.toUpperCase().indexOf(inputValue.toUpperCase()) !== -1,
 			placeholder: "Search here",
 			...inputProps,
 		}

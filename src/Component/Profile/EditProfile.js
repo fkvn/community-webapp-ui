@@ -10,16 +10,20 @@ import {
 	COMPANY_INDUSTRY_LIST,
 	COMPANY_INDUSTRY_PROP,
 	COMPANY_NAME_PROP,
+	COMPANY_SIZE_LIST,
+	COMPANY_SIZE_PROP,
 	DEFAULT_USER_INFO,
 	DESCRIPTION_PROP,
 	EMAIL_PROP,
 	FIRSTNAME_PROP,
 	ID_PROP,
 	INFO_PROP,
+	IS_COMPANY_INFORMAL_PROP,
 	IS_DESCRIPTION_PUBLIC_PROP,
 	IS_EMAIL_PUBLIC_PROP,
 	IS_LOCATION_PUBLIC,
 	IS_PHONE_PUBLIC_PROP,
+	IS_SIZE_PUBLIC_PROP,
 	IS_WEBSITE_PUBLIC_PROP,
 	LASTNAME_PROP,
 	LOCATION_OBJ,
@@ -32,6 +36,7 @@ import {
 	PROFILE_OBJ,
 	PROFILE_TYPE_PROP,
 	PROFILE_USER_TYPE_PROP,
+	SIZE_PROP,
 	USERNAME_PROP,
 	WEBSITE_PROP,
 } from "../../Util/ConstVar";
@@ -144,21 +149,37 @@ function EditProfile({ profile = {} }) {
 		required: false,
 	});
 
-	const industry = useAutocomplete(
-		{
+	const industry = useAutocomplete({
+		itemProps: {
 			name: COMPANY_INDUSTRY_PROP,
 			label: "Business Industry",
 			initialValue: info?.[`${COMPANY_INDUSTRY_PROP}`],
 		},
-		{
-			filterOption: (inputValue, option) =>
-				option?.value.toUpperCase().indexOf(inputValue.toUpperCase()) !== -1,
+		inputProps: {
 			placeholder: "Enter your business Industry",
 		},
-		COMPANY_INDUSTRY_LIST.reduce((res, item) => [...res, { value: item }], []),
-		true,
-		"Please provide a business industry"
-	);
+		options: COMPANY_INDUSTRY_LIST.reduce(
+			(res, item) => [...res, { value: item }],
+			[]
+		),
+		required: true,
+		errorMessage: "Please provide a business industry",
+	});
+
+	const coverPictures = usePictureWall({
+		form: form,
+		itemProps: {
+			label:
+				(type === PROFILE_BUSINESS_TYPE_PROP ? "Business " : "") +
+				"Cover pictures",
+		},
+		[`${PICTURE_LIST_PROP}`]: (info?.[`${PICTURE_LIST_PROP}`] || []).map(
+			(res) => {
+				return { url: res };
+			}
+		),
+		cropAspect: 16 / 9,
+	});
 
 	const isLocationPublic = useCheckBox({
 		itemProps: {
@@ -205,7 +226,7 @@ function EditProfile({ profile = {} }) {
 			name: IS_EMAIL_PUBLIC_PROP,
 			initialValue: info?.[`${IS_EMAIL_PUBLIC_PROP}`] || false,
 		},
-		title: "Public your email",
+		title: "Public email address",
 	});
 
 	const email = (
@@ -213,7 +234,9 @@ function EditProfile({ profile = {} }) {
 			<Col>
 				{useEmail({
 					itemProps: {
-						label: "Email Address",
+						label:
+							(type === PROFILE_BUSINESS_TYPE_PROP ? "Business " : "") +
+							"Email Address",
 						initialValue: info?.[`${EMAIL_PROP}`] || "",
 						extra: (
 							<Typography.Text type="warning" ellipsis>
@@ -235,7 +258,7 @@ function EditProfile({ profile = {} }) {
 			name: IS_PHONE_PUBLIC_PROP,
 			initialValue: info?.[`${IS_PHONE_PUBLIC_PROP}`] || false,
 		},
-		title: "Public your phone",
+		title: "Public phone number",
 	});
 
 	const phone = (
@@ -243,6 +266,9 @@ function EditProfile({ profile = {} }) {
 			<Col>
 				{usePhone({
 					itemProps: {
+						label:
+							(type === PROFILE_BUSINESS_TYPE_PROP ? "Business " : "") +
+							"Phone Number",
 						initialValue: info?.[`${PHONE_PROP}`] || "",
 						extra: (
 							<Typography.Text type="warning" ellipsis>
@@ -264,7 +290,7 @@ function EditProfile({ profile = {} }) {
 			name: IS_DESCRIPTION_PUBLIC_PROP,
 			initialValue: info?.[`${IS_DESCRIPTION_PUBLIC_PROP}`] || false,
 		},
-		title: "Public your description",
+		title: "Public description",
 	});
 
 	const description = (
@@ -272,7 +298,9 @@ function EditProfile({ profile = {} }) {
 			<Col xs={24}>
 				{useTextarea({
 					itemProps: {
-						label: "Profile Description",
+						label:
+							(type === PROFILE_BUSINESS_TYPE_PROP ? "Business " : "") +
+							"Profile Description",
 						initialValue: info?.[`${DESCRIPTION_PROP}`] || "",
 					},
 				})}
@@ -286,7 +314,7 @@ function EditProfile({ profile = {} }) {
 			name: IS_WEBSITE_PUBLIC_PROP,
 			initialValue: info?.[`${IS_WEBSITE_PUBLIC_PROP}`] || false,
 		},
-		title: "Public your website",
+		title: "Public website address",
 	});
 
 	const website = (
@@ -294,6 +322,9 @@ function EditProfile({ profile = {} }) {
 			<Col>
 				{useUrl({
 					itemProps: {
+						label:
+							(type === PROFILE_BUSINESS_TYPE_PROP ? "Business " : "") +
+							"Website Address",
 						initialValue: info?.[`${WEBSITE_PROP}`] || "",
 					},
 				})}
@@ -302,21 +333,54 @@ function EditProfile({ profile = {} }) {
 		</Row>
 	);
 
+	const isSizePublic = useCheckBox({
+		itemProps: {
+			name: IS_SIZE_PUBLIC_PROP,
+			initialValue: info?.[`${IS_SIZE_PUBLIC_PROP}`] || false,
+		},
+		title: "Public company size",
+	});
+
+	const size = (
+		<Row justify="start" gutter={[50, 10]}>
+			<Col flex="auto">
+				{useAutocomplete({
+					itemProps: {
+						name: COMPANY_SIZE_PROP,
+						label: "Business Size",
+						initialValue: info?.[`${COMPANY_SIZE_PROP}`],
+					},
+					inputProps: {
+						placeholder: "Enter your business size",
+					},
+					options: COMPANY_SIZE_LIST.reduce(
+						(res, item) => [...res, { value: item }],
+						[]
+					),
+					required: false,
+					errorMessage: "Please provide a business size ",
+				})}
+			</Col>
+			<Col>{info?.[`${SIZE_PROP}`] && isSizePublic}</Col>
+		</Row>
+	);
+
 	const submitHandle = () => {
-		console.log(form.getFieldsValue());
+		const info = {
+			...form.getFieldsValue(),
+			...form.getFieldValue(LOCATION_OBJ),
+			...(isEmptyObject(form.getFieldValue(LOCATION_OBJ)) && {
+				[`${IS_COMPANY_INFORMAL_PROP}`]: true,
+			}),
+		};
+
 		form
 			.validateFields()
 			.then(() =>
 				type === PROFILE_USER_TYPE_PROP
-					? patchUserProfile(id, {
-							...form.getFieldsValue(),
-							...form.getFieldValue(LOCATION_OBJ),
-					  })
+					? patchUserProfile(id, info)
 					: type === PROFILE_BUSINESS_TYPE_PROP
-					? patchBusinessProfile(id, {
-							...form.getFieldsValue(),
-							...form.getFieldValue(LOCATION_OBJ),
-					  })
+					? patchBusinessProfile(id, info)
 					: Promise.reject("Update profile failed")
 			)
 			.then(() => {
@@ -334,7 +398,8 @@ function EditProfile({ profile = {} }) {
 						localStorage.setItem(PROFILE_OBJ, JSON.stringify(signedProfile))
 					);
 				}
-			});
+			})
+			.then(() => setUpdating(false));
 	};
 
 	const infoForm = (
@@ -349,23 +414,13 @@ function EditProfile({ profile = {} }) {
 				{type === PROFILE_USER_TYPE_PROP && firstname}
 				{type === PROFILE_USER_TYPE_PROP && lastname}
 				{type === PROFILE_BUSINESS_TYPE_PROP && industry}
-
-				{usePictureWall({
-					form: form,
-					itemProps: {
-						label: "Cover pictures",
-					},
-					[`${PICTURE_LIST_PROP}`]: (info?.[`${PICTURE_LIST_PROP}`] || []).map(
-						(res) => {
-							return { url: res };
-						}
-					),
-				})}
+				{coverPictures}
 				{address}
 				{email}
 				{phone}
 				{description}
 				{website}
+				{type === PROFILE_BUSINESS_TYPE_PROP && size}
 				<Row justify="center" className="mt-4">
 					<Col>
 						<Button

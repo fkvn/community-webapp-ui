@@ -12,7 +12,7 @@ function LayoutContainer() {
 
 	const layout = (
 		<Row id="layout" justify="center">
-			<Col xs={24} xxl={18}>
+			<Col xs={24} xxl={20}>
 				<Header
 					className="fixed-top p-0"
 					style={{

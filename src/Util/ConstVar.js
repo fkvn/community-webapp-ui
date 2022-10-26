@@ -224,9 +224,11 @@ export const COMPANY_INDUSTRY_PROP = "industry";
 export const COMPANY_FOUNDED_PROP = "founded";
 export const COMPANY_NAME_PROP = "name";
 export const COMPANY_REVENUE_PROP = "revenue";
+export const COMPANY_SIZE_PROP = "size";
+export const IS_COMPANY_INFORMAL_PROP = "isInformal";
 
 // export const COMPANY_ADDRESS_PROP = "address";
-// export const COMPANY_INFORMAL_PROP = "informal";
+
 // export const COMPANY_EMAIL_PROP = "email";
 // export const COMPANY_EMAIL_VALIDATION = "isValidEmail";
 // export const COMPANY_PHONE_PROP = "phone";

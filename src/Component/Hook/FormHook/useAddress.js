@@ -11,8 +11,8 @@ import useGoogleAutoComplete from "../useGoogleAutoComplete";
 import useAutocomplete from "./useAutocomplete";
 
 function useAddress({
-	itemProps = {},
-	inputProps = {},
+	itemProps: { rules = [], ...itemProps } = {},
+	inputProps: { prefix = true, ...inputProps } = {},
 	required = true,
 	defaultLocation = {
 		[`${ADDRESS_PROP}`]: "",
@@ -70,14 +70,7 @@ function useAddress({
 		}
 	};
 
-	const addressAutoComplete = (
-		{ rules = [], ...itemProps },
-		{ prefix = true, ...inputProps },
-		required = true,
-		defaultLocation = {},
-		options = [],
-		errorMessage = "Please enter a valid address"
-	) => (
+	return (
 		<>
 			{/* this is to collect custom location object */}
 			<Form.Item
@@ -89,8 +82,8 @@ function useAddress({
 				<Input value={address.location} />
 			</Form.Item>
 
-			{autoComplete(
-				{
+			{autoComplete({
+				itemProps: {
 					name: ADDRESS_PROP,
 					initialValue: defaultLocation?.[`${ADDRESS_PROP}`],
 					rules: [
@@ -106,11 +99,8 @@ function useAddress({
 						...rules,
 					],
 					...itemProps,
-					...(itemProps?.label && {
-						label: `${itemProps.label} ${required ? "" : "(Optional)"}`,
-					}),
 				},
-				{
+				inputProps: {
 					children: (
 						<Input
 							className="rounded-0"
@@ -134,20 +124,11 @@ function useAddress({
 					placeholder: "street, city, zipcode, or state",
 					...inputProps,
 				},
-				options,
-				required,
-				errorMessage
-			)}
+				options: options,
+				required: required,
+				errorMessage: errorMessage,
+			})}
 		</>
-	);
-
-	return addressAutoComplete(
-		itemProps,
-		inputProps,
-		required,
-		defaultLocation,
-		options,
-		errorMessage
 	);
 }
 

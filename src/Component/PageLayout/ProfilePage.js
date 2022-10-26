@@ -128,7 +128,7 @@ function ProfilePage({ isOwner = false, profile = {} }) {
 	const header = (
 		<PageHeader
 			ghost={true}
-			className="p-0"
+			className="px-0 py-3"
 			onBack={() => forwardUrl(FORWARD_CLOSE)}
 			title="Back"
 		/>
@@ -515,7 +515,7 @@ function ProfilePage({ isOwner = false, profile = {} }) {
 						className="m-0 p-0"
 						ellipsis
 					>
-						{formatTime(info?.[`${UPDATED_ON_PROP}`])}
+						Updated {formatTime(info?.[`${UPDATED_ON_PROP}`])}
 					</Typography.Text>,
 				],
 			})}

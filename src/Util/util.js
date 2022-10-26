@@ -336,23 +336,27 @@ export const formatTime = (time = "") => {
 	const currentTimeObj = new Date();
 
 	// get hours - less than 1hr -> just now
+	const minsDiff = Math.abs(
+		Math.round((timeObj.getTime() - currentTimeObj.getTime()) / 1000 / 60)
+	);
+
 	const hourDiff = Math.abs(
 		Math.round((timeObj.getTime() - currentTimeObj.getTime()) / 1000 / 60 / 60)
 	);
 
 	const dayDiff = Math.abs(Math.round(hourDiff / 24));
 
-	// if > 10 days -> display date
-	if (dayDiff > 10) return month + "/" + date + "/" + year;
-	//  if > 1 day -> display <dayDiff> "d"
-	else if (dayDiff > 1) return dayDiff + "d ago";
-	// if  > 1 hr -> display <hours>
-	else if (hourDiff > 1) {
-		return hourDiff + " hr ago";
+	if (minsDiff < 1) {
+		return " Just Now ";
+	} else if (minsDiff < 24) {
+		return minsDiff + "m ago ";
+	} else if (hourDiff < 24) {
+		return hourDiff + "h ago ";
+	} else if (dayDiff < 10) {
+		return dayDiff + "d ago ";
+	} else {
+		return month + "/" + date + "/" + year;
 	}
-
-	// less than 1hr -> just now
-	return "Just now";
 };
 
 export const formatLocation = (location = {}) => {

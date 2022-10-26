@@ -11,9 +11,9 @@ import NotFoundPage from "./NotFoundPage";
 import SearchResultPage from "./SearchResultPage";
 
 function LeftLayout() {
-	const app1 = (
+	const app = (
 		<Row justify="center">
-			<Col>
+			<Col xs={24}>
 				<Routes>
 					<Route path="/" element={<LandingPage />} />
 					<Route
@@ -35,7 +35,7 @@ function LeftLayout() {
 			</Col>
 		</Row>
 	);
-	return app1;
+	return app;
 }
 
 export default LeftLayout;
