@@ -4,7 +4,6 @@ import {
 	Col,
 	Dropdown,
 	Form,
-	Grid,
 	Menu,
 	PageHeader,
 	Row,
@@ -52,9 +51,6 @@ import OffCanvasProfile from "../../Profile/OffCanvasProfile";
 import OffCanvasSearch from "../../Search/OffCanvasSearch";
 
 function MobileTopBar() {
-	const { useBreakpoint } = Grid;
-	const screens = useBreakpoint();
-
 	const navigate = useNavigate();
 
 	const [searchParams] = useSearchParams();
@@ -243,67 +239,77 @@ function MobileTopBar() {
 			form.setFieldValue(SEARCH_INPUT_PROP, keywordParam);
 		}
 
-		$("#tag-bar").scrollLeft($(`#${searchTypeParam}`).offset()?.left);
+		try {
+			$("#tag-bar").scrollLeft($(`#${searchTypeParam}`).offset()?.left - 50);
+		} catch (error) {}
 
 		const scroll = activateScrolling();
 
-		$("#layout-main").css("margin-top", $("#layout header").height() + 25);
+		// $("#layout-main").css("margin-top", "7rem");
+
+		$("#layout-main").css("margin-top", $("#layout header").outerHeight() + 15);
 
 		// clean up event listener
 		return () => window.removeEventListener("scroll", scroll);
 	});
 
-	const searchTopBar = (
-		<>
-			<Row justify="space-between" className="mb-2">
-				<Col>
-					<Title level={2} className="text-white mb-1">
-						Browsing{" "}
-						{searchTypeParam.charAt(0).toUpperCase() + searchTypeParam.slice(1)}
-					</Title>
-				</Col>
-				<Col className="tedkvn-center">
-					{displayLocation(
-						{
-							onClick: () => setShowSearch(true),
-							containerClassName: "mb-0 w-100",
-						},
-						location
-					)}
-				</Col>
-			</Row>
+	const searchTopBar = () => {
+		{
+			$("#layout-main").css("margin-top", "17rem");
+		}
+		return (
+			<>
+				<Row justify="space-between" className="mb-2">
+					<Col>
+						<Title level={2} className="text-white mb-1">
+							Browsing{" "}
+							{searchTypeParam.charAt(0).toUpperCase() +
+								searchTypeParam.slice(1)}
+						</Title>
+					</Col>
+					<Col className="tedkvn-center">
+						{displayLocation(
+							{
+								onClick: () => setShowSearch(true),
+								containerClassName: "mb-0 w-100",
+							},
+							location
+						)}
+					</Col>
+				</Row>
 
-			{keywordParam.length > 0 && (
-				<Form form={form} className="mb-3">
-					{keywordInput}
-				</Form>
-			)}
+				{keywordParam.length > 0 && (
+					<Form form={form} className="mb-3">
+						{keywordInput}
+					</Form>
+				)}
 
-			<Space
-				direction="horizontal"
-				id="tag-bar"
-				className="hideScrollHorizontal my-1 w-100"
-				style={{
-					position: "relative",
-					overflowX: "scroll",
-				}}
-				gap={3}
-			>
-				{tagItems.map((tag, idx) => (
-					<React.Fragment key={idx}>
-						{tag({
-							tagClassName: "p-1 px-3 rounded lh-base",
-						})}
-					</React.Fragment>
-				))}
-			</Space>
+				<Space
+					direction="horizontal"
+					id="tag-bar"
+					className="hideScrollHorizontal my-1 w-100"
+					style={{
+						position: "relative",
+						overflowX: "scroll",
+					}}
+					gap={3}
+				>
+					{tagItems.map((tag, idx) => (
+						<React.Fragment key={idx}>
+							{tag({
+								tagClassName: "p-1 px-3 rounded lh-base",
+							})}
+						</React.Fragment>
+					))}
+				</Space>
 
-			<Space direction="horizontal" className="my-2">
-				{/* {filterBtn}  */}
-				{sortBtn}
-			</Space>
-		</>
-	);
+				<Space direction="horizontal" className="my-2">
+					{/* {filterBtn}  */}
+					{sortBtn}
+				</Space>
+			</>
+		);
+	};
 
 	const app = (
 		<Row
@@ -349,7 +355,7 @@ function MobileTopBar() {
 					]}
 				>
 					<Routes>
-						<Route path="/search" element={searchTopBar} />
+						<Route path="/search" element={searchTopBar()} />
 					</Routes>
 				</PageHeader>
 

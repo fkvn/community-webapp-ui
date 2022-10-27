@@ -90,6 +90,22 @@ export const svgIgLogo = `${SOURCE_URL}svg-logo-ig.svg?alt=media&token=184f0afc-
 
 export const svgSearchWhiteIcon = `${SOURCE_URL}svg-search-icon-white.svg?alt=media&token=184f0afc-beb7-4992-9c24-63e3004444ef`;
 
+export const svgWifiIconBlack = `${SOURCE_URL}svg-wifi-icon-black.svg?alt=media&token=184f0afc-beb7-4992-9c24-63e3004444ef`;
+
+export const svgWasherIconBlack = `${SOURCE_URL}svg-washer-icon-black.svg?alt=media&token=184f0afc-beb7-4992-9c24-63e3004444ef`;
+
+export const svgRefrigeratorIconBlack = `${SOURCE_URL}svg-refrigerator-icon-black.svg?alt=media&token=184f0afc-beb7-4992-9c24-63e3004444ef`;
+
+export const svgCookingIconBlack = `${SOURCE_URL}svg-cooking-icon-black.svg?alt=media&token=184f0afc-beb7-4992-9c24-63e3004444ef`;
+
+export const svgAcIconBlack = `${SOURCE_URL}svg-ac-icon-black.svg?alt=media&token=184f0afc-beb7-4992-9c24-63e3004444ef`;
+
+export const svgDryerIconBlack = `${SOURCE_URL}svg-dryer-icon-black.svg?alt=media&token=184f0afc-beb7-4992-9c24-63e3004444ef`;
+
+export const svgMicrowaveIconBlack = `${SOURCE_URL}svg-microwave-icon-black.svg?alt=media&token=184f0afc-beb7-4992-9c24-63e3004444ef`;
+
+export const svgPetAllowedIconBlack = `${SOURCE_URL}svg-pet-allowed-icon-black.svg?alt=media&token=184f0afc-beb7-4992-9c24-63e3004444ef`;
+
 export const imageDealSample = `${SOURCE_URL}img-deal-sample.jpeg?alt=media&token=184f0afc-beb7-4992-9c24-63e3004444ef`;
 
 export const imageJobSample = `${SOURCE_URL}img-employer-sample.png?alt=media&token=184f0afc-beb7-4992-9c24-63e3004444ef`;

@@ -35,14 +35,8 @@ import { isEmptyObject } from "jquery";
 import React, { useCallback, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useSearchParams } from "react-router-dom";
-import { iconLocationBlack } from "../../Assest/Asset";
-import DealBadge from "../../Component/Badge/DealBadge";
-import HousingBadge from "../../Component/Badge/HousingBadge";
-import JobBadge from "../../Component/Badge/JobBadge";
-import MarketplaceBadge from "../../Component/Badge/MarketplaceBadge";
-import useImage from "../../Component/Hook/useImage";
-import useSearch from "../../Component/Hook/useSearch";
-import { thainowReducer } from "../../redux-store/reducer/thainowReducer";
+import { iconLocationBlack } from "../../../Assest/Asset";
+import { thainowReducer } from "../../../redux-store/reducer/thainowReducer";
 import {
 	ADDRESS_PROP,
 	AVG_RATING_PROP,
@@ -77,10 +71,10 @@ import {
 	SEARCH_JOB,
 	SEARCH_KEYWORD,
 	SEARCH_MARKETPLACE,
+	SEARCH_POST,
 	SEARCH_PROFILE,
 	SEARCH_RESULT_OBJ,
 	SEARCH_REVIEW,
-	SEARCH_SERVICE,
 	SEARCH_SORT,
 	SEARCH_SORT_ACS,
 	SEARCH_SORT_DATE,
@@ -95,14 +89,20 @@ import {
 	TOTAL_REVIEW_PROP,
 	UPDATED_ON_PROP,
 	WEBSITE_PROP,
-} from "../../Util/ConstVar";
-import DealCard from "../ServiceCard/DealCard";
-import HousingCard from "../ServiceCard/HousingCard";
-import JobCard from "../ServiceCard/JobCard";
-import MarketplaceCard from "../ServiceCard/MarketplaceCard";
+} from "../../../Util/ConstVar";
+import DealBadge from "../../Badge/DealBadge";
+import HousingBadge from "../../Badge/HousingBadge";
+import JobBadge from "../../Badge/JobBadge";
+import MarketplaceBadge from "../../Badge/MarketplaceBadge";
+import useImage from "../../Hook/useImage";
+import useSearch from "../../Hook/useSearch";
+import DealCard from "../../ServiceCard/DealCard";
+import HousingCard from "../../ServiceCard/HousingCard";
+import JobCard from "../../ServiceCard/JobCard";
+import MarketplaceCard from "../../ServiceCard/MarketplaceCard";
 
-import useUrls from "../../Component/Hook/useUrls";
-import { formatTime } from "../../Util/Util";
+import { formatTime } from "../../../Util/Util";
+import useUrls from "../../Hook/useUrls";
 
 function ProfilePage({ isOwner = false, profile = {} }) {
 	const {
@@ -145,7 +145,7 @@ function ProfilePage({ isOwner = false, profile = {} }) {
 								onClick: () => setVisible({ value: true, idx: 0 }),
 								preview: { visible: false },
 								style: {
-									maxHeight: screens?.xs ? "20rem" : "30rem",
+									maxHeight: screens.xs ? "15rem" : "30rem",
 									objectFit: "cover",
 								},
 								src: info?.[`${PICTURE_PROP}`],
@@ -161,7 +161,7 @@ function ProfilePage({ isOwner = false, profile = {} }) {
 								onClick: () => setVisible({ value: true, idx: idx }),
 								preview: { visible: false },
 								style: {
-									maxHeight: screens?.xs ? "20rem" : "30rem",
+									maxHeight: screens.xs ? "15rem" : "30rem",
 									objectFit: "cover",
 								},
 								src: img,
@@ -194,7 +194,7 @@ function ProfilePage({ isOwner = false, profile = {} }) {
 	const infoTitle = (
 		<Meta
 			className="mt-2"
-			{...(info?.[`${PICTURE_LIST_PROP}`]?.length >= 0 && {
+			{...(info?.[`${PICTURE_LIST_PROP}`]?.length > 0 && {
 				avatar: avatar({
 					inputProps: { src: info?.[`${PICTURE_PROP}`], size: 50 },
 				}),
@@ -240,16 +240,12 @@ function ProfilePage({ isOwner = false, profile = {} }) {
 						title: (
 							<Typography.Link
 								ellipsis
-								onClick={() =>
-									window.open(
-										`https://www.google.com/maps/place/${
-											info?.[`${NAME_PROP}`]
-										}/@${info?.[`${LOCATION_PROP}`]?.[`${LAT_PROP}`]},${
-											info?.[`${LOCATION_PROP}`]?.[`${LNG_PROP}`]
-										} `,
-										"_blank"
-									)
-								}
+								href={`https://www.google.com/maps/place/${
+									info?.[`${NAME_PROP}`]
+								}/@${info?.[`${LOCATION_PROP}`]?.[`${LAT_PROP}`]},${
+									info?.[`${LOCATION_PROP}`]?.[`${LNG_PROP}`]
+								} `}
+								target="_blank"
 							>
 								{info?.[`${LOCATION_PROP}`]?.[`${ADDRESS_PROP}`]}
 							</Typography.Link>
@@ -328,20 +324,14 @@ function ProfilePage({ isOwner = false, profile = {} }) {
 						title: (
 							<Typography.Link
 								ellipsis
-								onClick={() =>
-									window.open(
-										`https://www.google.com/maps/place/${
-											info?.[`${NAME_PROP}`]
-										}/@${info?.[`${LOCATION_PROP}`]?.[`${LAT_PROP}`]},${
-											info?.[`${LOCATION_PROP}`]?.[`${LNG_PROP}`]
-										} `,
-										"_blank"
-									)
-								}
+								href={`https://www.google.com/maps/place/${
+									info?.[`${NAME_PROP}`]
+								}/@${info?.[`${LOCATION_PROP}`]?.[`${LAT_PROP}`]},${
+									info?.[`${LOCATION_PROP}`]?.[`${LNG_PROP}`]
+								} `}
+								target="_blank"
 							>
-								{info?.[`${LOCATION_PROP}`]?.[`${ADDRESS_PROP}`] || (
-									<span className="text-secondary">Unavailable</span>
-								)}
+								{info?.[`${LOCATION_PROP}`]?.[`${ADDRESS_PROP}`]}
 							</Typography.Link>
 						),
 						visible: true,
@@ -537,16 +527,16 @@ function ProfilePage({ isOwner = false, profile = {} }) {
 	const { [`${SEARCH_FETCH_RESULT_PROP}`]: fetchResults = [] } = searchResult;
 
 	const [actionCall, setActionCall] = useState({
-		actionType: SEARCH_SERVICE,
+		actionType: SEARCH_POST,
 		searching: true,
 	});
 
 	const onSearchHandle = (
-		actionType = SEARCH_SERVICE,
+		actionType = SEARCH_POST,
 		searchType = searchTypeParam,
 		params = {}
 	) => {
-		if (id > 0 && actionType === SEARCH_SERVICE) {
+		if (id > 0 && actionType === SEARCH_POST) {
 			return dispatchSearch(
 				searchType,
 				{
@@ -561,7 +551,7 @@ function ProfilePage({ isOwner = false, profile = {} }) {
 
 	const initSearch = useCallback(
 		async (
-			actionType = SEARCH_SERVICE,
+			actionType = SEARCH_POST,
 			searchType = searchTypeParam,
 			params = {}
 		) => {
@@ -592,10 +582,10 @@ function ProfilePage({ isOwner = false, profile = {} }) {
 				onClick={() => {
 					if (id > 0) {
 						setActionCall({
-							actionType: SEARCH_SERVICE,
+							actionType: SEARCH_POST,
 							searching: true,
 						});
-						initSearch(SEARCH_SERVICE, SEARCH_DEAL);
+						initSearch(SEARCH_POST, SEARCH_DEAL);
 					}
 				}}
 				{...props}
@@ -609,10 +599,10 @@ function ProfilePage({ isOwner = false, profile = {} }) {
 				onClick={() => {
 					if (id > 0) {
 						setActionCall({
-							actionType: SEARCH_SERVICE,
+							actionType: SEARCH_POST,
 							searching: true,
 						});
-						initSearch(SEARCH_SERVICE, SEARCH_JOB);
+						initSearch(SEARCH_POST, SEARCH_JOB);
 					}
 				}}
 				{...props}
@@ -626,10 +616,10 @@ function ProfilePage({ isOwner = false, profile = {} }) {
 				onClick={() => {
 					if (id > 0) {
 						setActionCall({
-							actionType: SEARCH_SERVICE,
+							actionType: SEARCH_POST,
 							searching: true,
 						});
-						initSearch(SEARCH_SERVICE, SEARCH_HOUSING);
+						initSearch(SEARCH_POST, SEARCH_HOUSING);
 					}
 				}}
 				{...props}
@@ -643,10 +633,10 @@ function ProfilePage({ isOwner = false, profile = {} }) {
 				onClick={() => {
 					if (id > 0) {
 						setActionCall({
-							actionType: SEARCH_SERVICE,
+							actionType: SEARCH_POST,
 							searching: true,
 						});
-						initSearch(SEARCH_SERVICE, SEARCH_MARKETPLACE);
+						initSearch(SEARCH_POST, SEARCH_MARKETPLACE);
 					}
 				}}
 				{...props}
@@ -708,7 +698,7 @@ function ProfilePage({ isOwner = false, profile = {} }) {
 				},
 			]}
 			onClick={({ key }) =>
-				initSearch(SEARCH_SERVICE, searchTypeParam, {
+				initSearch(SEARCH_POST, searchTypeParam, {
 					[`${SEARCH_SORT}`]: key,
 					[`${SEARCH_SORT_ORDER}`]:
 						sortOrderParam === SEARCH_SORT_DESC
@@ -854,7 +844,7 @@ function ProfilePage({ isOwner = false, profile = {} }) {
 	);
 
 	const action = {
-		[`${SEARCH_SERVICE}`]: {
+		[`${SEARCH_POST}`]: {
 			title: serviceTitle,
 			children: serviceResult,
 		},
@@ -866,7 +856,7 @@ function ProfilePage({ isOwner = false, profile = {} }) {
 	const actionTitleOptions = [
 		{
 			label: "Services",
-			value: SEARCH_SERVICE,
+			value: SEARCH_POST,
 		},
 		{
 			label: "Wish List",

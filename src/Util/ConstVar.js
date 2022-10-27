@@ -119,8 +119,9 @@ export const SEARCH_INPUT_PROP = "input";
 export const SEARCH_TYPE_PROP = "searchType";
 export const SEARCH_LOCATION_ADDRESS = "address";
 export const SEARCH_PROFILE = "profiles";
-export const SEARCH_SERVICE = "services";
+export const SEARCH_POST = "posts";
 export const SEARCH_WISHLIST = "wishlists";
+export const SEARCH_QUESTION = "questions";
 export const SEARCH_REVIEW = "reviews";
 export const SEARCH_USER = "users";
 export const SEARCH_BUSINESS = "business";
@@ -241,6 +242,7 @@ export const IS_COMPANY_INFORMAL_PROP = "isInformal";
 
 export const POST_OWNER_PROP = "postOwner";
 export const POST_OWNER_ID_PROP = "ownerId";
+export const POST_TYPE_PROP = "type";
 export const CREATED_ON_PROP = "createdOn";
 export const DEFAULT_POST_OWNER_INFO = {
 	[`${ID_PROP}`]: -1,
@@ -299,6 +301,7 @@ export const DEFAULT_CONTACT_INFO = {
 };
 
 export const DEAL_HEADLINE_PROP = "Local Deals";
+export const DEAL_POST_TYPE_PROP = "DEAL_POST";
 export const DEFAULT_DEAL_INFO = {
 	[`${CATEGORY_PROP}`]: "",
 	[`${CONTACT_INFO_PROP}`]: { ...DEFAULT_CONTACT_INFO },
@@ -312,12 +315,13 @@ export const DEFAULT_DEAL_INFO = {
 };
 
 export const JOB_HEADLINE_PROP = "Job Hiring";
+export const JOB_POST_TYPE_PROP = "JOB_POST";
 export const EXPERIENCE_PROP = "experience";
 export const POSITION_LIST_PROP = "positions";
 export const REMOTE_PROP = "remote";
 export const SALARY_PROP = "salary";
 export const SKILL_PROP = "skills";
-export const DEFAULT_JOB_CARD = {
+export const DEFAULT_JOB_INFO = {
 	[`${EXPERIENCE_PROP}`]: "",
 	[`${CONTACT_INFO_PROP}`]: { ...DEFAULT_CONTACT_INFO },
 	[`${EXPIRED_ON_PROP}`]: "",
@@ -334,17 +338,34 @@ export const DEFAULT_JOB_CARD = {
 };
 
 export const HOUSING_HEADLINE_PROP = "Housing";
+export const HOUSING_POST_TYPE_PROP = "HOUSING_POST";
 export const AMENITY_LIST_PROP = "amenities";
+export const AMENITY_WIFI_PROP = "WIFI";
+export const AMENITY_WASHER_PROP = "WASHER";
+export const AMENITY_REFRIGERATOR_PROP = "REFRIGERATOR";
+export const AMENITY_COOKING_BASIC_PROP = "COOKING BASIC";
+export const AMENITY_AIR_CONDITIONER_PROP = "AIR CONDITIONER";
+export const AMENITY_DRYER_PROP = "DRYER";
+export const AMENITY_MICROWAVE_PROP = "MICROWAVE";
+export const AMENITY_PET_ALLOWED_PROP = "PET ALLOWED";
+
+export const AMENITY_ICON_LIST = {};
+
 export const ANNUAL_COST_PROP = "annualCost";
-export const DALLY_COST_PROP = "dailyCost";
+export const DAILY_COST_PROP = "dailyCost";
 export const DEPOSIT_COST_PROP = "depositCost";
 export const MONTHLY_COST_PROP = "monthlyCost";
-export const INTERIRO_LIST_PROP = "interior";
+export const INTERIOR_PROP = "interior";
+export const INTERIOR_GUEST_PROP = "guest";
+export const INTERIOR_BED_PROP = "bed";
+export const INTERIOR_PARKING_PROP = "parking";
+export const INTERIOR_BATH_PROP = "bath";
 export const HOUSING_TYPE_PROP = "type";
-export const DEFAULT_HOUSING_CARD = {
+
+export const DEFAULT_HOUSING_INFO = {
 	[`${AMENITY_LIST_PROP}`]: [],
 	[`${ANNUAL_COST_PROP}`]: "",
-	[`${DALLY_COST_PROP}`]: "",
+	[`${DAILY_COST_PROP}`]: "",
 	[`${MONTHLY_COST_PROP}`]: "",
 	[`${DEPOSIT_COST_PROP}`]: "",
 	[`${CATEGORY_PROP}`]: "",
@@ -352,7 +373,7 @@ export const DEFAULT_HOUSING_CARD = {
 	[`${DESCRIPTION_PROP}`]: "",
 	[`${EXPIRED_ON_PROP}`]: "",
 	[`${PICTURE_LIST_PROP}`]: [],
-	[`${INTERIRO_LIST_PROP}`]: [],
+	[`${INTERIOR_PROP}`]: [],
 	[`${STATUS_PROP}`]: "",
 	[`${TITLE_PROP}`]: "",
 	[`${HOUSING_TYPE_PROP}`]: "",
@@ -361,9 +382,10 @@ export const DEFAULT_HOUSING_CARD = {
 };
 
 export const MARKETPLACE_HEADLINE_PROP = "Marketplace";
+export const MARKETPLACE_POST_TYPE_PROP = "MARKETPLACE_POST";
 export const CONDITION_PROP = "condition";
 export const COST_PROP = "cost";
-export const DEFAULT_MARKETPLACE_CARD = {
+export const DEFAULT_MARKETPLACE_INFO = {
 	[`${CATEGORY_PROP}`]: "",
 	[`${CONDITION_PROP}`]: "",
 	[`${COST_PROP}`]: "",

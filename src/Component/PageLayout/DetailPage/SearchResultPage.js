@@ -14,7 +14,7 @@ import {
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useSearchParams } from "react-router-dom";
-import { thainowReducer } from "../../redux-store/reducer/thainowReducer";
+import { thainowReducer } from "../../../redux-store/reducer/thainowReducer";
 import {
 	SEARCH_BUSINESS,
 	SEARCH_DEAL,
@@ -27,18 +27,18 @@ import {
 	SEARCH_SORT,
 	SEARCH_SORT_DATE,
 	SEARCH_TYPE_PROP,
-} from "../../Util/ConstVar";
-import BusinessBadge from "../Badge/BusinessBadge";
-import DealBadge from "../Badge/DealBadge";
-import HousingBadge from "../Badge/HousingBadge";
-import JobBadge from "../Badge/JobBadge";
-import MarketplaceBadge from "../Badge/MarketplaceBadge";
-import useSearch from "../Hook/useSearch";
-import BusinessCard from "../ServiceCard/BusinessCard";
-import DealCard from "../ServiceCard/DealCard";
-import HousingCard from "../ServiceCard/HousingCard";
-import JobCard from "../ServiceCard/JobCard";
-import MarketplaceCard from "../ServiceCard/MarketplaceCard";
+} from "../../../Util/ConstVar";
+import BusinessBadge from "../../Badge/BusinessBadge";
+import DealBadge from "../../Badge/DealBadge";
+import HousingBadge from "../../Badge/HousingBadge";
+import JobBadge from "../../Badge/JobBadge";
+import MarketplaceBadge from "../../Badge/MarketplaceBadge";
+import useSearch from "../../Hook/useSearch";
+import BusinessCard from "../../ServiceCard/BusinessCard";
+import DealCard from "../../ServiceCard/DealCard";
+import HousingCard from "../../ServiceCard/HousingCard";
+import JobCard from "../../ServiceCard/JobCard";
+import MarketplaceCard from "../../ServiceCard/MarketplaceCard";
 
 function SearchResultPage() {
 	const { useBreakpoint } = Grid;
@@ -61,7 +61,7 @@ function SearchResultPage() {
 	const [loading, setLoading] = useState(true);
 
 	useEffect(() => {
-		if (loading) {
+		if (loading && searchTypeParam !== "") {
 			dispatchSearch(searchTypeParam).then(() => setLoading(false));
 		}
 	}, []);
@@ -216,7 +216,10 @@ function SearchResultPage() {
 				>
 					{fetchResults.map((rel, idx) => (
 						<Col
-							xs={fetchResults.length === 1 ? 24 : 12}
+							xs={fetchResults?.length < 2 ? 24 : 12}
+							sm={fetchResults?.length < 2 ? 24 : 12}
+							md={fetchResults?.length < 2 ? 24 : 12}
+							lg={12}
 							key={idx}
 							id="service-card"
 						>

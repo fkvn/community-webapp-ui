@@ -28,20 +28,20 @@ import DescriptionsItem from "antd/lib/descriptions/Item";
 import { isEmptyObject } from "jquery";
 import { useCallback, useState } from "react";
 import { useLocation, useSearchParams } from "react-router-dom";
-import { iconLocationBlack, svgDealIcon } from "../../../Assest/Asset";
+import { iconLocationBlack, svgMarketplaceIcon } from "../../../Assest/Asset";
 import {
 	ADDRESS_PROP,
 	AVG_RATING_PROP,
 	CATEGORY_PROP,
 	COMPANY_INDUSTRY_PROP,
+	CONDITION_PROP,
 	CONTACT_INFO_PROP,
+	COST_PROP,
 	CREATED_ON_PROP,
-	DEAL_HEADLINE_PROP,
-	DEFAULT_DEAL_INFO,
+	DEFAULT_MARKETPLACE_INFO,
 	DEFAULT_POST_OWNER_INFO,
 	DESCRIPTION_PROP,
 	EMAIL_PROP,
-	EXPIRED_ON_PROP,
 	FORWARD_CLOSE,
 	FORWARD_CONTINUE,
 	ID_PROP,
@@ -68,11 +68,11 @@ import {
 	UPDATED_ON_PROP,
 	WEBSITE_PROP,
 } from "../../../Util/ConstVar";
-import { formatSentenseCase, formatTime } from "../../../Util/Util";
+import { formatTime } from "../../../Util/Util";
 import useImage from "../../Hook/useImage";
 import useUrls from "../../Hook/useUrls";
 
-function DealPage({ isOwner = false, service = {} }) {
+function MarketplacePage({ isOwner = false, service = {} }) {
 	const { forwardUrl } = useUrls();
 	const location = useLocation();
 
@@ -83,13 +83,12 @@ function DealPage({ isOwner = false, service = {} }) {
 		[`${TOTAL_REVIEW_PROP}`]: totalReview = 0,
 		[`${POST_OWNER_PROP}`]: postOwner = {},
 	} = service;
-
 	const ownerInfo = {
 		...DEFAULT_POST_OWNER_INFO,
 		...postOwner?.[`${INFO_PROP}`],
 	};
 
-	info = { ...DEFAULT_DEAL_INFO, ...info };
+	info = { ...DEFAULT_MARKETPLACE_INFO, ...info };
 
 	const header = (
 		<PageHeader
@@ -99,6 +98,8 @@ function DealPage({ isOwner = false, service = {} }) {
 			title="Back"
 		/>
 	);
+
+	console.log(info);
 
 	const [visible, setVisible] = useState({
 		value: false,
@@ -161,8 +162,8 @@ function DealPage({ isOwner = false, service = {} }) {
 					}}
 				>
 					{image({
-						width: 18,
-						src: svgDealIcon,
+						width: 30,
+						src: svgMarketplaceIcon,
 					})}
 					<span className="mx-2">{info?.[`${TITLE_PROP}`]}</span>
 				</Typography.Title>
@@ -283,50 +284,89 @@ function DealPage({ isOwner = false, service = {} }) {
 
 	const descriptionData = [
 		{
-			label: <ThunderboltOutlined className="tedkvn-center" />,
-			title: (
-				<Typography.Text
-					type="success"
-					ellipsis={{
-						tooltip: true,
-					}}
-				>
-					{formatSentenseCase(info?.[`${STATUS_PROP}`])} {DEAL_HEADLINE_PROP}
-					{info?.[`${EXPIRED_ON_PROP}`] && (
-						<span className="text-secondary">
-							{" "}
-							- Expired at {info?.[`${EXPIRED_ON_PROP}`]}
-						</span>
-					)}
-				</Typography.Text>
+			label: (
+				<Space size={5}>
+					<ThunderboltOutlined />
+					<span className="px-1">Category:</span>
+				</Space>
 			),
+			...(info?.[`${CATEGORY_PROP}`]
+				? {
+						title: (
+							<Typography.Text
+								type="success"
+								ellipsis={{
+									tooltip: true,
+								}}
+							>
+								{info?.[`${CATEGORY_PROP}`]}
+							</Typography.Text>
+						),
+				  }
+				: {}),
 		},
 		{
 			label: (
 				<Space size={5}>
 					<AimOutlined />
-					<span className="px-1">Category:</span>
+					<span className="px-1">Condition:</span>
 				</Space>
 			),
-			title: info?.[`${CATEGORY_PROP}`],
+			...(info?.[`${CONDITION_PROP}`]
+				? {
+						title: (
+							<Typography.Text
+								type="success"
+								ellipsis={{
+									tooltip: true,
+								}}
+							>
+								{info?.[`${CONDITION_PROP}`]}
+							</Typography.Text>
+						),
+				  }
+				: {}),
 		},
 		{
 			label: (
 				<Space size={5}>
-					<DoubleRightOutlined />
-					<span className="px-1">Description:</span>
+					<AimOutlined />
+					<span className="px-1">Cost starts at:</span>
 				</Space>
 			),
-			...(info?.[`${DESCRIPTION_PROP}`]
+			...(info?.[`${COST_PROP}`]
 				? {
+						title: (
+							<Typography.Text
+								type="success"
+								ellipsis={{
+									tooltip: true,
+								}}
+							>
+								${info?.[`${COST_PROP}`]}
+							</Typography.Text>
+						),
+				  }
+				: {}),
+			span: info?.[`${DESCRIPTION_PROP}`] ? 2 : 1,
+		},
+		...(info?.[`${DESCRIPTION_PROP}`]
+			? [
+					{
+						label: (
+							<Space size={5}>
+								<DoubleRightOutlined />
+								<span className="px-1">Description:</span>
+							</Space>
+						),
 						title: (
 							<Typography.Paragraph italic>
 								{info?.[`${DESCRIPTION_PROP}`]}
 							</Typography.Paragraph>
 						),
-				  }
-				: {}),
-		},
+					},
+			  ]
+			: []),
 	];
 
 	const description = (
@@ -344,7 +384,7 @@ function DealPage({ isOwner = false, service = {} }) {
 								{...(screens.xs && { size: "small" })}
 								key={id}
 								onClick={
-									() => alert("edit service")
+									() => alert("edit deal")
 									// forwardUrl(
 									// 	FORWARD_SUCCESS,
 									// 	`/${SEARCH_PROFILE}/${id}`,
@@ -366,6 +406,7 @@ function DealPage({ isOwner = false, service = {} }) {
 					labelStyle={{
 						alignItems: "center",
 					}}
+					span={item?.span ? item.span : 1}
 				>
 					{item?.title ? (
 						item.title
@@ -604,4 +645,4 @@ function DealPage({ isOwner = false, service = {} }) {
 	return app;
 }
 
-export default DealPage;
+export default MarketplacePage;

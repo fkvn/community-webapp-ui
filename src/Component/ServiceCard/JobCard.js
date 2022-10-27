@@ -19,7 +19,7 @@ import {
 	AVG_RATING_PROP,
 	CLOSE_URL,
 	DEFAULT_CARD_INFO,
-	DEFAULT_JOB_CARD,
+	DEFAULT_JOB_INFO,
 	DEFAULT_POST_OWNER_INFO,
 	EXPERIENCE_PROP,
 	ID_PROP,
@@ -32,6 +32,7 @@ import {
 	PICTURE_LIST_PROP,
 	PICTURE_PROP,
 	SEARCH_JOB,
+	SEARCH_POST,
 	TITLE_PROP,
 	TOTAL_REVIEW_PROP,
 	UPDATED_ON_PROP,
@@ -48,7 +49,7 @@ function JobCard({ card = DEFAULT_CARD_INFO }) {
 
 	const { info, postOwner, ...rest } = card;
 	const ownerInfo = { ...DEFAULT_POST_OWNER_INFO, ...postOwner };
-	const detailInfo = { ...DEFAULT_JOB_CARD, ...info };
+	const detailInfo = { ...DEFAULT_JOB_INFO, ...info };
 	const basicInfo = { ...DEFAULT_CARD_INFO, ...rest };
 
 	const serviceTagOverlay = (
@@ -129,7 +130,7 @@ function JobCard({ card = DEFAULT_CARD_INFO }) {
 							{image({
 								width: "100%",
 								style: {
-									maxHeight: screens.xs ? "10rem" : "25rem",
+									maxHeight: screens.xs ? "13rem" : "20rem",
 								},
 								src: img,
 							})}
@@ -195,8 +196,10 @@ function JobCard({ card = DEFAULT_CARD_INFO }) {
 						onClick={() =>
 							window.open(
 								`https://www.google.com/maps/place/${
-									detailInfo?.[`${LOCATION_PROP}`]?.[`${LAT_PROP}`]
-								},${detailInfo?.[`${LOCATION_PROP}`]?.[`${LNG_PROP}`]}`,
+									detailInfo?.[`${LOCATION_PROP}`]?.[`${ADDRESS_PROP}`]
+								}/${detailInfo?.[`${LOCATION_PROP}`]?.[`${LAT_PROP}`]},${
+									detailInfo?.[`${LOCATION_PROP}`]?.[`${LNG_PROP}`]
+								}`,
 								"_blank"
 							)
 						}
@@ -210,7 +213,15 @@ function JobCard({ card = DEFAULT_CARD_INFO }) {
 	);
 
 	const defaultCard = (
-		<Typography.Link href="/">
+		<Typography.Link
+			onClick={() =>
+				navigate(`/${SEARCH_POST}/${SEARCH_JOB}/${basicInfo?.[`${ID_PROP}`]}`, {
+					state: {
+						[`${CLOSE_URL}`]: location?.pathname + location?.search || "/",
+					},
+				})
+			}
+		>
 			<Card
 				title={title}
 				headStyle={{
@@ -264,8 +275,10 @@ function JobCard({ card = DEFAULT_CARD_INFO }) {
 								onClick={() =>
 									window.open(
 										`https://www.google.com/maps/place/${
-											detailInfo?.[`${LOCATION_PROP}`]?.[`${LAT_PROP}`]
-										},${detailInfo?.[`${LOCATION_PROP}`]?.[`${LNG_PROP}`]}`,
+											detailInfo?.[`${LOCATION_PROP}`]?.[`${ADDRESS_PROP}`]
+										}/${detailInfo?.[`${LOCATION_PROP}`]?.[`${LAT_PROP}`]},${
+											detailInfo?.[`${LOCATION_PROP}`]?.[`${LNG_PROP}`]
+										}`,
 										"_blank"
 									)
 								}
@@ -283,7 +296,7 @@ function JobCard({ card = DEFAULT_CARD_INFO }) {
 	const mobileCard = (
 		<Typography.Link
 			onClick={() =>
-				navigate(`/${SEARCH_JOB}/${basicInfo?.[`${ID_PROP}`]}`, {
+				navigate(`/${SEARCH_POST}/${SEARCH_JOB}/${basicInfo?.[`${ID_PROP}`]}`, {
 					state: {
 						[`${CLOSE_URL}`]: location?.pathname + location?.search || "/",
 					},

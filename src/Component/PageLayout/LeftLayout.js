@@ -4,16 +4,24 @@ import { Route, Routes } from "react-router-dom";
 import EditProfileContainer from "../../Container/ProfilePanelContainer/EditProfileContainer";
 import ProfilePageContainer from "../../Container/ServicePageContainer/ProfilePageContainer";
 import ServicePageContainer from "../../Container/ServicePageContainer/ServicePageContainer";
-import { SEARCH_PROFILE, SEARCH_SERVICE } from "../../Util/ConstVar";
+import {
+	SEARCH_DEAL,
+	SEARCH_HOUSING,
+	SEARCH_JOB,
+	SEARCH_MARKETPLACE,
+	SEARCH_POST,
+	SEARCH_PROFILE,
+	SEARCH_TYPE_PROP,
+} from "../../Util/ConstVar";
 import Footer from "../PageLayout/Footer";
-import LandingPage from "./LandingPage";
+import LandingPage from "./DetailPage/LandingPage";
+import SearchResultPage from "./DetailPage/SearchResultPage";
 import NotFoundPage from "./NotFoundPage";
-import SearchResultPage from "./SearchResultPage";
 
 function LeftLayout() {
 	const app = (
 		<Row justify="center">
-			<Col xs={24} className="px-2 px-md-0">
+			<Col xs={24} className="px-3 px-md-5">
 				<Routes>
 					<Route path="/" element={<LandingPage />} />
 					<Route
@@ -26,7 +34,14 @@ function LeftLayout() {
 					/>
 					<Route path="/search" element={<SearchResultPage />} />
 					<Route
-						path={`/${SEARCH_SERVICE}`}
+						path={`/${SEARCH_POST}/:${SEARCH_TYPE_PROP}/:id`}
+						validate={{
+							serviceType:
+								SEARCH_DEAL ||
+								SEARCH_JOB ||
+								SEARCH_HOUSING ||
+								SEARCH_MARKETPLACE,
+						}}
 						element={<ServicePageContainer />}
 					/>
 					<Route path="/*" element={<NotFoundPage />} />

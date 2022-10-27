@@ -113,7 +113,7 @@ function Footer() {
 	];
 
 	const app = (
-		<Footer className="p-4 pb-0">
+		<Footer className="p-4 pb-0 px-0">
 			<Divider />
 			<div className="w-100"></div>
 			<List

@@ -7,6 +7,7 @@ import {
 	SEARCH_HOUSING,
 	SEARCH_JOB,
 	SEARCH_MARKETPLACE,
+	SEARCH_POST,
 	SEARCH_PROFILE,
 	SMS_PROP,
 } from "../Util/ConstVar";
@@ -208,5 +209,15 @@ export const searchCompanyPromise = (
 		params: { keywords: keywords, fetchAll: fetchAll, fetchLimit: fetchLimit },
 	});
 };
+
+// service
+
+export const findPostAxios = (id = null, ownerId = null, type = "") =>
+	axios
+		.get(
+			`/${SEARCH_POST}/${id}?${ownerId && `profileId=${ownerId}`}&type=${type}`
+		)
+		.then(({ data }) => Promise.resolve(data))
+		.catch((e) => Promise.reject(e));
 
 controller.abort();

@@ -13,16 +13,21 @@ import {
 	imageTestimonialSample3,
 	imageTestimonialSample4,
 	imageTestimonialSample5,
-} from "../../Assest/Asset";
-import global from "../../Assest/Style/scss/base/_global.scss";
-import { SEARCH_BUSINESS } from "../../Util/ConstVar";
-import AppStoreBadge from "../Badge/AppStoreBadge";
-import BusinessBadge from "../Badge/BusinessBadge";
-import DealBadge from "../Badge/DealBadge";
-import GooglePlayBadge from "../Badge/GooglePlayBadge";
-import HousingBadge from "../Badge/HousingBadge";
-import JobBadge from "../Badge/JobBadge";
-import MarketplaceBadge from "../Badge/MarketplaceBadge";
+} from "../../../Assest/Asset";
+import global from "../../../Assest/Style/scss/base/_global.scss";
+import {
+	SEARCH_BUSINESS,
+	SEARCH_DEAL,
+	SEARCH_JOB,
+	SEARCH_TYPE_PROP,
+} from "../../../Util/ConstVar";
+import AppStoreBadge from "../../Badge/AppStoreBadge";
+import BusinessBadge from "../../Badge/BusinessBadge";
+import DealBadge from "../../Badge/DealBadge";
+import GooglePlayBadge from "../../Badge/GooglePlayBadge";
+import HousingBadge from "../../Badge/HousingBadge";
+import JobBadge from "../../Badge/JobBadge";
+import MarketplaceBadge from "../../Badge/MarketplaceBadge";
 
 function LandingPage() {
 	const { useBreakpoint } = Grid;
@@ -38,15 +43,25 @@ function LandingPage() {
 	const resourceItems = [
 		(props = {}) => (
 			<BusinessBadge
-				onClick={() => navigate(`/search?type=${SEARCH_BUSINESS}`)}
+				onClick={() =>
+					navigate(`/search?${SEARCH_TYPE_PROP}=${SEARCH_BUSINESS}`)
+				}
 				{...props}
 			/>
 		),
 		(props = {}) => (
-			<DealBadge onClick={() => alert("Deal click")} {...props} />
+			<DealBadge
+				onClick={() => navigate(`/search?${SEARCH_TYPE_PROP}=${SEARCH_DEAL}`)}
+				{...props}
+			/>
 		),
 
-		(props = {}) => <JobBadge onClick={() => alert("Job click")} {...props} />,
+		(props = {}) => (
+			<JobBadge
+				onClick={() => navigate(`/search?${SEARCH_TYPE_PROP}=${SEARCH_JOB}`)}
+				{...props}
+			/>
+		),
 		(props = {}) => (
 			<HousingBadge onClick={() => alert("Housing click")} {...props} />
 		),

@@ -1,4 +1,4 @@
-import {ShareAltOutlined} from "@ant-design/icons";
+import { ShareAltOutlined } from "@ant-design/icons";
 import {
 	Avatar,
 	Button,
@@ -9,18 +9,18 @@ import {
 	Rate,
 	Row,
 	Space,
-	Typography
+	Typography,
 } from "antd";
 import Meta from "antd/lib/card/Meta";
-import {useLocation, useNavigate} from "react-router-dom";
-import {svgMarketplaceIconWhite} from "../../Assest/Asset";
+import { useLocation, useNavigate } from "react-router-dom";
+import { svgMarketplaceIconWhite } from "../../Assest/Asset";
 import {
 	ADDRESS_PROP,
 	AVG_RATING_PROP,
 	CLOSE_URL,
 	CONDITION_PROP,
 	DEFAULT_CARD_INFO,
-	DEFAULT_MARKETPLACE_CARD,
+	DEFAULT_MARKETPLACE_INFO,
 	DEFAULT_POST_OWNER_INFO,
 	ID_PROP,
 	INFO_PROP,
@@ -32,11 +32,12 @@ import {
 	PICTURE_LIST_PROP,
 	PICTURE_PROP,
 	SEARCH_MARKETPLACE,
+	SEARCH_POST,
 	TITLE_PROP,
 	TOTAL_REVIEW_PROP,
-	UPDATED_ON_PROP
+	UPDATED_ON_PROP,
 } from "../../Util/ConstVar";
-import {formatTime} from "../../Util/Util";
+import { formatTime } from "../../Util/Util";
 import useImage from "../Hook/useImage";
 
 function MarketplaceCard({ card = DEFAULT_CARD_INFO }) {
@@ -49,7 +50,7 @@ function MarketplaceCard({ card = DEFAULT_CARD_INFO }) {
 	const { info, postOwner, ...rest } = card;
 
 	const ownerInfo = { ...DEFAULT_POST_OWNER_INFO, ...postOwner };
-	const detailInfo = { ...DEFAULT_MARKETPLACE_CARD, ...info };
+	const detailInfo = { ...DEFAULT_MARKETPLACE_INFO, ...info };
 	const basicInfo = { ...DEFAULT_CARD_INFO, ...rest };
 
 	const serviceTagOverlay = (
@@ -130,7 +131,7 @@ function MarketplaceCard({ card = DEFAULT_CARD_INFO }) {
 							{image({
 								width: "100%",
 								style: {
-									maxHeight: screens.xs ? "10rem" : "25rem",
+									maxHeight: screens.xs ? "13rem" : "20rem",
 								},
 								src: img,
 							})}
@@ -196,8 +197,10 @@ function MarketplaceCard({ card = DEFAULT_CARD_INFO }) {
 						onClick={() =>
 							window.open(
 								`https://www.google.com/maps/place/${
-									detailInfo?.[`${LOCATION_PROP}`]?.[`${LAT_PROP}`]
-								},${detailInfo?.[`${LOCATION_PROP}`]?.[`${LNG_PROP}`]}`,
+									detailInfo?.[`${LOCATION_PROP}`]?.[`${ADDRESS_PROP}`]
+								}/${detailInfo?.[`${LOCATION_PROP}`]?.[`${LAT_PROP}`]},${
+									detailInfo?.[`${LOCATION_PROP}`]?.[`${LNG_PROP}`]
+								}`,
 								"_blank"
 							)
 						}
@@ -211,7 +214,18 @@ function MarketplaceCard({ card = DEFAULT_CARD_INFO }) {
 	);
 
 	const defaultCard = (
-		<Typography.Link href="/">
+		<Typography.Link
+			onClick={() =>
+				navigate(
+					`/${SEARCH_POST}/${SEARCH_MARKETPLACE}/${basicInfo?.[`${ID_PROP}`]}`,
+					{
+						state: {
+							[`${CLOSE_URL}`]: location?.pathname + location?.search || "/",
+						},
+					}
+				)
+			}
+		>
 			<Card
 				title={title}
 				headStyle={{
@@ -265,8 +279,10 @@ function MarketplaceCard({ card = DEFAULT_CARD_INFO }) {
 								onClick={() =>
 									window.open(
 										`https://www.google.com/maps/place/${
-											detailInfo?.[`${LOCATION_PROP}`]?.[`${LAT_PROP}`]
-										},${detailInfo?.[`${LOCATION_PROP}`]?.[`${LNG_PROP}`]}`,
+											detailInfo?.[`${LOCATION_PROP}`]?.[`${ADDRESS_PROP}`]
+										}/${detailInfo?.[`${LOCATION_PROP}`]?.[`${LAT_PROP}`]},${
+											detailInfo?.[`${LOCATION_PROP}`]?.[`${LNG_PROP}`]
+										}`,
 										"_blank"
 									)
 								}
@@ -284,11 +300,14 @@ function MarketplaceCard({ card = DEFAULT_CARD_INFO }) {
 	const mobileCard = (
 		<Typography.Link
 			onClick={() =>
-				navigate(`/${SEARCH_MARKETPLACE}/${basicInfo?.[`${ID_PROP}`]}`, {
-					state: {
-						[`${CLOSE_URL}`]: location?.pathname + location?.search || "/",
-					},
-				})
+				navigate(
+					`/${SEARCH_POST}/${SEARCH_MARKETPLACE}/${basicInfo?.[`${ID_PROP}`]}`,
+					{
+						state: {
+							[`${CLOSE_URL}`]: location?.pathname + location?.search || "/",
+						},
+					}
+				)
 			}
 		>
 			<Card

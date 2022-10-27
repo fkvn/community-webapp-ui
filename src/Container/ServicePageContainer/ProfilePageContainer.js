@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { findProfileAxios } from "../../Axios/axiosPromise";
-import ProfilePage from "../../Component/PageLayout/ProfilePage";
+import ProfilePage from "../../Component/PageLayout/DetailPage/ProfilePage";
 import { thainowReducer } from "../../redux-store/reducer/thainowReducer";
 import { ID_PROP, PROFILE_OBJ } from "../../Util/ConstVar";
 

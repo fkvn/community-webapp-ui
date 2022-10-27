@@ -28,20 +28,18 @@ import DescriptionsItem from "antd/lib/descriptions/Item";
 import { isEmptyObject } from "jquery";
 import { useCallback, useState } from "react";
 import { useLocation, useSearchParams } from "react-router-dom";
-import { iconLocationBlack, svgDealIcon } from "../../../Assest/Asset";
+import { iconLocationBlack, svgJobIcon } from "../../../Assest/Asset";
 import {
 	ADDRESS_PROP,
 	AVG_RATING_PROP,
-	CATEGORY_PROP,
 	COMPANY_INDUSTRY_PROP,
 	CONTACT_INFO_PROP,
 	CREATED_ON_PROP,
-	DEAL_HEADLINE_PROP,
-	DEFAULT_DEAL_INFO,
+	DEFAULT_JOB_INFO,
 	DEFAULT_POST_OWNER_INFO,
 	DESCRIPTION_PROP,
 	EMAIL_PROP,
-	EXPIRED_ON_PROP,
+	EXPERIENCE_PROP,
 	FORWARD_CLOSE,
 	FORWARD_CONTINUE,
 	ID_PROP,
@@ -53,15 +51,19 @@ import {
 	PHONE_PROP,
 	PICTURE_LIST_PROP,
 	PICTURE_PROP,
+	POSITION_LIST_PROP,
 	POST_OWNER_PROP,
 	PROFILE_BUSINESS_TYPE_PROP,
 	PROFILE_TYPE_PROP,
 	PROFILE_USER_TYPE_PROP,
+	REMOTE_PROP,
+	SALARY_PROP,
 	SEARCH_POST,
 	SEARCH_PROFILE,
 	SEARCH_QUESTION,
 	SEARCH_REVIEW,
 	SEARCH_TYPE_PROP,
+	SKILL_PROP,
 	STATUS_PROP,
 	TITLE_PROP,
 	TOTAL_REVIEW_PROP,
@@ -72,7 +74,7 @@ import { formatSentenseCase, formatTime } from "../../../Util/Util";
 import useImage from "../../Hook/useImage";
 import useUrls from "../../Hook/useUrls";
 
-function DealPage({ isOwner = false, service = {} }) {
+function JobPage({ isOwner = false, service = {} }) {
 	const { forwardUrl } = useUrls();
 	const location = useLocation();
 
@@ -83,13 +85,12 @@ function DealPage({ isOwner = false, service = {} }) {
 		[`${TOTAL_REVIEW_PROP}`]: totalReview = 0,
 		[`${POST_OWNER_PROP}`]: postOwner = {},
 	} = service;
-
 	const ownerInfo = {
 		...DEFAULT_POST_OWNER_INFO,
 		...postOwner?.[`${INFO_PROP}`],
 	};
 
-	info = { ...DEFAULT_DEAL_INFO, ...info };
+	info = { ...DEFAULT_JOB_INFO, ...info };
 
 	const header = (
 		<PageHeader
@@ -161,8 +162,8 @@ function DealPage({ isOwner = false, service = {} }) {
 					}}
 				>
 					{image({
-						width: 18,
-						src: svgDealIcon,
+						width: 25,
+						src: svgJobIcon,
 					})}
 					<span className="mx-2">{info?.[`${TITLE_PROP}`]}</span>
 				</Typography.Title>
@@ -283,32 +284,89 @@ function DealPage({ isOwner = false, service = {} }) {
 
 	const descriptionData = [
 		{
-			label: <ThunderboltOutlined className="tedkvn-center" />,
-			title: (
-				<Typography.Text
-					type="success"
-					ellipsis={{
-						tooltip: true,
-					}}
-				>
-					{formatSentenseCase(info?.[`${STATUS_PROP}`])} {DEAL_HEADLINE_PROP}
-					{info?.[`${EXPIRED_ON_PROP}`] && (
-						<span className="text-secondary">
-							{" "}
-							- Expired at {info?.[`${EXPIRED_ON_PROP}`]}
-						</span>
-					)}
-				</Typography.Text>
+			label: (
+				<Space size={5}>
+					<ThunderboltOutlined />
+					<span className="px-1">Postion:</span>
+				</Space>
 			),
+			...(info?.[`${POSITION_LIST_PROP}`]?.length > 0
+				? {
+						title: (
+							<Typography.Text
+								type="success"
+								ellipsis={{
+									tooltip: true,
+								}}
+							>
+								{info?.[`${POSITION_LIST_PROP}`]
+									.map((postion) => formatSentenseCase(postion))
+									?.join(", ")}
+							</Typography.Text>
+						),
+				  }
+				: {}),
+		},
+		...(info?.[`${REMOTE_PROP}}`]
+			? [
+					{
+						label: <AimOutlined />,
+						title: (
+							<Typography.Link ellipsis>Remote work available</Typography.Link>
+						),
+					},
+			  ]
+			: []),
+		{
+			label: (
+				<Space size={5}>
+					<AimOutlined />
+					<span className="px-1">Experience:</span>
+				</Space>
+			),
+			...(info?.[`${EXPERIENCE_PROP}`]
+				? {
+						title: (
+							<Typography.Link ellipsis>
+								{info?.[`${EXPERIENCE_PROP}`]}
+							</Typography.Link>
+						),
+				  }
+				: {}),
 		},
 		{
 			label: (
 				<Space size={5}>
 					<AimOutlined />
-					<span className="px-1">Category:</span>
+					<span className="px-1">Salary:</span>
 				</Space>
 			),
-			title: info?.[`${CATEGORY_PROP}`],
+			...(info?.[`${SALARY_PROP}`]
+				? {
+						title: (
+							<Typography.Link ellipsis>
+								{info?.[`${SALARY_PROP}`]}
+							</Typography.Link>
+						),
+				  }
+				: {}),
+		},
+		{
+			label: (
+				<Space size={5}>
+					<AimOutlined />
+					<span className="px-1">Skill:</span>
+				</Space>
+			),
+			...(info?.[`${SKILL_PROP}`]
+				? {
+						title: (
+							<Typography.Link ellipsis>
+								{info?.[`${SKILL_PROP}`]}
+							</Typography.Link>
+						),
+				  }
+				: {}),
 		},
 		{
 			label: (
@@ -344,7 +402,7 @@ function DealPage({ isOwner = false, service = {} }) {
 								{...(screens.xs && { size: "small" })}
 								key={id}
 								onClick={
-									() => alert("edit service")
+									() => alert("edit deal")
 									// forwardUrl(
 									// 	FORWARD_SUCCESS,
 									// 	`/${SEARCH_PROFILE}/${id}`,
@@ -604,4 +662,4 @@ function DealPage({ isOwner = false, service = {} }) {
 	return app;
 }
 
-export default DealPage;
+export default JobPage;

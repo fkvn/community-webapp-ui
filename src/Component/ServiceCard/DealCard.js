@@ -32,6 +32,7 @@ import {
 	PICTURE_LIST_PROP,
 	PICTURE_PROP,
 	SEARCH_DEAL,
+	SEARCH_POST,
 	TITLE_PROP,
 	TOTAL_REVIEW_PROP,
 	UPDATED_ON_PROP,
@@ -131,7 +132,7 @@ function DealCard({ card = DEFAULT_CARD_INFO }) {
 							{image({
 								width: "100%",
 								style: {
-									maxHeight: screens.xs ? "10rem" : "25rem",
+									maxHeight: screens.xs ? "13rem" : "20rem",
 								},
 								src: img,
 							})}
@@ -197,8 +198,10 @@ function DealCard({ card = DEFAULT_CARD_INFO }) {
 						onClick={() =>
 							window.open(
 								`https://www.google.com/maps/place/${
-									detailInfo?.[`${LOCATION_PROP}`]?.[`${LAT_PROP}`]
-								},${detailInfo?.[`${LOCATION_PROP}`]?.[`${LNG_PROP}`]}`,
+									detailInfo?.[`${LOCATION_PROP}`]?.[`${ADDRESS_PROP}`]
+								}/${detailInfo?.[`${LOCATION_PROP}`]?.[`${LAT_PROP}`]},${
+									detailInfo?.[`${LOCATION_PROP}`]?.[`${LNG_PROP}`]
+								}`,
 								"_blank"
 							)
 						}
@@ -212,7 +215,18 @@ function DealCard({ card = DEFAULT_CARD_INFO }) {
 	);
 
 	const defaultCard = (
-		<Typography.Link href="/">
+		<Typography.Link
+			onClick={() =>
+				navigate(
+					`/${SEARCH_POST}/${SEARCH_DEAL}/${basicInfo?.[`${ID_PROP}`]}`,
+					{
+						state: {
+							[`${CLOSE_URL}`]: location?.pathname + location?.search || "/",
+						},
+					}
+				)
+			}
+		>
 			<Card
 				title={title}
 				headStyle={{
@@ -266,8 +280,10 @@ function DealCard({ card = DEFAULT_CARD_INFO }) {
 								onClick={() =>
 									window.open(
 										`https://www.google.com/maps/place/${
-											detailInfo?.[`${LOCATION_PROP}`]?.[`${LAT_PROP}`]
-										},${detailInfo?.[`${LOCATION_PROP}`]?.[`${LNG_PROP}`]}`,
+											detailInfo?.[`${LOCATION_PROP}`]?.[`${ADDRESS_PROP}`]
+										}/${detailInfo?.[`${LOCATION_PROP}`]?.[`${LAT_PROP}`]},${
+											detailInfo?.[`${LOCATION_PROP}`]?.[`${LNG_PROP}`]
+										}`,
 										"_blank"
 									)
 								}
@@ -285,11 +301,14 @@ function DealCard({ card = DEFAULT_CARD_INFO }) {
 	const mobileCard = (
 		<Typography.Link
 			onClick={() =>
-				navigate(`/${SEARCH_DEAL}/${basicInfo?.[`${ID_PROP}`]}`, {
-					state: {
-						[`${CLOSE_URL}`]: location?.pathname + location?.search || "/",
-					},
-				})
+				navigate(
+					`/${SEARCH_POST}/${SEARCH_DEAL}/${basicInfo?.[`${ID_PROP}`]}`,
+					{
+						state: {
+							[`${CLOSE_URL}`]: location?.pathname + location?.search || "/",
+						},
+					}
+				)
 			}
 		>
 			<Card

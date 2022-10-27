@@ -348,7 +348,7 @@ export const formatTime = (time = "") => {
 
 	if (minsDiff < 1) {
 		return " Just Now ";
-	} else if (minsDiff < 24) {
+	} else if (minsDiff < 60) {
 		return minsDiff + "m ago ";
 	} else if (hourDiff < 24) {
 		return hourDiff + "h ago ";
@@ -374,4 +374,8 @@ export const formatLocation = (location = {}) => {
 	else formattedLocation += state + " - " + zipcode;
 
 	return formattedLocation;
+};
+
+export const formatSentenseCase = (text = "") => {
+	return text?.[0].toUpperCase() + text.slice(1).toLowerCase();
 };

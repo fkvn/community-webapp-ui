@@ -28,27 +28,55 @@ import DescriptionsItem from "antd/lib/descriptions/Item";
 import { isEmptyObject } from "jquery";
 import { useCallback, useState } from "react";
 import { useLocation, useSearchParams } from "react-router-dom";
-import { iconLocationBlack, svgDealIcon } from "../../../Assest/Asset";
+import {
+	iconLocationBlack,
+	svgAcIconBlack,
+	svgCookingIconBlack,
+	svgDryerIconBlack,
+	svgHousingIcon,
+	svgMicrowaveIconBlack,
+	svgPetAllowedIconBlack,
+	svgRefrigeratorIconBlack,
+	svgWasherIconBlack,
+	svgWifiIconBlack,
+} from "../../../Assest/Asset";
 import {
 	ADDRESS_PROP,
+	AMENITY_AIR_CONDITIONER_PROP,
+	AMENITY_COOKING_BASIC_PROP,
+	AMENITY_DRYER_PROP,
+	AMENITY_LIST_PROP,
+	AMENITY_MICROWAVE_PROP,
+	AMENITY_PET_ALLOWED_PROP,
+	AMENITY_REFRIGERATOR_PROP,
+	AMENITY_WASHER_PROP,
+	AMENITY_WIFI_PROP,
+	ANNUAL_COST_PROP,
 	AVG_RATING_PROP,
 	CATEGORY_PROP,
 	COMPANY_INDUSTRY_PROP,
 	CONTACT_INFO_PROP,
 	CREATED_ON_PROP,
-	DEAL_HEADLINE_PROP,
-	DEFAULT_DEAL_INFO,
+	DAILY_COST_PROP,
+	DEFAULT_HOUSING_INFO,
 	DEFAULT_POST_OWNER_INFO,
+	DEPOSIT_COST_PROP,
 	DESCRIPTION_PROP,
 	EMAIL_PROP,
-	EXPIRED_ON_PROP,
 	FORWARD_CLOSE,
 	FORWARD_CONTINUE,
+	HOUSING_TYPE_PROP,
 	ID_PROP,
 	INFO_PROP,
+	INTERIOR_BATH_PROP,
+	INTERIOR_BED_PROP,
+	INTERIOR_GUEST_PROP,
+	INTERIOR_PARKING_PROP,
+	INTERIOR_PROP,
 	LAT_PROP,
 	LNG_PROP,
 	LOCATION_PROP,
+	MONTHLY_COST_PROP,
 	NAME_PROP,
 	PHONE_PROP,
 	PICTURE_LIST_PROP,
@@ -68,11 +96,11 @@ import {
 	UPDATED_ON_PROP,
 	WEBSITE_PROP,
 } from "../../../Util/ConstVar";
-import { formatSentenseCase, formatTime } from "../../../Util/Util";
+import { formatTime } from "../../../Util/Util";
 import useImage from "../../Hook/useImage";
 import useUrls from "../../Hook/useUrls";
 
-function DealPage({ isOwner = false, service = {} }) {
+function HousingPage({ isOwner = false, service = {} }) {
 	const { forwardUrl } = useUrls();
 	const location = useLocation();
 
@@ -83,13 +111,12 @@ function DealPage({ isOwner = false, service = {} }) {
 		[`${TOTAL_REVIEW_PROP}`]: totalReview = 0,
 		[`${POST_OWNER_PROP}`]: postOwner = {},
 	} = service;
-
 	const ownerInfo = {
 		...DEFAULT_POST_OWNER_INFO,
 		...postOwner?.[`${INFO_PROP}`],
 	};
 
-	info = { ...DEFAULT_DEAL_INFO, ...info };
+	info = { ...DEFAULT_HOUSING_INFO, ...info };
 
 	const header = (
 		<PageHeader
@@ -99,6 +126,8 @@ function DealPage({ isOwner = false, service = {} }) {
 			title="Back"
 		/>
 	);
+
+	console.log(info);
 
 	const [visible, setVisible] = useState({
 		value: false,
@@ -161,8 +190,8 @@ function DealPage({ isOwner = false, service = {} }) {
 					}}
 				>
 					{image({
-						width: 18,
-						src: svgDealIcon,
+						width: 30,
+						src: svgHousingIcon,
 					})}
 					<span className="mx-2">{info?.[`${TITLE_PROP}`]}</span>
 				</Typography.Title>
@@ -283,32 +312,125 @@ function DealPage({ isOwner = false, service = {} }) {
 
 	const descriptionData = [
 		{
-			label: <ThunderboltOutlined className="tedkvn-center" />,
-			title: (
-				<Typography.Text
-					type="success"
-					ellipsis={{
-						tooltip: true,
-					}}
-				>
-					{formatSentenseCase(info?.[`${STATUS_PROP}`])} {DEAL_HEADLINE_PROP}
-					{info?.[`${EXPIRED_ON_PROP}`] && (
-						<span className="text-secondary">
-							{" "}
-							- Expired at {info?.[`${EXPIRED_ON_PROP}`]}
-						</span>
-					)}
-				</Typography.Text>
-			),
+			label: <ThunderboltOutlined />,
+			...(info?.[`${CATEGORY_PROP}`]
+				? {
+						title: (
+							<Typography.Text
+								type="success"
+								ellipsis={{
+									tooltip: true,
+								}}
+							>
+								{(info?.[`${HOUSING_TYPE_PROP}`] || "").toUpperCase()}{" "}
+								{(info?.[`${CATEGORY_PROP}`] || "").toUpperCase()}
+							</Typography.Text>
+						),
+				  }
+				: {}),
+		},
+		{
+			label: <AimOutlined />,
+			...(!isEmptyObject(info?.[`${INTERIOR_PROP}`])
+				? {
+						title: (
+							<Typography.Text
+								className="c-primary-important"
+								ellipsis={{
+									tooltip: true,
+								}}
+							>
+								{info?.[`${INTERIOR_PROP}`]?.[`${INTERIOR_GUEST_PROP}`] &&
+									`${
+										info?.[`${INTERIOR_PROP}`]?.[`${INTERIOR_GUEST_PROP}`]
+									} Guest(s)`}
+
+								{info?.[`${INTERIOR_PROP}`]?.[`${INTERIOR_BED_PROP}`] &&
+									` - ${
+										info?.[`${INTERIOR_PROP}`]?.[`${INTERIOR_BED_PROP}`]
+									} Bed(s)`}
+
+								{info?.[`${INTERIOR_PROP}`]?.[`${INTERIOR_BATH_PROP}`] &&
+									` - ${
+										info?.[`${INTERIOR_PROP}`]?.[`${INTERIOR_BATH_PROP}`]
+									} Bath(s)`}
+
+								{info?.[`${INTERIOR_PROP}`]?.[`${INTERIOR_PARKING_PROP}`] &&
+									` - ${
+										info?.[`${INTERIOR_PROP}`]?.[`${INTERIOR_PARKING_PROP}`]
+									} Parking(s)`}
+							</Typography.Text>
+						),
+				  }
+				: {}),
 		},
 		{
 			label: (
 				<Space size={5}>
 					<AimOutlined />
-					<span className="px-1">Category:</span>
+					<span className="px-1">Daily Cost:</span>
 				</Space>
 			),
-			title: info?.[`${CATEGORY_PROP}`],
+			...(info?.[`${DAILY_COST_PROP}`]
+				? {
+						title: (
+							<Typography.Link ellipsis>
+								${info?.[`${DAILY_COST_PROP}`]}
+							</Typography.Link>
+						),
+				  }
+				: {}),
+		},
+		{
+			label: (
+				<Space size={5}>
+					<AimOutlined />
+					<span className="px-1">Monthly Cost:</span>
+				</Space>
+			),
+			...(info?.[`${MONTHLY_COST_PROP}`]
+				? {
+						title: (
+							<Typography.Link ellipsis>
+								${info?.[`${MONTHLY_COST_PROP}`]}
+							</Typography.Link>
+						),
+				  }
+				: {}),
+		},
+		{
+			label: (
+				<Space size={5}>
+					<AimOutlined />
+					<span className="px-1">Annual Cost:</span>
+				</Space>
+			),
+			...(info?.[`${ANNUAL_COST_PROP}`]
+				? {
+						title: (
+							<Typography.Link ellipsis>
+								${info?.[`${ANNUAL_COST_PROP}`]}
+							</Typography.Link>
+						),
+				  }
+				: {}),
+		},
+		{
+			label: (
+				<Space size={5}>
+					<AimOutlined />
+					<span className="px-1">Deposit Cost:</span>
+				</Space>
+			),
+			...(info?.[`${DEPOSIT_COST_PROP}`]
+				? {
+						title: (
+							<Typography.Link ellipsis>
+								${info?.[`${DEPOSIT_COST_PROP}`]}
+							</Typography.Link>
+						),
+				  }
+				: {}),
 		},
 		{
 			label: (
@@ -344,7 +466,7 @@ function DealPage({ isOwner = false, service = {} }) {
 								{...(screens.xs && { size: "small" })}
 								key={id}
 								onClick={
-									() => alert("edit service")
+									() => alert("edit deal")
 									// forwardUrl(
 									// 	FORWARD_SUCCESS,
 									// 	`/${SEARCH_PROFILE}/${id}`,
@@ -360,6 +482,81 @@ function DealPage({ isOwner = false, service = {} }) {
 			]}
 		>
 			{descriptionData.map((item, idx) => (
+				<Descriptions.Item
+					key={idx}
+					label={item.label}
+					labelStyle={{
+						alignItems: "center",
+					}}
+				>
+					{item?.title ? (
+						item.title
+					) : (
+						<span className="text-secondary">Unavailable</span>
+					)}
+				</Descriptions.Item>
+			))}
+		</Descriptions>
+	);
+
+	const amenitiesIcon = {
+		[`${AMENITY_AIR_CONDITIONER_PROP}`]: svgAcIconBlack,
+		[`${AMENITY_WIFI_PROP}`]: svgWifiIconBlack,
+		[`${AMENITY_WASHER_PROP}`]: svgWasherIconBlack,
+		[`${AMENITY_REFRIGERATOR_PROP}`]: svgRefrigeratorIconBlack,
+		[`${AMENITY_COOKING_BASIC_PROP}`]: svgCookingIconBlack,
+		[`${AMENITY_DRYER_PROP}`]: svgDryerIconBlack,
+		[`${AMENITY_MICROWAVE_PROP}`]: svgMicrowaveIconBlack,
+		[`${AMENITY_PET_ALLOWED_PROP}`]: svgPetAllowedIconBlack,
+	};
+
+	const amenitiesData = (info?.[`${AMENITY_LIST_PROP}`] || []).map((item) => {
+		return {
+			label: <Image src={amenitiesIcon?.[`${item.toUpperCase()}`]} />,
+			title: (
+				<Typography.Text
+					className="c-primary-important"
+					ellipsis={{
+						tooltip: true,
+					}}
+				>
+					{item}
+				</Typography.Text>
+			),
+		};
+	});
+
+	const amenities = (
+		<Descriptions
+			column={{ xxl: 2, xl: 2, lg: 2, md: 2, sm: 2, xs: 1 }}
+			colon={false}
+			className="mt-4"
+			title="Available Amenities"
+			extra={[
+				...(isOwner
+					? [
+							<Button
+								type="primary"
+								shape="round"
+								{...(screens.xs && { size: "small" })}
+								key={id}
+								onClick={
+									() => alert("edit deal")
+									// forwardUrl(
+									// 	FORWARD_SUCCESS,
+									// 	`/${SEARCH_PROFILE}/${id}`,
+									// 	"",
+									// 	`/edit-profile/${id}`
+									// )
+								}
+							>
+								Edit Info
+							</Button>,
+					  ]
+					: []),
+			]}
+		>
+			{amenitiesData.map((item, idx) => (
 				<Descriptions.Item
 					key={idx}
 					label={item.label}
@@ -568,6 +765,7 @@ function DealPage({ isOwner = false, service = {} }) {
 		[`${SEARCH_POST}`]: (
 			<>
 				{description}
+				{amenities}
 				{contactInformation}
 				<Divider className="my-2" />
 				{ownerCard}
@@ -604,4 +802,4 @@ function DealPage({ isOwner = false, service = {} }) {
 	return app;
 }
 
-export default DealPage;
+export default HousingPage;

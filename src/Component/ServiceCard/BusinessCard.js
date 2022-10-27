@@ -127,7 +127,7 @@ function BusinessCard({ card = DEFAULT_CARD_INFO }) {
 						{image({
 							width: "100%",
 							style: {
-								maxHeight: screens.xs ? "10rem" : "25rem",
+								maxHeight: screens.xs ? "13rem" : "20rem",
 							},
 							src: detailInfo?.[`${PICTURE_PROP}`],
 						})}
@@ -139,7 +139,7 @@ function BusinessCard({ card = DEFAULT_CARD_INFO }) {
 							{image({
 								width: "100%",
 								style: {
-									maxHeight: screens.xs ? "15rem" : "25rem",
+									maxHeight: screens.xs ? "13rem" : "20rem",
 								},
 								src: img,
 							})}
