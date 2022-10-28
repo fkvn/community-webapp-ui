@@ -40,6 +40,7 @@ import {
 	DEFAULT_DEAL_INFO,
 	DEFAULT_POST_OWNER_INFO,
 	DESCRIPTION_PROP,
+	EDIT_PROP,
 	EMAIL_PROP,
 	EXPIRED_ON_PROP,
 	FORWARD_CLOSE,
@@ -57,6 +58,7 @@ import {
 	PROFILE_BUSINESS_TYPE_PROP,
 	PROFILE_TYPE_PROP,
 	PROFILE_USER_TYPE_PROP,
+	SEARCH_DEAL,
 	SEARCH_POST,
 	SEARCH_PROFILE,
 	SEARCH_QUESTION,
@@ -161,7 +163,7 @@ function DealPage({ isOwner = false, service = {} }) {
 					}}
 				>
 					{image({
-						width: 18,
+						width: 20,
 						src: svgDealIcon,
 					})}
 					<span className="mx-2">{info?.[`${TITLE_PROP}`]}</span>
@@ -287,6 +289,9 @@ function DealPage({ isOwner = false, service = {} }) {
 			title: (
 				<Typography.Text
 					type="success"
+					style={{
+						width: "95%",
+					}}
 					ellipsis={{
 						tooltip: true,
 					}}
@@ -308,7 +313,11 @@ function DealPage({ isOwner = false, service = {} }) {
 					<span className="px-1">Category:</span>
 				</Space>
 			),
-			title: info?.[`${CATEGORY_PROP}`],
+			title: (
+				<Typography.Text className="c-primary-important">
+					{info?.[`${CATEGORY_PROP}`]}
+				</Typography.Text>
+			),
 		},
 		{
 			label: (
@@ -343,14 +352,13 @@ function DealPage({ isOwner = false, service = {} }) {
 								shape="round"
 								{...(screens.xs && { size: "small" })}
 								key={id}
-								onClick={
-									() => alert("edit service")
-									// forwardUrl(
-									// 	FORWARD_SUCCESS,
-									// 	`/${SEARCH_PROFILE}/${id}`,
-									// 	"",
-									// 	`/edit-profile/${id}`
-									// )
+								onClick={() =>
+									forwardUrl(
+										FORWARD_CONTINUE,
+										"",
+										`/${EDIT_PROP}/${SEARCH_POST}/${SEARCH_DEAL}/${id}`,
+										`/${SEARCH_POST}/${SEARCH_DEAL}/${id}`
+									)
 								}
 							>
 								Edit Info

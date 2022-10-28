@@ -8,12 +8,7 @@ import { errorMessage } from "../../Component/Hook/useMessage";
 import useUrls from "../../Component/Hook/useUrls";
 import EditProfile from "../../Component/Profile/EditProfile";
 import { thainowReducer } from "../../redux-store/reducer/thainowReducer";
-import {
-	FORWARD_CLOSE,
-	ID_PROP,
-	PROFILE_OBJ,
-	SEARCH_PROFILE,
-} from "../../Util/ConstVar";
+import { FORWARD_CLOSE, ID_PROP, PROFILE_OBJ } from "../../Util/ConstVar";
 import AuthContainer from "../AuthContainer/AuthContainer";
 
 function EditProfileContainer() {
@@ -67,7 +62,7 @@ function EditProfileContainer() {
 		<AuthContainer
 			closeUrl="/"
 			continueUrl="/signin"
-			successUrl={`/${SEARCH_PROFILE}/${id}/edit-profile`}
+			successUrl={`/edit-profile/${id}`}
 		>
 			{profile?.[`${ID_PROP}`] !== requestId ? (
 				skeletonCard

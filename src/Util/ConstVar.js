@@ -51,6 +51,7 @@ export const LAT_PROP = "lat";
 export const LNG_PROP = "lng";
 
 export const PROFILE_OBJ = "profileObj";
+export const PROFILE_ID_PROP = "profileId";
 export const PROFILE_TYPE_PROP = "type";
 export const PROFILE_GUEST_TYPE_PROP = "guestProfile";
 export const PROFILE_USER_TYPE_PROP = "USER_PROFILE";
@@ -109,6 +110,9 @@ export const EXPIRED_ON_PROP = "expiredOn";
 export const TITLE_PROP = "title";
 export const PICTURE_LIST_PROP = "pictures";
 export const CHECKBOX_PROP = "checkbox";
+export const DATE_PROP = "date";
+export const EDIT_PROP = "edit";
+export const CREATE_PROP = "create";
 
 export const SEARCH_OBJ = "searchObj";
 export const SEARCH_RESULT_OBJ = "searchResultObj";
@@ -299,6 +303,9 @@ export const DEFAULT_CONTACT_INFO = {
 	[`${PHONE_PROP}`]: "",
 	[`${WEBSITE_PROP}`]: "",
 };
+
+export const PUBLIC_POST_STATUS_PROP = "AVAILABLE";
+export const PRIVATE_POST_STATUS_PROP = "PRIVATE";
 
 export const DEAL_HEADLINE_PROP = "Local Deals";
 export const DEAL_POST_TYPE_PROP = "DEAL_POST";

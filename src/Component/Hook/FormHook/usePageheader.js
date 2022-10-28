@@ -5,7 +5,11 @@ import { imageThainowLogoRound } from "../../../Assest/Asset";
 import { FORWARD_CLOSE } from "../../../Util/ConstVar";
 import useUrls from "../useUrls";
 
-function usePageHeader(props = {}, onClose = async () => {}) {
+function usePageHeader(
+	props = {},
+	onClose = async () => {},
+	forward = FORWARD_CLOSE
+) {
 	const { forwardUrl } = useUrls();
 	const navigate = useNavigate();
 
@@ -25,7 +29,7 @@ function usePageHeader(props = {}, onClose = async () => {}) {
 				<Button
 					className="border-0 pt-2"
 					icon={<CloseOutlined />}
-					onClick={() => onClose().then(() => forwardUrl(FORWARD_CLOSE))}
+					onClick={() => onClose().then(() => forwardUrl(forward))}
 				></Button>
 			),
 			...props,

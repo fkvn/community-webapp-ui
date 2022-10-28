@@ -5,7 +5,8 @@ const useUrl = ({
 	itemProps: { rules = [], ...itemProps } = {},
 	inputProps = {},
 	required = false,
-}) =>
+	showLabel = true,
+} = {}) =>
 	((props = {}, inputProps = {}) => (
 		<Form.Item {...props}>
 			<Input {...inputProps} />
@@ -24,9 +25,11 @@ const useUrl = ({
 			],
 			shouldUpdate: true,
 			...itemProps,
-			label: `${itemProps?.label || "Website Address"} ${
-				required ? "" : "(Optional)"
-			}`,
+			...(showLabel && {
+				label: `${itemProps?.label || "Website / Link"} ${
+					required ? "" : "(Optional)"
+				}`,
+			}),
 		},
 		{
 			className: "rounded-0",

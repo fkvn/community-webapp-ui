@@ -34,6 +34,7 @@ function LeftLayout() {
 					/>
 					<Route path="/search" element={<SearchResultPage />} />
 					<Route
+						exact
 						path={`/${SEARCH_POST}/:${SEARCH_TYPE_PROP}/:id`}
 						validate={{
 							serviceType:

@@ -30,7 +30,6 @@ function useAddress({
 	const autoComplete = useAutocomplete;
 
 	const onSearch = (searchText = "") => {
-		console.log(searchText);
 		if (searchText !== "") {
 			fetchPredictions(searchText).then(({ predictions }) => {
 				setAddress({

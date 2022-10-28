@@ -132,7 +132,7 @@ function DealCard({ card = DEFAULT_CARD_INFO }) {
 							{image({
 								width: "100%",
 								style: {
-									maxHeight: screens.xs ? "13rem" : "20rem",
+									height: screens.xs ? "13rem" : "20rem",
 								},
 								src: img,
 							})}

@@ -1,5 +1,6 @@
 import { CloseOutlined } from "@ant-design/icons";
 import {
+	Button,
 	Card,
 	Col,
 	Divider,
@@ -13,9 +14,11 @@ import {
 } from "antd";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { useSearchParams } from "react-router-dom";
+import { useLocation, useSearchParams } from "react-router-dom";
 import { thainowReducer } from "../../../redux-store/reducer/thainowReducer";
 import {
+	CREATE_PROP,
+	FORWARD_CONTINUE,
 	SEARCH_BUSINESS,
 	SEARCH_DEAL,
 	SEARCH_FETCH_RESULT_PROP,
@@ -23,6 +26,7 @@ import {
 	SEARCH_JOB,
 	SEARCH_KEYWORD,
 	SEARCH_MARKETPLACE,
+	SEARCH_POST,
 	SEARCH_RESULT_OBJ,
 	SEARCH_SORT,
 	SEARCH_SORT_DATE,
@@ -34,6 +38,7 @@ import HousingBadge from "../../Badge/HousingBadge";
 import JobBadge from "../../Badge/JobBadge";
 import MarketplaceBadge from "../../Badge/MarketplaceBadge";
 import useSearch from "../../Hook/useSearch";
+import useUrls from "../../Hook/useUrls";
 import BusinessCard from "../../ServiceCard/BusinessCard";
 import DealCard from "../../ServiceCard/DealCard";
 import HousingCard from "../../ServiceCard/HousingCard";
@@ -43,6 +48,8 @@ import MarketplaceCard from "../../ServiceCard/MarketplaceCard";
 function SearchResultPage() {
 	const { useBreakpoint } = Grid;
 	const screens = useBreakpoint();
+	const location = useLocation();
+	const { forwardUrl } = useUrls();
 
 	const { Title } = Typography;
 
@@ -188,10 +195,33 @@ function SearchResultPage() {
 	const resultHeader = (
 		<>
 			<Row justify="space-between" align="middle" className="my-0 my-md-4">
-				<Col order={screens?.xs && 2} {...(screens?.xs && { xs: 24 })}>
-					<Title level={2}>
-						All {keywordParam.length > 0 && `" ${keywordParam} "`} Results
-					</Title>
+				<Col order={screens?.xs && 2} xs={24}>
+					<Row justify="space-between" align="middle">
+						<Col className="tedkvn-center" style={{ maxWidth: "70%" }}>
+							<Title level={2} className="m-0">
+								All {keywordParam.length > 0 && `" ${keywordParam} "`} Results
+							</Title>
+						</Col>
+						<Col className="tedkvn-center">
+							<Button
+								type="primary"
+								className="mt-2"
+								shape="round"
+								{...(screens.xs && { size: "small" })}
+								onClick={() =>
+									forwardUrl(
+										FORWARD_CONTINUE,
+										"",
+										`/${CREATE_PROP}/${SEARCH_POST}/${SEARCH_DEAL}`,
+										location?.pathname + location?.search || "/"
+									)
+								}
+							>
+								Create New Deal
+							</Button>
+							,
+						</Col>
+					</Row>
 				</Col>
 
 				{keywordParam.length > 0 && (

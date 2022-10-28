@@ -1,5 +1,5 @@
 import { PlusOutlined } from "@ant-design/icons";
-import { Form, Modal, Upload } from "antd";
+import { Form, Modal, Typography, Upload } from "antd";
 import ImgCrop from "antd-img-crop";
 import React, { useState } from "react";
 import { uploadFileAxios } from "../../../Axios/axiosPromise";
@@ -35,7 +35,7 @@ function usePictureWall({
 		setPreviewImage(file.url || file.preview);
 		setPreviewOpen(true);
 		setPreviewTitle(
-			file.name || file.url.substring(file.url.lastIndexOf("/") + 1)
+			file.name || file.url.substring(file.url.lastIndexOf("%2F") + 1)
 		);
 	};
 	const handleChange = ({ fileList = [], file = {} }) => {
@@ -140,7 +140,17 @@ function usePictureWall({
 					</ImgCrop>
 					<Modal
 						open={previewOpen}
-						title={previewTitle}
+						title={
+							<Typography.Text
+								style={{
+									width: "96%",
+								}}
+								ellipsis
+							>
+								{previewTitle}
+							</Typography.Text>
+						}
+						width="100%"
 						footer={null}
 						onCancel={handleCancel}
 					>

@@ -220,4 +220,16 @@ export const findPostAxios = (id = null, ownerId = null, type = "") =>
 		.then(({ data }) => Promise.resolve(data))
 		.catch((e) => Promise.reject(e));
 
+export const createDealAxios = (info = {}) =>
+	axios
+		.post(`/${SEARCH_POST}/${SEARCH_DEAL}`, info)
+		.then(({ data }) => Promise.resolve(data))
+		.catch((e) => Promise.reject(e));
+
+export const patchDealAxios = (id = -1, info = {}) =>
+	axios
+		.patch(`/${SEARCH_POST}/${SEARCH_DEAL}/${id}`, info)
+		.then(() => Promise.resolve())
+		.catch((e) => Promise.reject(e));
+
 controller.abort();

@@ -6,7 +6,8 @@ const useCheckBox = ({
 	inputProps = {},
 	title = "",
 	required = false,
-}) =>
+	requiredMessage = "Must accept",
+} = {}) =>
 	((props = {}, inputProps = {}, title = "") => (
 		<Form.Item {...props} valuePropName="checked">
 			<Checkbox {...inputProps}>{title}</Checkbox>
@@ -15,8 +16,11 @@ const useCheckBox = ({
 		{
 			name: CHECKBOX_PROP,
 			className: "m-0",
-			rules: [{ required: required, message: "Must accept" }],
 			...itemProps,
+			rules: [
+				{ required: required, message: requiredMessage },
+				...(itemProps?.rules || []),
+			],
 		},
 		inputProps,
 		`${title} ${required ? "" : "(Optional)"}`

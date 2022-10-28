@@ -51,7 +51,7 @@ function useSignin() {
 				// save profile
 				saveProfileInfo(res.profile);
 
-				successMessage("Signing in successfully", 1).then(() =>
+				successMessage("Signing in successfully").then(() =>
 					forward
 						? forwardUrl(fowardAction, "", continueUrl, successUrl)
 						: Promise.resolve()
