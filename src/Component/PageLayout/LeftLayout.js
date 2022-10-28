@@ -9,8 +9,8 @@ import {
 	SEARCH_HOUSING,
 	SEARCH_JOB,
 	SEARCH_MARKETPLACE,
-	SEARCH_POST,
 	SEARCH_PROFILE,
+	SEARCH_SERVICE,
 	SEARCH_TYPE_PROP,
 } from "../../Util/ConstVar";
 import Footer from "../PageLayout/Footer";
@@ -35,7 +35,7 @@ function LeftLayout() {
 					<Route path="/search" element={<SearchResultPage />} />
 					<Route
 						exact
-						path={`/${SEARCH_POST}/:${SEARCH_TYPE_PROP}/:id`}
+						path={`/${SEARCH_SERVICE}/:${SEARCH_TYPE_PROP}/:id`}
 						validate={{
 							serviceType:
 								SEARCH_DEAL ||

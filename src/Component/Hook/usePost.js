@@ -1,14 +1,17 @@
 import {
 	createDealAxios,
-	findPostAxios,
+	createJobAxios,
+	findServiceAxios,
 	patchDealAxios,
+	patchJobAxios,
 } from "../../Axios/axiosPromise";
 import {
 	FORWARD_CLOSE,
 	FORWARD_SUCCESS,
 	PROFILE_ID_PROP,
 	SEARCH_DEAL,
-	SEARCH_POST,
+	SEARCH_JOB,
+	SEARCH_SERVICE,
 } from "../../Util/ConstVar";
 import { errorMessage, loadingMessage, successMessage } from "./useMessage";
 import useUrls from "./useUrls";
@@ -16,10 +19,10 @@ import useUrls from "./useUrls";
 function usePost() {
 	const { forwardUrl } = useUrls();
 
-	const findPost = async (id = null, ownerId = null, type = "") => {
+	const findService = async (id = null, ownerId = null, type = "") => {
 		loadingMessage("Loading ...", 0);
 
-		return findPostAxios(id, ownerId, type)
+		return findServiceAxios(id, ownerId, type)
 			.then((res = {}) =>
 				successMessage(`done`, 1, { className: "d-none" }).then(() =>
 					Promise.resolve(res)
@@ -28,8 +31,10 @@ function usePost() {
 			.catch((e) => errorMessage(e).catch(() => forwardUrl(FORWARD_CLOSE)));
 	};
 
+	//  deal service
+
 	const createDeal = async (ownerId = null, info = {}) => {
-		loadingMessage("Updating ...", 0);
+		loadingMessage("Creating service ...", 0);
 
 		return createDealAxios({ [`${PROFILE_ID_PROP}`]: ownerId, ...info })
 			.then((id = null) =>
@@ -38,7 +43,7 @@ function usePost() {
 						FORWARD_SUCCESS,
 						"",
 						"",
-						`/${SEARCH_POST}/${SEARCH_DEAL}/${id}`
+						`/${SEARCH_SERVICE}/${SEARCH_DEAL}/${id}`
 					)
 				)
 			)
@@ -46,22 +51,54 @@ function usePost() {
 	};
 
 	const updateDeal = async (id = null, ownerId = null, info = {}) => {
-		loadingMessage("Updating ...", 0);
-
-		console.log(id);
-		console.log(ownerId);
+		loadingMessage("Updating service information...", 0);
 
 		return patchDealAxios(id, { [`${PROFILE_ID_PROP}`]: ownerId, ...info })
 			.then(() =>
-				successMessage(`Updated successfully`).then(() => Promise.resolve())
+				successMessage(`Updated service information successfully`).then(() =>
+					Promise.resolve()
+				)
+			)
+			.catch((e) => errorMessage(e).catch(() => forwardUrl(FORWARD_CLOSE)));
+	};
+
+	// job service
+
+	const createJob = async (ownerId = null, info = {}) => {
+		loadingMessage("Creating service ...", 0);
+
+		return createJobAxios({ [`${PROFILE_ID_PROP}`]: ownerId, ...info })
+			.then((id = null) =>
+				successMessage(`Service Created successfully`).then(() =>
+					forwardUrl(
+						FORWARD_SUCCESS,
+						"",
+						"",
+						`/${SEARCH_SERVICE}/${SEARCH_JOB}/${id}`
+					)
+				)
+			)
+			.catch((e) => errorMessage(e).catch(() => forwardUrl(FORWARD_CLOSE)));
+	};
+
+	const updateJob = async (id = null, ownerId = null, info = {}) => {
+		loadingMessage("Updating service information...", 0);
+
+		return patchJobAxios(id, { [`${PROFILE_ID_PROP}`]: ownerId, ...info })
+			.then(() =>
+				successMessage(`Updated service information successfully`).then(() =>
+					Promise.resolve()
+				)
 			)
 			.catch((e) => errorMessage(e).catch(() => forwardUrl(FORWARD_CLOSE)));
 	};
 
 	return {
-		findPost,
+		findService,
 		updateDeal,
 		createDeal,
+		createJob,
+		updateJob,
 	};
 }
 

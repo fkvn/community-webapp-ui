@@ -32,7 +32,7 @@ import {
 	PICTURE_LIST_PROP,
 	PICTURE_PROP,
 	SEARCH_HOUSING,
-	SEARCH_POST,
+	SEARCH_SERVICE,
 	TITLE_PROP,
 	TOTAL_REVIEW_PROP,
 	UPDATED_ON_PROP,
@@ -131,7 +131,7 @@ function HousingCard({ card = DEFAULT_CARD_INFO }) {
 							{image({
 								width: "100%",
 								style: {
-									maxHeight: screens.xs ? "13rem" : "20rem",
+									height: screens.xs ? "9rem" : "18rem",
 								},
 								src: img,
 							})}
@@ -217,7 +217,7 @@ function HousingCard({ card = DEFAULT_CARD_INFO }) {
 		<Typography.Link
 			onClick={() =>
 				navigate(
-					`/${SEARCH_POST}/${SEARCH_HOUSING}/${basicInfo?.[`${ID_PROP}`]}`,
+					`/${SEARCH_SERVICE}/${SEARCH_HOUSING}/${basicInfo?.[`${ID_PROP}`]}`,
 					{
 						state: {
 							[`${CLOSE_URL}`]: location?.pathname + location?.search || "/",
@@ -301,7 +301,7 @@ function HousingCard({ card = DEFAULT_CARD_INFO }) {
 		<Typography.Link
 			onClick={() =>
 				navigate(
-					`/${SEARCH_POST}/${SEARCH_HOUSING}/${basicInfo?.[`${ID_PROP}`]}`,
+					`/${SEARCH_SERVICE}/${SEARCH_HOUSING}/${basicInfo?.[`${ID_PROP}`]}`,
 					{
 						state: {
 							[`${CLOSE_URL}`]: location?.pathname + location?.search || "/",

@@ -9,10 +9,11 @@ function LayoutContainer() {
 	const screens = useBreakpoint();
 
 	const { Header } = Layout;
+	console.log(screens);
 
 	const layout = (
 		<Row id="layout" justify="center">
-			<Col xs={24} xxl={20}>
+			<Col xs={24}>
 				<Header
 					className="fixed-top p-0"
 					style={{

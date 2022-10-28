@@ -7,8 +7,8 @@ import { errorMessage, loadingMessage } from "../../Component/Hook/useMessage";
 import usePost from "../../Component/Hook/usePost";
 import useUrls from "../../Component/Hook/useUrls";
 import EditDeal from "../../Component/PageLayout/EditService/EditDeal";
+import EditJob from "../../Component/PageLayout/EditService/EditJob";
 import HousingPage from "../../Component/PageLayout/ServicePage/HousingPage";
-import JobPage from "../../Component/PageLayout/ServicePage/JobPage";
 import MarketplacePage from "../../Component/PageLayout/ServicePage/MarketplacePage";
 import SkeletonCard from "../../Component/Skeleton/SkeletonCard";
 import { thainowReducer } from "../../redux-store/reducer/thainowReducer";
@@ -28,7 +28,7 @@ import {
 	SEARCH_HOUSING,
 	SEARCH_JOB,
 	SEARCH_MARKETPLACE,
-	SEARCH_POST,
+	SEARCH_SERVICE,
 	SEARCH_TYPE_PROP,
 } from "../../Util/ConstVar";
 import AuthContainer from "../AuthContainer/AuthContainer";
@@ -44,7 +44,7 @@ function EditServiceContainer() {
 	const { [`${PROFILE_OBJ}`]: { [`${ID_PROP}`]: ownerId = null } = {} } =
 		useSelector(thainowReducer);
 
-	const { findPost } = usePost();
+	const { findService: findPost } = usePost();
 
 	const [service, setService] = useState({});
 
@@ -70,7 +70,7 @@ function EditServiceContainer() {
 			case SEARCH_DEAL:
 				return <EditDeal {...props} />;
 			case SEARCH_JOB:
-				return <JobPage {...props} />;
+				return <EditJob {...props} />;
 			case SEARCH_HOUSING:
 				return <HousingPage {...props} />;
 			case SEARCH_MARKETPLACE:
@@ -121,7 +121,7 @@ function EditServiceContainer() {
 		<AuthContainer
 			closeUrl="/"
 			continueUrl="/signin"
-			successUrl={`/${SEARCH_POST}/${action}/${type}${
+			successUrl={`/${SEARCH_SERVICE}/${action}/${type}${
 				action === EDIT_PROP ? `/${requestId}` : ``
 			}`}
 		>

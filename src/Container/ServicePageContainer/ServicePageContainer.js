@@ -32,7 +32,7 @@ function ServicePageContainer() {
 	const { [`${PROFILE_OBJ}`]: { [`${ID_PROP}`]: ownerId = null } = {} } =
 		useSelector(thainowReducer);
 
-	const { findPost } = usePost();
+	const { findService: findPost } = usePost();
 
 	const { forwardUrl } = useUrls();
 

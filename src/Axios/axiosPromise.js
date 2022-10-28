@@ -7,8 +7,8 @@ import {
 	SEARCH_HOUSING,
 	SEARCH_JOB,
 	SEARCH_MARKETPLACE,
-	SEARCH_POST,
 	SEARCH_PROFILE,
+	SEARCH_SERVICE,
 	SMS_PROP,
 } from "../Util/ConstVar";
 
@@ -212,23 +212,41 @@ export const searchCompanyPromise = (
 
 // service
 
-export const findPostAxios = (id = null, ownerId = null, type = "") =>
+export const findServiceAxios = (id = null, ownerId = null, type = "") =>
 	axios
 		.get(
-			`/${SEARCH_POST}/${id}?${ownerId && `profileId=${ownerId}`}&type=${type}`
+			`/${SEARCH_SERVICE}/${id}?${
+				ownerId && `profileId=${ownerId}`
+			}&type=${type}`
 		)
 		.then(({ data }) => Promise.resolve(data))
 		.catch((e) => Promise.reject(e));
 
+// deal service
+
 export const createDealAxios = (info = {}) =>
 	axios
-		.post(`/${SEARCH_POST}/${SEARCH_DEAL}`, info)
+		.post(`/${SEARCH_SERVICE}/${SEARCH_DEAL}`, info)
 		.then(({ data }) => Promise.resolve(data))
 		.catch((e) => Promise.reject(e));
 
 export const patchDealAxios = (id = -1, info = {}) =>
 	axios
-		.patch(`/${SEARCH_POST}/${SEARCH_DEAL}/${id}`, info)
+		.patch(`/${SEARCH_SERVICE}/${SEARCH_DEAL}/${id}`, info)
+		.then(() => Promise.resolve())
+		.catch((e) => Promise.reject(e));
+
+// job service
+
+export const createJobAxios = (info = {}) =>
+	axios
+		.post(`/${SEARCH_SERVICE}/${SEARCH_JOB}`, info)
+		.then(({ data }) => Promise.resolve(data))
+		.catch((e) => Promise.reject(e));
+
+export const patchJobAxios = (id = -1, info = {}) =>
+	axios
+		.patch(`/${SEARCH_SERVICE}/${SEARCH_JOB}/${id}`, info)
 		.then(() => Promise.resolve())
 		.catch((e) => Promise.reject(e));
 

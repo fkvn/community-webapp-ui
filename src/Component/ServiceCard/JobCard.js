@@ -32,7 +32,7 @@ import {
 	PICTURE_LIST_PROP,
 	PICTURE_PROP,
 	SEARCH_JOB,
-	SEARCH_POST,
+	SEARCH_SERVICE,
 	TITLE_PROP,
 	TOTAL_REVIEW_PROP,
 	UPDATED_ON_PROP,
@@ -130,7 +130,7 @@ function JobCard({ card = DEFAULT_CARD_INFO }) {
 							{image({
 								width: "100%",
 								style: {
-									maxHeight: screens.xs ? "13rem" : "20rem",
+									height: screens.xs ? "9rem" : "18rem",
 								},
 								src: img,
 							})}
@@ -215,11 +215,14 @@ function JobCard({ card = DEFAULT_CARD_INFO }) {
 	const defaultCard = (
 		<Typography.Link
 			onClick={() =>
-				navigate(`/${SEARCH_POST}/${SEARCH_JOB}/${basicInfo?.[`${ID_PROP}`]}`, {
-					state: {
-						[`${CLOSE_URL}`]: location?.pathname + location?.search || "/",
-					},
-				})
+				navigate(
+					`/${SEARCH_SERVICE}/${SEARCH_JOB}/${basicInfo?.[`${ID_PROP}`]}`,
+					{
+						state: {
+							[`${CLOSE_URL}`]: location?.pathname + location?.search || "/",
+						},
+					}
+				)
 			}
 		>
 			<Card
@@ -296,11 +299,14 @@ function JobCard({ card = DEFAULT_CARD_INFO }) {
 	const mobileCard = (
 		<Typography.Link
 			onClick={() =>
-				navigate(`/${SEARCH_POST}/${SEARCH_JOB}/${basicInfo?.[`${ID_PROP}`]}`, {
-					state: {
-						[`${CLOSE_URL}`]: location?.pathname + location?.search || "/",
-					},
-				})
+				navigate(
+					`/${SEARCH_SERVICE}/${SEARCH_JOB}/${basicInfo?.[`${ID_PROP}`]}`,
+					{
+						state: {
+							[`${CLOSE_URL}`]: location?.pathname + location?.search || "/",
+						},
+					}
+				)
 			}
 		>
 			<Card

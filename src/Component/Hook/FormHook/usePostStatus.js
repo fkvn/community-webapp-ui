@@ -12,7 +12,7 @@ function usePostStatus({
 	const app = (
 		<Form.Item
 			name={STATUS_PROP}
-			label="Post Status"
+			label="Service Status"
 			className="m-0"
 			rules={[{ required: required, message: requiredMessage }]}
 			shouldUpdate

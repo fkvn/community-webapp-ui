@@ -108,3 +108,16 @@ body,
 		padding: 0 15rem;
 	}
 }
+
+@media only screen and (min-width: 1920px) {
+	#layout {
+		padding: 1rem 10rem;
+	}
+}
+
+@media only screen and (min-width: 2300px) {
+	#layout {
+		// max-width: 150rem;
+		padding: 1.5rem 20rem;
+	}
+}

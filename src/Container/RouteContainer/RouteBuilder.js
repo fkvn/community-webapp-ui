@@ -1,5 +1,5 @@
 import { Route, Routes } from "react-router-dom";
-import { SEARCH_POST, SEARCH_TYPE_PROP } from "../../Util/ConstVar";
+import { SEARCH_SERVICE, SEARCH_TYPE_PROP } from "../../Util/ConstVar";
 import SignupRouteContainer from "../AuthContainer/SignupRouteContainer";
 import SwitchProfileContainer from "../AuthContainer/SwitchProfileContainer";
 import UserSigninContainer from "../AuthContainer/UserSigninContainer";
@@ -20,12 +20,12 @@ function RouteBuilder() {
 				<Route path="/edit-profile/:id" element={<EditProfileContainer />} />
 				<Route
 					exact
-					path={`/:action/${SEARCH_POST}/:${SEARCH_TYPE_PROP}/:id`}
+					path={`/:action/${SEARCH_SERVICE}/:${SEARCH_TYPE_PROP}/:id`}
 					element={<EditServiceContainer />}
 				/>
 				<Route
 					exact
-					path={`/:action/${SEARCH_POST}/:${SEARCH_TYPE_PROP}`}
+					path={`/:action/${SEARCH_SERVICE}/:${SEARCH_TYPE_PROP}`}
 					element={<EditServiceContainer />}
 				/>
 				<Route path="/*" element={<LayoutContainer />} />

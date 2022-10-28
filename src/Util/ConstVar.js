@@ -123,7 +123,7 @@ export const SEARCH_INPUT_PROP = "input";
 export const SEARCH_TYPE_PROP = "searchType";
 export const SEARCH_LOCATION_ADDRESS = "address";
 export const SEARCH_PROFILE = "profiles";
-export const SEARCH_POST = "posts";
+export const SEARCH_SERVICE = "posts";
 export const SEARCH_WISHLIST = "wishlists";
 export const SEARCH_QUESTION = "questions";
 export const SEARCH_REVIEW = "reviews";
@@ -325,7 +325,7 @@ export const JOB_HEADLINE_PROP = "Job Hiring";
 export const JOB_POST_TYPE_PROP = "JOB_POST";
 export const EXPERIENCE_PROP = "experience";
 export const POSITION_LIST_PROP = "positions";
-export const REMOTE_PROP = "remote";
+export const IS_REMOTE_PROP = "isRemote";
 export const SALARY_PROP = "salary";
 export const SKILL_PROP = "skills";
 export const DEFAULT_JOB_INFO = {
@@ -335,7 +335,7 @@ export const DEFAULT_JOB_INFO = {
 	[`${TITLE_PROP}`]: "",
 	[`${PICTURE_LIST_PROP}`]: [],
 	[`${POSITION_LIST_PROP}`]: [],
-	[`${REMOTE_PROP}`]: false,
+	[`${IS_REMOTE_PROP}`]: false,
 	[`${SALARY_PROP}`]: "",
 	[`${SKILL_PROP}`]: "",
 	[`${STATUS_PROP}`]: "",

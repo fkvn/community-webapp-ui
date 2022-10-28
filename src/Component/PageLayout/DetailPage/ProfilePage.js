@@ -34,7 +34,7 @@ import Meta from "antd/lib/card/Meta";
 import { isEmptyObject } from "jquery";
 import React, { useCallback, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { useSearchParams } from "react-router-dom";
+import { useLocation, useSearchParams } from "react-router-dom";
 import { iconLocationBlack } from "../../../Assest/Asset";
 import { thainowReducer } from "../../../redux-store/reducer/thainowReducer";
 import {
@@ -43,8 +43,10 @@ import {
 	COMPANY_INDUSTRY_PROP,
 	CREATED_ON_PROP,
 	DESCRIPTION_PROP,
+	EDIT_PROP,
 	EMAIL_PROP,
 	FORWARD_CLOSE,
+	FORWARD_CONTINUE,
 	FORWARD_SUCCESS,
 	ID_PROP,
 	INFO_PROP,
@@ -71,10 +73,10 @@ import {
 	SEARCH_JOB,
 	SEARCH_KEYWORD,
 	SEARCH_MARKETPLACE,
-	SEARCH_POST,
 	SEARCH_PROFILE,
 	SEARCH_RESULT_OBJ,
 	SEARCH_REVIEW,
+	SEARCH_SERVICE,
 	SEARCH_SORT,
 	SEARCH_SORT_ACS,
 	SEARCH_SORT_DATE,
@@ -124,6 +126,8 @@ function ProfilePage({ isOwner = false, profile = {} }) {
 	});
 
 	const { forwardUrl } = useUrls();
+
+	const location = useLocation();
 
 	const header = (
 		<PageHeader
@@ -527,16 +531,16 @@ function ProfilePage({ isOwner = false, profile = {} }) {
 	const { [`${SEARCH_FETCH_RESULT_PROP}`]: fetchResults = [] } = searchResult;
 
 	const [actionCall, setActionCall] = useState({
-		actionType: SEARCH_POST,
+		actionType: SEARCH_SERVICE,
 		searching: true,
 	});
 
 	const onSearchHandle = (
-		actionType = SEARCH_POST,
+		actionType = SEARCH_SERVICE,
 		searchType = searchTypeParam,
 		params = {}
 	) => {
-		if (id > 0 && actionType === SEARCH_POST) {
+		if (id > 0 && actionType === SEARCH_SERVICE) {
 			return dispatchSearch(
 				searchType,
 				{
@@ -551,7 +555,7 @@ function ProfilePage({ isOwner = false, profile = {} }) {
 
 	const initSearch = useCallback(
 		async (
-			actionType = SEARCH_POST,
+			actionType = SEARCH_SERVICE,
 			searchType = searchTypeParam,
 			params = {}
 		) => {
@@ -582,10 +586,10 @@ function ProfilePage({ isOwner = false, profile = {} }) {
 				onClick={() => {
 					if (id > 0) {
 						setActionCall({
-							actionType: SEARCH_POST,
+							actionType: SEARCH_SERVICE,
 							searching: true,
 						});
-						initSearch(SEARCH_POST, SEARCH_DEAL);
+						initSearch(SEARCH_SERVICE, SEARCH_DEAL);
 					}
 				}}
 				{...props}
@@ -599,10 +603,10 @@ function ProfilePage({ isOwner = false, profile = {} }) {
 				onClick={() => {
 					if (id > 0) {
 						setActionCall({
-							actionType: SEARCH_POST,
+							actionType: SEARCH_SERVICE,
 							searching: true,
 						});
-						initSearch(SEARCH_POST, SEARCH_JOB);
+						initSearch(SEARCH_SERVICE, SEARCH_JOB);
 					}
 				}}
 				{...props}
@@ -616,10 +620,10 @@ function ProfilePage({ isOwner = false, profile = {} }) {
 				onClick={() => {
 					if (id > 0) {
 						setActionCall({
-							actionType: SEARCH_POST,
+							actionType: SEARCH_SERVICE,
 							searching: true,
 						});
-						initSearch(SEARCH_POST, SEARCH_HOUSING);
+						initSearch(SEARCH_SERVICE, SEARCH_HOUSING);
 					}
 				}}
 				{...props}
@@ -633,10 +637,10 @@ function ProfilePage({ isOwner = false, profile = {} }) {
 				onClick={() => {
 					if (id > 0) {
 						setActionCall({
-							actionType: SEARCH_POST,
+							actionType: SEARCH_SERVICE,
 							searching: true,
 						});
-						initSearch(SEARCH_POST, SEARCH_MARKETPLACE);
+						initSearch(SEARCH_SERVICE, SEARCH_MARKETPLACE);
 					}
 				}}
 				{...props}
@@ -698,7 +702,7 @@ function ProfilePage({ isOwner = false, profile = {} }) {
 				},
 			]}
 			onClick={({ key }) =>
-				initSearch(SEARCH_POST, searchTypeParam, {
+				initSearch(SEARCH_SERVICE, searchTypeParam, {
 					[`${SEARCH_SORT}`]: key,
 					[`${SEARCH_SORT_ORDER}`]:
 						sortOrderParam === SEARCH_SORT_DESC
@@ -742,7 +746,20 @@ function ProfilePage({ isOwner = false, profile = {} }) {
 		{
 			title: "Title",
 			dataIndex: "title",
-			render: (text) => <Typography.Link>{text}</Typography.Link>,
+			render: ([id, title]) => (
+				<Typography.Link
+					onClick={() =>
+						forwardUrl(
+							FORWARD_CONTINUE,
+							location?.pathname + location?.search || "/",
+							`/${SEARCH_SERVICE}/${searchTypeParam}/${id}`,
+							location?.pathname + location?.search || "/"
+						)
+					}
+				>
+					{title}
+				</Typography.Link>
+			),
 			ellipsis: true,
 		},
 		{
@@ -765,9 +782,20 @@ function ProfilePage({ isOwner = false, profile = {} }) {
 		{
 			title: "Action",
 			dataIndex: "action",
-			render: () => (
+			render: (id) => (
 				<Space size="middle">
-					<Button type="link" className="border-0 p-0">
+					<Button
+						type="link"
+						className="border-0 p-0"
+						onClick={() =>
+							forwardUrl(
+								FORWARD_CONTINUE,
+								"",
+								`/${EDIT_PROP}/${SEARCH_SERVICE}/${searchTypeParam}/${id}`,
+								location?.pathname + location?.search || "/"
+							)
+						}
+					>
 						Edit
 					</Button>
 					<Button type="link" className="border-0 p-0 text-danger">
@@ -782,9 +810,10 @@ function ProfilePage({ isOwner = false, profile = {} }) {
 	const tableServiceResultData = fetchResults.map((res, idx) => {
 		return {
 			key: idx,
-			title: res?.[`${INFO_PROP}`]?.[`${TITLE_PROP}`],
+			title: [res?.[`${ID_PROP}`], res?.[`${INFO_PROP}`]?.[`${TITLE_PROP}`]],
 			status: res?.[`${INFO_PROP}`]?.[`${STATUS_PROP}`],
 			date: res?.[`${INFO_PROP}`]?.[`${UPDATED_ON_PROP}`],
+			action: res?.[`${ID_PROP}`],
 		};
 	});
 
@@ -844,7 +873,7 @@ function ProfilePage({ isOwner = false, profile = {} }) {
 	);
 
 	const action = {
-		[`${SEARCH_POST}`]: {
+		[`${SEARCH_SERVICE}`]: {
 			title: serviceTitle,
 			children: serviceResult,
 		},
@@ -856,7 +885,7 @@ function ProfilePage({ isOwner = false, profile = {} }) {
 	const actionTitleOptions = [
 		{
 			label: "Services",
-			value: SEARCH_POST,
+			value: SEARCH_SERVICE,
 		},
 		{
 			label: "Wish List",

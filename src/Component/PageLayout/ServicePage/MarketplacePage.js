@@ -42,6 +42,7 @@ import {
 	DEFAULT_POST_OWNER_INFO,
 	DESCRIPTION_PROP,
 	EMAIL_PROP,
+	EXPIRED_ON_PROP,
 	FORWARD_CLOSE,
 	FORWARD_CONTINUE,
 	ID_PROP,
@@ -49,6 +50,7 @@ import {
 	LAT_PROP,
 	LNG_PROP,
 	LOCATION_PROP,
+	MARKETPLACE_HEADLINE_PROP,
 	NAME_PROP,
 	PHONE_PROP,
 	PICTURE_LIST_PROP,
@@ -57,10 +59,10 @@ import {
 	PROFILE_BUSINESS_TYPE_PROP,
 	PROFILE_TYPE_PROP,
 	PROFILE_USER_TYPE_PROP,
-	SEARCH_POST,
 	SEARCH_PROFILE,
 	SEARCH_QUESTION,
 	SEARCH_REVIEW,
+	SEARCH_SERVICE,
 	SEARCH_TYPE_PROP,
 	STATUS_PROP,
 	TITLE_PROP,
@@ -98,8 +100,6 @@ function MarketplacePage({ isOwner = false, service = {} }) {
 			title="Back"
 		/>
 	);
-
-	console.log(info);
 
 	const [visible, setVisible] = useState({
 		value: false,
@@ -226,23 +226,23 @@ function MarketplacePage({ isOwner = false, service = {} }) {
 	);
 
 	const [searchParams] = useSearchParams();
-	const searchTypeParam = searchParams.get(SEARCH_TYPE_PROP) || SEARCH_POST;
+	const searchTypeParam = searchParams.get(SEARCH_TYPE_PROP) || SEARCH_SERVICE;
 
 	const [actionCall, setActionCall] = useState({
-		actionType: SEARCH_POST,
+		actionType: SEARCH_SERVICE,
 		searching: false,
 	});
 
 	const initSearch = useCallback(
 		async (
-			actionType = SEARCH_POST
+			actionType = SEARCH_SERVICE
 			// searchType = searchTypeParam,
 			// params = {}
 		) => {
 			// console.log(actionType);
 			setActionCall({
 				actionType: actionType,
-				searching: actionType === SEARCH_POST ? false : true,
+				searching: actionType === SEARCH_SERVICE ? false : true,
 			});
 
 			// onSearchHandle(actionType, searchType, params).then(() =>
@@ -258,7 +258,7 @@ function MarketplacePage({ isOwner = false, service = {} }) {
 	const actionTitleOptions = [
 		{
 			label: "Details",
-			value: SEARCH_POST,
+			value: SEARCH_SERVICE,
 		},
 		{
 			label: "FAQ",
@@ -283,6 +283,31 @@ function MarketplacePage({ isOwner = false, service = {} }) {
 	);
 
 	const descriptionData = [
+		{
+			label: image({
+				width: 18,
+				src: svgMarketplaceIcon,
+			}),
+			title: (
+				<Typography.Text
+					className="c-marketplace"
+					style={{
+						width: "95%",
+					}}
+					ellipsis={{
+						tooltip: true,
+					}}
+				>
+					{MARKETPLACE_HEADLINE_PROP.toUpperCase()} SERVICE
+					{info?.[`${EXPIRED_ON_PROP}`] && (
+						<small className="text-danger">
+							{" "}
+							- Expired at {info?.[`${EXPIRED_ON_PROP}`]}
+						</small>
+					)}
+				</Typography.Text>
+			),
+		},
 		{
 			label: (
 				<Space size={5}>
@@ -393,7 +418,7 @@ function MarketplacePage({ isOwner = false, service = {} }) {
 									// )
 								}
 							>
-								Edit Info
+								Edit Service
 							</Button>,
 					  ]
 					: []),
@@ -606,7 +631,7 @@ function MarketplacePage({ isOwner = false, service = {} }) {
 	);
 
 	const action = {
-		[`${SEARCH_POST}`]: (
+		[`${SEARCH_SERVICE}`]: (
 			<>
 				{description}
 				{contactInformation}

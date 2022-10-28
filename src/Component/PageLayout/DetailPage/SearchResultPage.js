@@ -26,12 +26,13 @@ import {
 	SEARCH_JOB,
 	SEARCH_KEYWORD,
 	SEARCH_MARKETPLACE,
-	SEARCH_POST,
 	SEARCH_RESULT_OBJ,
+	SEARCH_SERVICE,
 	SEARCH_SORT,
 	SEARCH_SORT_DATE,
 	SEARCH_TYPE_PROP,
 } from "../../../Util/ConstVar";
+import { formatSentenseCase } from "../../../Util/Util";
 import BusinessBadge from "../../Badge/BusinessBadge";
 import DealBadge from "../../Badge/DealBadge";
 import HousingBadge from "../../Badge/HousingBadge";
@@ -205,21 +206,30 @@ function SearchResultPage() {
 						<Col className="tedkvn-center">
 							<Button
 								type="primary"
-								className="mt-2"
+								className={`mt-2 text-white ${
+									searchTypeParam === SEARCH_DEAL
+										? "bg-primary"
+										: searchTypeParam === SEARCH_JOB
+										? "bg-job"
+										: searchTypeParam === SEARCH_HOUSING
+										? "bg-housing"
+										: searchTypeParam === SEARCH_MARKETPLACE
+										? "bg-marketplace"
+										: "bg-business"
+								}`}
 								shape="round"
 								{...(screens.xs && { size: "small" })}
 								onClick={() =>
 									forwardUrl(
 										FORWARD_CONTINUE,
 										"",
-										`/${CREATE_PROP}/${SEARCH_POST}/${SEARCH_DEAL}`,
+										`/${CREATE_PROP}/${SEARCH_SERVICE}/${searchTypeParam}`,
 										location?.pathname + location?.search || "/"
 									)
 								}
 							>
-								Create New Deal
+								Create New {formatSentenseCase(searchTypeParam)}
 							</Button>
-							,
 						</Col>
 					</Row>
 				</Col>

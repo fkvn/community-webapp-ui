@@ -18,7 +18,9 @@ import global from "../../../Assest/Style/scss/base/_global.scss";
 import {
 	SEARCH_BUSINESS,
 	SEARCH_DEAL,
+	SEARCH_HOUSING,
 	SEARCH_JOB,
+	SEARCH_MARKETPLACE,
 	SEARCH_TYPE_PROP,
 } from "../../../Util/ConstVar";
 import AppStoreBadge from "../../Badge/AppStoreBadge";
@@ -63,10 +65,20 @@ function LandingPage() {
 			/>
 		),
 		(props = {}) => (
-			<HousingBadge onClick={() => alert("Housing click")} {...props} />
+			<HousingBadge
+				onClick={() =>
+					navigate(`/search?${SEARCH_TYPE_PROP}=${SEARCH_HOUSING}`)
+				}
+				{...props}
+			/>
 		),
 		(props = {}) => (
-			<MarketplaceBadge onClick={() => alert("Marketplace click")} {...props} />
+			<MarketplaceBadge
+				onClick={() =>
+					navigate(`/search?${SEARCH_TYPE_PROP}=${SEARCH_MARKETPLACE}`)
+				}
+				{...props}
+			/>
 		),
 	];
 

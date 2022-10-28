@@ -32,7 +32,7 @@ import {
 	PICTURE_LIST_PROP,
 	PICTURE_PROP,
 	SEARCH_DEAL,
-	SEARCH_POST,
+	SEARCH_SERVICE,
 	TITLE_PROP,
 	TOTAL_REVIEW_PROP,
 	UPDATED_ON_PROP,
@@ -132,7 +132,7 @@ function DealCard({ card = DEFAULT_CARD_INFO }) {
 							{image({
 								width: "100%",
 								style: {
-									height: screens.xs ? "13rem" : "20rem",
+									height: screens.xs ? "9rem" : "18rem",
 								},
 								src: img,
 							})}
@@ -218,7 +218,7 @@ function DealCard({ card = DEFAULT_CARD_INFO }) {
 		<Typography.Link
 			onClick={() =>
 				navigate(
-					`/${SEARCH_POST}/${SEARCH_DEAL}/${basicInfo?.[`${ID_PROP}`]}`,
+					`/${SEARCH_SERVICE}/${SEARCH_DEAL}/${basicInfo?.[`${ID_PROP}`]}`,
 					{
 						state: {
 							[`${CLOSE_URL}`]: location?.pathname + location?.search || "/",
@@ -302,7 +302,7 @@ function DealCard({ card = DEFAULT_CARD_INFO }) {
 		<Typography.Link
 			onClick={() =>
 				navigate(
-					`/${SEARCH_POST}/${SEARCH_DEAL}/${basicInfo?.[`${ID_PROP}`]}`,
+					`/${SEARCH_SERVICE}/${SEARCH_DEAL}/${basicInfo?.[`${ID_PROP}`]}`,
 					{
 						state: {
 							[`${CLOSE_URL}`]: location?.pathname + location?.search || "/",

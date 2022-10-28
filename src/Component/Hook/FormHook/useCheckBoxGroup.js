@@ -1,8 +1,8 @@
-import { Form, Input, Radio } from "antd";
+import { Checkbox, Col, Form, Input, Row } from "antd";
 import { useState } from "react";
 import { formatSentenseCase } from "../../../Util/Util";
 
-function useRadioGroup({
+function useCheckBoxGroup({
 	form = {},
 	itemProps: { rules = [], ...itemProps } = {},
 	options = [],
@@ -29,11 +29,8 @@ function useRadioGroup({
 					{
 						validator(_, value) {
 							setOther(
-								value === "Other" ||
-									formatSentenseCase(value) ===
-										formatSentenseCase(
-											form.getFieldValue(`${itemProps?.name}-Other`)
-										)
+								value.indexOf("Other") >= 0 ||
+									value.indexOf(formatSentenseCase(otherValue)) >= 0
 									? true
 									: false
 							);
@@ -44,19 +41,38 @@ function useRadioGroup({
 					...rules,
 				]}
 				{...(showLabel && {
-					label: `${itemProps?.label || "Email Address"} ${
+					label: `${itemProps?.label || "Field"} ${
 						required ? "" : "(Optional)"
 					}`,
 				})}
 			>
-				<Radio.Group>
-					{options.map((option, idx) => (
-						<Radio key={idx} value={option?.value}>
-							{option?.title}
-						</Radio>
-					))}
-					{withOther && <Radio value={otherValue}>Others</Radio>}
-				</Radio.Group>
+				<Checkbox.Group>
+					<Row justify="space-between">
+						{options.map((option, idx) => (
+							<Col key={idx}>
+								<Checkbox
+									value={option?.value}
+									style={{ lineHeight: "32px" }}
+									className="mx-1"
+								>
+									{option?.title}
+								</Checkbox>
+							</Col>
+						))}
+
+						{withOther && (
+							<Col>
+								<Checkbox
+									value={otherValue}
+									style={{ lineHeight: "32px" }}
+									className="mx-1"
+								>
+									Others
+								</Checkbox>
+							</Col>
+						)}
+					</Row>
+				</Checkbox.Group>
 			</Form.Item>
 			{withOther && other && (
 				<Form.Item
@@ -66,8 +82,19 @@ function useRadioGroup({
 						{ required: other, message: "Please enter value" },
 						{
 							validator(_, value) {
-								form.setFieldValue(itemProps?.name, formatSentenseCase(value));
+								const newValues = [...form.getFieldValue(itemProps?.name)].map(
+									(item) => {
+										return item === "Other" ||
+											item === formatSentenseCase(otherValue)
+											? formatSentenseCase(value)
+											: item;
+									}
+								);
+
 								setOtherValue(formatSentenseCase(value));
+
+								form.setFieldValue(itemProps?.name, newValues);
+
 								return Promise.resolve();
 							},
 						},
@@ -81,4 +108,4 @@ function useRadioGroup({
 	return app;
 }
 
-export default useRadioGroup;
+export default useCheckBoxGroup;

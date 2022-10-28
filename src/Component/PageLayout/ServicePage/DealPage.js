@@ -4,7 +4,6 @@ import Icon, {
 	LinkOutlined,
 	MailOutlined,
 	PhoneOutlined,
-	ThunderboltOutlined,
 	UserOutlined,
 } from "@ant-design/icons";
 import {
@@ -59,10 +58,10 @@ import {
 	PROFILE_TYPE_PROP,
 	PROFILE_USER_TYPE_PROP,
 	SEARCH_DEAL,
-	SEARCH_POST,
 	SEARCH_PROFILE,
 	SEARCH_QUESTION,
 	SEARCH_REVIEW,
+	SEARCH_SERVICE,
 	SEARCH_TYPE_PROP,
 	STATUS_PROP,
 	TITLE_PROP,
@@ -70,7 +69,7 @@ import {
 	UPDATED_ON_PROP,
 	WEBSITE_PROP,
 } from "../../../Util/ConstVar";
-import { formatSentenseCase, formatTime } from "../../../Util/Util";
+import { formatTime } from "../../../Util/Util";
 import useImage from "../../Hook/useImage";
 import useUrls from "../../Hook/useUrls";
 
@@ -227,23 +226,23 @@ function DealPage({ isOwner = false, service = {} }) {
 	);
 
 	const [searchParams] = useSearchParams();
-	const searchTypeParam = searchParams.get(SEARCH_TYPE_PROP) || SEARCH_POST;
+	const searchTypeParam = searchParams.get(SEARCH_TYPE_PROP) || SEARCH_SERVICE;
 
 	const [actionCall, setActionCall] = useState({
-		actionType: SEARCH_POST,
+		actionType: SEARCH_SERVICE,
 		searching: false,
 	});
 
 	const initSearch = useCallback(
 		async (
-			actionType = SEARCH_POST
+			actionType = SEARCH_SERVICE
 			// searchType = searchTypeParam,
 			// params = {}
 		) => {
 			// console.log(actionType);
 			setActionCall({
 				actionType: actionType,
-				searching: actionType === SEARCH_POST ? false : true,
+				searching: actionType === SEARCH_SERVICE ? false : true,
 			});
 
 			// onSearchHandle(actionType, searchType, params).then(() =>
@@ -259,7 +258,7 @@ function DealPage({ isOwner = false, service = {} }) {
 	const actionTitleOptions = [
 		{
 			label: "Details",
-			value: SEARCH_POST,
+			value: SEARCH_SERVICE,
 		},
 		{
 			label: "FAQ",
@@ -285,10 +284,13 @@ function DealPage({ isOwner = false, service = {} }) {
 
 	const descriptionData = [
 		{
-			label: <ThunderboltOutlined className="tedkvn-center" />,
+			label: image({
+				width: 14,
+				src: svgDealIcon,
+			}),
 			title: (
 				<Typography.Text
-					type="success"
+					className="c-primary"
 					style={{
 						width: "95%",
 					}}
@@ -296,12 +298,12 @@ function DealPage({ isOwner = false, service = {} }) {
 						tooltip: true,
 					}}
 				>
-					{formatSentenseCase(info?.[`${STATUS_PROP}`])} {DEAL_HEADLINE_PROP}
+					{DEAL_HEADLINE_PROP.toUpperCase()} SERVICE
 					{info?.[`${EXPIRED_ON_PROP}`] && (
-						<span className="text-secondary">
+						<small className="text-danger">
 							{" "}
 							- Expired at {info?.[`${EXPIRED_ON_PROP}`]}
-						</span>
+						</small>
 					)}
 				</Typography.Text>
 			),
@@ -356,12 +358,12 @@ function DealPage({ isOwner = false, service = {} }) {
 									forwardUrl(
 										FORWARD_CONTINUE,
 										"",
-										`/${EDIT_PROP}/${SEARCH_POST}/${SEARCH_DEAL}/${id}`,
-										`/${SEARCH_POST}/${SEARCH_DEAL}/${id}`
+										`/${EDIT_PROP}/${SEARCH_SERVICE}/${SEARCH_DEAL}/${id}`,
+										`/${SEARCH_SERVICE}/${SEARCH_DEAL}/${id}`
 									)
 								}
 							>
-								Edit Info
+								Edit Service
 							</Button>,
 					  ]
 					: []),
@@ -573,7 +575,7 @@ function DealPage({ isOwner = false, service = {} }) {
 	);
 
 	const action = {
-		[`${SEARCH_POST}`]: (
+		[`${SEARCH_SERVICE}`]: (
 			<>
 				{description}
 				{contactInformation}

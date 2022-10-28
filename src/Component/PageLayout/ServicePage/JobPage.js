@@ -38,12 +38,16 @@ import {
 	DEFAULT_JOB_INFO,
 	DEFAULT_POST_OWNER_INFO,
 	DESCRIPTION_PROP,
+	EDIT_PROP,
 	EMAIL_PROP,
 	EXPERIENCE_PROP,
+	EXPIRED_ON_PROP,
 	FORWARD_CLOSE,
 	FORWARD_CONTINUE,
 	ID_PROP,
 	INFO_PROP,
+	IS_REMOTE_PROP,
+	JOB_HEADLINE_PROP,
 	LAT_PROP,
 	LNG_PROP,
 	LOCATION_PROP,
@@ -56,12 +60,12 @@ import {
 	PROFILE_BUSINESS_TYPE_PROP,
 	PROFILE_TYPE_PROP,
 	PROFILE_USER_TYPE_PROP,
-	REMOTE_PROP,
 	SALARY_PROP,
-	SEARCH_POST,
+	SEARCH_JOB,
 	SEARCH_PROFILE,
 	SEARCH_QUESTION,
 	SEARCH_REVIEW,
+	SEARCH_SERVICE,
 	SEARCH_TYPE_PROP,
 	SKILL_PROP,
 	STATUS_PROP,
@@ -226,23 +230,23 @@ function JobPage({ isOwner = false, service = {} }) {
 	);
 
 	const [searchParams] = useSearchParams();
-	const searchTypeParam = searchParams.get(SEARCH_TYPE_PROP) || SEARCH_POST;
+	const searchTypeParam = searchParams.get(SEARCH_TYPE_PROP) || SEARCH_SERVICE;
 
 	const [actionCall, setActionCall] = useState({
-		actionType: SEARCH_POST,
+		actionType: SEARCH_SERVICE,
 		searching: false,
 	});
 
 	const initSearch = useCallback(
 		async (
-			actionType = SEARCH_POST
+			actionType = SEARCH_SERVICE
 			// searchType = searchTypeParam,
 			// params = {}
 		) => {
 			// console.log(actionType);
 			setActionCall({
 				actionType: actionType,
-				searching: actionType === SEARCH_POST ? false : true,
+				searching: actionType === SEARCH_SERVICE ? false : true,
 			});
 
 			// onSearchHandle(actionType, searchType, params).then(() =>
@@ -258,7 +262,7 @@ function JobPage({ isOwner = false, service = {} }) {
 	const actionTitleOptions = [
 		{
 			label: "Details",
-			value: SEARCH_POST,
+			value: SEARCH_SERVICE,
 		},
 		{
 			label: "FAQ",
@@ -284,6 +288,31 @@ function JobPage({ isOwner = false, service = {} }) {
 
 	const descriptionData = [
 		{
+			label: image({
+				width: 18,
+				src: svgJobIcon,
+			}),
+			title: (
+				<Typography.Text
+					className="c-job"
+					style={{
+						width: "95%",
+					}}
+					ellipsis={{
+						tooltip: true,
+					}}
+				>
+					{JOB_HEADLINE_PROP.toUpperCase()} SERVICE
+					{info?.[`${EXPIRED_ON_PROP}`] && (
+						<small className="text-danger">
+							{" "}
+							- Expired at {info?.[`${EXPIRED_ON_PROP}`]}
+						</small>
+					)}
+				</Typography.Text>
+			),
+		},
+		{
 			label: (
 				<Space size={5}>
 					<ThunderboltOutlined />
@@ -307,7 +336,7 @@ function JobPage({ isOwner = false, service = {} }) {
 				  }
 				: {}),
 		},
-		...(info?.[`${REMOTE_PROP}}`]
+		...(info?.[`${IS_REMOTE_PROP}`]
 			? [
 					{
 						label: <AimOutlined />,
@@ -401,17 +430,16 @@ function JobPage({ isOwner = false, service = {} }) {
 								shape="round"
 								{...(screens.xs && { size: "small" })}
 								key={id}
-								onClick={
-									() => alert("edit deal")
-									// forwardUrl(
-									// 	FORWARD_SUCCESS,
-									// 	`/${SEARCH_PROFILE}/${id}`,
-									// 	"",
-									// 	`/edit-profile/${id}`
-									// )
+								onClick={() =>
+									forwardUrl(
+										FORWARD_CONTINUE,
+										"",
+										`/${EDIT_PROP}/${SEARCH_SERVICE}/${SEARCH_JOB}/${id}`,
+										`/${SEARCH_SERVICE}/${SEARCH_JOB}/${id}`
+									)
 								}
 							>
-								Edit Info
+								Edit Service
 							</Button>,
 					  ]
 					: []),
@@ -623,7 +651,7 @@ function JobPage({ isOwner = false, service = {} }) {
 	);
 
 	const action = {
-		[`${SEARCH_POST}`]: (
+		[`${SEARCH_SERVICE}`]: (
 			<>
 				{description}
 				{contactInformation}

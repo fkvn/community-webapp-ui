@@ -63,8 +63,10 @@ import {
 	DEPOSIT_COST_PROP,
 	DESCRIPTION_PROP,
 	EMAIL_PROP,
+	EXPIRED_ON_PROP,
 	FORWARD_CLOSE,
 	FORWARD_CONTINUE,
+	HOUSING_HEADLINE_PROP,
 	HOUSING_TYPE_PROP,
 	ID_PROP,
 	INFO_PROP,
@@ -85,10 +87,10 @@ import {
 	PROFILE_BUSINESS_TYPE_PROP,
 	PROFILE_TYPE_PROP,
 	PROFILE_USER_TYPE_PROP,
-	SEARCH_POST,
 	SEARCH_PROFILE,
 	SEARCH_QUESTION,
 	SEARCH_REVIEW,
+	SEARCH_SERVICE,
 	SEARCH_TYPE_PROP,
 	STATUS_PROP,
 	TITLE_PROP,
@@ -126,8 +128,6 @@ function HousingPage({ isOwner = false, service = {} }) {
 			title="Back"
 		/>
 	);
-
-	console.log(info);
 
 	const [visible, setVisible] = useState({
 		value: false,
@@ -254,23 +254,23 @@ function HousingPage({ isOwner = false, service = {} }) {
 	);
 
 	const [searchParams] = useSearchParams();
-	const searchTypeParam = searchParams.get(SEARCH_TYPE_PROP) || SEARCH_POST;
+	const searchTypeParam = searchParams.get(SEARCH_TYPE_PROP) || SEARCH_SERVICE;
 
 	const [actionCall, setActionCall] = useState({
-		actionType: SEARCH_POST,
+		actionType: SEARCH_SERVICE,
 		searching: false,
 	});
 
 	const initSearch = useCallback(
 		async (
-			actionType = SEARCH_POST
+			actionType = SEARCH_SERVICE
 			// searchType = searchTypeParam,
 			// params = {}
 		) => {
 			// console.log(actionType);
 			setActionCall({
 				actionType: actionType,
-				searching: actionType === SEARCH_POST ? false : true,
+				searching: actionType === SEARCH_SERVICE ? false : true,
 			});
 
 			// onSearchHandle(actionType, searchType, params).then(() =>
@@ -286,7 +286,7 @@ function HousingPage({ isOwner = false, service = {} }) {
 	const actionTitleOptions = [
 		{
 			label: "Details",
-			value: SEARCH_POST,
+			value: SEARCH_SERVICE,
 		},
 		{
 			label: "FAQ",
@@ -311,6 +311,31 @@ function HousingPage({ isOwner = false, service = {} }) {
 	);
 
 	const descriptionData = [
+		{
+			label: image({
+				width: 20,
+				src: svgHousingIcon,
+			}),
+			title: (
+				<Typography.Text
+					className="c-housing"
+					style={{
+						width: "95%",
+					}}
+					ellipsis={{
+						tooltip: true,
+					}}
+				>
+					{HOUSING_HEADLINE_PROP.toUpperCase()} SERVICE
+					{info?.[`${EXPIRED_ON_PROP}`] && (
+						<small className="text-secondary">
+							{" "}
+							- Expired at {info?.[`${EXPIRED_ON_PROP}`]}
+						</small>
+					)}
+				</Typography.Text>
+			),
+		},
 		{
 			label: <ThunderboltOutlined />,
 			...(info?.[`${CATEGORY_PROP}`]
@@ -475,7 +500,7 @@ function HousingPage({ isOwner = false, service = {} }) {
 									// )
 								}
 							>
-								Edit Info
+								Edit Service
 							</Button>,
 					  ]
 					: []),
@@ -762,7 +787,7 @@ function HousingPage({ isOwner = false, service = {} }) {
 	);
 
 	const action = {
-		[`${SEARCH_POST}`]: (
+		[`${SEARCH_SERVICE}`]: (
 			<>
 				{description}
 				{amenities}
