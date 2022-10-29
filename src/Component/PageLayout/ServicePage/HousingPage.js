@@ -62,6 +62,7 @@ import {
 	DEFAULT_POST_OWNER_INFO,
 	DEPOSIT_COST_PROP,
 	DESCRIPTION_PROP,
+	EDIT_PROP,
 	EMAIL_PROP,
 	EXPIRED_ON_PROP,
 	FORWARD_CLOSE,
@@ -87,6 +88,7 @@ import {
 	PROFILE_BUSINESS_TYPE_PROP,
 	PROFILE_TYPE_PROP,
 	PROFILE_USER_TYPE_PROP,
+	SEARCH_HOUSING,
 	SEARCH_PROFILE,
 	SEARCH_QUESTION,
 	SEARCH_REVIEW,
@@ -98,7 +100,7 @@ import {
 	UPDATED_ON_PROP,
 	WEBSITE_PROP,
 } from "../../../Util/ConstVar";
-import { formatTime } from "../../../Util/Util";
+import { formatPrice, formatTime } from "../../../Util/Util";
 import useImage from "../../Hook/useImage";
 import useUrls from "../../Hook/useUrls";
 
@@ -400,7 +402,7 @@ function HousingPage({ isOwner = false, service = {} }) {
 				? {
 						title: (
 							<Typography.Link ellipsis>
-								${info?.[`${DAILY_COST_PROP}`]}
+								${formatPrice(info?.[`${DAILY_COST_PROP}`])}
 							</Typography.Link>
 						),
 				  }
@@ -417,7 +419,7 @@ function HousingPage({ isOwner = false, service = {} }) {
 				? {
 						title: (
 							<Typography.Link ellipsis>
-								${info?.[`${MONTHLY_COST_PROP}`]}
+								${formatPrice(info?.[`${MONTHLY_COST_PROP}`])}
 							</Typography.Link>
 						),
 				  }
@@ -434,7 +436,7 @@ function HousingPage({ isOwner = false, service = {} }) {
 				? {
 						title: (
 							<Typography.Link ellipsis>
-								${info?.[`${ANNUAL_COST_PROP}`]}
+								${formatPrice(info?.[`${ANNUAL_COST_PROP}`])}
 							</Typography.Link>
 						),
 				  }
@@ -451,7 +453,7 @@ function HousingPage({ isOwner = false, service = {} }) {
 				? {
 						title: (
 							<Typography.Link ellipsis>
-								${info?.[`${DEPOSIT_COST_PROP}`]}
+								${formatPrice(info?.[`${DEPOSIT_COST_PROP}`])}
 							</Typography.Link>
 						),
 				  }
@@ -490,14 +492,13 @@ function HousingPage({ isOwner = false, service = {} }) {
 								shape="round"
 								{...(screens.xs && { size: "small" })}
 								key={id}
-								onClick={
-									() => alert("edit deal")
-									// forwardUrl(
-									// 	FORWARD_SUCCESS,
-									// 	`/${SEARCH_PROFILE}/${id}`,
-									// 	"",
-									// 	`/edit-profile/${id}`
-									// )
+								onClick={() =>
+									forwardUrl(
+										FORWARD_CONTINUE,
+										"",
+										`/${EDIT_PROP}/${SEARCH_SERVICE}/${SEARCH_HOUSING}/${id}`,
+										`/${SEARCH_SERVICE}/${SEARCH_HOUSING}/${id}`
+									)
 								}
 							>
 								Edit Service
@@ -557,29 +558,6 @@ function HousingPage({ isOwner = false, service = {} }) {
 			colon={false}
 			className="mt-4"
 			title="Available Amenities"
-			extra={[
-				...(isOwner
-					? [
-							<Button
-								type="primary"
-								shape="round"
-								{...(screens.xs && { size: "small" })}
-								key={id}
-								onClick={
-									() => alert("edit deal")
-									// forwardUrl(
-									// 	FORWARD_SUCCESS,
-									// 	`/${SEARCH_PROFILE}/${id}`,
-									// 	"",
-									// 	`/edit-profile/${id}`
-									// )
-								}
-							>
-								Edit Info
-							</Button>,
-					  ]
-					: []),
-			]}
 		>
 			{amenitiesData.map((item, idx) => (
 				<Descriptions.Item

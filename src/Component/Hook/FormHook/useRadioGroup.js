@@ -6,12 +6,14 @@ function useRadioGroup({
 	form = {},
 	itemProps: { rules = [], ...itemProps } = {},
 	options = [],
+	otherDefault = true,
 	withOther = false,
+	otherPlaceholder = "",
 	required = true,
 	requiredMessage = "Must choose",
 	showLabel = true,
 } = {}) {
-	const [other, setOther] = useState(false);
+	const [other, setOther] = useState(otherDefault);
 
 	const [otherValue, setOtherValue] = useState(
 		formatSentenseCase(form.getFieldValue(`${itemProps?.name}-Other`)) ||
@@ -73,7 +75,7 @@ function useRadioGroup({
 						},
 					]}
 				>
-					<Input />
+					<Input placeholder={otherPlaceholder} />
 				</Form.Item>
 			)}
 		</>

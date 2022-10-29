@@ -7,8 +7,8 @@ import { errorMessage, loadingMessage } from "../../Component/Hook/useMessage";
 import usePost from "../../Component/Hook/usePost";
 import useUrls from "../../Component/Hook/useUrls";
 import EditDeal from "../../Component/PageLayout/EditService/EditDeal";
+import EditHousing from "../../Component/PageLayout/EditService/EditHousing";
 import EditJob from "../../Component/PageLayout/EditService/EditJob";
-import HousingPage from "../../Component/PageLayout/ServicePage/HousingPage";
 import MarketplacePage from "../../Component/PageLayout/ServicePage/MarketplacePage";
 import SkeletonCard from "../../Component/Skeleton/SkeletonCard";
 import { thainowReducer } from "../../redux-store/reducer/thainowReducer";
@@ -72,7 +72,7 @@ function EditServiceContainer() {
 			case SEARCH_JOB:
 				return <EditJob {...props} />;
 			case SEARCH_HOUSING:
-				return <HousingPage {...props} />;
+				return <EditHousing {...props} />;
 			case SEARCH_MARKETPLACE:
 				return <MarketplacePage {...props} />;
 			default:

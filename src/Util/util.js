@@ -383,3 +383,11 @@ export const formatSentenseCase = (text = "") => {
 		return text;
 	}
 };
+
+export const formatPrice = (value = "") => {
+	try {
+		return `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+	} catch (error) {
+		return value;
+	}
+};

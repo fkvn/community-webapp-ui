@@ -250,4 +250,18 @@ export const patchJobAxios = (id = -1, info = {}) =>
 		.then(() => Promise.resolve())
 		.catch((e) => Promise.reject(e));
 
+// housing service
+
+export const createHousingAxios = (info = {}) =>
+	axios
+		.post(`/${SEARCH_SERVICE}/${SEARCH_HOUSING}`, info)
+		.then(({ data }) => Promise.resolve(data))
+		.catch((e) => Promise.reject(e));
+
+export const patchHousingAxios = (id = -1, info = {}) =>
+	axios
+		.patch(`/${SEARCH_SERVICE}/${SEARCH_HOUSING}/${id}`, info)
+		.then(() => Promise.resolve())
+		.catch((e) => Promise.reject(e));
+
 controller.abort();
