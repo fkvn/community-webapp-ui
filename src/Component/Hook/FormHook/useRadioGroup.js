@@ -6,7 +6,7 @@ function useRadioGroup({
 	form = {},
 	itemProps: { rules = [], ...itemProps } = {},
 	options = [],
-	otherDefault = true,
+	otherDefault = false,
 	withOther = false,
 	otherPlaceholder = "",
 	required = true,

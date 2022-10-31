@@ -163,7 +163,11 @@ function EditDeal({ service = {}, editing = false, ownerId = null }) {
 			<Divider className="m-0">
 				<Checkbox
 					checked={moreInfor}
-					onChange={(e) => setMoreInfor(e.target.checked)}
+					onChange={(e) => {
+						setUpdating(true);
+						setMoreInfor(e.target.checked);
+					}}
+					disabled={editing}
 				>
 					More Information
 				</Checkbox>

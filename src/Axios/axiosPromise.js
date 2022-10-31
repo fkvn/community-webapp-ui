@@ -222,6 +222,12 @@ export const findServiceAxios = (id = null, ownerId = null, type = "") =>
 		.then(({ data }) => Promise.resolve(data))
 		.catch((e) => Promise.reject(e));
 
+export const removeServiceAxios = (id = null, ownerId = null) =>
+	axios
+		.delete(`/${SEARCH_SERVICE}/${id}?profileId=${ownerId}`)
+		.then(() => Promise.resolve())
+		.catch((e) => Promise.reject(e));
+
 // deal service
 
 export const createDealAxios = (info = {}) =>
@@ -261,6 +267,20 @@ export const createHousingAxios = (info = {}) =>
 export const patchHousingAxios = (id = -1, info = {}) =>
 	axios
 		.patch(`/${SEARCH_SERVICE}/${SEARCH_HOUSING}/${id}`, info)
+		.then(() => Promise.resolve())
+		.catch((e) => Promise.reject(e));
+
+// marketplace service
+
+export const createMarketplaceAxios = (info = {}) =>
+	axios
+		.post(`/${SEARCH_SERVICE}/${SEARCH_MARKETPLACE}`, info)
+		.then(({ data }) => Promise.resolve(data))
+		.catch((e) => Promise.reject(e));
+
+export const patchMarketplaceAxios = (id = -1, info = {}) =>
+	axios
+		.patch(`/${SEARCH_SERVICE}/${SEARCH_MARKETPLACE}/${id}`, info)
 		.then(() => Promise.resolve())
 		.catch((e) => Promise.reject(e));
 

@@ -1,6 +1,8 @@
 import Icon, {
 	AimOutlined,
+	DeleteFilled,
 	DoubleRightOutlined,
+	EditFilled,
 	LinkOutlined,
 	MailOutlined,
 	PhoneOutlined,
@@ -77,6 +79,7 @@ import {
 import { formatSentenseCase, formatTime } from "../../../Util/Util";
 import useImage from "../../Hook/useImage";
 import useUrls from "../../Hook/useUrls";
+import RemoveService from "../EditService/RemoveService";
 
 function JobPage({ isOwner = false, service = {} }) {
 	const { forwardUrl } = useUrls();
@@ -425,22 +428,35 @@ function JobPage({ isOwner = false, service = {} }) {
 			extra={[
 				...(isOwner
 					? [
-							<Button
-								type="primary"
-								shape="round"
-								{...(screens.xs && { size: "small" })}
-								key={id}
-								onClick={() =>
-									forwardUrl(
-										FORWARD_CONTINUE,
-										"",
-										`/${EDIT_PROP}/${SEARCH_SERVICE}/${SEARCH_JOB}/${id}`,
-										`/${SEARCH_SERVICE}/${SEARCH_JOB}/${id}`
-									)
-								}
-							>
-								Edit Service
-							</Button>,
+							<Space key={id}>
+								<Button
+									type="primary"
+									shape="round"
+									{...(screens.xs && { size: "small" })}
+									onClick={() =>
+										forwardUrl(
+											FORWARD_CONTINUE,
+											"",
+											`/${EDIT_PROP}/${SEARCH_SERVICE}/${SEARCH_JOB}/${id}`,
+											`/${SEARCH_SERVICE}/${SEARCH_JOB}/${id}`
+										)
+									}
+								>
+									<EditFilled />
+								</Button>
+								<RemoveService
+									ownerId={postOwner?.[`${ID_PROP}`]}
+									serviceId={id}
+								>
+									<Button
+										type="danger"
+										shape="round"
+										{...(screens.xs && { size: "small" })}
+									>
+										<DeleteFilled />
+									</Button>
+								</RemoveService>
+							</Space>,
 					  ]
 					: []),
 			]}

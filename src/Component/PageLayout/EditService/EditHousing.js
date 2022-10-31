@@ -14,6 +14,7 @@ import moment from "moment";
 import { useState } from "react";
 import {
 	svgAcIconBlack,
+	svgCookingIconBlack,
 	svgDryerIconBlack,
 	svgMicrowaveIconBlack,
 	svgPetAllowedIconBlack,
@@ -28,7 +29,7 @@ import {
 	CONTACT_INFO_PROP,
 	DAILY_COST_PROP,
 	DATE_PROP,
-	DEFAULT_DEAL_INFO,
+	DEFAULT_HOUSING_INFO,
 	DEPOSIT_COST_PROP,
 	EMAIL_PROP,
 	EXPIRED_ON_PROP,
@@ -70,7 +71,7 @@ function EditHousing({ service = {}, editing = false, ownerId = null }) {
 		[`${INFO_PROP}`]: { [`${PICTURE_LIST_PROP}`]: pictureList = [], ...info },
 	} = {
 		...service,
-		[`${INFO_PROP}`]: { ...DEFAULT_DEAL_INFO, ...service?.[`${INFO_PROP}`] },
+		[`${INFO_PROP}`]: { ...DEFAULT_HOUSING_INFO, ...service?.[`${INFO_PROP}`] },
 	};
 
 	const [moreInfor, setMoreInfor] = useState(editing);
@@ -314,6 +315,7 @@ function EditHousing({ service = {}, editing = false, ownerId = null }) {
 		"Air Conditioner",
 		"Washer",
 		"Dryer",
+		"Cooking Basic",
 		"Refrigerator",
 		"Microwave",
 		"Pet Allowed",
@@ -344,6 +346,11 @@ function EditHousing({ service = {}, editing = false, ownerId = null }) {
 			title: "Refrigerator",
 			icon: svgRefrigeratorIconBlack,
 			height: "1.2rem",
+		},
+		{
+			title: "Cooking Basic",
+			icon: svgCookingIconBlack,
+			height: "1rem",
 		},
 		{
 			title: "Microwave",

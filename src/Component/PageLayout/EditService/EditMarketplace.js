@@ -12,33 +12,30 @@ import { useForm } from "antd/lib/form/Form";
 import moment from "moment";
 import { useState } from "react";
 import {
+	CATEGORY_PROP,
+	CONDITION_PROP,
 	CONTACT_INFO_PROP,
+	COST_PROP,
 	DATE_PROP,
-	DEFAULT_JOB_INFO,
+	DEFAULT_MARKETPLACE_INFO,
 	EMAIL_PROP,
-	EXPERIENCE_PROP,
 	EXPIRED_ON_PROP,
 	ID_PROP,
 	INFO_PROP,
 	IS_EMAIL_PUBLIC_PROP,
 	IS_PHONE_PUBLIC_PROP,
-	IS_REMOTE_PROP,
 	IS_WEBSITE_PUBLIC_PROP,
 	LOCATION_OBJ,
 	LOCATION_PROP,
 	PHONE_PROP,
 	PICTURE_LIST_PROP,
-	POSITION_LIST_PROP,
-	SALARY_PROP,
-	SKILL_PROP,
 	TITLE_PROP,
 	WEBSITE_PROP,
 } from "../../../Util/ConstVar";
 import useAddress from "../../Hook/FormHook/useAddress";
-import useCheckBox from "../../Hook/FormHook/useCheckBox";
-import useCheckBoxGroup from "../../Hook/FormHook/useCheckBoxGroup";
 import useContactInfo from "../../Hook/FormHook/useContactInfo";
 import useDatePicker from "../../Hook/FormHook/useDatePicker";
+import useNumber from "../../Hook/FormHook/useNumber";
 import usePictureWall from "../../Hook/FormHook/UsePictureWall";
 import usePostStatus from "../../Hook/FormHook/usePostStatus";
 import useRadioGroup from "../../Hook/FormHook/useRadioGroup";
@@ -46,29 +43,32 @@ import useTextarea from "../../Hook/FormHook/useTextarea";
 import useUsername from "../../Hook/FormHook/useUsername";
 import usePost from "../../Hook/usePost";
 
-function EditJob({ service = {}, editing = false, ownerId = null }) {
+function EditMarketplace({ service = {}, editing = false, ownerId = null }) {
 	const [form] = useForm();
 	const {
 		[`${ID_PROP}`]: id = -1,
 		[`${INFO_PROP}`]: { [`${PICTURE_LIST_PROP}`]: pictureList = [], ...info },
 	} = {
 		...service,
-		[`${INFO_PROP}`]: { ...DEFAULT_JOB_INFO, ...service?.[`${INFO_PROP}`] },
+		[`${INFO_PROP}`]: {
+			...DEFAULT_MARKETPLACE_INFO,
+			...service?.[`${INFO_PROP}`],
+		},
 	};
 
 	const [moreInfor, setMoreInfor] = useState(editing);
 	const [updating, setUpdating] = useState(false);
 
-	const { updateJob, createJob } = usePost();
+	const { updateMarketplace, createMarketplace } = usePost();
 
 	const header = (
 		<Row justify="center" className="text-center">
 			<Col>
-				<Typography.Title level={1} className="c-job-important">
-					Job Hiring Service
+				<Typography.Title level={1} className="c-marketplace-important">
+					Product Marketplace For Sell or Trade
 				</Typography.Title>
 				{editing && (
-					<Typography.Title level={5} type="danger">
+					<Typography.Title level={5} className="c-primary-important">
 						Please review carefully and click "Save and Update" after updating
 						the service information
 					</Typography.Title>
@@ -80,33 +80,26 @@ function EditJob({ service = {}, editing = false, ownerId = null }) {
 	const title = useUsername({
 		itemProps: {
 			name: TITLE_PROP,
-			label: "Job Title",
+			label: "Product Title ",
 		},
 		inputProps: {
-			placeholder: "E.g. Graphic Designer",
+			placeholder: "E.g. Used car, good condition macbook pro",
 		},
 	});
 
 	const address = useAddress({
 		itemProps: {
-			label: "Job Area / Post Area?",
+			label: "Sell or Trade Area / Post Area?",
 			labelCol: { span: 24 },
 		},
 		inputProps: { prefix: "" },
 		defaultLocation: editing ? info?.[`${LOCATION_PROP}`] || {} : {},
 	});
 
-	const remoteOption = useCheckBox({
-		itemProps: {
-			name: IS_REMOTE_PROP,
-		},
-		title: "Remote work available",
-	});
-
 	const coverPictures = usePictureWall({
 		form: form,
 		itemProps: {
-			label: "Upload job or service photos",
+			label: "Upload product’s photos",
 			labelCol: { span: 24 },
 		},
 		required: true,
@@ -124,99 +117,97 @@ function EditJob({ service = {}, editing = false, ownerId = null }) {
 
 	const description = useTextarea({
 		itemProps: {
-			label: "Position Description",
+			label: "Product Description",
 			labelCol: { span: 24 },
 		},
 		inputProps: {
-			placeholder: "Give your candidates more information about this job",
+			placeholder: "Give people more information about this place",
 		},
 	});
 
-	const positions = useCheckBoxGroup({
+	const condition = useRadioGroup({
 		form: form,
 		options: [
 			{
-				value: "Full-time",
-				title: "Full-time",
+				value: "New",
+				title: "New",
 			},
 			{
-				value: "Part-time",
-				title: "Part-time",
+				value: "Liked New",
+				title: "Liked New",
 			},
 			{
-				value: "Internship",
-				title: "Internship",
-			},
-			{
-				value: "Seasonal",
-				title: "Seasonal",
-			},
-			{
-				value: "Freelance",
-				title: "Freelance",
-			},
-			{
-				value: "Volunteer",
-				title: "Volunteer",
+				value: "Used",
+				title: "Used",
 			},
 		],
 		itemProps: {
-			name: POSITION_LIST_PROP,
-			label: "Job Postion",
+			name: CONDITION_PROP,
+			label: "Product Condition",
 			labelCol: { span: 24 },
 		},
+		otherDefault:
+			["New", "Liked New", "Used"].indexOf(info?.[`${CONDITION_PROP}`]) < 0
+				? true
+				: false,
 		required: false,
 		withOther: true,
 	});
 
-	const experience = useRadioGroup({
+	const category = useRadioGroup({
 		form: form,
 		options: [
 			{
-				value: "No experience",
-				title: "No experience",
+				value: "Electronics",
+				title: "Electronics",
 			},
 			{
-				value: "1-2 years",
-				title: "1-2 years",
+				value: "Clothing and Accessories",
+				title: "Clothing and Accessories",
 			},
 			{
-				value: "3-5 years",
-				title: "3-5 years",
+				value: "Phone & Computer",
+				title: "Phone & Computer",
 			},
 			{
-				value: "+5 years",
-				title: "+5 years",
+				value: "Classifieds",
+				title: "Classifieds",
+			},
+			{
+				value: "Vehicles",
+				title: "Vehicles",
+			},
+			{
+				value: "Home and Garden",
+				title: "Home and Garden",
 			},
 		],
 		itemProps: {
-			name: EXPERIENCE_PROP,
-			label: "Job Experience",
+			name: CATEGORY_PROP,
+			label: "Product Category ",
 			labelCol: { span: 24 },
 		},
+		otherDefault:
+			[
+				"Electronics",
+				"Clothing and Accessories",
+				"Phone & Computer",
+				"Classifieds",
+				"Vehicles",
+				"Home and Garden",
+			].indexOf(info?.[`${CATEGORY_PROP}`]) < 0
+				? true
+				: false,
 		required: false,
+		withOther: true,
+		otherPlaceholder: "E.g. Family, Education, Book, E-Book",
 	});
 
-	const salary = useUsername({
+	const cost = useNumber({
 		itemProps: {
-			name: SALARY_PROP,
-			label: "Job Salary",
+			name: COST_PROP,
+			label: "Product Cost Starts",
 		},
-		inputProps: {
-			placeholder: "E.g. $16 per hour, minimum wage",
-		},
-		required: false,
-	});
-
-	const skills = useUsername({
-		itemProps: {
-			name: SKILL_PROP,
-			label: "Job Skills",
-		},
-		inputProps: {
-			placeholder: "E.g. Self-learning, Good memory, Customer service",
-		},
-		required: false,
 	});
 
 	const expiredOn = useDatePicker({
@@ -245,10 +236,9 @@ function EditJob({ service = {}, editing = false, ownerId = null }) {
 			</Divider>
 			{moreInfor && (
 				<>
-					{positions}
-					{experience}
-					{salary}
-					{skills}
+					{condition}
+					{cost}
+					{category}
 					{expiredOn}
 					{description}
 				</>
@@ -275,17 +265,22 @@ function EditJob({ service = {}, editing = false, ownerId = null }) {
 	};
 
 	const submitHandle = () => {
-		const info = {
+		const submitInfo = {
 			...form.getFieldsValue(),
 			...form.getFieldValue(LOCATION_OBJ),
-			[`${EXPIRED_ON_PROP}`]: form.getFieldValue(DATE_PROP)?.toDate(),
+			[`${EXPIRED_ON_PROP}`]: form.getFieldValue(DATE_PROP)
+				? form.getFieldValue(DATE_PROP).toDate()
+				: null,
 			[`${CONTACT_INFO_PROP}`]: fetchContactInfo(),
 		};
 
 		form
 			.validateFields()
-			.then(() =>
-				editing ? updateJob(id, ownerId, info) : createJob(ownerId, info)
+			.then(
+				// () => console.log(submitInfo)
+				editing
+					? updateMarketplace(id, ownerId, submitInfo)
+					: createMarketplace(ownerId, submitInfo)
 			)
 			.catch((e) => console.log(e))
 			.finally(() => setUpdating(false));
@@ -301,6 +296,18 @@ function EditJob({ service = {}, editing = false, ownerId = null }) {
 					[`${DATE_PROP}`]: info?.[`${EXPIRED_ON_PROP}`]
 						? moment(new Date(info?.[`${EXPIRED_ON_PROP}`]))
 						: "",
+					...(["Apartment", "Room", "House", "Condo"].indexOf(
+						info?.[`${CATEGORY_PROP}`]
+					) < 0 && {
+						[`${CATEGORY_PROP}`]: "Other",
+						[`${CATEGORY_PROP}-Other`]: info?.[`${CATEGORY_PROP}`] || "",
+					}),
+					...(["New", "Liked New", "Used"].indexOf(
+						info?.[`${CONDITION_PROP}`]
+					) < 0 && {
+						[`${CONDITION_PROP}`]: "Other",
+						[`${CONDITION_PROP}-Other`]: info?.[`${CONDITION_PROP}`] || "",
+					}),
 				},
 			})}
 			onFinish={submitHandle}
@@ -309,7 +316,6 @@ function EditJob({ service = {}, editing = false, ownerId = null }) {
 			<Space size={15} direction="vertical" className="w-100 my-2 my-xl-4 ">
 				{title}
 				{address}
-				{remoteOption}
 				{coverPictures}
 				{contactInfo}
 				{status}
@@ -345,4 +351,4 @@ function EditJob({ service = {}, editing = false, ownerId = null }) {
 	return app;
 }
 
-export default EditJob;
+export default EditMarketplace;

@@ -1,6 +1,8 @@
 import Icon, {
 	AimOutlined,
+	DeleteFilled,
 	DoubleRightOutlined,
+	EditFilled,
 	LinkOutlined,
 	MailOutlined,
 	PhoneOutlined,
@@ -41,6 +43,7 @@ import {
 	DEFAULT_MARKETPLACE_INFO,
 	DEFAULT_POST_OWNER_INFO,
 	DESCRIPTION_PROP,
+	EDIT_PROP,
 	EMAIL_PROP,
 	EXPIRED_ON_PROP,
 	FORWARD_CLOSE,
@@ -59,6 +62,7 @@ import {
 	PROFILE_BUSINESS_TYPE_PROP,
 	PROFILE_TYPE_PROP,
 	PROFILE_USER_TYPE_PROP,
+	SEARCH_MARKETPLACE,
 	SEARCH_PROFILE,
 	SEARCH_QUESTION,
 	SEARCH_REVIEW,
@@ -73,6 +77,7 @@ import {
 import { formatTime } from "../../../Util/Util";
 import useImage from "../../Hook/useImage";
 import useUrls from "../../Hook/useUrls";
+import RemoveService from "../EditService/RemoveService";
 
 function MarketplacePage({ isOwner = false, service = {} }) {
 	const { forwardUrl } = useUrls();
@@ -375,23 +380,23 @@ function MarketplacePage({ isOwner = false, service = {} }) {
 				: {}),
 			span: info?.[`${DESCRIPTION_PROP}`] ? 2 : 1,
 		},
-		...(info?.[`${DESCRIPTION_PROP}`]
-			? [
-					{
-						label: (
-							<Space size={5}>
-								<DoubleRightOutlined />
-								<span className="px-1">Description:</span>
-							</Space>
-						),
+		{
+			label: (
+				<Space size={5}>
+					<DoubleRightOutlined />
+					<span className="px-1">Description:</span>
+				</Space>
+			),
+			...(info?.[`${DESCRIPTION_PROP}`]
+				? {
 						title: (
 							<Typography.Paragraph italic>
 								{info?.[`${DESCRIPTION_PROP}`]}
 							</Typography.Paragraph>
 						),
-					},
-			  ]
-			: []),
+				  }
+				: {}),
+		},
 	];
 
 	const description = (
@@ -403,23 +408,35 @@ function MarketplacePage({ isOwner = false, service = {} }) {
 			extra={[
 				...(isOwner
 					? [
-							<Button
-								type="primary"
-								shape="round"
-								{...(screens.xs && { size: "small" })}
-								key={id}
-								onClick={
-									() => alert("edit deal")
-									// forwardUrl(
-									// 	FORWARD_SUCCESS,
-									// 	`/${SEARCH_PROFILE}/${id}`,
-									// 	"",
-									// 	`/edit-profile/${id}`
-									// )
-								}
-							>
-								Edit Service
-							</Button>,
+							<Space key={id}>
+								<Button
+									type="primary"
+									shape="round"
+									{...(screens.xs && { size: "small" })}
+									onClick={() =>
+										forwardUrl(
+											FORWARD_CONTINUE,
+											"",
+											`/${EDIT_PROP}/${SEARCH_SERVICE}/${SEARCH_MARKETPLACE}/${id}`,
+											`/${SEARCH_SERVICE}/${SEARCH_MARKETPLACE}/${id}`
+										)
+									}
+								>
+									<EditFilled />
+								</Button>
+								<RemoveService
+									ownerId={postOwner?.[`${ID_PROP}`]}
+									serviceId={id}
+								>
+									<Button
+										type="danger"
+										shape="round"
+										{...(screens.xs && { size: "small" })}
+									>
+										<DeleteFilled />
+									</Button>
+								</RemoveService>
+							</Space>,
 					  ]
 					: []),
 			]}

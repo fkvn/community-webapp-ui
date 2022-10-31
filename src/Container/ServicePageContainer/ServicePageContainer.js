@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
+import { errorMessage } from "../../Component/Hook/useMessage";
 import usePost from "../../Component/Hook/usePost";
 import useUrls from "../../Component/Hook/useUrls";
 import DealPage from "../../Component/PageLayout/ServicePage/DealPage";
@@ -17,6 +18,7 @@ import {
 	JOB_POST_TYPE_PROP,
 	MARKETPLACE_POST_TYPE_PROP,
 	POST_OWNER_PROP,
+	POST_TYPE_PROP,
 	PROFILE_OBJ,
 	SEARCH_DEAL,
 	SEARCH_HOUSING,
@@ -73,9 +75,11 @@ function ServicePageContainer() {
 			top: 0,
 			behavior: "smooth",
 		});
-		findPost(requestId, ownerId, fetchServiceType()).then((res) =>
-			setService(res)
-		);
+		findPost(requestId, ownerId, fetchServiceType()).then((res) => {
+			fetchServiceType() === res?.[`${POST_TYPE_PROP}`]
+				? setService(res)
+				: errorMessage("Invalid Access");
+		});
 	}, [id, ownerId]);
 
 	const app = (

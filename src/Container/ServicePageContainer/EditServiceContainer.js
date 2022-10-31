@@ -9,7 +9,7 @@ import useUrls from "../../Component/Hook/useUrls";
 import EditDeal from "../../Component/PageLayout/EditService/EditDeal";
 import EditHousing from "../../Component/PageLayout/EditService/EditHousing";
 import EditJob from "../../Component/PageLayout/EditService/EditJob";
-import MarketplacePage from "../../Component/PageLayout/ServicePage/MarketplacePage";
+import EditMarketplace from "../../Component/PageLayout/EditService/EditMarketplace";
 import SkeletonCard from "../../Component/Skeleton/SkeletonCard";
 import { thainowReducer } from "../../redux-store/reducer/thainowReducer";
 import {
@@ -74,7 +74,7 @@ function EditServiceContainer() {
 			case SEARCH_HOUSING:
 				return <EditHousing {...props} />;
 			case SEARCH_MARKETPLACE:
-				return <MarketplacePage {...props} />;
+				return <EditMarketplace {...props} />;
 			default:
 				forwardUrl(FORWARD_CLOSE);
 		}

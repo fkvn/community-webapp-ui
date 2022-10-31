@@ -1,6 +1,8 @@
 import Icon, {
 	AimOutlined,
+	DeleteFilled,
 	DoubleRightOutlined,
+	EditFilled,
 	LinkOutlined,
 	MailOutlined,
 	PhoneOutlined,
@@ -103,6 +105,7 @@ import {
 import { formatPrice, formatTime } from "../../../Util/Util";
 import useImage from "../../Hook/useImage";
 import useUrls from "../../Hook/useUrls";
+import RemoveService from "../EditService/RemoveService";
 
 function HousingPage({ isOwner = false, service = {} }) {
 	const { forwardUrl } = useUrls();
@@ -339,7 +342,12 @@ function HousingPage({ isOwner = false, service = {} }) {
 			),
 		},
 		{
-			label: <ThunderboltOutlined />,
+			label: (
+				<Space size={5}>
+					<ThunderboltOutlined />
+					<span className="px-1">Category:</span>
+				</Space>
+			),
 			...(info?.[`${CATEGORY_PROP}`]
 				? {
 						title: (
@@ -357,7 +365,12 @@ function HousingPage({ isOwner = false, service = {} }) {
 				: {}),
 		},
 		{
-			label: <AimOutlined />,
+			label: (
+				<Space size={5}>
+					<AimOutlined />
+					<span className="px-1">Interior:</span>
+				</Space>
+			),
 			...(!isEmptyObject(info?.[`${INTERIOR_PROP}`])
 				? {
 						title: (
@@ -487,22 +500,35 @@ function HousingPage({ isOwner = false, service = {} }) {
 			extra={[
 				...(isOwner
 					? [
-							<Button
-								type="primary"
-								shape="round"
-								{...(screens.xs && { size: "small" })}
-								key={id}
-								onClick={() =>
-									forwardUrl(
-										FORWARD_CONTINUE,
-										"",
-										`/${EDIT_PROP}/${SEARCH_SERVICE}/${SEARCH_HOUSING}/${id}`,
-										`/${SEARCH_SERVICE}/${SEARCH_HOUSING}/${id}`
-									)
-								}
-							>
-								Edit Service
-							</Button>,
+							<Space key={id}>
+								<Button
+									type="primary"
+									shape="round"
+									{...(screens.xs && { size: "small" })}
+									onClick={() =>
+										forwardUrl(
+											FORWARD_CONTINUE,
+											"",
+											`/${EDIT_PROP}/${SEARCH_SERVICE}/${SEARCH_HOUSING}/${id}`,
+											`/${SEARCH_SERVICE}/${SEARCH_HOUSING}/${id}`
+										)
+									}
+								>
+									<EditFilled />
+								</Button>
+								<RemoveService
+									ownerId={postOwner?.[`${ID_PROP}`]}
+									serviceId={id}
+								>
+									<Button
+										type="danger"
+										shape="round"
+										{...(screens.xs && { size: "small" })}
+									>
+										<DeleteFilled />
+									</Button>
+								</RemoveService>
+							</Space>,
 					  ]
 					: []),
 			]}
@@ -552,7 +578,7 @@ function HousingPage({ isOwner = false, service = {} }) {
 		};
 	});
 
-	const amenities = (
+	const amenities = amenitiesData?.length > 0 && (
 		<Descriptions
 			column={{ xxl: 2, xl: 2, lg: 2, md: 2, sm: 2, xs: 1 }}
 			colon={false}

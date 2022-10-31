@@ -2,10 +2,13 @@ import {
 	createDealAxios,
 	createHousingAxios,
 	createJobAxios,
+	createMarketplaceAxios,
 	findServiceAxios,
 	patchDealAxios,
 	patchHousingAxios,
 	patchJobAxios,
+	patchMarketplaceAxios,
+	removeServiceAxios,
 } from "../../Axios/axiosPromise";
 import {
 	FORWARD_CLOSE,
@@ -14,6 +17,7 @@ import {
 	SEARCH_DEAL,
 	SEARCH_HOUSING,
 	SEARCH_JOB,
+	SEARCH_MARKETPLACE,
 	SEARCH_SERVICE,
 } from "../../Util/ConstVar";
 import { errorMessage, loadingMessage, successMessage } from "./useMessage";
@@ -31,7 +35,19 @@ function usePost() {
 					Promise.resolve(res)
 				)
 			)
-			.catch((e) => errorMessage(e).catch(() => forwardUrl(FORWARD_CLOSE)));
+			.catch((e) => errorMessage(e));
+	};
+
+	const removeService = async (id = null, ownerId = null) => {
+		loadingMessage("Removing ...", 0);
+
+		return removeServiceAxios(id, ownerId)
+			.then((res = {}) =>
+				successMessage(`Service removed successfully`).then(() =>
+					forwardUrl(FORWARD_CLOSE)
+				)
+			)
+			.catch((e) => errorMessage(e));
 	};
 
 	//  deal service
@@ -58,9 +74,13 @@ function usePost() {
 
 		return patchDealAxios(id, { [`${PROFILE_ID_PROP}`]: ownerId, ...info })
 			.then(() =>
-				successMessage(`Updated service information successfully`).then(() =>
-					Promise.resolve()
-				)
+				successMessage(`Updated service information successfully`).then(() => {
+					window.scrollTo({
+						top: 0,
+						behavior: "smooth",
+					});
+					return Promise.resolve();
+				})
 			)
 			.catch((e) => errorMessage(e));
 	};
@@ -89,9 +109,13 @@ function usePost() {
 
 		return patchJobAxios(id, { [`${PROFILE_ID_PROP}`]: ownerId, ...info })
 			.then(() =>
-				successMessage(`Updated service information successfully`).then(() =>
-					Promise.resolve()
-				)
+				successMessage(`Updated service information successfully`).then(() => {
+					window.scrollTo({
+						top: 0,
+						behavior: "smooth",
+					});
+					return Promise.resolve();
+				})
 			)
 			.catch((e) => errorMessage(e));
 	};
@@ -120,21 +144,66 @@ function usePost() {
 
 		return patchHousingAxios(id, { [`${PROFILE_ID_PROP}`]: ownerId, ...info })
 			.then(() =>
-				successMessage(`Updated service information successfully`).then(() =>
-					Promise.resolve()
+				successMessage(`Updated service information successfully`).then(() => {
+					window.scrollTo({
+						top: 0,
+						behavior: "smooth",
+					});
+					return Promise.resolve();
+				})
+			)
+			.catch((e) => errorMessage(e));
+	};
+
+	// martketplace service
+
+	const createMarketplace = async (ownerId = null, info = {}) => {
+		loadingMessage("Creating service ...", 0);
+
+		return createMarketplaceAxios({ [`${PROFILE_ID_PROP}`]: ownerId, ...info })
+			.then((id = null) =>
+				successMessage(`Service Created successfully`).then(() =>
+					forwardUrl(
+						FORWARD_SUCCESS,
+						"",
+						"",
+						`/${SEARCH_SERVICE}/${SEARCH_MARKETPLACE}/${id}`
+					)
 				)
+			)
+			.catch((e) => errorMessage(e));
+	};
+
+	const updateMarketplace = async (id = null, ownerId = null, info = {}) => {
+		loadingMessage("Updating service information...", 0);
+
+		return patchMarketplaceAxios(id, {
+			[`${PROFILE_ID_PROP}`]: ownerId,
+			...info,
+		})
+			.then(() =>
+				successMessage(`Updated service information successfully`).then(() => {
+					window.scrollTo({
+						top: 0,
+						behavior: "smooth",
+					});
+					return Promise.resolve();
+				})
 			)
 			.catch((e) => errorMessage(e));
 	};
 
 	return {
 		findService,
+		removeService,
 		updateDeal,
 		createDeal,
 		createJob,
 		updateJob,
 		createHousing,
 		updateHousing,
+		createMarketplace,
+		updateMarketplace,
 	};
 }
 

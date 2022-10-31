@@ -47,9 +47,9 @@ function useCheckBoxGroup({
 				})}
 			>
 				<Checkbox.Group>
-					<Row justify="space-between">
+					<Row justify="space-between" wrap>
 						{options.map((option, idx) => (
-							<Col key={idx}>
+							<Col key={idx} xs={24} lg={6}>
 								<Checkbox
 									value={option?.value}
 									style={{ lineHeight: "32px" }}
