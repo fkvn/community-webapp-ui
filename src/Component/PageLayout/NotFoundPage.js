@@ -1,6 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import PageNotFound from "../../Assest/Image/404.png";
+import { image404 } from "../../Assest/Asset";
 
 function NotFoundPage() {
 	const navigate = useNavigate();
@@ -8,7 +8,7 @@ function NotFoundPage() {
 	return (
 		<div className="">
 			<img
-				src={PageNotFound}
+				src={image404}
 				alt="not found"
 				className="fluid "
 				style={{ maxWidth: "100%", maxHeight: "100%" }}
