@@ -4,11 +4,12 @@ import usePost from "../../Hook/usePost";
 function RemoveService({
 	ownerId = null,
 	serviceId = null,
+	forward = true,
 	children = <Button type="primary">Open Popconfirm with Promise</Button>,
 }) {
 	const { removeService } = usePost();
 
-	const confirm = () => removeService(serviceId, ownerId);
+	const confirm = () => removeService(serviceId, ownerId, forward);
 
 	const app = (
 		<Popconfirm

@@ -105,6 +105,7 @@ import MarketplaceCard from "../../ServiceCard/MarketplaceCard";
 
 import { formatTime } from "../../../Util/Util";
 import useUrls from "../../Hook/useUrls";
+import RemoveService from "../EditService/RemoveService";
 
 function ProfilePage({ isOwner = false, profile = {} }) {
 	const {
@@ -782,7 +783,7 @@ function ProfilePage({ isOwner = false, profile = {} }) {
 		{
 			title: "Action",
 			dataIndex: "action",
-			render: (id) => (
+			render: (serviceId) => (
 				<Space size="middle">
 					<Button
 						type="link"
@@ -791,16 +792,18 @@ function ProfilePage({ isOwner = false, profile = {} }) {
 							forwardUrl(
 								FORWARD_CONTINUE,
 								"",
-								`/${EDIT_PROP}/${SEARCH_SERVICE}/${searchTypeParam}/${id}`,
+								`/${EDIT_PROP}/${SEARCH_SERVICE}/${searchTypeParam}/${serviceId}`,
 								location?.pathname + location?.search || "/"
 							)
 						}
 					>
 						Edit
 					</Button>
-					<Button type="link" className="border-0 p-0 text-danger">
-						Delete
-					</Button>
+					<RemoveService ownerId={id} serviceId={serviceId} forward={false}>
+						<Button type="link" className="border-0 p-0 text-danger">
+							Delete
+						</Button>
+					</RemoveService>
 				</Space>
 			),
 			ellipsis: true,

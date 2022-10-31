@@ -38,13 +38,13 @@ function usePost() {
 			.catch((e) => errorMessage(e));
 	};
 
-	const removeService = async (id = null, ownerId = null) => {
+	const removeService = async (id = null, ownerId = null, forward = true) => {
 		loadingMessage("Removing ...", 0);
 
 		return removeServiceAxios(id, ownerId)
-			.then((res = {}) =>
+			.then(() =>
 				successMessage(`Service removed successfully`).then(() =>
-					forwardUrl(FORWARD_CLOSE)
+					forward ? forwardUrl(FORWARD_CLOSE) : window.location.reload(false)
 				)
 			)
 			.catch((e) => errorMessage(e));
