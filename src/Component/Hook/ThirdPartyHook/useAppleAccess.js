@@ -20,7 +20,7 @@ function useAppleAccess() {
 
 		if (divRef.current) {
 			new window.AppleID.auth.init({
-				clientId: "com.searchforthai.thainow3",
+				clientId: "com.searchforthai.thainow",
 				responseType: "code",
 				scope: "name email",
 				// the redirectURI domain must the same as the domain when pop-up is render
@@ -44,6 +44,8 @@ function useAppleAccess() {
 				width: "200px",
 				height: "35px",
 			}}
+			// onclick for local dev only
+			// hide when go production
 			onClick={() =>
 				appleSignin(
 					{

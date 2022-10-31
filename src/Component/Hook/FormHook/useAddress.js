@@ -20,7 +20,8 @@ function useAddress({
 	},
 	options = [],
 	errorMessage = "Please enter a valid address",
-}) {
+	showLabel = true,
+} = {}) {
 	const { fetchPredictions } = useGoogleAutoComplete();
 	const [address, setAddress] = useState({
 		location: defaultLocation,
@@ -126,6 +127,7 @@ function useAddress({
 				options: options,
 				required: required,
 				errorMessage: errorMessage,
+				showLabel: showLabel,
 			})}
 		</>
 	);

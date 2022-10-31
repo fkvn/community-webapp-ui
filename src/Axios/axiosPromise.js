@@ -8,6 +8,7 @@ import {
 	SEARCH_JOB,
 	SEARCH_MARKETPLACE,
 	SEARCH_PROFILE,
+	SEARCH_REVIEW,
 	SEARCH_SERVICE,
 	SMS_PROP,
 } from "../Util/ConstVar";
@@ -41,6 +42,12 @@ export const searchHousingsAxios = async (params = "") =>
 export const searchMarketplacesAxios = async (params = "") =>
 	axios
 		.get(`/search/${SEARCH_MARKETPLACE}?${params}`)
+		.then(({ data }) => Promise.resolve(data))
+		.catch((e) => Promise.reject(e));
+
+export const searchReviewsAxios = async (params = "") =>
+	axios
+		.get(`/search/${SEARCH_REVIEW}?${params}`)
 		.then(({ data }) => Promise.resolve(data))
 		.catch((e) => Promise.reject(e));
 

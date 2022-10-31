@@ -16,6 +16,10 @@ function ProfilePageContainer() {
 	const [profile, setProfile] = useState({});
 
 	useEffect(() => {
+		window.scrollTo({
+			top: 0,
+			behavior: "smooth",
+		});
 		findProfileAxios(id).then((res) => setProfile(res));
 	}, [id]);
 

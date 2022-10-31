@@ -255,14 +255,7 @@ function SearchResultPage() {
 					className="mt-4"
 				>
 					{fetchResults.map((rel, idx) => (
-						<Col
-							xs={fetchResults?.length < 2 ? 24 : 12}
-							sm={fetchResults?.length < 2 ? 24 : 12}
-							md={fetchResults?.length < 2 ? 24 : 12}
-							lg={12}
-							key={idx}
-							id="service-card"
-						>
+						<Col xs={12} key={idx} id="service-card">
 							{searchResult?.[`${SEARCH_TYPE_PROP}`] === SEARCH_BUSINESS && (
 								<BusinessCard card={rel} />
 							)}

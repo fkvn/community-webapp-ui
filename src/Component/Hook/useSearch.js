@@ -6,6 +6,7 @@ import {
 	searchHousingsAxios,
 	searchJobsAxios,
 	searchMarketplacesAxios,
+	searchReviewsAxios,
 } from "../../Axios/axiosPromise";
 import {
 	patchLocationInfoPromise,
@@ -13,6 +14,7 @@ import {
 } from "../../redux-store/dispatchPromise";
 import { thainowReducer } from "../../redux-store/reducer/thainowReducer";
 import {
+	ID_PROP,
 	LOCATION_OBJ,
 	POST_OWNER_ID_PROP,
 	SEARCH_BUSINESS,
@@ -21,7 +23,9 @@ import {
 	SEARCH_JOB,
 	SEARCH_KEYWORD,
 	SEARCH_MARKETPLACE,
+	SEARCH_REVIEW,
 	SEARCH_TYPE_PROP,
+	TYPE_PROP,
 } from "../../Util/ConstVar";
 import { getSearchParamsObj } from "../../Util/Util";
 import { errorMessage, loadingMessage, successMessage } from "./useMessage";
@@ -50,6 +54,9 @@ function useSearch() {
 	const searchMarketplaces = (params = "") =>
 		searchMarketplacesAxios(params).catch((e) => errorMessage(e));
 
+	const searchReview = (params = "") =>
+		searchReviewsAxios(params).catch((e) => errorMessage(e));
+
 	const onSearchHandle = async (type = "", params = "") => {
 		switch (type) {
 			case SEARCH_BUSINESS:
@@ -62,6 +69,8 @@ function useSearch() {
 				return searchHousings(params);
 			case SEARCH_MARKETPLACE:
 				return searchMarketplaces(params);
+			case SEARCH_REVIEW:
+				return searchReview(params);
 			default:
 				return errorMessage(`Search by ${type} is not supported yet`);
 		}
@@ -90,6 +99,8 @@ function useSearch() {
 				[`${SEARCH_KEYWORD}`]:
 					params?.[`${SEARCH_KEYWORD}`] || keywordParam || "",
 				[`${POST_OWNER_ID_PROP}`]: params?.[`${POST_OWNER_ID_PROP}`] || -1,
+				[`${TYPE_PROP}`]: params?.[`${TYPE_PROP}`] || "",
+				[`${ID_PROP}`]: params?.[`${ID_PROP}`] || "",
 			};
 		} else {
 			const currentParamsObj = getSearchParamsObj(searchParams);
@@ -106,7 +117,7 @@ function useSearch() {
 		params = new URLSearchParams(params);
 
 		return onSearchHandle(type, params.toString()).then(
-			async ({ location = {}, ...result }) => {
+			async ({ resLocation = {}, ...result }) => {
 				const { [`${POST_OWNER_ID_PROP}`]: ownerId = -1, ...updatedParams } =
 					getSearchParamsObj(params);
 
@@ -114,7 +125,9 @@ function useSearch() {
 					state: { ...routeState },
 				});
 
-				return patchLocationInfoPromise(location).then(() =>
+				return patchLocationInfoPromise(
+					resLocation ? resLocation : location
+				).then(() =>
 					patchSearchResultInfoPromise({
 						[`${SEARCH_TYPE_PROP}`]: type,
 						...result,

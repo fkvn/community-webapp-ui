@@ -113,6 +113,7 @@ export const CHECKBOX_PROP = "checkbox";
 export const DATE_PROP = "date";
 export const EDIT_PROP = "edit";
 export const CREATE_PROP = "create";
+export const TYPE_PROP = "type";
 
 export const SEARCH_OBJ = "searchObj";
 export const SEARCH_RESULT_OBJ = "searchResultObj";
@@ -123,6 +124,7 @@ export const SEARCH_INPUT_PROP = "input";
 export const SEARCH_TYPE_PROP = "searchType";
 export const SEARCH_LOCATION_ADDRESS = "address";
 export const SEARCH_PROFILE = "profiles";
+export const SEARCH_PROFILE_REVIEW_PROP = "PROFILE_REVIEW";
 export const SEARCH_SERVICE = "posts";
 export const SEARCH_WISHLIST = "wishlists";
 export const SEARCH_QUESTION = "questions";

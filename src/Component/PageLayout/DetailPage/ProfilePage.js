@@ -74,6 +74,7 @@ import {
 	SEARCH_KEYWORD,
 	SEARCH_MARKETPLACE,
 	SEARCH_PROFILE,
+	SEARCH_PROFILE_REVIEW_PROP,
 	SEARCH_RESULT_OBJ,
 	SEARCH_REVIEW,
 	SEARCH_SERVICE,
@@ -89,6 +90,7 @@ import {
 	STATUS_PROP,
 	TITLE_PROP,
 	TOTAL_REVIEW_PROP,
+	TYPE_PROP,
 	UPDATED_ON_PROP,
 	WEBSITE_PROP,
 } from "../../../Util/ConstVar";
@@ -532,7 +534,8 @@ function ProfilePage({ isOwner = false, profile = {} }) {
 	const { [`${SEARCH_FETCH_RESULT_PROP}`]: fetchResults = [] } = searchResult;
 
 	const [actionCall, setActionCall] = useState({
-		actionType: SEARCH_SERVICE,
+		actionType:
+			searchTypeParam === SEARCH_REVIEW ? SEARCH_REVIEW : SEARCH_SERVICE,
 		searching: true,
 	});
 
@@ -541,6 +544,8 @@ function ProfilePage({ isOwner = false, profile = {} }) {
 		searchType = searchTypeParam,
 		params = {}
 	) => {
+		console.log(actionType);
+		console.log(searchType);
 		if (id > 0 && actionType === SEARCH_SERVICE) {
 			return dispatchSearch(
 				searchType,
@@ -551,6 +556,19 @@ function ProfilePage({ isOwner = false, profile = {} }) {
 				false
 			);
 		}
+
+		if (id > 0 && actionType === SEARCH_REVIEW) {
+			return dispatchSearch(
+				actionType,
+				{
+					[`${ID_PROP}`]: id,
+					[`${TYPE_PROP}`]: SEARCH_PROFILE_REVIEW_PROP,
+					...params,
+				},
+				false
+			);
+		}
+
 		return Promise.reject();
 	};
 
@@ -576,7 +594,7 @@ function ProfilePage({ isOwner = false, profile = {} }) {
 	);
 
 	useEffect(() => {
-		initSearch();
+		initSearch(actionCall.actionType);
 	}, [id]);
 
 	const serviceTagItems = [
@@ -903,10 +921,11 @@ function ProfilePage({ isOwner = false, profile = {} }) {
 	const actionTitle = (
 		<Segmented
 			block
+			defaultValue={actionCall?.actionType}
 			options={actionTitleOptions}
 			onChange={(value) => {
 				if (value !== actionCall?.actionType) {
-					initSearch(value);
+					initSearch(value, value === SEARCH_SERVICE ? SEARCH_DEAL : "");
 				}
 			}}
 		/>

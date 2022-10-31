@@ -6,7 +6,8 @@ const useAutocomplete = ({
 	options = [],
 	required = false,
 	errorMessage = "Please input a value!",
-}) =>
+	showLabel = true,
+} = {}) =>
 	((props = {}, inputProps = {}) => (
 		<Form.Item {...props}>
 			<AutoComplete {...inputProps} />
@@ -22,9 +23,9 @@ const useAutocomplete = ({
 				...rules,
 			],
 			...itemProps,
-			label: `${itemProps?.label || "Selection"} ${
-				required ? "" : "(Optional)"
-			}`,
+			...(showLabel && {
+				label: `${itemProps?.label || ""} ${required ? "" : "(Optional)"}`,
+			}),
 		},
 		{
 			className: "w-100",

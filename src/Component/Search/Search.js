@@ -162,6 +162,7 @@ function Search({
 
 	const address = useAddress({
 		itemProps: { label: "", style: { width: "50%" }, ...addressProps },
+		showLabel: false,
 		options: defaultLocationOptions,
 	});
 
