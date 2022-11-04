@@ -32,7 +32,7 @@ import {
 } from "antd";
 import Meta from "antd/lib/card/Meta";
 import { isEmptyObject } from "jquery";
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useState } from "react";
 import { useSelector } from "react-redux";
 import { useLocation, useSearchParams } from "react-router-dom";
 import { iconLocationBlack } from "../../../Assest/Asset";
@@ -65,6 +65,7 @@ import {
 	PICTURE_PROP,
 	POST_OWNER_ID_PROP,
 	PROFILE_BUSINESS_TYPE_PROP,
+	PROFILE_REVIEW_PROP,
 	PROFILE_TYPE_PROP,
 	SEARCH_BUSINESS,
 	SEARCH_DEAL,
@@ -74,7 +75,6 @@ import {
 	SEARCH_KEYWORD,
 	SEARCH_MARKETPLACE,
 	SEARCH_PROFILE,
-	SEARCH_PROFILE_REVIEW_PROP,
 	SEARCH_RESULT_OBJ,
 	SEARCH_REVIEW,
 	SEARCH_SERVICE,
@@ -89,6 +89,7 @@ import {
 	SIZE_PROP,
 	STATUS_PROP,
 	TITLE_PROP,
+	TOTAL_COUNT_PROP,
 	TOTAL_REVIEW_PROP,
 	TYPE_PROP,
 	UPDATED_ON_PROP,
@@ -108,6 +109,7 @@ import MarketplaceCard from "../../ServiceCard/MarketplaceCard";
 import { formatTime } from "../../../Util/Util";
 import useUrls from "../../Hook/useUrls";
 import RemoveService from "../EditService/RemoveService";
+import ReviewPage from "../ReviewPage/ReviewPage";
 
 function ProfilePage({ isOwner = false, profile = {} }) {
 	const {
@@ -129,6 +131,11 @@ function ProfilePage({ isOwner = false, profile = {} }) {
 	});
 
 	const { forwardUrl } = useUrls();
+
+	const [review, setReview] = useState({
+		[`${AVG_RATING_PROP}`]: avgRating,
+		[`${TOTAL_REVIEW_PROP}`]: totalReview,
+	});
 
 	const location = useLocation();
 
@@ -215,13 +222,13 @@ function ProfilePage({ isOwner = false, profile = {} }) {
 					<span className="p-">
 						<Rate
 							disabled
-							defaultValue={avgRating}
+							value={review?.[`${AVG_RATING_PROP}`]}
 							allowHalf
 							style={{ backgroundColor: "gray !important" }}
 							className="c-housing-important m-0"
 						/>
 						<span className="ant-rate-text c-housing-important">
-							{totalReview} Reviews
+							{review?.[`${TOTAL_REVIEW_PROP}`]} Reviews
 						</span>
 					</span>
 				</Space>
@@ -544,8 +551,6 @@ function ProfilePage({ isOwner = false, profile = {} }) {
 		searchType = searchTypeParam,
 		params = {}
 	) => {
-		console.log(actionType);
-		console.log(searchType);
 		if (id > 0 && actionType === SEARCH_SERVICE) {
 			return dispatchSearch(
 				searchType,
@@ -562,10 +567,19 @@ function ProfilePage({ isOwner = false, profile = {} }) {
 				actionType,
 				{
 					[`${ID_PROP}`]: id,
-					[`${TYPE_PROP}`]: SEARCH_PROFILE_REVIEW_PROP,
+					[`${TYPE_PROP}`]: PROFILE_REVIEW_PROP,
 					...params,
 				},
 				false
+			).then(
+				({
+					[`${TOTAL_COUNT_PROP}`]: totalCount = 0,
+					[`${AVG_RATING_PROP}`]: avgRating = 0,
+				} = {}) =>
+					setReview({
+						[`${AVG_RATING_PROP}`]: avgRating,
+						[`${TOTAL_REVIEW_PROP}`]: totalCount,
+					})
 			);
 		}
 
@@ -593,9 +607,9 @@ function ProfilePage({ isOwner = false, profile = {} }) {
 		[actionCall?.searching, dispatchSearch, id, searchTypeParam]
 	);
 
-	useEffect(() => {
-		initSearch(actionCall.actionType);
-	}, [id]);
+	// useEffect(() => {
+	// 	initSearch(actionCall.actionType);
+	// }, [id]);
 
 	const serviceTagItems = [
 		(props = {}) => (
@@ -894,13 +908,20 @@ function ProfilePage({ isOwner = false, profile = {} }) {
 	);
 
 	const action = {
-		[`${SEARCH_SERVICE}`]: {
-			title: serviceTitle,
-			children: serviceResult,
-		},
-
-		[`${SEARCH_WISHLIST}`]: {},
-		[`${SEARCH_REVIEW}`]: {},
+		[`${SEARCH_SERVICE}`]: <></>,
+		[`${SEARCH_WISHLIST}`]: <></>,
+		[`${SEARCH_REVIEW}`]: (
+			<ReviewPage
+				type={PROFILE_REVIEW_PROP}
+				revieweeId={id}
+				totalReview={review?.[`${TOTAL_REVIEW_PROP}`]}
+				setTotalReview={(value) => setReview({ ...review, totalReview: value })}
+				avgRating={review?.[`${AVG_RATING_PROP}`]}
+				setAvgRating={(value) =>
+					setReview({ ...review, [`${AVG_RATING_PROP}`]: value })
+				}
+			/>
+		),
 	};
 
 	const actionTitleOptions = [
@@ -918,15 +939,24 @@ function ProfilePage({ isOwner = false, profile = {} }) {
 		},
 	];
 
+	const [actionPage, setActionPage] = useState(
+		searchParams.get(SEARCH_TYPE_PROP) || SEARCH_SERVICE
+	);
+
 	const actionTitle = (
 		<Segmented
 			block
-			defaultValue={actionCall?.actionType}
+			defaultValue={actionPage}
 			options={actionTitleOptions}
 			onChange={(value) => {
-				if (value !== actionCall?.actionType) {
-					initSearch(value, value === SEARCH_SERVICE ? SEARCH_DEAL : "");
-				}
+				console.log(value);
+				setActionPage(value);
+				// setActionCall({
+				// 	actionType: actionType,
+				// });
+				// if (value !== actionCall?.actionType) {
+				// 	initSearch(value, value === SEARCH_SERVICE ? SEARCH_DEAL : "");
+				// }
 			}}
 		/>
 	);
@@ -937,13 +967,13 @@ function ProfilePage({ isOwner = false, profile = {} }) {
 			<Card
 				className="bg-transparent "
 				bordered={false}
-				title={action?.[`${actionCall?.actionType}`]?.title}
+				// title={action?.[`${actionCall?.actionType}`]?.title}
 				headStyle={{
 					paddingTop: "0",
 				}}
-				loading={actionCall?.searching}
+				// loading={actionCall?.searching}
 			>
-				{action?.[`${actionCall?.actionType}`]?.children}
+				{action?.[`${actionPage}`]}
 			</Card>
 		</>
 	);

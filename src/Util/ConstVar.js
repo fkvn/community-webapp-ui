@@ -95,8 +95,6 @@ export const AGREEMENT_PROP = "agreement";
 export const WEBSITE_PROP = "website";
 export const IS_WEBSITE_PUBLIC_PROP = "isWebsitePublic";
 export const PICTURE_PROP = "picture";
-export const TOTAL_REVIEW_PROP = "totalReview";
-export const AVG_RATING_PROP = "avgRating";
 export const COVER_PICTURES_PROP = "coverPictures";
 export const DESCRIPTION_PROP = "description";
 export const IS_DESCRIPTION_PUBLIC_PROP = "isDescriptionPublic";
@@ -124,7 +122,6 @@ export const SEARCH_INPUT_PROP = "input";
 export const SEARCH_TYPE_PROP = "searchType";
 export const SEARCH_LOCATION_ADDRESS = "address";
 export const SEARCH_PROFILE = "profiles";
-export const SEARCH_PROFILE_REVIEW_PROP = "PROFILE_REVIEW";
 export const SEARCH_SERVICE = "posts";
 export const SEARCH_WISHLIST = "wishlists";
 export const SEARCH_QUESTION = "questions";
@@ -146,6 +143,17 @@ export const SEARCH_DEFAULT_LOCATION = {
 	[`${ADDRESS_PROP}`]: "Thai Town, Los Angeles, CA 90027, USA",
 	[`${PLACEID_PROP}`]: "ChIJf2z2Hle_woARaNaIiR198fg",
 };
+
+export const PROFILE_REVIEW_PROP = "PROFILE_REVIEW";
+export const SERVICE_REVIEW_PROP = "POST_REVIEW";
+export const REVIEWER_PROP = "reviewer";
+export const REVIEWER_ID_PROP = "reviewerId";
+export const REVIEWEE_ID_PROP = "revieweeId";
+export const COMMENT_PROP = "comment";
+export const TOTAL_REVIEW_PROP = "totalReview";
+export const AVG_RATING_PROP = "avgRating";
+export const TOTAL_COUNT_PROP = "totalCount";
+export const RATE_PROP = "rate";
 
 export const COMPANY_INDUSTRY_LIST = [
 	"Aquarium & Pet",
@@ -246,6 +254,7 @@ export const IS_COMPANY_INFORMAL_PROP = "isInformal";
 // export const COMPANY_SUBMIT_EXTRA_INFO_VALIDATION = "isSummitExtraInfo";
 // export const COMPANY_STATUS_PROP = "status";
 
+export const SERVICE_ID_PROP = "postId";
 export const POST_OWNER_PROP = "postOwner";
 export const POST_OWNER_ID_PROP = "ownerId";
 export const POST_TYPE_PROP = "type";

@@ -1,12 +1,14 @@
 import { Card, Skeleton } from "antd";
 
-function SkeletonCard({ active = true, loading = true }) {
+function SkeletonCard({ active = true, loading = true, cover = true }) {
 	const app = (
 		<Card
 			cover={
-				<div className="tedkvn-center mt-5 " style={{ padding: "0 3.3rem" }}>
-					<Skeleton.Avatar shape="circle" size={150} active={active} />
-				</div>
+				cover && (
+					<div className="tedkvn-center mt-5 " style={{ padding: "0 3.3rem" }}>
+						<Skeleton.Avatar shape="circle" size={150} active={active} />
+					</div>
+				)
 			}
 			className="m-4 overflow-hidden"
 		>

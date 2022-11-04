@@ -3,7 +3,7 @@ import { isEmptyObject } from "jquery";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import { findProfileAxios } from "../../Axios/axiosPromise";
+import useProfile from "../../Component/Hook/useProfile";
 import ProfilePage from "../../Component/PageLayout/DetailPage/ProfilePage";
 import { thainowReducer } from "../../redux-store/reducer/thainowReducer";
 import { ID_PROP, PROFILE_OBJ } from "../../Util/ConstVar";
@@ -15,12 +15,14 @@ function ProfilePageContainer() {
 
 	const [profile, setProfile] = useState({});
 
+	const { findProfile } = useProfile();
+
 	useEffect(() => {
 		window.scrollTo({
 			top: 0,
 			behavior: "smooth",
 		});
-		findProfileAxios(id).then((res) => setProfile(res));
+		findProfile(id).then((res) => setProfile(res));
 	}, [id]);
 
 	const skeletonCard = (

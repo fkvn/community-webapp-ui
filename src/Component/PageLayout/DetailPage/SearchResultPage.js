@@ -28,8 +28,6 @@ import {
 	SEARCH_MARKETPLACE,
 	SEARCH_RESULT_OBJ,
 	SEARCH_SERVICE,
-	SEARCH_SORT,
-	SEARCH_SORT_DATE,
 	SEARCH_TYPE_PROP,
 } from "../../../Util/ConstVar";
 import { formatSentenseCase } from "../../../Util/Util";
@@ -57,7 +55,7 @@ function SearchResultPage() {
 	const [searchParams] = useSearchParams();
 	const keywordParam = searchParams.get(SEARCH_KEYWORD) || "";
 	const searchTypeParam = searchParams.get(SEARCH_TYPE_PROP) || SEARCH_BUSINESS;
-	const sortParam = searchParams.get(SEARCH_SORT) || SEARCH_SORT_DATE;
+	// const sortParam = searchParams.get(SEARCH_SORT) || SEARCH_SORT_DATE;
 
 	const { dispatchSearch } = useSearch();
 

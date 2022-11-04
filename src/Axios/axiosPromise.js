@@ -291,4 +291,18 @@ export const patchMarketplaceAxios = (id = -1, info = {}) =>
 		.then(() => Promise.resolve())
 		.catch((e) => Promise.reject(e));
 
+// review
+
+export const createReviewAxios = (info = {}) =>
+	axios
+		.post(`/${SEARCH_REVIEW}`, info)
+		.then(({ data }) => Promise.resolve(data))
+		.catch((e) => Promise.reject(e));
+
+export const patchReviewAxios = (id = null, info = {}) =>
+	axios
+		.patch(`/${SEARCH_REVIEW}/${id}`, info)
+		.then(({ data }) => Promise.resolve(data))
+		.catch((e) => Promise.reject(e));
+
 controller.abort();

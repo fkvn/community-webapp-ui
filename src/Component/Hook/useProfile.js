@@ -1,4 +1,5 @@
 import {
+	findProfileAxios,
 	patchBusinessProfileAxios,
 	patchUserProfileAxios,
 	removeBusinessProfileAxios,
@@ -126,8 +127,21 @@ function useProfile() {
 			.then(() => successMessage(<span>Updated profile successfully!</span>))
 			.catch((e) => errorMessage(e));
 
+	const findProfile = async (id = -1) => {
+		loadingMessage("Loading ...", 0);
+
+		return findProfileAxios(id)
+			.then((res) =>
+				successMessage(`done`, 1, { className: "d-none" }).then(() =>
+					Promise.resolve(res)
+				)
+			)
+			.catch((e) => errorMessage(e));
+	};
+
 	return {
 		switchProfile,
+		findProfile,
 		removeBusinessProfile,
 		removeAccountProfile: removeUserProfile,
 		uploadProfileAvatar,

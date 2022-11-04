@@ -5,6 +5,10 @@ button:not(.ant-btn-link) {
 	// max-width: 20rem;
 }
 
+.ant-modal-footer button {
+	display: inline-block !important;
+}
+
 button span:not([role]) {
 	@include ellipse;
 }

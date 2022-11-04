@@ -131,7 +131,11 @@ function useSearch() {
 					patchSearchResultInfoPromise({
 						[`${SEARCH_TYPE_PROP}`]: type,
 						...result,
-					}).then(() => successMessage(`done`, 1, { className: "d-none" }))
+					}).then(() =>
+						successMessage(`done`, 1, { className: "d-none" }).then(() =>
+							Promise.resolve(result)
+						)
+					)
 				);
 			}
 		);
