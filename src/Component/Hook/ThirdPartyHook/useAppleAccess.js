@@ -46,18 +46,18 @@ function useAppleAccess() {
 			}}
 			// onclick for local dev only
 			// hide when go production
-			onClick={() =>
-				appleSignin(
-					{
-						sub: "000216.25114e5db4f94b969bd8ff00abc4cb25.0320",
-						email: "phucaone@gmail.com",
-						email_verified: "true",
-						name: "Kevin",
-					},
-					true,
-					FORWARD_SUCCESS
-				)
-			}
+			// onClick={() =>
+			// 	appleSignin(
+			// 		{
+			// 			sub: "000216.25114e5db4f94b969bd8ff00abc4cb25.0320",
+			// 			email: "phucaone@gmail.com",
+			// 			email_verified: "true",
+			// 			name: "Kevin",
+			// 		},
+			// 		true,
+			// 		FORWARD_SUCCESS
+			// 	)
+			// }
 		></div>
 	);
 

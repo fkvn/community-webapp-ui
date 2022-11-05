@@ -15,10 +15,12 @@ function useGoogleAccess(buttonProps = {}) {
 		if (divRef.current) {
 			window.google?.accounts?.id.initialize({
 				// local - client id
-				client_id:
-					"776649368023-066tf4h17jo8m2bdfbjbjo7lov8moln8.apps.googleusercontent.com",
+				// client_id:
+				// 	"776649368023-066tf4h17jo8m2bdfbjbjo7lov8moln8.apps.googleusercontent.com",
 				// production - client id
-				// 	"868988780448-0gbek6qrnu2p2ihish1npqcuoegfgn35.apps.googleusercontent.com",
+
+				client_id:
+					"868988780448-0gbek6qrnu2p2ihish1npqcuoegfgn35.apps.googleusercontent.com",
 				callback: handleCredentialResponse,
 			});
 
