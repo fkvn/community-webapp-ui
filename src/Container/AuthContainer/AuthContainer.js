@@ -4,9 +4,9 @@ import useUrls from "../../Component/Hook/useUrls";
 import { FORWARD_CONTINUE } from "../../Util/ConstVar";
 
 function AuthContainer({
-	closeUrl = "/",
-	continueUrl = "/",
-	successUrl = "/",
+	closeUrl = "",
+	continueUrl = "",
+	successUrl = "",
 	children = {},
 }) {
 	/* Description
@@ -79,7 +79,6 @@ function AuthContainer({
 		
 
 	*/
-
 	const [loading, setLoading] = useState(true);
 
 	const { forwardUrl } = useUrls();

@@ -15,7 +15,7 @@ import {
 } from "../../Util/ConstVar";
 import Footer from "../PageLayout/Footer";
 import LandingPage from "./DetailPage/LandingPage";
-import SearchResultPage from "./DetailPage/SearchResultPage";
+import SearchResultPage1 from "./DetailPage/SearchResultPage1";
 import NotFoundPage from "./NotFoundPage";
 
 function LeftLayout() {
@@ -32,7 +32,9 @@ function LeftLayout() {
 						path={`/${SEARCH_PROFILE}/:id/edit-profile`}
 						element={<EditProfileContainer />}
 					/>
-					<Route path="/search" element={<SearchResultPage />} />
+					{/* <Route path="/search" element={<SearchResultPage />} /> */}
+					<Route path="/search" element={<SearchResultPage1 />} />
+
 					<Route
 						exact
 						path={`/${SEARCH_SERVICE}/:${SEARCH_TYPE_PROP}/:id`}

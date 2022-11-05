@@ -83,8 +83,11 @@ function MobileTopBar() {
 	const [showProfile, setShowProfile] = useState(false);
 
 	const onSearchHanlder = (type = SEARCH_BUSINESS) =>
-		dispatchSearch(type, {
-			[`${SEARCH_KEYWORD}`]: keywordParam,
+		dispatchSearch({
+			type: type,
+			params: {
+				[`${SEARCH_KEYWORD}`]: keywordParam,
+			},
 		});
 
 	const tagItems = [
@@ -218,8 +221,11 @@ function MobileTopBar() {
 		<Menu
 			items={sortOptions}
 			onClick={({ key }) =>
-				dispatchSearch(searchTypeParam, {
-					[`${SEARCH_SORT}`]: key,
+				dispatchSearch({
+					type: searchTypeParam,
+					params: {
+						[`${SEARCH_SORT}`]: key,
+					},
 				})
 			}
 		/>

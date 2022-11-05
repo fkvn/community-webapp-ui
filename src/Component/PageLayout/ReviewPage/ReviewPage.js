@@ -12,14 +12,15 @@ import {
 	Typography,
 } from "antd";
 import Meta from "antd/lib/card/Meta";
-import { isEmptyObject } from "jquery";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import AuthContainer from "../../../Container/AuthContainer/AuthContainer";
+import { patchSearchResultInfoPromise } from "../../../redux-store/dispatchPromise";
 import { thainowReducer } from "../../../redux-store/reducer/thainowReducer";
 import {
 	AVG_RATING_PROP,
+	CLOSE_URL,
 	COMMENT_PROP,
 	ID_PROP,
 	INFO_PROP,
@@ -29,15 +30,18 @@ import {
 	RATE_PROP,
 	REVIEWER_PROP,
 	SEARCH_FETCH_RESULT_PROP,
+	SEARCH_PROFILE,
 	SEARCH_RESULT_OBJ,
 	SEARCH_REVIEW,
 	TOTAL_COUNT_PROP,
+	TOTAL_REVIEW_PROP,
 	TYPE_PROP,
 	UPDATED_ON_PROP,
 } from "../../../Util/ConstVar";
 import { formatTime } from "../../../Util/Util";
 import useImage from "../../Hook/useImage";
 import useSearch from "../../Hook/useSearch";
+import LoadMore from "../../Search/LoadMore";
 import SkeletonCard from "../../Skeleton/SkeletonCard";
 import EditReview from "./EditReview";
 
@@ -45,10 +49,10 @@ function ReviewPage({
 	type = "",
 	revieweeId = null,
 	totalReview = 0,
-	setTotalReview = () => {},
+	setReview = () => {},
 	avgRating = 0,
-	setAvgRating = () => {},
 } = {}) {
+	const navigate = useNavigate();
 	const location = useLocation();
 
 	const { useBreakpoint } = Grid;
@@ -68,7 +72,6 @@ function ReviewPage({
 		idx: -1,
 		review: {},
 	});
-	const [reviewListItems, setReviewListItems] = useState(fetchResults);
 
 	const { avatar } = useImage();
 	const { dispatchSearch } = useSearch();
@@ -95,17 +98,17 @@ function ReviewPage({
 								</span>,
 						  ]
 						: []),
-					<span
-						key={`reply-${idx}`}
-						// onClick={() =>
-						// 	setNewReview({
-						// 		...newReview,
-						// 		open: true,
-						// 	})
-						// }
-					>
-						Reply to
-					</span>,
+					// <span
+					// 	key={`reply-${idx}`}
+					// 	// onClick={() =>
+					// 	// 	setNewReview({
+					// 	// 		...newReview,
+					// 	// 		open: true,
+					// 	// 	})
+					// 	// }
+					// >
+					// 	Reply to
+					// </span>,
 				],
 				author: (
 					<Space>
@@ -116,11 +119,26 @@ function ReviewPage({
 								] || undefined
 							}
 						>
-							<Typography.Text ellipsis>
+							<Typography.Link
+								ellipsis
+								onClick={() =>
+									navigate(
+										`/${SEARCH_PROFILE}/${
+											review?.[`${REVIEWER_PROP}`]?.[`${ID_PROP}`]
+										}`,
+										{
+											state: {
+												[`${CLOSE_URL}`]:
+													location?.pathname + location?.search || "/",
+											},
+										}
+									)
+								}
+							>
 								{review?.[`${REVIEWER_PROP}`]?.[`${INFO_PROP}`]?.[
 									`${NAME_PROP}`
 								] || undefined}
-							</Typography.Text>
+							</Typography.Link>
 						</Tooltip>
 					</Space>
 				),
@@ -156,32 +174,42 @@ function ReviewPage({
 	};
 
 	const searchReviewHandle = (params = {}) =>
-		dispatchSearch(
-			SEARCH_REVIEW,
-			{
+		dispatchSearch({
+			type: SEARCH_REVIEW,
+			params: {
 				[`${ID_PROP}`]: revieweeId,
 				[`${TYPE_PROP}`]: type,
 				...params,
 			},
-			false
-		).then(
+			backToTop: false,
+		}).then(
 			({
 				[`${TOTAL_COUNT_PROP}`]: totalCount = 0,
 				[`${AVG_RATING_PROP}`]: avgRating = 0,
 			} = {}) => {
-				setTotalReview(totalCount);
-				setAvgRating(avgRating);
+				setReview({
+					[`${TOTAL_REVIEW_PROP}`]: totalCount,
+					[`${AVG_RATING_PROP}`]: avgRating,
+				});
 			}
 		);
 
 	const handleNewReviewOk = (review = {}) => {
 		const updatedReviewList = [{ ...review }, ...fetchResults];
 
-		setAvgRating(
-			(totalReview * avgRating + review?.[`${RATE_PROP}`]) / (totalReview + 1)
-		);
-		setTotalReview(totalReview + 1);
-		setReviewListItems(updatedReviewList);
+		const newAvg = (
+			(totalReview * avgRating + review?.[`${RATE_PROP}`]) /
+			(totalReview + 1)
+		).toFixed(1);
+
+		setReview({
+			[`${TOTAL_REVIEW_PROP}`]: totalReview + 1,
+			[`${AVG_RATING_PROP}`]: newAvg,
+		});
+
+		patchSearchResultInfoPromise({
+			[`${SEARCH_FETCH_RESULT_PROP}`]: updatedReviewList,
+		});
 
 		setNewReviewOpen(false);
 	};
@@ -194,10 +222,14 @@ function ReviewPage({
 			totalReview
 		).toFixed(1);
 
-		setAvgRating(newAvg);
+		setReview({
+			[`${AVG_RATING_PROP}`]: newAvg,
+		});
 
 		fetchResults[editReview?.idx] = review;
-		setReviewListItems(fetchResults);
+		patchSearchResultInfoPromise({
+			[`${SEARCH_FETCH_RESULT_PROP}`]: fetchResults,
+		});
 		setEditReview({ open: false });
 	};
 
@@ -272,7 +304,7 @@ function ReviewPage({
 				className="p-0"
 				// header={`${totalReview} Reviews`}
 				itemLayout="horizontal"
-				dataSource={normalizeReviews(reviewListItems)}
+				dataSource={normalizeReviews(fetchResults)}
 				renderItem={(item) => (
 					<li>
 						<Comment
@@ -284,6 +316,7 @@ function ReviewPage({
 						/>
 					</li>
 				)}
+				loadMore={<LoadMore />}
 			/>
 		</Card>
 	);
@@ -291,38 +324,39 @@ function ReviewPage({
 	const app = (
 		<Row justify="center" className="my-3 ">
 			<Col xs={24}>{reviewList}</Col>
-			{isEmptyObject(profile) && (newReviewOpen || editReview?.open) && (
+			{(newReviewOpen || editReview?.open) && (
 				<AuthContainer
 					key={0}
 					closeUrl="/"
 					continueUrl="/signin"
 					successUrl={location?.pathname + location?.search || "/"}
-				/>
-			)}
-			{newReviewOpen && (
-				<EditReview
-					open={newReviewOpen}
-					editing={false}
-					type={type}
-					revieweeId={revieweeId}
-					profile={profile}
-					onCancel={() => setNewReviewOpen(false)}
-					onOk={handleNewReviewOk}
-				/>
-			)}
-			{editReview?.open && (
-				<EditReview
-					open={editReview?.open}
-					review={editReview?.review}
-					type={type}
-					profile={profile}
-					onCancel={() =>
-						setEditReview({
-							open: false,
-						})
-					}
-					onOk={handleEditReviewOk}
-				/>
+				>
+					{newReviewOpen && (
+						<EditReview
+							open={newReviewOpen}
+							editing={false}
+							type={type}
+							revieweeId={revieweeId}
+							profile={profile}
+							onCancel={() => setNewReviewOpen(false)}
+							onOk={handleNewReviewOk}
+						/>
+					)}
+					{editReview?.open && (
+						<EditReview
+							open={editReview?.open}
+							review={editReview?.review}
+							type={type}
+							profile={profile}
+							onCancel={() =>
+								setEditReview({
+									open: false,
+								})
+							}
+							onOk={handleEditReviewOk}
+						/>
+					)}
+				</AuthContainer>
 			)}
 
 			{/* <Modal

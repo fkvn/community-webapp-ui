@@ -132,9 +132,12 @@ function Search({
 		})(
 			fetchLocation().then((location = {}) =>
 				routeLocation?.pathname === "/search"
-					? dispatchSearch(searchType, {
-							[`${SEARCH_KEYWORD}`]: form.getFieldValue(SEARCH_INPUT_PROP),
-							...location,
+					? dispatchSearch({
+							type: searchType,
+							params: {
+								[`${SEARCH_KEYWORD}`]: form.getFieldValue(SEARCH_INPUT_PROP),
+								...location,
+							},
 					  })
 					: Promise.resolve(
 							new URLSearchParams({

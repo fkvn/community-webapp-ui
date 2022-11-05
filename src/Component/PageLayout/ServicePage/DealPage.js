@@ -27,7 +27,7 @@ import {
 import Meta from "antd/lib/card/Meta";
 import DescriptionsItem from "antd/lib/descriptions/Item";
 import { isEmptyObject } from "jquery";
-import { useCallback, useState } from "react";
+import { useState } from "react";
 import { useLocation, useSearchParams } from "react-router-dom";
 import { iconLocationBlack, svgDealIcon } from "../../../Assest/Asset";
 import {
@@ -65,6 +65,7 @@ import {
 	SEARCH_REVIEW,
 	SEARCH_SERVICE,
 	SEARCH_TYPE_PROP,
+	SERVICE_REVIEW_PROP,
 	STATUS_PROP,
 	TITLE_PROP,
 	TOTAL_REVIEW_PROP,
@@ -75,6 +76,7 @@ import { formatTime } from "../../../Util/Util";
 import useImage from "../../Hook/useImage";
 import useUrls from "../../Hook/useUrls";
 import RemoveService from "../EditService/RemoveService";
+import ReviewPage from "../ReviewPage/ReviewPage";
 
 function DealPage({ isOwner = false, service = {} }) {
 	const { forwardUrl } = useUrls();
@@ -94,6 +96,11 @@ function DealPage({ isOwner = false, service = {} }) {
 	};
 
 	info = { ...DEFAULT_DEAL_INFO, ...info };
+
+	const [review, setReview] = useState({
+		[`${AVG_RATING_PROP}`]: avgRating,
+		[`${TOTAL_REVIEW_PROP}`]: totalReview,
+	});
 
 	const header = (
 		<PageHeader
@@ -200,13 +207,13 @@ function DealPage({ isOwner = false, service = {} }) {
 				<Col xs={24}>
 					<Rate
 						disabled
-						defaultValue={avgRating}
+						value={review?.[`${AVG_RATING_PROP}`]}
 						allowHalf
 						style={{ backgroundColor: "gray !important" }}
 						className="c-housing-important m-0"
 					/>
 					<span className="ant-rate-text c-housing-important">
-						{totalReview} Reviews
+						{review?.[`${TOTAL_REVIEW_PROP}`]} Reviews
 					</span>
 				</Col>
 				<Col xs={24} className="my-3 tedkvn-center">
@@ -229,33 +236,11 @@ function DealPage({ isOwner = false, service = {} }) {
 	);
 
 	const [searchParams] = useSearchParams();
-	const searchTypeParam = searchParams.get(SEARCH_TYPE_PROP) || SEARCH_SERVICE;
 
-	const [actionCall, setActionCall] = useState({
-		actionType: SEARCH_SERVICE,
-		searching: false,
-	});
-
-	const initSearch = useCallback(
-		async (
-			actionType = SEARCH_SERVICE
-			// searchType = searchTypeParam,
-			// params = {}
-		) => {
-			// console.log(actionType);
-			setActionCall({
-				actionType: actionType,
-				searching: actionType === SEARCH_SERVICE ? false : true,
-			});
-
-			// onSearchHandle(actionType, searchType, params).then(() =>
-			// 	setActionCall({
-			// 		actionType: actionType,
-			// 		searching: false,
-			// 	})
-			// );
-		},
-		[actionCall?.searching, id, searchTypeParam]
+	const [actionPage, setActionPage] = useState(
+		searchParams.get(SEARCH_TYPE_PROP) === SEARCH_REVIEW
+			? SEARCH_REVIEW
+			: SEARCH_SERVICE
 	);
 
 	const actionTitleOptions = [
@@ -263,10 +248,10 @@ function DealPage({ isOwner = false, service = {} }) {
 			label: "Details",
 			value: SEARCH_SERVICE,
 		},
-		{
-			label: "FAQ",
-			value: SEARCH_QUESTION,
-		},
+		// {
+		// 	label: "FAQ",
+		// 	value: SEARCH_QUESTION,
+		// },
 		{
 			label: "Reviews",
 			value: SEARCH_REVIEW,
@@ -276,12 +261,9 @@ function DealPage({ isOwner = false, service = {} }) {
 	const actionTitle = (
 		<Segmented
 			block
+			defaultValue={actionPage}
 			options={actionTitleOptions}
-			onChange={(value) => {
-				if (value !== actionCall?.actionType) {
-					initSearch(value);
-				}
-			}}
+			onChange={(value) => setActionPage(value)}
 		/>
 	);
 
@@ -600,7 +582,15 @@ function DealPage({ isOwner = false, service = {} }) {
 			</>
 		),
 		[`${SEARCH_QUESTION}`]: <></>,
-		[`${SEARCH_REVIEW}`]: <></>,
+		[`${SEARCH_REVIEW}`]: (
+			<ReviewPage
+				type={SERVICE_REVIEW_PROP}
+				revieweeId={id}
+				totalReview={review?.[`${TOTAL_REVIEW_PROP}`]}
+				avgRating={review?.[`${AVG_RATING_PROP}`]}
+				setReview={(values = {}) => setReview({ ...review, ...values })}
+			/>
+		),
 	};
 
 	const extraActionCard = (
@@ -609,12 +599,14 @@ function DealPage({ isOwner = false, service = {} }) {
 			<Card
 				className="bg-transparent pb-0"
 				bordered={false}
-				bodyStyle={{
-					padding: "1rem 0",
+				headStyle={{
+					paddingTop: "0",
 				}}
-				loading={actionCall?.searching}
+				bodyStyle={{
+					padding: "0",
+				}}
 			>
-				{action?.[`${actionCall?.actionType}`]}
+				{action?.[`${actionPage}`]}
 			</Card>
 		</>
 	);

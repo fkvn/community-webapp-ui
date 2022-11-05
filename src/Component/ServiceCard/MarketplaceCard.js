@@ -40,7 +40,7 @@ import {
 import { formatTime } from "../../Util/Util";
 import useImage from "../Hook/useImage";
 
-function MarketplaceCard({ card = DEFAULT_CARD_INFO }) {
+function MarketplaceCard({ card = DEFAULT_CARD_INFO, withCardTitle = true }) {
 	const { useBreakpoint } = Grid;
 	const screens = useBreakpoint();
 	const navigate = useNavigate();
@@ -86,7 +86,7 @@ function MarketplaceCard({ card = DEFAULT_CARD_INFO }) {
 		</div>
 	);
 
-	const title = (
+	const title = withCardTitle && (
 		<Meta
 			className="tedkvn-center-left m-0 m-sm-1"
 			avatar={
@@ -139,7 +139,7 @@ function MarketplaceCard({ card = DEFAULT_CARD_INFO }) {
 					</div>
 				))}
 			</Carousel>
-			{screens.xs && (
+			{(!withCardTitle || screens.xs) && (
 				<div
 					style={{
 						position: "absolute",
@@ -236,20 +236,22 @@ function MarketplaceCard({ card = DEFAULT_CARD_INFO }) {
 				style={{ maxWidth: "100%", borderRadius: "1rem" }}
 				className="overflow-hidden"
 				cover={cover}
-				extra={[
-					<Button
-						key={basicInfo?.[`${ID_PROP}`]}
-						type="ghost border-0"
-						icon={
-							<ShareAltOutlined
-								style={{
-									fontSize: screens?.xs ? "1.1rem" : "1.4rem",
-								}}
-								className="c-primary"
-							/>
-						}
-					/>,
-				]}
+				{...(withCardTitle && {
+					extra: [
+						<Button
+							key={basicInfo?.[`${ID_PROP}`]}
+							type="ghost border-0"
+							icon={
+								<ShareAltOutlined
+									style={{
+										fontSize: screens?.xs ? "1.1rem" : "1.4rem",
+									}}
+									className="c-primary"
+								/>
+							}
+						/>,
+					],
+				})}
 			>
 				{body}
 			</Card>

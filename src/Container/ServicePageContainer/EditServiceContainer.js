@@ -1,7 +1,7 @@
 import { isEmptyObject } from "jquery";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import usePageHeader from "../../Component/Hook/FormHook/usePageheader";
 import { errorMessage, loadingMessage } from "../../Component/Hook/useMessage";
 import usePost from "../../Component/Hook/usePost";
@@ -28,12 +28,13 @@ import {
 	SEARCH_HOUSING,
 	SEARCH_JOB,
 	SEARCH_MARKETPLACE,
-	SEARCH_SERVICE,
 	SEARCH_TYPE_PROP,
 } from "../../Util/ConstVar";
 import AuthContainer from "../AuthContainer/AuthContainer";
 
 function EditServiceContainer() {
+	const location = useLocation();
+
 	const {
 		id = -1,
 		[`${SEARCH_TYPE_PROP}`]: type = "",
@@ -118,13 +119,7 @@ function EditServiceContainer() {
 	);
 
 	const app = (
-		<AuthContainer
-			closeUrl="/"
-			continueUrl="/signin"
-			successUrl={`/${SEARCH_SERVICE}/${action}/${type}${
-				action === EDIT_PROP ? `/${requestId}` : ``
-			}`}
-		>
+		<AuthContainer continueUrl="/signin">
 			{action === EDIT_PROP && !service?.[`${ID_PROP}`] ? (
 				<SkeletonCard />
 			) : (

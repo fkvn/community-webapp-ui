@@ -143,6 +143,7 @@ export const SEARCH_DEFAULT_LOCATION = {
 	[`${ADDRESS_PROP}`]: "Thai Town, Los Angeles, CA 90027, USA",
 	[`${PLACEID_PROP}`]: "ChIJf2z2Hle_woARaNaIiR198fg",
 };
+export const SEARCH_PAGE_PROP = "page";
 
 export const PROFILE_REVIEW_PROP = "PROFILE_REVIEW";
 export const SERVICE_REVIEW_PROP = "POST_REVIEW";

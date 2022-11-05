@@ -1,10 +1,7 @@
 import Icon, {
 	AimOutlined,
-	ArrowDownOutlined,
-	ArrowUpOutlined,
 	LinkOutlined,
 	MailOutlined,
-	MenuOutlined,
 	PhoneOutlined,
 	TeamOutlined,
 	UserOutlined,
@@ -13,40 +10,29 @@ import {
 	Button,
 	Card,
 	Carousel,
-	Col,
 	Descriptions,
 	Divider,
-	Dropdown,
-	Empty,
 	Grid,
 	Image,
-	Menu,
 	PageHeader,
 	Rate,
-	Row,
 	Segmented,
 	Space,
-	Table,
-	Tag,
 	Typography,
 } from "antd";
 import Meta from "antd/lib/card/Meta";
 import { isEmptyObject } from "jquery";
-import React, { useCallback, useState } from "react";
-import { useSelector } from "react-redux";
-import { useLocation, useSearchParams } from "react-router-dom";
+import React, { useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import { iconLocationBlack } from "../../../Assest/Asset";
-import { thainowReducer } from "../../../redux-store/reducer/thainowReducer";
 import {
 	ADDRESS_PROP,
 	AVG_RATING_PROP,
 	COMPANY_INDUSTRY_PROP,
 	CREATED_ON_PROP,
 	DESCRIPTION_PROP,
-	EDIT_PROP,
 	EMAIL_PROP,
 	FORWARD_CLOSE,
-	FORWARD_CONTINUE,
 	FORWARD_SUCCESS,
 	ID_PROP,
 	INFO_PROP,
@@ -63,53 +49,27 @@ import {
 	PHONE_PROP,
 	PICTURE_LIST_PROP,
 	PICTURE_PROP,
-	POST_OWNER_ID_PROP,
 	PROFILE_BUSINESS_TYPE_PROP,
 	PROFILE_REVIEW_PROP,
 	PROFILE_TYPE_PROP,
 	SEARCH_BUSINESS,
-	SEARCH_DEAL,
-	SEARCH_FETCH_RESULT_PROP,
-	SEARCH_HOUSING,
-	SEARCH_JOB,
 	SEARCH_KEYWORD,
-	SEARCH_MARKETPLACE,
 	SEARCH_PROFILE,
-	SEARCH_RESULT_OBJ,
 	SEARCH_REVIEW,
 	SEARCH_SERVICE,
-	SEARCH_SORT,
-	SEARCH_SORT_ACS,
-	SEARCH_SORT_DATE,
-	SEARCH_SORT_DESC,
-	SEARCH_SORT_DISTANCE,
-	SEARCH_SORT_ORDER,
 	SEARCH_TYPE_PROP,
-	SEARCH_WISHLIST,
 	SIZE_PROP,
 	STATUS_PROP,
-	TITLE_PROP,
-	TOTAL_COUNT_PROP,
 	TOTAL_REVIEW_PROP,
-	TYPE_PROP,
 	UPDATED_ON_PROP,
 	WEBSITE_PROP,
 } from "../../../Util/ConstVar";
-import DealBadge from "../../Badge/DealBadge";
-import HousingBadge from "../../Badge/HousingBadge";
-import JobBadge from "../../Badge/JobBadge";
-import MarketplaceBadge from "../../Badge/MarketplaceBadge";
 import useImage from "../../Hook/useImage";
-import useSearch from "../../Hook/useSearch";
-import DealCard from "../../ServiceCard/DealCard";
-import HousingCard from "../../ServiceCard/HousingCard";
-import JobCard from "../../ServiceCard/JobCard";
-import MarketplaceCard from "../../ServiceCard/MarketplaceCard";
 
 import { formatTime } from "../../../Util/Util";
 import useUrls from "../../Hook/useUrls";
-import RemoveService from "../EditService/RemoveService";
 import ReviewPage from "../ReviewPage/ReviewPage";
+import SearchResultPage1 from "./SearchResultPage1";
 
 function ProfilePage({ isOwner = false, profile = {} }) {
 	const {
@@ -136,8 +96,6 @@ function ProfilePage({ isOwner = false, profile = {} }) {
 		[`${AVG_RATING_PROP}`]: avgRating,
 		[`${TOTAL_REVIEW_PROP}`]: totalReview,
 	});
-
-	const location = useLocation();
 
 	const header = (
 		<PageHeader
@@ -530,396 +488,25 @@ function ProfilePage({ isOwner = false, profile = {} }) {
 	);
 
 	const [searchParams] = useSearchParams();
-	const keywordParam = searchParams.get(SEARCH_KEYWORD) || "";
-	const searchTypeParam = searchParams.get(SEARCH_TYPE_PROP) || SEARCH_DEAL;
-	const sortOrderParam =
-		searchParams.get(SEARCH_SORT_ORDER) || SEARCH_SORT_DESC;
-	const { dispatchSearch } = useSearch();
-	const { [`${SEARCH_RESULT_OBJ}`]: searchResult = {} } =
-		useSelector(thainowReducer);
-
-	const { [`${SEARCH_FETCH_RESULT_PROP}`]: fetchResults = [] } = searchResult;
-
-	const [actionCall, setActionCall] = useState({
-		actionType:
-			searchTypeParam === SEARCH_REVIEW ? SEARCH_REVIEW : SEARCH_SERVICE,
-		searching: true,
-	});
-
-	const onSearchHandle = (
-		actionType = SEARCH_SERVICE,
-		searchType = searchTypeParam,
-		params = {}
-	) => {
-		if (id > 0 && actionType === SEARCH_SERVICE) {
-			return dispatchSearch(
-				searchType,
-				{
-					[`${POST_OWNER_ID_PROP}`]: id,
-					...params,
-				},
-				false
-			);
-		}
-
-		if (id > 0 && actionType === SEARCH_REVIEW) {
-			return dispatchSearch(
-				actionType,
-				{
-					[`${ID_PROP}`]: id,
-					[`${TYPE_PROP}`]: PROFILE_REVIEW_PROP,
-					...params,
-				},
-				false
-			).then(
-				({
-					[`${TOTAL_COUNT_PROP}`]: totalCount = 0,
-					[`${AVG_RATING_PROP}`]: avgRating = 0,
-				} = {}) =>
-					setReview({
-						[`${AVG_RATING_PROP}`]: avgRating,
-						[`${TOTAL_REVIEW_PROP}`]: totalCount,
-					})
-			);
-		}
-
-		return Promise.reject();
-	};
-
-	const initSearch = useCallback(
-		async (
-			actionType = SEARCH_SERVICE,
-			searchType = searchTypeParam,
-			params = {}
-		) => {
-			setActionCall({
-				actionType: actionType,
-				searching: true,
-			});
-
-			onSearchHandle(actionType, searchType, params).then(() =>
-				setActionCall({
-					actionType: actionType,
-					searching: false,
-				})
-			);
-		},
-		[actionCall?.searching, dispatchSearch, id, searchTypeParam]
-	);
-
-	// useEffect(() => {
-	// 	initSearch(actionCall.actionType);
-	// }, [id]);
-
-	const serviceTagItems = [
-		(props = {}) => (
-			<DealBadge
-				type="tag"
-				active={searchTypeParam === SEARCH_DEAL}
-				onClick={() => {
-					if (id > 0) {
-						setActionCall({
-							actionType: SEARCH_SERVICE,
-							searching: true,
-						});
-						initSearch(SEARCH_SERVICE, SEARCH_DEAL);
-					}
-				}}
-				{...props}
-			/>
-		),
-
-		(props = {}) => (
-			<JobBadge
-				type="tag"
-				active={searchTypeParam === SEARCH_JOB}
-				onClick={() => {
-					if (id > 0) {
-						setActionCall({
-							actionType: SEARCH_SERVICE,
-							searching: true,
-						});
-						initSearch(SEARCH_SERVICE, SEARCH_JOB);
-					}
-				}}
-				{...props}
-			/>
-		),
-
-		(props = {}) => (
-			<HousingBadge
-				type="tag"
-				active={searchTypeParam === SEARCH_HOUSING}
-				onClick={() => {
-					if (id > 0) {
-						setActionCall({
-							actionType: SEARCH_SERVICE,
-							searching: true,
-						});
-						initSearch(SEARCH_SERVICE, SEARCH_HOUSING);
-					}
-				}}
-				{...props}
-			/>
-		),
-
-		(props = {}) => (
-			<MarketplaceBadge
-				type="tag"
-				active={searchTypeParam === SEARCH_MARKETPLACE}
-				onClick={() => {
-					if (id > 0) {
-						setActionCall({
-							actionType: SEARCH_SERVICE,
-							searching: true,
-						});
-						initSearch(SEARCH_SERVICE, SEARCH_MARKETPLACE);
-					}
-				}}
-				{...props}
-			/>
-		),
-	];
-
-	const serviceTitle = (
-		<Space
-			direction="horizontal"
-			className="hideScrollHorizontal my-3 w-100"
-			style={{
-				overflowX: "scroll",
-			}}
-			size={3}
-		>
-			{serviceTagItems.map((tag, idx) => (
-				<React.Fragment key={idx}>
-					{tag({
-						tagClassName: "p-1 px-3 rounded lh-base",
-					})}
-				</React.Fragment>
-			))}
-		</Space>
-	);
-
-	const serviceResultHeaderMenu = (
-		<Menu
-			mode="horizontal"
-			className="px-2 "
-			triggerSubMenuAction="click"
-			style={{
-				lineHeight: "2rem",
-			}}
-			items={[
-				{
-					key: SEARCH_SORT,
-					label: "Sort By",
-					style: { cursor: "pointer", zIndex: 200 },
-					children: [
-						{
-							key: SEARCH_SORT_DATE,
-							label: (
-								<>
-									Sort by Date{" "}
-									{sortOrderParam === SEARCH_SORT_DESC ? (
-										<ArrowUpOutlined style={{ verticalAlign: "none" }} />
-									) : (
-										<ArrowDownOutlined />
-									)}
-								</>
-							),
-						},
-						{
-							key: SEARCH_SORT_DISTANCE,
-							label: "Sort by Distance",
-						},
-					],
-				},
-			]}
-			onClick={({ key }) =>
-				initSearch(SEARCH_SERVICE, searchTypeParam, {
-					[`${SEARCH_SORT}`]: key,
-					[`${SEARCH_SORT_ORDER}`]:
-						sortOrderParam === SEARCH_SORT_DESC
-							? SEARCH_SORT_ACS
-							: SEARCH_SORT_DESC,
-				})
-			}
-		/>
-	);
-
-	const serviceResultHeader = (
-		<>
-			<Row justify="space-between" align="middle" className="my-0 my-md-4">
-				<Col style={{ maxWidth: "75%" }}>
-					<Typography.Title level={3}>
-						All {keywordParam.length > 0 && `" ${keywordParam} "`} Results
-					</Typography.Title>
-				</Col>
-
-				{fetchResults?.length > 0 && (
-					<Col>
-						{screens?.xs ? (
-							<Dropdown overlay={serviceResultHeaderMenu} trigger={["click"]}>
-								<Space>
-									<MenuOutlined
-										className="c-primary-important mt-2"
-										style={{ cursor: "pointer", fontSize: "1rem" }}
-									/>
-								</Space>
-							</Dropdown>
-						) : (
-							serviceResultHeaderMenu
-						)}
-					</Col>
-				)}
-			</Row>
-		</>
-	);
-
-	const tableServiceResultColumns = [
-		{
-			title: "Title",
-			dataIndex: "title",
-			render: ([id, title]) => (
-				<Typography.Link
-					onClick={() =>
-						forwardUrl(
-							FORWARD_CONTINUE,
-							location?.pathname + location?.search || "/",
-							`/${SEARCH_SERVICE}/${searchTypeParam}/${id}`,
-							location?.pathname + location?.search || "/"
-						)
-					}
-				>
-					{title}
-				</Typography.Link>
-			),
-			ellipsis: true,
-		},
-		{
-			title: "Status",
-			dataIndex: "status",
-			render: (status) =>
-				status === "AVAILABLE" ? (
-					<Tag color="success">PUBLIC</Tag>
-				) : (
-					<Tag color="warning">{status}</Tag>
-				),
-			ellipsis: true,
-		},
-		{
-			title: "Date",
-			dataIndex: "date",
-			// render: (time) => formatTime(time),
-			ellipsis: true,
-		},
-		{
-			title: "Action",
-			dataIndex: "action",
-			render: (serviceId) => (
-				<Space size="middle">
-					<Button
-						type="link"
-						className="border-0 p-0"
-						onClick={() =>
-							forwardUrl(
-								FORWARD_CONTINUE,
-								"",
-								`/${EDIT_PROP}/${SEARCH_SERVICE}/${searchTypeParam}/${serviceId}`,
-								location?.pathname + location?.search || "/"
-							)
-						}
-					>
-						Edit
-					</Button>
-					<RemoveService ownerId={id} serviceId={serviceId} forward={false}>
-						<Button type="link" className="border-0 p-0 text-danger">
-							Delete
-						</Button>
-					</RemoveService>
-				</Space>
-			),
-			ellipsis: true,
-		},
-	];
-
-	const tableServiceResultData = fetchResults.map((res, idx) => {
-		return {
-			key: idx,
-			title: [res?.[`${ID_PROP}`], res?.[`${INFO_PROP}`]?.[`${TITLE_PROP}`]],
-			status: res?.[`${INFO_PROP}`]?.[`${STATUS_PROP}`],
-			date: res?.[`${INFO_PROP}`]?.[`${UPDATED_ON_PROP}`],
-			action: res?.[`${ID_PROP}`],
-		};
-	});
-
-	const tableServiceResult =
-		fetchResults.length > 0 ? (
-			<Table
-				columns={tableServiceResultColumns}
-				dataSource={tableServiceResultData}
-				pagination={{ pageSize: 20 }}
-				scroll={{ x: true, y: 240 }}
-				className="my-3"
-			/>
-		) : (
-			<Empty
-				description={`This profile hasn't posted any ${
-					searchResult?.[`${SEARCH_TYPE_PROP}`]
-				} yet`}
-			/>
-		);
-
-	const cardServiceResult =
-		fetchResults.length > 0 ? (
-			<Row gutter={[{ xs: 20, sm: 50 }, 50]} className="mt-4">
-				{fetchResults.map((rel, idx) => (
-					<Col xs={24} sm={12} key={idx} id="service-card">
-						{searchResult?.[`${SEARCH_TYPE_PROP}`] === SEARCH_DEAL && (
-							<DealCard card={rel} />
-						)}
-
-						{searchResult?.[`${SEARCH_TYPE_PROP}`] === SEARCH_JOB && (
-							<JobCard card={rel} />
-						)}
-
-						{searchResult?.[`${SEARCH_TYPE_PROP}`] === SEARCH_HOUSING && (
-							<HousingCard card={rel} />
-						)}
-
-						{searchResult?.[`${SEARCH_TYPE_PROP}`] === SEARCH_MARKETPLACE && (
-							<MarketplaceCard card={rel} />
-						)}
-					</Col>
-				))}
-			</Row>
-		) : (
-			<Empty
-				description={`This profile hasn't posted any ${
-					searchResult?.[`${SEARCH_TYPE_PROP}`]
-				} yet`}
-			/>
-		);
-
-	const serviceResult = (
-		<>
-			{serviceResultHeader}
-			{isOwner ? tableServiceResult : cardServiceResult}
-		</>
-	);
 
 	const action = {
-		[`${SEARCH_SERVICE}`]: <></>,
-		[`${SEARCH_WISHLIST}`]: <></>,
+		[`${SEARCH_SERVICE}`]: (
+			<SearchResultPage1
+				withBusiness={false}
+				withOwner={true}
+				ownerId={id}
+				withBrowsingText={false}
+				withCardTitle={false}
+			/>
+		),
+		// [`${SEARCH_WISHLIST}`]: <></>,
 		[`${SEARCH_REVIEW}`]: (
 			<ReviewPage
 				type={PROFILE_REVIEW_PROP}
 				revieweeId={id}
 				totalReview={review?.[`${TOTAL_REVIEW_PROP}`]}
-				setTotalReview={(value) => setReview({ ...review, totalReview: value })}
 				avgRating={review?.[`${AVG_RATING_PROP}`]}
-				setAvgRating={(value) =>
-					setReview({ ...review, [`${AVG_RATING_PROP}`]: value })
-				}
+				setReview={(values = {}) => setReview({ ...review, ...values })}
 			/>
 		),
 	};
@@ -929,10 +516,7 @@ function ProfilePage({ isOwner = false, profile = {} }) {
 			label: "Services",
 			value: SEARCH_SERVICE,
 		},
-		{
-			label: "Wish List",
-			value: SEARCH_WISHLIST,
-		},
+
 		{
 			label: "Reviews",
 			value: SEARCH_REVIEW,
@@ -940,7 +524,9 @@ function ProfilePage({ isOwner = false, profile = {} }) {
 	];
 
 	const [actionPage, setActionPage] = useState(
-		searchParams.get(SEARCH_TYPE_PROP) || SEARCH_SERVICE
+		searchParams.get(SEARCH_TYPE_PROP) === SEARCH_REVIEW
+			? SEARCH_REVIEW
+			: SEARCH_SERVICE
 	);
 
 	const actionTitle = (
@@ -948,16 +534,7 @@ function ProfilePage({ isOwner = false, profile = {} }) {
 			block
 			defaultValue={actionPage}
 			options={actionTitleOptions}
-			onChange={(value) => {
-				console.log(value);
-				setActionPage(value);
-				// setActionCall({
-				// 	actionType: actionType,
-				// });
-				// if (value !== actionCall?.actionType) {
-				// 	initSearch(value, value === SEARCH_SERVICE ? SEARCH_DEAL : "");
-				// }
-			}}
+			onChange={(value) => setActionPage(value)}
 		/>
 	);
 
@@ -967,11 +544,12 @@ function ProfilePage({ isOwner = false, profile = {} }) {
 			<Card
 				className="bg-transparent "
 				bordered={false}
-				// title={action?.[`${actionCall?.actionType}`]?.title}
 				headStyle={{
 					paddingTop: "0",
 				}}
-				// loading={actionCall?.searching}
+				bodyStyle={{
+					padding: "0",
+				}}
 			>
 				{action?.[`${actionPage}`]}
 			</Card>

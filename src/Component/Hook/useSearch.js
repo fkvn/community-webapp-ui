@@ -19,10 +19,13 @@ import {
 	POST_OWNER_ID_PROP,
 	SEARCH_BUSINESS,
 	SEARCH_DEAL,
+	SEARCH_FETCH_RESULT_PROP,
 	SEARCH_HOUSING,
 	SEARCH_JOB,
 	SEARCH_KEYWORD,
 	SEARCH_MARKETPLACE,
+	SEARCH_PAGE_PROP,
+	SEARCH_RESULT_OBJ,
 	SEARCH_REVIEW,
 	SEARCH_TYPE_PROP,
 	TYPE_PROP,
@@ -34,10 +37,16 @@ function useSearch() {
 	const [searchParams, setSearchParams] = useSearchParams({ replace: false });
 	const keywordParam = searchParams.get(SEARCH_KEYWORD) || "";
 	const searchTypeParam = searchParams.get(SEARCH_TYPE_PROP) || "";
+	const pageParam = searchParams.get(SEARCH_PAGE_PROP) || 1;
 
 	const routeState = useLocation()?.state || {};
 
-	const { [`${LOCATION_OBJ}`]: location = {} } = useSelector(thainowReducer);
+	const {
+		[`${LOCATION_OBJ}`]: location = {},
+		[`${SEARCH_RESULT_OBJ}`]: {
+			[`${SEARCH_FETCH_RESULT_PROP}`]: fetchResults = [],
+		} = {},
+	} = useSelector(thainowReducer);
 
 	const searchCompany = (params = "") =>
 		searchCompanyAxios(params).catch((e) => errorMessage(e));
@@ -76,11 +85,13 @@ function useSearch() {
 		}
 	};
 
-	const dispatchSearch = async (
-		type = SEARCH_BUSINESS,
+	const dispatchSearch = async ({
+		type = searchTypeParam,
 		params = {},
-		backToTop = true
-	) => {
+		loadMore = false,
+		currentFetchResults = [],
+		backToTop = true,
+	} = {}) => {
 		if (backToTop) {
 			window.scrollTo({
 				top: 0,
@@ -114,10 +125,18 @@ function useSearch() {
 		//  add location
 		params = { ...location, ...params };
 
+		if (!loadMore) {
+			params = { ...params, [`${SEARCH_PAGE_PROP}`]: 1 };
+		}
+
 		params = new URLSearchParams(params);
 
 		return onSearchHandle(type, params.toString()).then(
-			async ({ resLocation = {}, ...result }) => {
+			async ({
+				resLocation = {},
+				[`${SEARCH_FETCH_RESULT_PROP}`]: newFetchResults = [],
+				...result
+			}) => {
 				const { [`${POST_OWNER_ID_PROP}`]: ownerId = -1, ...updatedParams } =
 					getSearchParamsObj(params);
 
@@ -128,10 +147,16 @@ function useSearch() {
 				return patchLocationInfoPromise(
 					resLocation ? resLocation : location
 				).then(() =>
-					patchSearchResultInfoPromise({
-						[`${SEARCH_TYPE_PROP}`]: type,
-						...result,
-					}).then(() =>
+					patchSearchResultInfoPromise(
+						{
+							[`${SEARCH_TYPE_PROP}`]: type,
+							[`${SEARCH_FETCH_RESULT_PROP}`]: loadMore
+								? [...currentFetchResults, ...newFetchResults]
+								: newFetchResults,
+							...result,
+						},
+						true
+					).then(() =>
 						successMessage(`done`, 1, { className: "d-none" }).then(() =>
 							Promise.resolve(result)
 						)
