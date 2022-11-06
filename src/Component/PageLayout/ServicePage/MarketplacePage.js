@@ -3,6 +3,7 @@ import Icon, {
 	DeleteFilled,
 	DoubleRightOutlined,
 	EditFilled,
+	ExclamationCircleFilled,
 	LinkOutlined,
 	MailOutlined,
 	PhoneOutlined,
@@ -16,8 +17,10 @@ import {
 	Col,
 	Descriptions,
 	Divider,
+	Dropdown,
 	Grid,
 	Image,
+	Menu,
 	PageHeader,
 	Rate,
 	Row,
@@ -62,6 +65,7 @@ import {
 	PROFILE_BUSINESS_TYPE_PROP,
 	PROFILE_TYPE_PROP,
 	PROFILE_USER_TYPE_PROP,
+	REPORT_SERVICE_TYPE_PROP,
 	SEARCH_MARKETPLACE,
 	SEARCH_PROFILE,
 	SEARCH_QUESTION,
@@ -78,7 +82,9 @@ import {
 import { formatTime } from "../../../Util/Util";
 import useImage from "../../Hook/useImage";
 import useUrls from "../../Hook/useUrls";
+import BlockService from "../EditService/BlockService";
 import RemoveService from "../EditService/RemoveService";
+import Report from "../Report/Report";
 import ReviewPage from "../ReviewPage/ReviewPage";
 
 function MarketplacePage({ isOwner = false, service = {} }) {
@@ -104,12 +110,54 @@ function MarketplacePage({ isOwner = false, service = {} }) {
 		[`${TOTAL_REVIEW_PROP}`]: totalReview,
 	});
 
+	const headerExtraMoreMenu = (
+		<Menu
+			items={[
+				{
+					key: "BLOCK",
+					label: (
+						<BlockService
+							serviceId={id}
+							iconOnly={false}
+							buttonProps={{
+								className: "border-0 bg-transparent text-dark",
+								shape: "",
+							}}
+						/>
+					),
+				},
+				{
+					key: "REPORT",
+					label: (
+						<Report
+							key={0}
+							type={REPORT_SERVICE_TYPE_PROP}
+							typeId={id}
+							iconOnly={false}
+							buttonProps={{
+								className: "border-0 bg-transparent text-dark",
+								shape: "",
+							}}
+						/>
+					),
+				},
+			]}
+		/>
+	);
+
 	const header = (
 		<PageHeader
 			ghost={true}
 			className="px-0 py-3"
 			onBack={() => forwardUrl(FORWARD_CLOSE)}
 			title="Back"
+			extra={[
+				<Dropdown key={0} overlay={headerExtraMoreMenu}>
+					<Button type="danger" className="px-2" shape="round">
+						<ExclamationCircleFilled style={{ fontSize: "1rem" }} />
+					</Button>
+				</Dropdown>,
+			]}
 		/>
 	);
 

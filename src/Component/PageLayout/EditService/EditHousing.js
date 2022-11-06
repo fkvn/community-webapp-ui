@@ -312,41 +312,33 @@ function EditHousing({ service = {}, editing = false, ownerId = null }) {
 
 	const amenityList = [
 		"Wifi",
-		"Air Conditioner",
 		"Washer",
-		"Dryer",
 		"Cooking Basic",
 		"Refrigerator",
+		"Air Conditioner",
 		"Microwave",
+		"Dryer",
 		"Pet Allowed",
 	];
 
 	const amenityItems = [
+		{
+			title: "Air Conditioner",
+			icon: svgAcIconBlack,
+			height: "1.1rem",
+		},
+
 		{
 			title: "Wifi",
 			icon: svgWifiIconBlack,
 			height: "1.1rem",
 		},
 		{
-			title: "Air Conditioner",
-			icon: svgAcIconBlack,
-			height: "1.1rem",
-		},
-		{
-			title: "Washer",
-			icon: svgWasherIconBlack,
-			height: "1.2rem",
-		},
-		{
-			title: "Dryer",
-			icon: svgDryerIconBlack,
-			height: "1.2rem",
-		},
-		{
 			title: "Refrigerator",
 			icon: svgRefrigeratorIconBlack,
 			height: "1.2rem",
 		},
+
 		{
 			title: "Cooking Basic",
 			icon: svgCookingIconBlack,
@@ -360,6 +352,16 @@ function EditHousing({ service = {}, editing = false, ownerId = null }) {
 		{
 			title: "Pet Allowed",
 			icon: svgPetAllowedIconBlack,
+			height: "1.2rem",
+		},
+		{
+			title: "Washer",
+			icon: svgWasherIconBlack,
+			height: "1.2rem",
+		},
+		{
+			title: "Dryer",
+			icon: svgDryerIconBlack,
 			height: "1.2rem",
 		},
 	];

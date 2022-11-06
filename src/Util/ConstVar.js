@@ -114,6 +114,7 @@ export const CREATE_PROP = "create";
 export const TYPE_PROP = "type";
 
 export const SEARCH_OBJ = "searchObj";
+export const SEARCH_REQUESTER_ID = "requesterId";
 export const SEARCH_RESULT_OBJ = "searchResultObj";
 export const SEARCH_FETCH_RESULT_PROP = "fetchResult";
 export const SEARCH_TOTAL_COUNT_PROP = "totalCount";
@@ -155,6 +156,14 @@ export const TOTAL_REVIEW_PROP = "totalReview";
 export const AVG_RATING_PROP = "avgRating";
 export const TOTAL_COUNT_PROP = "totalCount";
 export const RATE_PROP = "rate";
+
+export const REPORT_USER_TYPE_PROP = "USER_REPORT";
+export const REPORT_SERVICE_TYPE_PROP = "SERVICE_REPORT";
+export const REPORT_SENDER_PROP = "sender";
+export const REPORT_TYPE_PROP = "type";
+export const REPORT_TYPE_ID_PROP = "typeId";
+export const REPORT_MESSAGE_PROP = "message";
+export const REPORT_REASON_LIST_PROP = "reasons";
 
 export const COMPANY_INDUSTRY_LIST = [
 	"Aquarium & Pet",

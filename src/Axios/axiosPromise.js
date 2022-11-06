@@ -305,4 +305,20 @@ export const patchReviewAxios = (id = null, info = {}) =>
 		.then(({ data }) => Promise.resolve(data))
 		.catch((e) => Promise.reject(e));
 
+//  report
+export const sendReportAxios = (info = {}) =>
+	axios
+		.post(`/reports`, info)
+		.then(({ data }) => Promise.resolve(data))
+		.catch((e) => Promise.reject(e));
+
+//  hide service
+export const hideServiceAxios = (requesterId, serviceId) =>
+	axios
+		.post(
+			`/${SEARCH_PROFILE}/${requesterId}/block/${SEARCH_SERVICE}/${serviceId}`
+		)
+		.then(({ data }) => Promise.resolve(data))
+		.catch((e) => Promise.reject(e));
+
 controller.abort();

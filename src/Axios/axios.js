@@ -1,10 +1,13 @@
 import axios from "axios";
+import { localEnv } from "../Assest/Asset";
 import * as constVar from "../Util/ConstVar";
 import { signoutUserPromise } from "../Util/Util";
 
 const instance = axios.create({
 	// baseURL: "http://ecst-csproj2.calstatela.edu:6328/api/"
-	baseURL: "http://localhost:8080/api",
+	baseURL: localEnv
+		? "http://localhost:8080/api"
+		: "https://mono-thainow-cloudrun-jib-vxbslz3voq-uc.a.run.app/api",
 	// baseURL: "https://alice.cysun.org/surveys/api",
 	// baseURL: "https://mono-thainow-cloudrun-jib-vxbslz3voq-uc.a.run.app/api",
 	// baseURL: "https://thainow-cloud-run-yjxp4czkwa-uc.a.run.app/api",

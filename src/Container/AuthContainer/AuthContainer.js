@@ -5,7 +5,7 @@ import { FORWARD_CONTINUE } from "../../Util/ConstVar";
 
 function AuthContainer({
 	closeUrl = "",
-	continueUrl = "",
+	continueUrl = "/signin",
 	successUrl = "",
 	children = {},
 }) {

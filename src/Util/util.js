@@ -378,7 +378,7 @@ export const formatLocation = (location = {}) => {
 
 export const formatSentenseCase = (text = "") => {
 	try {
-		return text?.[0].toUpperCase() + text.slice(1).toLowerCase();
+		return text?.[0].toUpperCase() + text?.slice(1).toLowerCase();
 	} catch (error) {
 		return text;
 	}

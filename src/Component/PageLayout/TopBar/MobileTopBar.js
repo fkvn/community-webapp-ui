@@ -155,7 +155,7 @@ function MobileTopBar() {
 			if (scrollY > lastScrollY && scrollY > 0.5 * heightToHideFrom) {
 				$("#layout header").css({
 					transform: "translateY(-60%)",
-					transition: "transform 1s, visibility 1s",
+					transition: "transform 0.5s, visibility 0.5s",
 				});
 
 				// $("#layout main").css({

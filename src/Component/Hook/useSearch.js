@@ -17,6 +17,7 @@ import {
 	ID_PROP,
 	LOCATION_OBJ,
 	POST_OWNER_ID_PROP,
+	PROFILE_OBJ,
 	SEARCH_BUSINESS,
 	SEARCH_DEAL,
 	SEARCH_FETCH_RESULT_PROP,
@@ -25,7 +26,7 @@ import {
 	SEARCH_KEYWORD,
 	SEARCH_MARKETPLACE,
 	SEARCH_PAGE_PROP,
-	SEARCH_RESULT_OBJ,
+	SEARCH_REQUESTER_ID,
 	SEARCH_REVIEW,
 	SEARCH_TYPE_PROP,
 	TYPE_PROP,
@@ -43,9 +44,7 @@ function useSearch() {
 
 	const {
 		[`${LOCATION_OBJ}`]: location = {},
-		[`${SEARCH_RESULT_OBJ}`]: {
-			[`${SEARCH_FETCH_RESULT_PROP}`]: fetchResults = [],
-		} = {},
+		[`${PROFILE_OBJ}`]: { [`${ID_PROP}`]: requesterId = -1 } = {},
 	} = useSelector(thainowReducer);
 
 	const searchCompany = (params = "") =>
@@ -124,6 +123,13 @@ function useSearch() {
 
 		//  add location
 		params = { ...location, ...params };
+
+		// add requesterId
+
+		params = {
+			...params,
+			[`${SEARCH_REQUESTER_ID}`]: requesterId,
+		};
 
 		if (!loadMore) {
 			params = { ...params, [`${SEARCH_PAGE_PROP}`]: 1 };

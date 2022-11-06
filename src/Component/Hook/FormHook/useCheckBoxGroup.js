@@ -14,7 +14,7 @@ function useCheckBoxGroup({
 	const [other, setOther] = useState(false);
 
 	const [otherValue, setOtherValue] = useState(
-		formatSentenseCase(form.getFieldValue(`${itemProps?.name}-Other`)) ||
+		formatSentenseCase(form?.getFieldValue(`${itemProps?.name}-Other`)) ||
 			"Other"
 	);
 
@@ -23,7 +23,6 @@ function useCheckBoxGroup({
 			<Form.Item
 				className="m-0"
 				shouldUpdate
-				{...itemProps}
 				rules={[
 					{ required: required, message: requiredMessage },
 					{
@@ -40,16 +39,17 @@ function useCheckBoxGroup({
 
 					...rules,
 				]}
-				{...(showLabel && {
-					label: `${itemProps?.label || "Field"} ${
-						required ? "" : "(Optional)"
-					}`,
-				})}
+				{...itemProps}
+				label={
+					showLabel
+						? `${itemProps?.label || "Field"} ${required ? "" : "(Optional)"}`
+						: ""
+				}
 			>
 				<Checkbox.Group>
-					<Row justify="space-between" wrap>
+					<Row justify="space-between" className="px-0" wrap>
 						{options.map((option, idx) => (
-							<Col key={idx} xs={24} lg={6}>
+							<Col key={idx}>
 								<Checkbox
 									value={option?.value}
 									style={{ lineHeight: "32px" }}

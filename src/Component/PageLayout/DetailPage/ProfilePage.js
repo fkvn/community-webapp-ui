@@ -52,6 +52,7 @@ import {
 	PROFILE_BUSINESS_TYPE_PROP,
 	PROFILE_REVIEW_PROP,
 	PROFILE_TYPE_PROP,
+	REPORT_USER_TYPE_PROP,
 	SEARCH_BUSINESS,
 	SEARCH_KEYWORD,
 	SEARCH_PROFILE,
@@ -68,6 +69,7 @@ import useImage from "../../Hook/useImage";
 
 import { formatTime } from "../../../Util/Util";
 import useUrls from "../../Hook/useUrls";
+import Report from "../Report/Report";
 import ReviewPage from "../ReviewPage/ReviewPage";
 import SearchResultPage1 from "./SearchResultPage1";
 
@@ -103,6 +105,7 @@ function ProfilePage({ isOwner = false, profile = {} }) {
 			className="px-0 py-3"
 			onBack={() => forwardUrl(FORWARD_CLOSE)}
 			title="Back"
+			extra={[<Report key={0} type={REPORT_USER_TYPE_PROP} typeId={id} />]}
 		/>
 	);
 
