@@ -31,7 +31,7 @@ function ServicePageContainer() {
 	const { id = -1, [`${SEARCH_TYPE_PROP}`]: type = "" } = useParams();
 	const requestId = Number(id);
 
-	const { [`${PROFILE_OBJ}`]: { [`${ID_PROP}`]: ownerId = null } = {} } =
+	const { [`${PROFILE_OBJ}`]: { [`${ID_PROP}`]: ownerId = -1 } = {} } =
 		useSelector(thainowReducer);
 
 	const { findService: findPost } = usePost();
@@ -87,10 +87,16 @@ function ServicePageContainer() {
 			{!service?.[`${ID_PROP}`] ? (
 				<SkeletonCard />
 			) : (
-				renderServicePage({
-					isOwner: service?.[`${POST_OWNER_PROP}`]?.[`${ID_PROP}`] === ownerId,
-					service: service,
-				})
+				<>
+					{renderServicePage({
+						isOwner:
+							service?.[`${POST_OWNER_PROP}`]?.[`${ID_PROP}`] === ownerId,
+						service: service,
+					})}
+					{/* <Helmet>
+						<title>Some Page</title>
+					</Helmet> */}
+				</>
 			)}
 		</>
 	);

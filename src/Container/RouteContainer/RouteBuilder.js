@@ -36,7 +36,7 @@ function RouteBuilder() {
 
 	const app = (
 		<>
-			<main id="main">{routes}</main>
+			<main id="main"> {routes}</main>
 
 			<div>
 				<ErrorContainer />

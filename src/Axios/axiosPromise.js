@@ -219,11 +219,11 @@ export const searchCompanyPromise = (
 
 // service
 
-export const findServiceAxios = (id = null, ownerId = null, type = "") =>
+export const findServiceAxios = (id = -1, ownerId = -1, type = "") =>
 	axios
 		.get(
 			`/${SEARCH_SERVICE}/${id}?${
-				ownerId && `profileId=${ownerId}`
+				ownerId >= 0 ? `profileId=${ownerId}` : ``
 			}&type=${type}`
 		)
 		.then(({ data }) => Promise.resolve(data))

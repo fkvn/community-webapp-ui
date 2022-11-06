@@ -26,7 +26,7 @@ import useUrls from "./useUrls";
 function usePost() {
 	const { forwardUrl } = useUrls();
 
-	const findService = async (id = null, ownerId = null, type = "") => {
+	const findService = async (id = -1, ownerId = -1, type = "") => {
 		loadingMessage("Loading ...", 0);
 
 		return findServiceAxios(id, ownerId, type)
