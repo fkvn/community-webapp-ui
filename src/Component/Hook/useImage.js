@@ -30,6 +30,7 @@ function useImage() {
 		editable = false,
 		uploadProps = {},
 		uploadPhotoOnClick = uploadFile,
+		withTooltip = true,
 	}) =>
 		((props = {}) =>
 			editable ? (
@@ -40,7 +41,9 @@ function useImage() {
 				>
 					<Tooltip
 						arrowPointAtCente={true}
-						title={<Image src={inputProps?.src} />}
+						{...(withTooltip && {
+							title: <Image src={inputProps?.src} />,
+						})}
 						placement="bottom"
 					>
 						<Avatar {...props} />
@@ -49,7 +52,9 @@ function useImage() {
 			) : (
 				<Tooltip
 					arrowPointAtCente={true}
-					title={<Image src={inputProps?.src} />}
+					{...(withTooltip && {
+						title: <Image src={inputProps?.src} />,
+					})}
 					placement="bottom"
 				>
 					<Avatar {...props} />

@@ -84,6 +84,7 @@ import {
 import { formatSentenseCase, formatTime } from "../../../Util/Util";
 import useImage from "../../Hook/useImage";
 import useUrls from "../../Hook/useUrls";
+import Share from "../../Share/Share";
 import BlockService from "../EditService/BlockService";
 import RemoveService from "../EditService/RemoveService";
 import Report from "../Report/Report";
@@ -154,7 +155,8 @@ function JobPage({ isOwner = false, service = {} }) {
 			onBack={() => forwardUrl(FORWARD_CLOSE)}
 			title="Back"
 			extra={[
-				<Dropdown key={0} overlay={headerExtraMoreMenu}>
+				<Share key={0} url={window.location.href} />,
+				<Dropdown key={1} overlay={headerExtraMoreMenu}>
 					<Button type="danger" className="px-2" shape="round">
 						<ExclamationCircleFilled style={{ fontSize: "1rem" }} />
 					</Button>
