@@ -21,7 +21,7 @@ function OffCanvasSearch({ show = false, onHide = () => {} }) {
 						className: "m-4",
 					}}
 					addressProps={{ style: { width: "100%" } }}
-					itemProps={{ className: "w-100" }}
+					itemProps={{ className: "w-100 mb-0" }}
 					buttonProps={{ block: true }}
 					showRecentSearch={true}
 					hideOffCanvas={onHide}

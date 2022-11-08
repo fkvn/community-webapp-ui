@@ -85,7 +85,7 @@ function useAddress({
 			{autoComplete({
 				itemProps: {
 					name: ADDRESS_PROP,
-					initialValue: defaultLocation?.[`${ADDRESS_PROP}`],
+					// initialValue: defaultLocation?.[`${ADDRESS_PROP}`],
 					rules: [
 						({ setFieldValue }) => ({
 							validator(_, value) {

@@ -83,7 +83,9 @@ function DefaultTopBar() {
 			<Col xs={20}>
 				<Row justify="center" className="mx-5" align="middle">
 					<Col flex={3}>
-						<Form form={form}>{keywordInput}</Form>
+						<Form form={form} id="default-top-bar">
+							{keywordInput}
+						</Form>
 					</Col>
 					<Col flex="auto">
 						{displayLocation(
@@ -104,7 +106,7 @@ function DefaultTopBar() {
 
 			<Col xs={2}>
 				<Dropdown overlay={menu} placement="bottomRight" arrow>
-					<Button className=" bg-white text-primary float-end">
+					<Button className=" bg-white text-primary float-end rounded-3">
 						<MenuOutlined />
 					</Button>
 				</Dropdown>

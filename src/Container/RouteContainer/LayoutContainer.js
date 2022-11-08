@@ -9,7 +9,6 @@ function LayoutContainer() {
 	const screens = useBreakpoint();
 
 	const { Header } = Layout;
-	console.log(screens);
 
 	const layout = (
 		<Row id="layout" justify="center">

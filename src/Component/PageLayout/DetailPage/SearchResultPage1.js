@@ -1,11 +1,9 @@
-import { ArrowDownOutlined, ArrowUpOutlined } from "@ant-design/icons";
 import {
 	Button,
 	Col,
 	Divider,
 	Empty,
 	Grid,
-	Menu,
 	Row,
 	Space,
 	Table,
@@ -34,11 +32,7 @@ import {
 	SEARCH_PAGE_PROP,
 	SEARCH_RESULT_OBJ,
 	SEARCH_SERVICE,
-	SEARCH_SORT,
-	SEARCH_SORT_ACS,
-	SEARCH_SORT_DATE,
 	SEARCH_SORT_DESC,
-	SEARCH_SORT_DISTANCE,
 	SEARCH_SORT_ORDER,
 	SEARCH_TOTAL_PAGE_PROP,
 	SEARCH_TYPE_PROP,
@@ -54,6 +48,7 @@ import MarketplaceBadge from "../../Badge/MarketplaceBadge";
 import useSearch from "../../Hook/useSearch";
 import useUrls from "../../Hook/useUrls";
 import LoadMore from "../../Search/LoadMore";
+import SearchOption from "../../Search/SearchOption";
 import BusinessCard from "../../ServiceCard/BusinessCard";
 import DealCard from "../../ServiceCard/DealCard";
 import HousingCard from "../../ServiceCard/HousingCard";
@@ -198,66 +193,6 @@ function SearchResultPage1({
 		),
 	];
 
-	const sortOptions = {
-		key: SEARCH_SORT,
-		label: "Sort By",
-		style: { cursor: "pointer", zIndex: 200, backgroundColor: "white" },
-		children: [
-			{
-				key: SEARCH_SORT_DATE,
-				label: (
-					<>
-						Sort by Date{" "}
-						{sortOrderParam === SEARCH_SORT_DESC ? (
-							<ArrowUpOutlined style={{ verticalAlign: "none" }} />
-						) : (
-							<ArrowDownOutlined />
-						)}
-					</>
-				),
-			},
-			{
-				key: SEARCH_SORT_DISTANCE,
-				label: "Sort by Distance",
-			},
-		],
-	};
-
-	const menuItems = [sortOptions];
-
-	const menuActions = ({ key = "" }) => {
-		switch (key) {
-			case SEARCH_SORT_DATE:
-			case SEARCH_SORT_DISTANCE:
-				searchServiceHandle({
-					params: {
-						[`${SEARCH_SORT}`]: key,
-						[`${SEARCH_SORT_ORDER}`]:
-							sortOrderParam === SEARCH_SORT_DESC
-								? SEARCH_SORT_ACS
-								: SEARCH_SORT_DESC,
-					},
-				});
-				break;
-
-			default:
-				break;
-		}
-	};
-
-	const serviceHeaderMenu = (
-		<Menu
-			mode="horizontal"
-			className="mt-3 mb-0 bg-transparent"
-			triggerSubMenuAction="click"
-			style={{
-				lineHeight: "2rem",
-			}}
-			items={menuItems}
-			onClick={menuActions}
-		/>
-	);
-
 	const serviceHeader = (withOwner || (!screens.xs && screens.xl)) && (
 		<>
 			{withBrowsingText && (
@@ -276,17 +211,13 @@ function SearchResultPage1({
 							position: "relative",
 							overflowX: "scroll",
 						}}
-						gap={3}
+						size={20}
 					>
 						{serviceTagData.map((tag, idx) => (
-							<React.Fragment key={idx}>
-								{tag({
-									tagClassName: "p-1 px-4 rounded lh-base",
-								})}
-							</React.Fragment>
+							<React.Fragment key={idx}>{tag()}</React.Fragment>
 						))}
 					</Space>
-					{serviceHeaderMenu}
+					<SearchOption />
 					<Divider />
 				</>
 			)}
@@ -511,7 +442,7 @@ function SearchResultPage1({
 	);
 
 	const app = (
-		<Row justify="center" className="my-3 ">
+		<Row id="search-result-page" justify="center" className="my-3 ">
 			<Col xs={24}>
 				{serviceHeader} {resultHeader}
 				{withOwner && ownerId === profile?.[`${ID_PROP}`]

@@ -1,15 +1,4 @@
-import { ArrowDownOutlined } from "@ant-design/icons";
-import {
-	Button,
-	Col,
-	Dropdown,
-	Form,
-	Menu,
-	PageHeader,
-	Row,
-	Space,
-	Typography,
-} from "antd";
+import { Button, Col, Form, PageHeader, Row, Space, Typography } from "antd";
 import { useForm } from "antd/lib/form/Form";
 import $ from "jquery";
 import React, { useEffect, useState } from "react";
@@ -32,9 +21,8 @@ import {
 	SEARCH_JOB,
 	SEARCH_KEYWORD,
 	SEARCH_MARKETPLACE,
-	SEARCH_SORT,
-	SEARCH_SORT_DATE,
-	SEARCH_SORT_DISTANCE,
+	SEARCH_SORT_DESC,
+	SEARCH_SORT_ORDER,
 	SEARCH_TYPE_PROP,
 } from "../../../Util/ConstVar";
 import { isObjectEmpty } from "../../../Util/Util";
@@ -49,14 +37,17 @@ import useImage from "../../Hook/useImage";
 import useSearch from "../../Hook/useSearch";
 import OffCanvasProfile from "../../Profile/OffCanvasProfile";
 import OffCanvasSearch from "../../Search/OffCanvasSearch";
+import SearchOption from "../../Search/SearchOption";
 
 function MobileTopBar() {
 	const navigate = useNavigate();
 
 	const [searchParams] = useSearchParams();
 	const keywordParam = searchParams.get(SEARCH_KEYWORD) || "";
-	const searchTypeParam = searchParams.get(SEARCH_TYPE_PROP) || "";
-	const sortParam = searchParams.get(SEARCH_SORT) || SEARCH_SORT_DATE;
+	const searchTypeParam = searchParams.get(SEARCH_TYPE_PROP) || SEARCH_BUSINESS;
+
+	const sortOrderParam =
+		searchParams.get(SEARCH_SORT_ORDER) || SEARCH_SORT_DESC;
 
 	const { image } = useImage();
 
@@ -66,8 +57,6 @@ function MobileTopBar() {
 	const { [`${LOCATION_OBJ}`]: location = {} } = useSelector(thainowReducer);
 
 	const { dispatchSearch } = useSearch();
-
-	const { Title } = Typography;
 
 	const [form] = useForm();
 	const keywordInput = useSearchKeyword(
@@ -82,11 +71,12 @@ function MobileTopBar() {
 	const { [`${PROFILE_OBJ}`]: profile = {} } = useSelector(thainowReducer);
 	const [showProfile, setShowProfile] = useState(false);
 
-	const onSearchHanlder = (type = SEARCH_BUSINESS) =>
+	const onSearchHanlder = ({ type = searchTypeParam, params = {} }) =>
 		dispatchSearch({
 			type: type,
 			params: {
 				[`${SEARCH_KEYWORD}`]: keywordParam,
+				...params,
 			},
 		});
 
@@ -95,7 +85,7 @@ function MobileTopBar() {
 			<BusinessBadge
 				type="tag"
 				active={searchTypeParam === SEARCH_BUSINESS}
-				onClick={() => onSearchHanlder(SEARCH_BUSINESS)}
+				onClick={() => onSearchHanlder({ type: SEARCH_BUSINESS })}
 				{...props}
 			/>
 		),
@@ -104,7 +94,7 @@ function MobileTopBar() {
 			<DealBadge
 				type="tag"
 				active={searchTypeParam === SEARCH_DEAL}
-				onClick={() => onSearchHanlder(SEARCH_DEAL)}
+				onClick={() => onSearchHanlder({ type: SEARCH_DEAL })}
 				{...props}
 			/>
 		),
@@ -113,7 +103,7 @@ function MobileTopBar() {
 			<JobBadge
 				type="tag"
 				active={searchTypeParam === SEARCH_JOB}
-				onClick={() => onSearchHanlder(SEARCH_JOB)}
+				onClick={() => onSearchHanlder({ type: SEARCH_JOB })}
 				{...props}
 			/>
 		),
@@ -122,7 +112,7 @@ function MobileTopBar() {
 			<HousingBadge
 				type="tag"
 				active={searchTypeParam === SEARCH_HOUSING}
-				onClick={() => onSearchHanlder(SEARCH_HOUSING)}
+				onClick={() => onSearchHanlder({ type: SEARCH_HOUSING })}
 				{...props}
 			/>
 		),
@@ -131,7 +121,7 @@ function MobileTopBar() {
 			<MarketplaceBadge
 				type="tag"
 				active={searchTypeParam === SEARCH_MARKETPLACE}
-				onClick={() => onSearchHanlder(SEARCH_MARKETPLACE)}
+				onClick={() => onSearchHanlder({ type: SEARCH_MARKETPLACE })}
 				{...props}
 			/>
 		),
@@ -152,42 +142,67 @@ function MobileTopBar() {
 				return;
 			}
 
-			if (scrollY > lastScrollY && scrollY > 0.5 * heightToHideFrom) {
-				$("#layout header").css({
-					transform: "translateY(-60%)",
-					transition: "transform 0.5s, visibility 0.5s",
-				});
+			let adjustHeight = (scrollY / heightToHideFrom) * 100 * -1;
+			adjustHeight = adjustHeight < -57.5 ? -57.5 : adjustHeight;
 
-				// $("#layout main").css({
-				// 	"margin-top": "5rem",
-				// 	transform: "margin-top",
-				// 	transition: "transform 1s, visibility 1s",
-				// });
-			} else if (scrollY < heightToHideFrom) {
-				// if (scrollY === 0) {
-				// 	// $("#layout main").css(
-				// 	// 	"margin-top",
-				// 	// 	$("#layout header").height() + 20
-				// 	// );
-				// 	// $("#layout main").css({
-				// 	// 	"margin-top": heightToHideFrom + 20,
-				// 	// 	transform: "margin-top",
-				// 	// 	transition: "transform 5s, visibility 1s",
-				// 	// });
-				// }
+			$("#layout header").css({
+				transform: `translateY(${adjustHeight}%)`,
+				// transition: "transform 10ms ease-out 5ms",
+			});
 
-				// $("#layout main").css("margin-top", $("#layout header").height() + 20);
+			// if (scrollY < lastScrollY) {
+			// 	$("#layout header").css({
+			// 		transform: `translateY(${scrollDownHeight}%)`,
+			// 	});
+			// } else {
+			// 	$("#layout header").css({
+			// 		transform: `translateY(${scrollUpHeight}%)`,
+			// 	});
+			// }
+			// else  {
+			// 	$("#layout header").css({
+			// 		transform: `translateY(${(reducedHeight * -1 }%)`,
+			// 	});
+			// }
 
-				// $("#layout main").css({
-				// 	"margin-top": heightToHideFrom + 20,
-				// 	transform: "margin-top",
-				// 	transition: "transform 1s, visibility 1s",
-				// });
+			// transform: `translateY(${100 - lastScrollY}%)`,
+			// if (scrollY > lastScrollY && scrollY > 0.5 * heightToHideFrom) {
+			// 	$("#layout header").css({
+			// 		// -60%
+			// 		transform: `translateY(${100 - lastScrollY}%)`,
+			// 		// transition: "transform 0.5s, visibility 0.5s",
+			// 	});
 
-				$("#layout header").css({
-					transform: "translateY(0)",
-				});
-			}
+			// 	// $("#layout main").css({
+			// 	// 	"margin-top": "5rem",
+			// 	// 	transform: "margin-top",
+			// 	// 	transition: "transform 1s, visibility 1s",
+			// 	// });
+			// } else if (scrollY < heightToHideFrom) {
+			// 	// if (scrollY === 0) {
+			// 	// 	// $("#layout main").css(
+			// 	// 	// 	"margin-top",
+			// 	// 	// 	$("#layout header").height() + 20
+			// 	// 	// );
+			// 	// 	// $("#layout main").css({
+			// 	// 	// 	"margin-top": heightToHideFrom + 20,
+			// 	// 	// 	transform: "margin-top",
+			// 	// 	// 	transition: "transform 5s, visibility 1s",
+			// 	// 	// });
+			// 	// }
+
+			// 	// $("#layout main").css("margin-top", $("#layout header").height() + 20);
+
+			// 	// $("#layout main").css({
+			// 	// 	"margin-top": heightToHideFrom + 20,
+			// 	// 	transform: "margin-top",
+			// 	// 	transition: "transform 1s, visibility 1s",
+			// 	// });
+
+			// 	$("#layout header").css({
+			// 		transform: "translateY(0)",
+			// 	});
+			// }
 
 			lastScrollY = scrollY > 0 ? scrollY : 0;
 
@@ -205,39 +220,6 @@ function MobileTopBar() {
 
 		return onScroll;
 	};
-
-	const sortOptions = [
-		{
-			key: SEARCH_SORT_DATE,
-			label: "Sort by Date",
-		},
-		{
-			key: SEARCH_SORT_DISTANCE,
-			label: "Sort by Distance",
-		},
-	];
-
-	const sortOptionMenu = (
-		<Menu
-			items={sortOptions}
-			onClick={({ key }) =>
-				dispatchSearch({
-					type: searchTypeParam,
-					params: {
-						[`${SEARCH_SORT}`]: key,
-					},
-				})
-			}
-		/>
-	);
-
-	const sortBtn = (
-		<Dropdown overlay={sortOptionMenu} placement="bottomRight">
-			<Button typeof="ghost" size="small" icon={<ArrowDownOutlined />}>
-				Sort By {sortParam}
-			</Button>
-		</Dropdown>
-	);
 
 	useEffect(() => {
 		const keywordParam = searchParams.get("keywords") || "";
@@ -260,18 +242,17 @@ function MobileTopBar() {
 	});
 
 	const searchTopBar = () => {
-		{
-			$("#layout-main").css("margin-top", "17rem");
-		}
+		$("#layout-main").css("margin-top", "15rem");
+
 		return (
 			<>
-				<Row justify="space-between" className="mb-2">
+				<Row className="header mb-2" gutter={[50, 5]} align="middle">
 					<Col>
-						<Title level={2} className="text-white mb-1">
+						<Typography.Title className="text-white mb-1">
 							Browsing{" "}
 							{searchTypeParam.charAt(0).toUpperCase() +
 								searchTypeParam.slice(1)}
-						</Title>
+						</Typography.Title>
 					</Col>
 					<Col className="tedkvn-center">
 						{displayLocation(
@@ -284,41 +265,37 @@ function MobileTopBar() {
 					</Col>
 				</Row>
 
-				{keywordParam.length > 0 && (
-					<Form form={form} className="mb-3">
-						{keywordInput}
-					</Form>
-				)}
+				<div className="content">
+					{keywordParam.length > 0 && (
+						<Form form={form} className="my-3">
+							{keywordInput}
+						</Form>
+					)}
 
-				<Space
-					direction="horizontal"
-					id="tag-bar"
-					className="hideScrollHorizontal my-1 w-100"
-					style={{
-						position: "relative",
-						overflowX: "scroll",
-					}}
-					gap={3}
-				>
-					{tagItems.map((tag, idx) => (
-						<React.Fragment key={idx}>
-							{tag({
-								tagClassName: "p-1 px-3 rounded lh-base",
-							})}
-						</React.Fragment>
-					))}
-				</Space>
+					<Space
+						direction="horizontal"
+						id="tag-bar"
+						className="hideScrollHorizontal my-2 mb-1 w-100"
+						style={{
+							position: "relative",
+							overflowX: "scroll",
+						}}
+						size={20}
+					>
+						{tagItems.map((tag, idx) => (
+							<React.Fragment key={idx}>{tag()}</React.Fragment>
+						))}
+					</Space>
 
-				<Space direction="horizontal" className="my-2">
-					{/* {filterBtn}  */}
-					{sortBtn}
-				</Space>
+					<SearchOption />
+				</div>
 			</>
 		);
 	};
 
 	const app = (
 		<Row
+			id="mobile-top-bar"
 			justify="center"
 			style={{
 				overflow: "hidden !important",

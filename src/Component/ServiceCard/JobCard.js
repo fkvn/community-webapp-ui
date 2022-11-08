@@ -1,6 +1,5 @@
 import { ShareAltOutlined } from "@ant-design/icons";
 import {
-	Avatar,
 	Button,
 	Card,
 	Carousel,
@@ -20,17 +19,12 @@ import {
 	CLOSE_URL,
 	DEFAULT_CARD_INFO,
 	DEFAULT_JOB_INFO,
-	DEFAULT_POST_OWNER_INFO,
-	EXPERIENCE_PROP,
 	ID_PROP,
-	INFO_PROP,
 	JOB_HEADLINE_PROP,
 	LAT_PROP,
 	LNG_PROP,
 	LOCATION_PROP,
-	NAME_PROP,
 	PICTURE_LIST_PROP,
-	PICTURE_PROP,
 	SEARCH_JOB,
 	SEARCH_SERVICE,
 	TITLE_PROP,
@@ -40,7 +34,7 @@ import {
 import { formatTime } from "../../Util/Util";
 import useImage from "../Hook/useImage";
 
-function JobCard({ card = DEFAULT_CARD_INFO, withCardTitle = true }) {
+function JobCard({ card = DEFAULT_CARD_INFO }) {
 	const { useBreakpoint } = Grid;
 	const screens = useBreakpoint();
 	const navigate = useNavigate();
@@ -48,7 +42,7 @@ function JobCard({ card = DEFAULT_CARD_INFO, withCardTitle = true }) {
 	const { image } = useImage();
 
 	const { info, postOwner, ...rest } = card;
-	const ownerInfo = { ...DEFAULT_POST_OWNER_INFO, ...postOwner };
+	// const ownerInfo = { ...DEFAULT_POST_OWNER_INFO, ...postOwner };
 	const detailInfo = { ...DEFAULT_JOB_INFO, ...info };
 	const basicInfo = { ...DEFAULT_CARD_INFO, ...rest };
 
@@ -74,36 +68,21 @@ function JobCard({ card = DEFAULT_CARD_INFO, withCardTitle = true }) {
 							style: { fontSize: ".9rem" },
 						})}
 					>
-						{(screens.xs
-							? detailInfo?.[`${TITLE_PROP}`]
-							: detailInfo?.[`${EXPERIENCE_PROP}`]
-						).toUpperCase()}{" "}
-						{screens.md && JOB_HEADLINE_PROP.toUpperCase()}
+						{JOB_HEADLINE_PROP.toUpperCase()}
 					</span>
 				</Typography.Title>
 			</Space>
 		</div>
 	);
 
-	const title = withCardTitle && (
-		<Meta
-			className="tedkvn-center-left m-0 m-sm-1"
-			avatar={
-				<Avatar
-					className="m-0 mx-sm-2"
-					size={{ xs: 24 }}
-					src={ownerInfo?.[`${INFO_PROP}`]?.[`${PICTURE_PROP}`]}
-				/>
-			}
-			title={
-				<Typography.Title
-					className="m-0 p-0 c-primary-important"
-					level={screens?.xs ? 5 : 3}
-				>
-					{postOwner?.[`${INFO_PROP}`]?.[`${NAME_PROP}`]}
-				</Typography.Title>
-			}
-		/>
+	const title = (
+		<Typography.Title
+			className="m-0 p-0 c-primary-important"
+			level={screens.xs ? 5 : 3}
+			ellipsis
+		>
+			{detailInfo?.[`${TITLE_PROP}`]}
+		</Typography.Title>
 	);
 
 	const shareButton = (
@@ -138,78 +117,70 @@ function JobCard({ card = DEFAULT_CARD_INFO, withCardTitle = true }) {
 					</div>
 				))}
 			</Carousel>
-			{(!withCardTitle || screens.xs) && (
-				<div
-					style={{
-						position: "absolute",
-						top: 10,
-						right: 10,
-						backgroundColor: "white",
-						border: "1px solid whitesmoke",
-						borderRadius: "50%",
-					}}
-				>
-					{shareButton}
-				</div>
-			)}
+			<div
+				style={{
+					position: "absolute",
+					top: 10,
+					right: 10,
+					backgroundColor: "white",
+					border: "1px solid whitesmoke",
+					borderRadius: "50%",
+				}}
+			>
+				{shareButton}
+			</div>
 			{serviceTagOverlay}
 		</div>
 	);
 
 	const body = (
-		<>
-			<Row justify="space-between" className="my-3">
-				<Col style={{ maxWidth: "80%" }}>
-					<Meta
-						title={
-							<Typography.Title level={3} className="m-0 " ellipsis>
-								{detailInfo?.[`${TITLE_PROP}`]}
-							</Typography.Title>
-						}
-						description={
-							<span>
-								<Rate
-									disabled
-									defaultValue={basicInfo?.[`${AVG_RATING_PROP}`]}
-									allowHalf
-									style={{ fontSize: "1rem" }}
-									className="c-housing-important m-0 mt-1"
-								/>
-								<span className="ant-rate-text c-housing-important">
-									{basicInfo?.[`${TOTAL_REVIEW_PROP}`]} Reviews
-								</span>
-							</span>
-						}
+		<Row
+			justify="space-between"
+			className="m-2 mx-3"
+			style={{
+				paddingLeft: ".2rem",
+			}}
+		>
+			<Col style={{ width: "80%" }}>{title}</Col>
+			<Col>
+				<Typography.Text ellipsis className="text-muted mt-1">
+					{formatTime(detailInfo?.[`${UPDATED_ON_PROP}`]) ||
+						detailInfo?.[`${UPDATED_ON_PROP}`]?.split(" ")?.[0]}
+				</Typography.Text>
+			</Col>
+			<Col>
+				<span>
+					<Rate
+						disabled
+						defaultValue={basicInfo?.[`${AVG_RATING_PROP}`]}
+						allowHalf
+						style={{ fontSize: "1rem" }}
+						className="c-housing-important m-0"
 					/>
-				</Col>
-				<Col>
-					<Typography.Text ellipsis className="text-muted mt-1">
-						{formatTime(detailInfo?.[`${UPDATED_ON_PROP}`])}
-					</Typography.Text>
-				</Col>
-			</Row>
-
-			<Row justify="space-between" align="middle" className="mt-2">
-				<Col>
-					<Typography.Text
-						className="c-primary-important"
-						onClick={() =>
-							window.open(
-								`https://www.google.com/maps/place/${
-									detailInfo?.[`${LOCATION_PROP}`]?.[`${ADDRESS_PROP}`]
-								}/${detailInfo?.[`${LOCATION_PROP}`]?.[`${LAT_PROP}`]},${
-									detailInfo?.[`${LOCATION_PROP}`]?.[`${LNG_PROP}`]
-								}`,
-								"_blank"
-							)
-						}
-						ellipsis
-					>
-						{detailInfo?.[`${LOCATION_PROP}`]?.[`${ADDRESS_PROP}`]}
-					</Typography.Text>
-				</Col>
-			</Row>
-		</>
+				</span>
+				<span className="ant-rate-text c-housing-important">
+					{basicInfo?.[`${TOTAL_REVIEW_PROP}`]} Reviews
+				</span>
+			</Col>
+			<Col xs={24} className="my-2">
+				<Typography.Text
+					className="c-primary-important"
+					onClick={() =>
+						window.open(
+							`https://www.google.com/maps/place/${
+								detailInfo?.[`${LOCATION_PROP}`]?.[`${ADDRESS_PROP}`]
+							}/${detailInfo?.[`${LOCATION_PROP}`]?.[`${LAT_PROP}`]},${
+								detailInfo?.[`${LOCATION_PROP}`]?.[`${LNG_PROP}`]
+							}`,
+							"_blank"
+						)
+					}
+					ellipsis
+				>
+					{detailInfo?.[`${LOCATION_PROP}`]?.[`${ADDRESS_PROP}`]}
+				</Typography.Text>
+			</Col>
+		</Row>
 	);
 
 	const defaultCard = (
@@ -225,80 +196,56 @@ function JobCard({ card = DEFAULT_CARD_INFO, withCardTitle = true }) {
 				)
 			}
 		>
-			<Card
-				title={title}
-				headStyle={{
-					padding: "0 0.5rem",
-				}}
-				style={{ maxWidth: "100%", borderRadius: "1rem" }}
-				className="overflow-hidden"
-				cover={cover}
-				{...(withCardTitle && {
-					extra: [
-						<Button
-							key={basicInfo?.[`${ID_PROP}`]}
-							type="ghost border-0"
-							icon={
-								<ShareAltOutlined
-									style={{
-										fontSize: screens?.xs ? "1.1rem" : "1.4rem",
-									}}
-									className="c-primary"
-								/>
-							}
-						/>,
-					],
-				})}
-			>
-				{body}
-			</Card>
+			<Card cover={cover}>{body}</Card>
 		</Typography.Link>
 	);
 
-	const mobileBody = (
-		<>
-			<Row justify="space-between" className="my-2 ">
-				<Col>
-					<span>
-						<Rate
-							disabled
-							defaultValue={basicInfo?.[`${AVG_RATING_PROP}`]}
-							allowHalf
-							style={{ fontSize: "1rem" }}
-							className="c-housing-important m-0"
-						/>
-					</span>
-				</Col>
-			</Row>
-
-			<Row justify="space-between">
-				<Col className="w-100">
-					<Meta
-						description={
-							<Typography.Text
-								className="c-primary-important"
-								onClick={() =>
-									window.open(
-										`https://www.google.com/maps/place/${
-											detailInfo?.[`${LOCATION_PROP}`]?.[`${ADDRESS_PROP}`]
-										}/${detailInfo?.[`${LOCATION_PROP}`]?.[`${LAT_PROP}`]},${
-											detailInfo?.[`${LOCATION_PROP}`]?.[`${LNG_PROP}`]
-										}`,
-										"_blank"
-									)
-								}
-								ellipsis
-							>
-								{detailInfo?.[`${LOCATION_PROP}`]?.[`${ADDRESS_PROP}`]}
-							</Typography.Text>
-						}
+	const mobileBody = screens.xs && (
+		<Row
+			justify="space-between"
+			className="m-2"
+			style={{
+				paddingLeft: ".2rem",
+			}}
+		>
+			<Col xs={24}>{title}</Col>
+			<Col>
+				<span>
+					<Rate
+						disabled
+						defaultValue={basicInfo?.[`${AVG_RATING_PROP}`]}
+						allowHalf
+						style={{ fontSize: "1rem" }}
+						className="c-housing-important m-0"
 					/>
-				</Col>
-			</Row>
-		</>
+				</span>
+			</Col>
+			<Col xs={24} className="my-2">
+				<Meta
+					description={
+						<Typography.Text
+							className="c-primary-important"
+							onClick={() =>
+								window.open(
+									`https://www.google.com/maps/place/${
+										detailInfo?.[`${LOCATION_PROP}`]?.[`${ADDRESS_PROP}`]
+									}/${detailInfo?.[`${LOCATION_PROP}`]?.[`${LAT_PROP}`]},${
+										detailInfo?.[`${LOCATION_PROP}`]?.[`${LNG_PROP}`]
+									}`,
+									"_blank"
+								)
+							}
+							ellipsis
+						>
+							{detailInfo?.[`${LOCATION_PROP}`]?.[`${ADDRESS_PROP}`]}
+						</Typography.Text>
+					}
+				/>
+			</Col>
+		</Row>
 	);
 
-	const mobileCard = (
+	const mobileCard = screens.xs && (
 		<Typography.Link
 			onClick={() =>
 				navigate(
@@ -311,17 +258,11 @@ function JobCard({ card = DEFAULT_CARD_INFO, withCardTitle = true }) {
 				)
 			}
 		>
-			<Card
-				style={{ maxWidth: "100%", borderRadius: "1rem" }}
-				className=" overflow-hidden"
-				cover={cover}
-			>
-				{mobileBody}
-			</Card>
+			<Card cover={cover}>{mobileBody}</Card>
 		</Typography.Link>
 	);
 
-	const app = screens.md ? defaultCard : mobileCard;
+	const app = screens.xs ? mobileCard : defaultCard;
 	return app;
 }
 

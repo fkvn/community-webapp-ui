@@ -1,0 +1,22 @@
+#search-result-page {
+	& .content * {
+		font-size: 1rem !important;
+	}
+
+	& span.ant-input-affix-wrapper {
+		border-radius: 50px;
+		padding: 0.5rem;
+	}
+
+	& .ant-tag {
+		padding: 0.33rem 1rem !important;
+		border-radius: 50px !important;
+		line-height: 1.2rem;
+	}
+
+	& .ant-menu li {
+		padding: 0.02rem 1rem;
+		border: 1px solid gray;
+		border-radius: 50px;
+	}
+}

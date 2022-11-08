@@ -1,0 +1,30 @@
+#search-off-canvas {
+	* {
+		font-size: 0.85rem !important;
+	}
+
+	& .ant-input-affix-wrapper {
+		border-radius: 50px !important;
+		padding: 10px;
+	}
+
+	& .ant-tag {
+		padding: 0.5rem 1rem !important;
+		border-radius: 10px !important;
+	}
+
+	& button.form-submit-btn {
+		* {
+			font-size: 1.2rem !important;
+		}
+
+		padding: 1.2rem;
+		border-radius: 50px;
+	}
+
+	& .ant-list {
+		* {
+			font-size: 1rem !important;
+		}
+	}
+}

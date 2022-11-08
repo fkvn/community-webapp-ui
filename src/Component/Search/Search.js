@@ -1,5 +1,5 @@
 import { CloseOutlined } from "@ant-design/icons";
-import { Button, Divider, Form, List, Space } from "antd";
+import { Button, Col, Divider, Form, List, Row, Space } from "antd";
 import React, { useState } from "react";
 import { Stack } from "react-bootstrap";
 import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
@@ -221,12 +221,13 @@ function Search({
 	const app = (
 		<Form
 			form={form}
+			id="search-off-canvas"
 			autoComplete="off"
 			initialValues={{
 				[ADDRESS_PROP]:
 					fetchStoredLocation()?.[`${ADDRESS_PROP}`] ||
 					SEARCH_DEFAULT_LOCATION[`${ADDRESS_PROP}`],
-				[LOCATION_OBJ]: fetchStoredLocation(),
+				// [LOCATION_OBJ]: fetchStoredLocation(),
 			}}
 			onKeyDown={onEnterSearch}
 			{...formProps}
@@ -238,18 +239,26 @@ function Search({
 				{keywordInput}
 				{address}
 				<Divider className="text-muted m-0">Choose category to search </Divider>
-				<Space direction="horizontal " wrap gap={3}>
+				<Space direction="horizontal " wrap size={20} className="mt-2 mb-4">
 					{tagItems().map((tag, idx) => (
-						<React.Fragment key={idx}>{tag()}</React.Fragment>
+						<React.Fragment key={idx}>
+							{tag({
+								style: {
+									padding: "1rem !important",
+								},
+							})}
+						</React.Fragment>
 					))}
 				</Space>
 
 				<Form.Item className="ms-auto m-0" {...itemProps}>
 					<Button
+						className="form-submit-btn"
 						type="danger"
 						onClick={onSearch}
 						{...buttonProps}
 						disabled={searching}
+						size="large"
 					>
 						Search
 					</Button>
@@ -259,12 +268,16 @@ function Search({
 					<>
 						<List
 							header={
-								<div className="tedkvn-center-left">
-									Recent Search{" "}
-									<Button type="link" onClick={clearRecentSearch}>
-										Clear all
-									</Button>{" "}
-								</div>
+								<Row justify="space-between" align="middle">
+									<Col>
+										<div className="tedkvn-center-left">Recent Search </div>
+									</Col>
+									<Col>
+										<Button type="link" onClick={clearRecentSearch} key={0}>
+											Clear all
+										</Button>
+									</Col>
+								</Row>
 							}
 							itemLayout="horizontal"
 							dataSource={fetchRecentSearch()}

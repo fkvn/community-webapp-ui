@@ -1,6 +1,5 @@
 import { ShareAltOutlined } from "@ant-design/icons";
 import {
-	Avatar,
 	Button,
 	Card,
 	Carousel,
@@ -71,11 +70,13 @@ function BusinessCard({ card = DEFAULT_CARD_INFO }) {
 							style: { fontSize: ".9rem" },
 						})}
 					>
-						{(screens.xs
+						{detailInfo?.[`${COMPANY_INDUSTRY_PROP}`].toUpperCase()}
+						{" BUSINESS "}
+						{/* {(screens.xs
 							? detailInfo?.[`${NAME_PROP}`]
 							: detailInfo?.[`${COMPANY_INDUSTRY_PROP}`]
 						).toUpperCase()}{" "}
-						{screens.md && "BUSINESS"}
+						{screens.md && "BUSINESS"} */}
 					</span>
 				</Typography.Title>
 			</Space>
@@ -83,25 +84,13 @@ function BusinessCard({ card = DEFAULT_CARD_INFO }) {
 	);
 
 	const title = (
-		<Meta
-			className="tedkvn-center-left m-0 m-sm-1"
-			avatar={
-				<Avatar
-					className="m-0 mx-sm-2"
-					size={{ xs: 24 }}
-					src={detailInfo?.[`${PICTURE_PROP}`]}
-				/>
-			}
-			title={
-				<Typography.Title
-					className="m-0 p-0 c-primary-important"
-					level={screens?.xs ? 5 : 3}
-					ellipsis
-				>
-					{detailInfo?.[`${NAME_PROP}`]}
-				</Typography.Title>
-			}
-		/>
+		<Typography.Title
+			className="m-0 p-0 c-primary-important"
+			level={screens.xs ? 5 : 3}
+			ellipsis
+		>
+			{detailInfo?.[`${NAME_PROP}`]}
+		</Typography.Title>
 	);
 
 	const shareButton = (
@@ -127,7 +116,7 @@ function BusinessCard({ card = DEFAULT_CARD_INFO }) {
 						{image({
 							width: "100%",
 							style: {
-								maxHeight: screens.xs ? "13rem" : "20rem",
+								height: screens.xs ? "9rem" : "18rem",
 							},
 							src: detailInfo?.[`${PICTURE_PROP}`],
 						})}
@@ -139,7 +128,7 @@ function BusinessCard({ card = DEFAULT_CARD_INFO }) {
 							{image({
 								width: "100%",
 								style: {
-									maxHeight: screens.xs ? "13rem" : "20rem",
+									height: screens.xs ? "9rem" : "18rem",
 								},
 								src: img,
 							})}
@@ -147,27 +136,39 @@ function BusinessCard({ card = DEFAULT_CARD_INFO }) {
 					</div>
 				))}
 			</Carousel>
-			{screens.xs && (
-				<div
-					style={{
-						position: "absolute",
-						top: 10,
-						right: 10,
-						backgroundColor: "white",
-						border: "1px solid whitesmoke",
-						borderRadius: "50%",
-					}}
-				>
-					{shareButton}
-				</div>
-			)}
+			<div
+				style={{
+					position: "absolute",
+					top: 12,
+					right: 12,
+					backgroundColor: "white",
+					border: "1px solid whitesmoke",
+					borderRadius: "50%",
+				}}
+			>
+				{shareButton}
+			</div>
 			{serviceTagOverlay}
 		</div>
 	);
 
 	const body = (
 		<>
-			<Row justify="space-between" className="my-3">
+			<Row
+				justify="space-between"
+				className="m-2 mx-3"
+				style={{
+					paddingLeft: ".2rem",
+				}}
+			>
+				<Col style={{ width: "60%" }}>{title}</Col>
+				<Col>
+					<Typography.Text ellipsis className="text-muted mt-1">
+						Updated{" "}
+						{formatTime(detailInfo?.[`${UPDATED_ON_PROP}`]) ||
+							detailInfo?.[`${UPDATED_ON_PROP}`]?.split(" ")?.[0]}
+					</Typography.Text>
+				</Col>
 				<Col>
 					<span>
 						<Rate
@@ -182,15 +183,7 @@ function BusinessCard({ card = DEFAULT_CARD_INFO }) {
 						</span>
 					</span>
 				</Col>
-				<Col>
-					<Typography.Text ellipsis className="text-muted">
-						{formatTime(detailInfo?.[`${UPDATED_ON_PROP}`])}
-					</Typography.Text>
-				</Col>
-			</Row>
-
-			<Row justify="space-between">
-				<Col className="w-75">
+				<Col xs={24} className="my-2">
 					<Meta
 						title={
 							<Typography.Title level={4} className="m-0 mb-1" ellipsis>
@@ -231,65 +224,56 @@ function BusinessCard({ card = DEFAULT_CARD_INFO }) {
 				})
 			}
 		>
-			<Card
-				title={title}
-				headStyle={{
-					padding: "0 0.5rem",
-				}}
-				style={{ maxWidth: "100%", borderRadius: "1rem" }}
-				className="overflow-hidden"
-				cover={cover}
-				extra={[shareButton]}
-			>
-				{body}
-			</Card>
+			<Card cover={cover}>{body}</Card>
 		</Typography.Link>
 	);
 
-	const mobileBody = (
-		<>
-			<Row justify="space-between" className="my-2 ">
-				<Col>
-					<span>
-						<Rate
-							disabled
-							defaultValue={basicInfo?.[`${AVG_RATING_PROP}`]}
-							allowHalf
-							style={{ fontSize: "1rem" }}
-							className="c-housing-important m-0"
-						/>
-					</span>
-				</Col>
-			</Row>
-
-			<Row justify="space-between">
-				<Col className="w-100">
-					<Meta
-						description={
-							<Typography.Text
-								className="c-primary-important"
-								onClick={() =>
-									window.open(
-										`https://www.google.com/maps/place/${
-											detailInfo?.[`${COMPANY_NAME_PROP}`]
-										}/@${detailInfo?.[`${LOCATION_PROP}`]?.[`${LAT_PROP}`]},${
-											detailInfo?.[`${LOCATION_PROP}`]?.[`${LNG_PROP}`]
-										} `,
-										"_blank"
-									)
-								}
-								ellipsis
-							>
-								{detailInfo?.[`${LOCATION_PROP}`]?.[`${ADDRESS_PROP}`]}
-							</Typography.Text>
-						}
+	const mobileBody = screens.xs && (
+		<Row
+			justify="space-between"
+			className="m-2"
+			style={{
+				paddingLeft: ".2rem",
+			}}
+		>
+			<Col xs={24}>{title}</Col>
+			<Col>
+				<span>
+					<Rate
+						disabled
+						defaultValue={basicInfo?.[`${AVG_RATING_PROP}`]}
+						allowHalf
+						style={{ fontSize: "1rem" }}
+						className="c-housing-important m-0"
 					/>
-				</Col>
-			</Row>
-		</>
+				</span>
+			</Col>
+			<Col xs={24} className="my-2">
+				<Meta
+					description={
+						<Typography.Text
+							className="c-primary-important"
+							onClick={() =>
+								window.open(
+									`https://www.google.com/maps/place/${
+										detailInfo?.[`${COMPANY_NAME_PROP}`]
+									}/@${detailInfo?.[`${LOCATION_PROP}`]?.[`${LAT_PROP}`]},${
+										detailInfo?.[`${LOCATION_PROP}`]?.[`${LNG_PROP}`]
+									} `,
+									"_blank"
+								)
+							}
+							ellipsis
+						>
+							{detailInfo?.[`${LOCATION_PROP}`]?.[`${ADDRESS_PROP}`]}
+						</Typography.Text>
+					}
+				/>
+			</Col>
+		</Row>
 	);
 
-	const mobileCard = (
+	const mobileCard = screens.xs && (
 		<Typography.Link
 			onClick={() =>
 				navigate(`/${SEARCH_PROFILE}/${basicInfo?.[`${ID_PROP}`]}`, {
@@ -299,13 +283,7 @@ function BusinessCard({ card = DEFAULT_CARD_INFO }) {
 				})
 			}
 		>
-			<Card
-				style={{ maxWidth: "100%", borderRadius: "1rem" }}
-				className=" overflow-hidden"
-				cover={cover}
-			>
-				{mobileBody}
-			</Card>
+			<Card cover={cover}>{mobileBody}</Card>
 		</Typography.Link>
 	);
 
