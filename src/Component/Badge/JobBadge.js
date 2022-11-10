@@ -25,6 +25,7 @@ function JobBadge({
 	defautColor = "gray",
 	buttonClassName = "p-0 m-0 border-0 rounded lh-base",
 	tagClassName = "p-1 px-3 m-0 rounded lh-base",
+	tagProps = {},
 
 	// action
 	onClick = () => {},
@@ -58,6 +59,7 @@ function JobBadge({
 						color={active ? activeColor : defautColor}
 						className={tagClassName}
 						onClick={onClick}
+						{...tagProps}
 					>
 						{title}
 					</Tag>

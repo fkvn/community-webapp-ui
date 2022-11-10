@@ -71,7 +71,7 @@ import { formatTime } from "../../../Util/Util";
 import useUrls from "../../Hook/useUrls";
 import Report from "../Report/Report";
 import ReviewPage from "../ReviewPage/ReviewPage";
-import SearchResultPage1 from "./SearchResultPage1";
+import SearchResultPage from "./SearchResultPage";
 
 function ProfilePage({ isOwner = false, profile = {} }) {
 	const {
@@ -168,7 +168,7 @@ function ProfilePage({ isOwner = false, profile = {} }) {
 
 	const infoTitle = (
 		<Meta
-			className="mt-2"
+			className="mt-5"
 			{...(info?.[`${PICTURE_LIST_PROP}`]?.length > 0 && {
 				avatar: avatar({
 					inputProps: { src: info?.[`${PICTURE_PROP}`], size: 50 },
@@ -176,7 +176,7 @@ function ProfilePage({ isOwner = false, profile = {} }) {
 			})}
 			title={
 				<Space direction="vertical" size={0}>
-					<Typography.Title level={2} className="m-0">
+					<Typography.Title level={1} className="m-0">
 						{info?.[`${NAME_PROP}`]}
 					</Typography.Title>
 
@@ -404,7 +404,7 @@ function ProfilePage({ isOwner = false, profile = {} }) {
 					Information
 				</Typography.Title>
 			}
-			className="mt-3"
+			className="info-description mt-3"
 			extra={[
 				...(isOwner
 					? [
@@ -472,20 +472,20 @@ function ProfilePage({ isOwner = false, profile = {} }) {
 			bordered={false}
 			title={infoTitle}
 			loading={isEmptyObject(profile)}
-			{...(!screens?.xs && {
+			headStyle={{
+				padding: "0rem",
+			}}
+			{...(screens.md && {
 				extra: [
-					<Typography.Text
-						key={id}
-						type="secondary"
-						className="m-0 p-0"
-						ellipsis
-					>
-						Updated {formatTime(info?.[`${UPDATED_ON_PROP}`])}
+					<Typography.Text key={id} type="secondary" ellipsis>
+						Updated{" "}
+						{formatTime(info?.[`${UPDATED_ON_PROP}`]) ||
+							info?.[`${UPDATED_ON_PROP}`]?.split(" ")?.[0]}
 					</Typography.Text>,
 				],
 			})}
 		>
-			<Divider />
+			<Divider className="my-2" />
 			{infoDescription}
 		</Card>
 	);
@@ -494,7 +494,7 @@ function ProfilePage({ isOwner = false, profile = {} }) {
 
 	const action = {
 		[`${SEARCH_SERVICE}`]: (
-			<SearchResultPage1
+			<SearchResultPage
 				withBusiness={false}
 				withOwner={true}
 				ownerId={id}
@@ -538,6 +538,10 @@ function ProfilePage({ isOwner = false, profile = {} }) {
 			defaultValue={actionPage}
 			options={actionTitleOptions}
 			onChange={(value) => setActionPage(value)}
+			className="mt-4 mb-2"
+			style={{
+				fontSize: "1.1rem",
+			}}
 		/>
 	);
 
@@ -560,12 +564,12 @@ function ProfilePage({ isOwner = false, profile = {} }) {
 	);
 
 	const app = (
-		<>
+		<div id="profile-page">
 			{header}
 			{cover}
 			{infoCard}
 			{extraActionCard}
-		</>
+		</div>
 	);
 	return app;
 }

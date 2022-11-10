@@ -22,14 +22,12 @@ import {
 	Image,
 	Menu,
 	PageHeader,
-	Rate,
 	Row,
 	Segmented,
 	Space,
 	Typography,
 } from "antd";
 import Meta from "antd/lib/card/Meta";
-import DescriptionsItem from "antd/lib/descriptions/Item";
 import { isEmptyObject } from "jquery";
 import { useState } from "react";
 import { useLocation, useSearchParams } from "react-router-dom";
@@ -84,6 +82,7 @@ import {
 import { formatSentenseCase, formatTime } from "../../../Util/Util";
 import useImage from "../../Hook/useImage";
 import useUrls from "../../Hook/useUrls";
+import RateDisplay from "../../RateDisplay/RateDisplay";
 import Share from "../../Share/Share";
 import BlockService from "../EditService/BlockService";
 import RemoveService from "../EditService/RemoveService";
@@ -157,7 +156,7 @@ function JobPage({ isOwner = false, service = {} }) {
 			extra={[
 				<Share key={0} url={window.location.href} />,
 				<Dropdown key={1} overlay={headerExtraMoreMenu}>
-					<Button type="danger" className="px-2" shape="round">
+					<Button type="danger" className="px-2 pb-1" shape="round">
 						<ExclamationCircleFilled style={{ fontSize: "1rem" }} />
 					</Button>
 				</Dropdown>,
@@ -185,7 +184,7 @@ function JobPage({ isOwner = false, service = {} }) {
 								onClick: () => setVisible({ value: true, idx: idx }),
 								preview: { visible: false },
 								style: {
-									maxHeight: screens.xs ? "15rem" : "30rem",
+									height: screens.xs ? "16rem" : "30rem",
 									objectFit: "cover",
 								},
 								src: img,
@@ -216,33 +215,24 @@ function JobPage({ isOwner = false, service = {} }) {
 	);
 
 	const infoTitle = (
-		<Row justify="space-between" className="mt-3">
+		<Row justify="space-between" className="mt-5">
 			<Col xs={24} md={14}>
 				<Typography.Title
-					level={2}
+					level={1}
 					ellipsis={{
 						rows: 2,
 						tooltip: true,
 					}}
+					className="m-0"
 				>
-					{image({
-						width: 30,
-						src: svgJobIcon,
-					})}
-					<span className="mx-2">{info?.[`${TITLE_PROP}`]}</span>
+					<span>{info?.[`${TITLE_PROP}`]}</span>
 				</Typography.Title>
 			</Col>
 			{screens.md && (
-				<Col>
-					<Typography.Text
-						key={id}
-						type="secondary"
-						className="m-0 p-0"
-						ellipsis
-					>
-						Updated {formatTime(info?.[`${UPDATED_ON_PROP}`])}
-					</Typography.Text>
-				</Col>
+				<Typography.Text type="secondary" ellipsis>
+					{formatTime(info?.[`${UPDATED_ON_PROP}`]) ||
+						info?.[`${UPDATED_ON_PROP}`]?.split(" ")?.[0]}
+				</Typography.Text>
 			)}
 		</Row>
 	);
@@ -259,16 +249,10 @@ function JobPage({ isOwner = false, service = {} }) {
 			{infoTitle}
 			<Row justify="space-start" align="middle">
 				<Col xs={24}>
-					<Rate
-						disabled
+					<RateDisplay
 						value={review?.[`${AVG_RATING_PROP}`]}
-						allowHalf
-						style={{ backgroundColor: "gray !important" }}
-						className="c-housing-important m-0"
+						totalReview={review?.[`${TOTAL_REVIEW_PROP}`]}
 					/>
-					<span className="ant-rate-text c-housing-important">
-						{review?.[`${TOTAL_REVIEW_PROP}`]} Reviews
-					</span>
 				</Col>
 				<Col xs={24} className="my-3 tedkvn-center">
 					<Icon component={() => iconLocationBlack(15)} />
@@ -281,6 +265,7 @@ function JobPage({ isOwner = false, service = {} }) {
 						}`}
 						target="_blank"
 						ellipsis
+						style={{ fontSize: "1rem" }}
 					>
 						{info?.[`${LOCATION_PROP}`]?.[`${ADDRESS_PROP}`]}
 					</Typography.Link>
@@ -318,33 +303,35 @@ function JobPage({ isOwner = false, service = {} }) {
 			defaultValue={actionPage}
 			options={actionTitleOptions}
 			onChange={(value) => setActionPage(value)}
+			className="mt-4 mb-2"
+			style={{
+				fontSize: "1rem",
+			}}
 		/>
 	);
 
 	const descriptionData = [
 		{
 			label: image({
-				width: 18,
+				width: 20,
 				src: svgJobIcon,
+				className: "mt-1",
 			}),
 			title: (
-				<Typography.Text
-					className="c-job"
-					style={{
-						width: "95%",
-					}}
-					ellipsis={{
-						tooltip: true,
-					}}
-				>
+				<Typography.Link className="c-job-important">
 					{JOB_HEADLINE_PROP.toUpperCase()} SERVICE
 					{info?.[`${EXPIRED_ON_PROP}`] && (
-						<small className="text-danger">
+						<span
+							className="text-danger"
+							style={{
+								fontSize: "0.5rem !important",
+							}}
+						>
 							{" "}
-							- Expired at {info?.[`${EXPIRED_ON_PROP}`]}
-						</small>
+							- Expired at {info?.[`${EXPIRED_ON_PROP}`]?.split(" ")?.[0]}
+						</span>
 					)}
-				</Typography.Text>
+				</Typography.Link>
 			),
 		},
 		{
@@ -357,16 +344,11 @@ function JobPage({ isOwner = false, service = {} }) {
 			...(info?.[`${POSITION_LIST_PROP}`]?.length > 0
 				? {
 						title: (
-							<Typography.Text
-								type="success"
-								ellipsis={{
-									tooltip: true,
-								}}
-							>
+							<Typography.Link>
 								{info?.[`${POSITION_LIST_PROP}`]
 									.map((postion) => formatSentenseCase(postion))
 									?.join(", ")}
-							</Typography.Text>
+							</Typography.Link>
 						),
 				  }
 				: {}),
@@ -374,10 +356,12 @@ function JobPage({ isOwner = false, service = {} }) {
 		...(info?.[`${IS_REMOTE_PROP}`]
 			? [
 					{
-						label: <AimOutlined />,
-						title: (
-							<Typography.Link ellipsis>Remote work available</Typography.Link>
+						label: (
+							<Space size={5}>
+								<AimOutlined />
+							</Space>
 						),
+						title: <Typography.Link>Remote work available</Typography.Link>,
 					},
 			  ]
 			: []),
@@ -391,9 +375,7 @@ function JobPage({ isOwner = false, service = {} }) {
 			...(info?.[`${EXPERIENCE_PROP}`]
 				? {
 						title: (
-							<Typography.Link ellipsis>
-								{info?.[`${EXPERIENCE_PROP}`]}
-							</Typography.Link>
+							<Typography.Link>{info?.[`${EXPERIENCE_PROP}`]}</Typography.Link>
 						),
 				  }
 				: {}),
@@ -408,9 +390,7 @@ function JobPage({ isOwner = false, service = {} }) {
 			...(info?.[`${SALARY_PROP}`]
 				? {
 						title: (
-							<Typography.Link ellipsis>
-								{info?.[`${SALARY_PROP}`]}
-							</Typography.Link>
+							<Typography.Link>{info?.[`${SALARY_PROP}`]}</Typography.Link>
 						),
 				  }
 				: {}),
@@ -424,11 +404,7 @@ function JobPage({ isOwner = false, service = {} }) {
 			),
 			...(info?.[`${SKILL_PROP}`]
 				? {
-						title: (
-							<Typography.Link ellipsis>
-								{info?.[`${SKILL_PROP}`]}
-							</Typography.Link>
-						),
+						title: <Typography.Link>{info?.[`${SKILL_PROP}`]}</Typography.Link>,
 				  }
 				: {}),
 		},
@@ -455,8 +431,12 @@ function JobPage({ isOwner = false, service = {} }) {
 		<Descriptions
 			column={{ xxl: 2, xl: 2, lg: 2, md: 2, sm: 2, xs: 1 }}
 			colon={false}
-			className="mt-4"
-			title="Service Description"
+			className="info-description mt-4"
+			title={
+				<Typography.Title level={4} ellipsis className="m-0">
+					Service Description
+				</Typography.Title>
+			}
 			extra={[
 				...(isOwner
 					? [
@@ -498,7 +478,7 @@ function JobPage({ isOwner = false, service = {} }) {
 					key={idx}
 					label={item.label}
 					labelStyle={{
-						alignItems: "center",
+						alignItems: "top",
 					}}
 				>
 					{item?.title ? (
@@ -513,7 +493,11 @@ function JobPage({ isOwner = false, service = {} }) {
 
 	const contactData = [
 		{
-			label: <MailOutlined />,
+			label: (
+				<Space size={5}>
+					<MailOutlined />
+				</Space>
+			),
 			...(info?.[`${CONTACT_INFO_PROP}`]?.[`${EMAIL_PROP}`]
 				? {
 						title: (
@@ -529,7 +513,11 @@ function JobPage({ isOwner = false, service = {} }) {
 				: {}),
 		},
 		{
-			label: <PhoneOutlined />,
+			label: (
+				<Space size={5}>
+					<PhoneOutlined />
+				</Space>
+			),
 			...(info?.[`${CONTACT_INFO_PROP}`]?.[`${PHONE_PROP}`]
 				? {
 						title: (
@@ -545,7 +533,11 @@ function JobPage({ isOwner = false, service = {} }) {
 				: {}),
 		},
 		{
-			label: <LinkOutlined />,
+			label: (
+				<Space size={5}>
+					<LinkOutlined />
+				</Space>
+			),
 			...(info?.[`${CONTACT_INFO_PROP}`]?.[`${WEBSITE_PROP}`]
 				? {
 						title: (
@@ -563,17 +555,21 @@ function JobPage({ isOwner = false, service = {} }) {
 
 	const contactInformation = (
 		<Descriptions
-			column={{ xxl: 2, xl: 2, lg: 2, md: 2, sm: 2, xs: 1 }}
+			column={2}
 			colon={false}
-			className="mt-4"
-			title="Contact Information"
+			className="info-description mt-4"
+			title={
+				<Typography.Title level={4} ellipsis className="m-0">
+					Contact Information
+				</Typography.Title>
+			}
 		>
 			{contactData.map((item, idx) => (
 				<Descriptions.Item
 					key={idx}
 					label={item.label}
 					labelStyle={{
-						alignItems: "center",
+						alignItems: "top",
 					}}
 				>
 					{item?.title ? (
@@ -588,7 +584,7 @@ function JobPage({ isOwner = false, service = {} }) {
 
 	const ownerCard = (
 		<Card
-			className="bg-transparent pb-0"
+			className=" bg-transparent pb-0"
 			bordered={false}
 			headStyle={{
 				padding: 0,
@@ -598,7 +594,7 @@ function JobPage({ isOwner = false, service = {} }) {
 				paddingBottom: 0,
 			}}
 			title={
-				<Typography.Title level={5} className="m-0">
+				<Typography.Title level={4} className="m-0">
 					Posted By
 				</Typography.Title>
 			}
@@ -613,6 +609,9 @@ function JobPage({ isOwner = false, service = {} }) {
 							`/${SEARCH_PROFILE}/${postOwner?.[`${ID_PROP}`]}`
 						)
 					}
+					style={{
+						fontSize: "1rem",
+					}}
 					ellipsis
 				>
 					Visit Owner Page
@@ -626,10 +625,9 @@ function JobPage({ isOwner = false, service = {} }) {
 					},
 				})}
 				title={
-					<Typography.Title
-						level={3}
+					<Typography.Text
 						ellipsis
-						className="m-0"
+						className="m-0 p-0"
 						onClick={() =>
 							forwardUrl(
 								FORWARD_CONTINUE,
@@ -637,38 +635,24 @@ function JobPage({ isOwner = false, service = {} }) {
 								`/${SEARCH_PROFILE}/${postOwner?.[`${ID_PROP}`]}`
 							)
 						}
+						style={{
+							fontSize: "1.2rem",
+						}}
 					>
 						<Typography.Link>{ownerInfo?.[`${NAME_PROP}`]}</Typography.Link>
-					</Typography.Title>
+					</Typography.Text>
 				}
 				description={
-					<>
-						<Descriptions colon={false} size="small">
-							<DescriptionsItem className="pb-1">
-								<span>
-									<Rate
-										disabled
-										defaultValue={postOwner?.[`${AVG_RATING_PROP}`] || 0}
-										allowHalf
-										style={{
-											backgroundColor: "gray !important",
-											fontSize: ".9rem",
-										}}
-										className="c-housing-important m-0"
-									/>
-									<span className="ant-rate-text c-housing-important">
-										{postOwner?.[`${TOTAL_REVIEW_PROP}`] || 0} Reviews
-									</span>
-								</span>
-							</DescriptionsItem>
-
-							<DescriptionsItem
-								className="pb-0"
-								label={<UserOutlined />}
-								labelStyle={{
-									alignItems: "center",
-								}}
-							>
+					<Row align="middle" gutter={40}>
+						<Col>
+							<RateDisplay
+								value={postOwner?.[`${AVG_RATING_PROP}`]}
+								totalReview={postOwner?.[`${TOTAL_REVIEW_PROP}`]}
+							/>
+						</Col>
+						<Col className="mt-1">
+							<Space>
+								<UserOutlined />
 								{postOwner?.[`${PROFILE_TYPE_PROP}`] ===
 									PROFILE_BUSINESS_TYPE_PROP && ownerInfo?.[`${STATUS_PROP}`]}
 
@@ -679,25 +663,22 @@ function JobPage({ isOwner = false, service = {} }) {
 											.split(" ")?.[0]
 											.split("-")?.[2]
 									}`}
-							</DescriptionsItem>
-							{postOwner?.[`${PROFILE_TYPE_PROP}`] ===
-								PROFILE_BUSINESS_TYPE_PROP && (
-								<DescriptionsItem
-									label={<AimOutlined />}
-									labelStyle={{
-										alignItems: "center",
-									}}
-								>
+							</Space>
+						</Col>
+						{postOwner?.[`${PROFILE_TYPE_PROP}`] ===
+							PROFILE_BUSINESS_TYPE_PROP && (
+							<Col className="mt-1">
+								<Space>
+									<AimOutlined />
 									{ownerInfo?.[`${COMPANY_INDUSTRY_PROP}`]}
-								</DescriptionsItem>
-							)}
-						</Descriptions>
-					</>
+								</Space>
+							</Col>
+						)}
+					</Row>
 				}
 			/>
 		</Card>
 	);
-
 	const action = {
 		[`${SEARCH_SERVICE}`]: (
 			<>
@@ -738,12 +719,12 @@ function JobPage({ isOwner = false, service = {} }) {
 	);
 
 	const app = (
-		<>
+		<div id="job-page">
 			{header}
 			{cover}
 			{infoCard}
 			{extraActionCard}
-		</>
+		</div>
 	);
 	return app;
 }

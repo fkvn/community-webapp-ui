@@ -1,7 +1,16 @@
 import { MailOutlined, MessageOutlined } from "@ant-design/icons";
-import { Alert, Button, Divider, Form, Space, Spin } from "antd";
+import {
+	Alert,
+	Button,
+	Col,
+	Divider,
+	Form,
+	Row,
+	Space,
+	Spin,
+	Typography,
+} from "antd";
 import { useState } from "react";
-import { Stack } from "react-bootstrap";
 import { imageSuccess } from "../../Assest/Asset";
 import {
 	AGREEMENT_PROP,
@@ -47,26 +56,25 @@ function UserSignup() {
 	const { forwardUrl } = useUrls();
 
 	const title = (
-		<div className="w-100 text-center">
-			<div className="fs-2">
-				{" "}
-				Register a <span style={{ color: "#E94833" }}>ThaiNow</span> Account
-			</div>
-		</div>
+		<Typography.Title level={3} className="text-center">
+			Register a <span style={{ color: "#E94833" }}>ThaiNow</span> Account
+		</Typography.Title>
 	);
 
 	const loginPrompt = (
-		<>
-			<div className="text-center tedkvn-center">
-				Already have an account?{" "}
-				<Button
-					type="link"
-					onClick={() => forwardUrl(FORWARD_CONTINUE, "", "/signin")}
-				>
-					Sign In
-				</Button>
-			</div>
-		</>
+		<Row justify="center">
+			<Col>
+				<Space size={10} style={{ fontSize: "1rem" }}>
+					<div>Already have an account?</div>
+					<Typography.Link
+						underline
+						onClick={() => forwardUrl(FORWARD_CONTINUE, "", "/signin")}
+					>
+						Sign In
+					</Typography.Link>
+				</Space>
+			</Col>
+		</Row>
 	);
 
 	const renderStep1 = (
@@ -81,8 +89,8 @@ function UserSignup() {
 				align="center"
 			>
 				{/* {useFacebookAccess()} */}
-				{useAppleAccess()}
 				{useGoogleAccess()}
+				{useAppleAccess()}
 			</Space>
 			<Divider>OR Create ThaiNow Account </Divider>
 
@@ -99,6 +107,11 @@ function UserSignup() {
 							.then(() => setStep(2))
 					}
 					block
+					style={{
+						fontSize: "1rem",
+						padding: "1.2rem",
+						borderRadius: "1rem",
+					}}
 				>
 					Register
 				</Button>
@@ -108,7 +121,12 @@ function UserSignup() {
 
 	const emailVerifySelection = (
 		<>
-			<p className=" my-4 text-center">
+			<p
+				className="text-center"
+				style={{
+					fontSize: "1rem",
+				}}
+			>
 				Great, now please enter a valid <strong>email address</strong>
 			</p>
 			{useEmail({
@@ -119,11 +137,21 @@ function UserSignup() {
 
 	const verifyOptions = verifyInfo.channel === "" && (
 		<>
-			<div className="text-center">
+			<div
+				className="text-center"
+				style={{
+					fontSize: "1rem",
+				}}
+			>
 				Congratulations, <strong>{form.getFieldValue("preferred name")}</strong>
 				. You're almost done
 			</div>
-			<p className=" my-4 text-center">
+			<p
+				className=" my-4 text-center"
+				style={{
+					fontSize: "1rem",
+				}}
+			>
 				Let's verify your identity to protect a healthy community
 			</p>
 			<Form.Item className="my-2">
@@ -138,6 +166,11 @@ function UserSignup() {
 							field: EMAIL_PROP,
 						})
 					}
+					style={{
+						fontSize: "1rem",
+						padding: "1.2rem",
+						borderRadius: "1rem",
+					}}
 				>
 					Email Verification
 				</Button>
@@ -155,6 +188,11 @@ function UserSignup() {
 							field: PHONE_PROP,
 						})
 					}
+					style={{
+						fontSize: "1rem",
+						padding: "1.2rem",
+						borderRadius: "1rem",
+					}}
 				>
 					SMS Verification
 				</Button>
@@ -165,6 +203,11 @@ function UserSignup() {
 					className="bg-secondary text-white"
 					block
 					onClick={() => setStep(1)}
+					style={{
+						fontSize: "1rem",
+						padding: "1.2rem",
+						borderRadius: "1rem",
+					}}
 				>
 					Go Back
 				</Button>
@@ -194,7 +237,12 @@ function UserSignup() {
 
 	const smsVerifySelection = (
 		<>
-			<p className=" my-4 text-center">
+			<p
+				className="text-center"
+				style={{
+					fontSize: "1rem",
+				}}
+			>
 				Great, now please enter a valid <strong>US (+1) phone number</strong>
 			</p>
 			{usePhone({
@@ -211,7 +259,7 @@ function UserSignup() {
 				{verifyInfo.channel === SMS_PROP && smsVerifySelection}
 				<Button
 					type="link"
-					className="p-0 m-0"
+					className="px-0"
 					onClick={() => {
 						setVerifyInfo({
 							...verifyInfo,
@@ -219,17 +267,23 @@ function UserSignup() {
 							sendingCode: false,
 						});
 					}}
+					style={{ fontSize: "1rem" }}
 				>
 					Verify by {verifyInfo.channel === EMAIL_PROP ? "SMS" : "Email"}{" "}
 					instead
 				</Button>
-				<Form.Item className="my-2">
+				<Form.Item className="my-3">
 					<Button
 						type="primary"
 						shape="round"
 						disabled={verifyInfo.sendingCode}
 						block
 						onClick={onSendVerifyCode}
+						style={{
+							fontSize: "1rem",
+							padding: "1.2rem",
+							borderRadius: "1rem",
+						}}
 					>
 						Send Verifycation Code
 					</Button>
@@ -283,14 +337,17 @@ function UserSignup() {
 	const verifyingOTPCode = verifyInfo.sentCode &&
 		!verifyInfo.verifyAndRegister && (
 			<>
-				<p className="text-center my-4">
+				<p
+					className="text-center"
+					style={{ fontSize: "1rem", paddingBottom: ".5rem" }}
+				>
 					Next, please enter a <strong>4-digits</strong> verification code that
 					we send to <strong>{form.getFieldValue(verifyInfo.field)}</strong>
 				</p>
 				{otpVerifySelection}
 				<Button
 					type="link"
-					className="p-0 m-0"
+					className="px-0"
 					onClick={() => {
 						setVerifyInfo({
 							...verifyInfo,
@@ -299,16 +356,24 @@ function UserSignup() {
 						});
 						form.setFieldValue(OTP_PROP, "");
 					}}
+					style={{
+						fontSize: "1rem",
+					}}
 				>
 					Resend Code
 				</Button>
-				<Form.Item className="my-2 ">
+				<Form.Item className="my-3">
 					<Button
 						type="primary"
 						shape="round"
 						disabled={verifyInfo.verifyingCode}
 						block
 						onClick={onVerifyCode}
+						style={{
+							fontSize: "1rem",
+							padding: "1.2rem",
+							borderRadius: "1rem",
+						}}
 					>
 						Verify OTP Code
 					</Button>
@@ -317,50 +382,62 @@ function UserSignup() {
 		);
 
 	const registedSuccess = verifyInfo.verifyAndRegister && (
-		<Space direction="vertical" className="my-2 text-center w-100">
+		<Space direction="vertical" className=" text-center w-100">
 			{image({
 				src: imageSuccess,
 				width: 200,
-				className: "rounded-circle my-3",
+				className: "rounded-circle ",
 			})}
 
 			<p className="fs-4 fw-bold">Congratulations</p>
-			<p className="fs-4 fw-bold">Your account has been succesfully created.</p>
+			<p className="fs-4 fw-bold">Your account was created succesfully</p>
 			<p>
 				Now, you can login with your{" "}
 				{verifyInfo.channel === EMAIL_PROP ? `email address ` : `phone number `}{" "}
 				<strong>{form.getFieldValue(verifyInfo.field)} </strong>
 			</p>
-			<div className="text-center tedkvn-center">
-				Business Owner?{" "}
-				<Button
-					type="link"
-					className="border-0"
-					onClick={() =>
-						thainowSignin(
-							verifyInfo.channel === SMS_PROP ? PHONE_PROP : verifyInfo.channel,
-							form.getFieldValue(verifyInfo.field),
-							form.getFieldValue(PASSWORD_PROP),
-							true,
-							FORWARD_CONTINUE,
-							"/register/business"
-						)
-					}
-				>
-					Activate your business profile
-				</Button>
-			</div>
+			<Row justify="center">
+				<Col>
+					<Space size={10} style={{ fontSize: "1rem" }}>
+						<div>Business Owner?</div>
+						<Typography.Link
+							underline
+							onClick={() =>
+								thainowSignin(
+									verifyInfo.channel === SMS_PROP
+										? PHONE_PROP
+										: verifyInfo.channel,
+									form.getFieldValue(verifyInfo.field),
+									form.getFieldValue(PASSWORD_PROP),
+									true,
+									FORWARD_CONTINUE,
+									"/register/business"
+								)
+							}
+						>
+							Activate your business profile
+						</Typography.Link>
+					</Space>
+				</Col>
+			</Row>
+
 			<Button
 				type="primary"
 				block
-				className="p-4 my-4"
+				className="mt-5"
 				onClick={() =>
 					thainowSignin(
 						verifyInfo.channel === SMS_PROP ? PHONE_PROP : verifyInfo.channel,
 						form.getFieldValue(verifyInfo.field),
-						form.getFieldValue(PASSWORD_PROP)
+						form.getFieldValue(PASSWORD_PROP),
+						true
 					)
 				}
+				style={{
+					fontSize: "1rem",
+					padding: "1.2rem",
+					borderRadius: "1rem",
+				}}
 			>
 				Sign in to {form.getFieldValue(verifyInfo.field)}
 			</Button>
@@ -369,6 +446,11 @@ function UserSignup() {
 				block
 				className="border-0"
 				onClick={() => forwardUrl()}
+				style={{
+					fontSize: "1rem",
+					padding: "1rem",
+					borderRadius: "1rem",
+				}}
 			>
 				Back to home
 			</Button>
@@ -386,37 +468,43 @@ function UserSignup() {
 	);
 
 	const app = (
-		<Stack className="py-5  tedkvn-center mx-4">
-			<Form
-				form={form}
-				layout="vertical"
-				className="mx-2 mx-xl-5"
-				autoComplete="off"
-			>
-				<Space direction="vertical" size={20}>
-					{!verifyInfo.verifyAndRegister ? (
-						<>
-							{title}
-							{step === 1 ? (
-								renderStep1
-							) : step === 2 ? (
-								renderStep2
-							) : (
-								<Spin size="large">
-									<Alert
-										message="Register process is loading"
-										description="If the process is taking too long, please try it again later or contact ThaiNow customer service."
-										type="info"
-									/>{" "}
-								</Spin>
-							)}
-						</>
-					) : (
-						registedSuccess
-					)}
-				</Space>
-			</Form>
-		</Stack>
+		<Row id="user-signup" justify="center" className="py-5">
+			<Col>
+				<Form
+					form={form}
+					layout="vertical"
+					className="mx-2 mx-xl-5"
+					autoComplete="off"
+				>
+					<Row justify="center">
+						<Col>
+							<Space direction="vertical" size={20} className="px-2">
+								{!verifyInfo.verifyAndRegister ? (
+									<>
+										{title}
+										{step === 1 ? (
+											renderStep1
+										) : step === 2 ? (
+											renderStep2
+										) : (
+											<Spin size="large">
+												<Alert
+													message="Register process is loading"
+													description="If the process is taking too long, please try it again later or contact ThaiNow customer service."
+													type="info"
+												/>{" "}
+											</Spin>
+										)}
+									</>
+								) : (
+									registedSuccess
+								)}
+							</Space>
+						</Col>
+					</Row>
+				</Form>
+			</Col>
+		</Row>
 	);
 
 	return app;

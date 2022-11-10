@@ -2,3 +2,77 @@
 	padding: 24px;
 	background-color: white;
 }
+
+#user-signin {
+	& .ant-form-item * {
+		font-size: 1rem;
+	}
+
+	& span.ant-input-affix-wrapper,
+	& input#email {
+		padding: 0.5rem 1rem;
+		border-radius: 50px;
+	}
+
+	& span.ant-input-group-addon {
+		border-radius: 1rem 0 0 1rem;
+		padding: 0.5rem 1rem;
+	}
+
+	& input#phone {
+		border-radius: 0 1rem 1rem 0;
+		padding: 0.5rem 1rem;
+	}
+}
+
+#user-signup {
+	& .ant-form-item * {
+		font-size: 1rem;
+	}
+
+	& span.ant-input-affix-wrapper,
+	& input#email,
+	& input#username,
+	& input#otp {
+		padding: 0.5rem 1rem;
+		border-radius: 50px;
+	}
+
+	& span.ant-input-group-addon {
+		border-radius: 1rem 0 0 1rem;
+		padding: 0.5rem 1rem;
+	}
+
+	& input#phone {
+		border-radius: 0 1rem 1rem 0;
+		padding: 0.5rem 1rem;
+	}
+}
+
+#business-signup {
+	& .ant-form-item * {
+		font-size: 1rem;
+	}
+
+	& input#name {
+		padding: 0.5rem 1rem;
+		border-radius: 50px;
+	}
+
+	& input#industry {
+		padding: 1.2rem 0.5rem;
+	}
+
+	& .ant-select-selector:has(input#industry) {
+		border-radius: 50px;
+		padding: 1.2rem 1rem;
+	}
+
+	& input#address {
+		padding: 0.2rem 0.5rem;
+	}
+
+	& span.ant-input-affix-wrapper:has(input#address) {
+		border-radius: 50px !important;
+	}
+}

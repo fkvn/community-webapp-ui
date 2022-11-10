@@ -1,5 +1,4 @@
 import { Col, Grid, Layout, Row } from "antd";
-import { imageTopbarBgMobile } from "../../Assest/Asset";
 import LeftLayout from "../../Component/PageLayout/LeftLayout";
 import RightLayout from "../../Component/PageLayout/RightLayout";
 import TopBar from "../../Component/PageLayout/TopBar/TopBar";
@@ -13,14 +12,7 @@ function LayoutContainer() {
 	const layout = (
 		<Row id="layout" justify="center">
 			<Col xs={24}>
-				<Header
-					className="fixed-top p-0"
-					style={{
-						backgroundImage: `url(${
-							screens?.md ? imageTopbarBgMobile : imageTopbarBgMobile
-						})`,
-					}}
-				>
+				<Header className="fixed-top p-0">
 					<TopBar />
 				</Header>
 

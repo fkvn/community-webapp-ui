@@ -1,8 +1,9 @@
-import { Button, Checkbox, Form, Space } from "antd";
+import { Button, Checkbox, Col, Form, Row, Space, Typography } from "antd";
 import { useState } from "react";
-import { Stack } from "react-bootstrap";
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { imageSuccess } from "../../Assest/Asset";
+import { thainowReducer } from "../../redux-store/reducer/thainowReducer";
 import {
 	COMPANY_INDUSTRY_LIST,
 	COMPANY_INDUSTRY_PROP,
@@ -12,6 +13,7 @@ import {
 	LOCATION_OBJ,
 	NAME_PROP,
 	PHONE_PROP,
+	PROFILE_OBJ,
 	WEBSITE_PROP,
 } from "../../Util/ConstVar";
 import useAddress from "../Hook/FormHook/useAddress";
@@ -21,7 +23,6 @@ import usePhone from "../Hook/FormHook/usePhone";
 import useUrl from "../Hook/FormHook/useUrl";
 import useUsername from "../Hook/FormHook/useUsername";
 import useImage from "../Hook/useImage";
-import useProfile from "../Hook/useProfile";
 import useRegister from "../Hook/useRegister";
 import useUrls from "../Hook/useUrls";
 
@@ -36,20 +37,26 @@ function BusinessSignup() {
 
 	const [registering, setRegistering] = useState(false);
 
-	const { profile } = useProfile();
+	const { [`${PROFILE_OBJ}`]: profile = {} } = useSelector(thainowReducer);
 
 	const [hasLocation, setHasLocation] = useState(true);
 
 	const title = (
-		<div className="w-100 text-center">
-			<p className="fs-2">
-				Register a <span style={{ color: "#E94833" }}>Business</span> Profile
-			</p>
-			<p className="fs-5">
-				Hi <strong>{profile?.info?.[`${NAME_PROP}`]}</strong>
-			</p>
-			<p>Please enter your business information</p>
-		</div>
+		<Row justify="center">
+			<Col className="text-center">
+				<Typography.Title level={1}>
+					Register a <span style={{ color: "#E94833" }}>Business</span> Profile
+				</Typography.Title>
+				<Typography.Title level={4}>
+					{" "}
+					Hi, <strong>{profile?.info?.[`${NAME_PROP}`]} </strong>
+				</Typography.Title>
+
+				<p style={{ fontSize: "1rem", paddingTop: "1rem" }}>
+					Please enter your business information
+				</p>
+			</Col>
+		</Row>
 	);
 
 	const fetchRegisterInfo = () => {
@@ -78,20 +85,25 @@ function BusinessSignup() {
 
 	const name = useUsername({
 		itemProps: { name: COMPANY_NAME_PROP, label: "Business Name" },
-		inputProps: { placeholder: "Enter your business name" },
+		inputProps: { placeholder: "" },
 	});
 
-	const industry = useAutocomplete(
-		{ name: COMPANY_INDUSTRY_PROP, label: "Business Industry" },
-		{
+	const industry = useAutocomplete({
+		itemProps: {
+			name: COMPANY_INDUSTRY_PROP,
+			label: "Business Industry",
+		},
+		inputProps: {
 			filterOption: (inputValue, option) =>
 				option?.value.toUpperCase().indexOf(inputValue.toUpperCase()) !== -1,
-			placeholder: "Enter your business Industry",
 		},
-		COMPANY_INDUSTRY_LIST.reduce((res, item) => [...res, { value: item }], []),
-		true,
-		"Please provide a business industry"
-	);
+		options: COMPANY_INDUSTRY_LIST.reduce(
+			(res, item) => [...res, { value: item }],
+			[]
+		),
+		required: true,
+		errorMessage: "Please provide a business industry",
+	});
 
 	const address = useAddress({
 		itemProps: {
@@ -108,6 +120,10 @@ function BusinessSignup() {
 				),
 			}),
 			shouldUpdate: true,
+		},
+		inputProps: {
+			prefix: false,
+			placeholder: "",
 		},
 		required: hasLocation,
 	});
@@ -153,6 +169,10 @@ function BusinessSignup() {
 					form.validateFields();
 					setHasLocation(!hasLocation);
 				}}
+				style={{
+					margin: ".5rem 0",
+					fontSize: "1rem",
+				}}
 			>
 				My business doesn’t have a physical location
 			</Checkbox>
@@ -164,6 +184,11 @@ function BusinessSignup() {
 					disabled={registering}
 					onClick={onRegister}
 					block
+					style={{
+						fontSize: "1rem",
+						padding: "1.2rem",
+						borderRadius: "1rem",
+					}}
 				>
 					Register
 				</Button>
@@ -174,19 +199,22 @@ function BusinessSignup() {
 	const { image } = useImage();
 
 	const registedSuccess = register && (
-		<Space direction="vertical" className="my-2 text-center w-100">
+		<Space direction="vertical" className="text-center">
 			{image({
 				src: imageSuccess,
 				width: 200,
 				className: "rounded-circle my-3",
 			})}
 
-			<p className="fs-4 fw-bold">Thanks {profile?.info?.[`${NAME_PROP}`]}</p>
-			<p>
+			<Typography.Title level={2}>
+				Thanks {profile?.info?.[`${NAME_PROP}`]}
+			</Typography.Title>
+
+			<p style={{ fontSize: "1rem" }}>
 				Now, your Business{" "}
 				<strong>{form.getFieldValue(COMPANY_NAME_PROP)} </strong> registration
-				is currently under <span className="text-danger">review</span>, we will
-				contact you soon!
+				is currently <span className="text-danger">"Waiting For Review"</span>,
+				we will contact you soon!
 			</p>
 
 			<Button
@@ -194,6 +222,11 @@ function BusinessSignup() {
 				block
 				className="p-4 my-4"
 				onClick={() => forwardUrl(FORWARD_SUCCESS)}
+				style={{
+					fontSize: "1rem",
+					padding: "1.2rem",
+					borderRadius: "1rem",
+				}}
 			>
 				Continue
 			</Button>
@@ -212,18 +245,24 @@ function BusinessSignup() {
 	);
 
 	const app = (
-		<Stack className="py-5  tedkvn-center mx-4">
-			<Form
-				form={form}
-				layout="vertical"
-				className="mx-2 mx-xl-5"
-				autoComplete="off"
-			>
-				<Space direction="vertical" size={20}>
-					{!register ? renderForm : registedSuccess}
-				</Space>
-			</Form>
-		</Stack>
+		<Row id="business-signup" justify="center" className="py-5 px-2">
+			<Col>
+				<Form
+					form={form}
+					layout="vertical"
+					className="mx-2 mx-xl-5"
+					autoComplete="off"
+				>
+					<Row justify="center">
+						<Col>
+							<Space direction="vertical" size={20}>
+								{!register ? renderForm : registedSuccess}
+							</Space>
+						</Col>
+					</Row>
+				</Form>
+			</Col>
+		</Row>
 	);
 
 	return app;

@@ -43,7 +43,7 @@ function useAppleAccess() {
 			data-border-radius="40px"
 			style={{
 				width: "200px",
-				height: "35px",
+				height: "38px",
 			}}
 			// onclick for local dev only
 			// hide when go production

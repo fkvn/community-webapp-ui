@@ -9,6 +9,7 @@ const usePassword = (itemProps = {}, inputProps = {}) =>
 	))(
 		{
 			label: "Password",
+			className: "m-0",
 			name: PASSWORD_PROP,
 			rules: [
 				{ required: true, message: "Please input your password!" },
@@ -23,7 +24,7 @@ const usePassword = (itemProps = {}, inputProps = {}) =>
 			...itemProps,
 		},
 		{
-			placeholder: "Preferred Name",
+			placeholder: "Enter password",
 			...inputProps,
 		}
 	);

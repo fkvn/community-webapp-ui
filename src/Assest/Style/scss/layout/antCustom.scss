@@ -26,7 +26,7 @@
 .ant-divider,
 .ant-divider-horizontal.ant-divider-with-text::before,
 .ant-divider-horizontal.ant-divider-with-text::after {
-	border-top: 0.2px solid rgba(102, 102, 102, 0.25);
+	border-top: 1px solid rgba(102, 102, 102, 0.25);
 }
 
 .ant-card-bordered,
@@ -39,7 +39,8 @@
 	border-radius: 0.8rem;
 }
 
-.ant-space-item:has(> div.d-none) {
+.ant-space-item:has(> div.d-none),
+.ant-space-item:has(> div.ant-form-item-hidden) {
 	display: none;
 }
 
@@ -97,7 +98,8 @@
 ul.ant-rate li {
 	margin-left: 0;
 	margin-right: 0.4rem !important;
-	padding: 0 !important;
+	// padding: 0 !important;
+	padding-left: 0;
 }
 
 // .ant-card-meta h5.ant-typography {

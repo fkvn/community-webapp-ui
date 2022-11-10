@@ -124,7 +124,7 @@ function Report({
 				<Button
 					shape="round"
 					type="danger"
-					className={`${iconOnly && " px-2 "}`}
+					className={`${iconOnly && " px-2  pb-1"}`}
 					onClick={() => setOpen(true)}
 					{...buttonProps}
 				>

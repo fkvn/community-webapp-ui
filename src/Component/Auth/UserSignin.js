@@ -1,7 +1,15 @@
-import { Button, Divider, Form, Segmented, Space } from "antd";
+import {
+	Button,
+	Col,
+	Divider,
+	Form,
+	Row,
+	Segmented,
+	Space,
+	Typography,
+} from "antd";
 import { useForm } from "antd/lib/form/Form";
 import { useState } from "react";
-import { Stack } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { EMAIL_PROP, PASSWORD_PROP, PHONE_PROP } from "../../Util/ConstVar";
 import useEmail from "../Hook/FormHook/useEmail";
@@ -23,24 +31,22 @@ function UserSignin() {
 	const [signinChannel, setSigninChannel] = useState(EMAIL_PROP);
 
 	const title = (
-		<div className="w-100 text-center">
-			<div className="fs-2">
-				{" "}
-				Sign in to your <span style={{ color: "#E94833" }}>ThaiNow</span>{" "}
-				Accounst
-			</div>
-		</div>
+		<Typography.Title level={3} className="text-center">
+			Sign in to your <span style={{ color: "#E94833" }}>ThaiNow</span> Account
+		</Typography.Title>
 	);
 
 	const loginPrompt = (
-		<>
-			<div className="text-center tedkvn-center">
-				Don't have an account?{" "}
-				<Button type="link" onClick={() => navigate("/register/user")}>
-					Register Now
-				</Button>
-			</div>
-		</>
+		<Row justify="center">
+			<Col>
+				<Space size={10} style={{ fontSize: "1rem" }}>
+					<div>Don't have an account?</div>
+					<Typography.Link underline onClick={() => navigate("/register/user")}>
+						Register Now
+					</Typography.Link>
+				</Space>
+			</Col>
+		</Row>
 	);
 
 	const thirdPartySigninOptions = (
@@ -54,28 +60,25 @@ function UserSignin() {
 				align="center"
 			>
 				{/* {useFacebookAccess()} */}
-				{useAppleAccess()}
 				{useGoogleAccess()}
+				{useAppleAccess()}
 			</Space>
 		</>
 	);
 
-	const email = useEmail({
-		inputProps: { autoFocus: true },
-	});
-	const phone = usePhone({
-		inputProps: { autoFocus: true },
-	});
+	const email = useEmail();
+	const phone = usePhone();
 	const password = usePassword({
-		extra: (
-			<Button
-				type="link"
-				className="px-0 mt-1"
-				onClick={() => alert("Coming soon")}
-			>
-				Forgot password
-			</Button>
-		),
+		className: "mb-4",
+		// extra: (
+		// 	<Button
+		// 		type="link"
+		// 		className="px-0 mt-1"
+		// 		onClick={() => alert("Coming soon")}
+		// 	>
+		// 		Forgot password
+		// 	</Button>
+		// ),
 	});
 
 	const signInTabChildren = (
@@ -83,8 +86,18 @@ function UserSignin() {
 			{signinChannel === EMAIL_PROP && email}
 			{signinChannel === PHONE_PROP && phone}
 			{password}
-			<Form.Item>
-				<Button type="primary" htmlType="submit" block disabled={signing}>
+			<Form.Item className="m-0">
+				<Button
+					type="primary"
+					htmlType="submit"
+					block
+					disabled={signing}
+					style={{
+						fontSize: "1rem",
+						padding: "1.2rem",
+						borderRadius: "1rem",
+					}}
+				>
 					Sign In
 				</Button>
 			</Form.Item>
@@ -121,36 +134,42 @@ function UserSignin() {
 					},
 				]}
 				onChange={(value) => setSigninChannel(value)}
+				size="large"
 			/>
 			{signInTabChildren}
 		</>
 	);
 
 	const app = (
-		<Stack className="py-5 tedkvn-center mx-4 overflow-auto">
-			<Form
-				form={form}
-				onFinish={onFinish}
-				layout="vertical"
-				className="mx-2 mx-xl-5"
-				autoComplete="off"
-			>
-				<Space
-					direction="vertical"
-					size={20}
-					className="px-2"
-					style={{ whiteSpace: "normal" }}
+		<Row justify="center" className="py-5" id="user-signin">
+			<Col>
+				<Form
+					form={form}
+					onFinish={onFinish}
+					layout="vertical"
+					className="info-description mx-2 mx-xl-5"
+					autoComplete="off"
 				>
-					{title}
-					{loginPrompt}
+					<Row justify="center">
+						<Col>
+							<Space
+								direction="vertical"
+								size={25}
+								className="px-2"
+								style={{ whiteSpace: "normal" }}
+							>
+								{title}
+								{loginPrompt}
+								{thirdPartySigninOptions}
+								<Divider>OR</Divider>
 
-					{thirdPartySigninOptions}
-					<Divider>OR</Divider>
-					{/* {signInTabs} */}
-					{signinSection}
-				</Space>
-			</Form>
-		</Stack>
+								{signinSection}
+							</Space>
+						</Col>
+					</Row>
+				</Form>
+			</Col>
+		</Row>
 	);
 
 	return app;

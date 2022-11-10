@@ -7,6 +7,7 @@ import { Route, Routes, useNavigate, useSearchParams } from "react-router-dom";
 import {
 	imageGuestAvatar,
 	imageThainowLogo,
+	imageTopbarBgMobile,
 	svgSearchWhiteIcon,
 } from "../../../Assest/Asset";
 import { thainowReducer } from "../../../redux-store/reducer/thainowReducer";
@@ -21,8 +22,6 @@ import {
 	SEARCH_JOB,
 	SEARCH_KEYWORD,
 	SEARCH_MARKETPLACE,
-	SEARCH_SORT_DESC,
-	SEARCH_SORT_ORDER,
 	SEARCH_TYPE_PROP,
 } from "../../../Util/ConstVar";
 import { isObjectEmpty } from "../../../Util/Util";
@@ -45,9 +44,6 @@ function MobileTopBar() {
 	const [searchParams] = useSearchParams();
 	const keywordParam = searchParams.get(SEARCH_KEYWORD) || "";
 	const searchTypeParam = searchParams.get(SEARCH_TYPE_PROP) || SEARCH_BUSINESS;
-
-	const sortOrderParam =
-		searchParams.get(SEARCH_SORT_ORDER) || SEARCH_SORT_DESC;
 
 	const { image } = useImage();
 
@@ -143,66 +139,12 @@ function MobileTopBar() {
 			}
 
 			let adjustHeight = (scrollY / heightToHideFrom) * 100 * -1;
-			adjustHeight = adjustHeight < -57.5 ? -57.5 : adjustHeight;
+			adjustHeight = adjustHeight < -76 ? -76 : adjustHeight;
 
 			$("#layout header").css({
 				transform: `translateY(${adjustHeight}%)`,
 				// transition: "transform 10ms ease-out 5ms",
 			});
-
-			// if (scrollY < lastScrollY) {
-			// 	$("#layout header").css({
-			// 		transform: `translateY(${scrollDownHeight}%)`,
-			// 	});
-			// } else {
-			// 	$("#layout header").css({
-			// 		transform: `translateY(${scrollUpHeight}%)`,
-			// 	});
-			// }
-			// else  {
-			// 	$("#layout header").css({
-			// 		transform: `translateY(${(reducedHeight * -1 }%)`,
-			// 	});
-			// }
-
-			// transform: `translateY(${100 - lastScrollY}%)`,
-			// if (scrollY > lastScrollY && scrollY > 0.5 * heightToHideFrom) {
-			// 	$("#layout header").css({
-			// 		// -60%
-			// 		transform: `translateY(${100 - lastScrollY}%)`,
-			// 		// transition: "transform 0.5s, visibility 0.5s",
-			// 	});
-
-			// 	// $("#layout main").css({
-			// 	// 	"margin-top": "5rem",
-			// 	// 	transform: "margin-top",
-			// 	// 	transition: "transform 1s, visibility 1s",
-			// 	// });
-			// } else if (scrollY < heightToHideFrom) {
-			// 	// if (scrollY === 0) {
-			// 	// 	// $("#layout main").css(
-			// 	// 	// 	"margin-top",
-			// 	// 	// 	$("#layout header").height() + 20
-			// 	// 	// );
-			// 	// 	// $("#layout main").css({
-			// 	// 	// 	"margin-top": heightToHideFrom + 20,
-			// 	// 	// 	transform: "margin-top",
-			// 	// 	// 	transition: "transform 5s, visibility 1s",
-			// 	// 	// });
-			// 	// }
-
-			// 	// $("#layout main").css("margin-top", $("#layout header").height() + 20);
-
-			// 	// $("#layout main").css({
-			// 	// 	"margin-top": heightToHideFrom + 20,
-			// 	// 	transform: "margin-top",
-			// 	// 	transition: "transform 1s, visibility 1s",
-			// 	// });
-
-			// 	$("#layout header").css({
-			// 		transform: "translateY(0)",
-			// 	});
-			// }
 
 			lastScrollY = scrollY > 0 ? scrollY : 0;
 
@@ -233,8 +175,6 @@ function MobileTopBar() {
 
 		const scroll = activateScrolling();
 
-		// $("#layout-main").css("margin-top", "7rem");
-
 		$("#layout-main").css("margin-top", $("#layout header").outerHeight() + 15);
 
 		// clean up event listener
@@ -245,10 +185,10 @@ function MobileTopBar() {
 		$("#layout-main").css("margin-top", "15rem");
 
 		return (
-			<>
+			<div>
 				<Row className="header mb-2" gutter={[50, 5]} align="middle">
 					<Col>
-						<Typography.Title className="text-white mb-1">
+						<Typography.Title level={2} className="text-white mb-1">
 							Browsing{" "}
 							{searchTypeParam.charAt(0).toUpperCase() +
 								searchTypeParam.slice(1)}
@@ -275,10 +215,11 @@ function MobileTopBar() {
 					<Space
 						direction="horizontal"
 						id="tag-bar"
-						className="hideScrollHorizontal my-2 mb-1 w-100"
+						className="hideScrollHorizontal my-2 mb-1 w-100 border-0"
 						style={{
 							position: "relative",
 							overflowX: "scroll",
+							overflowY: "hidden",
 						}}
 						size={20}
 					>
@@ -289,7 +230,7 @@ function MobileTopBar() {
 
 					<SearchOption />
 				</div>
-			</>
+			</div>
 		);
 	};
 
@@ -308,6 +249,10 @@ function MobileTopBar() {
 					backIcon={image({
 						src: imageThainowLogo,
 					})}
+					style={{
+						backgroundImage: `url(${imageTopbarBgMobile})`,
+						backgroundSize: "cover",
+					}}
 					extra={[
 						...(keywordParam.length === 0
 							? [
@@ -337,6 +282,7 @@ function MobileTopBar() {
 						</Button>,
 					]}
 				>
+					{" "}
 					<Routes>
 						<Route path="/search" element={searchTopBar()} />
 					</Routes>

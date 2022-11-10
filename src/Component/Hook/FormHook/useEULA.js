@@ -7,6 +7,7 @@ const useEULA = () => (
 			shouldUpdate
 			name={AGREEMENT_PROP}
 			valuePropName="checked"
+			className="m-0"
 			rules={[
 				{
 					validator: (_, value) =>

@@ -1,17 +1,14 @@
 import {
-	Button,
 	Card,
 	Col,
 	Comment,
 	Grid,
 	List,
-	Rate,
 	Row,
 	Space,
 	Tooltip,
 	Typography,
 } from "antd";
-import Meta from "antd/lib/card/Meta";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -41,6 +38,7 @@ import {
 import { formatTime } from "../../../Util/Util";
 import useImage from "../../Hook/useImage";
 import useSearch from "../../Hook/useSearch";
+import RateDisplay from "../../RateDisplay/RateDisplay";
 import LoadMore from "../../Search/LoadMore";
 import SkeletonCard from "../../Skeleton/SkeletonCard";
 import EditReview from "./EditReview";
@@ -120,7 +118,6 @@ function ReviewPage({
 							}
 						>
 							<Typography.Link
-								ellipsis
 								onClick={() =>
 									navigate(
 										`/${SEARCH_PROFILE}/${
@@ -152,12 +149,9 @@ function ReviewPage({
 				}),
 				content: (
 					<Typography.Paragraph className="p-0 m-0">
-						<Rate
-							disabled
+						<RateDisplay
 							value={review?.[`${RATE_PROP}`]}
-							allowHalf
-							style={{ backgroundColor: "gray !important", fontSize: ".8rem" }}
-							className="c-housing-important m-0"
+							displayReview={false}
 						/>
 						<Typography.Paragraph className="mt-2 mb-0">
 							{review?.[`${COMMENT_PROP}`]}
@@ -239,70 +233,66 @@ function ReviewPage({
 		}
 	}, []);
 
-	// const rateSection = (
-	// 	<Row justify="center" className="my-4">
-	// 		<Col>
-	// 			<Card type="ghost">
-	// 				<Meta
-	// 					className="m-4 tedkvn-center"
-	// 					title={profile?.[`${INFO_PROP}`]?.[`${NAME_PROP}`]}
-	// 					avatar={avatar({
-	// 						inputProps: {
-	// 							src: profile?.[`${INFO_PROP}`]?.[`${PICTURE_PROP}`],
-	// 						},
-	// 					})}
-	// 				>
-	// 					dadsds
-	// 				</Meta>
-	// 			</Card>
-	// 		</Col>
-	// 	</Row>
-	// );
+	const rateSection = (
+		<Row justify="center">
+			<Col
+				xs={24}
+				md={12}
+				className="text-center bg-white p-5"
+				style={{
+					marginTop: "1rem",
+					marginBottom: "3rem",
+					borderRadius: "1rem",
+					cursor: "pointer",
+				}}
+				onClick={() => setNewReviewOpen(true)}
+			>
+				<Typography.Title level={3}>Rate your experience</Typography.Title>
+				<RateDisplay
+					value={5}
+					displayReview={false}
+					rateProps={{
+						className: "c-housing",
+						style: {
+							fontSize: "2rem",
+						},
+					}}
+				/>
+				<div className="pt-3">
+					<Typography.Text className="c-primary " style={{ fontSize: "1rem" }}>
+						Share feedback to people
+					</Typography.Text>
+				</div>
+			</Col>
+		</Row>
+	);
+
+	const header = (
+		<Row justify="space-between" className="mb-3">
+			<Col>
+				<Space direction="vertical">
+					<Typography.Title level={3} className="m-0">
+						Customer Review
+					</Typography.Title>
+					<RateDisplay value={avgRating} totalReview={totalReview} />
+				</Space>
+			</Col>
+		</Row>
+	);
 
 	const reviewList = (
 		<Card
-			className="bg-transparent border-0"
+			className="info-description bg-transparent border-0"
 			headStyle={{
 				padding: 0,
 			}}
 			bodyStyle={{
 				padding: 0,
 			}}
-			title={
-				<Meta
-					title={<Typography.Text ellipsis>Customer Review</Typography.Text>}
-					description={
-						<span className="p-">
-							<Rate
-								disabled
-								value={avgRating}
-								allowHalf
-								style={{ backgroundColor: "gray !important" }}
-								className="c-housing-important m-0"
-							/>
-							<span className="ant-rate-text c-housing-important">
-								{totalReview} Reviews
-							</span>
-						</span>
-					}
-				/>
-			}
-			{...(screens.sm && {
-				extra: [
-					<Button
-						type="link"
-						key={0}
-						onClick={() => setNewReviewOpen(true)}
-						disabled={profile?.[`${ID_PROP}`] === revieweeId}
-					>
-						Rate your experience
-					</Button>,
-				],
-			})}
 		>
+			{header}
 			<List
 				className="p-0"
-				// header={`${totalReview} Reviews`}
 				itemLayout="horizontal"
 				dataSource={normalizeReviews(fetchResults)}
 				renderItem={(item) => (
@@ -322,12 +312,16 @@ function ReviewPage({
 	);
 
 	const app = (
-		<Row justify="center" className="my-3 ">
-			<Col xs={24}>{reviewList}</Col>
+		<Row justify="center" className="my-3" id="review-page">
+			<Col xs={24}>
+				{" "}
+				{rateSection}
+				{reviewList}
+			</Col>
 			{(newReviewOpen || editReview?.open) && (
 				<AuthContainer
 					key={0}
-					closeUrl="/"
+					closeUrl={location?.pathname + location?.search || "/"}
 					continueUrl="/signin"
 					successUrl={location?.pathname + location?.search || "/"}
 				>
@@ -358,69 +352,6 @@ function ReviewPage({
 					)}
 				</AuthContainer>
 			)}
-
-			{/* <Modal
-				title={
-					<div className="tedkvn-center-left">
-						{avatar({
-							inputProps: {
-								size: 35,
-								src: profile?.[`${INFO_PROP}`]?.[`${PICTURE_PROP}`],
-							},
-						})}{" "}
-						<Typography.Text ellipsis className="px-2">
-							Rate your experience
-						</Typography.Text>
-					</div>
-				}
-				open={!isEmptyObject(profile) && newReview?.open}
-				onOk={handleOk}
-				confirmLoading={newReview?.confirmLoading}
-				onCancel={handleCancel}
-				okButtonProps={{
-					style: { display: "block !important" },
-				}}
-				cancelButtonProps={{ style: { display: "block !important" } }}
-				okText="Submit Review"
-				centered
-				zIndex={1000}
-			>
-				<Form form={form}>
-					<Form.Item
-						className="tedkvn-center"
-						name={RATE_PROP}
-						initialValue={5}
-						rules={[
-							{
-								validator(_, value) {
-									if (value < 0.5)
-										return Promise.reject("Rate can't be less than 0.5");
-									else return Promise.resolve();
-								},
-							},
-						]}
-					>
-						<Rate
-							allowHalf
-							allowClear={false}
-							style={{
-								backgroundColor: "gray !important",
-								fontSize: "1.8rem",
-							}}
-							className="c-housing-important m-0"
-						/>
-					</Form.Item>
-					{useTextarea({
-						itemProps: {
-							name: COMMENT_PROP,
-						},
-						inputProps: {
-							placeholder: "Enter your comments (optional)",
-						},
-						showLabel: false,
-					})}
-				</Form>
-			</Modal> */}
 		</Row>
 	);
 

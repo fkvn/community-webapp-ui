@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import { Navbar } from "react-bootstrap";
 import { useSelector } from "react-redux";
 import { useSearchParams } from "react-router-dom";
-import { imageThainowLogo } from "../../../Assest/Asset";
+import { imageThainowLogo, imageTopbarBgMobile } from "../../../Assest/Asset";
 import { thainowReducer } from "../../../redux-store/reducer/thainowReducer";
 import { LOCATION_OBJ, SEARCH_INPUT_PROP } from "../../../Util/ConstVar";
 import useSearchKeyword from "../../Hook/FormHook/useSearchKeyword";
@@ -65,6 +65,10 @@ function DefaultTopBar() {
 			justify="space-start"
 			align="middle"
 			className="w-100 px-4 px-lg-5 py-0 py-lg-2"
+			style={{
+				backgroundImage: `url(${imageTopbarBgMobile})`,
+				backgroundSize: "cover",
+			}}
 		>
 			<Col xs={2}>
 				<Navbar.Brand

@@ -24,11 +24,12 @@ function MarketplaceBadge({
 	activeColor = global.marketplaceColor,
 	defautColor = "gray",
 	buttonClassName = "p-0 m-0 border-0 rounded lh-base",
-	tagClassName = "p-1 px-3 m-0 rounded lh-base",
+	tagClassName = "p-1 px-3 m-0 rounded lh-base border-0",
+	tagProps = {},
 
 	// action
 	onClick = () => {},
-}) {
+} = {}) {
 	const { image } = useImage();
 
 	const { Title } = Typography;
@@ -58,6 +59,7 @@ function MarketplaceBadge({
 						color={active ? activeColor : defautColor}
 						className={tagClassName}
 						onClick={onClick}
+						{...tagProps}
 					>
 						{title}
 					</Tag>

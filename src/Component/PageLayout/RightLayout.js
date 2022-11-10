@@ -14,7 +14,7 @@ import { isObjectEmpty, signoutUserPromise } from "../../Util/Util";
 import useImage from "../Hook/useImage";
 import useProfile from "../Hook/useProfile";
 
-function RightLayout({ showSetting = false, ...props }) {
+function RightLayout({ showSetting = false }) {
 	const navigate = useNavigate();
 	const location = useLocation();
 	const { avatar } = useImage();
@@ -89,23 +89,29 @@ function RightLayout({ showSetting = false, ...props }) {
 
 	const { uploadProfileAvatar } = useProfile();
 
-	const app1 = (
-		<Row justify="center" className="w-100 px-4" gutter={[20]}>
+	const app = (
+		<Row justify="center" className="w-100 px-5 py-2">
 			<Col xs={24}>
 				{isObjectEmpty(profile) && (
 					<Button
 						type="default"
-						className="p-2 fw-bold border-danger my-4"
+						className="p-4 fw-bold border-danger my-4"
 						block
 						onClick={() => navigate("/register/user")}
+						style={{
+							fontSize: "1rem",
+							borderRadius: "1rem",
+						}}
 					>
 						Register ThaiNow Account
 					</Button>
 				)}
-
-				<Card className="w-100 text-center pb-4" bodyStyle={{ paddingTop: 0 }}>
+				<Card
+					className="w-100 text-center p-4"
+					bodyStyle={{ paddingTop: 0, paddingBottom: "1rem" }}
+				>
 					<Space direction="vertical" className="w-100" size={10}>
-						<Space direction="vertical" className="w-100 my-4 tedkvn-center">
+						<Space direction="vertical" className="w-100 my-4  tedkvn-center">
 							{avatar({
 								inputProps: {
 									src: picture,
@@ -115,7 +121,14 @@ function RightLayout({ showSetting = false, ...props }) {
 								uploadPhotoOnClick: (formData = new FormData()) =>
 									uploadProfileAvatar(profile?.[`${ID_PROP}`], formData),
 							})}
-							<Meta className="mt-2" title={name} description={description} />
+							<Meta
+								className="mt-2"
+								style={{
+									fontSize: "1rem",
+								}}
+								title={name}
+								description={description}
+							/>
 						</Space>
 						<Button
 							type="primary"
@@ -137,6 +150,11 @@ function RightLayout({ showSetting = false, ...props }) {
 											},
 									  })
 							}
+							style={{
+								fontSize: "1rem",
+								padding: "1.2rem",
+								borderRadius: "1rem",
+							}}
 						>
 							{isObjectEmpty(profile) ? "Sign In" : "My Profile"}
 						</Button>
@@ -163,7 +181,7 @@ function RightLayout({ showSetting = false, ...props }) {
 			</Col>
 		</Row>
 	);
-	return app1;
+	return app;
 }
 
 export default RightLayout;

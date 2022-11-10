@@ -1,7 +1,11 @@
 import { Form, Input } from "antd";
 import { USERNAME_PROP } from "../../../Util/ConstVar";
 
-const useUsername = ({ itemProps = {}, inputProps = {}, required = true }) =>
+const useUsername = ({
+	itemProps = {},
+	inputProps = {},
+	required = true,
+} = {}) =>
 	((props = {}, inputProps = {}) => (
 		<Form.Item {...props}>
 			<Input {...inputProps} />

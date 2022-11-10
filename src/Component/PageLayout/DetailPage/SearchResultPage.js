@@ -1,36 +1,43 @@
-import { CloseOutlined } from "@ant-design/icons";
 import {
 	Button,
-	Card,
 	Col,
 	Divider,
 	Empty,
 	Grid,
 	Row,
-	Skeleton,
 	Space,
+	Table,
 	Tag,
 	Typography,
 } from "antd";
+import $ from "jquery";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useLocation, useSearchParams } from "react-router-dom";
 import { thainowReducer } from "../../../redux-store/reducer/thainowReducer";
 import {
 	CREATE_PROP,
+	EDIT_PROP,
 	FORWARD_CONTINUE,
+	ID_PROP,
+	INFO_PROP,
+	POST_OWNER_ID_PROP,
+	PROFILE_OBJ,
 	SEARCH_BUSINESS,
 	SEARCH_DEAL,
 	SEARCH_FETCH_RESULT_PROP,
 	SEARCH_HOUSING,
 	SEARCH_JOB,
-	SEARCH_KEYWORD,
 	SEARCH_MARKETPLACE,
+	SEARCH_PAGE_PROP,
 	SEARCH_RESULT_OBJ,
 	SEARCH_SERVICE,
+	SEARCH_TOTAL_PAGE_PROP,
 	SEARCH_TYPE_PROP,
+	STATUS_PROP,
+	TITLE_PROP,
+	UPDATED_ON_PROP,
 } from "../../../Util/ConstVar";
-import { formatSentenseCase } from "../../../Util/Util";
 import BusinessBadge from "../../Badge/BusinessBadge";
 import DealBadge from "../../Badge/DealBadge";
 import HousingBadge from "../../Badge/HousingBadge";
@@ -38,54 +45,106 @@ import JobBadge from "../../Badge/JobBadge";
 import MarketplaceBadge from "../../Badge/MarketplaceBadge";
 import useSearch from "../../Hook/useSearch";
 import useUrls from "../../Hook/useUrls";
+import LoadMore from "../../Search/LoadMore";
+import SearchOption from "../../Search/SearchOption";
 import BusinessCard from "../../ServiceCard/BusinessCard";
 import DealCard from "../../ServiceCard/DealCard";
 import HousingCard from "../../ServiceCard/HousingCard";
 import JobCard from "../../ServiceCard/JobCard";
 import MarketplaceCard from "../../ServiceCard/MarketplaceCard";
+import SkeletonCard from "../../Skeleton/SkeletonCard";
+import RemoveService from "../EditService/RemoveService";
 
-function SearchResultPage() {
+function SearchResultPage({
+	withBusiness = true,
+	withOwner = false,
+	ownerId = -1,
+	withBrowsingText = true,
+	withServiceTag = true,
+	withCardTitle = true,
+} = {}) {
 	const { useBreakpoint } = Grid;
 	const screens = useBreakpoint();
-	const location = useLocation();
-	const { forwardUrl } = useUrls();
 
-	const { Title } = Typography;
+	const serviceParams = [
+		...(withBusiness ? [SEARCH_BUSINESS] : []),
+		SEARCH_DEAL,
+		SEARCH_JOB,
+		SEARCH_HOUSING,
+		SEARCH_MARKETPLACE,
+	];
 
 	const [searchParams] = useSearchParams();
-	const keywordParam = searchParams.get(SEARCH_KEYWORD) || "";
-	const searchTypeParam = searchParams.get(SEARCH_TYPE_PROP) || SEARCH_BUSINESS;
-	// const sortParam = searchParams.get(SEARCH_SORT) || SEARCH_SORT_DATE;
+	const searchTypeParam =
+		serviceParams.indexOf(searchParams.get(SEARCH_TYPE_PROP)) >= 0
+			? searchParams.get(SEARCH_TYPE_PROP)
+			: SEARCH_DEAL;
 
 	const { dispatchSearch } = useSearch();
 
-	const { [`${SEARCH_RESULT_OBJ}`]: searchResult = {} } =
-		useSelector(thainowReducer);
+	const {
+		[`${PROFILE_OBJ}`]: profile = {},
+		[`${SEARCH_RESULT_OBJ}`]: {
+			[`${SEARCH_FETCH_RESULT_PROP}`]: fetchResults = [],
+			[`${SEARCH_TOTAL_PAGE_PROP}`]: totalPage = 1,
+		} = {},
+	} = useSelector(thainowReducer);
 
-	const { [`${SEARCH_FETCH_RESULT_PROP}`]: fetchResults = [] } = searchResult;
+	const searchServiceHandle = ({ type = searchTypeParam, params = {} } = {}) =>
+		dispatchSearch({
+			type: type,
+			params: {
+				...(withOwner && {
+					[`${POST_OWNER_ID_PROP}`]: ownerId,
+				}),
+				...params,
+			},
+			backToTop: false,
+		});
 
 	const [loading, setLoading] = useState(true);
 
 	useEffect(() => {
-		if (loading && searchTypeParam !== "") {
-			dispatchSearch(searchTypeParam).then(() => setLoading(false));
+		if (loading) {
+			searchServiceHandle().then(() => setLoading(false));
 		}
 	}, []);
 
-	const tagItems = [
-		(props = {}) => (
-			<BusinessBadge
-				type="tag"
-				active={searchTypeParam === SEARCH_BUSINESS}
-				onClick={() => dispatchSearch(SEARCH_BUSINESS)}
-				{...props}
-			/>
-		),
+	useEffect(() => {
+		try {
+			$("#tag-bar").scrollLeft($(`#${searchTypeParam}`).offset()?.left - 50);
+		} catch (error) {}
+	});
+
+	const serviceTagData = [
+		...(withBusiness
+			? [
+					(props = {}) => (
+						<BusinessBadge
+							type="tag"
+							active={searchTypeParam === SEARCH_BUSINESS}
+							onClick={() =>
+								dispatchSearch({
+									type: SEARCH_BUSINESS,
+									backToTop: false,
+								})
+							}
+							{...props}
+						/>
+					),
+			  ]
+			: []),
+		,
 		(props = {}) => (
 			<DealBadge
 				type="tag"
 				active={searchTypeParam === SEARCH_DEAL}
-				onClick={() => dispatchSearch(SEARCH_DEAL)}
+				onClick={() =>
+					dispatchSearch({
+						type: SEARCH_DEAL,
+						backToTop: false,
+					})
+				}
 				{...props}
 			/>
 		),
@@ -93,7 +152,12 @@ function SearchResultPage() {
 			<JobBadge
 				type="tag"
 				active={searchTypeParam === SEARCH_JOB}
-				onClick={() => dispatchSearch(SEARCH_JOB)}
+				onClick={() =>
+					dispatchSearch({
+						type: SEARCH_JOB,
+						backToTop: false,
+					})
+				}
 				{...props}
 			/>
 		),
@@ -101,7 +165,12 @@ function SearchResultPage() {
 			<HousingBadge
 				type="tag"
 				active={searchTypeParam === SEARCH_HOUSING}
-				onClick={() => dispatchSearch(SEARCH_HOUSING)}
+				onClick={() =>
+					dispatchSearch({
+						type: SEARCH_HOUSING,
+						backToTop: false,
+					})
+				}
 				{...props}
 			/>
 		),
@@ -109,86 +178,88 @@ function SearchResultPage() {
 			<MarketplaceBadge
 				type="tag"
 				active={searchTypeParam === SEARCH_MARKETPLACE}
-				onClick={() => dispatchSearch(SEARCH_MARKETPLACE)}
+				onClick={() =>
+					dispatchSearch({
+						type: SEARCH_MARKETPLACE,
+						backToTop: false,
+					})
+				}
 				{...props}
 			/>
 		),
 	];
 
-	const header = (
+	const serviceHeader = (withOwner || (!screens.xs && screens.xl)) && (
 		<>
-			<Title level={2} ellipsis>
-				Browsing{" "}
-				{searchTypeParam.charAt(0).toUpperCase() + searchTypeParam.slice(1)}
-			</Title>
-			<Space direction="horizontal" wrap>
-				{tagItems.map((tag, idx) => (
-					<React.Fragment key={idx}>
-						{tag({
-							tagClassName: "p-1 px-4 rounded lh-base",
-						})}
-					</React.Fragment>
-				))}
-			</Space>
-			<Divider />
+			{withBrowsingText && (
+				<Typography.Title level={1} ellipsis>
+					Browsing{" "}
+					{searchTypeParam.charAt(0).toUpperCase() + searchTypeParam.slice(1)}
+				</Typography.Title>
+			)}
+			{withServiceTag && (
+				<>
+					<Space
+						direction="horizontal"
+						id="tag-bar"
+						className="hideScrollHorizontal my-1 w-100"
+						style={{
+							position: "relative",
+							overflowX: "scroll",
+						}}
+						size={20}
+					>
+						{serviceTagData.map((tag, idx) => (
+							<React.Fragment key={idx}>
+								{tag({
+									tagProps: {
+										style: {
+											fontSize: ".8rem",
+										},
+									},
+								})}
+							</React.Fragment>
+						))}
+					</Space>
+					<SearchOption />
+					<Divider />
+				</>
+			)}
 		</>
 	);
 
-	// const [showSearchFilter, setShowSearchFilter] = useState(false);
+	const { forwardUrl } = useUrls();
+	const location = useLocation();
 
-	// const filterBtn = (
-	// 	<Button typeof="ghost" icon={<FilterOutlined />}>
-	// 		{searchTypeParam === SEARCH_BUSINESS ? "Type Business" : "Add Filter"}
-	// 	</Button>
-	// );
+	const emptySection = withOwner ? (
+		<Empty
+			description={`This profile hasn't posted any ${searchTypeParam} yet`}
+		/>
+	) : (
+		<Empty
+			description={
+				<>
+					<Typography.Title level={3}>
+						No results for {searchTypeParam} in the current map area yet.
+					</Typography.Title>
 
-	// const sortOptions = [
-	// 	{
-	// 		key: SEARCH_SORT_DATE,
-	// 		label: "Sort by Date",
-	// 	},
-	// 	{
-	// 		key: SEARCH_SORT_DISTANCE,
-	// 		label: "Sort by Distance",
-	// 	},
-	// ];
+					<Typography.Title level={3} type="success">
+						Try to find better results with:{" "}
+					</Typography.Title>
 
-	// const sortOptionMenu = (
-	// 	<Menu
-	// 		items={sortOptions}
-	// 		onClick={({ key }) =>
-	// 			dispatchSearch(searchTypeParam, {
-	// 				[`${SEARCH_SORT}`]: key,
-	// 			})
-	// 		}
-	// 	/>
-	// );
+					<Space direction="vertical" size={20}>
+						<Typography.Text strong>Try a larger search area</Typography.Text>
 
-	// const sortBtn = (
-	// 	<Dropdown overlay={sortOptionMenu} placement="bottomRight">
-	// 		<Button typeof="ghost" icon={<ArrowDownOutlined />}>
-	// 			Sort By {sortParam}
-	// 		</Button>
-	// 	</Dropdown>
-	// );
+						<Typography.Text strong>Check spellings</Typography.Text>
 
-	const keywordTag = (
-		<Tag>
-			<div className="tedkvn-center">
-				{keywordParam}
-				<CloseOutlined
-					className="mx-2"
-					style={{
-						cursor: "pointer",
-					}}
-					onClick={() =>
-						dispatchSearch(searchTypeParam, {
-							[`${SEARCH_KEYWORD}`]: "",
-						})
-					}
-				/>
-			</div>
-		</Tag>
+						<Typography.Text strong>
+							Search with a more general search, e.g. "Restaurant" instead of
+							"Thai or Japanese Restaurant"`
+						</Typography.Text>
+					</Space>
+				</>
+			}
+		/>
 	);
 
 	const resultHeader = (
@@ -197,138 +268,196 @@ function SearchResultPage() {
 				<Col order={screens?.xs && 2} xs={24}>
 					<Row justify="space-between" align="middle">
 						<Col className="tedkvn-center" style={{ maxWidth: "70%" }}>
-							<Title level={2} className="m-0">
-								All {keywordParam.length > 0 && `" ${keywordParam} "`} Results
-							</Title>
+							<Typography.Title level={2} className="m-0" ellipsis>
+								All Results
+							</Typography.Title>
 						</Col>
-						<Col className="tedkvn-center">
-							<Button
-								type="primary"
-								className={`mt-2 text-white ${
-									searchTypeParam === SEARCH_DEAL
-										? "bg-primary"
-										: searchTypeParam === SEARCH_JOB
-										? "bg-job"
-										: searchTypeParam === SEARCH_HOUSING
-										? "bg-housing"
-										: searchTypeParam === SEARCH_MARKETPLACE
-										? "bg-marketplace"
-										: "bg-business"
-								}`}
-								shape="round"
-								{...(screens.xs && { size: "small" })}
-								onClick={() =>
-									forwardUrl(
-										FORWARD_CONTINUE,
-										"",
-										`/${CREATE_PROP}/${SEARCH_SERVICE}/${searchTypeParam}`,
-										location?.pathname + location?.search || "/"
-									)
-								}
-							>
-								Create New {formatSentenseCase(searchTypeParam)}
-							</Button>
-						</Col>
+						{(!withOwner || ownerId === profile?.[`${ID_PROP}`]) &&
+							searchTypeParam !== SEARCH_BUSINESS && (
+								<Col className="tedkvn-center">
+									<Button
+										type="primary"
+										className={`text-white ${
+											searchTypeParam === SEARCH_DEAL
+												? "bg-primary"
+												: searchTypeParam === SEARCH_JOB
+												? "bg-job"
+												: searchTypeParam === SEARCH_HOUSING
+												? "bg-housing"
+												: searchTypeParam === SEARCH_MARKETPLACE
+												? "bg-marketplace"
+												: "bg-business"
+										}`}
+										shape="round"
+										onClick={() =>
+											forwardUrl(
+												FORWARD_CONTINUE,
+												"",
+												`/${CREATE_PROP}/${SEARCH_SERVICE}/${searchTypeParam}`,
+												location?.pathname + location?.search || "/"
+											)
+										}
+									>
+										New Post
+									</Button>
+								</Col>
+							)}
 					</Row>
 				</Col>
-
-				{keywordParam.length > 0 && (
-					<Col xs={24} order={3}>
-						{keywordTag}
-					</Col>
-				)}
 			</Row>
 		</>
 	);
 
-	const results = (
-		<>
-			{resultHeader}
-			{fetchResults.length > 0 ? (
-				<Row
-					gutter={[
-						{ xs: 15, sm: 50 },
-						{ xs: 20, sm: 50 },
-					]}
-					className="mt-4"
-				>
-					{fetchResults.map((rel, idx) => (
-						<Col xs={12} key={idx} id="service-card">
-							{searchResult?.[`${SEARCH_TYPE_PROP}`] === SEARCH_BUSINESS && (
-								<BusinessCard card={rel} />
-							)}
-
-							{searchResult?.[`${SEARCH_TYPE_PROP}`] === SEARCH_DEAL && (
-								<DealCard card={rel} />
-							)}
-
-							{searchResult?.[`${SEARCH_TYPE_PROP}`] === SEARCH_JOB && (
-								<JobCard card={rel} />
-							)}
-
-							{searchResult?.[`${SEARCH_TYPE_PROP}`] === SEARCH_HOUSING && (
-								<HousingCard card={rel} />
-							)}
-
-							{searchResult?.[`${SEARCH_TYPE_PROP}`] === SEARCH_MARKETPLACE && (
-								<MarketplaceCard card={rel} />
-							)}
-						</Col>
-					))}
-				</Row>
-			) : (
-				<Empty
-					description={
-						<>
-							<Typography.Title level={3}>
-								No results for {searchResult?.[`${SEARCH_TYPE_PROP}`]} in the
-								current map area yet.
-							</Typography.Title>
-
-							<Typography.Title level={3} type="success">
-								Try to find better results with:{" "}
-							</Typography.Title>
-
-							<Space direction="vertical" size={20}>
-								<Typography.Text strong>
-									Try a larger search area
-								</Typography.Text>
-
-								<Typography.Text strong>Check spellings</Typography.Text>
-
-								<Typography.Text strong>
-									Search with a more general search, e.g. "Restaurant" instead
-									of "Thai or Japanese Restaurant"`
-								</Typography.Text>
-							</Space>
-						</>
+	const tableServiceResultColumns = [
+		{
+			title: "Title",
+			dataIndex: "title",
+			render: ([id, title]) => (
+				<Typography.Link
+					onClick={() =>
+						forwardUrl(
+							FORWARD_CONTINUE,
+							location?.pathname + location?.search || "/",
+							`/${SEARCH_SERVICE}/${searchTypeParam}/${id}`,
+							location?.pathname + location?.search || "/"
+						)
 					}
-				/>
-			)}
-		</>
-	);
+				>
+					{title}
+				</Typography.Link>
+			),
+			ellipsis: true,
+		},
+		{
+			title: "Status",
+			dataIndex: "status",
+			render: (status) =>
+				status === "AVAILABLE" ? (
+					<Tag color="success">PUBLIC</Tag>
+				) : (
+					<Tag color="warning">{status}</Tag>
+				),
+			ellipsis: true,
+		},
+		{
+			title: "Date",
+			dataIndex: "date",
+			// render: (time) => formatTime(time),
+			ellipsis: true,
+		},
+		{
+			title: "Action",
+			dataIndex: "action",
+			render: (serviceId) => (
+				<Space size="middle">
+					<Button
+						type="link"
+						className="border-0 p-0"
+						onClick={() =>
+							forwardUrl(
+								FORWARD_CONTINUE,
+								"",
+								`/${EDIT_PROP}/${SEARCH_SERVICE}/${searchTypeParam}/${serviceId}`,
+								location?.pathname + location?.search || "/"
+							)
+						}
+					>
+						Edit
+					</Button>
+					<RemoveService
+						ownerId={ownerId}
+						serviceId={serviceId}
+						forward={false}
+					>
+						<Button type="link" className="border-0 p-0 text-danger">
+							Delete
+						</Button>
+					</RemoveService>
+				</Space>
+			),
+			ellipsis: true,
+		},
+	];
 
-	const skeletonCard = (
-		<Card
-			cover={
-				<div className="tedkvn-center mt-5 " style={{ padding: "0 3.3rem" }}>
-					<Skeleton.Avatar shape="circle" size={150} active={true} />
-				</div>
-			}
-			className="m-4 overflow-hidden"
-		>
-			<Skeleton loading={loading} active />
-		</Card>
+	const cardServiceResult =
+		fetchResults.length > 0 ? (
+			<Row
+				gutter={[
+					{ xs: 15, sm: 50 },
+					{ xs: 20, sm: 50 },
+				]}
+				className="mt-4"
+			>
+				{fetchResults.map((rel, idx) => (
+					<Col xs={24} md={12} key={idx} id="service-card">
+						{withBusiness && searchTypeParam === SEARCH_BUSINESS && (
+							<BusinessCard card={rel} />
+						)}
+						{searchTypeParam === SEARCH_DEAL && (
+							<DealCard card={rel} withCardTitle={withCardTitle} />
+						)}
+
+						{searchTypeParam === SEARCH_JOB && (
+							<JobCard card={rel} withCardTitle={withCardTitle} />
+						)}
+
+						{searchTypeParam === SEARCH_HOUSING && (
+							<HousingCard card={rel} withCardTitle={withCardTitle} />
+						)}
+
+						{searchTypeParam === SEARCH_MARKETPLACE && (
+							<MarketplaceCard card={rel} withCardTitle={withCardTitle} />
+						)}
+					</Col>
+				))}
+			</Row>
+		) : (
+			emptySection
+		);
+
+	const tableServiceResultData = fetchResults.map((res, idx) => {
+		return {
+			key: idx,
+			title: [res?.[`${ID_PROP}`], res?.[`${INFO_PROP}`]?.[`${TITLE_PROP}`]],
+			status: res?.[`${INFO_PROP}`]?.[`${STATUS_PROP}`],
+			date: res?.[`${INFO_PROP}`]?.[`${UPDATED_ON_PROP}`],
+			action: res?.[`${ID_PROP}`],
+		};
+	});
+
+	const tableServiceResult = (
+		<Table
+			columns={tableServiceResultColumns}
+			dataSource={tableServiceResultData}
+			pagination={{
+				total: totalPage,
+				pageSize: 20,
+				responsive: true,
+				onChange: (page) =>
+					dispatchSearch({
+						params: { [`${SEARCH_PAGE_PROP}`]: page },
+						loadMore: true,
+						backToTop: false,
+					}),
+			}}
+			scroll={{ x: true, y: 240 }}
+			className="my-3"
+		/>
 	);
 
 	const app = (
-		<div className="m-2 m-md-4 overflow-hidden">
-			{screens?.md && header}
-			{loading ? skeletonCard : results}
-		</div>
+		<Row id="search-result-page" justify="center" className="my-3 ">
+			<Col xs={24}>
+				{serviceHeader} {resultHeader}
+				{withOwner && ownerId === profile?.[`${ID_PROP}`]
+					? tableServiceResult
+					: cardServiceResult}
+				<LoadMore />
+			</Col>{" "}
+		</Row>
 	);
 
-	return app;
+	return loading ? <SkeletonCard cover={false} /> : app;
 }
 
 export default SearchResultPage;

@@ -128,8 +128,10 @@ function Footer() {
 					<List.Item className="m-0">
 						<Card
 							headStyle={{ padding: "0", border: 0 }}
-							title={item.title}
-							style={{ backgroundColor: "transparent " }}
+							title={
+								<Typography.Title level={4}>{item.title}</Typography.Title>
+							}
+							style={{ backgroundColor: "transparent ", fontSize: "1rem" }}
 							bordered={false}
 							bodyStyle={{ padding: ".5rem 0" }}
 						>
