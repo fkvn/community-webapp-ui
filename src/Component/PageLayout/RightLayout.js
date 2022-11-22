@@ -1,4 +1,4 @@
-import { Button, Card, Col, List, Row, Space } from "antd";
+import { Button, Card, Col, List, Row, Space, Typography } from "antd";
 import Meta from "antd/lib/card/Meta";
 import { useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -25,24 +25,6 @@ function RightLayout({ showSetting = false }) {
 		: { ...profile.info, description: "" };
 
 	const settingItems = [
-		...(showSetting
-			? [
-					{
-						title: (
-							<Button type="link" className="p-0 m-0 " href="/help-center">
-								Help Center
-							</Button>
-						),
-					},
-					{
-						title: (
-							<Button type="link" className="p-0 m-0" href="/aboutus">
-								About Us
-							</Button>
-						),
-					},
-			  ]
-			: []),
 		...(!isObjectEmpty(profile)
 			? [
 					{
@@ -72,6 +54,28 @@ function RightLayout({ showSetting = false }) {
 							</Button>
 						),
 					},
+			  ]
+			: []),
+		...(showSetting
+			? [
+					{
+						title: (
+							<Button type="link" className="p-0 m-0 " href="/help-center">
+								Help Center
+							</Button>
+						),
+					},
+					{
+						title: (
+							<Button type="link" className="p-0 m-0" href="/aboutus">
+								About Us
+							</Button>
+						),
+					},
+			  ]
+			: []),
+		...(!isObjectEmpty(profile)
+			? [
 					{
 						title: (
 							<Button
@@ -90,17 +94,18 @@ function RightLayout({ showSetting = false }) {
 	const { uploadProfileAvatar } = useProfile();
 
 	const app = (
-		<Row justify="center" className="w-100 px-5 py-2">
-			<Col xs={24}>
+		<Row justify="center">
+			<Col xs={20} className="my-5">
 				{isObjectEmpty(profile) && (
 					<Button
 						type="default"
-						className="p-4 fw-bold border-danger my-4"
+						className=" fw-bold border-danger mb-4"
 						block
 						onClick={() => navigate("/register/user")}
 						style={{
 							fontSize: "1rem",
 							borderRadius: "1rem",
+							padding: "1.25rem",
 						}}
 					>
 						Register ThaiNow Account
@@ -110,7 +115,7 @@ function RightLayout({ showSetting = false }) {
 					className="w-100 text-center p-4"
 					bodyStyle={{ paddingTop: 0, paddingBottom: "1rem" }}
 				>
-					<Space direction="vertical" className="w-100" size={10}>
+					<Space direction="vertical" className="w-100" size={5}>
 						<Space direction="vertical" className="w-100 my-4  tedkvn-center">
 							{avatar({
 								inputProps: {
@@ -123,11 +128,12 @@ function RightLayout({ showSetting = false }) {
 							})}
 							<Meta
 								className="mt-2"
-								style={{
-									fontSize: "1rem",
-								}}
-								title={name}
-								description={description}
+								title={<Typography.Title level={4}>{name}</Typography.Title>}
+								description={
+									<Typography.Text style={{ fontSize: "1rem" }}>
+										{description}
+									</Typography.Text>
+								}
 							/>
 						</Space>
 						<Button
@@ -163,7 +169,7 @@ function RightLayout({ showSetting = false }) {
 							<>
 								<List
 									itemLayout="horizontal"
-									className=""
+									className="mt-3"
 									dataSource={settingItems}
 									renderItem={(item) => (
 										<List.Item

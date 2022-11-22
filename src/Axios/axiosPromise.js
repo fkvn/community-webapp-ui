@@ -13,41 +13,51 @@ import {
 	SMS_PROP,
 } from "../Util/ConstVar";
 
-const controller = new AbortController();
-
-export const searchCompanyAxios = async (params = "") =>
+export const searchCompanyAxios = async (params = "", signal) =>
 	axios
-		.get(`/search/${SEARCH_BUSINESS}?${params}`)
+		.get(`/search/${SEARCH_BUSINESS}?${params}`, {
+			signal,
+		})
 		.then(({ data }) => Promise.resolve(data))
 		.catch((e) => Promise.reject(e));
 
-export const searchDealsAxios = async (params = "") =>
+export const searchDealsAxios = async (params = "", signal) =>
 	axios
-		.get(`/search/${SEARCH_DEAL}?${params}`)
+		.get(`/search/${SEARCH_DEAL}?${params}`, {
+			signal,
+		})
 		.then(({ data }) => Promise.resolve(data))
 		.catch((e) => Promise.reject(e));
 
-export const searchJobsAxios = async (params = "") =>
+export const searchJobsAxios = async (params = "", signal) =>
 	axios
-		.get(`/search/${SEARCH_JOB}?${params}`)
+		.get(`/search/${SEARCH_JOB}?${params}`, {
+			signal,
+		})
 		.then(({ data }) => Promise.resolve(data))
 		.catch((e) => Promise.reject(e));
 
-export const searchHousingsAxios = async (params = "") =>
+export const searchHousingsAxios = async (params = "", signal) =>
 	axios
-		.get(`/search/${SEARCH_HOUSING}?${params}`)
+		.get(`/search/${SEARCH_HOUSING}?${params}`, {
+			signal,
+		})
 		.then(({ data }) => Promise.resolve(data))
 		.catch((e) => Promise.reject(e));
 
-export const searchMarketplacesAxios = async (params = "") =>
+export const searchMarketplacesAxios = async (params = "", signal) =>
 	axios
-		.get(`/search/${SEARCH_MARKETPLACE}?${params}`)
+		.get(`/search/${SEARCH_MARKETPLACE}?${params}`, {
+			signal,
+		})
 		.then(({ data }) => Promise.resolve(data))
 		.catch((e) => Promise.reject(e));
 
-export const searchReviewsAxios = async (params = "") =>
+export const searchReviewsAxios = async (params = "", signal) =>
 	axios
-		.get(`/search/${SEARCH_REVIEW}?${params}`)
+		.get(`/search/${SEARCH_REVIEW}?${params}`, {
+			signal,
+		})
 		.then(({ data }) => Promise.resolve(data))
 		.catch((e) => Promise.reject(e));
 
@@ -320,5 +330,3 @@ export const hideServiceAxios = (requesterId, serviceId) =>
 		)
 		.then(({ data }) => Promise.resolve(data))
 		.catch((e) => Promise.reject(e));
-
-controller.abort();

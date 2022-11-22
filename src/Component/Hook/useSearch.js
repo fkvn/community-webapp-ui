@@ -38,9 +38,11 @@ function useSearch() {
 	const [searchParams, setSearchParams] = useSearchParams({ replace: false });
 	const keywordParam = searchParams.get(SEARCH_KEYWORD) || "";
 	const searchTypeParam = searchParams.get(SEARCH_TYPE_PROP) || "";
-	const pageParam = searchParams.get(SEARCH_PAGE_PROP) || 1;
 
 	const routeState = useLocation()?.state || {};
+
+	const controller = new AbortController();
+	const signal = controller.signal;
 
 	const {
 		[`${LOCATION_OBJ}`]: location = {},
@@ -48,22 +50,22 @@ function useSearch() {
 	} = useSelector(thainowReducer);
 
 	const searchCompany = (params = "") =>
-		searchCompanyAxios(params).catch((e) => errorMessage(e));
+		searchCompanyAxios(params, signal).catch((e) => errorMessage(e));
 
 	const searchDeals = (params = "") =>
-		searchDealsAxios(params).catch((e) => errorMessage(e));
+		searchDealsAxios(params, signal).catch((e) => errorMessage(e));
 
 	const searchJobs = (params = "") =>
-		searchJobsAxios(params).catch((e) => errorMessage(e));
+		searchJobsAxios(params, signal).catch((e) => errorMessage(e));
 
 	const searchHousings = (params = "") =>
-		searchHousingsAxios(params).catch((e) => errorMessage(e));
+		searchHousingsAxios(params, signal).catch((e) => errorMessage(e));
 
 	const searchMarketplaces = (params = "") =>
-		searchMarketplacesAxios(params).catch((e) => errorMessage(e));
+		searchMarketplacesAxios(params, signal).catch((e) => errorMessage(e));
 
 	const searchReview = (params = "") =>
-		searchReviewsAxios(params).catch((e) => errorMessage(e));
+		searchReviewsAxios(params, signal).catch((e) => errorMessage(e));
 
 	const onSearchHandle = async (type = "", params = "") => {
 		switch (type) {
@@ -143,6 +145,9 @@ function useSearch() {
 				[`${SEARCH_FETCH_RESULT_PROP}`]: newFetchResults = [],
 				...result
 			}) => {
+				// cancel request
+				if (controller) controller.abort();
+
 				const { [`${POST_OWNER_ID_PROP}`]: ownerId = -1, ...updatedParams } =
 					getSearchParamsObj(params);
 

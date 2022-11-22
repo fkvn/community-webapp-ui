@@ -7,6 +7,7 @@ import useImage from "../Hook/useImage";
 function DealBadge({
 	id = SEARCH_DEAL,
 	type = "image",
+	disabled = false,
 
 	// image with text style -> type ="image" as default
 	containerClassName = "",
@@ -45,6 +46,7 @@ function DealBadge({
 						maxHeight: containerMaxHeight,
 						cursor: cursor,
 					}}
+					disabled={disabled}
 					onClick={onClick}
 				>
 					{image({ width: imgWidth, src: imgSrc })}{" "}
@@ -54,7 +56,12 @@ function DealBadge({
 				</div>
 			)}
 			{type === "tag" && (
-				<Button id={id} type="ghost" className={buttonClassName}>
+				<Button
+					id={id}
+					type="ghost"
+					className={buttonClassName}
+					disabled={disabled}
+				>
 					<Tag
 						color={active ? activeColor : defautColor}
 						className={tagClassName}

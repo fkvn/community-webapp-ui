@@ -90,8 +90,16 @@ function SearchResultPage({
 		} = {},
 	} = useSelector(thainowReducer);
 
-	const searchServiceHandle = ({ type = searchTypeParam, params = {} } = {}) =>
-		dispatchSearch({
+	const [searching, setSearching] = useState(false);
+
+	const searchServiceHandle = ({
+		type = searchTypeParam,
+		params = {},
+		backToTop = false,
+	} = {}) => {
+		setSearching(true);
+
+		return dispatchSearch({
 			type: type,
 			params: {
 				...(withOwner && {
@@ -99,14 +107,17 @@ function SearchResultPage({
 				}),
 				...params,
 			},
-			backToTop: false,
-		});
+			backToTop: backToTop,
+		}).finally(() => setSearching(false));
+	};
 
 	const [loading, setLoading] = useState(true);
 
 	useEffect(() => {
 		if (loading) {
-			searchServiceHandle().then(() => setLoading(false));
+			searchServiceHandle({
+				backToTop: true,
+			}).then(() => setLoading(false));
 		}
 	}, []);
 
@@ -124,9 +135,8 @@ function SearchResultPage({
 							type="tag"
 							active={searchTypeParam === SEARCH_BUSINESS}
 							onClick={() =>
-								dispatchSearch({
+								searchServiceHandle({
 									type: SEARCH_BUSINESS,
-									backToTop: false,
 								})
 							}
 							{...props}
@@ -140,9 +150,8 @@ function SearchResultPage({
 				type="tag"
 				active={searchTypeParam === SEARCH_DEAL}
 				onClick={() =>
-					dispatchSearch({
+					searchServiceHandle({
 						type: SEARCH_DEAL,
-						backToTop: false,
 					})
 				}
 				{...props}
@@ -153,9 +162,8 @@ function SearchResultPage({
 				type="tag"
 				active={searchTypeParam === SEARCH_JOB}
 				onClick={() =>
-					dispatchSearch({
+					searchServiceHandle({
 						type: SEARCH_JOB,
-						backToTop: false,
 					})
 				}
 				{...props}
@@ -166,9 +174,8 @@ function SearchResultPage({
 				type="tag"
 				active={searchTypeParam === SEARCH_HOUSING}
 				onClick={() =>
-					dispatchSearch({
+					searchServiceHandle({
 						type: SEARCH_HOUSING,
-						backToTop: false,
 					})
 				}
 				{...props}
@@ -179,9 +186,8 @@ function SearchResultPage({
 				type="tag"
 				active={searchTypeParam === SEARCH_MARKETPLACE}
 				onClick={() =>
-					dispatchSearch({
+					searchServiceHandle({
 						type: SEARCH_MARKETPLACE,
-						backToTop: false,
 					})
 				}
 				{...props}
@@ -217,6 +223,7 @@ function SearchResultPage({
 											fontSize: ".8rem",
 										},
 									},
+									disabled: searching,
 								})}
 							</React.Fragment>
 						))}

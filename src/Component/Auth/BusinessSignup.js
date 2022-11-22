@@ -44,7 +44,7 @@ function BusinessSignup() {
 	const title = (
 		<Row justify="center">
 			<Col className="text-center">
-				<Typography.Title level={1}>
+				<Typography.Title level={2}>
 					Register a <span style={{ color: "#E94833" }}>Business</span> Profile
 				</Typography.Title>
 				<Typography.Title level={4}>
@@ -107,9 +107,7 @@ function BusinessSignup() {
 
 	const address = useAddress({
 		itemProps: {
-			label: hasLocation
-				? "Business Location"
-				: "Business Service Area (Optional)",
+			label: hasLocation ? "Business Location" : "Business Service Area",
 			...(!hasLocation && {
 				extra: (
 					<div className="py-2 text-danger">
@@ -132,14 +130,24 @@ function BusinessSignup() {
 		itemProps: {
 			label: "Business Email",
 		},
+		inputProps: {
+			placeholder: "",
+		},
 		required: false,
 	});
 
 	const phone = usePhone({
 		itemProps: { label: "Business Phone Number " },
+		inputProps: {
+			placeholder: "",
+		},
 	});
 
-	const website = useUrl({ label: "Business Website Address" });
+	const website = useUrl({
+		inputProps: {
+			placeholder: "",
+		},
+	});
 
 	const { businessRegister } = useRegister();
 
@@ -186,7 +194,8 @@ function BusinessSignup() {
 					block
 					style={{
 						fontSize: "1rem",
-						padding: "1.2rem",
+						marginTop: "1rem",
+						padding: "1.4rem",
 						borderRadius: "1rem",
 					}}
 				>
@@ -207,12 +216,12 @@ function BusinessSignup() {
 			})}
 
 			<Typography.Title level={2}>
-				Thanks {profile?.info?.[`${NAME_PROP}`]}
+				Thanks, {profile?.info?.[`${NAME_PROP}`]}
 			</Typography.Title>
 
 			<p style={{ fontSize: "1rem" }}>
 				Now, your Business{" "}
-				<strong>{form.getFieldValue(COMPANY_NAME_PROP)} </strong> registration
+				<strong>{form.getFieldValue(COMPANY_NAME_PROP)} </strong> Registration
 				is currently <span className="text-danger">"Waiting For Review"</span>,
 				we will contact you soon!
 			</p>
@@ -231,12 +240,13 @@ function BusinessSignup() {
 				Continue
 			</Button>
 
-			<div className="text-center tedkvn-center">
+			<div className="text-center tedkvn-center" style={{ fontSize: "1rem" }}>
 				Need Help?{" "}
 				<Button
 					type="link"
 					className="border-0"
 					onClick={() => navigate("/helpcenter")}
+					style={{ fontSize: "1rem" }}
 				>
 					Contact Us
 				</Button>

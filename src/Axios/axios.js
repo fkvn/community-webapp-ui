@@ -6,7 +6,7 @@ import { signoutUserPromise } from "../Util/Util";
 const instance = axios.create({
 	// baseURL: "http://ecst-csproj2.calstatela.edu:6328/api/"
 	baseURL: localEnv
-		? "http://192.168.1.5:8080/api"
+		? "http://192.168.0.6:8080/api"
 		: "https://thainow-cloud-run-yjxp4czkwa-uc.a.run.app/api",
 	// baseURL: "https://alice.cysun.org/surveys/api",
 	// baseURL: "https://mono-thainow-cloudrun-jib-vxbslz3voq-uc.a.run.app/api",
@@ -50,8 +50,8 @@ instance.interceptors.request.use(
 		if (thaiNowObj) {
 			let access_token = JSON.parse(thaiNowObj)["access_token"] || "";
 			config.headers.Authorization = `Bearer ${access_token}`;
-			// config.cookie({ sameSite: "Lax" });
 		}
+
 		return config;
 	},
 	(error) => Promise.reject(error)

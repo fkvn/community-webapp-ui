@@ -7,6 +7,7 @@ import useImage from "../Hook/useImage";
 function HousingBadge({
 	id = SEARCH_HOUSING,
 	type = "image",
+	disabled = false,
 
 	// image with text style -> type ="image" as default
 	containerClassName = "",
@@ -46,6 +47,7 @@ function HousingBadge({
 						cursor: cursor,
 					}}
 					onClick={onClick}
+					disabled={disabled}
 				>
 					{image({ width: imgWidth, src: imgSrc })}{" "}
 					{withTitle && title.length > 0 && (
@@ -54,7 +56,12 @@ function HousingBadge({
 				</div>
 			)}
 			{type === "tag" && (
-				<Button id={id} type="ghost" className={buttonClassName}>
+				<Button
+					id={id}
+					type="ghost"
+					className={buttonClassName}
+					disabled={disabled}
+				>
 					<Tag
 						color={active ? activeColor : defautColor}
 						className={tagClassName}

@@ -11,7 +11,7 @@ function TopBar() {
 		<Row>
 			<Col xs={24}>
 				{isEmptyObject(screens) ||
-				(screens?.xs === false && screens?.xl === true) ? (
+				(screens.xs === false && screens.xxl === true) ? (
 					<DefaultTopBar />
 				) : (
 					<MobileTopBar />

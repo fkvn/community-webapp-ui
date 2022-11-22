@@ -39,7 +39,7 @@ function RemoveProfile({ profile = {}, onRemoveProfile = async () => {} }) {
 
 	const removeTitle = (
 		<>
-			<div className="fs-5 text-danger mb-3">
+			<div className="text-danger mb-3" style={{ fontSize: "1rem" }}>
 				Remove <strong>{profile?.info?.[`${PROFILE_NAME_PROP}`]}</strong>{" "}
 				Profile
 			</div>

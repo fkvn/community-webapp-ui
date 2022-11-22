@@ -247,6 +247,7 @@ function MobileTopBar() {
 					ghost={true}
 					onBack={() => navigate("/")}
 					backIcon={image({
+						width: 55,
 						src: imageThainowLogo,
 					})}
 					style={{
@@ -263,7 +264,7 @@ function MobileTopBar() {
 										onClick={() => setShowSearch(true)}
 									>
 										{image({
-											width: 30,
+											width: 37,
 											src: svgSearchWhiteIcon,
 										})}
 									</Button>,
@@ -271,7 +272,7 @@ function MobileTopBar() {
 							: []),
 						<Button type="ghost" className="p-0 border-0 mt-2" key={1}>
 							{image({
-								width: 35,
+								width: 43,
 								className: "rounded-circle bg-white",
 								style: { padding: ".15rem" },
 								src: isObjectEmpty(profile)

@@ -7,6 +7,7 @@ import useImage from "../Hook/useImage";
 function BusinessBadge({
 	id = SEARCH_BUSINESS,
 	type = "image",
+	disabled = false,
 
 	// image with text style -> type ="image" as default
 	containerClassName = "",
@@ -34,6 +35,8 @@ function BusinessBadge({
 
 	const { Title } = Typography;
 
+	console.log(disabled);
+
 	const app = (
 		<>
 			{type === "image" && (
@@ -55,7 +58,12 @@ function BusinessBadge({
 			)}
 
 			{type === "tag" && (
-				<Button id={id} type="ghost" className={buttonClassName}>
+				<Button
+					id={id}
+					type="ghost"
+					className={buttonClassName}
+					disabled={disabled}
+				>
 					<Tag
 						color={active ? activeColor : defautColor}
 						className={tagClassName}

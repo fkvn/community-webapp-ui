@@ -17,10 +17,10 @@ function LayoutContainer() {
 				</Header>
 
 				<Row id="layout-main" justify="space-between">
-					<Col xs={24} xl={18}>
+					<Col xs={24} xxl={18}>
 						<LeftLayout />
 					</Col>
-					<Col xs={0} xl={6}>
+					<Col xs={0} xxl={6}>
 						<RightLayout />
 					</Col>
 				</Row>

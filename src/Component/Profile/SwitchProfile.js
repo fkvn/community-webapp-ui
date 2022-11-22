@@ -1,12 +1,19 @@
-import { Avatar, Button, Card, Skeleton, Space } from "antd";
+import {
+	Avatar,
+	Button,
+	Card,
+	Col,
+	Row,
+	Skeleton,
+	Space,
+	Typography,
+} from "antd";
 import Meta from "antd/lib/card/Meta";
 import React, { useCallback, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { imagePlusGray } from "../../Assest/Asset";
 import { findProfilesAxios } from "../../Axios/axiosPromise";
 import { thainowReducer } from "../../redux-store/reducer/thainowReducer";
 import {
-	FORWARD_CONTINUE,
 	ID_PROP,
 	PROFILE_BUSINESS_TYPE_PROP,
 	PROFILE_NAME_PROP,
@@ -76,15 +83,16 @@ function SwitchProfile() {
 			: Array.from({ length: 2 }).map((_) => "default");
 
 	const title = (
-		<div className="w-100 text-center">
-			<div className="fs-2">
+		<div className="m-4 text-center">
+			<Typography.Title level={2} className="my-5">
 				Choose How to interact in{" "}
 				<span style={{ color: "#E94833" }}>ThaiNow</span> community
-			</div>
-			<div className="pt-5 pb-3">
+			</Typography.Title>
+
+			<Typography.Text className="text-center" style={{ fontSize: "1rem" }}>
 				You will post, comment, and react as your current signed-in profile
 				below
-			</div>
+			</Typography.Text>
 		</div>
 	);
 
@@ -102,163 +110,115 @@ function SwitchProfile() {
 	};
 
 	const app = (
-		<>
-			<Space direction="vertical" size={5} className="m-5 mb-2 tedkvn-center ">
+		<Row justify="center">
+			<Col xs={24} xl={20}>
 				{title}
-			</Space>
-			<Space direction="horizontal" size={5} wrap className="tedkvn-center">
-				{renderProfiles.map((renPro, idx) => (
-					<React.Fragment key={idx}>
-						<Card
-							cover={
-								<Space
-									direction="vertical"
-									className="tedkvn-center mt-5 "
-									style={{ padding: "0 3.3rem" }}
-									gap={1}
-								>
-									{profiles.length > 0 ? (
-										<>
-											<div className="fw-bold fs-5 pb-2 tedkvn-text-ellipsis">
-												{renPro?.[`${PROFILE_TYPE_PROP}`] ===
-												PROFILE_USER_TYPE_PROP ? (
-													<span className="c-primary"> Account </span>
-												) : (
-													<span className="c-business">Business</span>
-												)}{" "}
-												Profile
-											</div>
-											<Avatar
-												size={150}
-												style={{
-													maxWidth: "100%",
-												}}
-												shape="circle"
-												className="border-default"
-												src={image({
-													width: "100%",
-													src: renPro?.info?.[`${PROFILE_PICTURE_PROP}`],
-													preview: true,
-												})}
-												preview={{ visible: false }}
-											/>
-										</>
-									) : (
-										<Skeleton.Avatar shape="circle" size={150} active={true} />
-									)}
-								</Space>
-							}
-							className="m-4 overflow-hidden pb-0"
-							actions={
-								profiles.length > 0 && [
-									<Button
-										type="link"
-										disabled={
-											profile?.id === renPro?.id ||
-											(renPro?.[`${PROFILE_TYPE_PROP}`] ===
-												PROFILE_BUSINESS_TYPE_PROP &&
-												renPro?.info?.[`${PROFILE_STATUS_PROP}`] !==
-													"REGISTERED")
-										}
-										onClick={() => switchProfile(renPro)}
+
+				<Row justify="space-around">
+					{renderProfiles.map((renPro, idx) => (
+						<Col xs={24} sm={12} lg={8} xxl={6} key={idx}>
+							<Card
+								cover={
+									<Space
+										direction="vertical"
+										className="tedkvn-center mt-5 "
+										style={{ padding: "0 3.3rem", fontSize: "1rem" }}
+										gap={1}
 									>
-										{profile?.id === renPro?.id
-											? "Signed In"
-											: "Switch Profile"}
-									</Button>,
-									<RemoveProfile
-										profile={renPro}
-										onRemoveProfile={(profile = {}) =>
-											onRemoveProfile(profile).then(async () =>
-												setProfiles(
-													profiles.reduce(
-														(res, cur) =>
-															cur?.[`${ID_PROP}`] === profile?.[`${ID_PROP}`]
-																? res
-																: [...res, cur],
-														[]
+										{profiles.length > 0 ? (
+											<>
+												<Typography.Title level={3} className="text-center">
+													{renPro?.[`${PROFILE_TYPE_PROP}`] ===
+													PROFILE_USER_TYPE_PROP ? (
+														<span className="c-primary"> Account </span>
+													) : (
+														<span className="c-business">Business</span>
+													)}{" "}
+													Profile
+												</Typography.Title>
+												<Avatar
+													size={150}
+													style={{
+														maxWidth: "100%",
+													}}
+													shape="circle"
+													className="border-default my-2"
+													src={image({
+														width: "100%",
+														src: renPro?.info?.[`${PROFILE_PICTURE_PROP}`],
+														preview: true,
+													})}
+													preview={{ visible: false }}
+												/>
+											</>
+										) : (
+											<Skeleton.Avatar
+												shape="circle"
+												size={150}
+												active={true}
+											/>
+										)}
+									</Space>
+								}
+								className="m-4 overflow-hidden"
+								actions={
+									profiles.length > 0 && [
+										<Button
+											type="link"
+											disabled={
+												profile?.id === renPro?.id ||
+												(renPro?.[`${PROFILE_TYPE_PROP}`] ===
+													PROFILE_BUSINESS_TYPE_PROP &&
+													renPro?.info?.[`${PROFILE_STATUS_PROP}`] !==
+														"REGISTERED")
+											}
+											onClick={() => switchProfile(renPro)}
+											style={{ fontSize: "1rem" }}
+										>
+											{profile?.id === renPro?.id
+												? "Signed In"
+												: "Switch Profile"}
+										</Button>,
+										<RemoveProfile
+											profile={renPro}
+											onRemoveProfile={(profile = {}) =>
+												onRemoveProfile(profile).then(async () =>
+													setProfiles(
+														profiles.reduce(
+															(res, cur) =>
+																cur?.[`${ID_PROP}`] === profile?.[`${ID_PROP}`]
+																	? res
+																	: [...res, cur],
+															[]
+														)
 													)
 												)
-											)
-										}
-									/>,
-								]
-							}
-							style={{ maxWidth: 280 }}
-						>
-							<Skeleton loading={profiles.length < 1} active>
-								<Meta
-									className="text-center tedkvn-center my-3"
-									title={renPro?.info?.[`${PROFILE_NAME_PROP}`]}
-									description={
-										renPro?.info?.[`${PROFILE_STATUS_PROP}`] || <br />
-									}
-								/>
-							</Skeleton>
-						</Card>
-					</React.Fragment>
-				))}
-				{profiles.length < 6 && (
-					<Card
-						cover={
-							<Space
-								direction="vertical"
-								className="tedkvn-center mt-5 "
-								style={{ padding: "0 3.3rem" }}
-								gap={1}
+											}
+										/>,
+									]
+								}
 							>
-								{profiles.length > 0 ? (
-									<>
-										<Avatar
-											size={150}
-											style={{
-												maxWidth: "100%",
-											}}
-											shape="circle"
-											className="border-default"
-											src={image({
-												width: "100%",
-												src: imagePlusGray,
-												preview: true,
-											})}
-											preview={{ visible: false }}
-										/>
-									</>
-								) : (
-									<Skeleton.Avatar shape="circle" size={150} active={true} />
-								)}
-							</Space>
-						}
-						className="m-4 overflow-hidden pb-0"
-						actions={
-							profiles.length > 0 && [
-								<Button
-									type="link"
-									onClick={() =>
-										forwardUrl(
-											FORWARD_CONTINUE,
-											"/switch-profiles",
-											"/register/business",
-											"/switch-profiles"
-										)
-									}
-								>
-									Add Business Profile
-								</Button>,
-							]
-						}
-						style={{ maxWidth: 250 }}
-					>
-						<Skeleton loading={profiles.length < 1} active>
-							<Meta
-								className="text-center tedkvn-center my-2"
-								description="For business owners, host, self-employed, or freelancers"
-							/>
-						</Skeleton>
-					</Card>
-				)}
-			</Space>
-		</>
+								<Skeleton loading={profiles.length < 1} active>
+									<Meta
+										className="text-center tedkvn-center my-3"
+										title={
+											<Typography.Title level={4}>
+												{renPro?.info?.[`${PROFILE_NAME_PROP}`]}
+											</Typography.Title>
+										}
+										description={
+											<Typography.Text className="text-muted">
+												{renPro?.info?.[`${PROFILE_STATUS_PROP}`]}
+											</Typography.Text>
+										}
+									/>
+								</Skeleton>
+							</Card>
+						</Col>
+					))}
+				</Row>
+			</Col>
+		</Row>
 	);
 
 	return app;
