@@ -195,7 +195,7 @@ function SearchResultPage({
 		),
 	];
 
-	const serviceHeader = (withOwner || (!screens.xs && screens.xl)) && (
+	const serviceHeader = (withOwner || (!screens.xs && screens.xxl)) && (
 		<>
 			{withBrowsingText && (
 				<Typography.Title level={1} ellipsis>
@@ -204,33 +204,33 @@ function SearchResultPage({
 				</Typography.Title>
 			)}
 			{withServiceTag && (
-				<>
-					<Space
-						direction="horizontal"
-						id="tag-bar"
-						className="hideScrollHorizontal my-1 w-100"
-						style={{
-							position: "relative",
-							overflowX: "scroll",
-						}}
-						size={20}
-					>
-						{serviceTagData.map((tag, idx) => (
-							<React.Fragment key={idx}>
-								{tag({
-									tagProps: {
-										style: {
-											fontSize: ".8rem",
-										},
-									},
-									disabled: searching,
-								})}
-							</React.Fragment>
-						))}
-					</Space>
-					<SearchOption />
+				<Row className="header-tag">
+					<Col xs={24}>
+						<Space
+							direction="horizontal"
+							className="hideScrollHorizontal my-2 mb-1 w-100 border-0"
+							style={{
+								position: "relative",
+								overflowX: "scroll",
+								overflowY: "hidden",
+							}}
+							size={20}
+						>
+							{serviceTagData.map((tag, idx) => (
+								<React.Fragment key={idx}>
+									{tag({
+										disabled: searching,
+									})}
+								</React.Fragment>
+							))}
+						</Space>
+					</Col>
+					<Col xs={24}>
+						<SearchOption />
+					</Col>
+
 					<Divider />
-				</>
+				</Row>
 			)}
 		</>
 	);
@@ -271,8 +271,8 @@ function SearchResultPage({
 
 	const resultHeader = (
 		<>
-			<Row justify="space-between" align="middle" className="my-0 my-md-4">
-				<Col order={screens?.xs && 2} xs={24}>
+			<Row justify="space-between" align="middle" className="my-2 my-md-4">
+				<Col xs={24}>
 					<Row justify="space-between" align="middle">
 						<Col className="tedkvn-center" style={{ maxWidth: "70%" }}>
 							<Typography.Title level={2} className="m-0" ellipsis>

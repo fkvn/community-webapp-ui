@@ -1,7 +1,8 @@
 import { ArrowDownOutlined, ArrowUpOutlined } from "@ant-design/icons";
-import { Menu } from "antd";
+import { Col, Menu, Row, Space } from "antd";
 import { useSearchParams } from "react-router-dom";
 import {
+	SEARCH_FILTER,
 	SEARCH_SORT,
 	SEARCH_SORT_ACS,
 	SEARCH_SORT_DATE,
@@ -18,6 +19,8 @@ function SearchOption() {
 	const sortParam = searchParams.get(SEARCH_SORT) || SEARCH_SORT_DATE;
 	const sortOrderParam =
 		searchParams.get(SEARCH_SORT_ORDER) || SEARCH_SORT_DESC;
+
+	const filter = searchParams.get(SEARCH_FILTER) || false;
 
 	const onSearchHanlder = ({ params = {} }) =>
 		dispatchSearch({
@@ -85,7 +88,7 @@ function SearchOption() {
 	const searchOptionMenu = (
 		<Menu
 			mode="horizontal"
-			className="mt-3 mb-1 bg-transparent border-0"
+			className="bg-transparent border-0"
 			triggerSubMenuAction="click"
 			style={{
 				lineHeight: "1.8rem",
@@ -95,7 +98,22 @@ function SearchOption() {
 		/>
 	);
 
-	const app = searchOptionMenu;
+	const app = (
+		<Row align="middle" className="mt-3 mb-1 ">
+			<Col xs={24}>
+				<Space direction="horizontal" size={20} className="w-100">
+					{/* <Button
+						type="primary"
+						className={`${!filter ? "bg-white text-dark" : "border-0"}`}
+						style={{ borderRadius: "1rem" }}
+					>
+						{filter ? "Filter Applied" : "Add Filter"}
+					</Button> */}
+					{searchOptionMenu}
+				</Space>
+			</Col>
+		</Row>
+	);
 	return app;
 }
 

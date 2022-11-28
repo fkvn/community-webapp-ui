@@ -133,9 +133,12 @@ function useSearch() {
 			[`${SEARCH_REQUESTER_ID}`]: requesterId,
 		};
 
+		// load more page
 		if (!loadMore) {
 			params = { ...params, [`${SEARCH_PAGE_PROP}`]: 1 };
 		}
+
+		//
 
 		params = new URLSearchParams(params);
 

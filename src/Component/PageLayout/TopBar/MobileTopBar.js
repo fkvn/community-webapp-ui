@@ -181,63 +181,53 @@ function MobileTopBar() {
 		return () => window.removeEventListener("scroll", scroll);
 	});
 
-	const searchTopBar = () => {
-		// const page = pathname?.split("/")[1];
-
-		// $("#layout-main").css(
-		// 	"margin-top",
-		// 	page === SEARCH_REQUEST ? "18rem" : "8rem"
-		// );
-
-		return (
-			<div>
-				<Row className="header mb-2" gutter={[50, 5]} align="middle">
-					<Col>
-						<Typography.Title level={2} className="text-white mb-1">
-							Browsing{" "}
-							{searchTypeParam.charAt(0).toUpperCase() +
-								searchTypeParam.slice(1)}
-						</Typography.Title>
-					</Col>
-					<Col className="tedkvn-center">
-						{displayLocation(
-							{
-								onClick: () => setShowSearch(true),
-								containerClassName: "mb-0 w-100",
-							},
-							location
-						)}
-					</Col>
-				</Row>
-
-				<div className="content">
-					{keywordParam.length > 0 && (
-						<Form form={form} className="my-3">
-							{keywordInput}
-						</Form>
+	const searchTopBar = () => (
+		<div>
+			<Row className="header mb-2" gutter={[50, 5]} align="middle">
+				<Col>
+					<Typography.Title level={2} className="text-white mb-1">
+						Browsing{" "}
+						{searchTypeParam.charAt(0).toUpperCase() + searchTypeParam.slice(1)}
+					</Typography.Title>
+				</Col>
+				<Col className="tedkvn-center">
+					{displayLocation(
+						{
+							onClick: () => setShowSearch(true),
+							containerClassName: "mb-0 w-100",
+						},
+						location
 					)}
+				</Col>
+			</Row>
 
-					<Space
-						direction="horizontal"
-						id="tag-bar"
-						className="hideScrollHorizontal my-2 mb-1 w-100 border-0"
-						style={{
-							position: "relative",
-							overflowX: "scroll",
-							overflowY: "hidden",
-						}}
-						size={20}
-					>
-						{tagItems.map((tag, idx) => (
-							<React.Fragment key={idx}>{tag()}</React.Fragment>
-						))}
-					</Space>
+			<div className="content">
+				{keywordParam.length > 0 && (
+					<Form form={form} className="my-3">
+						{keywordInput}
+					</Form>
+				)}
 
-					<SearchOption />
-				</div>
+				<Space
+					direction="horizontal"
+					id="tag-bar"
+					className="hideScrollHorizontal my-2 mb-1 w-100 border-0"
+					style={{
+						position: "relative",
+						overflowX: "scroll",
+						overflowY: "hidden",
+					}}
+					size={20}
+				>
+					{tagItems.map((tag, idx) => (
+						<React.Fragment key={idx}>{tag()}</React.Fragment>
+					))}
+				</Space>
+
+				<SearchOption />
 			</div>
-		);
-	};
+		</div>
+	);
 
 	const app = (
 		<Row
