@@ -1,13 +1,4 @@
-import {
-	Button,
-	Checkbox,
-	Col,
-	Divider,
-	Form,
-	Row,
-	Space,
-	Typography,
-} from "antd";
+import { Button, Checkbox, Col, Divider, Form, Row, Typography } from "antd";
 import { useForm } from "antd/lib/form/Form";
 import moment from "moment";
 import { useState } from "react";
@@ -62,9 +53,9 @@ function EditMarketplace({ service = {}, editing = false, ownerId = null }) {
 	const { updateMarketplace, createMarketplace } = usePost();
 
 	const header = (
-		<Row justify="center" className="text-center">
+		<Row justify="center" className="text-center mt-3">
 			<Col>
-				<Typography.Title level={1} className="c-marketplace-important">
+				<Typography.Title level={2} className="c-marketplace-important">
 					Product Marketplace For Sell or Trade
 				</Typography.Title>
 				{editing && (
@@ -152,6 +143,7 @@ function EditMarketplace({ service = {}, editing = false, ownerId = null }) {
 				: false,
 		required: false,
 		withOther: true,
+		otherPlaceholder: "Eg. Refurbished",
 	});
 
 	const category = useRadioGroup({
@@ -236,11 +228,22 @@ function EditMarketplace({ service = {}, editing = false, ownerId = null }) {
 			</Divider>
 			{moreInfor && (
 				<>
-					{condition}
-					{cost}
-					{category}
-					{expiredOn}
-					{description}
+					<Col xs={24} className="my-4">
+						{condition}
+					</Col>
+					<Col xs={24} className="my-4">
+						{cost}
+					</Col>
+					<Col xs={24} className="my-4">
+						{category}
+					</Col>
+
+					<Col xs={24} className="my-4">
+						{expiredOn}
+					</Col>
+					<Col xs={24} className="my-4">
+						{description}
+					</Col>
 				</>
 			)}
 		</>
@@ -288,6 +291,7 @@ function EditMarketplace({ service = {}, editing = false, ownerId = null }) {
 
 	const infoForm = (
 		<Form
+			id="edit-marketplace-form"
 			className="my-4 "
 			form={form}
 			{...(editing && {
@@ -313,29 +317,44 @@ function EditMarketplace({ service = {}, editing = false, ownerId = null }) {
 			onFinish={submitHandle}
 			onFieldsChange={() => setUpdating(true)}
 		>
-			<Space size={15} direction="vertical" className="w-100 my-2 my-xl-4 ">
-				{title}
-				{address}
-				{coverPictures}
-				{contactInfo}
-				{status}
-				{withMoreInfo}
-				<Row justify="center" className="mt-4">
-					<Col>
-						<Button
-							type="primary"
-							size="large"
-							shape="round"
-							block
-							htmlType="submit"
-							// onClick={submitHandle}
-							disabled={!updating}
-						>
-							{editing ? "Save and Update" : "Save and Post"}
-						</Button>
-					</Col>
-				</Row>
-			</Space>
+			<Row justify="center">
+				<Col xs={24} xl={20}>
+					<Row justify="space-evenly">
+						<Col xs={24} lg={20} xl={15} className="my-3">
+							{title}
+						</Col>
+						<Col xs={24} lg={20} xl={15} className="my-3">
+							{address}
+						</Col>
+						<Col xs={24} lg={20} xl={15} className="my-3">
+							{coverPictures}
+						</Col>
+						<Col xs={24} lg={20} xl={15} className="my-3">
+							{contactInfo}
+						</Col>
+						<Col xs={24} lg={20} xl={15} className="my-3">
+							{status}
+						</Col>
+						<Col xs={24} lg={20} xl={15} className="my-3">
+							{withMoreInfo}
+						</Col>
+
+						<Col xs={24} lg={12} className="my-4">
+							<Button
+								type="primary"
+								size="large"
+								shape="round"
+								block
+								htmlType="submit"
+								// onClick={submitHandle}
+								disabled={!updating}
+							>
+								{editing ? "Save and Update" : "Save and Post"}
+							</Button>
+						</Col>
+					</Row>
+				</Col>
+			</Row>
 		</Form>
 	);
 

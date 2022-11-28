@@ -168,7 +168,7 @@ function ProfilePage({ isOwner = false, profile = {} }) {
 
 	const infoTitle = (
 		<Meta
-			className="mt-5"
+			className="mt-4"
 			{...(info?.[`${PICTURE_LIST_PROP}`]?.length > 0 && {
 				avatar: avatar({
 					inputProps: { src: info?.[`${PICTURE_PROP}`], size: 50 },

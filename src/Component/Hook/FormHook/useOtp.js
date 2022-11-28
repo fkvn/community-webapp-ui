@@ -10,7 +10,7 @@ const useOtp = (itemProps = {}, inputProps = {}) =>
 	))(
 		{
 			name: OTP_PROP,
-			label: "OTP Verofocatopn Code (4-digits)",
+			label: "OTP Verification Code (4-digits)",
 			className: "m-0",
 			normalize: (value) => {
 				const [formattedValue] = formatOtpNumber(value);

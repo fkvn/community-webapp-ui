@@ -26,7 +26,7 @@ export const loadingMessage = (
 
 export const successMessage = (
 	content = "Success",
-	duration = 2,
+	duration = 1,
 	config = {}
 ) =>
 	message

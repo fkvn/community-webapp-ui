@@ -210,7 +210,7 @@ function DealPage({ isOwner = false, service = {} }) {
 	);
 
 	const infoTitle = (
-		<Row justify="space-between" className="mt-5">
+		<Row justify="space-between" className="mt-4">
 			<Col xs={24} md={14}>
 				<Typography.Title
 					level={1}

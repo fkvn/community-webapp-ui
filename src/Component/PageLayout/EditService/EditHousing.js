@@ -82,7 +82,7 @@ function EditHousing({ service = {}, editing = false, ownerId = null }) {
 	const header = (
 		<Row justify="center" className="text-center">
 			<Col>
-				<Typography.Title level={1} className="c-housing-important">
+				<Typography.Title level={2} className="c-housing-important">
 					Housing Service For Rent or Sell
 				</Typography.Title>
 				{editing && (
@@ -210,39 +210,57 @@ function EditHousing({ service = {}, editing = false, ownerId = null }) {
 	const dailyCost = useNumber({
 		itemProps: {
 			name: DAILY_COST_PROP,
-			label: "Daily",
 		},
+		inputProps: {
+			placeholder: "Enter Daily Cost - Eg. $1000 ",
+		},
+		showLabel: false,
 	});
 
 	const monthlyCost = useNumber({
 		itemProps: {
 			name: MONTHLY_COST_PROP,
-			label: "Monthly",
 		},
+		inputProps: {
+			placeholder: "Enter Monthly Cost - Eg. $1000 ",
+		},
+		showLabel: false,
 	});
 
 	const annualCost = useNumber({
 		itemProps: {
 			name: ANNUAL_COST_PROP,
-			label: "Annual",
 		},
+		inputProps: {
+			placeholder: "Enter Annual Cost - Eg. $1000 ",
+		},
+		showLabel: false,
 	});
 
 	const depositCost = useNumber({
 		itemProps: {
 			name: DEPOSIT_COST_PROP,
-			label: "Deposit",
 		},
+		inputProps: {
+			placeholder: "Enter Deposit Cost - Eg. $1000 ",
+		},
+		showLabel: false,
 	});
 
 	const costs = (
 		<Row justify="space-between">
 			<Col xs={24}>
-				<Form.Item className="m-0" label="Property Cost Starts" labelCol={24}>
-					{dailyCost}
-					{monthlyCost}
-					{annualCost}
-					{depositCost}
+				<Form.Item
+					className="m-0"
+					label="Property Cost Starts (Optional)"
+					labelCol={24}
+				>
+					<div className="mx-0 mx-lg-5">
+						<div className="mb-3">{dailyCost}</div>
+						<div className="mb-3">{monthlyCost}</div>
+						<div className="mb-3">{annualCost}</div>
+						<div className="mb-3">{depositCost}</div>
+					</div>
 				</Form.Item>
 			</Col>
 		</Row>
@@ -251,58 +269,66 @@ function EditHousing({ service = {}, editing = false, ownerId = null }) {
 	const guest = useNumber({
 		itemProps: {
 			name: INTERIOR_GUEST_PROP,
-			label: "Guest",
 		},
 		inputProps: {
 			addonBefore: "",
-			placeholder: "Number of guests available",
+			placeholder: "Number of available guests ",
 		},
+		showLabel: false,
 	});
 
 	const bath = useNumber({
 		itemProps: {
 			name: INTERIOR_BATH_PROP,
-			label: "Bath",
 		},
 		inputProps: {
 			addonBefore: "",
-			placeholder: "Number of baths available",
+			placeholder: "Number of available baths ",
 		},
+		showLabel: false,
 	});
 
 	const bed = useNumber({
 		itemProps: {
 			name: INTERIOR_BED_PROP,
-			label: "Bed",
 		},
 		inputProps: {
 			addonBefore: "",
-			placeholder: "Number of beds available",
+			placeholder: "Number of available beds ",
 		},
+		showLabel: false,
 	});
 
 	const parking = useNumber({
 		itemProps: {
 			name: INTERIOR_PARKING_PROP,
-			label: "Parking",
 		},
 		inputProps: {
 			addonBefore: "",
-			placeholder: "Number of parking available",
+			placeholder: "Number of available parking ",
 		},
+		showLabel: false,
 	});
 
 	const interior = (
 		<Form.List name={INTERIOR_PROP}>
 			{() => (
-				<Form.Item className={`m-0`} label="Property Interior">
-					<Row justify="space-between" gutter={20}>
-						<Col>
-							{guest} {bed}
+				<Form.Item className={`m-0`} label="Property Interior (Optional)">
+					<Row justify="space-start" className="mx-0 mx-lg-5">
+						<Col xs={24} lg={12}>
+							{guest}
 						</Col>
-
-						<Col>
-							{bath} {parking}
+						<Col xs={24} lg={12}>
+							{" "}
+							{bed}
+						</Col>
+						<Col xs={24} lg={12}>
+							{" "}
+							{bath}
+						</Col>
+						<Col xs={24} lg={12}>
+							{" "}
+							{parking}
 						</Col>
 					</Row>
 				</Form.Item>
@@ -372,7 +398,7 @@ function EditHousing({ service = {}, editing = false, ownerId = null }) {
 			name: AMENITY_LIST_PROP,
 			label: "Property Amenities",
 		},
-		options: amenityItems.map((item, idx) => {
+		options: amenityItems.map((item) => {
 			return {
 				value: item.title,
 				title: (
@@ -420,14 +446,28 @@ function EditHousing({ service = {}, editing = false, ownerId = null }) {
 			</Divider>
 			{moreInfor && (
 				<>
-					{property}
-					{category}
-					{costs}
-					{interior}
-					{amenity}
+					<Col xs={24} lg={20} xl={15} className="my-4">
+						{property}
+					</Col>
+					<Col xs={24} lg={20} xl={15} className="my-4">
+						{category}
+					</Col>
+					<Col xs={24} className="my-4">
+						{costs}
+					</Col>
+					<Col xs={24} className="my-4">
+						{interior}
+					</Col>
+					<Col xs={24} className="my-4">
+						{amenity}
+					</Col>
 
-					{expiredOn}
-					{description}
+					<Col xs={24} lg={20} xl={15} className="my-4">
+						{expiredOn}
+					</Col>
+					<Col xs={24} className="my-4">
+						{description}
+					</Col>
 				</>
 			)}
 		</>
@@ -484,6 +524,7 @@ function EditHousing({ service = {}, editing = false, ownerId = null }) {
 
 	const infoForm = (
 		<Form
+			id="edit-housing-form"
 			className="my-4 "
 			form={form}
 			{...(editing && {
@@ -503,29 +544,44 @@ function EditHousing({ service = {}, editing = false, ownerId = null }) {
 			onFinish={submitHandle}
 			onFieldsChange={() => setUpdating(true)}
 		>
-			<Space size={15} direction="vertical" className="w-100 my-2 my-xl-4 ">
-				{title}
-				{address}
-				{coverPictures}
-				{contactInfo}
-				{status}
-				{withMoreInfo}
-				<Row justify="center" className="mt-4">
-					<Col>
-						<Button
-							type="primary"
-							size="large"
-							shape="round"
-							block
-							htmlType="submit"
-							// onClick={submitHandle}
-							disabled={!updating}
-						>
-							{editing ? "Save and Update" : "Save and Post"}
-						</Button>
-					</Col>
-				</Row>
-			</Space>
+			<Row justify="center">
+				<Col xs={24} xl={20}>
+					<Row justify="space-evenly">
+						<Col xs={24} lg={20} xl={15} className="my-3">
+							{title}
+						</Col>
+						<Col xs={24} lg={20} xl={15} className="my-3">
+							{address}
+						</Col>
+						<Col xs={24} lg={20} xl={15} className="my-3">
+							{coverPictures}
+						</Col>
+						<Col xs={24} lg={20} xl={15} className="my-3">
+							{contactInfo}
+						</Col>
+						<Col xs={24} lg={20} xl={15} className="my-3">
+							{status}
+						</Col>
+						<Col xs={24} lg={20} xl={15} className="my-3">
+							{withMoreInfo}
+						</Col>
+
+						<Col xs={24} lg={10} className="my-4">
+							<Button
+								type="primary"
+								size="large"
+								shape="round"
+								block
+								htmlType="submit"
+								// onClick={submitHandle}
+								disabled={!updating}
+							>
+								{editing ? "Save and Update" : "Save and Post"}
+							</Button>
+						</Col>
+					</Row>
+				</Col>
+			</Row>
 		</Form>
 	);
 

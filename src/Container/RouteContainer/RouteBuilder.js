@@ -1,4 +1,6 @@
 import { Route, Routes } from "react-router-dom";
+import ForgotPassword from "../../Component/Auth/ForgotPassword";
+import PageLayout from "../../Component/PageLayout/PageLayout";
 import { SEARCH_SERVICE, SEARCH_TYPE_PROP } from "../../Util/ConstVar";
 import SignupRouteContainer from "../AuthContainer/SignupRouteContainer";
 import SwitchProfileContainer from "../AuthContainer/SwitchProfileContainer";
@@ -6,7 +8,6 @@ import UserSigninContainer from "../AuthContainer/UserSigninContainer";
 import ErrorContainer from "../ErrorContainer";
 import EditProfileContainer from "../ProfilePanelContainer/EditProfileContainer";
 import EditServiceContainer from "../ServicePageContainer/EditServiceContainer";
-import LayoutContainer from "./LayoutContainer";
 
 function RouteBuilder() {
 	const routes = (
@@ -28,7 +29,8 @@ function RouteBuilder() {
 					path={`/:action/${SEARCH_SERVICE}/:${SEARCH_TYPE_PROP}`}
 					element={<EditServiceContainer />}
 				/>
-				<Route path="/*" element={<LayoutContainer />} />
+				<Route exact path={`/forgot-password`} element={<ForgotPassword />} />
+				<Route path="/*" element={<PageLayout />} />
 				{/* <Route path="*" element={<NotFoundPage />} /> */}
 			</Routes>
 		</>

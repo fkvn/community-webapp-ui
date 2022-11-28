@@ -1,4 +1,5 @@
 import {
+	changePasswordAxios,
 	findProfileAxios,
 	patchBusinessProfileAxios,
 	patchUserProfileAxios,
@@ -53,9 +54,16 @@ function useProfile() {
 		);
 	};
 
+	const changePassword = (credentials = {}) => {
+		loadingMessage("Updating password ...", 0);
+		return changePasswordAxios(credentials)
+			.then(() => successMessage("Updated Password Successfully"))
+			.catch((e) => errorMessage(e));
+	};
+
 	const switchProfile = (
 		profile = {},
-		forward = false,
+		forward = true,
 		fowardAction = FORWARD_SUCCESS,
 		continueUrl = "",
 		successUrl = ""
@@ -147,6 +155,7 @@ function useProfile() {
 		uploadProfileAvatar,
 		patchUserProfile,
 		patchBusinessProfile,
+		changePassword,
 	};
 }
 

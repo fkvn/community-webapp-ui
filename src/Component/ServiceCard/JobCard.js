@@ -71,7 +71,7 @@ function JobCard({ card = DEFAULT_CARD_INFO }) {
 
 	const cover = (
 		<div style={{ position: "relative" }}>
-			<Carousel dots={true} autoplay>
+			<Carousel dots={true} autoplay dotPosition="right">
 				{detailInfo?.[`${PICTURE_LIST_PROP}`].map((img, idx) => (
 					<div key={idx}>
 						<div>

@@ -31,7 +31,7 @@ function SearchOption() {
 		label: (
 			<>
 				Sort By {sortParam}{" "}
-				{sortOrderParam === SEARCH_SORT_DESC ? (
+				{sortOrderParam !== SEARCH_SORT_DESC ? (
 					<ArrowUpOutlined style={{ verticalAlign: "none" }} />
 				) : (
 					<ArrowDownOutlined />

@@ -1,9 +1,10 @@
 import {
 	accessWithAppleAxios,
 	accessWithGoogleAxios,
+	findProfilesAxios,
 	signinAxios,
 } from "../../Axios/axiosPromise";
-import { FORWARD_SUCCESS } from "../../Util/ConstVar";
+import { FORWARD_CONTINUE, FORWARD_SUCCESS } from "../../Util/ConstVar";
 import { saveProfileInfo, saveUserInfo } from "../../Util/Util";
 import { errorMessage, loadingMessage, successMessage } from "./useMessage";
 import useUrls from "./useUrls";
@@ -35,8 +36,8 @@ function useSignin() {
 		value = "",
 		password = "",
 		forward = false,
-		fowardAction = FORWARD_SUCCESS,
-		continueUrl = "",
+		fowardAction = FORWARD_CONTINUE,
+		continueUrl = "/switch-profiles",
 		successUrl = ""
 	) => {
 		loadingMessage("Signing in ...", 0);
@@ -53,7 +54,16 @@ function useSignin() {
 
 				successMessage("Signing in successfully").then(() =>
 					forward
-						? forwardUrl(fowardAction, "", continueUrl, successUrl)
+						? findProfilesAxios().then((res = []) => {
+								res?.length > 1
+									? forwardUrl(
+											FORWARD_CONTINUE,
+											"",
+											"/switch-profiles",
+											successUrl
+									  )
+									: forwardUrl(fowardAction, "", continueUrl, successUrl);
+						  })
 						: Promise.resolve()
 				);
 
@@ -83,7 +93,16 @@ function useSignin() {
 
 				successMessage("Signing in successfully", 1).then(() =>
 					forward
-						? forwardUrl(fowardAction, "", continueUrl, successUrl)
+						? findProfilesAxios().then((res = []) => {
+								res?.length > 1
+									? forwardUrl(
+											FORWARD_CONTINUE,
+											"",
+											"/switch-profiles",
+											successUrl
+									  )
+									: forwardUrl(fowardAction, "", continueUrl, successUrl);
+						  })
 						: Promise.resolve()
 				);
 			})
@@ -93,7 +112,7 @@ function useSignin() {
 		credential = {},
 		forward = false,
 		fowardAction = FORWARD_SUCCESS,
-		continueUrl = "",
+		continueUrl = "/",
 		successUrl = ""
 	) =>
 		accessWithAppleAxios(credential)
@@ -108,7 +127,16 @@ function useSignin() {
 
 				successMessage("Signing in successfully", 1).then(() =>
 					forward
-						? forwardUrl(fowardAction, "", continueUrl, successUrl)
+						? findProfilesAxios().then((res = []) => {
+								res?.length > 1
+									? forwardUrl(
+											FORWARD_CONTINUE,
+											"",
+											"/switch-profiles",
+											successUrl
+									  )
+									: forwardUrl(fowardAction, "", continueUrl, successUrl);
+						  })
 						: Promise.resolve()
 				);
 			})

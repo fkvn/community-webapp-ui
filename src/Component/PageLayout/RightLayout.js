@@ -42,32 +42,43 @@ function RightLayout({ showSetting = false }) {
 										},
 									})
 								}
+								style={{ fontSize: "1rem" }}
 							>
 								Switch Profiles
 							</Button>
 						),
 					},
-					{
-						title: (
-							<Button type="link" className="p-0" href="/change-password">
-								Change Password
-							</Button>
-						),
-					},
+					// {
+					// 	title: (
+					// 		<Button type="link" className="p-0" href="/change-password">
+					// 			Change Password
+					// 		</Button>
+					// 	),
+					// },
 			  ]
 			: []),
 		...(showSetting
 			? [
 					{
 						title: (
-							<Button type="link" className="p-0 m-0 " href="/help-center">
+							<Button
+								type="link"
+								className="p-0 m-0 "
+								href="/help-center"
+								style={{ fontSize: "1rem" }}
+							>
 								Help Center
 							</Button>
 						),
 					},
 					{
 						title: (
-							<Button type="link" className="p-0 m-0" href="/aboutus">
+							<Button
+								type="link"
+								className="p-0 m-0"
+								href="/aboutus"
+								style={{ fontSize: "1rem" }}
+							>
 								About Us
 							</Button>
 						),
@@ -82,6 +93,7 @@ function RightLayout({ showSetting = false }) {
 								type="link"
 								className="p-0 text-secondary"
 								onClick={() => signoutUserPromise()}
+								style={{ fontSize: "1rem" }}
 							>
 								Sign out
 							</Button>
@@ -95,7 +107,7 @@ function RightLayout({ showSetting = false }) {
 
 	const app = (
 		<Row justify="center">
-			<Col xs={20} className="my-5">
+			<Col xs={20} className="mt-4 mb-5">
 				{isObjectEmpty(profile) && (
 					<Button
 						type="default"

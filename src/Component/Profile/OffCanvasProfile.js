@@ -1,7 +1,15 @@
+import { useEffect } from "react";
 import { Offcanvas } from "react-bootstrap";
+import { useLocation } from "react-router-dom";
 import RightLayout from "../PageLayout/RightLayout";
 
 function OffCanvasProfile({ show = false, onHide = () => {} }) {
+	const location = useLocation();
+
+	useEffect(() => {
+		onHide();
+	}, [location]);
+
 	const app = (
 		<Offcanvas
 			title="User Setting"

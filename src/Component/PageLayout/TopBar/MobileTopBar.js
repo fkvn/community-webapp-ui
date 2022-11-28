@@ -31,7 +31,7 @@ import HousingBadge from "../../Badge/HousingBadge";
 import JobBadge from "../../Badge/JobBadge";
 import MarketplaceBadge from "../../Badge/MarketplaceBadge";
 import useSearchKeyword from "../../Hook/FormHook/useSearchKeyword";
-import useLocation from "../../Hook/useCurrentLocation";
+import useCurrentLocation from "../../Hook/useCurrentLocation";
 import useImage from "../../Hook/useImage";
 import useSearch from "../../Hook/useSearch";
 import OffCanvasProfile from "../../Profile/OffCanvasProfile";
@@ -48,7 +48,7 @@ function MobileTopBar() {
 	const { image } = useImage();
 
 	const [showSearch, setShowSearch] = useState(false);
-	const { displayLocation } = useLocation();
+	const { displayLocation } = useCurrentLocation();
 
 	const { [`${LOCATION_OBJ}`]: location = {} } = useSelector(thainowReducer);
 
@@ -182,7 +182,12 @@ function MobileTopBar() {
 	});
 
 	const searchTopBar = () => {
-		$("#layout-main").css("margin-top", "15rem");
+		// const page = pathname?.split("/")[1];
+
+		// $("#layout-main").css(
+		// 	"margin-top",
+		// 	page === SEARCH_REQUEST ? "18rem" : "8rem"
+		// );
 
 		return (
 			<div>

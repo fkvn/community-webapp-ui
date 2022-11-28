@@ -77,8 +77,6 @@ function Search({
 			};
 		}
 
-		console.log(location);
-
 		return patchLocationInfoPromise(location, true).then(() => {
 			sessionStorage.setItem([`${LOCATION_OBJ}`], JSON.stringify(location));
 			return Promise.resolve(location);

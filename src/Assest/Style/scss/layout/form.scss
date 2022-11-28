@@ -92,3 +92,246 @@
 		padding: 0.55rem 1rem;
 	}
 }
+
+#edit-user-profile-form {
+	& .ant-form-item * {
+		font-size: 1rem;
+	}
+
+	& .ant-form-item-extra {
+		margin-top: 0.5rem;
+	}
+
+	& span.ant-input-affix-wrapper,
+	& input#email,
+	& input#name,
+	& input#username,
+	& input#firstname,
+	& input#lastname,
+	& input#website {
+		padding: 0.5rem 1rem;
+		border-radius: 50px !important;
+	}
+
+	& input#website {
+		min-width: 5rem !important;
+	}
+
+	& input#industry {
+		padding: 1.2rem 0.5rem;
+	}
+
+	& .ant-select-selector:has(input#industry) {
+		border-radius: 50px;
+		padding: 1.3rem 1rem;
+	}
+
+	& input#size {
+		padding: 1.2rem 0.5rem;
+	}
+
+	& .ant-select-selector:has(input#size) {
+		border-radius: 50px;
+		padding: 1.3rem 1rem;
+	}
+
+	& span.ant-input-affix-wrapper:has(input#address) {
+		border-radius: 50px !important;
+	}
+
+	& span.ant-select-selection-placeholder {
+		padding: 0.4rem 1rem;
+	}
+
+	& span.ant-input-group-addon {
+		border-radius: 50px 0 0 50px;
+		padding: 0.55rem 1rem;
+	}
+
+	& input#phone {
+		border-radius: 0 50px 50px 0;
+		padding: 0.55rem 1rem;
+	}
+
+	& textarea#description {
+		padding: 1rem;
+		min-height: 5rem;
+		border-radius: 10px;
+	}
+}
+
+#edit-deal-form {
+	& .ant-form-item * {
+		font-size: 1rem;
+	}
+
+	& span.ant-input-affix-wrapper,
+	& input#title,
+	& .ant-picker {
+		padding: 0.5rem 1rem;
+		border-radius: 50px !important;
+	}
+
+	& span.ant-select-selection-placeholder {
+		padding: 0.4rem 1rem;
+	}
+
+	& #category label.ant-radio-wrapper {
+		margin: 0rem 1rem 1rem 0rem;
+	}
+
+	& textarea#description {
+		padding: 1rem;
+		min-height: 5rem;
+		border-radius: 10px;
+	}
+}
+
+#edit-job-form {
+	& .ant-form-item * {
+		font-size: 1rem;
+	}
+
+	& span.ant-input-affix-wrapper,
+	& input#title,
+	& input#salary,
+	& input#skills,
+	& .ant-picker {
+		padding: 0.5rem 1rem;
+		border-radius: 50px !important;
+	}
+
+	& span.ant-select-selection-placeholder {
+		padding: 0.4rem 1rem;
+	}
+
+	& #experience label.ant-radio-wrapper,
+	& #positions label.ant-checkbox-wrapper {
+		margin: 0rem 1rem 1rem 0rem;
+	}
+
+	& textarea#description {
+		padding: 1rem;
+		min-height: 5rem;
+		border-radius: 10px;
+	}
+}
+
+#edit-housing-form {
+	& .ant-form-item * {
+		font-size: 1rem;
+	}
+
+	& span.ant-input-affix-wrapper,
+	& input#title,
+	input#category-Other,
+	input#interior_guest,
+	input#interior_bath,
+	input#interior_parking,
+	input#interior_bed,
+	.ant-picker {
+		padding: 0.5rem 1rem;
+		border-radius: 50px !important;
+	}
+
+	div.ant-input-number-in-form-item:has(input#interior_guest, input#interior_bath, input#interior_parking, input#interior_bed) {
+		border-radius: 50px !important;
+	}
+
+	div.ant-col:has(input#interior_guest, input#interior_bath, input#interior_parking, input#interior_bed) {
+		padding-right: 0.8rem;
+		margin: 0rem 0rem 0.2rem 0rem;
+	}
+
+	& span.ant-select-selection-placeholder {
+		padding: 0.4rem 1rem;
+	}
+
+	& #type label.ant-radio-wrapper,
+	& #amenities label.ant-checkbox-wrapper {
+		margin: 0rem 1rem 1rem 0rem;
+	}
+
+	& #category label.ant-radio-wrapper:not(:last-child) {
+		margin: 0rem 1rem 1rem 0rem;
+	}
+
+	& div.ant-input-number-group-addon {
+		border-radius: 50px 0 0 50px;
+		padding: 0.4rem 1rem;
+	}
+
+	& .ant-input-number-input-wrap {
+		border-radius: 0 50px 50px 0 !important;
+		padding: 0.4rem 0rem;
+	}
+
+	& textarea#description {
+		padding: 1rem;
+		min-height: 5rem;
+		border-radius: 10px;
+	}
+}
+
+#edit-marketplace-form {
+	& .ant-form-item * {
+		font-size: 1rem;
+	}
+
+	& span.ant-input-affix-wrapper,
+	input#title,
+	input#category-Other,
+	input#condition-Other,
+	.ant-picker {
+		padding: 0.5rem 1rem;
+		border-radius: 50px !important;
+	}
+
+	& span.ant-select-selection-placeholder {
+		padding: 0.4rem 1rem;
+	}
+
+	& #condition label.ant-radio-wrapper,
+	#category label.ant-radio-wrapper {
+		margin: 0rem 1rem 1rem 0rem;
+	}
+
+	& div.ant-input-number-group-addon {
+		border-radius: 50px 0 0 50px;
+		padding: 0.4rem 1rem;
+	}
+
+	& .ant-input-number-input-wrap {
+		border-radius: 0 50px 50px 0 !important;
+		padding: 0.4rem 0rem;
+	}
+
+	& textarea#description {
+		padding: 1rem;
+		min-height: 5rem;
+		border-radius: 10px;
+	}
+}
+
+#forgot-password-form {
+	& .ant-form-item * {
+		font-size: 1rem;
+	}
+
+	& span.ant-input-affix-wrapper,
+	input#email,
+	input#otp {
+		padding: 0.5rem 1rem;
+		border-radius: 50px;
+	}
+
+	& span.ant-input-group-addon {
+		border-radius: 50px 0 0 50px;
+		padding: 0.5rem 1rem;
+	}
+
+	& input#phone {
+		border-radius: 0 50px 50px 0;
+		padding: 0.5rem 1rem;
+	}
+}

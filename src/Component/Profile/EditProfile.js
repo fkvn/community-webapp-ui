@@ -115,6 +115,10 @@ function EditProfile({ profile = {} }) {
 				label: "Business Name",
 				name: COMPANY_NAME_PROP,
 			}),
+			...(type === PROFILE_USER_TYPE_PROP && {
+				label: "Username (Display as your profile name)",
+				name: USERNAME_PROP,
+			}),
 			initialValue: info?.[`${NAME_PROP}`] || "",
 		},
 
@@ -190,8 +194,12 @@ function EditProfile({ profile = {} }) {
 	});
 
 	const address = (
-		<Row justify="start" gutter={[50, 10]}>
-			<Col {...(type === PROFILE_BUSINESS_TYPE_PROP && { xs: 24 })}>
+		<Row justify="space-between" className="my-3" gutter={[50, 10]}>
+			<Col
+				{...((type === PROFILE_BUSINESS_TYPE_PROP ||
+					(type === PROFILE_USER_TYPE_PROP &&
+						isEmptyObject(info?.[`${LOCATION_PROP}`]))) && { xs: 24 })}
+			>
 				{useAddress({
 					itemProps: {
 						label:
@@ -230,21 +238,28 @@ function EditProfile({ profile = {} }) {
 	});
 
 	const email = (
-		<Row justify="start" gutter={[50, 10]}>
-			<Col>
+		<Row justify="space-between" gutter={[50, 10]}>
+			<Col {...(!info?.[`${EMAIL_PROP}`] && { xs: 24 })}>
 				{useEmail({
 					itemProps: {
 						label:
 							(type === PROFILE_BUSINESS_TYPE_PROP ? "Business " : "") +
 							"Email Address",
 						initialValue: info?.[`${EMAIL_PROP}`] || "",
-						extra: (
-							<Typography.Text type="warning" ellipsis>
-								<small>
-									Each user profile requires at least one email or phone number
-								</small>
+						extra: type === PROFILE_USER_TYPE_PROP && (
+							<Typography.Text
+								type="warning"
+								style={{ marginTop: "1rem !important" }}
+							>
+								{info.provider !== "THAINOW"
+									? `This email is managed by ${info.provider}`
+									: "Each user profile requires at least one email or phone number"}
 							</Typography.Text>
 						),
+					},
+					inputProps: {
+						disabled:
+							type === PROFILE_USER_TYPE_PROP && info.provider !== "THAINOW",
 					},
 					required: false,
 				})}
@@ -262,21 +277,23 @@ function EditProfile({ profile = {} }) {
 	});
 
 	const phone = (
-		<Row justify="start" gutter={[50, 10]}>
-			<Col>
+		<Row justify="space-between" className="my-3" gutter={[50, 10]}>
+			<Col {...(!info?.[`${PHONE_PROP}`] && { xs: 24 })}>
 				{usePhone({
 					itemProps: {
 						label:
 							(type === PROFILE_BUSINESS_TYPE_PROP ? "Business " : "") +
 							"Phone Number",
 						initialValue: info?.[`${PHONE_PROP}`] || "",
-						extra: (
-							<Typography.Text type="warning" ellipsis>
-								<small>
-									Each user profile requires at least one email or phone number
-								</small>
-							</Typography.Text>
-						),
+						extra: type === PROFILE_USER_TYPE_PROP &&
+							info.provider === "THAINOW" && (
+								<Typography.Text type="warning" ellipsis>
+									<small>
+										Each user profile requires at least one email or phone
+										number
+									</small>
+								</Typography.Text>
+							),
 					},
 					required: false,
 				})}
@@ -318,8 +335,8 @@ function EditProfile({ profile = {} }) {
 	});
 
 	const website = (
-		<Row justify="start" gutter={[50, 10]}>
-			<Col>
+		<Row justify="space-between" gutter={[50, 10]} className="my-4">
+			<Col {...(!info?.[`${WEBSITE_PROP}`] && { xs: 24 })}>
 				{useUrl({
 					itemProps: {
 						label:
@@ -329,7 +346,7 @@ function EditProfile({ profile = {} }) {
 					},
 				})}
 			</Col>
-			<Col>{info?.[`${WEBSITE_PROP}`] && isWebsitePublic}</Col>
+			{info?.[`${WEBSITE_PROP}`] && <Col> {isWebsitePublic}</Col>}
 		</Row>
 	);
 
@@ -404,12 +421,13 @@ function EditProfile({ profile = {} }) {
 
 	const infoForm = (
 		<Form
+			id="edit-user-profile-form"
 			className="my-4 "
 			form={form}
 			onFinish={submitHandle}
 			onFieldsChange={() => setUpdating(true)}
 		>
-			<Space size={15} direction="vertical" className="w-100 my-2 my-xl-4 ">
+			<Space size={30} direction="vertical" className="w-100 my-2 my-xl-4 ">
 				{username}
 				{type === PROFILE_USER_TYPE_PROP && firstname}
 				{type === PROFILE_USER_TYPE_PROP && lastname}

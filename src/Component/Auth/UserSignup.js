@@ -285,7 +285,7 @@ function UserSignup() {
 							borderRadius: "1rem",
 						}}
 					>
-						Send Verifycation Code
+						Send Verification Code
 					</Button>
 				</Form.Item>
 			</>

@@ -70,15 +70,11 @@ function UserSignin() {
 	const phone = usePhone();
 	const password = usePassword({
 		className: "mb-4",
-		// extra: (
-		// 	<Button
-		// 		type="link"
-		// 		className="px-0 mt-1"
-		// 		onClick={() => alert("Coming soon")}
-		// 	>
-		// 		Forgot password
-		// 	</Button>
-		// ),
+		extra: (
+			<Button type="link" className="px-0 mt-1" href="/forgot-password">
+				Forgot password
+			</Button>
+		),
 	});
 
 	const signInTabChildren = (

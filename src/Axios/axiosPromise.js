@@ -148,17 +148,25 @@ export const validateUsernamePromise = (username = "") => {
 	);
 };
 
-export const validateEmailPromise = (email = "") => {
-	return axios.post(`/auth/users/validateEmail`, {
-		email: email,
-	});
-};
+export const validateEmailUniqueAxios = (email = "") =>
+	axios
+		.post(`/auth/verify/email?email=${email}`)
+		.then(({ data }) => Promise.resolve(data))
+		.catch((e) => Promise.reject(e));
 
-export const validatePhonePromise = (phone = "") => {
-	return axios.post(`/auth/users/validatePhone`, {
-		phone: phone,
-	});
-};
+export const validatePhoneUniqueAxios = (phone = "") =>
+	axios
+		.post(`/auth/verify/phone?phone=${phone}`)
+		.then(({ data }) => Promise.resolve(data))
+		.catch((e) => Promise.reject(e));
+
+export const changePasswordAxios = (credential = {}) =>
+	axios
+		.post(`/auth/change-password`, {
+			...credential,
+		})
+		.then(({ data }) => Promise.resolve(data))
+		.catch((e) => Promise.reject(e));
 
 // profiles
 

@@ -396,7 +396,7 @@ function SearchResultPage({
 				className="mt-4"
 			>
 				{fetchResults.map((rel, idx) => (
-					<Col xs={24} md={12} key={idx} id="service-card">
+					<Col xs={24} md={12} key={idx} className="service-card">
 						{withBusiness && searchTypeParam === SEARCH_BUSINESS && (
 							<BusinessCard card={rel} />
 						)}

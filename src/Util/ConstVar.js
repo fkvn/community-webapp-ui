@@ -113,6 +113,7 @@ export const EDIT_PROP = "edit";
 export const CREATE_PROP = "create";
 export const TYPE_PROP = "type";
 
+export const SEARCH_REQUEST = "search";
 export const SEARCH_OBJ = "searchObj";
 export const SEARCH_REQUESTER_ID = "requesterId";
 export const SEARCH_RESULT_OBJ = "searchResultObj";

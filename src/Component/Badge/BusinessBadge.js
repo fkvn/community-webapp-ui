@@ -35,8 +35,6 @@ function BusinessBadge({
 
 	const { Title } = Typography;
 
-	console.log(disabled);
-
 	const app = (
 		<>
 			{type === "image" && (

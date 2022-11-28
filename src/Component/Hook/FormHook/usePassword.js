@@ -4,7 +4,7 @@ import { PASSWORD_PROP } from "../../../Util/ConstVar";
 const usePassword = (itemProps = {}, inputProps = {}) =>
 	((props = {}, inputProps = {}) => (
 		<Form.Item {...props}>
-			<Input.Password {...inputProps} />
+			<Input.Password autoComplete="false" {...inputProps} />
 		</Form.Item>
 	))(
 		{
