@@ -1,6 +1,5 @@
 import { Form, Input, Radio } from "antd";
 import { useState } from "react";
-import { formatSentenseCase } from "../../../Util/Util";
 
 function useRadioGroup({
 	form = {},
@@ -15,10 +14,9 @@ function useRadioGroup({
 } = {}) {
 	const [other, setOther] = useState(otherDefault);
 
-	const [otherValue, setOtherValue] = useState(
-		formatSentenseCase(form.getFieldValue(`${itemProps?.name}-Other`)) ||
-			"Other"
-	);
+	const otherFieldValue = form.getFieldValue(`${itemProps?.name}-Other`) || "";
+
+	const [otherField, setOtherField] = useState(otherFieldValue || "Other");
 
 	const app = (
 		<>
@@ -27,19 +25,15 @@ function useRadioGroup({
 				shouldUpdate
 				{...itemProps}
 				rules={[
-					{ required: required, message: requiredMessage },
 					{
 						validator(_, value) {
 							setOther(
-								value === "Other" ||
-									formatSentenseCase(value) ===
-										formatSentenseCase(
-											form.getFieldValue(`${itemProps?.name}-Other`)
-										)
-									? true
-									: false
+								value === "Other" || value === otherFieldValue ? true : false
 							);
-							return Promise.resolve();
+
+							return required && value === undefined
+								? Promise.reject(requiredMessage)
+								: Promise.resolve();
 						},
 					},
 
@@ -57,7 +51,7 @@ function useRadioGroup({
 							{option?.title}
 						</Radio>
 					))}
-					{withOther && <Radio value={otherValue}>Others</Radio>}
+					{withOther && <Radio value={otherField}>Others</Radio>}
 				</Radio.Group>
 			</Form.Item>
 			{withOther && other && (
@@ -65,11 +59,11 @@ function useRadioGroup({
 					name={`${itemProps?.name}-Other`}
 					className="m-0"
 					rules={[
-						{ required: other, message: "Please enter value" },
+						{ required: true, message: "Please enter value" },
 						{
-							validator(_, value) {
-								form.setFieldValue(itemProps?.name, formatSentenseCase(value));
-								setOtherValue(formatSentenseCase(value));
+							validator(_, value = "") {
+								form.setFieldValue(itemProps?.name, value);
+								setOtherField(value);
 								return Promise.resolve();
 							},
 						},

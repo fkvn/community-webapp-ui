@@ -5,7 +5,8 @@
 }
 
 #mobile-top-bar {
-	& .content * {
+	& .content *,
+	.ant-tag * {
 		font-size: 0.8rem !important;
 	}
 
@@ -22,6 +23,7 @@
 
 	& li {
 		padding: 0.02rem 1rem;
+		border: 1px solid #d9d9d9;
 		border-radius: 50px;
 	}
 }

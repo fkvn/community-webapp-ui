@@ -391,3 +391,9 @@ export const formatPrice = (value = "") => {
 		return value;
 	}
 };
+
+export const removeProps = (props = [], obj = {}) =>
+	props.reduce((res, prop) => {
+		const { [prop]: excludeField, ...excluded } = res;
+		return excluded;
+	}, obj);

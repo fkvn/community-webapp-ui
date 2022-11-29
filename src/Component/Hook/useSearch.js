@@ -21,6 +21,8 @@ import {
 	SEARCH_BUSINESS,
 	SEARCH_DEAL,
 	SEARCH_FETCH_RESULT_PROP,
+	SEARCH_FILTER,
+	SEARCH_FILTER_FIELD_LIST,
 	SEARCH_HOUSING,
 	SEARCH_JOB,
 	SEARCH_KEYWORD,
@@ -31,13 +33,14 @@ import {
 	SEARCH_TYPE_PROP,
 	TYPE_PROP,
 } from "../../Util/ConstVar";
-import { getSearchParamsObj } from "../../Util/Util";
+import { getSearchParamsObj, removeProps } from "../../Util/Util";
 import { errorMessage, loadingMessage, successMessage } from "./useMessage";
 
 function useSearch() {
 	const [searchParams, setSearchParams] = useSearchParams({ replace: false });
 	const keywordParam = searchParams.get(SEARCH_KEYWORD) || "";
 	const searchTypeParam = searchParams.get(SEARCH_TYPE_PROP) || "";
+	const filterParam = searchParams.get(SEARCH_FILTER) || false;
 
 	const routeState = useLocation()?.state || {};
 
@@ -91,6 +94,7 @@ function useSearch() {
 		params = {},
 		loadMore = false,
 		currentFetchResults = [],
+		filter = filterParam,
 		backToTop = true,
 	} = {}) => {
 		if (backToTop) {
@@ -138,7 +142,13 @@ function useSearch() {
 			params = { ...params, [`${SEARCH_PAGE_PROP}`]: 1 };
 		}
 
-		//
+		// filter
+
+		if (!filter) {
+			params = removeProps(SEARCH_FILTER_FIELD_LIST, params);
+		} else {
+			params = { ...params, [`${SEARCH_FILTER}`]: true };
+		}
 
 		params = new URLSearchParams(params);
 

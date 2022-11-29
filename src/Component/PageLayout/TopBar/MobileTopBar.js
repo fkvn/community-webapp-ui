@@ -223,7 +223,6 @@ function MobileTopBar() {
 						<React.Fragment key={idx}>{tag()}</React.Fragment>
 					))}
 				</Space>
-
 				<SearchOption />
 			</div>
 		</div>
