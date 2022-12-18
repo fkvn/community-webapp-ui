@@ -27,7 +27,7 @@ import JobBadge from "../Badge/JobBadge";
 import MarketplaceBadge from "../Badge/MarketplaceBadge";
 import useAddress from "../Hook/FormHook/useAddress";
 import useSearchKeyword from "../Hook/FormHook/useSearchKeyword";
-import useSearch from "../Hook/useSearch";
+import useSearch from "../Hook/SearchHook/useSearch";
 
 function Search({
 	direction = "",

@@ -26,6 +26,7 @@ import {
 	SEARCH_BUSINESS,
 	SEARCH_DEAL,
 	SEARCH_FETCH_RESULT_PROP,
+	SEARCH_FILTER,
 	SEARCH_HOUSING,
 	SEARCH_JOB,
 	SEARCH_MARKETPLACE,
@@ -43,9 +44,11 @@ import DealBadge from "../../Badge/DealBadge";
 import HousingBadge from "../../Badge/HousingBadge";
 import JobBadge from "../../Badge/JobBadge";
 import MarketplaceBadge from "../../Badge/MarketplaceBadge";
-import useSearch from "../../Hook/useSearch";
+import useSearch from "../../Hook/SearchHook/useSearch";
 import useUrls from "../../Hook/useUrls";
+import ClearFilter from "../../Search/ClearFitler";
 import LoadMore from "../../Search/LoadMore";
+import SearchFilter from "../../Search/SearchFilter";
 import SearchOption from "../../Search/SearchOption";
 import BusinessCard from "../../ServiceCard/BusinessCard";
 import DealCard from "../../ServiceCard/DealCard";
@@ -79,6 +82,7 @@ function SearchResultPage({
 		serviceParams.indexOf(searchParams.get(SEARCH_TYPE_PROP)) >= 0
 			? searchParams.get(SEARCH_TYPE_PROP)
 			: SEARCH_DEAL;
+	const filterParam = searchParams.get(SEARCH_FILTER) || false;
 
 	const { dispatchSearch } = useSearch();
 
@@ -273,11 +277,32 @@ function SearchResultPage({
 		<>
 			<Row justify="space-between" align="middle" className="my-2 my-md-4">
 				<Col xs={24}>
-					<Row justify="space-between" align="middle">
+					<Row justify="space-between" align="top">
 						<Col className="tedkvn-center" style={{ maxWidth: "70%" }}>
-							<Typography.Title level={2} className="m-0" ellipsis>
-								All Results
-							</Typography.Title>
+							<Row align="middle">
+								<Col style={{ marginRight: "1rem" }}>
+									<Typography.Title level={2} className="m-0" ellipsis>
+										All Results
+									</Typography.Title>{" "}
+								</Col>
+								{filterParam && (
+									<Col xs={24}>
+										<Space size={5}>
+											<SearchFilter
+												buttonProps={{
+													type: "link",
+													style: {
+														color: "gray",
+														paddingLeft: 0,
+														paddingRight: 10,
+													},
+												}}
+											/>
+											<ClearFilter />
+										</Space>
+									</Col>
+								)}
+							</Row>
 						</Col>
 						{(!withOwner || ownerId === profile?.[`${ID_PROP}`]) &&
 							searchTypeParam !== SEARCH_BUSINESS && (

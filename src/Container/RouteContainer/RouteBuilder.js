@@ -15,8 +15,6 @@ function RouteBuilder() {
 			<Routes>
 				<Route path="/register/*" element={<SignupRouteContainer />} />
 				<Route path="/signin" element={<UserSigninContainer />} />
-				{/* <Route path="/myprofile/:id" element={<ProfileContainer />} /> */}
-				{/* <Route path="/search" element={<SearchContainer />} /> */}
 				<Route path="/switch-profiles" element={<SwitchProfileContainer />} />
 				<Route path="/edit-profile/:id" element={<EditProfileContainer />} />
 				<Route
@@ -31,7 +29,6 @@ function RouteBuilder() {
 				/>
 				<Route exact path={`/forgot-password`} element={<ForgotPassword />} />
 				<Route path="/*" element={<PageLayout />} />
-				{/* <Route path="*" element={<NotFoundPage />} /> */}
 			</Routes>
 		</>
 	);

@@ -7,12 +7,12 @@ import {
 	searchJobsAxios,
 	searchMarketplacesAxios,
 	searchReviewsAxios,
-} from "../../Axios/axiosPromise";
+} from "../../../Axios/axiosPromise";
 import {
 	patchLocationInfoPromise,
 	patchSearchResultInfoPromise,
-} from "../../redux-store/dispatchPromise";
-import { thainowReducer } from "../../redux-store/reducer/thainowReducer";
+} from "../../../redux-store/dispatchPromise";
+import { thainowReducer } from "../../../redux-store/reducer/thainowReducer";
 import {
 	ID_PROP,
 	LOCATION_OBJ,
@@ -32,9 +32,9 @@ import {
 	SEARCH_REVIEW,
 	SEARCH_TYPE_PROP,
 	TYPE_PROP,
-} from "../../Util/ConstVar";
-import { getSearchParamsObj, removeProps } from "../../Util/Util";
-import { errorMessage, loadingMessage, successMessage } from "./useMessage";
+} from "../../../Util/ConstVar";
+import { getSearchParamsObj, removeProps } from "../../../Util/Util";
+import { errorMessage, loadingMessage, successMessage } from "../useMessage";
 
 function useSearch() {
 	const [searchParams, setSearchParams] = useSearchParams({ replace: false });
@@ -118,6 +118,11 @@ function useSearch() {
 				[`${TYPE_PROP}`]: params?.[`${TYPE_PROP}`] || "",
 				[`${ID_PROP}`]: params?.[`${ID_PROP}`] || "",
 			};
+
+			params = removeProps(
+				[...SEARCH_FILTER_FIELD_LIST, SEARCH_FILTER],
+				params
+			);
 		} else {
 			const currentParamsObj = getSearchParamsObj(searchParams);
 			params = {
@@ -125,30 +130,33 @@ function useSearch() {
 				...params,
 				[`${SEARCH_TYPE_PROP}`]: type,
 			};
+
+			console.log(searchTypeParam);
+
+			// load more page
+			if (!loadMore) {
+				params = { ...params, [`${SEARCH_PAGE_PROP}`]: 1 };
+			}
+
+			// filter
+			if (!filter) {
+				params = removeProps(
+					[...SEARCH_FILTER_FIELD_LIST, SEARCH_FILTER],
+					params
+				);
+			} else {
+				params = { ...params, [`${SEARCH_FILTER}`]: true };
+			}
 		}
 
 		//  add location
 		params = { ...location, ...params };
 
 		// add requesterId
-
 		params = {
 			...params,
 			[`${SEARCH_REQUESTER_ID}`]: requesterId,
 		};
-
-		// load more page
-		if (!loadMore) {
-			params = { ...params, [`${SEARCH_PAGE_PROP}`]: 1 };
-		}
-
-		// filter
-
-		if (!filter) {
-			params = removeProps(SEARCH_FILTER_FIELD_LIST, params);
-		} else {
-			params = { ...params, [`${SEARCH_FILTER}`]: true };
-		}
 
 		params = new URLSearchParams(params);
 

@@ -1,26 +1,21 @@
 import { ArrowDownOutlined, ArrowUpOutlined } from "@ant-design/icons";
 import { Button, Col, Dropdown, Row, Space } from "antd";
-import { useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import {
-	SEARCH_DEAL,
-	SEARCH_FILTER,
 	SEARCH_SORT,
 	SEARCH_SORT_ACS,
 	SEARCH_SORT_DATE,
 	SEARCH_SORT_DESC,
 	SEARCH_SORT_DISTANCE,
 	SEARCH_SORT_ORDER,
-	SEARCH_TYPE_PROP,
 } from "../../Util/ConstVar";
-import useSearch from "../Hook/useSearch";
-import ModalDealFilter from "./ModalDealFilter";
+import useSearch from "../Hook/SearchHook/useSearch";
+import SearchFilter from "./SearchFilter";
+import SearchSort from "./SearchSort";
 
 function SearchOption() {
 	const { dispatchSearch } = useSearch();
-
 	const [searchParams] = useSearchParams();
-	const searchTypeParam = searchParams.get(SEARCH_TYPE_PROP) || "";
 	const sortParam = searchParams.get(SEARCH_SORT) || SEARCH_SORT_DATE;
 	const sortOrderParam =
 		searchParams.get(SEARCH_SORT_ORDER) || SEARCH_SORT_DESC;
@@ -50,6 +45,10 @@ function SearchOption() {
 			key: SEARCH_SORT_DISTANCE,
 			label: "Sort by Distance",
 		},
+		{
+			key: "Dasds",
+			label: "Sort by Distance",
+		},
 	];
 
 	const onSortClick = ({ key = "" }) => {
@@ -73,7 +72,9 @@ function SearchOption() {
 	};
 
 	const sortOption = (
-		<Dropdown menu={{ items: sortItems, onClick: onSortClick }}>
+		<Dropdown
+			menu={{ items: [{ key: 1, label: "sss" }], onClick: onSortClick }}
+		>
 			<Button
 				onClick={(e) => e.preventDefault()}
 				className="border-0"
@@ -95,41 +96,12 @@ function SearchOption() {
 		</Dropdown>
 	);
 
-	const filterParam = searchParams.get(SEARCH_FILTER) || false;
-	const [openFilter, setOpenFilter] = useState(false);
-
-	const handleOpenFilter = ({ open = false, onHide = () => {} }) => {
-		switch (searchTypeParam) {
-			case SEARCH_DEAL:
-				return <ModalDealFilter open={open} onHide={onHide} />;
-			default:
-				return openFilter ? setOpenFilter(false) : () => {};
-		}
-	};
-
-	const filterOption = (
-		<>
-			<Button
-				type="primary"
-				className={`${!filterParam ? "bg-white text-dark" : "border-0"}`}
-				style={{ borderRadius: "1rem" }}
-				onClick={() => setOpenFilter(true)}
-			>
-				{filterParam ? "Filter Applied" : "Add Filter"}
-			</Button>
-			{handleOpenFilter({
-				open: openFilter,
-				onHide: () => setOpenFilter(false),
-			})}
-		</>
-	);
-
 	const app = (
 		<Row align="middle" className="mt-3 mb-1 ">
 			<Col xs={24}>
 				<Space direction="horizontal" size={20} className="w-100">
-					{filterOption}
-					{sortOption}
+					<SearchFilter />
+					<SearchSort />
 				</Space>
 			</Col>
 		</Row>

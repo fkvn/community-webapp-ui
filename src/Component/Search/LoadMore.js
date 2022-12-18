@@ -8,7 +8,7 @@ import {
 	SEARCH_RESULT_OBJ,
 	SEARCH_TOTAL_PAGE_PROP,
 } from "../../Util/ConstVar";
-import useSearch from "../Hook/useSearch";
+import useSearch from "../Hook/SearchHook/useSearch";
 
 function LoadMore({ title = "Load More", buttonProps = {} }) {
 	const [searchParams] = useSearchParams();
