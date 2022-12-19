@@ -4,10 +4,12 @@ import { useSearchParams } from "react-router-dom";
 import {
 	SEARCH_DEAL,
 	SEARCH_FILTER,
+	SEARCH_HOUSING,
 	SEARCH_JOB,
 	SEARCH_TYPE_PROP,
 } from "../../../Util/ConstVar";
 import ModalDealFilter from "./ModalDealFilter";
+import ModalHousingFilter from "./ModalHousingFilter";
 import ModalJobFilter from "./ModalJobFilter";
 
 function SearchFilter({ buttonProps = {} } = {}) {
@@ -28,6 +30,8 @@ function SearchFilter({ buttonProps = {} } = {}) {
 				return <ModalDealFilter {...props} />;
 			case SEARCH_JOB:
 				return <ModalJobFilter {...props} />;
+			case SEARCH_HOUSING:
+				return <ModalHousingFilter {...props} />;
 		}
 	};
 

@@ -12,6 +12,7 @@ function useCheckBoxGroup({
 	required = true,
 	requiredMessage = "Must choose",
 	showLabel = true,
+	justify = "space-between",
 } = {}) {
 	const [other, setOther] = useState(otherDefault);
 
@@ -51,7 +52,7 @@ function useCheckBoxGroup({
 				}
 			>
 				<Checkbox.Group>
-					<Row justify="space-between" className="px-0" wrap>
+					<Row justify={justify} className="px-0" wrap>
 						{options.map((option, idx) => (
 							<Col key={idx}>
 								<Checkbox
