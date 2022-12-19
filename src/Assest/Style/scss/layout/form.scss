@@ -323,6 +323,12 @@
 	}
 }
 
+#filter-business-form {
+	& #industry label.ant-radio-wrapper {
+		margin: 0rem 1rem 1rem 0rem;
+	}
+}
+
 #forgot-password-form {
 	& .ant-form-item * {
 		font-size: 1rem;

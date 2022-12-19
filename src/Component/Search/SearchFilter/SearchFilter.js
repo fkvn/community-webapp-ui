@@ -2,6 +2,7 @@ import { Button } from "antd";
 import { useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import {
+	SEARCH_BUSINESS,
 	SEARCH_DEAL,
 	SEARCH_FILTER,
 	SEARCH_HOUSING,
@@ -9,6 +10,7 @@ import {
 	SEARCH_MARKETPLACE,
 	SEARCH_TYPE_PROP,
 } from "../../../Util/ConstVar";
+import ModalBusinessFilter from "./ModalBusinessFilter";
 import ModalDealFilter from "./ModalDealFilter";
 import ModalHousingFilter from "./ModalHousingFilter";
 import ModalJobFilter from "./ModalJobFilter";
@@ -36,6 +38,8 @@ function SearchFilter({ buttonProps = {} } = {}) {
 				return <ModalHousingFilter {...props} />;
 			case SEARCH_MARKETPLACE:
 				return <ModalMarketplaceFilter {...props} />;
+			case SEARCH_BUSINESS:
+				return <ModalBusinessFilter {...props} />;
 		}
 	};
 
