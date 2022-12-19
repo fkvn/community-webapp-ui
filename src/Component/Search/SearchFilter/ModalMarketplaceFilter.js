@@ -21,8 +21,8 @@ function ModalMarketplaceFilter({ open = false, onHide = () => {} } = {}) {
 	const [form] = useForm();
 	const [confirmLoading, setConfirmLoading] = useState(false);
 
-	const id = "filter-housing-form";
-	const title = "Housing Filter";
+	const id = "filter-marketplace-form";
+	const title = "Marketplalce Filter";
 	const initialValues = {
 		[`${CONDITION_PROP}`]: conditionParam,
 		[`${CATEGORY_PROP}`]: categoryParam,
@@ -119,8 +119,8 @@ function ModalMarketplaceFilter({ open = false, onHide = () => {} } = {}) {
 
 	const filterFields = (
 		<>
-			<div className="mb-3">{condition}</div>
-			<div className="mb-3">{category}</div>
+			{condition}
+			{category}
 			{status}
 		</>
 	);
