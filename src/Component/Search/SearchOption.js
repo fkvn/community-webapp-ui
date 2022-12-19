@@ -10,7 +10,7 @@ import {
 	SEARCH_SORT_ORDER,
 } from "../../Util/ConstVar";
 import useSearch from "../Hook/SearchHook/useSearch";
-import SearchFilter from "./SearchFilter";
+import SearchFilter from "./SearchFilter/SearchFilter";
 import SearchSort from "./SearchSort";
 
 function SearchOption() {

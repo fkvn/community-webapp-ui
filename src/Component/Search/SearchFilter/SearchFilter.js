@@ -4,9 +4,11 @@ import { useSearchParams } from "react-router-dom";
 import {
 	SEARCH_DEAL,
 	SEARCH_FILTER,
+	SEARCH_JOB,
 	SEARCH_TYPE_PROP,
-} from "../../Util/ConstVar";
+} from "../../../Util/ConstVar";
 import ModalDealFilter from "./ModalDealFilter";
+import ModalJobFilter from "./ModalJobFilter";
 
 function SearchFilter({ buttonProps = {} } = {}) {
 	const [searchParams] = useSearchParams();
@@ -16,14 +18,16 @@ function SearchFilter({ buttonProps = {} } = {}) {
 	const [openFilter, setOpenFilter] = useState(false);
 
 	const fetchFilter = () => {
+		const props = {
+			open: openFilter,
+			onHide: () => setOpenFilter(false),
+		};
+
 		switch (searchTypeParam) {
 			case SEARCH_DEAL:
-				return (
-					<ModalDealFilter
-						open={openFilter}
-						onHide={() => setOpenFilter(false)}
-					/>
-				);
+				return <ModalDealFilter {...props} />;
+			case SEARCH_JOB:
+				return <ModalJobFilter {...props} />;
 		}
 	};
 

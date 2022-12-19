@@ -113,54 +113,6 @@ export const EDIT_PROP = "edit";
 export const CREATE_PROP = "create";
 export const TYPE_PROP = "type";
 
-export const SEARCH_REQUEST = "search";
-export const SEARCH_OBJ = "searchObj";
-export const SEARCH_REQUESTER_ID = "requesterId";
-export const SEARCH_RESULT_OBJ = "searchResultObj";
-export const SEARCH_FETCH_RESULT_PROP = "fetchResult";
-export const SEARCH_TOTAL_COUNT_PROP = "totalCount";
-export const SEARCH_TOTAL_PAGE_PROP = "totalPage";
-export const SEARCH_INPUT_PROP = "input";
-export const SEARCH_TYPE_PROP = "searchType";
-export const SEARCH_LOCATION_ADDRESS = "address";
-export const SEARCH_PROFILE = "profiles";
-export const SEARCH_SERVICE = "posts";
-export const SEARCH_WISHLIST = "wishlists";
-export const SEARCH_QUESTION = "questions";
-export const SEARCH_REVIEW = "reviews";
-export const SEARCH_USER = "users";
-export const SEARCH_BUSINESS = "business";
-export const SEARCH_DEAL = "deals";
-export const SEARCH_JOB = "jobs";
-export const SEARCH_HOUSING = "housings";
-export const SEARCH_MARKETPLACE = "marketplaces";
-export const SEARCH_KEYWORD = "keywords";
-export const SEARCH_SORT = "sort";
-export const SEARCH_SORT_DATE = "Date";
-export const SEARCH_SORT_DISTANCE = "Distance";
-export const SEARCH_SORT_ORDER = "sortOrder";
-export const SEARCH_SORT_ACS = "asc";
-export const SEARCH_SORT_DESC = "desc";
-export const SEARCH_DEFAULT_LOCATION = {
-	[`${ADDRESS_PROP}`]: "Thai Town, Los Angeles, CA 90027, USA",
-	[`${PLACEID_PROP}`]: "ChIJf2z2Hle_woARaNaIiR198fg",
-};
-export const SEARCH_PAGE_PROP = "page";
-
-export const SEARCH_FILTER = "filter";
-export const SEARCH_FILTER_DEAL_FIELD_LIST = [CATEGORY_PROP, STATUS_PROP];
-export const SEARCH_FILTER_JOB_FIELD_LIST = [];
-export const SEARCH_FILTER_HOUSING_FIELD_LIST = [];
-export const SEARCH_FILTER_MARKETPLACE_FIELD_LIST = [];
-
-export const SEARCH_FILTER_FIELD_LIST = [
-	...SEARCH_FILTER_DEAL_FIELD_LIST,
-	...SEARCH_FILTER_JOB_FIELD_LIST,
-	...SEARCH_FILTER_HOUSING_FIELD_LIST,
-	...SEARCH_FILTER_MARKETPLACE_FIELD_LIST,
-	SEARCH_FILTER,
-];
-
 export const PROFILE_REVIEW_PROP = "PROFILE_REVIEW";
 export const SERVICE_REVIEW_PROP = "POST_REVIEW";
 export const REVIEWER_PROP = "reviewer";
@@ -364,6 +316,15 @@ export const POSITION_LIST_PROP = "positions";
 export const IS_REMOTE_PROP = "isRemote";
 export const SALARY_PROP = "salary";
 export const SKILL_PROP = "skills";
+export const DEFAULT_POSITION_LIST = [
+	"All",
+	"Full-time",
+	"Part-time",
+	"Internship",
+	"Seasonal",
+	"Freelance",
+	"Volunteer",
+];
 export const DEFAULT_JOB_INFO = {
 	[`${EXPERIENCE_PROP}`]: "",
 	[`${CONTACT_INFO_PROP}`]: { ...DEFAULT_CONTACT_INFO },
@@ -449,6 +410,56 @@ export const DEFAULT_CARD_INFO = {
 	[`${POST_OWNER_PROP}`]: {},
 	// [`${SEARCH_TYPE_PROP}`]: SEARCH_BUSINESS,
 };
+
+export const SEARCH_REQUEST = "search";
+export const SEARCH_OBJ = "searchObj";
+export const SEARCH_REQUESTER_ID = "requesterId";
+export const SEARCH_RESULT_OBJ = "searchResultObj";
+export const SEARCH_FETCH_RESULT_PROP = "fetchResult";
+export const SEARCH_TOTAL_COUNT_PROP = "totalCount";
+export const SEARCH_TOTAL_PAGE_PROP = "totalPage";
+export const SEARCH_INPUT_PROP = "input";
+export const SEARCH_TYPE_PROP = "searchType";
+export const SEARCH_LOCATION_ADDRESS = "address";
+export const SEARCH_PROFILE = "profiles";
+export const SEARCH_SERVICE = "posts";
+export const SEARCH_WISHLIST = "wishlists";
+export const SEARCH_QUESTION = "questions";
+export const SEARCH_REVIEW = "reviews";
+export const SEARCH_USER = "users";
+export const SEARCH_BUSINESS = "business";
+export const SEARCH_DEAL = "deals";
+export const SEARCH_JOB = "jobs";
+export const SEARCH_HOUSING = "housings";
+export const SEARCH_MARKETPLACE = "marketplaces";
+export const SEARCH_KEYWORD = "keywords";
+export const SEARCH_SORT = "sort";
+export const SEARCH_SORT_DATE = "Date";
+export const SEARCH_SORT_DISTANCE = "Distance";
+export const SEARCH_SORT_ORDER = "sortOrder";
+export const SEARCH_SORT_ACS = "asc";
+export const SEARCH_SORT_DESC = "desc";
+export const SEARCH_DEFAULT_LOCATION = {
+	[`${ADDRESS_PROP}`]: "Thai Town, Los Angeles, CA 90027, USA",
+	[`${PLACEID_PROP}`]: "ChIJf2z2Hle_woARaNaIiR198fg",
+};
+export const SEARCH_PAGE_PROP = "page";
+export const SEARCH_FILTER = "filter";
+export const SEARCH_FILTER_DEAL_FIELD_LIST = [CATEGORY_PROP, STATUS_PROP];
+export const SEARCH_FILTER_JOB_FIELD_LIST = [
+	POSITION_LIST_PROP,
+	EXPERIENCE_PROP,
+];
+export const SEARCH_FILTER_HOUSING_FIELD_LIST = [];
+export const SEARCH_FILTER_MARKETPLACE_FIELD_LIST = [];
+
+export const SEARCH_FILTER_FIELD_LIST = [
+	...SEARCH_FILTER_DEAL_FIELD_LIST,
+	...SEARCH_FILTER_JOB_FIELD_LIST,
+	...SEARCH_FILTER_HOUSING_FIELD_LIST,
+	...SEARCH_FILTER_MARKETPLACE_FIELD_LIST,
+	SEARCH_FILTER,
+];
 
 export const ERROR = "ERROR";
 export const ERROR_MESSAGE = "ERROR_MESSAGE";

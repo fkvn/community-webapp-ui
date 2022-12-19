@@ -40,7 +40,7 @@ function useRadioGroup({
 					...rules,
 				]}
 				{...(showLabel && {
-					label: `${itemProps?.label || "Email Address"} ${
+					label: `${itemProps?.label || "Field"} ${
 						required ? "" : "(Optional)"
 					}`,
 				})}

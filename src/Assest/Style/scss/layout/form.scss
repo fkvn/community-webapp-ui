@@ -217,6 +217,35 @@
 		border-radius: 10px;
 	}
 }
+#filter-job-form {
+	& .ant-form-item * {
+		font-size: 1rem;
+	}
+
+	& span.ant-input-affix-wrapper,
+	& input#title,
+	& input#salary,
+	& input#skills,
+	& .ant-picker {
+		padding: 0.5rem 1rem;
+		border-radius: 50px !important;
+	}
+
+	& span.ant-select-selection-placeholder {
+		padding: 0.4rem 1rem;
+	}
+
+	& #experience label.ant-radio-wrapper,
+	& #positions label.ant-checkbox-wrapper {
+		margin: 0rem 1rem 1rem 0rem;
+	}
+
+	& textarea#description {
+		padding: 1rem;
+		min-height: 5rem;
+		border-radius: 10px;
+	}
+}
 
 #edit-housing-form {
 	& .ant-form-item * {

@@ -28,6 +28,8 @@ function useAddress({
 		predictions: options || [],
 	});
 
+	console.log(address);
+
 	const autoComplete = useAutocomplete;
 
 	const onSearch = (searchText = "") => {
@@ -85,7 +87,7 @@ function useAddress({
 			{autoComplete({
 				itemProps: {
 					name: ADDRESS_PROP,
-					// initialValue: defaultLocation?.[`${ADDRESS_PROP}`],
+					initialValue: defaultLocation?.[`${ADDRESS_PROP}`],
 					rules: [
 						({ setFieldValue }) => ({
 							validator(_, value) {
@@ -122,6 +124,7 @@ function useAddress({
 					onSearch: onSearch,
 					onBlur: onBlur,
 					placeholder: "street, city, zipcode, or state",
+					autoComplete: "false",
 					...inputProps,
 				},
 				options: options,

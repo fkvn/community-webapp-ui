@@ -7,15 +7,19 @@ function useCheckBoxGroup({
 	itemProps: { rules = [], ...itemProps } = {},
 	options = [],
 	withOther = false,
+	otherDefault = false,
+	otherDefaultValue = "Other",
 	required = true,
 	requiredMessage = "Must choose",
 	showLabel = true,
 } = {}) {
-	const [other, setOther] = useState(false);
+	const [other, setOther] = useState(otherDefault);
 
 	const [otherValue, setOtherValue] = useState(
 		formatSentenseCase(form?.getFieldValue(`${itemProps?.name}-Other`)) ||
-			"Other"
+			otherDefaultValue
+			? otherDefaultValue
+			: "Other"
 	);
 
 	const app = (

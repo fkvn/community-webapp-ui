@@ -2,9 +2,9 @@ import { Button, Form, Modal, Typography } from "antd";
 import { useForm } from "antd/lib/form/Form";
 import { useState } from "react";
 import { useSearchParams } from "react-router-dom";
-import { CATEGORY_PROP, STATUS_PROP } from "../../Util/ConstVar";
-import useRadioGroup from "../Hook/FormHook/useRadioGroup";
-import useSearch from "../Hook/SearchHook/useSearch";
+import { CATEGORY_PROP, STATUS_PROP } from "../../../Util/ConstVar";
+import useRadioGroup from "../../Hook/FormHook/useRadioGroup";
+import useSearch from "../../Hook/SearchHook/useSearch";
 
 function ModalDealFilter({ open = false, onHide = () => {} } = {}) {
 	const { dispatchSearch } = useSearch();
@@ -38,12 +38,12 @@ function ModalDealFilter({ open = false, onHide = () => {} } = {}) {
 				title: "Massage / Spa",
 			},
 			{
-				value: "Clothing & Accessories",
-				title: "Clothing & Accessories",
-			},
-			{
 				value: "Insurance",
 				title: "Insurance",
+			},
+			{
+				value: "Clothing & Accessories",
+				title: "Clothing & Accessories",
 			},
 		],
 		itemProps: {
@@ -52,7 +52,6 @@ function ModalDealFilter({ open = false, onHide = () => {} } = {}) {
 			labelCol: { span: 24 },
 		},
 		required: true,
-		withOther: true,
 	});
 
 	const status = useRadioGroup({
