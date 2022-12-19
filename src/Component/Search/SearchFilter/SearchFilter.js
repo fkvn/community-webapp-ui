@@ -6,11 +6,13 @@ import {
 	SEARCH_FILTER,
 	SEARCH_HOUSING,
 	SEARCH_JOB,
+	SEARCH_MARKETPLACE,
 	SEARCH_TYPE_PROP,
 } from "../../../Util/ConstVar";
 import ModalDealFilter from "./ModalDealFilter";
 import ModalHousingFilter from "./ModalHousingFilter";
 import ModalJobFilter from "./ModalJobFilter";
+import ModalMarketplaceFilter from "./ModalMarketplaceFilter";
 
 function SearchFilter({ buttonProps = {} } = {}) {
 	const [searchParams] = useSearchParams();
@@ -32,6 +34,8 @@ function SearchFilter({ buttonProps = {} } = {}) {
 				return <ModalJobFilter {...props} />;
 			case SEARCH_HOUSING:
 				return <ModalHousingFilter {...props} />;
+			case SEARCH_MARKETPLACE:
+				return <ModalMarketplaceFilter {...props} />;
 		}
 	};
 

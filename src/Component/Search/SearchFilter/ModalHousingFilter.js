@@ -16,7 +16,6 @@ import {
 	AMENITY_LIST_PROP,
 	CATEGORY_PROP,
 	HOUSING_TYPE_PROP,
-	POSITION_LIST_PROP,
 	STATUS_PROP,
 } from "../../../Util/ConstVar";
 import useCheckBoxGroup from "../../Hook/FormHook/useCheckBoxGroup";
@@ -219,10 +218,7 @@ function ModalHousingFilter({ open = false, onHide = () => {} } = {}) {
 	);
 
 	const fetchParams = () => {
-		const { [`${POSITION_LIST_PROP}-Other`]: otherPosition, ...params } = {
-			...form.getFieldsValue(),
-		};
-		return params;
+		return form.getFieldsValue();
 	};
 
 	const handleApplyFilter = () => {

@@ -137,10 +137,7 @@ function ModalJobFilter({ open = false, onHide = () => {} } = {}) {
 	);
 
 	const fetchParams = () => {
-		const { [`${POSITION_LIST_PROP}-Other`]: otherPosition, ...params } = {
-			...form.getFieldsValue(),
-		};
-		return params;
+		return form.getFieldsValue();
 	};
 
 	const handleApplyFilter = () => {

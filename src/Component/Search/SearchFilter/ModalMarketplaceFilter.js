@@ -2,25 +2,60 @@ import { Button, Form, Modal, Typography } from "antd";
 import { useForm } from "antd/lib/form/Form";
 import { useState } from "react";
 import { useSearchParams } from "react-router-dom";
-import { CATEGORY_PROP, STATUS_PROP } from "../../../Util/ConstVar";
+import {
+	CATEGORY_PROP,
+	CONDITION_PROP,
+	STATUS_PROP,
+} from "../../../Util/ConstVar";
 import useRadioGroup from "../../Hook/FormHook/useRadioGroup";
 import useSearch from "../../Hook/SearchHook/useSearch";
 
-function ModalDealFilter({ open = false, onHide = () => {} } = {}) {
+function ModalMarketplaceFilter({ open = false, onHide = () => {} } = {}) {
 	const { dispatchSearch } = useSearch();
 	const [searchParams] = useSearchParams({ replace: false });
+
+	const conditionParam = searchParams.get(CONDITION_PROP) || "All";
 	const categoryParam = searchParams.get(CATEGORY_PROP) || "All";
 	const statusParam = searchParams.get(STATUS_PROP) || "All";
 
 	const [form] = useForm();
 	const [confirmLoading, setConfirmLoading] = useState(false);
 
-	const id = "filter-deal-form";
-	const title = "Local Deal Filter";
+	const id = "filter-housing-form";
+	const title = "Housing Filter";
 	const initialValues = {
+		[`${CONDITION_PROP}`]: conditionParam,
 		[`${CATEGORY_PROP}`]: categoryParam,
 		[`${STATUS_PROP}`]: statusParam,
 	};
+
+	const condition = useRadioGroup({
+		form: form,
+		options: [
+			{
+				value: "All",
+				title: "All",
+			},
+			{
+				value: "New",
+				title: "New",
+			},
+			{
+				value: "Liked New",
+				title: "Liked New",
+			},
+			{
+				value: "Used",
+				title: "Used",
+			},
+		],
+		itemProps: {
+			name: CONDITION_PROP,
+			label: "Product Condition",
+			labelCol: { span: 24 },
+		},
+		required: true,
+	});
 
 	const category = useRadioGroup({
 		form: form,
@@ -30,25 +65,33 @@ function ModalDealFilter({ open = false, onHide = () => {} } = {}) {
 				title: "All",
 			},
 			{
-				value: "Restaurant",
-				title: "Restaurant",
+				value: "Electronics",
+				title: "Electronics",
 			},
 			{
-				value: "Massage / Spa",
-				title: "Massage / Spa",
+				value: "Clothing and Accessories",
+				title: "Clothing and Accessories",
 			},
 			{
-				value: "Insurance",
-				title: "Insurance",
+				value: "Phone & Computer",
+				title: "Phone & Computer",
 			},
 			{
-				value: "Clothing & Accessories",
-				title: "Clothing & Accessories",
+				value: "Classifieds",
+				title: "Classifieds",
+			},
+			{
+				value: "Vehicles",
+				title: "Vehicles",
+			},
+			{
+				value: "Home and Garden",
+				title: "Home and Garden",
 			},
 		],
 		itemProps: {
 			name: CATEGORY_PROP,
-			label: "Promotion Category ",
+			label: "Property Category",
 			labelCol: { span: 24 },
 		},
 		required: true,
@@ -76,7 +119,8 @@ function ModalDealFilter({ open = false, onHide = () => {} } = {}) {
 
 	const filterFields = (
 		<>
-			{category}
+			<div className="mb-3">{condition}</div>
+			<div className="mb-3">{category}</div>
 			{status}
 		</>
 	);
@@ -109,15 +153,13 @@ function ModalDealFilter({ open = false, onHide = () => {} } = {}) {
 	};
 
 	const handleCancelFilter = () => {
-		form.setFieldsValue({
-			[`${CATEGORY_PROP}`]: categoryParam,
-			[`${STATUS_PROP}`]: statusParam,
-		});
+		form.setFieldsValue(initialValues);
 		onHide();
 	};
 
 	const handleResetFilter = () =>
 		form.setFieldsValue({
+			[`${CONDITION_PROP}`]: "All",
 			[`${CATEGORY_PROP}`]: "All",
 			[`${STATUS_PROP}`]: "All",
 		});
@@ -158,4 +200,4 @@ function ModalDealFilter({ open = false, onHide = () => {} } = {}) {
 	return app;
 }
 
-export default ModalDealFilter;
+export default ModalMarketplaceFilter;
