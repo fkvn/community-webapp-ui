@@ -237,7 +237,11 @@ function LandingPage() {
 							/>
 						}
 					>
-						<Meta title={item.content} description={item.owner} />
+						<Meta
+							className="p-4"
+							title={item.content}
+							description={item.owner}
+						/>
 					</Card>
 				</List.Item>
 			)}
