@@ -1,17 +1,21 @@
-import React from "react";
+import React, { Suspense } from "react";
 import ReactDOM from "react-dom/client";
 import "../src/Assest/Style/style.scss";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 
 import { Provider } from "react-redux";
+import "./Locale/i18n";
 import store from "./redux-store/store";
 
 const rootElement = document.getElementById("root");
 
 const app = (
 	<Provider store={store}>
-		<App />
+		{/* import the i18n.js file in index.js, and then use React’s Suspense component to prevent rendering until the request is complete. */}
+		<Suspense fallback="loading">
+			<App />
+		</Suspense>
 	</Provider>
 );
 
