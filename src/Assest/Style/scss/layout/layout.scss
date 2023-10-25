@@ -39,25 +39,19 @@ body,
 	scrollbar-width: none; /* Firefox */
 }
 
-// #LeftLayout {
-// 	// position: fixed;
-// 	// height: 100vh;
-// 	// overflow-x: hidden;
-// }
-
-.tedkvn-center {
+.custom-center {
 	@include flex-center;
 }
 
-.tedkvn-center-left {
+.custom-center-left {
 	@include flex-center-left;
 }
 
-.tedkvn-center-right {
+.custom-center-right {
 	@include flex-center-right;
 }
 
-.tedkvn-text-ellipsis {
+.custom-text-ellipsis {
 	@include ellipse;
 }
 

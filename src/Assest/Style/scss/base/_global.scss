@@ -1,5 +1,59 @@
 @use "sass:map";
 
+/* Declare variables
+
+Syntax: $variable_name: $variable_value $default_option;
+
+E.g: 
+
+$layout-marginTop: 5rem !default;
+$primaryColor: #116acc;
+
+*/
+
+/* Export the variables for global usage in components
+
+Step 1: Export the variables from this global scss.
+Step 2: Import to the desired compoments
+
+E.g 
+------ _global.scss ------
+:export {
+	primaryColor: $primaryColor;
+}
+
+------ DealBadge.js Component ----
+Import global from "_global.scss"
+
+activeColor = global.primaryColor,
+
+*/
+
+/*  Create CSS code that is to be reused throughout the website 
+
+
+Step 1: Declare the CSS code @mixin function 
+Step 2: Import and Include in another css/scss file
+
+E.g.
+
+------ _global.scss ------- 
+@mixin ellipse() {
+	max-width: 100%;
+	overflow: hidden;
+	display: inline-block;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+----- layout.scss Component -----
+Import "global.scss"
+
+.ant-space-item:has(> div.custom-text-ellipsis) {
+	@include ellipse;
+}
+*/
+
 $default: true !default;
 
 $layout-marginTop: 0 !default;

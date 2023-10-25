@@ -48,7 +48,7 @@
 	z-index: 2000;
 }
 
-.ant-space-item:has(> div.tedkvn-text-ellipsis) {
+.ant-space-item:has(> div.custom-text-ellipsis) {
 	@include ellipse;
 }
 

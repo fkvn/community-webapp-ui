@@ -20,7 +20,7 @@ const PRODUCTION_CDN_STORAGE_SOURCE_URL =
 const LOCAL_ENV_STORAGE_SOURCE_URL =
 	"https://firebasestorage.googleapis.com/v0/b/mono-thainow.appspot.com/o/thainow-service-worker%2Fconfig%2F";
 
-export const localEnv = false;
+export const localEnv = true;
 
 const STORAGE_SOURCE_URL = localEnv
 	? LOCAL_ENV_STORAGE_SOURCE_URL
