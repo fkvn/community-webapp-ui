@@ -1,5 +1,9 @@
 {
   "projects": {
-    "default": "mono-thainow"
-  }
+    "default": "mono-thainow",
+    "production": "mono-thainow",
+    "dev": "mono-thainow-dev"
+  },
+  "targets": {},
+  "etags": {}
 }

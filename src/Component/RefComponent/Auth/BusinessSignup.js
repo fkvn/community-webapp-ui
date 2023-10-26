@@ -2,7 +2,7 @@ import { Button, Checkbox, Col, Form, Row, Space, Typography } from "antd";
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { imageSuccess } from "../../../Assest/Asset";
+import { imageSuccess } from "../../../Assest/env";
 import {
 	COMPANY_INDUSTRY_LIST,
 	COMPANY_INDUSTRY_PROP,

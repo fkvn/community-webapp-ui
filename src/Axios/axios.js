@@ -1,11 +1,11 @@
 import axios from "axios";
-import { localEnv } from "../Assest/Asset";
+import { localEnv } from "../Assest/env";
 import * as constVar from "../Util/ConstVar";
 import { signoutUserPromise } from "../Util/Util";
 
 const instance = axios.create({
 	baseURL: localEnv
-		? "http://192.168.1.3:8080/api"
+		? "https://api.dev.searchforthai.com/api"
 		: "https://api.searchforthai.com/api",
 });
 
