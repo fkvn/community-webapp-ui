@@ -13,8 +13,8 @@ import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 import AuthContainer from "../../../Container/AuthContainer/AuthContainer";
-import { patchSearchResultInfoPromise } from "../../../redux-store/dispatchPromise";
-import { thainowReducer } from "../../../redux-store/reducer/thainowReducer";
+import useSearch from "../../../Hook/SearchHook/useSearch";
+import useImage from "../../../Hook/useImage";
 import {
 	AVG_RATING_PROP,
 	CLOSE_URL,
@@ -36,8 +36,8 @@ import {
 	UPDATED_ON_PROP,
 } from "../../../Util/ConstVar";
 import { formatTime } from "../../../Util/Util";
-import useSearch from "../../Hook/SearchHook/useSearch";
-import useImage from "../../Hook/useImage";
+import { patchSearchResultInfoPromise } from "../../../redux-store/dispatchPromise";
+import { thainowReducer } from "../../../redux-store/reducer/thainowReducer";
 import RateDisplay from "../../RateDisplay/RateDisplay";
 import LoadMore from "../../Search/LoadMore";
 import SkeletonCard from "../../Skeleton/SkeletonCard";

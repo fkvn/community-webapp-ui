@@ -71,6 +71,7 @@ $xl: 1200px !default;
 $xxl: 1600px !default;
 
 $primaryColor: #116acc;
+$mainBlueColor1: #003ca7;
 $businessColor: #fba704;
 $jobColor: #00965f;
 $housingColor: #fb5123;
@@ -84,6 +85,7 @@ $grayColor: "#9CA3AF";
 	jobColor: $jobColor;
 	housingColor: $housingColor;
 	marketplaceColor: $marketplaceColor;
+	mainBlueColor1: $mainBlueColor1;
 }
 
 @mixin layout-margin($default: true, $top: 0, $bottom: 0, $left: 0, $right: 0) {

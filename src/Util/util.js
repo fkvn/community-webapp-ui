@@ -9,6 +9,19 @@ import * as constVar from "./ConstVar";
 
 export const isObjectEmpty = (object = {}) => JSON.stringify(object) === "{}";
 
+export const getLanguageTitle = (code = "en") => {
+	switch (code) {
+		case "en":
+			return "EN";
+		case "zh":
+			return "中文";
+		case "th":
+			return "ภาษาไทย";
+		default:
+			return "Undefined";
+	}
+};
+
 export const loadScript = (url, async = true, defer = false) => {
 	var index = window.document.getElementsByTagName("script")[0];
 
@@ -328,7 +341,7 @@ export const getSearchParamsObj = (searchParams = {}) => {
 export const formatTime = (time = "") => {
 	const timeObj = new Date(time);
 
-	if (timeObj == "Invalid Date") return "";
+	if (timeObj === "Invalid Date") return "";
 	const month = timeObj.getMonth() + 1;
 	const date = timeObj.getDate();
 	const year = timeObj.getFullYear();

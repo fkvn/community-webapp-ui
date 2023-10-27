@@ -46,6 +46,8 @@ export const imageThainowLogo = `${STORAGE_SOURCE_URL}img-thainow-logo.png?alt=m
 
 export const svgThainowLogo = `${STORAGE_SOURCE_URL}svg-thainow-logo.svg?alt=media&token=184f0afc-beb7-4992-9c24-63e3004444ef`;
 
+export const svgThaiNowLogoWithWords = `${STORAGE_SOURCE_URL}svg-thainow-logo-with-words.svg?alt=media&token=184f0afc-beb7-4992-9c24-63e3004444ef`;
+
 export const imagePlusGray = `${STORAGE_SOURCE_URL}img-plus.png?alt=media&token=184f0afc-beb7-4992-9c24-63e3004444ef`;
 
 export const imageBannerBg = `${STORAGE_SOURCE_URL}img-banner-bg.png?alt=media&token=184f0afc-beb7-4992-9c24-63e3004444ef`;

@@ -1,4 +1,5 @@
 import { Col, Grid, Row } from "antd";
+import DefaultHeader from "./DefaultHeader";
 
 function ResponsiveHeader() {
 	const { useBreakpoint } = Grid;
@@ -7,7 +8,8 @@ function ResponsiveHeader() {
 	const app = (
 		<Row>
 			<Col xs={24}>
-				<p className="text-white">ResponsiveHeader</p>
+				<DefaultHeader />
+				<hr className="m-0" />
 				{/* {isEmptyObject(screens) ||
 				(screens.xs === false && screens.xxl === true) ? (
 					<DefaultTopBar />

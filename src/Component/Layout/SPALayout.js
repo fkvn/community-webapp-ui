@@ -7,7 +7,10 @@ function SPALayout() {
 	const layout = (
 		<Row id="layout" justify="center">
 			<Col xs={24}>
-				<Header className="fixed-top p-0">
+				<Header
+					className="fixed-top p-0 bg-white"
+					style={{ maxHeight: "100px", overflow: "hidden" }}
+				>
 					<ResponsiveHeader />
 				</Header>
 

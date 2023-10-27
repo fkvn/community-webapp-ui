@@ -5,7 +5,7 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 
 import { Provider } from "react-redux";
-import "./Locale/i18n";
+import "./Component/Locale/i18n";
 import store from "./redux-store/store";
 
 const rootElement = document.getElementById("root");

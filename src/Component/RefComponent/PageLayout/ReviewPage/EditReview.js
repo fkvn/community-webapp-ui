@@ -3,6 +3,9 @@ import { useForm } from "antd/lib/form/Form";
 import { isEmptyObject } from "jquery";
 import moment from "moment";
 import { useState } from "react";
+import useTextarea from "../../../Hook/FormHook/useTextarea";
+import useImage from "../../../Hook/useImage";
+import useReview from "../../../Hook/useReview";
 import {
 	COMMENT_PROP,
 	ID_PROP,
@@ -18,9 +21,6 @@ import {
 	TYPE_PROP,
 	UPDATED_ON_PROP,
 } from "../../../Util/ConstVar";
-import useTextarea from "../../Hook/FormHook/useTextarea";
-import useImage from "../../Hook/useImage";
-import useReview from "../../Hook/useReview";
 
 function EditReview({
 	type = "",

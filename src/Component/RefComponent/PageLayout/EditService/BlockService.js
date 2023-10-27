@@ -15,13 +15,13 @@ import { useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 import { hideServiceAxios } from "../../../Axios/axiosPromise";
 import AuthContainer from "../../../Container/AuthContainer/AuthContainer";
-import { thainowReducer } from "../../../redux-store/reducer/thainowReducer";
-import { ID_PROP, PROFILE_OBJ } from "../../../Util/ConstVar";
 import {
 	errorMessage,
 	loadingMessage,
 	successMessage,
-} from "../../Hook/useMessage";
+} from "../../../Hook/useMessage";
+import { ID_PROP, PROFILE_OBJ } from "../../../Util/ConstVar";
+import { thainowReducer } from "../../../redux-store/reducer/thainowReducer";
 
 function BlockService({
 	serviceId = -1,
