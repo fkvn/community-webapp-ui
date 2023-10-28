@@ -10,10 +10,10 @@ function SwitchLanguage({
 			value: "en",
 			label: "EN",
 		},
-		{
-			value: "zh",
-			label: "中文",
-		},
+		// {
+		// 	value: "zh",
+		// 	label: "中文",
+		// },
 		{
 			value: "th",
 			label: "ภาษาไทย",

@@ -1,16 +1,35 @@
+import { useSelector } from "react-redux";
+import { useLocation, useNavigate } from "react-router-dom";
 import {
 	accessWithAppleAxios,
 	accessWithGoogleAxios,
 	findProfilesAxios,
 	signinAxios,
 } from "../../Axios/axiosPromise";
-import { FORWARD_CONTINUE, FORWARD_SUCCESS } from "../../Util/ConstVar";
-import { saveProfileInfo, saveUserInfo } from "../../Util/Util";
+import {
+	CLOSE_URL,
+	FORWARD_CONTINUE,
+	FORWARD_SUCCESS,
+	ID_PROP,
+	PROFILE_OBJ,
+	SEARCH_PROFILE,
+	SUCCESS_URL,
+} from "../../Util/ConstVar";
+import {
+	getCurrentUrl,
+	isObjectEmpty,
+	saveProfileInfo,
+	saveUserInfo,
+} from "../../Util/Util";
+import { thainowReducer } from "../../redux-store/reducer/thainowReducer";
 import { errorMessage, loadingMessage, successMessage } from "./useMessage";
 import useUrls from "./useUrls";
 
 function useSignin() {
 	const { forwardUrl } = useUrls();
+	const navigate = useNavigate();
+	const location = useLocation();
+	const { [`${PROFILE_OBJ}`]: profile = {} } = useSelector(thainowReducer);
 
 	/* return sample :
 			Promise.resolve({
@@ -73,6 +92,20 @@ function useSignin() {
 			})
 			.catch((e) => errorMessage(e));
 	};
+
+	const onClickSigninHandle = () =>
+		isObjectEmpty(profile)
+			? navigate("/signin", {
+					state: {
+						[`${CLOSE_URL}`]: getCurrentUrl(location),
+						[`${SUCCESS_URL}`]: getCurrentUrl(location),
+					},
+			  })
+			: navigate(`/${SEARCH_PROFILE}/${profile?.[`${ID_PROP}`]}`, {
+					state: {
+						[`${CLOSE_URL}`]: getCurrentUrl(location),
+					},
+			  });
 
 	const googleSignin = async (
 		credential = {},
@@ -146,6 +179,7 @@ function useSignin() {
 		thainowSignin,
 		googleSignin,
 		appleSignin,
+		onClickSigninHandle,
 	};
 }
 

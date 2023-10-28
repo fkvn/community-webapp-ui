@@ -6,8 +6,7 @@ const useScript = (url) => {
 		const script = loadScript(url, true, true);
 
 		return () => {
-			// document.body.removeChild(script);
-			document.body.appendChild(script);
+			document.body.removeChild(script);
 		};
 	}, [url]);
 };

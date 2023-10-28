@@ -389,6 +389,22 @@ export const formatLocation = (location = {}) => {
 	return formattedLocation;
 };
 
+export const formatString = (text = "", format = "") => {
+	try {
+		if (format === "lowercase") return text.toLowerCase();
+		if (format === "uppercase") return text.toUpperCase();
+		if (format === "titlecase")
+			return text.toLowerCase().replace(/\b\w/g, (s) => s.toUpperCase());
+		if (format === "sentenceCase") {
+			return text.charAt(0).toUpperCase() + text.slice(1).toLowerCase();
+		}
+
+		return text;
+	} catch (error) {
+		return text;
+	}
+};
+
 export const formatSentenseCase = (text = "") => {
 	try {
 		return text?.[0].toUpperCase() + text?.slice(1).toLowerCase();
@@ -410,3 +426,6 @@ export const removeProps = (props = [], obj = {}) =>
 		const { [prop]: excludeField, ...excluded } = res;
 		return excluded;
 	}, obj);
+
+export const getCurrentUrl = (location = {}, withQuery = true) =>
+	location?.pathname + (withQuery ? location?.search : "") || "/";
