@@ -17,9 +17,9 @@ import { formatString } from "../../Util/Util";
 import useEmail from "../Hook/FormHook/useEmail";
 import usePassword from "../Hook/FormHook/usePassword";
 import usePhone from "../Hook/FormHook/usePhone";
-import useAppleAccess from "../Hook/ThirdPartyHook/useAppleAccess";
-import useGoogleAccess from "../Hook/ThirdPartyHook/useGoogleAccess";
 import useSignin from "../Hook/useSignin";
+import AppleSignin from "./AppleSignin";
+import GoogleSignin from "./GoogleSignin";
 
 function UserSignin() {
 	const navigate = useNavigate();
@@ -76,8 +76,8 @@ function UserSignin() {
 				align="center"
 			>
 				{/* {useFacebookAccess()} */}
-				{useGoogleAccess()}
-				{useAppleAccess()}
+				<GoogleSignin />
+				<AppleSignin />
 			</Space>
 		</>
 	);

@@ -21,10 +21,12 @@ const LOCAL_ENV_STORAGE_SOURCE_URL =
 	"https://firebasestorage.googleapis.com/v0/b/mono-thainow.appspot.com/o/thainow-service-worker%2Fconfig%2F";
 
 export const localEnv = true;
+export const devEnv = false;
 
-const STORAGE_SOURCE_URL = localEnv
-	? LOCAL_ENV_STORAGE_SOURCE_URL
-	: PRODUCTION_CDN_STORAGE_SOURCE_URL;
+const STORAGE_SOURCE_URL =
+	localEnv || devEnv
+		? LOCAL_ENV_STORAGE_SOURCE_URL
+		: PRODUCTION_CDN_STORAGE_SOURCE_URL;
 
 export const imageThainowLogoRound = `${STORAGE_SOURCE_URL}img-logo-round.png?alt=media&token=184f0afc-beb7-4992-9c24-63e3004444ef`;
 

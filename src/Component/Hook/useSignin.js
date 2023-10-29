@@ -2,7 +2,7 @@ import { useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 import {
 	accessWithAppleAxios,
-	accessWithGoogleAxios,
+	accessWithGooglePromise,
 	findProfilesAxios,
 	signinAxios,
 } from "../../Axios/axiosPromise";
@@ -114,7 +114,7 @@ function useSignin() {
 		continueUrl = "",
 		successUrl = ""
 	) =>
-		accessWithGoogleAxios(credential)
+		accessWithGooglePromise(credential)
 			.then((res) => {
 				// save user
 				saveUserInfo({
