@@ -83,7 +83,11 @@ export const CONFIRM_PASSWORD_VALIDATION = "isPasswordMatch";
 export const URL_PROP = "url";
 
 export const VERIFICATION_METHOD_PROP = "verifyMethod";
-export const SIGNIN_METHOD_PROP = "channel";
+export const SIGNIN_CHANNEL_PROP = "channel";
+export const SIGNIN_CHANNEL_THAINOW = "thainow";
+export const SIGNIN_CHANNEL_GOOGLE = "google";
+export const SIGNIN_CHANNEL_APPLE = "apple";
+export const SIGNIN_CHANNEL_FACEBOOK = "facebook";
 export const OTP_PROP = "otp";
 export const OTP_VALIDATION = "isValidOtp";
 export const PRIVILEGES_PROP = "privileges";

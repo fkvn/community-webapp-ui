@@ -1,11 +1,6 @@
 import { useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
-import {
-	accessWithAppleAxios,
-	accessWithGooglePromise,
-	findProfilesAxios,
-	signinAxios,
-} from "../../Axios/axiosPromise";
+import { findProfilesAxios, signinAxios } from "../../Axios/axiosPromise";
 import {
 	CLOSE_URL,
 	FORWARD_CONTINUE,
@@ -31,6 +26,63 @@ function useSignin() {
 	const location = useLocation();
 	const { [`${PROFILE_OBJ}`]: profile = {} } = useSelector(thainowReducer);
 
+	const onClickSigninHandle = () =>
+		isObjectEmpty(profile)
+			? navigate("/signin", {
+					state: {
+						[`${CLOSE_URL}`]: getCurrentUrl(location),
+						[`${SUCCESS_URL}`]: getCurrentUrl(location),
+					},
+			  })
+			: navigate(`/${SEARCH_PROFILE}/${profile?.[`${ID_PROP}`]}`, {
+					state: {
+						[`${CLOSE_URL}`]: getCurrentUrl(location),
+					},
+			  });
+
+	const onSigninHandle = async (
+		channel = "",
+		credential = {},
+		forward = false,
+		fowardAction = FORWARD_SUCCESS,
+		continueUrl = "",
+		successUrl = ""
+	) => {
+		loadingMessage(
+			`Signing in ... ${credential?.email || credential?.value}`,
+			0,
+			{},
+			true
+		);
+
+		return signinAxios(channel, credential)
+			.then((res) => {
+				// save user
+				saveUserInfo({
+					access_token: res.access_token,
+				});
+
+				// save profile
+				saveProfileInfo(res.profile);
+
+				successMessage(`Signed in as ${res.profile.info.email}`, 2).then(() =>
+					forward
+						? findProfilesAxios().then((res = []) => {
+								res?.length > 1
+									? forwardUrl(
+											FORWARD_CONTINUE,
+											"",
+											"/switch-profiles",
+											successUrl
+									  )
+									: forwardUrl(fowardAction, "", continueUrl, successUrl);
+						  })
+						: Promise.resolve()
+				);
+			})
+			.catch((e) => errorMessage(e));
+	};
+
 	/* return sample :
 			Promise.resolve({
 			access_token:
@@ -50,135 +102,157 @@ function useSignin() {
 		})
 	
 	*/
-	const thainowSignin = async (
-		channel = "",
-		value = "",
-		password = "",
-		forward = false,
-		fowardAction = FORWARD_CONTINUE,
-		continueUrl = "/switch-profiles",
-		successUrl = ""
-	) => {
-		loadingMessage("Signing in ...", 0);
+	// const thainowSignin = async (
+	// 	channel = "",
+	// 	value = "",
+	// 	password = "",
+	// 	forward = false,
+	// 	fowardAction = FORWARD_CONTINUE,
+	// 	continueUrl = "/switch-profiles",
+	// 	successUrl = ""
+	// ) => {
+	// 	loadingMessage("Signing in ...", 0);
 
-		return signinAxios(channel, value, password)
-			.then((res) => {
-				// save user
-				saveUserInfo({
-					access_token: res.access_token,
-				});
+	// 	return signinViaThaiNowAxios(channel, value, password)
+	// 		.then((res) => {
+	// 			// save user
+	// 			saveUserInfo({
+	// 				access_token: res.access_token,
+	// 			});
 
-				// save profile
-				saveProfileInfo(res.profile);
+	// 			// save profile
+	// 			saveProfileInfo(res.profile);
 
-				successMessage("Signing in successfully").then(() =>
-					forward
-						? findProfilesAxios().then((res = []) => {
-								res?.length > 1
-									? forwardUrl(
-											FORWARD_CONTINUE,
-											"",
-											"/switch-profiles",
-											successUrl
-									  )
-									: forwardUrl(fowardAction, "", continueUrl, successUrl);
-						  })
-						: Promise.resolve()
-				);
+	// 			successMessage("Signing in successfully").then(() =>
+	// 				forward
+	// 					? findProfilesAxios().then((res = []) => {
+	// 							res?.length > 1
+	// 								? forwardUrl(
+	// 										FORWARD_CONTINUE,
+	// 										"",
+	// 										"/switch-profiles",
+	// 										successUrl
+	// 								  )
+	// 								: forwardUrl(fowardAction, "", continueUrl, successUrl);
+	// 					  })
+	// 					: Promise.resolve()
+	// 			);
 
-				// if (forward) {
-				// 	;
-				// } else return Promise.resolve();
-			})
-			.catch((e) => errorMessage(e));
-	};
+	// 			// if (forward) {
+	// 			// 	;
+	// 			// } else return Promise.resolve();
+	// 		})
+	// 		.catch((e) => errorMessage(e));
+	// };
 
-	const onClickSigninHandle = () =>
-		isObjectEmpty(profile)
-			? navigate("/signin", {
-					state: {
-						[`${CLOSE_URL}`]: getCurrentUrl(location),
-						[`${SUCCESS_URL}`]: getCurrentUrl(location),
-					},
-			  })
-			: navigate(`/${SEARCH_PROFILE}/${profile?.[`${ID_PROP}`]}`, {
-					state: {
-						[`${CLOSE_URL}`]: getCurrentUrl(location),
-					},
-			  });
+	// const googleSignin = async (
+	// 	credential = {},
+	// 	forward = false,
+	// 	fowardAction = FORWARD_SUCCESS,
+	// 	continueUrl = "",
+	// 	successUrl = ""
+	// ) =>
+	// 	// accessWithGooglePromise(credential)
+	// 	signinAxios(SIGNIN_CHANNEL_GOOGLE, credential)
+	// 		.then((res) => {
+	// 			// save user
+	// 			saveUserInfo({
+	// 				access_token: res.access_token,
+	// 			});
 
-	const googleSignin = async (
-		credential = {},
-		forward = false,
-		fowardAction = FORWARD_SUCCESS,
-		continueUrl = "",
-		successUrl = ""
-	) =>
-		accessWithGooglePromise(credential)
-			.then((res) => {
-				// save user
-				saveUserInfo({
-					access_token: res.access_token,
-				});
+	// 			// save profile
+	// 			saveProfileInfo(res.profile);
 
-				// save profile
-				saveProfileInfo(res.profile);
+	// 			successMessage("Signing in successfully", 1).then(() =>
+	// 				forward
+	// 					? findProfilesAxios().then((res = []) => {
+	// 							res?.length > 1
+	// 								? forwardUrl(
+	// 										FORWARD_CONTINUE,
+	// 										"",
+	// 										"/switch-profiles",
+	// 										successUrl
+	// 								  )
+	// 								: forwardUrl(fowardAction, "", continueUrl, successUrl);
+	// 					  })
+	// 					: Promise.resolve()
+	// 			);
+	// 		})
+	// 		.catch((e) => errorMessage(e));
 
-				successMessage("Signing in successfully", 1).then(() =>
-					forward
-						? findProfilesAxios().then((res = []) => {
-								res?.length > 1
-									? forwardUrl(
-											FORWARD_CONTINUE,
-											"",
-											"/switch-profiles",
-											successUrl
-									  )
-									: forwardUrl(fowardAction, "", continueUrl, successUrl);
-						  })
-						: Promise.resolve()
-				);
-			})
-			.catch((e) => errorMessage(e));
+	// const appleSignin = async (
+	// 	credential = {},
+	// 	forward = false,
+	// 	fowardAction = FORWARD_SUCCESS,
+	// 	continueUrl = "/",
+	// 	successUrl = ""
+	// ) =>
+	// 	accessWithAppleAxios(credential)
+	// 		.then((res) => {
+	// 			// save user
+	// 			saveUserInfo({
+	// 				access_token: res.access_token,
+	// 			});
 
-	const appleSignin = async (
-		credential = {},
-		forward = false,
-		fowardAction = FORWARD_SUCCESS,
-		continueUrl = "/",
-		successUrl = ""
-	) =>
-		accessWithAppleAxios(credential)
-			.then((res) => {
-				// save user
-				saveUserInfo({
-					access_token: res.access_token,
-				});
+	// 			// save profile
+	// 			saveProfileInfo(res.profile);
 
-				// save profile
-				saveProfileInfo(res.profile);
+	// 			successMessage("Signing in successfully", 1).then(() =>
+	// 				forward
+	// 					? findProfilesAxios().then((res = []) => {
+	// 							res?.length > 1
+	// 								? forwardUrl(
+	// 										FORWARD_CONTINUE,
+	// 										"",
+	// 										"/switch-profiles",
+	// 										successUrl
+	// 								  )
+	// 								: forwardUrl(fowardAction, "", continueUrl, successUrl);
+	// 					  })
+	// 					: Promise.resolve()
+	// 			);
+	// 		})
+	// 		.catch((e) => errorMessage(e));
 
-				successMessage("Signing in successfully", 1).then(() =>
-					forward
-						? findProfilesAxios().then((res = []) => {
-								res?.length > 1
-									? forwardUrl(
-											FORWARD_CONTINUE,
-											"",
-											"/switch-profiles",
-											successUrl
-									  )
-									: forwardUrl(fowardAction, "", continueUrl, successUrl);
-						  })
-						: Promise.resolve()
-				);
-			})
-			.catch((e) => errorMessage(e));
+	// const facebookSignin = async (
+	// 	credential = {},
+	// 	forward = false,
+	// 	fowardAction = FORWARD_SUCCESS,
+	// 	continueUrl = "/",
+	// 	successUrl = ""
+	// ) =>
+	// 	accessWithAppleAxios(credential)
+	// 		.then((res) => {
+	// 			// save user
+	// 			saveUserInfo({
+	// 				access_token: res.access_token,
+	// 			});
+
+	// 			// save profile
+	// 			saveProfileInfo(res.profile);
+
+	// 			successMessage("Signing in successfully", 1).then(() =>
+	// 				forward
+	// 					? findProfilesAxios().then((res = []) => {
+	// 							res?.length > 1
+	// 								? forwardUrl(
+	// 										FORWARD_CONTINUE,
+	// 										"",
+	// 										"/switch-profiles",
+	// 										successUrl
+	// 								  )
+	// 								: forwardUrl(fowardAction, "", continueUrl, successUrl);
+	// 					  })
+	// 					: Promise.resolve()
+	// 			);
+	// 		})
+	// 		.catch((e) => errorMessage(e));
 
 	return {
-		thainowSignin,
-		googleSignin,
-		appleSignin,
+		// thainowSignin,
+		// googleSignin,
+		// appleSignin,
+		onSigninHandle,
 		onClickSigninHandle,
 	};
 }

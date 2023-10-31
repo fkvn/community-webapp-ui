@@ -13,7 +13,7 @@ function useImage() {
 				e.target.style.padding = "0.5rem";
 			},
 			fallback: imageNoPhoto,
-			className: `${className} ${center ? "custom-center" : ""} `,
+			className: `${className} ${center ? "custom-center" : ""} d-block`,
 			...inputProps,
 			style: {
 				objectFit: "cover",

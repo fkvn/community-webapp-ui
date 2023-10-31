@@ -12,13 +12,19 @@ import { useForm } from "antd/lib/form/Form";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
-import { EMAIL_PROP, PASSWORD_PROP, PHONE_PROP } from "../../Util/ConstVar";
+import {
+	EMAIL_PROP,
+	PASSWORD_PROP,
+	PHONE_PROP,
+	SIGNIN_CHANNEL_THAINOW,
+} from "../../Util/ConstVar";
 import { formatString } from "../../Util/Util";
 import useEmail from "../Hook/FormHook/useEmail";
 import usePassword from "../Hook/FormHook/usePassword";
 import usePhone from "../Hook/FormHook/usePhone";
 import useSignin from "../Hook/useSignin";
 import AppleSignin from "./AppleSignin";
+import FacebookSignin from "./FacebookSignin";
 import GoogleSignin from "./GoogleSignin";
 
 function UserSignin() {
@@ -29,7 +35,7 @@ function UserSignin() {
 
 	const [form] = useForm();
 
-	const { thainowSignin } = useSignin();
+	const { onSigninHandle } = useSignin();
 
 	const [signinChannel, setSigninChannel] = useState(EMAIL_PROP);
 
@@ -76,6 +82,7 @@ function UserSignin() {
 				align="center"
 			>
 				{/* {useFacebookAccess()} */}
+				<FacebookSignin />
 				<GoogleSignin />
 				<AppleSignin />
 			</Space>
@@ -120,13 +127,23 @@ function UserSignin() {
 		setSigning(true);
 		form
 			.validateFields()
-			.then(() =>
-				thainowSignin(
-					signinChannel,
-					form.getFieldValue(signinChannel),
-					form.getFieldValue(PASSWORD_PROP),
-					true
-				)
+			.then(
+				() =>
+					onSigninHandle(
+						SIGNIN_CHANNEL_THAINOW,
+						{
+							channel: signinChannel,
+							value: form.getFieldValue(signinChannel),
+							password: form.getFieldValue(PASSWORD_PROP),
+						},
+						true
+					)
+				// thainowSignin(
+				// 	signinChannel,
+				// 	form.getFieldValue(signinChannel),
+				// 	form.getFieldValue(PASSWORD_PROP),
+				// 	true
+				// )
 			)
 			.finally(() => setSigning(false));
 	};

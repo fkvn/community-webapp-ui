@@ -1,6 +1,5 @@
 import { Route, Routes } from "react-router-dom";
 import UserSigninContainer from "./AuthContainer/UserSigninContainer";
-import ErrorContainer from "./ErrorContainer";
 import LayoutContainer from "./LayoutContainer";
 
 function RouteBuilder() {
@@ -31,9 +30,7 @@ function RouteBuilder() {
 		<>
 			<main id="main"> {routes}</main>
 
-			<div>
-				<ErrorContainer />
-			</div>
+			<div>{/* <ErrorContainer /> */}</div>
 		</>
 	);
 

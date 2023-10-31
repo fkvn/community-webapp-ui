@@ -1,5 +1,5 @@
 import jwt_decode from "jwt-decode";
-import { signinAxios } from "../Axios/axiosPromise";
+import { signinViaThaiNowAxios } from "../Axios/axiosPromise";
 import {
 	getState,
 	patchProfileInfoPromise,
@@ -240,7 +240,7 @@ export const saveUserInfo = ({ access_token = "" }) => {
 export const removeUserSigninInfo = () => {
 	patchSigninUserInfoPromise(
 		{
-			[`${constVar.SIGNIN_METHOD_PROP}`]: constVar.EMAIL_PROP,
+			[`${constVar.SIGNIN_CHANNEL_PROP}`]: constVar.EMAIL_PROP,
 		},
 		true
 	);
@@ -257,7 +257,8 @@ export const signInUserPromise = async (channel = "") => {
 		[`${constVar.PASSWORD_PROP}`]: password = "",
 	} = signinInfo;
 
-	return signinAxios(channel, email, phone, password).then(
+	return signinViaThaiNowAxios(channel, email, phone, password).then(
+		// return signinAxios(channel, email, phone, password).then(
 		({ access_token = "", user = {} }) => {
 			// remove signin info
 			removeUserSigninInfo();

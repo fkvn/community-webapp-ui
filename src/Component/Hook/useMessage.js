@@ -8,14 +8,17 @@ const CONFIG = {
 	style: {
 		marginTop: "10vh",
 	},
+	onClose: () => (document.getElementById("overlay").style.display = "none"),
 };
 
 export const loadingMessage = (
 	content = "Loading",
 	duration = 1,
-	config = {}
-) =>
-	message
+	config = {},
+	showOverlay = false
+) => {
+	if (showOverlay) document.getElementById("overlay").style.display = "block";
+	return message
 		.loading({
 			content: content,
 			duration: duration,
@@ -23,13 +26,18 @@ export const loadingMessage = (
 			...config,
 		})
 		.then(() => Promise.resolve());
+};
 
-export const successMessage = (
+// .finish(() => (document.getElementById("overlay").style.display = "none"));
+
+export const successMessage = async (
 	content = "Success",
 	duration = 1,
-	config = {}
-) =>
-	message
+	config = {},
+	showOverlay = false
+) => {
+	if (showOverlay) document.getElementById("overlay").style.display = "block";
+	return message
 		.success({
 			content: content,
 			duration: duration,
@@ -37,9 +45,16 @@ export const successMessage = (
 			...config,
 		})
 		.then(() => Promise.resolve());
+};
 
-export const errorMessage = (content = "Error", duration = 2, config = {}) =>
-	message
+export const errorMessage = async (
+	content = "Error",
+	duration = 2,
+	config = {},
+	showOverlay = false
+) => {
+	if (showOverlay) document.getElementById("overlay").style.display = "block";
+	return message
 		.error({
 			content: content,
 			duration: duration,
@@ -47,3 +62,4 @@ export const errorMessage = (content = "Error", duration = 2, config = {}) =>
 			...config,
 		})
 		.then(() => Promise.reject(content));
+};

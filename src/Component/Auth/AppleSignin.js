@@ -1,17 +1,22 @@
 import i18next from "i18next";
 import jwt_decode from "jwt-decode";
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 import { devEnv, localEnv } from "../../Assest/env";
-import { FORWARD_SUCCESS } from "../../Util/ConstVar";
+import { FORWARD_SUCCESS, SIGNIN_CHANNEL_APPLE } from "../../Util/ConstVar";
 import useSignin from "../Hook/useSignin";
 
 function AppleSignin({ buttonProps = {} }) {
-	const divRef = useRef(null);
-	const { appleSignin } = useSignin();
+	const { onSigninHandle } = useSignin();
 
 	const handleCredentialResponse = ({
 		detail: { authorization: { id_token = "" } = {} } = {},
-	}) => appleSignin(jwt_decode(id_token), true, FORWARD_SUCCESS);
+	}) =>
+		onSigninHandle(
+			SIGNIN_CHANNEL_APPLE,
+			jwt_decode(id_token),
+			true,
+			FORWARD_SUCCESS
+		);
 
 	const appleConnectLoaded = () => {
 		window.document.addEventListener(
@@ -46,26 +51,24 @@ function AppleSignin({ buttonProps = {} }) {
 		}/appleid.auth.js`;
 		document.getElementsByTagName("body")[0].appendChild(js);
 		js.addEventListener("load", () => appleConnectLoaded());
-	}, [divRef.current]);
+	});
 
 	const app = (
 		<div
 			id="appleid-signin"
-			ref={divRef}
-			data-mode="center-align"
+			data-mode="logo-only"
 			data-color="black"
-			data-border="true"
+			// data-border="true"
 			data-type="sign-in"
 			data-border-radius="50"
 			style={{
-				width: "180px",
-				fontSize: "1rem",
-				height: "38px",
+				height: "40px",
 			}}
 			// since localhost would return 403 error, this is to debug
 			{...(localEnv && {
 				onClick: () =>
-					appleSignin(
+					onSigninHandle(
+						SIGNIN_CHANNEL_APPLE,
 						{
 							sub: "0002216.25114e5db4f94b969bd8ff00abc4cb25.0320",
 							email: "phucaone@gmail.com",

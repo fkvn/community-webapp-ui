@@ -10,6 +10,10 @@ import {
 	SEARCH_PROFILE,
 	SEARCH_REVIEW,
 	SEARCH_SERVICE,
+	SIGNIN_CHANNEL_APPLE,
+	SIGNIN_CHANNEL_FACEBOOK,
+	SIGNIN_CHANNEL_GOOGLE,
+	SIGNIN_CHANNEL_THAINOW,
 	SMS_PROP,
 } from "../Util/ConstVar";
 
@@ -109,7 +113,55 @@ export const businessRegisterAxios = async (registerInfo = {}) =>
 		})
 		.catch((e) => Promise.reject(e));
 
-export const signinAxios = async (channel = "", value = "", password = "") =>
+export const signinAxios = async (channel = "", credential = {}) => {
+	const validChannels = [
+		SIGNIN_CHANNEL_THAINOW,
+		SIGNIN_CHANNEL_GOOGLE,
+		SIGNIN_CHANNEL_APPLE,
+		SIGNIN_CHANNEL_FACEBOOK,
+	];
+
+	if (!channel || validChannels.indexOf(channel) < 0)
+		return Promise.reject("Invalid sign in channel!");
+
+	const url = {
+		[`${SIGNIN_CHANNEL_THAINOW}`]: `/auth/thainow/signin`,
+		[`${SIGNIN_CHANNEL_GOOGLE}`]: `/auth/google/access`,
+		[`${SIGNIN_CHANNEL_APPLE}`]: `/auth/apple/access`,
+		[`${SIGNIN_CHANNEL_FACEBOOK}`]: `/auth/facebook/access`,
+	};
+
+	const body = {
+		[`${SIGNIN_CHANNEL_THAINOW}`]: {
+			channel: credential?.channel,
+			...(channel === EMAIL_PROP &&
+				credential?.value.length > 0 && { email: credential?.value }),
+			...(channel === PHONE_PROP &&
+				credential?.value.length > 0 && { phone: credential?.value }),
+			password: credential?.password,
+		},
+		[`${SIGNIN_CHANNEL_GOOGLE}`]: {
+			...credential,
+		},
+		[`${SIGNIN_CHANNEL_APPLE}`]: {
+			...credential,
+		},
+		[`${SIGNIN_CHANNEL_FACEBOOK}`]: {
+			...credential,
+		},
+	};
+
+	return axios
+		.post(url[`${channel}`], body[`${channel}`])
+		.then(({ data }) => Promise.resolve(data))
+		.catch((e) => Promise.reject(e));
+};
+
+export const signinViaThaiNowAxios = async (
+	channel = "",
+	value = "",
+	password = ""
+) =>
 	axios
 		.post(`/auth/thainow/signin`, {
 			channel: channel,
@@ -120,7 +172,7 @@ export const signinAxios = async (channel = "", value = "", password = "") =>
 		.then(({ data }) => Promise.resolve(data))
 		.catch((e) => Promise.reject(e));
 
-export const accessWithGooglePromise = (credential = {}) =>
+export const signinViaGoogleAxios = (credential = {}) =>
 	axios
 		.post(`/auth/google/access`, {
 			...credential,
