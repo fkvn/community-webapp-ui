@@ -13,6 +13,7 @@ import {
 	SIGNIN_CHANNEL_APPLE,
 	SIGNIN_CHANNEL_FACEBOOK,
 	SIGNIN_CHANNEL_GOOGLE,
+	SIGNIN_CHANNEL_LINE,
 	SIGNIN_CHANNEL_THAINOW,
 	SMS_PROP,
 } from "../Util/ConstVar";
@@ -119,6 +120,7 @@ export const signinAxios = async (channel = "", credential = {}) => {
 		SIGNIN_CHANNEL_GOOGLE,
 		SIGNIN_CHANNEL_APPLE,
 		SIGNIN_CHANNEL_FACEBOOK,
+		SIGNIN_CHANNEL_LINE,
 	];
 
 	if (!channel || validChannels.indexOf(channel) < 0)
@@ -129,6 +131,7 @@ export const signinAxios = async (channel = "", credential = {}) => {
 		[`${SIGNIN_CHANNEL_GOOGLE}`]: `/auth/google/access`,
 		[`${SIGNIN_CHANNEL_APPLE}`]: `/auth/apple/access`,
 		[`${SIGNIN_CHANNEL_FACEBOOK}`]: `/auth/facebook/access`,
+		[`${SIGNIN_CHANNEL_LINE}`]: `/auth/line/access`,
 	};
 
 	const body = {
@@ -147,6 +150,9 @@ export const signinAxios = async (channel = "", credential = {}) => {
 			...credential,
 		},
 		[`${SIGNIN_CHANNEL_FACEBOOK}`]: {
+			...credential,
+		},
+		[`${SIGNIN_CHANNEL_LINE}`]: {
 			...credential,
 		},
 	};

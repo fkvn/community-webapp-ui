@@ -26,6 +26,7 @@ import useSignin from "../Hook/useSignin";
 import AppleSignin from "./AppleSignin";
 import FacebookSignin from "./FacebookSignin";
 import GoogleSignin from "./GoogleSignin";
+import LineSignin from "./LineSignin";
 
 function UserSignin() {
 	const navigate = useNavigate();
@@ -85,6 +86,7 @@ function UserSignin() {
 				<FacebookSignin />
 				<GoogleSignin />
 				<AppleSignin />
+				<LineSignin />
 			</Space>
 		</>
 	);

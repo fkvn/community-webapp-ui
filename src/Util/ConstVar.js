@@ -88,6 +88,7 @@ export const SIGNIN_CHANNEL_THAINOW = "thainow";
 export const SIGNIN_CHANNEL_GOOGLE = "google";
 export const SIGNIN_CHANNEL_APPLE = "apple";
 export const SIGNIN_CHANNEL_FACEBOOK = "facebook";
+export const SIGNIN_CHANNEL_LINE = "line";
 export const OTP_PROP = "otp";
 export const OTP_VALIDATION = "isValidOtp";
 export const PRIVILEGES_PROP = "privileges";
