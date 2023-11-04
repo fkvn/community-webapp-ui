@@ -29,7 +29,7 @@ function UserSigninContainer() {
 	const app = (
 		<>
 			{usePageHeader({
-				title: formatString(t("signin_msg"), "titleCase"),
+				title: formatString(t("signin_msg"), "capitalize"),
 			})}
 			<UserSignin />
 		</>

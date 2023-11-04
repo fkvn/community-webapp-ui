@@ -1,5 +1,7 @@
 import { Form, Input } from "antd";
+import { t } from "i18next";
 import { PASSWORD_PROP } from "../../../Util/ConstVar";
+import { formatString } from "../../../Util/Util";
 
 const usePassword = (itemProps = {}, inputProps = {}) =>
 	((props = {}, inputProps = {}) => (
@@ -8,15 +10,17 @@ const usePassword = (itemProps = {}, inputProps = {}) =>
 		</Form.Item>
 	))(
 		{
-			label: "Password",
+			label: formatString(t("password_msg"), "capitalize"),
 			className: "m-0",
 			name: PASSWORD_PROP,
 			rules: [
-				{ required: true, message: "Please input your password!" },
+				{
+					required: true,
+					message: formatString(t("enter_password_msg"), "sentencecase"),
+				},
 				{
 					pattern: /^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?!.* ).{8,20}$/,
-					message:
-						"Use 8 to 20 characters with 1 uppercase, 1 lowercase, and 1 number ",
+					message: t("password_restriction_msg"),
 				},
 			],
 			hasFeedback: true,
@@ -24,7 +28,7 @@ const usePassword = (itemProps = {}, inputProps = {}) =>
 			...itemProps,
 		},
 		{
-			placeholder: "Enter password",
+			placeholder: formatString(t("enter_password_msg"), "sentencecase"),
 			...inputProps,
 		}
 	);

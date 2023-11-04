@@ -1,6 +1,7 @@
 import { Form, Input } from "antd";
+import { t } from "i18next";
 import { PHONE_PROP } from "../../../Util/ConstVar";
-import { formatPhoneNumber } from "../../../Util/Util";
+import { formatPhoneNumber, formatString } from "../../../Util/Util";
 
 const usePhone = ({
 	itemProps = {},
@@ -18,22 +19,25 @@ const usePhone = ({
 			className: "m-0",
 			normalize: (value) => formatPhoneNumber(value),
 			rules: [
-				{ required: required, message: "Please input your phone number!" },
+				{
+					required: required,
+					message: formatString(t("enter_phone_number_msg"), "sentencecase"),
+				},
 				{
 					min: 14,
 					max: 14,
-					message: "Please input a valid US phone number",
+					message: formatString(t("invalid_phone_number_msg"), "sentencecase"),
 				},
 			],
 			...itemProps,
 			...(showLabel && {
-				label: `${itemProps?.label || "Phone Number (US)"} ${
-					required ? "" : "(Optional)"
-				}`,
+				label: `${
+					itemProps?.label || formatString(t("phone_number_msg"), "cappitalize")
+				} ${required ? "" : formatString(t("optional_msg"), "sentencecase")}`,
 			}),
 		},
 		{
-			placeholder: "Enter your phone number",
+			placeholder: formatString(t("enter_phone_number_msg"), "sentencecase"),
 			addonBefore: "+1",
 			maxLength: 14,
 			...inputProps,

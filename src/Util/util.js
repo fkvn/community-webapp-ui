@@ -12,7 +12,7 @@ export const isObjectEmpty = (object = {}) => JSON.stringify(object) === "{}";
 export const getLanguageTitle = (code = "en") => {
 	switch (code) {
 		case "en":
-			return "EN";
+			return "English";
 		case "zh":
 			return "中文";
 		case "th":
@@ -390,13 +390,18 @@ export const formatLocation = (location = {}) => {
 	return formattedLocation;
 };
 
+/**
+ * My Function
+ *
+ * @param {String} format possible options: "lowercase", "uppercase", "capitalize", "sentencecase"
+ */
 export const formatString = (text = "", format = "") => {
 	try {
 		if (format === "lowercase") return text.toLowerCase();
 		if (format === "uppercase") return text.toUpperCase();
-		if (format === "titlecase")
+		if (format === "capitalize")
 			return text.toLowerCase().replace(/\b\w/g, (s) => s.toUpperCase());
-		if (format === "sentenceCase") {
+		if (format === "sentencecase") {
 			return text.charAt(0).toUpperCase() + text.slice(1).toLowerCase();
 		}
 

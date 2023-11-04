@@ -28,6 +28,8 @@ const STORAGE_SOURCE_URL =
 		? LOCAL_ENV_STORAGE_SOURCE_URL
 		: PRODUCTION_CDN_STORAGE_SOURCE_URL;
 
+export const svgLoginPic = `${STORAGE_SOURCE_URL}svg-login-pic.svg?alt=media&token=184f0afc-beb7-4992-9c24-63e3004444ef`;
+
 export const imageThainowLogoRound = `${STORAGE_SOURCE_URL}img-logo-round.png?alt=media&token=184f0afc-beb7-4992-9c24-63e3004444ef`;
 
 export const imageTopbarBg = `${STORAGE_SOURCE_URL}img-top-bar.png?alt=media&token=207d8aa7-a3a9-4b40-a8b9-6d24614c6332`;

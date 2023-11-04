@@ -12,6 +12,7 @@ import { useForm } from "antd/lib/form/Form";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
+import { svgLoginPic } from "../../Assest/env";
 import {
 	EMAIL_PROP,
 	PASSWORD_PROP,
@@ -42,11 +43,11 @@ function UserSignin() {
 
 	const title = (
 		<Typography.Title level={3} className="text-center">
-			{formatString(t("signin_msg"), "titleCase")}
+			{formatString(t("signin_msg"), "capitalize")}
 			<span className="px-2" style={{ color: "#E94833" }}>
 				ThaiNow
 			</span>
-			{formatString(t("account_msg"), "titleCase")}
+			{formatString(t("account_msg"), "capitalize")}
 			{/* Sign in to your <span style={{ color: "#E94833" }}>ThaiNow</span> Account */}
 		</Typography.Title>
 	);
@@ -56,14 +57,14 @@ function UserSignin() {
 			<Col>
 				<Space size={10} style={{ fontSize: "1rem" }}>
 					<div>
-						{formatString(t("q_do_not_have_account_msg"), "sentenceCase")}
+						{formatString(t("q_do_not_have_account_msg"), "sentencecase")}
 					</div>
 					<Typography.Link
 						underline
 						onClick={() => navigate("/register/user")}
 						style={{ fontSize: "1rem" }}
 					>
-						{formatString(t("register_now_msg"), "titleCase")}
+						{formatString(t("register_now_msg"), "capitalize")}
 					</Typography.Link>
 				</Space>
 			</Col>
@@ -73,7 +74,7 @@ function UserSignin() {
 	const thirdPartySigninOptions = (
 		<>
 			<Divider orientation="left">
-				{formatString(t("continue_with_msg"), "sentenceCase")}{" "}
+				{formatString(t("continue_with_msg"), "sentencecase")}{" "}
 			</Divider>
 			<Space
 				direction="horizontal"
@@ -94,10 +95,12 @@ function UserSignin() {
 	const email = useEmail();
 	const phone = usePhone();
 	const password = usePassword({
-		className: "mb-4",
+		className: "mb-2",
 		extra: (
-			<Button type="link" className="px-0 mt-1" href="/forgot-password">
-				Forgot password
+			<Button type="link" className="px-0 mt-3" href="/forgot-password">
+				<span style={{ textTransform: "capitalize" }}>
+					{t("forgot_password_msg")}{" "}
+				</span>
 			</Button>
 		),
 	});
@@ -109,17 +112,20 @@ function UserSignin() {
 			{password}
 			<Form.Item className="m-0">
 				<Button
-					type="primary"
 					htmlType="submit"
 					block
 					disabled={signing}
 					style={{
 						fontSize: "1rem",
-						padding: "1.2rem",
-						borderRadius: "1rem",
+						padding: "1.5rem",
+						background: "#E94833",
+						color: "white",
+						borderRadius: ".5rem",
 					}}
 				>
-					Sign In
+					<span style={{ textTransform: "capitalize" }}>
+						{t("signin_msg")}{" "}
+					</span>
 				</Button>
 			</Form.Item>
 		</>
@@ -156,11 +162,11 @@ function UserSignin() {
 				block
 				options={[
 					{
-						label: "Email Address",
+						label: formatString(t("email_address_msg"), "capitalize"),
 						value: EMAIL_PROP,
 					},
 					{
-						label: "Phone Number",
+						label: formatString(t("phone_number_msg"), "capitalize"),
 						value: PHONE_PROP,
 					},
 				]}
@@ -172,33 +178,47 @@ function UserSignin() {
 	);
 
 	const app = (
-		<Row justify="center" className="py-5" id="user-signin">
-			<Col>
-				<Form
-					form={form}
-					onFinish={onFinish}
-					layout="vertical"
-					className="info-description mx-2 mx-xl-5"
-					autoComplete="off"
-				>
-					<Row justify="center">
-						<Col>
+		<Row id="user-signin">
+			<Col
+				lg={12}
+				style={{
+					backgroundImage: `url(${svgLoginPic})`,
+					backgroundRepeat: "cover",
+					// 61px is the height of the header, minus footer if needed
+					minHeight: "calc(100vh - 61px)",
+				}}
+			></Col>
+			<Col xs={24} lg={12} className="bg-white py-5">
+				<Row justify="center">
+					<Col>
+						<Form
+							form={form}
+							onFinish={onFinish}
+							layout="vertical"
+							className="info-description bg-white mx-2 mx-xl-5"
+							autoComplete="off"
+						>
 							<Space
 								direction="vertical"
 								size={25}
 								className="px-2"
-								style={{ whiteSpace: "normal" }}
+								style={{ whiteSpace: "normal", minWidth: "500px" }}
 							>
 								{title}
 								{loginPrompt}
 								{thirdPartySigninOptions}
-								<Divider>OR</Divider>
+								<Divider>
+									<span style={{ textTransform: "uppercase" }}>
+										{" "}
+										{t("or_msg")}
+									</span>
+								</Divider>
 
 								{signinSection}
 							</Space>
-						</Col>
-					</Row>
-				</Form>
+						</Form>
+					</Col>
+				</Row>
 			</Col>
 		</Row>
 	);

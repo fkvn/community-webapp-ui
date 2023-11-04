@@ -8,7 +8,7 @@ function SwitchLanguage({
 	options = [
 		{
 			value: "en",
-			label: "EN",
+			label: "English",
 		},
 		// {
 		// 	value: "zh",

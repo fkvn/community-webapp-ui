@@ -42,7 +42,7 @@ i18next
 // 	console.log(i18next.t());
 // 	if (options?.format === "lowercase") return value.toLowerCase();
 // 	if (options?.format === "uppercase") return value.toUpperCase();
-// 	if (options?.format === "titlecase")
+// 	if (options?.format === "capitalize")
 // 		return value.toLowerCase().replace(/\b\w/g, (s) => s.toUpperCase());
 // 	if (options?.format === "capfirstlettercase")
 // 		return value.charAt(0).toUpperCase() + value.slice(1);

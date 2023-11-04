@@ -115,31 +115,20 @@ export const businessRegisterAxios = async (registerInfo = {}) =>
 		.catch((e) => Promise.reject(e));
 
 export const signinAxios = async (channel = "", credential = {}) => {
-	const validChannels = [
-		SIGNIN_CHANNEL_THAINOW,
-		SIGNIN_CHANNEL_GOOGLE,
-		SIGNIN_CHANNEL_APPLE,
-		SIGNIN_CHANNEL_FACEBOOK,
-		SIGNIN_CHANNEL_LINE,
-	];
-
-	if (!channel || validChannels.indexOf(channel) < 0)
-		return Promise.reject("Invalid sign in channel!");
-
 	const url = {
 		[`${SIGNIN_CHANNEL_THAINOW}`]: `/auth/thainow/signin`,
 		[`${SIGNIN_CHANNEL_GOOGLE}`]: `/auth/google/access`,
 		[`${SIGNIN_CHANNEL_APPLE}`]: `/auth/apple/access`,
 		[`${SIGNIN_CHANNEL_FACEBOOK}`]: `/auth/facebook/access`,
 		[`${SIGNIN_CHANNEL_LINE}`]: `/auth/line/access`,
-	};
+	}[`${channel}`];
 
 	const body = {
 		[`${SIGNIN_CHANNEL_THAINOW}`]: {
 			channel: credential?.channel,
-			...(channel === EMAIL_PROP &&
+			...(credential?.channel === EMAIL_PROP &&
 				credential?.value.length > 0 && { email: credential?.value }),
-			...(channel === PHONE_PROP &&
+			...(credential?.channel === PHONE_PROP &&
 				credential?.value.length > 0 && { phone: credential?.value }),
 			password: credential?.password,
 		},
@@ -155,10 +144,12 @@ export const signinAxios = async (channel = "", credential = {}) => {
 		[`${SIGNIN_CHANNEL_LINE}`]: {
 			...credential,
 		},
-	};
+	}[`${channel}`];
+
+	if (!url || !body) return Promise.reject("Invalid sign in channel!");
 
 	return axios
-		.post(url[`${channel}`], body[`${channel}`])
+		.post(url, body)
 		.then(({ data }) => Promise.resolve(data))
 		.catch((e) => Promise.reject(e));
 };

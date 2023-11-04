@@ -17,7 +17,8 @@ function usePageHeader(
 	const pageHeader = (props = {}, onClose = async () => {}) =>
 		((props = {}) => (
 			<>
-				<PageHeader {...props} /> <hr className="m-0" />
+				<PageHeader {...props} style={{ height: "60px" }} />{" "}
+				<hr className="m-0" />
 			</>
 		))({
 			className: "form-title ",
@@ -27,6 +28,8 @@ function usePageHeader(
 			avatar: {
 				shape: "circle",
 				size: "large",
+				// src: imageThainowLogoRound,
+
 				src: imageThainowLogoRound,
 				onClick: () => navigate("/"),
 			},
