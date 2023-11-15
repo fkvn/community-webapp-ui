@@ -78,6 +78,7 @@ export const SMS_PROP = "sms";
 export const PHONE_VALIDATION = "isValidPhone";
 export const IS_PHONE_PUBLIC_PROP = "isPhonePublic";
 export const PASSWORD_PROP = "password";
+export const CONFIRM_PASSWORD_PROP = "confirmPassword";
 export const PASSWORD_VALIDATION = "isValidPassword";
 export const CONFIRM_PASSWORD_VALIDATION = "isPasswordMatch";
 export const URL_PROP = "url";

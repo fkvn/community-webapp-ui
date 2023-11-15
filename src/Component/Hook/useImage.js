@@ -1,6 +1,5 @@
 import { Image } from "antd";
-import { imageNoPhoto, imageThainowLogoRound } from "../../Assest/env";
-import useUpload from "./useUpload";
+import { imageNoPhoto, imageThainowLogoRound } from "../../Assest/Asset";
 
 function useImage() {
 	const image = ({ className = "", ...inputProps }, center = true) =>
@@ -21,7 +20,7 @@ function useImage() {
 			},
 		});
 
-	const { uploadFile } = useUpload();
+	// const { uploadFile } = useUpload();
 
 	// const avatar = ({
 	// 	inputProps = {},

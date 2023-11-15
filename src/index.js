@@ -1,12 +1,11 @@
 import React, { Suspense } from "react";
 import ReactDOM from "react-dom/client";
+import { Provider } from "react-redux";
 import "../src/Assest/Style/style.scss";
 import App from "./App";
-import reportWebVitals from "./reportWebVitals";
-
-import { Provider } from "react-redux";
 import "./Component/Locale/i18n";
 import store from "./redux-store/store";
+import reportWebVitals from "./reportWebVitals";
 
 const rootElement = document.getElementById("root");
 

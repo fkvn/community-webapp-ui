@@ -1,6 +1,6 @@
 @import "../base/global";
 
-$typies: "primary", "business", "job", "housing", "marketplace";
+$typies: "primary", "business", "job", "housing", "marketplace", "customRed";
 
 @each $type in $typies {
 	.c {

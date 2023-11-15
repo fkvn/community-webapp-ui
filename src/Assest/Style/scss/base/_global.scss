@@ -77,7 +77,8 @@ $jobColor: #00965f;
 $housingColor: #fb5123;
 $marketplaceColor: #de2258;
 $grayBorderColor: rgba(102, 102, 102, 0.25);
-$grayColor: "#9CA3AF";
+$grayColor: #9ca3af;
+$customRedColor: #e94833;
 
 :export {
 	primaryColor: $primaryColor;
@@ -129,6 +130,7 @@ $theme-colors: (
 	"job": $jobColor,
 	"housing": $housingColor,
 	"marketplace": $marketplaceColor,
+	"customRed": $customRedColor,
 );
 
 @mixin color($name, $important: false) {

@@ -1,5 +1,5 @@
 import axios from "axios";
-import { devEnv, localEnv } from "../Assest/env";
+import { devEnv, localEnv } from "../Assest/Env";
 import * as constVar from "../Util/ConstVar";
 import { signoutUserPromise } from "../Util/Util";
 
@@ -19,6 +19,8 @@ const responseHandler = (response) => {
 const errorHandler = async (error) => {
 	let message = error.message || "Bad Request";
 
+	console.log(error);
+
 	if (message === "Network Error" || error.response.status === 502) {
 		message =
 			"Network Error! The service is down. Please come to visit the site later";
@@ -35,9 +37,11 @@ const errorHandler = async (error) => {
 				"Your credentials are incorrect or have expired  .... Please sign in again!";
 			signoutUserPromise();
 		}
-	} else {
+	} else if (error?.response?.data?.message) {
 		message = error.response.data.message;
 	}
+
+	console.log(message);
 
 	return Promise.reject(message);
 };

@@ -17,8 +17,8 @@ i18next
 	.init({
 		fallbackLng: "en",
 
-		ns: ["default"],
-		defaultNS: "default",
+		ns: ["Default"],
+		defaultNS: "Default",
 
 		supportedLngs: ["en", "th"],
 

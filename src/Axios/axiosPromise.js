@@ -10,11 +10,6 @@ import {
 	SEARCH_PROFILE,
 	SEARCH_REVIEW,
 	SEARCH_SERVICE,
-	SIGNIN_CHANNEL_APPLE,
-	SIGNIN_CHANNEL_FACEBOOK,
-	SIGNIN_CHANNEL_GOOGLE,
-	SIGNIN_CHANNEL_LINE,
-	SIGNIN_CHANNEL_THAINOW,
 	SMS_PROP,
 } from "../Util/ConstVar";
 
@@ -79,7 +74,7 @@ export const getPromise = async (promise = () => {}) => {
 
 export const sendOtpCodeAxios = async (channel = "", value = "") =>
 	axios
-		.post(`/auth/getToken`, {
+		.post(`/auth/otp/create`, {
 			channel: channel,
 			...(channel === EMAIL_PROP && value.length > 0 && { email: value }),
 			...(channel === SMS_PROP && value.length > 0 && { phone: value }),
@@ -113,46 +108,6 @@ export const businessRegisterAxios = async (registerInfo = {}) =>
 			...registerInfo,
 		})
 		.catch((e) => Promise.reject(e));
-
-export const signinAxios = async (channel = "", credential = {}) => {
-	const url = {
-		[`${SIGNIN_CHANNEL_THAINOW}`]: `/auth/thainow/signin`,
-		[`${SIGNIN_CHANNEL_GOOGLE}`]: `/auth/google/access`,
-		[`${SIGNIN_CHANNEL_APPLE}`]: `/auth/apple/access`,
-		[`${SIGNIN_CHANNEL_FACEBOOK}`]: `/auth/facebook/access`,
-		[`${SIGNIN_CHANNEL_LINE}`]: `/auth/line/access`,
-	}[`${channel}`];
-
-	const body = {
-		[`${SIGNIN_CHANNEL_THAINOW}`]: {
-			channel: credential?.channel,
-			...(credential?.channel === EMAIL_PROP &&
-				credential?.value.length > 0 && { email: credential?.value }),
-			...(credential?.channel === PHONE_PROP &&
-				credential?.value.length > 0 && { phone: credential?.value }),
-			password: credential?.password,
-		},
-		[`${SIGNIN_CHANNEL_GOOGLE}`]: {
-			...credential,
-		},
-		[`${SIGNIN_CHANNEL_APPLE}`]: {
-			...credential,
-		},
-		[`${SIGNIN_CHANNEL_FACEBOOK}`]: {
-			...credential,
-		},
-		[`${SIGNIN_CHANNEL_LINE}`]: {
-			...credential,
-		},
-	}[`${channel}`];
-
-	if (!url || !body) return Promise.reject("Invalid sign in channel!");
-
-	return axios
-		.post(url, body)
-		.then(({ data }) => Promise.resolve(data))
-		.catch((e) => Promise.reject(e));
-};
 
 export const signinViaThaiNowAxios = async (
 	channel = "",
@@ -209,25 +164,11 @@ export const validatePhoneUniqueAxios = (phone = "") =>
 		.then(({ data }) => Promise.resolve(data))
 		.catch((e) => Promise.reject(e));
 
-export const changePasswordAxios = (credential = {}) =>
-	axios
-		.post(`/auth/change-password`, {
-			...credential,
-		})
-		.then(({ data }) => Promise.resolve(data))
-		.catch((e) => Promise.reject(e));
-
 // profiles
 
 export const findProfileAxios = (id = -1) =>
 	axios
 		.get(`/${SEARCH_PROFILE}/${id}`)
-		.then(({ data }) => Promise.resolve(data))
-		.catch((e) => Promise.reject(e));
-
-export const findProfilesAxios = async () =>
-	axios
-		.get(`/profiles`)
 		.then(({ data }) => Promise.resolve(data))
 		.catch((e) => Promise.reject(e));
 

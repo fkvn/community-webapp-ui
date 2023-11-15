@@ -237,11 +237,21 @@
 		border-radius: 50px !important;
 	}
 
-	div.ant-input-number-in-form-item:has(input#interior_guest, input#interior_bath, input#interior_parking, input#interior_bed) {
+	div.ant-input-number-in-form-item:has(
+			input#interior_guest,
+			input#interior_bath,
+			input#interior_parking,
+			input#interior_bed
+		) {
 		border-radius: 50px !important;
 	}
 
-	div.ant-col:has(input#interior_guest, input#interior_bath, input#interior_parking, input#interior_bed) {
+	div.ant-col:has(
+			input#interior_guest,
+			input#interior_bath,
+			input#interior_parking,
+			input#interior_bed
+		) {
 		padding-right: 0.8rem;
 		margin: 0rem 0rem 0.2rem 0rem;
 	}
@@ -278,7 +288,9 @@
 
 #filter-housing-form
 	.ant-form-item-label
-	> label.ant-form-item-required:not(.ant-form-item-required-mark-optional)::before {
+	> label.ant-form-item-required:not(
+		.ant-form-item-required-mark-optional
+	)::before {
 	display: none;
 }
 
@@ -334,16 +346,19 @@
 		font-size: 1rem;
 	}
 
-	& span.ant-input-affix-wrapper,
-	input#email,
-	input#otp {
-		padding: 0.5rem 1rem;
+	& span.ant-input-affix-wrapper:not(:has(input#phone)) {
+		padding: 0.5rem 0.5rem;
 		border-radius: 50px;
+	}
+
+	& input {
+		padding: 0.2rem 1rem;
+		border-radius: 50px 0 0 50px;
 	}
 
 	& span.ant-input-group-addon {
 		border-radius: 50px 0 0 50px;
-		padding: 0.5rem 1rem;
+		// padding: 0.5rem 1rem;
 	}
 
 	& input#phone {

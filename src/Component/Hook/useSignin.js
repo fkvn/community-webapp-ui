@@ -1,6 +1,8 @@
+import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
-import { findProfilesAxios, signinAxios } from "../../Axios/axiosPromise";
+import { signinAxios } from "../../Axios/authAxios";
+import { findProfilesAxios } from "../../Axios/userAxios";
 import {
 	CLOSE_URL,
 	FORWARD_CONTINUE,
@@ -17,7 +19,7 @@ import {
 	saveUserInfo,
 } from "../../Util/Util";
 import { thainowReducer } from "../../redux-store/reducer/thainowReducer";
-import { errorMessage, loadingMessage, successMessage } from "./useMessage";
+import useMessage from "./MessageHook/useMessage";
 import useUrls from "./useUrls";
 
 function useSignin() {
@@ -25,6 +27,8 @@ function useSignin() {
 	const navigate = useNavigate();
 	const location = useLocation();
 	const { [`${PROFILE_OBJ}`]: profile = {} } = useSelector(thainowReducer);
+	const { loadingMessage, successMessage, errorMessage } = useMessage();
+	const { t } = useTranslation();
 
 	const onClickSigninHandle = () =>
 		isObjectEmpty(profile)
@@ -40,6 +44,16 @@ function useSignin() {
 					},
 			  });
 
+	/**
+	 *
+	 * @param {*} channel
+	 * @param {*} credential
+	 * @param {*} forward
+	 * @param {*} fowardAction
+	 * @param {*} continueUrl
+	 * @param {*} successUrl
+	 * @returns
+	 */
 	const onSigninHandle = async (
 		channel = "",
 		credential = {},
@@ -48,12 +62,7 @@ function useSignin() {
 		continueUrl = "",
 		successUrl = ""
 	) => {
-		loadingMessage(
-			`Signing in ... ${credential?.email || credential?.value}`,
-			0,
-			{},
-			true
-		);
+		loadingMessage();
 
 		return signinAxios(channel, credential)
 			.then((res) => {
@@ -65,7 +74,12 @@ function useSignin() {
 				// save profile
 				saveProfileInfo(res.profile);
 
-				successMessage(`Signed in as ${res.profile.info.email}`, 2).then(() =>
+				successMessage(
+					`${t("signin_msg_as", {
+						value: res.profile.info.email,
+					})}`,
+					2
+				).then(() =>
 					forward
 						? findProfilesAxios().then((res = []) => {
 								res?.length > 1
@@ -80,7 +94,7 @@ function useSignin() {
 						: Promise.resolve()
 				);
 			})
-			.catch((e) => errorMessage(e));
+			.catch((e) => errorMessage(e).then(() => Promise.reject()));
 	};
 
 	/* return sample :

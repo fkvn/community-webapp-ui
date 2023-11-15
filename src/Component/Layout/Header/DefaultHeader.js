@@ -7,8 +7,8 @@ import { Navbar } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
 import { useSearchParams } from "react-router-dom";
+import { svgThaiNowLogoWithWords } from "../../../Assest/Asset";
 import globalStyle from "../../../Assest/Style/scss/base/_global.scss";
-import { svgThaiNowLogoWithWords } from "../../../Assest/env";
 import { LOCATION_OBJ, SEARCH_INPUT_PROP } from "../../../Util/ConstVar";
 import { thainowReducer } from "../../../redux-store/reducer/thainowReducer";
 import useImage from "../../Hook/useImage";
@@ -132,6 +132,7 @@ function DefaultHeader() {
 							borderRadius: "4px",
 							background: globalStyle.mainBlueColor1,
 						}}
+						className="custom-center"
 						icon={<UserOutlined />}
 						onClick={onClickSigninHandle}
 					>

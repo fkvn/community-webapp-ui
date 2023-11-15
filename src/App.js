@@ -1,5 +1,5 @@
 import { BrowserRouter } from "react-router-dom";
-import RouteContainer from "./Container/RouteContainer";
+import RouteContainer from "./Component/Route/RouteContainer";
 
 function App() {
 	return (
