@@ -16,12 +16,14 @@ function ForgotPassword({
 	onSubmitPassword = (_credentials = {}) => Promise.resolve(),
 	onAfterSubmitPassword = (_channel = "", _credentials = {}) =>
 		Promise.resolve(),
+	defaultNeedVerifyBeforeChangePassword = true,
 }) {
 	const [form] = useForm();
 	const { t } = useTranslation(["Password"]);
 
 	const [changingPassword, setChangingPassword] = useState(false);
-	const [isPasswordAllowedChange, setIsPasswordAllowedChange] = useState(false);
+	const [needVerifyBeforeChangePassword, setNeedVerifyBeforeChangePassword] =
+		useState(defaultNeedVerifyBeforeChangePassword);
 
 	const title = (
 		<>
@@ -64,8 +66,9 @@ function ForgotPassword({
 			.finally(() => setChangingPassword(false));
 	};
 
+	// don't need to verify if the otp code is verifed
 	const onAfterVerifyCodeHandle = (isCodeVerified = false) =>
-		setIsPasswordAllowedChange(isCodeVerified);
+		setNeedVerifyBeforeChangePassword(!isCodeVerified);
 
 	// this to trigger the translation of the input message
 	useEffect(() => {
@@ -94,7 +97,7 @@ function ForgotPassword({
 							autoComplete="off"
 						>
 							{title}
-							{!isPasswordAllowedChange ? (
+							{needVerifyBeforeChangePassword ? (
 								<Otp
 									form={form}
 									onBeforeSendCode={onBeforeSendCode}
