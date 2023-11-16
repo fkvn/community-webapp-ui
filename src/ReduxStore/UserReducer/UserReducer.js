@@ -39,13 +39,12 @@ const patchProfile = (state, { profile = {}, replace = false }) => {
 	};
 };
 
-export const userReducer = (state) => state.userReducer;
+// export const userReducer = (state) => state.userReducer;
 
 const reducer = (state = initialState, action) => {
 	switch (action?.type) {
 		case DISPATCH_PATCH_PROFILE_INFO:
 			return patchProfile(state, action);
-
 		// default
 		default:
 			return state;

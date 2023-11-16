@@ -8,7 +8,7 @@ import { useTranslation } from "react-i18next";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { svgThaiNowLogoWithWords } from "../../../Assest/Asset";
 import globalStyle from "../../../Assest/Style/scss/base/_global.scss";
-import { SEARCH_INPUT_PROP } from "../../../Util/ConstVar";
+import { SEARCH_INPUT_PROP, SIGN_IN_PATH } from "../../../Util/ConstVar";
 import useImage from "../../Hook/useImage";
 import useSignin from "../../Hook/useSignin";
 import SwitchLanguage from "../../Locale/SwitchLanguage";
@@ -133,7 +133,7 @@ function DefaultHeader() {
 						}}
 						className="custom-center"
 						icon={<UserOutlined />}
-						onClick={() => navigate("/signin")}
+						onClick={() => navigate(`${SIGN_IN_PATH}`)}
 					>
 						{t("login_msg")} | {t("signup_msg")}
 					</Button>

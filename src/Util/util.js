@@ -1,7 +1,6 @@
-import { signinViaThaiNowAxios } from "../Axios/axiosPromise";
+import { signinViaThaiNowAxios } from "../RefAxios/RefaxiosPromise";
 import {
 	getState,
-	patchProfileInfoPromise,
 	patchSigninUserInfoPromise,
 } from "../RefRedux-Store/dispatchPromise";
 import * as constVar from "./ConstVar";
@@ -211,20 +210,10 @@ export const convertProfileInfo = ({ type = "", user = {}, company = {} }) => {
 	return profile;
 };
 
-export const saveProfileInfo = (profile = {}) => {
-	localStorage.setItem(constVar.PROFILE_OBJ, JSON.stringify(profile));
-	patchProfileInfoPromise(profile, true);
-};
-
-export const saveUserInfo = ({ access_token = "" }) => {
-	// set current user to storage
-	localStorage.setItem(
-		constVar.THAINOW_USER_OBJ,
-		JSON.stringify({
-			[`${constVar.ACCESS_TOKEN_PROP}`]: access_token,
-		})
-	);
-};
+// export const saveProfileInfo = (profile = {}) => {
+// 	localStorage.setItem(constVar.PROFILE_OBJ, JSON.stringify(profile));
+// 	patchProfileInfoPromise(profile, true);
+// };
 
 export const removeUserSigninInfo = () => {
 	patchSigninUserInfoPromise(
@@ -252,17 +241,17 @@ export const signInUserPromise = async (channel = "") => {
 			// remove signin info
 			removeUserSigninInfo();
 
-			// save user
-			saveUserInfo({
-				access_token: access_token,
-				user: user,
-			});
+			// // save user
+			// saveUserInfo({
+			// 	access_token: access_token,
+			// 	user: user,
+			// });
 
-			// save profile
-			saveProfileInfo({
-				type: constVar.PROFILE_USER_TYPE_PROP,
-				user: { ...user },
-			});
+			// // save profile
+			// saveProfileInfo({
+			// 	type: constVar.PROFILE_USER_TYPE_PROP,
+			// 	user: { ...user },
+			// });
 		}
 	);
 };

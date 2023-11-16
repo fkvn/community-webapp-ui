@@ -1,25 +1,22 @@
-import {
-	Button,
-	Col,
-	Divider,
-	Form,
-	Row,
-	Segmented,
-	Space,
-	Typography,
-} from "antd";
+import { Col, Divider, Flex, Form, Row, Space, Typography } from "antd";
 import { useForm } from "antd/lib/form/Form";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { svgLoginPic } from "../../../Assest/Asset";
 import {
 	EMAIL_PROP,
+	FORGOT_PASSWORD_PATH,
 	PASSWORD_PROP,
 	PHONE_PROP,
+	REDIRECT_URI,
 	SIGNIN_CHANNEL_THAINOW,
 } from "../../../Util/ConstVar";
 import { formatString } from "../../../Util/Util";
+import EmailFormControl from "../../Form/EmailFormControl";
+import PasswordFormControl from "../../Form/PasswordFormControl";
+import PhoneFormControl from "../../Form/PhoneFormControl";
+import SubmitBtnFormControl from "../../Form/SubmitBtnFormControl";
 import useSignin from "../../Hook/useSignin";
 import AppleSignin from "./AppleSignin";
 import FacebookSignin from "./FacebookSignin";
@@ -28,7 +25,9 @@ import LineSignin from "./LineSignin";
 
 function UserSignin() {
 	const navigate = useNavigate();
-	const { t } = useTranslation(["Default", "Password"]);
+	const { t } = useTranslation(["Default", "Password", "Email", "Phone"]);
+	const [params] = useSearchParams();
+	const redirectUri = params.get(REDIRECT_URI) || "";
 
 	const [signing, setSigning] = useState(false);
 
@@ -36,16 +35,23 @@ function UserSignin() {
 
 	const { onSigninHandle } = useSignin();
 
-	const [signinChannel, setSigninChannel] = useState(EMAIL_PROP);
+	const [signinChannel] = useState(EMAIL_PROP);
+
+	useEffect(() => {
+		form.validateFields();
+	}, [t, form]);
 
 	const title = (
-		<Typography.Title level={3} className="text-center">
-			{formatString(t("signin_msg"), "capitalize")}
+		<Typography.Title
+			level={3}
+			className="text-center"
+			style={{ textTransform: "capitalize" }}
+		>
+			{t("signin_msg")}
 			<span className="px-2" style={{ color: "#E94833" }}>
 				ThaiNow
 			</span>
-			{formatString(t("account_msg"), "capitalize")}
-			{/* Sign in to your <span style={{ color: "#E94833" }}>ThaiNow</span> Account */}
+			{t("account_msg")}
 		</Typography.Title>
 	);
 
@@ -53,15 +59,15 @@ function UserSignin() {
 		<Row justify="center">
 			<Col>
 				<Space size={10} style={{ fontSize: "1rem" }}>
-					<div>
-						{formatString(t("q_do_not_have_account_msg"), "sentencecase")}
+					<div style={{ textTransform: "capitalize" }}>
+						{t("q_do_not_have_account_msg")}
 					</div>
 					<Typography.Link
 						underline
 						onClick={() => navigate("/register/user")}
-						style={{ fontSize: "1rem" }}
+						style={{ fontSize: "1rem", textTransform: "capitalize" }}
 					>
-						{formatString(t("register_now_msg"), "capitalize")}
+						{t("register_now_msg")}
 					</Typography.Link>
 				</Space>
 			</Col>
@@ -88,25 +94,36 @@ function UserSignin() {
 		</>
 	);
 
-	// const email = useEmail();
-	// const phone = usePhone();
-	// const password = usePassword({
-	// 	className: "mb-2",
-	// 	extra: (
-	// 		<Button type="link" className="px-0 mt-3" href="/forgot-password">
-	// 			<span style={{ textTransform: "capitalize" }}>
-	// 				{t("password_forgot_msg", { ns: "Password" })}{" "}
-	// 			</span>
-	// 		</Button>
-	// 	),
-	// });
+	const thainowSignin = {
+		[`${EMAIL_PROP}`]: <EmailFormControl />,
+		[`${PHONE_PROP}`]: <PhoneFormControl />,
+	}[signinChannel];
 
 	const signInTabChildren = (
-		<>
-			{/* {signinChannel === EMAIL_PROP && email}
-			{signinChannel === PHONE_PROP && phone}
-			{password} */}
-			<Form.Item className="m-0">
+		<Flex vertical gap="large">
+			{thainowSignin}
+			<PasswordFormControl withConfirmPassword={false} />
+			<SubmitBtnFormControl
+				title={t("password_forgot_msg", { ns: "Password" })}
+				btnProps={{
+					type: "link",
+					className: "custom-center-left",
+					style: { fontSize: "1rem", width: "fit-content" },
+				}}
+				onClick={() => navigate(`${FORGOT_PASSWORD_PATH}/${redirectUri}`)}
+			/>
+			<SubmitBtnFormControl
+				disabled={signing}
+				title={
+					<span style={{ textTransform: "capitalize" }}>
+						{t("signin_msg")}{" "}
+					</span>
+				}
+				btnProps={{
+					htmlType: "submit",
+				}}
+			/>
+			{/* <Form.Item className="m-0">
 				<Button
 					htmlType="submit"
 					block
@@ -123,55 +140,48 @@ function UserSignin() {
 						{t("signin_msg")}{" "}
 					</span>
 				</Button>
-			</Form.Item>
-		</>
+			</Form.Item> */}
+		</Flex>
 	);
 
 	const onFinish = () => {
 		setSigning(true);
 		form
 			.validateFields()
-			.then(
-				() =>
-					onSigninHandle(
-						SIGNIN_CHANNEL_THAINOW,
-						{
-							channel: signinChannel,
-							value: form.getFieldValue(signinChannel),
-							password: form.getFieldValue(PASSWORD_PROP),
-						},
-						true
-					)
-				// thainowSignin(
-				// 	signinChannel,
-				// 	form.getFieldValue(signinChannel),
-				// 	form.getFieldValue(PASSWORD_PROP),
-				// 	true
-				// )
+			.then(() =>
+				onSigninHandle(
+					SIGNIN_CHANNEL_THAINOW,
+					{
+						channel: signinChannel,
+						value: form.getFieldValue(signinChannel),
+						[`${PASSWORD_PROP}`]: form.getFieldValue(PASSWORD_PROP),
+					},
+					true
+				)
 			)
 			.finally(() => setSigning(false));
 	};
 
-	const signinSection = (
-		<>
-			<Segmented
-				block
-				options={[
-					{
-						label: formatString(t("email_address_msg"), "capitalize"),
-						value: EMAIL_PROP,
-					},
-					{
-						label: formatString(t("phone_number_msg"), "capitalize"),
-						value: PHONE_PROP,
-					},
-				]}
-				onChange={(value) => setSigninChannel(value)}
-				size="large"
-			/>
-			{signInTabChildren}
-		</>
-	);
+	// const signinSection = (
+	// 	<>
+	// 		<Segmented
+	// 			block
+	// 			options={[
+	// 				{
+	// 					label: t("email_address_msg", { ns: "Email" }),
+	// 					value: EMAIL_PROP,
+	// 				},
+	// 				{
+	// 					label: t("phone_number_msg", { ns: "Phone" }),
+	// 					value: PHONE_PROP,
+	// 				},
+	// 			]}
+	// 			onChange={(value) => setSigninChannel(value)}
+	// 			size="large"
+	// 		/>
+	// 		{signInTabChildren}
+	// 	</>
+	// );
 
 	const app = (
 		<Row id="user-signin">
@@ -209,8 +219,8 @@ function UserSignin() {
 										{t("or_msg")}
 									</span>
 								</Divider>
-
-								{signinSection}
+								{/* {signinSection} */}
+								{signInTabChildren}
 							</Space>
 						</Form>
 					</Col>

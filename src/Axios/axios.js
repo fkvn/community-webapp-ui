@@ -18,8 +18,6 @@ const responseHandler = (response) => {
 const errorHandler = async (error) => {
 	let message = error.message || "Bad Request";
 
-	console.log(error);
-
 	if (message === "Network Error" || error.response.status === 502) {
 		message =
 			"Network Error! The service is down. Please come to visit the site later";

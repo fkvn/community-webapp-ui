@@ -2,6 +2,7 @@ import { Col, Flex, Form, Row, Typography } from "antd";
 import { useForm } from "antd/lib/form/Form";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { useSearchParams } from "react-router-dom";
 import { svgLoginPic } from "../../../Assest/Asset";
 import { EMAIL_PROP, PASSWORD_PROP, PHONE_PROP } from "../../../Util/ConstVar";
 import { formatString } from "../../../Util/Util";
@@ -20,6 +21,8 @@ function ForgotPassword({
 }) {
 	const [form] = useForm();
 	const { t } = useTranslation(["Password"]);
+
+	const [params] = useSearchParams();
 
 	const [changingPassword, setChangingPassword] = useState(false);
 	const [needVerifyBeforeChangePassword, setNeedVerifyBeforeChangePassword] =
@@ -48,7 +51,7 @@ function ForgotPassword({
 			channel: channel,
 			...(channel === EMAIL_PROP && { [`${EMAIL_PROP}`]: email }),
 			...(channel === PHONE_PROP && { [`${PHONE_PROP}`]: phone }),
-			password: password,
+			[`${PASSWORD_PROP}`]: password,
 		};
 
 		form
@@ -57,7 +60,7 @@ function ForgotPassword({
 				setChangingPassword(true);
 				onSubmitPassword(credentials)
 					.then(() =>
-						onAfterSubmitPassword(channel, credentials).then(() => {
+						onAfterSubmitPassword(credentials).then(() => {
 							setChangingPassword(false);
 						})
 					)

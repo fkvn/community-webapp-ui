@@ -1,19 +1,18 @@
 import { CloseOutlined } from "@ant-design/icons";
 import { PageHeader } from "@ant-design/pro-layout";
 import { Button, Flex } from "antd";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { imageThainowLogoRound } from "../../../Assest/Asset";
-import { FORWARD_CLOSE } from "../../../Util/ConstVar";
-import useUrls from "../../Hook/useUrls";
+import { REDIRECT_URI } from "../../../Util/ConstVar";
 import SwitchLanguage from "../../Locale/SwitchLanguage";
 
 function TopPageHeader({
 	props = {},
-	onClose = () => Promise.resolve(),
-	forward = FORWARD_CLOSE,
+	onBeforeClose = () => Promise.resolve(),
 }) {
-	const { forwardUrl } = useUrls();
 	const navigate = useNavigate();
+	const [params] = useSearchParams();
+	const redirectUri = params.get(REDIRECT_URI) || "";
 
 	const app = (
 		<>
@@ -39,7 +38,9 @@ function TopPageHeader({
 						<Button
 							className="border-0 pt-2 custom-center"
 							icon={<CloseOutlined className="text-danger" />}
-							onClick={() => onClose().then(() => forwardUrl(forward))}
+							onClick={() =>
+								onBeforeClose().then(() => navigate(`/${redirectUri}`))
+							}
 						></Button>
 					</Flex>
 				}

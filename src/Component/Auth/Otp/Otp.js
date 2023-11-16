@@ -229,7 +229,10 @@ function Otp({
 						<strong>
 							{{
 								value:
-									formatUSPhoneNumber(form.getFieldValue(otpInfo?.field)) || "",
+									otpInfo?.channel === EMAIL_PROP
+										? form.getFieldValue(otpInfo?.field)
+										: formatUSPhoneNumber(form.getFieldValue(otpInfo?.field)) ||
+										  "",
 							}}
 						</strong>
 					</Trans>

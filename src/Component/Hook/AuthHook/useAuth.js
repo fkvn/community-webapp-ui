@@ -3,7 +3,6 @@ import jwt_decode from "jwt-decode";
 import { useSelector } from "react-redux";
 import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import { patchProfileInfoActionCreator } from "../../../ReduxStore/UserReducer/UserActionCreator";
-import userReducer from "../../../ReduxStore/UserReducer/UserReducer";
 import store from "../../../ReduxStore/store";
 import {
 	PROFILE_OBJ,
@@ -16,9 +15,11 @@ import useMessage from "../MessageHook/useMessage";
 
 function useAuth() {
 	const { errorMessage } = useMessage();
-	const { [`${PROFILE_OBJ}`]: profile = {} } = useSelector(userReducer);
+	const { [`${PROFILE_OBJ}`]: profile = {} } = useSelector(
+		(state) => state.userReducer
+	);
 	const [params] = useSearchParams();
-	const redirectUri = params.get(REDIRECT_URI) || "/";
+	const redirectUri = params.get(REDIRECT_URI) || "";
 	const navigate = useNavigate();
 	const { pathname } = useLocation();
 
@@ -52,8 +53,8 @@ function useAuth() {
 
 	const auth = async (throwError = true, forward = true) => {
 		const isValidCredential = await validateToken()
-			.then(() => (isObjectEmpty(profile) ? true : true))
-			.catch(() => true);
+			.then(() => (isObjectEmpty(profile) ? false : true))
+			.catch(() => false);
 
 		if (isValidCredential)
 			return forward ? navigate(`/${redirectUri}`) : Promise.resolve();
@@ -62,9 +63,9 @@ function useAuth() {
 			? errorMessage("message_invalid_sign_in_msg").then(() =>
 					pathname === SIGN_IN_PATH
 						? Promise.reject()
-						: navigate(`/${SIGN_IN_PATH}?${REDIRECT_URI}:${redirectUri}`)
+						: navigate(`${SIGN_IN_PATH}?${REDIRECT_URI}:${redirectUri}`)
 			  )
-			: Promise.resolve();
+			: Promise.reject();
 	};
 
 	return {

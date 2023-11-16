@@ -16,18 +16,16 @@ function UserSigninContainer() {
 
 	useEffect(() => {
 		if (loading) {
-			auth()
-				// .then(() => navigate("/"))
-				.catch(() => setLoading(false));
+			auth(false).catch(() => {
+				console.log("reject");
+				setLoading(false);
+			});
 		}
 	});
 
 	const app = (
 		<>
 			<TopPageHeader />
-			{/* {usePageHeader({
-				title: formatString(t("signin_msg"), "capitalize"),
-			})} */}
 			<UserSignin />
 		</>
 	);
