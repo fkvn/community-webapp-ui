@@ -1,7 +1,7 @@
-import { Form, Input } from "antd";
+import { Form, InputNumber } from "antd";
 import { useTranslation } from "react-i18next";
 import { PHONE_PROP } from "../../Util/ConstVar";
-import { formatPhoneNumber } from "../../Util/Util";
+import { formatUSPhoneNumber } from "../../Util/Util";
 
 function PhoneFormControl({
 	itemProps: { itemName = PHONE_PROP, label, ...itemProps } = {},
@@ -10,21 +10,19 @@ function PhoneFormControl({
 	showLabel = true,
 }) {
 	const { t } = useTranslation(["Phone", "Form"]);
+
 	const app = (
 		<>
 			<Form.Item
 				name={itemName}
 				className="m-0"
-				normalize={(value) => formatPhoneNumber(value)}
 				rules={[
 					{
-						required: required,
-						message: t("phone_enter_msg"),
-					},
-					{
-						min: 14,
-						max: 14,
-						message: t("phone_invalid_msg"),
+						validator: (_, value) => {
+							return value && value.toString().length === 10
+								? Promise.resolve()
+								: Promise.reject(new Error(t("phone_invalid_msg")));
+						},
 					},
 				]}
 				{...(showLabel && {
@@ -34,9 +32,14 @@ function PhoneFormControl({
 				})}
 				{...itemProps}
 			>
-				<Input
-					id="phone"
-					allowClear
+				<InputNumber
+					controls={false}
+					keyboard={false}
+					formatter={(value) => {
+						const format = formatUSPhoneNumber(value);
+						return format;
+					}}
+					parser={(value) => value.replace(/[^\d]/g, "")}
 					placeholder={t("phone_enter_msg")}
 					addonBefore="+1"
 					maxLength={14}

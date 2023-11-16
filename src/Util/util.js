@@ -86,36 +86,22 @@ export const isValidUrl = (url = "") => {
 	return false;
 };
 
-export const formatPhoneNumber = (value = "") => {
-	if (value.length < 16) {
-		if (value.length === 0) return value;
+export const formatUSPhoneNumber = (value = "") => {
+	const phoneNumberLength = value.length;
 
-		// clean the input for any non-digit values.
-		const phoneNumber = value.replace(/[^\d]/g, "");
+	if (phoneNumberLength === 0) return value;
 
-		// phoneNumberLength is used to know when to apply our formatting for the phone number
-		const phoneNumberLength = phoneNumber.length;
-
-		// US format - 10 digits max
-		if (phoneNumberLength < 11) {
-			// digits 0-4
-			if (phoneNumberLength < 4) return "(" + phoneNumber;
-			// digits 4-6
-			else if (phoneNumberLength < 7) {
-				return `(${phoneNumber.slice(0, 3)}) ${phoneNumber.slice(3)}`;
-			}
-
-			// digits 7-10
-			else {
-				return `(${phoneNumber.slice(0, 3)}) ${phoneNumber.slice(
-					3,
-					6
-				)}-${phoneNumber.slice(6, 10)}`;
-			}
-		}
+	// digits 0-4
+	if (phoneNumberLength < 4) return "(" + value;
+	// digits 4-6
+	else if (phoneNumberLength < 7) {
+		return `(${value.slice(0, 3)}) ${value.slice(3)}`;
 	}
 
-	return "";
+	// digits 7-10
+	else {
+		return `(${value.slice(0, 3)}) ${value.slice(3, 6)}-${value.slice(6, 10)}`;
+	}
 };
 
 export const formatOtpNumber = (value = "") => {
