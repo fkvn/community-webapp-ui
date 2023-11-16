@@ -4,7 +4,7 @@ import useProfile from "../../Hook/useProfile";
 import useSignin from "../../Hook/useSignin";
 import ForgotPassword from "./ForgotPassword";
 
-function ForgotPasswordContainer({}) {
+function ForgotPasswordContainer() {
 	const { changePassword } = useProfile();
 	const { onSigninHandle } = useSignin();
 

@@ -2,9 +2,9 @@ import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { uploadProfileAvatar } from "../../Axios/axiosPromise";
 import ProfilePanel from "../../Component/ProfilePanel/ProfilePanel";
-import { patchProfileInfoPromise } from "../../redux-store/dispatchPromise";
 import * as constVar from "../../Util/ConstVar";
-import { saveProfileInfo } from "../../Util/Util";
+import { saveProfileInfo } from "../../Util/RefUtil";
+import { patchProfileInfoPromise } from "../../redux-store/dispatchPromise";
 
 function ProfilePanelContainer() {
 	const profile = useSelector(

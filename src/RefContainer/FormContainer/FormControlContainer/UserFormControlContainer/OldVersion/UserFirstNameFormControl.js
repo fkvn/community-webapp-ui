@@ -1,6 +1,6 @@
 import TextFormControl from "../../../../../Component/Form/FormControl/TextFormControl";
 import * as constVar from "../../../../../Util/ConstVar";
-import * as util from "../../../../../Util/Util";
+import * as util from "../../../../../Util/RefUtil";
 
 //  This is old version that not integrated with Redux
 function UserFirstNameFormControl(props) {

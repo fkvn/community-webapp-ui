@@ -12,7 +12,7 @@ import {
 	REDIRECT_URI,
 	SIGNIN_CHANNEL_THAINOW,
 } from "../../../Util/ConstVar";
-import { formatString } from "../../../Util/Util";
+import { formatString } from "../../../Util/RefUtil";
 import EmailFormControl from "../../Form/EmailFormControl";
 import PasswordFormControl from "../../Form/PasswordFormControl";
 import PhoneFormControl from "../../Form/PhoneFormControl";

@@ -1,10 +1,8 @@
 import { useTranslation } from "react-i18next";
 import { changePasswordAxios } from "../../Axios/authAxios";
 import useMessage from "./MessageHook/useMessage";
-import useUrls from "./useUrls";
 
 function useProfile() {
-	const { forwardUrl } = useUrls();
 	const { t } = useTranslation(["Password"]);
 	const { loadingMessage, successMessage, errorMessage } = useMessage();
 

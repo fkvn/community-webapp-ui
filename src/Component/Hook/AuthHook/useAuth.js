@@ -10,7 +10,7 @@ import {
 	SIGN_IN_PATH,
 	THAINOW_USER_OBJ,
 } from "../../../Util/ConstVar";
-import { isObjectEmpty } from "../../../Util/Util";
+import { isObjectEmpty } from "../../../Util/RefUtil";
 import useMessage from "../MessageHook/useMessage";
 
 function useAuth() {

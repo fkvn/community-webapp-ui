@@ -13,7 +13,7 @@ import PhoneFormControl from "../../Form/PhoneFormControl";
 
 import OtpFormControl from "../../Form/OtpFormControl";
 
-import { formatUSPhoneNumber } from "../../../Util/Util";
+import { formatUSPhoneNumber } from "../../../Util/RefUtil";
 import SubmitBtnFormControl from "../../Form/SubmitBtnFormControl";
 import useTwilio from "../../Hook/AuthHook/useTwilio";
 import useMessage from "../../Hook/MessageHook/useMessage";

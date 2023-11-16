@@ -2,10 +2,9 @@ import { Col, Flex, Form, Row, Typography } from "antd";
 import { useForm } from "antd/lib/form/Form";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useSearchParams } from "react-router-dom";
 import { svgLoginPic } from "../../../Assest/Asset";
 import { EMAIL_PROP, PASSWORD_PROP, PHONE_PROP } from "../../../Util/ConstVar";
-import { formatString } from "../../../Util/Util";
+import { formatString } from "../../../Util/RefUtil";
 import PasswordFormControl from "../../Form/PasswordFormControl";
 import SubmitBtnFormControl from "../../Form/SubmitBtnFormControl";
 import TopPageHeader from "../../Layout/Header/TopPageHeader";
@@ -21,8 +20,6 @@ function ForgotPassword({
 }) {
 	const [form] = useForm();
 	const { t } = useTranslation(["Password"]);
-
-	const [params] = useSearchParams();
 
 	const [changingPassword, setChangingPassword] = useState(false);
 	const [needVerifyBeforeChangePassword, setNeedVerifyBeforeChangePassword] =

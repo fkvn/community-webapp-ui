@@ -26,14 +26,10 @@ const errorHandler = async (error) => {
 		localStorage.removeItem(constVar.THAINOW_USER_OBJ);
 		localStorage.removeItem(constVar.PROFILE_OBJ);
 
-		const returnError = error.response.data.error;
-		message = error.response.data.message || "Unauthorized";
-
-		// if (returnError === "Unauthorized") {
-		// 	message =
-		// 		"Your credentials are incorrect or have expired  .... Please sign in again!";
-		// 	signoutUserPromise();
-		// }
+		message =
+			error.response.data.message ||
+			error.response.data.error ||
+			"Unauthorized";
 	} else if (error?.response?.data?.message) {
 		message = error.response.data.message;
 	}
