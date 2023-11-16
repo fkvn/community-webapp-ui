@@ -87,20 +87,24 @@ export const isValidUrl = (url = "") => {
 };
 
 export const formatUSPhoneNumber = (value = "") => {
-	const phoneNumberLength = value.length;
+	const phoneString = value.toString();
+	const phoneLength = phoneString.length;
 
-	if (phoneNumberLength === 0) return value;
+	if (phoneLength === 0) return phoneString;
 
 	// digits 0-4
-	if (phoneNumberLength < 4) return "(" + value;
+	if (phoneLength < 4) return "(" + phoneString;
 	// digits 4-6
-	else if (phoneNumberLength < 7) {
-		return `(${value.slice(0, 3)}) ${value.slice(3)}`;
+	else if (phoneLength < 7) {
+		return `(${phoneString.slice(0, 3)}) ${phoneString.slice(3)}`;
 	}
 
 	// digits 7-10
 	else {
-		return `(${value.slice(0, 3)}) ${value.slice(3, 6)}-${value.slice(6, 10)}`;
+		return `(${phoneString.slice(0, 3)}) ${phoneString.slice(
+			3,
+			6
+		)}-${phoneString.slice(6, 10)}`;
 	}
 };
 

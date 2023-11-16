@@ -13,6 +13,7 @@ import PhoneFormControl from "../../Form/PhoneFormControl";
 
 import OtpFormControl from "../../Form/OtpFormControl";
 
+import { formatUSPhoneNumber } from "../../../Util/Util";
 import SubmitBtnFormControl from "../../Form/SubmitBtnFormControl";
 import useTwilio from "../../Hook/AuthHook/useTwilio";
 import useMessage from "../../Hook/MessageHook/useMessage";
@@ -227,7 +228,8 @@ function Otp({
 						Next, please enter a verification code that we sent to
 						<strong>
 							{{
-								value: form.getFieldValue(otpInfo?.field) || "",
+								value:
+									formatUSPhoneNumber(form.getFieldValue(otpInfo?.field)) || "",
 							}}
 						</strong>
 					</Trans>
