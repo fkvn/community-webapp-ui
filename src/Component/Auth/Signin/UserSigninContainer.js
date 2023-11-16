@@ -10,7 +10,6 @@ function UserSigninContainer() {
 	useEffect(() => {
 		if (loading) {
 			auth(false).catch(() => {
-				console.log("reject");
 				setLoading(false);
 			});
 		}

@@ -51,19 +51,29 @@ function useAuth() {
 		return Promise.reject();
 	};
 
-	const auth = async (throwError = true, forward = true) => {
+	const auth = async (
+		throwError = true,
+		forward = true,
+		customRedirectUri = ""
+	) => {
 		const isValidCredential = await validateToken()
 			.then(() => (isObjectEmpty(profile) ? false : true))
 			.catch(() => false);
 
 		if (isValidCredential)
-			return forward ? navigate(`/${redirectUri}`) : Promise.resolve();
+			return forward
+				? navigate(`/${redirectUri || customRedirectUri}`)
+				: Promise.resolve();
 
 		return throwError
 			? errorMessage("message_invalid_sign_in_msg").then(() =>
 					pathname === SIGN_IN_PATH
 						? Promise.reject()
-						: navigate(`${SIGN_IN_PATH}?${REDIRECT_URI}:${redirectUri}`)
+						: navigate(
+								`${SIGN_IN_PATH}?${REDIRECT_URI}=${
+									redirectUri || customRedirectUri
+								}`
+						  )
 			  )
 			: Promise.reject();
 	};
