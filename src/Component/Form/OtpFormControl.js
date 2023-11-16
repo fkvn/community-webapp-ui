@@ -2,7 +2,6 @@ import { Form, InputNumber } from "antd";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { OTP_PROP } from "../../Util/ConstVar";
-import { formatString } from "../../Util/Util";
 
 function OtpFormControl({
 	itemProps: { itemName = OTP_PROP, label, ...itemProps } = {},
@@ -58,7 +57,7 @@ function OtpFormControl({
 					},
 				]}
 				{...(showLabel && {
-					label: `${label || formatString(t("otp_code_msg"), "capitalize")} ${
+					label: `${label || t("otp_code_msg")} ${
 						required ? "" : `(${t("form_optional_msg", { ns: "Form" })})`
 					}`,
 				})}
@@ -70,7 +69,7 @@ function OtpFormControl({
 					className="mb-2"
 					// numOfDigits + numOfSpaces
 					maxLength={2 * allowedDigit - 1}
-					placeholder={formatString(t("otp_code_enter_msg"), "sentencecase")}
+					placeholder={t("otp_code_enter_msg")}
 					formatter={(value) => {
 						const [format] = formatOtpNumber(value);
 						return format;

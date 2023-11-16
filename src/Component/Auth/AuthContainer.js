@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import useAuth from "../../Component/Hook/useAuth";
-import useUrls from "../../Component/Hook/useUrls";
 import { FORWARD_CONTINUE } from "../../Util/ConstVar";
+import useAuth from "../Hook/AuthHook/useAuth";
+import useUrls from "../Hook/useUrls";
 
 function AuthContainer({
 	closeUrl = "",
@@ -83,14 +83,19 @@ function AuthContainer({
 
 	const { forwardUrl } = useUrls();
 	const { auth } = useAuth();
+	console.log("auth container");
 
 	useEffect(() => {
 		if (loading) {
 			auth()
-				.then(() => setLoading(false))
-				.catch(() =>
-					forwardUrl(FORWARD_CONTINUE, closeUrl, continueUrl, successUrl)
-				);
+				.then(() => {
+					console.log("authed");
+					setLoading(false);
+				})
+				.catch(() => {
+					console.log("auth failed");
+					forwardUrl(FORWARD_CONTINUE, closeUrl, continueUrl, successUrl);
+				});
 		}
 	});
 

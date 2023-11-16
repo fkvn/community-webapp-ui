@@ -1,10 +1,9 @@
-import jwt_decode from "jwt-decode";
 import { signinViaThaiNowAxios } from "../Axios/axiosPromise";
 import {
 	getState,
 	patchProfileInfoPromise,
 	patchSigninUserInfoPromise,
-} from "../redux-store/dispatchPromise";
+} from "../RefRedux-Store/dispatchPromise";
 import * as constVar from "./ConstVar";
 
 export const isObjectEmpty = (object = {}) => JSON.stringify(object) === "{}";
@@ -276,36 +275,6 @@ export const signInUserPromise = async (channel = "") => {
 			});
 		}
 	);
-};
-
-export const signoutUserPromise = async () => {
-	localStorage.removeItem(constVar.THAINOW_USER_OBJ);
-	localStorage.removeItem(constVar.PROFILE_OBJ);
-	patchProfileInfoPromise({}, true);
-	// window.location.href = "/";
-};
-
-export const validateToken = () => {
-	const access_token =
-		JSON.parse(localStorage.getItem(constVar.THAINOW_USER_OBJ))?.access_token ||
-		"";
-
-	if (access_token.length > 0) {
-		try {
-			if (jwt_decode(access_token).exp < Date.now() / 1000) {
-				// token is still expired
-				signoutUserPromise();
-				return Promise.reject();
-			} else {
-				// token is still active
-				return Promise.resolve();
-			}
-		} catch (e) {
-			return Promise.reject();
-		}
-	}
-
-	return Promise.reject();
 };
 
 export const forwardUrl = (

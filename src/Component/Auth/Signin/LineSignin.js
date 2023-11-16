@@ -2,14 +2,17 @@ import { Button } from "antd";
 import axios from "axios";
 import { useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
-import { devEnv, localEnv, svgLineLogo } from "../../../Assest/Env";
+import { svgLineLogo } from "../../../Assest/Asset";
+import { devEnv, localEnv } from "../../../Assest/Env";
 import { FORWARD_SUCCESS, SIGNIN_CHANNEL_LINE } from "../../../Util/ConstVar";
 import useImage from "../../Hook/useImage";
-import { errorMessage } from "../../Hook/useMessage";
+
+import useMessage from "../../Hook/MessageHook/useMessage";
 import useSignin from "../../Hook/useSignin";
 
 function LineSignin() {
 	const { image } = useImage();
+	const { errorMessage } = useMessage();
 	const [searchParams] = useSearchParams();
 	const { onSigninHandle } = useSignin();
 
@@ -60,7 +63,7 @@ function LineSignin() {
 		return axios
 			.post(getLineProfileUrl, new URLSearchParams(lineProfileUrlSearchParam))
 			.then(({ data = {} }) => {
-				if (!data?.email) errorMessage("Missing email address. Login Failed!");
+				if (!data?.email) errorMessage().then(() => Promise.reject());
 				return Promise.resolve(data);
 			});
 	};

@@ -1,7 +1,6 @@
 import { Form, Input } from "antd";
 import { useTranslation } from "react-i18next";
 import { EMAIL_PROP } from "../../Util/ConstVar";
-import { formatString } from "../../Util/Util";
 
 function EmailFormControl({
 	itemProps: { itemName = EMAIL_PROP, label, ...itemProps } = {},
@@ -19,25 +18,21 @@ function EmailFormControl({
 				rules={[
 					{
 						type: "email",
-						message: formatString(t("email_invalid_msg"), "sentencecase"),
+						message: t("email_invalid_msg"),
 					},
 					{
 						required: required,
-						message: formatString(t("email_enter_msg"), "sentencecase"),
+						message: t("email_enter_msg"),
 					},
 				]}
 				{...(showLabel && {
-					label: `${
-						label || formatString(t("email_address_msg"), "capitalize")
-					} ${required ? "" : `(${t("form_optional_msg", { ns: "Form" })})`}`,
+					label: `${label || t("email_address_msg")} ${
+						required ? "" : `(${t("form_optional_msg", { ns: "Form" })})`
+					}`,
 				})}
 				{...itemProps}
 			>
-				<Input
-					allowClear
-					placeholder={formatString(t("email_enter_msg"), "sentencecase")}
-					{...inputProps}
-				/>
+				<Input allowClear placeholder={t("email_enter_msg")} {...inputProps} />
 			</Form.Item>
 		</>
 	);

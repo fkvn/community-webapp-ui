@@ -12,7 +12,7 @@ import { useForm } from "antd/lib/form/Form";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
-import { svgLoginPic } from "../../../Assest/Env";
+import { svgLoginPic } from "../../../Assest/Asset";
 import {
 	EMAIL_PROP,
 	PASSWORD_PROP,
@@ -20,9 +20,6 @@ import {
 	SIGNIN_CHANNEL_THAINOW,
 } from "../../../Util/ConstVar";
 import { formatString } from "../../../Util/Util";
-import useEmail from "../../Hook/FormHook/useEmail";
-import usePassword from "../../Hook/FormHook/usePassword";
-import usePhone from "../../Hook/FormHook/usePhone";
 import useSignin from "../../Hook/useSignin";
 import AppleSignin from "./AppleSignin";
 import FacebookSignin from "./FacebookSignin";
@@ -91,24 +88,24 @@ function UserSignin() {
 		</>
 	);
 
-	const email = useEmail();
-	const phone = usePhone();
-	const password = usePassword({
-		className: "mb-2",
-		extra: (
-			<Button type="link" className="px-0 mt-3" href="/forgot-password">
-				<span style={{ textTransform: "capitalize" }}>
-					{t("password_forgot_msg", { ns: "Password" })}{" "}
-				</span>
-			</Button>
-		),
-	});
+	// const email = useEmail();
+	// const phone = usePhone();
+	// const password = usePassword({
+	// 	className: "mb-2",
+	// 	extra: (
+	// 		<Button type="link" className="px-0 mt-3" href="/forgot-password">
+	// 			<span style={{ textTransform: "capitalize" }}>
+	// 				{t("password_forgot_msg", { ns: "Password" })}{" "}
+	// 			</span>
+	// 		</Button>
+	// 	),
+	// });
 
 	const signInTabChildren = (
 		<>
-			{signinChannel === EMAIL_PROP && email}
+			{/* {signinChannel === EMAIL_PROP && email}
 			{signinChannel === PHONE_PROP && phone}
-			{password}
+			{password} */}
 			<Form.Item className="m-0">
 				<Button
 					htmlType="submit"

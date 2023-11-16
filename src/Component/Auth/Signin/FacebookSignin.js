@@ -1,17 +1,19 @@
 import { Button } from "antd";
 import i18next from "i18next";
 import { useEffect } from "react";
-import { svgFacebookLogo } from "../../../Assest/Env";
+import { svgFacebookLogo } from "../../../Assest/Asset";
 import {
 	FORWARD_SUCCESS,
 	SIGNIN_CHANNEL_FACEBOOK,
 } from "../../../Util/ConstVar";
+import useMessage from "../../Hook/MessageHook/useMessage";
 import useImage from "../../Hook/useImage";
-import { errorMessage } from "../../Hook/useMessage";
 import useSignin from "../../Hook/useSignin";
 
 function FacebookSignin() {
 	const { onSigninHandle } = useSignin();
+	const { errorMessage } = useMessage();
+
 	function getFacebookInfo() {
 		// Calling Graph API after login to get user info
 		window.FB.api("/me?fields=id,name,email", function (response) {

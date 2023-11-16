@@ -7,7 +7,7 @@ import { EMAIL_PROP, PASSWORD_PROP, PHONE_PROP } from "../../../Util/ConstVar";
 import { formatString } from "../../../Util/Util";
 import PasswordFormControl from "../../Form/PasswordFormControl";
 import SubmitBtnFormControl from "../../Form/SubmitBtnFormControl";
-import TopPageHeader from "../../Layout/TopPageHeader";
+import TopPageHeader from "../../Layout/Header/TopPageHeader";
 import Otp from "../Otp/Otp";
 
 function ForgotPassword({

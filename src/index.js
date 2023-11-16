@@ -4,7 +4,7 @@ import { Provider } from "react-redux";
 import "../src/Assest/Style/style.scss";
 import App from "./App";
 import "./Component/Locale/i18n";
-import store from "./redux-store/store";
+import store from "./ReduxStore/store";
 import reportWebVitals from "./reportWebVitals";
 
 const rootElement = document.getElementById("root");

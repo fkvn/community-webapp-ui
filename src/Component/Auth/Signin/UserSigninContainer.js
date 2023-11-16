@@ -1,14 +1,14 @@
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
-import { formatString } from "../../../Util/Util";
-import usePageHeader from "../../Hook/FormHook/usePageheader";
-import useAuth from "../../Hook/useAuth";
-import { successMessage } from "../../Hook/useMessage";
+import useAuth from "../../Hook/AuthHook/useAuth";
+import useMessage from "../../Hook/MessageHook/useMessage";
+import TopPageHeader from "../../Layout/Header/TopPageHeader";
 import UserSignin from "./UserSignin";
 
 function UserSigninContainer() {
 	const { auth } = useAuth();
+	const { successMessage } = useMessage();
 	const navigate = useNavigate();
 	const { t } = useTranslation();
 
@@ -16,21 +16,18 @@ function UserSigninContainer() {
 
 	useEffect(() => {
 		if (loading) {
-			auth(false)
-				.then(() =>
-					successMessage("You have already signed in ...").then(() =>
-						navigate("/")
-					)
-				)
+			auth()
+				// .then(() => navigate("/"))
 				.catch(() => setLoading(false));
 		}
 	});
 
 	const app = (
 		<>
-			{usePageHeader({
+			<TopPageHeader />
+			{/* {usePageHeader({
 				title: formatString(t("signin_msg"), "capitalize"),
-			})}
+			})} */}
 			<UserSignin />
 		</>
 	);

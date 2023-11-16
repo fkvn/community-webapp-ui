@@ -138,6 +138,9 @@ export const REPORT_TYPE_ID_PROP = "typeId";
 export const REPORT_MESSAGE_PROP = "message";
 export const REPORT_REASON_LIST_PROP = "reasons";
 
+export const REDIRECT_URI = "redirectUri";
+export const SIGN_IN_PATH = "/signin";
+
 export const COMPANY_INDUSTRY_LIST = [
 	"Aquarium & Pet",
 	"Attorney",

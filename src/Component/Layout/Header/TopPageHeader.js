@@ -2,10 +2,10 @@ import { CloseOutlined } from "@ant-design/icons";
 import { PageHeader } from "@ant-design/pro-layout";
 import { Button, Flex } from "antd";
 import { useNavigate } from "react-router-dom";
-import { imageThainowLogoRound } from "../../Assest/Asset";
-import { FORWARD_CLOSE } from "../../Util/ConstVar";
-import useUrls from "../Hook/useUrls";
-import SwitchLanguage from "../Locale/SwitchLanguage";
+import { imageThainowLogoRound } from "../../../Assest/Asset";
+import { FORWARD_CLOSE } from "../../../Util/ConstVar";
+import useUrls from "../../Hook/useUrls";
+import SwitchLanguage from "../../Locale/SwitchLanguage";
 
 function TopPageHeader({
 	props = {},

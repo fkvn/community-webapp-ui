@@ -1,7 +1,6 @@
 import axios from "axios";
 import { devEnv, localEnv } from "../Assest/Env";
 import * as constVar from "../Util/ConstVar";
-import { signoutUserPromise } from "../Util/Util";
 
 const instance = axios.create({
 	baseURL: localEnv
@@ -32,11 +31,11 @@ const errorHandler = async (error) => {
 		const returnError = error.response.data.error;
 		message = error.response.data.message || "Unauthorized";
 
-		if (returnError === "Unauthorized") {
-			message =
-				"Your credentials are incorrect or have expired  .... Please sign in again!";
-			signoutUserPromise();
-		}
+		// if (returnError === "Unauthorized") {
+		// 	message =
+		// 		"Your credentials are incorrect or have expired  .... Please sign in again!";
+		// 	signoutUserPromise();
+		// }
 	} else if (error?.response?.data?.message) {
 		message = error.response.data.message;
 	}

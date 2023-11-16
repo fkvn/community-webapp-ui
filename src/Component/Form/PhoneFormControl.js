@@ -1,7 +1,7 @@
 import { Form, Input } from "antd";
 import { useTranslation } from "react-i18next";
 import { PHONE_PROP } from "../../Util/ConstVar";
-import { formatPhoneNumber, formatString } from "../../Util/Util";
+import { formatPhoneNumber } from "../../Util/Util";
 
 function PhoneFormControl({
 	itemProps: { itemName = PHONE_PROP, label, ...itemProps } = {},
@@ -19,25 +19,25 @@ function PhoneFormControl({
 				rules={[
 					{
 						required: required,
-						message: formatString(t("phone_enter_msg"), "sentencecase"),
+						message: t("phone_enter_msg"),
 					},
 					{
 						min: 14,
 						max: 14,
-						message: formatString(t("phone_invalid_msg"), "sentencecase"),
+						message: t("phone_invalid_msg"),
 					},
 				]}
 				{...(showLabel && {
-					label: `${
-						label || formatString(t("phone_number_msg"), "cappitalize")
-					} ${required ? "" : `(${t("form_optional_msg", { ns: "Form" })})`}`,
+					label: `${label || t("phone_number_msg")} ${
+						required ? "" : `(${t("form_optional_msg", { ns: "Form" })})`
+					}`,
 				})}
 				{...itemProps}
 			>
 				<Input
 					id="phone"
 					allowClear
-					placeholder={formatString(t("phone_enter_msg"), "sentencecase")}
+					placeholder={t("phone_enter_msg")}
 					addonBefore="+1"
 					maxLength={14}
 					{...inputProps}

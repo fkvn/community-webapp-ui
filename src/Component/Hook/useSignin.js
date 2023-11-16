@@ -1,5 +1,4 @@
 import { useTranslation } from "react-i18next";
-import { useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 import { signinAxios } from "../../Axios/authAxios";
 import { findProfilesAxios } from "../../Axios/userAxios";
@@ -8,7 +7,6 @@ import {
 	FORWARD_CONTINUE,
 	FORWARD_SUCCESS,
 	ID_PROP,
-	PROFILE_OBJ,
 	SEARCH_PROFILE,
 	SUCCESS_URL,
 } from "../../Util/ConstVar";
@@ -18,7 +16,6 @@ import {
 	saveProfileInfo,
 	saveUserInfo,
 } from "../../Util/Util";
-import { thainowReducer } from "../../redux-store/reducer/thainowReducer";
 import useMessage from "./MessageHook/useMessage";
 import useUrls from "./useUrls";
 
@@ -26,7 +23,8 @@ function useSignin() {
 	const { forwardUrl } = useUrls();
 	const navigate = useNavigate();
 	const location = useLocation();
-	const { [`${PROFILE_OBJ}`]: profile = {} } = useSelector(thainowReducer);
+	// const { [`${PROFILE_OBJ}`]: profile = {} } = useSelector(thainowReducer);
+	const profile = {};
 	const { loadingMessage, successMessage, errorMessage } = useMessage();
 	const { t } = useTranslation();
 

@@ -34,7 +34,7 @@ function useMessage() {
 	};
 
 	const successMessage = async (
-		contentOrKey = "",
+		contentOrKey = "message_navigate_msg",
 		duration = 1,
 		config = {},
 		showOverlay = false

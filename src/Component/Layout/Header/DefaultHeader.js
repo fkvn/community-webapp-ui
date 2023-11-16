@@ -5,22 +5,21 @@ import $ from "jquery";
 import { useEffect, useState } from "react";
 import { Navbar } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
-import { useSelector } from "react-redux";
-import { useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { svgThaiNowLogoWithWords } from "../../../Assest/Asset";
 import globalStyle from "../../../Assest/Style/scss/base/_global.scss";
-import { LOCATION_OBJ, SEARCH_INPUT_PROP } from "../../../Util/ConstVar";
-import { thainowReducer } from "../../../redux-store/reducer/thainowReducer";
+import { SEARCH_INPUT_PROP } from "../../../Util/ConstVar";
 import useImage from "../../Hook/useImage";
 import useSignin from "../../Hook/useSignin";
 import SwitchLanguage from "../../Locale/SwitchLanguage";
 
 function DefaultHeader() {
 	const [searchParams] = useSearchParams();
+	const navigate = useNavigate();
 	const [form] = useForm();
 	const { image } = useImage();
 	// const { displayLocation } = useCurrentLocation(false);
-	const { [`${LOCATION_OBJ}`]: location } = useSelector(thainowReducer);
+	// const { [`${LOCATION_OBJ}`]: location } = useSelector(thainowReducer);
 	const [showSearch, setShowSearch] = useState(false);
 	const { t } = useTranslation();
 	const { onClickSigninHandle } = useSignin();
@@ -134,7 +133,7 @@ function DefaultHeader() {
 						}}
 						className="custom-center"
 						icon={<UserOutlined />}
-						onClick={onClickSigninHandle}
+						onClick={() => navigate("/signin")}
 					>
 						{t("login_msg")} | {t("signup_msg")}
 					</Button>

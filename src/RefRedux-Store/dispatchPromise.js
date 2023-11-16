@@ -1,7 +1,7 @@
+import store from "../ReduxStore/store";
 import * as constVar from "../Util/ConstVar";
 import * as actionCreators from "./actionCreator/actionCreator";
 import * as actionTypes from "./actionCreator/actionType";
-import store from "./store";
 
 export const getState = () => {
 	return store.getState().thainowReducer || {};
