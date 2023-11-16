@@ -41,7 +41,7 @@ function UserSignin() {
 		form.validateFields();
 	}, [t, form]);
 
-	const title = (
+	const Title = () => (
 		<Typography.Title
 			level={3}
 			className="text-center"
@@ -55,7 +55,7 @@ function UserSignin() {
 		</Typography.Title>
 	);
 
-	const loginPrompt = (
+	const NoAccountMessage = () => (
 		<Row justify="center">
 			<Col>
 				<Space size={10} style={{ fontSize: "1rem" }}>
@@ -74,7 +74,7 @@ function UserSignin() {
 		</Row>
 	);
 
-	const thirdPartySigninOptions = (
+	const ThirdPartySigninOptions = () => (
 		<>
 			<Divider orientation="left">
 				{formatString(t("continue_with_msg"), "sentencecase")}{" "}
@@ -94,14 +94,16 @@ function UserSignin() {
 		</>
 	);
 
-	const thainowSignin = {
-		[`${EMAIL_PROP}`]: <EmailFormControl />,
-		[`${PHONE_PROP}`]: <PhoneFormControl />,
-	}[signinChannel];
+	const ThainowSignin = () => {
+		return {
+			[`${EMAIL_PROP}`]: <EmailFormControl />,
+			[`${PHONE_PROP}`]: <PhoneFormControl />,
+		}[signinChannel];
+	};
 
-	const signInTabChildren = (
+	const SignInTabChildren = () => (
 		<Flex vertical gap="large">
-			{thainowSignin}
+			<ThainowSignin />
 			<PasswordFormControl withConfirmPassword={false} />
 			<SubmitBtnFormControl
 				title={t("password_forgot_msg", { ns: "Password" })}
@@ -123,24 +125,6 @@ function UserSignin() {
 					htmlType: "submit",
 				}}
 			/>
-			{/* <Form.Item className="m-0">
-				<Button
-					htmlType="submit"
-					block
-					disabled={signing}
-					style={{
-						fontSize: "1rem",
-						padding: "1.5rem",
-						background: "#E94833",
-						color: "white",
-						borderRadius: ".5rem",
-					}}
-				>
-					<span style={{ textTransform: "capitalize" }}>
-						{t("signin_msg")}{" "}
-					</span>
-				</Button>
-			</Form.Item> */}
 		</Flex>
 	);
 
@@ -162,26 +146,26 @@ function UserSignin() {
 			.finally(() => setSigning(false));
 	};
 
-	// const signinSection = (
-	// 	<>
-	// 		<Segmented
-	// 			block
-	// 			options={[
-	// 				{
-	// 					label: t("email_address_msg", { ns: "Email" }),
-	// 					value: EMAIL_PROP,
-	// 				},
-	// 				{
-	// 					label: t("phone_number_msg", { ns: "Phone" }),
-	// 					value: PHONE_PROP,
-	// 				},
-	// 			]}
-	// 			onChange={(value) => setSigninChannel(value)}
-	// 			size="large"
-	// 		/>
-	// 		{signInTabChildren}
-	// 	</>
-	// );
+	const SigninTabOptions = () => (
+		<>
+			{/* <Segmented
+				block
+				options={[
+					{
+						label: t("email_address_msg", { ns: "Email" }),
+						value: EMAIL_PROP,
+					},
+					{
+						label: t("phone_number_msg", { ns: "Phone" }),
+						value: PHONE_PROP,
+					},
+				]}
+				onChange={(value) => setSigninChannel(value)}
+				size="large"
+			/> */}
+			<SignInTabChildren />
+		</>
+	);
 
 	const app = (
 		<Row id="user-signin">
@@ -193,7 +177,7 @@ function UserSignin() {
 					// 61px is the height of the header, minus footer if needed
 					minHeight: "calc(100vh - 61px)",
 				}}
-			></Col>
+			/>
 			<Col xs={24} lg={12} className="bg-white py-5">
 				<Row justify="center">
 					<Col>
@@ -210,17 +194,15 @@ function UserSignin() {
 								className="px-2"
 								style={{ whiteSpace: "normal", minWidth: "500px" }}
 							>
-								{title}
-								{loginPrompt}
-								{thirdPartySigninOptions}
+								<Title />
+								<NoAccountMessage />
+								<ThirdPartySigninOptions />
 								<Divider>
 									<span style={{ textTransform: "uppercase" }}>
-										{" "}
 										{t("or_msg")}
 									</span>
 								</Divider>
-								{/* {signinSection} */}
-								{signInTabChildren}
+								<SigninTabOptions />
 							</Space>
 						</Form>
 					</Col>
