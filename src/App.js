@@ -1,10 +1,10 @@
 import { BrowserRouter } from "react-router-dom";
-import RouteContainer from "./Component/Route/RouteContainer";
+import Route from "./Component/Route/Route";
 
 function App() {
 	return (
 		<BrowserRouter>
-			<RouteContainer />
+			<Route />
 		</BrowserRouter>
 	);
 }
