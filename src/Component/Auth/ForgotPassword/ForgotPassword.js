@@ -8,7 +8,6 @@ import { formatString } from "../../../Util/RefUtil";
 import PasswordFormControl from "../../Form/PasswordFormControl";
 import SubmitBtnFormControl from "../../Form/SubmitBtnFormControl";
 import TopPageHeader from "../../Layout/Header/TopPageHeader";
-import Auth from "../Auth";
 import Otp from "../Otp/Otp";
 
 function ForgotPassword({
@@ -123,12 +122,12 @@ function ForgotPassword({
 	);
 
 	return (
-		<Auth>
+		<>
 			<TopPageHeader
 				title={formatString(t("password_forgot_msg"), "capitalize")}
 			/>
 			{app}
-		</Auth>
+		</>
 	);
 }
 

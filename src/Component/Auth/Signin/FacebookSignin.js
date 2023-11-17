@@ -2,10 +2,7 @@ import { Button } from "antd";
 import i18next from "i18next";
 import { useEffect } from "react";
 import { svgFacebookLogo } from "../../../Assest/Asset";
-import {
-	FORWARD_SUCCESS,
-	SIGNIN_CHANNEL_FACEBOOK,
-} from "../../../Util/ConstVar";
+import { SIGNIN_CHANNEL_FACEBOOK } from "../../../Util/ConstVar";
 import useMessage from "../../Hook/MessageHook/useMessage";
 import useImage from "../../Hook/useImage";
 import useSignin from "../../Hook/useSignin";
@@ -20,14 +17,7 @@ function FacebookSignin() {
 			if (!response || response.error) {
 				errorMessage(response.error?.message);
 			} else {
-				onSigninHandle(
-					SIGNIN_CHANNEL_FACEBOOK,
-					response,
-					true,
-					FORWARD_SUCCESS
-				);
-				// console.log(response);
-				// console.log("Successful login for: " + response.name);
+				onSigninHandle(SIGNIN_CHANNEL_FACEBOOK, response);
 			}
 		});
 	}

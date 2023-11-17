@@ -1,22 +1,15 @@
 import i18next from "i18next";
 import jwt_decode from "jwt-decode";
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 import { devEnv, localEnv } from "../../../Assest/Env";
-import { FORWARD_SUCCESS, SIGNIN_CHANNEL_GOOGLE } from "../../../Util/ConstVar";
+import { SIGNIN_CHANNEL_GOOGLE } from "../../../Util/ConstVar";
 import useSignin from "../../Hook/useSignin";
 
-function GoogleSignin({}) {
+function GoogleSignin() {
 	const { onSigninHandle } = useSignin();
 
 	const handleCredentialResponse = (response) =>
-		onSigninHandle(
-			SIGNIN_CHANNEL_GOOGLE,
-			jwt_decode(response.credential),
-			true,
-			FORWARD_SUCCESS
-		);
-
-	const divRef = useRef(null);
+		onSigninHandle(SIGNIN_CHANNEL_GOOGLE, jwt_decode(response.credential));
 
 	const googleConnectLoaded = () => {
 		window.google?.accounts?.id.initialize({

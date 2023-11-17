@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 import { svgLineLogo } from "../../../Assest/Asset";
 import { devEnv, localEnv } from "../../../Assest/Env";
-import { FORWARD_SUCCESS, SIGNIN_CHANNEL_LINE } from "../../../Util/ConstVar";
+import { SIGNIN_CHANNEL_LINE } from "../../../Util/ConstVar";
 import useImage from "../../Hook/useImage";
 
 import useMessage from "../../Hook/MessageHook/useMessage";
@@ -71,7 +71,7 @@ function LineSignin() {
 	useEffect(() => {
 		if (searchParams.get("code"))
 			getLineToken(lineConfig).then((credential) =>
-				onSigninHandle(SIGNIN_CHANNEL_LINE, credential, true, FORWARD_SUCCESS)
+				onSigninHandle(SIGNIN_CHANNEL_LINE, credential)
 			);
 	});
 

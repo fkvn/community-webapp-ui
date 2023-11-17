@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import useAuth from "../../Hook/AuthHook/useAuth";
 import TopPageHeader from "../../Layout/Header/TopPageHeader";
-import UserSignin from "./UserSignin";
+import Signin from "./Signin";
 
-function UserSigninContainer() {
+function SigninContainer() {
 	const { auth } = useAuth();
 	const [loading, setLoading] = useState(true);
 
@@ -18,11 +18,11 @@ function UserSigninContainer() {
 	const app = (
 		<>
 			<TopPageHeader />
-			<UserSignin />
+			<Signin />
 		</>
 	);
 
 	return !loading && app;
 }
 
-export default UserSigninContainer;
+export default SigninContainer;

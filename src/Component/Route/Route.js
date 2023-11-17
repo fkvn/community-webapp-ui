@@ -1,7 +1,7 @@
 import { Route, Routes } from "react-router-dom";
 import { SIGN_IN_PATH } from "../../Util/ConstVar";
 import ForgotPasswordContainer from "../Auth/ForgotPassword/ForgotPasswordContainer";
-import UserSigninContainer from "../Auth/Signin/UserSigninContainer";
+import SigninContainer from "../Auth/Signin/SigninContainer";
 import LayoutContainer from "../Layout/LayoutContainer";
 import NotFound from "../NotFound/NotFound";
 
@@ -10,7 +10,7 @@ function RouteBuilder() {
 		<>
 			<Routes>
 				{/* <Route path="/register/*" element={<SignupRouteContainer />} /> */}
-				<Route path={SIGN_IN_PATH} element={<UserSigninContainer />} />
+				<Route path={SIGN_IN_PATH} element={<SigninContainer />} />
 				<Route
 					exact
 					path={`/forgot-password`}
