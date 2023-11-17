@@ -1,4 +1,4 @@
-import store from "../ReduxStore/store";
+import store from "../ReduxStore/Store";
 import * as constVar from "../Util/ConstVar";
 import * as actionCreators from "./actionCreator/actionCreator";
 import * as actionTypes from "./actionCreator/actionType";

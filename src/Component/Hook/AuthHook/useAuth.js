@@ -2,8 +2,8 @@
 import jwt_decode from "jwt-decode";
 import { useSelector } from "react-redux";
 import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
+import store from "../../../ReduxStore/Store";
 import { patchProfileInfoActionCreator } from "../../../ReduxStore/UserReducer/UserActionCreator";
-import store from "../../../ReduxStore/store";
 import {
 	PROFILE_OBJ,
 	REDIRECT_URI,

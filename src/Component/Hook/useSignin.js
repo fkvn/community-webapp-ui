@@ -2,8 +2,8 @@ import { useTranslation } from "react-i18next";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { signinAxios } from "../../Axios/authAxios";
 import { findProfilesAxios } from "../../Axios/userAxios";
+import store from "../../ReduxStore/Store";
 import { patchProfileInfoActionCreator } from "../../ReduxStore/UserReducer/UserActionCreator";
-import store from "../../ReduxStore/store";
 import {
 	ACCESS_TOKEN_PROP,
 	PROFILE_OBJ,
