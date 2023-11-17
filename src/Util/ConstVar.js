@@ -142,7 +142,7 @@ export const REDIRECT_URI = "redirectUri";
 export const SIGN_IN_PATH = "/signin";
 export const SWITCH_PROFILE_PATH = "/switch-profiles";
 export const FORGOT_PASSWORD_PATH = "/forgot-password";
-export const REGISTER_PATH = "/register/user";
+export const REGISTER_PATH = "/register";
 
 export const COMPANY_INDUSTRY_LIST = [
 	"Aquarium & Pet",

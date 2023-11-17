@@ -1,4 +1,4 @@
-import { Col, Flex, Form, Row, Typography } from "antd";
+import { Flex, Form, Typography } from "antd";
 import { useForm } from "antd/lib/form/Form";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -76,49 +76,55 @@ function ForgotPassword({
 	}, [t, form]);
 
 	const app = (
-		<Row id="forgot-password">
-			<Col
-				lg={12}
+		<Flex id="forgot-password" justify="space-between">
+			<img
+				alt="avatar"
+				src={svgLoginPic}
 				style={{
-					backgroundImage: `url(${svgLoginPic})`,
-					backgroundRepeat: "cover",
-					// 61px is the height of the header, minus footer if needed
-					minHeight: "calc(100vh - 61px)",
+					minHeight: "100vh",
 				}}
-			></Col>
-			<Col xs={24} lg={12} className="bg-white py-5">
-				<Row justify="center">
-					<Col xs={24} className="mt-3" style={{ maxWidth: "30rem" }}>
-						<Form
-							id="forgot-password-form"
-							form={form}
-							layout="vertical"
-							className="info-description mx-2 mx-xl-5"
-							autoComplete="off"
-						>
-							{title}
-							{needVerifyBeforeChangePassword ? (
-								<Otp
-									form={form}
-									onBeforeSendCode={onBeforeSendCode}
-									onAfterVerifyCode={onAfterVerifyCodeHandle}
+			/>
+			<Flex justify="center" className="w-100">
+				<Flex
+					vertical
+					gap="large"
+					style={{
+						padding: "0 5rem",
+						paddingTop: "3rem",
+					}}
+				>
+					<Form
+						id="forgot-password-form"
+						form={form}
+						layout="vertical"
+						className="info-description mx-2 mx-xl-5"
+						autoComplete="off"
+						style={{
+							minWidth: "30rem",
+						}}
+					>
+						{title}
+						{needVerifyBeforeChangePassword ? (
+							<Otp
+								form={form}
+								onBeforeSendCode={onBeforeSendCode}
+								onAfterVerifyCode={onAfterVerifyCodeHandle}
+							/>
+						) : (
+							<Flex vertical gap="large">
+								<PasswordFormControl newPasswordForm={true} />
+								<SubmitBtnFormControl
+									disabled={changingPassword}
+									loading={changingPassword}
+									title={t("password_reset_msg")}
+									onClick={onSubmitPasswordHandle}
 								/>
-							) : (
-								<Flex vertical gap="large">
-									<PasswordFormControl newPasswordForm={true} />
-									<SubmitBtnFormControl
-										disabled={changingPassword}
-										loading={changingPassword}
-										title={t("password_reset_msg")}
-										onClick={onSubmitPasswordHandle}
-									/>
-								</Flex>
-							)}
-						</Form>
-					</Col>
-				</Row>
-			</Col>
-		</Row>
+							</Flex>
+						)}
+					</Form>
+				</Flex>
+			</Flex>
+		</Flex>
 	);
 
 	return (

@@ -2,7 +2,11 @@ import { Col, Divider, Flex, Row, Space, Typography } from "antd";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import { svgLoginPic } from "../../../Assest/Asset";
-import { REGISTER_PATH } from "../../../Util/ConstVar";
+import {
+	REDIRECT_URI,
+	REGISTER_PATH,
+	SIGN_IN_PATH,
+} from "../../../Util/ConstVar";
 import TermAgreement from "../../Form/TermAgreement";
 import ThaiNowSignin from "./ThaiNowSignin";
 import ThirdPartySignin from "./ThirdPartySignin";
@@ -15,7 +19,7 @@ function Signin() {
 		<Typography.Title
 			level={3}
 			className="text-center"
-			style={{ textTransform: "capitalize" }}
+			style={{ textTransform: "capitalize", minWidth: "30rem" }}
 		>
 			{t("signin_msg")}
 			<span className="px-2" style={{ color: "#E94833" }}>
@@ -34,7 +38,11 @@ function Signin() {
 					</div>
 					<Typography.Link
 						underline
-						onClick={() => navigate(REGISTER_PATH)}
+						onClick={() =>
+							navigate(
+								`${REGISTER_PATH}?${REDIRECT_URI}=${SIGN_IN_PATH.slice(1)}`
+							)
+						}
 						style={{ fontSize: "1rem", textTransform: "capitalize" }}
 					>
 						{t("register_now_msg")}
@@ -45,24 +53,21 @@ function Signin() {
 	);
 
 	const app = (
-		<Row id="user-signin">
-			<Col
-				lg={12}
+		<Flex id="user-signin" justify="space-between">
+			<img
+				alt="avatar"
+				src={svgLoginPic}
 				style={{
-					backgroundImage: `url(${svgLoginPic})`,
-					backgroundRepeat: "cover",
-					// 61px is the height of the header, minus footer if needed
-					minHeight: "calc(100vh - 61px)",
+					minHeight: "100vh",
 				}}
 			/>
-			<Col xs={24} lg={12} className="bg-white ">
+			<Flex justify="center" className="w-100">
 				<Flex
 					vertical
 					gap="large"
-					justify="space-between"
 					style={{
-						padding: "0 10rem",
-						paddingTop: "5rem",
+						padding: "0 5rem",
+						paddingTop: "3rem",
 					}}
 				>
 					<Title />
@@ -79,8 +84,8 @@ function Signin() {
 					<ThaiNowSignin />
 					<TermAgreement />
 				</Flex>
-			</Col>
-		</Row>
+			</Flex>
+		</Flex>
 	);
 
 	return app;
