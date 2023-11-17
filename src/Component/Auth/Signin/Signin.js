@@ -1,8 +1,9 @@
 import { Col, Divider, Flex, Row, Space, Typography } from "antd";
-import { Trans, useTranslation } from "react-i18next";
+import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import { svgLoginPic } from "../../../Assest/Asset";
 import { REGISTER_PATH } from "../../../Util/ConstVar";
+import TermAgreement from "../../Form/TermAgreement";
 import ThaiNowSignin from "./ThaiNowSignin";
 import ThirdPartySignin from "./ThirdPartySignin";
 
@@ -76,13 +77,7 @@ function Signin() {
 						<span style={{ textTransform: "uppercase" }}>{t("or_msg")}</span>
 					</Divider>
 					<ThaiNowSignin />
-					<div>
-						<Trans i18nKey={"term_privacy_msg"}>
-							By continuing, you agree to ThaiNow
-							<a href="">Term of Service </a>
-							and <a href="/">Privacy Policy </a>
-						</Trans>
-					</div>
+					<TermAgreement />
 				</Flex>
 			</Col>
 		</Row>
