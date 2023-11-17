@@ -3,6 +3,7 @@ import { SIGN_IN_PATH } from "../../Util/ConstVar";
 import ForgotPasswordContainer from "../Auth/ForgotPassword/ForgotPasswordContainer";
 import UserSigninContainer from "../Auth/Signin/UserSigninContainer";
 import LayoutContainer from "../Layout/LayoutContainer";
+import NotFound from "../NotFound/NotFound";
 
 function RouteBuilder() {
 	const routes = (
@@ -28,7 +29,8 @@ function RouteBuilder() {
 					element={<EditServiceContainer />}
 				/> */}
 
-				<Route path="/*" element={<LayoutContainer />} />
+				<Route path="/" exact element={<LayoutContainer />} />
+				<Route path="*" element={<NotFound />} />
 			</Routes>
 		</>
 	);

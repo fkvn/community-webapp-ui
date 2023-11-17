@@ -13,7 +13,6 @@ import {
 import axios from "./axios";
 
 export const signinAxios = async (channel = "", credential = {}) => {
-	console.log(channel, credential);
 	const url = {
 		[`${SIGNIN_CHANNEL_THAINOW}`]: `/auth/thainow/signin`,
 		[`${SIGNIN_CHANNEL_GOOGLE}`]: `/auth/google/access`,
