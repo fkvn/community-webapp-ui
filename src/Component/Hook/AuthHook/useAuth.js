@@ -1,8 +1,6 @@
 // import { errorMessage } from "../../../RefComponent/Hook/useMessage";
 import jwt_decode from "jwt-decode";
 import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
-import store from "../../../ReduxStore/Store";
-import { patchProfileInfoActionCreator } from "../../../ReduxStore/UserReducer/UserActionCreator";
 import {
 	PROFILE_OBJ,
 	REDIRECT_URI,
@@ -15,7 +13,7 @@ import useRedux from "../useRedux";
 
 function useAuth() {
 	const { errorMessage } = useMessage();
-	const { profile } = useRedux();
+	const { profile, patchProfileInfo } = useRedux();
 	const [params] = useSearchParams();
 	const redirectUri = params.get(REDIRECT_URI) || "";
 	const navigate = useNavigate();
@@ -24,7 +22,7 @@ function useAuth() {
 	const signOut = async () => {
 		localStorage.removeItem(THAINOW_USER_OBJ);
 		localStorage.removeItem(PROFILE_OBJ);
-		store.dispatch(patchProfileInfoActionCreator());
+		patchProfileInfo();
 	};
 
 	const validateToken = () => {
