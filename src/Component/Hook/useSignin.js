@@ -2,8 +2,6 @@ import { useTranslation } from "react-i18next";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { signinAxios } from "../../Axios/authAxios";
 import { findProfilesAxios } from "../../Axios/userAxios";
-import store from "../../ReduxStore/Store";
-import { patchProfileInfoActionCreator } from "../../ReduxStore/UserReducer/UserActionCreator";
 import {
 	ACCESS_TOKEN_PROP,
 	PROFILE_OBJ,
@@ -12,6 +10,7 @@ import {
 	THAINOW_USER_OBJ,
 } from "../../Util/ConstVar";
 import useMessage from "./MessageHook/useMessage";
+import useRedux from "./useRedux";
 
 function useSignin() {
 	const navigate = useNavigate();
@@ -19,6 +18,7 @@ function useSignin() {
 	const { t } = useTranslation();
 	const [params] = useSearchParams();
 	const redirectUri = params.get(REDIRECT_URI) || "";
+	const { patchProfileInfo } = useRedux();
 
 	const saveToken = (access_token = "") => {
 		// save token to storage
@@ -32,7 +32,7 @@ function useSignin() {
 
 	const saveProfileInfo = (profile = {}) => {
 		localStorage.setItem(PROFILE_OBJ, JSON.stringify(profile));
-		store.dispatch(patchProfileInfoActionCreator(profile, true));
+		patchProfileInfo(profile, true);
 	};
 
 	/**

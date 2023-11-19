@@ -1,6 +1,5 @@
 // import { errorMessage } from "../../../RefComponent/Hook/useMessage";
 import jwt_decode from "jwt-decode";
-import { useSelector } from "react-redux";
 import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import store from "../../../ReduxStore/Store";
 import { patchProfileInfoActionCreator } from "../../../ReduxStore/UserReducer/UserActionCreator";
@@ -12,12 +11,11 @@ import {
 } from "../../../Util/ConstVar";
 import { isObjectEmpty } from "../../../Util/RefUtil";
 import useMessage from "../MessageHook/useMessage";
+import useRedux from "../useRedux";
 
 function useAuth() {
 	const { errorMessage } = useMessage();
-	const { [`${PROFILE_OBJ}`]: profile = {} } = useSelector(
-		(state) => state.userReducer
-	);
+	const { profile } = useRedux();
 	const [params] = useSearchParams();
 	const redirectUri = params.get(REDIRECT_URI) || "";
 	const navigate = useNavigate();

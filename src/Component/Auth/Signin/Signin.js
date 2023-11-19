@@ -1,4 +1,5 @@
 import { Col, Divider, Flex, Row, Space, Typography } from "antd";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import { svgLoginPic } from "../../../Assest/Asset";
@@ -8,12 +9,17 @@ import {
 	SIGN_IN_PATH,
 } from "../../../Util/ConstVar";
 import TermAgreement from "../../Form/TermAgreement";
+import useAuth from "../../Hook/AuthHook/useAuth";
+import TopPageHeader from "../../Layout/Header/TopPageHeader";
 import ThaiNowSignin from "./ThaiNowSignin";
 import ThirdPartySignin from "./ThirdPartySignin";
 
 function Signin() {
 	const navigate = useNavigate();
 	const { t } = useTranslation();
+
+	const { auth } = useAuth();
+	const [loading, setLoading] = useState(true);
 
 	const Title = () => (
 		<Typography.Title
@@ -52,40 +58,51 @@ function Signin() {
 		</Row>
 	);
 
+	useEffect(() => {
+		if (loading) {
+			auth(false).catch(() => {
+				setLoading(false);
+			});
+		}
+	});
+
 	const app = (
-		<Flex id="user-signin" justify="space-between">
-			<img
-				alt="avatar"
-				src={svgLoginPic}
-				style={{
-					minHeight: "100vh",
-				}}
-			/>
-			<Flex justify="center" className="w-100">
-				<Flex
-					vertical
-					gap="large"
+		<>
+			<TopPageHeader />
+			<Flex id="user-signin" justify="space-between">
+				<img
+					alt="avatar"
+					src={svgLoginPic}
 					style={{
-						padding: "0 5rem",
-						paddingTop: "3rem",
+						minHeight: "100vh",
 					}}
-				>
-					<Title />
-					<NoAccountMessage />
-					<Divider orientation="left">
-						<span style={{ textTransform: "capitalize" }}>
-							{t("continue_with_msg")}{" "}
-						</span>
-					</Divider>
-					<ThirdPartySignin />
-					<Divider>
-						<span style={{ textTransform: "uppercase" }}>{t("or_msg")}</span>
-					</Divider>
-					<ThaiNowSignin />
-					<TermAgreement />
+				/>
+				<Flex justify="center" className="w-100">
+					<Flex
+						vertical
+						gap="large"
+						style={{
+							padding: "0 5rem",
+							paddingTop: "3rem",
+						}}
+					>
+						<Title />
+						<NoAccountMessage />
+						<Divider orientation="left">
+							<span style={{ textTransform: "capitalize" }}>
+								{t("continue_with_msg")}{" "}
+							</span>
+						</Divider>
+						<ThirdPartySignin />
+						<Divider>
+							<span style={{ textTransform: "uppercase" }}>{t("or_msg")}</span>
+						</Divider>
+						<ThaiNowSignin />
+						<TermAgreement />
+					</Flex>
 				</Flex>
 			</Flex>
-		</Flex>
+		</>
 	);
 
 	return app;
