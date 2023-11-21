@@ -3,7 +3,7 @@ import { PageHeader } from "@ant-design/pro-layout";
 import { Button, Flex } from "antd";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { imageThainowLogoRound } from "../../../Assest/Asset";
-import { REDIRECT_URI } from "../../../Util/ConstVar";
+import { REDIRECT_URI } from "../../../Util/constVar";
 import SwitchLanguage from "../../Locale/SwitchLanguage";
 
 function TopPageHeader({

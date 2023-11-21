@@ -1,4 +1,4 @@
-import { STORAGE_SOURCE_URL } from "./Env";
+import { STORAGE_SOURCE_URL } from "../serviceEnv";
 
 export const svgLoginPic = `${STORAGE_SOURCE_URL}svg-login-pic.svg?alt=media&token=184f0afc-beb7-4992-9c24-63e3004444ef`;
 

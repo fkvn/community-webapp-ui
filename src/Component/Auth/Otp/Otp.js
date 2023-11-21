@@ -7,7 +7,7 @@ import {
 	OTP_PROP,
 	PHONE_PROP,
 	SMS_PROP,
-} from "../../../Util/ConstVar";
+} from "../../../Util/constVar";
 import EmailFormControl from "../../Form/EmailFormControl";
 import PhoneFormControl from "../../Form/PhoneFormControl";
 

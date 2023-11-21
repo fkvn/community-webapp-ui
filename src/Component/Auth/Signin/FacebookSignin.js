@@ -2,7 +2,8 @@ import { Button } from "antd";
 import i18next from "i18next";
 import { useEffect } from "react";
 import { svgFacebookLogo } from "../../../Assest/Asset";
-import { SIGNIN_CHANNEL_FACEBOOK } from "../../../Util/ConstVar";
+import { SIGNIN_CHANNEL_FACEBOOK } from "../../../Util/constVar";
+import { facebookSignin } from "../../../serviceEnv";
 import useMessage from "../../Hook/MessageHook/useMessage";
 import useImage from "../../Hook/useImage";
 import useSignin from "../../Hook/useSignin";
@@ -43,7 +44,7 @@ function FacebookSignin() {
 		// init facebook sdk
 		window.fbAsyncInit = function () {
 			window.FB.init({
-				appId: "390544463217297",
+				appId: facebookSignin.appId,
 				cookie: true,
 				xfbml: true,
 				version: "v18.0",
@@ -69,21 +70,6 @@ function FacebookSignin() {
 	});
 
 	const app = (
-		// <div
-		// className="fb-login-button"
-		// data-max-rows="1"
-		// data-size="large"
-		// data-button-type="continue_with"
-		// data-use-continue-as="true"
-		// data-scope="public_profile, email"
-		// data-onlogin="checkLoginState();"
-		// onClick={() => {
-		// 	window.FB.login(statusChangeCallback, {
-		// 		scope: "public_profile,email",
-		// 	});
-		// }}
-		// >
-		// </div>
 		<Button className="border-0">
 			{image({
 				src: svgFacebookLogo,

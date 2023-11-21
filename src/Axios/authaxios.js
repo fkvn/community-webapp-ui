@@ -9,7 +9,7 @@ import {
 	SIGNIN_CHANNEL_THAINOW,
 	SMS_PROP,
 	USERNAME_PROP,
-} from "../Util/ConstVar";
+} from "../Util/constVar";
 import axios from "./axios";
 
 export const signinAxios = async (channel = "", credential = {}) => {

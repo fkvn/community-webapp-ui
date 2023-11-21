@@ -1,6 +1,6 @@
 // export const userReducer = (state) => state.userReducer;
 
-import { PROFILE_OBJ } from "../../Util/ConstVar";
+import { PROFILE_OBJ } from "../../Util/constVar";
 import { DISPATCH_PATCH_PROFILE_INFO } from "./UserActionType";
 
 /* proifle format {

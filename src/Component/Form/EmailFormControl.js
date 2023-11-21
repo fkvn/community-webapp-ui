@@ -1,6 +1,6 @@
 import { Form, Input } from "antd";
 import { useTranslation } from "react-i18next";
-import { EMAIL_PROP } from "../../Util/ConstVar";
+import { EMAIL_PROP } from "../../Util/constVar";
 
 function EmailFormControl({
 	itemProps: { itemName = EMAIL_PROP, label, ...itemProps } = {},

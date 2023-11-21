@@ -3,7 +3,7 @@ import {
 	getState,
 	patchSigninUserInfoPromise,
 } from "../RefRedux-Store/dispatchPromise";
-import * as constVar from "./ConstVar";
+import * as constVar from "./constVar";
 
 export const isObjectEmpty = (object = {}) => JSON.stringify(object) === "{}";
 

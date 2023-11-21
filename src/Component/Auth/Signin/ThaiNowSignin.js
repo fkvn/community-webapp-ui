@@ -10,7 +10,7 @@ import {
 	PHONE_PROP,
 	REDIRECT_URI,
 	SIGNIN_CHANNEL_THAINOW,
-} from "../../../Util/ConstVar";
+} from "../../../Util/constVar";
 import EmailFormControl from "../../Form/EmailFormControl";
 import PasswordFormControl from "../../Form/PasswordFormControl";
 import PhoneFormControl from "../../Form/PhoneFormControl";

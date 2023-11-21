@@ -1,5 +1,5 @@
 import { Route, Routes } from "react-router-dom";
-import { SIGN_IN_PATH } from "../../Util/ConstVar";
+import { SIGN_IN_PATH } from "../../Util/constVar";
 import ForgotPasswordContainer from "../Auth/ForgotPassword/ForgotPasswordContainer";
 import Signin from "../Auth/Signin/Signin";
 import LayoutContainer from "../Layout/LayoutContainer";

@@ -8,7 +8,7 @@ import {
 	REDIRECT_URI,
 	SWITCH_PROFILE_PATH,
 	THAINOW_USER_OBJ,
-} from "../../Util/ConstVar";
+} from "../../Util/constVar";
 import useMessage from "./MessageHook/useMessage";
 import useRedux from "./useRedux";
 

@@ -1,4 +1,4 @@
-import * as constVar from "../../Util/ConstVar";
+import * as constVar from "../../Util/constVar";
 import * as actionTypes from "./actionType";
 
 // patch user sign in info

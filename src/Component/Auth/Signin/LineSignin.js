@@ -3,10 +3,10 @@ import axios from "axios";
 import { useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 import { svgLineLogo } from "../../../Assest/Asset";
-import { devEnv, localEnv } from "../../../Assest/Env";
-import { SIGNIN_CHANNEL_LINE } from "../../../Util/ConstVar";
+import { SIGNIN_CHANNEL_LINE } from "../../../Util/constVar";
 import useImage from "../../Hook/useImage";
 
+import { lineSignin } from "../../../serviceEnv";
 import useMessage from "../../Hook/MessageHook/useMessage";
 import useSignin from "../../Hook/useSignin";
 
@@ -16,19 +16,11 @@ function LineSignin() {
 	const [searchParams] = useSearchParams();
 	const { onSigninHandle } = useSignin();
 
-	const redirectUrl = new URL(
-		localEnv
-			? "http://localhost:3000/signin"
-			: devEnv
-			? "https://dev.searchforthai.com/signin"
-			: "https://searchforthai.com/signin"
-	);
-
 	const lineConfig = {
 		code: searchParams.get("code"),
-		redirect_uri: redirectUrl || "",
-		client_id: "2001417253",
-		client_secret: "eb28b8c4d70a46f74a39b3b913be7096",
+		redirect_uri: lineSignin.redirect_uri || "",
+		client_id: lineSignin.client_id,
+		client_secret: lineSignin.client_secret,
 	};
 
 	const getLineToken = async ({
@@ -79,7 +71,7 @@ function LineSignin() {
 		<>
 			<Button
 				className="border-0"
-				href={`https://access.line.me/oauth2/v2.1/authorize?response_type=code&client_id=2001417253&redirect_uri=${redirectUrl}&state=12345abcde&scope=profile%20openid%20email&nonce=09876xyz`}
+				href={`https://access.line.me/oauth2/v2.1/authorize?response_type=code&client_id=${lineSignin.client_id}&redirect_uri=${lineSignin.redirect_uri}&state=12345abcde&scope=profile%20openid%20email&nonce=09876xyz`}
 			>
 				{image({
 					src: svgLineLogo,

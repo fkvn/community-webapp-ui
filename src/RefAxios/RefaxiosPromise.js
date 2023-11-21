@@ -11,7 +11,7 @@ import {
 	SEARCH_REVIEW,
 	SEARCH_SERVICE,
 	SMS_PROP,
-} from "../Util/ConstVar";
+} from "../Util/constVar";
 
 export const searchCompanyAxios = async (params = "", signal) =>
 	axios

@@ -7,7 +7,7 @@ import {
 	REDIRECT_URI,
 	REGISTER_PATH,
 	SIGN_IN_PATH,
-} from "../../../Util/ConstVar";
+} from "../../../Util/constVar";
 import TermAgreement from "../../Form/TermAgreement";
 import useAuth from "../../Hook/AuthHook/useAuth";
 import TopPageHeader from "../../Layout/Header/TopPageHeader";

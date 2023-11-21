@@ -1,8 +1,8 @@
 import i18next from "i18next";
 import jwt_decode from "jwt-decode";
 import { useEffect } from "react";
-import { devEnv, localEnv } from "../../../Assest/Env";
-import { SIGNIN_CHANNEL_APPLE } from "../../../Util/ConstVar";
+import { SIGNIN_CHANNEL_APPLE } from "../../../Util/constVar";
+import { appleSignin, localEnv } from "../../../serviceEnv";
 import useSignin from "../../Hook/useSignin";
 
 function AppleSignin({ buttonProps = {} }) {
@@ -18,15 +18,10 @@ function AppleSignin({ buttonProps = {} }) {
 			handleCredentialResponse
 		);
 		new window.AppleID.auth.init({
-			clientId: "com.searchforthai.thainow",
+			clientId: appleSignin.clientId,
 			responseType: "code",
 			scope: "name email",
-			// the redirectURI domain must the same as the domain when pop-up is render
-			// if localhost, the pop-up would return the 403 error
-			redirectURI:
-				localEnv || devEnv
-					? "https://dev.searchforthai.com/signin"
-					: "https://searchforthai.com/signin",
+			redirectURI: appleSignin.redirectURI,
 			state: "kevinaa!@#$",
 			nonce: "xyz",
 			usePopup: true,

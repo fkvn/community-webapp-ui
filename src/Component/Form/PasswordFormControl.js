@@ -1,6 +1,6 @@
 import { Form, Input } from "antd";
 import { useTranslation } from "react-i18next";
-import { CONFIRM_PASSWORD_PROP, PASSWORD_PROP } from "../../Util/ConstVar";
+import { CONFIRM_PASSWORD_PROP, PASSWORD_PROP } from "../../Util/constVar";
 
 function PasswordFormControl({
 	newPasswordForm = false,

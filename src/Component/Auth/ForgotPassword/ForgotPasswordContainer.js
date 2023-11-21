@@ -1,5 +1,5 @@
 import { verifyExistingAxios } from "../../../Axios/authAxios";
-import { PASSWORD_PROP, SIGNIN_CHANNEL_THAINOW } from "../../../Util/ConstVar";
+import { PASSWORD_PROP, SIGNIN_CHANNEL_THAINOW } from "../../../Util/constVar";
 import useProfile from "../../Hook/useProfile";
 import useSignin from "../../Hook/useSignin";
 import ForgotPassword from "./ForgotPassword";
