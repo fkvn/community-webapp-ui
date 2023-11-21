@@ -1,7 +1,7 @@
 import { Form, InputNumber } from "antd";
 import { useTranslation } from "react-i18next";
-import { formatUSPhoneNumber } from "../../Util/RefUtil";
 import { PHONE_PROP } from "../../Util/constVar";
+import { formatUSPhoneNumber } from "../../Util/util";
 
 function PhoneFormControl({
 	itemProps: { itemName = PHONE_PROP, label, ...itemProps } = {},

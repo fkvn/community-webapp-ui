@@ -8,12 +8,10 @@ import {
 	PHONE_PROP,
 	SMS_PROP,
 } from "../../../Util/constVar";
+import { formatUSPhoneNumber } from "../../../Util/util";
 import EmailFormControl from "../../Form/EmailFormControl";
-import PhoneFormControl from "../../Form/PhoneFormControl";
-
 import OtpFormControl from "../../Form/OtpFormControl";
-
-import { formatUSPhoneNumber } from "../../../Util/RefUtil";
+import PhoneFormControl from "../../Form/PhoneFormControl";
 import SubmitBtnFormControl from "../../Form/SubmitBtnFormControl";
 import useTwilio from "../../Hook/AuthHook/useTwilio";
 import useMessage from "../../Hook/MessageHook/useMessage";
