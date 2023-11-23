@@ -1,6 +1,6 @@
 import { useSelector } from "react-redux";
-import store from "../../ReduxStore/Store";
 import { patchProfileInfoActionCreator } from "../../ReduxStore/UserReducer/UserActionCreator";
+import store from "../../ReduxStore/store";
 import { PROFILE_OBJ } from "../../Util/constVar";
 
 function useRedux() {
