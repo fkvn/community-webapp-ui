@@ -1,6 +1,5 @@
 import {
 	EMAIL_PROP,
-	PASSWORD_PROP,
 	PHONE_PROP,
 	SIGNIN_CHANNEL_APPLE,
 	SIGNIN_CHANNEL_FACEBOOK,
@@ -12,25 +11,34 @@ import {
 } from "../Util/constVar";
 import axios from "./axios";
 
-export const signinAxios = async (channel = "", credential = {}) => {
+/**
+ *
+ * @param {*} provider
+ * @param {*} {channel, value, password, ...credential}
+ * @returns
+ */
+export const signinAxios = async (
+	provider = "",
+	{ channel, value, password, ...credential }
+) => {
 	const url = {
 		[`${SIGNIN_CHANNEL_THAINOW}`]: `/auth/thainow/signin`,
 		[`${SIGNIN_CHANNEL_GOOGLE}`]: `/auth/google/access`,
 		[`${SIGNIN_CHANNEL_APPLE}`]: `/auth/apple/access`,
 		[`${SIGNIN_CHANNEL_FACEBOOK}`]: `/auth/facebook/access`,
 		[`${SIGNIN_CHANNEL_LINE}`]: `/auth/line/access`,
-	}[`${channel}`];
+	}[`${provider}`];
 
 	const body = {
 		[`${SIGNIN_CHANNEL_THAINOW}`]: {
-			channel: credential?.channel,
-			...(credential?.channel === EMAIL_PROP && {
-				email: credential?.value,
+			channel: channel,
+			...(channel === EMAIL_PROP && {
+				email: value,
 			}),
-			...(credential?.channel === PHONE_PROP && {
-				phone: credential?.value,
+			...(channel === PHONE_PROP && {
+				phone: value,
 			}),
-			password: credential[`${PASSWORD_PROP}`],
+			password: password,
 		},
 		[`${SIGNIN_CHANNEL_GOOGLE}`]: {
 			...credential,
@@ -44,11 +52,10 @@ export const signinAxios = async (channel = "", credential = {}) => {
 		[`${SIGNIN_CHANNEL_LINE}`]: {
 			...credential,
 		},
-	}[`${channel}`];
+	}[`${provider}`];
 
 	if (!url || !body) return Promise.reject("Invalid sign in channel!");
 
-	console.log(url, body);
 	return axios
 		.post(url, body)
 		.then(({ data }) => Promise.resolve(data))

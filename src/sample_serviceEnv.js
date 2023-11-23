@@ -1,5 +1,6 @@
 export const localEnv = true;
 export const devEnv = false;
+// both false -> production
 
 export const PRODUCTION_CDN_STORAGE_SOURCE_URL = "/cdn/image/";
 export const LOCAL_ENV_STORAGE_SOURCE_URL =
