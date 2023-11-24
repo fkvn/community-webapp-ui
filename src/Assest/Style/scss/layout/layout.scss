@@ -5,40 +5,6 @@ body {
 	overscroll-behavior: none;
 }
 
-// body,
-// .offcanvas {
-// 	background-color: #f3f4f6;
-// }
-
-#layout {
-	header {
-		background-size: cover;
-		height: auto;
-		// min-height: fit-content;
-	}
-}
-
-#topbar {
-	padding: 0.5rem 0;
-}
-
-#RightLayout {
-	position: fixed;
-	height: 100vh;
-	overflow: auto;
-	// max-width: 25%;
-}
-
-#RightLayout::-webkit-scrollbar {
-	display: none;
-}
-
-/* Hide scrollbar for IE, Edge and Firefox */
-#RightLayout {
-	-ms-overflow-style: none; /* IE and Edge */
-	scrollbar-width: none; /* Firefox */
-}
-
 .custom-center {
 	@include flex-center;
 }
@@ -119,4 +85,20 @@ body {
 }
 #ajax-div {
 	z-index: 200; /*important, that it is above the overlay*/
+}
+
+#RightLayout {
+	position: fixed;
+	height: 100vh;
+	overflow: auto;
+}
+
+#RightLayout::-webkit-scrollbar {
+	display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+#RightLayout {
+	-ms-overflow-style: none; /* IE and Edge */
+	scrollbar-width: none; /* Firefox */
 }

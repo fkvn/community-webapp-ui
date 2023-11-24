@@ -80,13 +80,29 @@ $grayBorderColor: rgba(102, 102, 102, 0.25);
 $grayColor: #9ca3af;
 $customRedColor: #e94833;
 
-:export {
-	primaryColor: $primaryColor;
-	businessColor: $businessColor;
-	jobColor: $jobColor;
-	housingColor: $housingColor;
-	marketplaceColor: $marketplaceColor;
-	mainBlueColor1: $mainBlueColor1;
+$theme-colors: (
+	"primary": $primaryColor,
+	"business": $businessColor,
+	"job": $jobColor,
+	"housing": $housingColor,
+	"marketplace": $marketplaceColor,
+	"customRed": $customRedColor,
+);
+
+@mixin color($name, $important: false) {
+	@if $important {
+		color: map.get($theme-colors, $name) !important;
+	} @else {
+		color: map.get($theme-colors, $name);
+	}
+}
+
+@mixin background($name, $important: false) {
+	@if $important {
+		background-color: map.get($theme-colors, $name) !important;
+	} @else {
+		background-color: map.get($theme-colors, $name);
+	}
 }
 
 @mixin layout-margin($default: true, $top: 0, $bottom: 0, $left: 0, $right: 0) {
@@ -122,31 +138,6 @@ $customRedColor: #e94833;
 	display: flex !important;
 	justify-content: right;
 	align-items: center;
-}
-
-$theme-colors: (
-	"primary": $primaryColor,
-	"business": $businessColor,
-	"job": $jobColor,
-	"housing": $housingColor,
-	"marketplace": $marketplaceColor,
-	"customRed": $customRedColor,
-);
-
-@mixin color($name, $important: false) {
-	@if $important {
-		color: map.get($theme-colors, $name) !important;
-	} @else {
-		color: map.get($theme-colors, $name);
-	}
-}
-
-@mixin background($name, $important: false) {
-	@if $important {
-		background-color: map.get($theme-colors, $name) !important;
-	} @else {
-		background-color: map.get($theme-colors, $name);
-	}
 }
 
 // @mixin color-business($important: false) {
