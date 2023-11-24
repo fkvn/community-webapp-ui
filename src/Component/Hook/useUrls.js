@@ -7,7 +7,7 @@ import {
 	FORWARD_SUCCESS,
 	SEARCH_PROFILE,
 	SUCCESS_URL,
-} from "../../Util/ConstVar";
+} from "../../Util/constVar";
 
 function useUrls() {
 	const navigate = useNavigate();
@@ -45,10 +45,10 @@ function useUrls() {
 						},
 				  ]
 				: action === FORWARD_CLOSE
-				? [closeUrl, {}]
-				: action === FORWARD_SUCCESS
-				? [successUrl, { [`${CLOSE_URL}`]: closeUrl }]
-				: ["/", {}];
+				  ? [closeUrl, {}]
+				  : action === FORWARD_SUCCESS
+				    ? [successUrl, { [`${CLOSE_URL}`]: closeUrl }]
+				    : ["/", {}];
 
 		navigate(next, {
 			state: {

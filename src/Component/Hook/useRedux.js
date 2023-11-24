@@ -8,8 +8,8 @@ function useRedux() {
 		(state) => state.userReducer
 	);
 
-	const patchProfileInfo = (profile = {}) =>
-		store.dispatch(patchProfileInfoActionCreator(profile, true));
+	const patchProfileInfo = (profile = {}, replace = true) =>
+		store.dispatch(patchProfileInfoActionCreator(profile, replace));
 
 	return { profile, patchProfileInfo };
 }

@@ -3,13 +3,13 @@ import jwt_decode from "jwt-decode";
 import { useEffect } from "react";
 import { SIGNIN_CHANNEL_GOOGLE } from "../../../Util/constVar";
 import { googleSignin } from "../../../serviceEnv";
-import useSignin from "../../Hook/useSignin";
+import useAuth from "../../Hook/AuthHook/useAuth";
 
 function GoogleSignin() {
-	const { onSigninHandle } = useSignin();
+	const { signin } = useAuth();
 
 	const handleCredentialResponse = (response) =>
-		onSigninHandle(SIGNIN_CHANNEL_GOOGLE, jwt_decode(response.credential));
+		signin(SIGNIN_CHANNEL_GOOGLE, jwt_decode(response.credential));
 
 	const googleConnectLoaded = () => {
 		window.google?.accounts?.id.initialize({

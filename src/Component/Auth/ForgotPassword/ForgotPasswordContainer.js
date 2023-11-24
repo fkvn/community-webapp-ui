@@ -1,12 +1,12 @@
 import { verifyExistingAxios } from "../../../Axios/authAxios";
 import { PASSWORD_PROP, SIGNIN_CHANNEL_THAINOW } from "../../../Util/constVar";
+import useAuth from "../../Hook/AuthHook/useAuth";
 import useProfile from "../../Hook/useProfile";
-import useSignin from "../../Hook/useSignin";
 import ForgotPassword from "./ForgotPassword";
 
 function ForgotPasswordContainer() {
 	const { changePassword } = useProfile();
-	const { onSigninHandle } = useSignin();
+	const { signin } = useAuth();
 
 	const onBeforeSendCodeHandle = async (_ = "", field = "", value = "") => {
 		return verifyExistingAxios(field, value)
@@ -17,7 +17,7 @@ function ForgotPasswordContainer() {
 	};
 
 	const onAfterSubmitPasswordHandle = (credentials = {}) =>
-		onSigninHandle(SIGNIN_CHANNEL_THAINOW, {
+		signin(SIGNIN_CHANNEL_THAINOW, {
 			channel: credentials?.channel,
 			value: credentials[`${credentials.channel}`],
 			[`${PASSWORD_PROP}`]: credentials[`${PASSWORD_PROP}`],

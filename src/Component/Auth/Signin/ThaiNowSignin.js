@@ -15,12 +15,12 @@ import EmailFormControl from "../../Form/EmailFormControl";
 import PasswordFormControl from "../../Form/PasswordFormControl";
 import PhoneFormControl from "../../Form/PhoneFormControl";
 import SubmitBtnFormControl from "../../Form/SubmitBtnFormControl";
-import useSignin from "../../Hook/useSignin";
+import useAuth from "../../Hook/AuthHook/useAuth";
 
 function ThaiNowSignin() {
 	const [form] = useForm();
 	const { t } = useTranslation(["Default", "Password", "Email", "Phone"]);
-	const { onSigninHandle } = useSignin();
+	const { signin } = useAuth();
 
 	const navigate = useNavigate();
 	const [params] = useSearchParams();
@@ -93,7 +93,7 @@ function ThaiNowSignin() {
 		form
 			.validateFields()
 			.then(() =>
-				onSigninHandle(
+				signin(
 					SIGNIN_CHANNEL_THAINOW,
 					{
 						channel: signinChannel,

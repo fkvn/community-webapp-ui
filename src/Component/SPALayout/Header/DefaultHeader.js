@@ -1,13 +1,14 @@
-import { Button, Flex } from "antd";
+import { Avatar, Button, Flex, Menu, Space } from "antd";
 import $ from "jquery";
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import { svgThaiNowLogoWithWords } from "../../../Assest/Asset";
 
-import { UserOutlined } from "@ant-design/icons";
+import { LogoutOutlined, UserOutlined } from "@ant-design/icons";
 import { SIGN_IN_PATH } from "../../../Util/constVar";
 import { isObjectEmpty } from "../../../Util/util";
+import useAuth from "../../Hook/AuthHook/useAuth";
 import useImage from "../../Hook/useImage";
 import useRedux from "../../Hook/useRedux";
 import SwitchLanguage from "../../Locale/SwitchLanguage";
@@ -16,12 +17,16 @@ function DefaultHeader() {
 	const navigate = useNavigate();
 	const { image } = useImage();
 	const { profile = {} } = useRedux();
+	const { name: userName = "", picture: userPicture = "" } =
+		profile?.info || {};
+	const { t } = useTranslation();
+	const { signout } = useAuth();
+
 	// const [form] = useForm();
 	// const [searchParams] = useSearchParams();
 	// const { displayLocation } = useCurrentLocation(false);
 	// const { [`${LOCATION_OBJ}`]: location } = useSelector(thainowReducer);
 	// const [showSearch, setShowSearch] = useState(false);
-	const { t } = useTranslation();
 
 	// const menu = (
 	// 	<Menu
@@ -166,6 +171,57 @@ function DefaultHeader() {
 			</Button>
 		);
 
+	const profileMenuItems = [
+		{
+			label: (
+				<Space align="center">
+					<Avatar
+						size="small"
+						{...(userPicture
+							? { src: <img src={profile?.picture} alt="avatar" /> }
+							: { icon: <UserOutlined /> })}
+					/>
+					{userName}
+				</Space>
+			),
+			children: [
+				{
+					label: t("my_profile_msg"),
+					icon: <UserOutlined />,
+					key: "my_profile",
+				},
+				{
+					label: t("sign_out_msg"),
+					icon: <LogoutOutlined />,
+					key: "sign_out",
+				},
+			],
+		},
+	];
+
+	const onClickProfileMenuItemHandle = (e) => {
+		switch (e.key) {
+			case "my_profile":
+				break;
+			case "sign_out":
+				signout();
+				break;
+			default:
+				break;
+		}
+	};
+
+	const ProfileMenu = () =>
+		!isObjectEmpty(profile) && (
+			<>
+				<Menu
+					onClick={onClickProfileMenuItemHandle}
+					mode="horizontal"
+					items={profileMenuItems}
+				/>
+			</>
+		);
+
 	const App = () => (
 		<Flex justify="space-between" className="my-1 mx-3">
 			<Flex justify="space-between" align="center">
@@ -182,6 +238,7 @@ function DefaultHeader() {
 			<Flex justify="space-between" align="center">
 				<SwitchLanguage />
 				<SigninBtn />
+				<ProfileMenu />
 			</Flex>
 		</Flex>
 	);

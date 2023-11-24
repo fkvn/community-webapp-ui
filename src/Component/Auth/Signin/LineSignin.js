@@ -7,14 +7,14 @@ import { SIGNIN_CHANNEL_LINE } from "../../../Util/constVar";
 import useImage from "../../Hook/useImage";
 
 import { lineSignin } from "../../../serviceEnv";
+import useAuth from "../../Hook/AuthHook/useAuth";
 import useMessage from "../../Hook/MessageHook/useMessage";
-import useSignin from "../../Hook/useSignin";
 
 function LineSignin() {
 	const { image } = useImage();
 	const { errorMessage } = useMessage();
 	const [searchParams] = useSearchParams();
-	const { onSigninHandle } = useSignin();
+	const { signin } = useAuth();
 
 	const lineConfig = {
 		code: searchParams.get("code"),
@@ -63,7 +63,7 @@ function LineSignin() {
 	useEffect(() => {
 		if (searchParams.get("code"))
 			getLineToken(lineConfig).then((credential) =>
-				onSigninHandle(SIGNIN_CHANNEL_LINE, credential)
+				signin(SIGNIN_CHANNEL_LINE, credential)
 			);
 	});
 

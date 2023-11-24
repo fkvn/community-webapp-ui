@@ -4,12 +4,12 @@ import { useEffect } from "react";
 import { svgFacebookLogo } from "../../../Assest/Asset";
 import { SIGNIN_CHANNEL_FACEBOOK } from "../../../Util/constVar";
 import { facebookSignin } from "../../../serviceEnv";
+import useAuth from "../../Hook/AuthHook/useAuth";
 import useMessage from "../../Hook/MessageHook/useMessage";
 import useImage from "../../Hook/useImage";
-import useSignin from "../../Hook/useSignin";
 
 function FacebookSignin() {
-	const { onSigninHandle } = useSignin();
+	const { signin } = useAuth();
 	const { errorMessage } = useMessage();
 
 	function getFacebookInfo() {
@@ -18,7 +18,7 @@ function FacebookSignin() {
 			if (!response || response.error) {
 				errorMessage(response.error?.message);
 			} else {
-				onSigninHandle(SIGNIN_CHANNEL_FACEBOOK, response);
+				signin(SIGNIN_CHANNEL_FACEBOOK, response);
 			}
 		});
 	}

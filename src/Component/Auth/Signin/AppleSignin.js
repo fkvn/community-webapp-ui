@@ -3,14 +3,14 @@ import jwt_decode from "jwt-decode";
 import { useEffect } from "react";
 import { SIGNIN_CHANNEL_APPLE } from "../../../Util/constVar";
 import { appleSignin, localEnv } from "../../../serviceEnv";
-import useSignin from "../../Hook/useSignin";
+import useAuth from "../../Hook/AuthHook/useAuth";
 
 function AppleSignin({ buttonProps = {} }) {
-	const { onSigninHandle } = useSignin();
+	const { signin } = useAuth();
 
 	const handleCredentialResponse = ({
 		detail: { authorization: { id_token = "" } = {} } = {},
-	}) => onSigninHandle(SIGNIN_CHANNEL_APPLE, jwt_decode(id_token));
+	}) => signin(SIGNIN_CHANNEL_APPLE, jwt_decode(id_token));
 
 	const appleConnectLoaded = () => {
 		window.document.addEventListener(
@@ -56,7 +56,7 @@ function AppleSignin({ buttonProps = {} }) {
 			// since localhost would return 403 error, this is to debug
 			{...(localEnv && {
 				onClick: () =>
-					onSigninHandle(SIGNIN_CHANNEL_APPLE, {
+					signin(SIGNIN_CHANNEL_APPLE, {
 						sub: "0002216.25114e5db4f94b969bd8ff00abc4cb25.0320",
 						email: "phucaone@gmail.com",
 						email_verified: "true",
