@@ -10,7 +10,7 @@ import {
 } from "../../../Util/constVar";
 import TermAgreement from "../../Form/TermAgreement";
 import useAuth from "../../Hook/AuthHook/useAuth";
-import TopPageHeader from "../../Layout/Header/TopPageHeader";
+import FormPageHeader from "../../SPALayout/Header/FormPageHeader";
 import ThaiNowSignin from "./ThaiNowSignin";
 import ThirdPartySignin from "./ThirdPartySignin";
 
@@ -66,46 +66,53 @@ function Signin() {
 		}
 	});
 
-	const app = (
+	const App = () => (
 		<>
-			<TopPageHeader />
-			<Flex id="user-signin" justify="space-between">
-				<img
-					alt="avatar"
-					src={svgLoginPic}
+			<FormPageHeader />
+			<Row>
+				<Col
+					xs={0}
+					lg={12}
 					style={{
-						minHeight: "100vh",
+						backgroundImage: `url(${svgLoginPic})`,
+						backgroundRepeat: "no-repeat",
+						backgroundSize: "cover",
+						height: "100vh",
 					}}
 				/>
-				<Flex justify="center" className="w-100">
-					<Flex
-						vertical
-						gap="large"
-						style={{
-							padding: "0 5rem",
-							paddingTop: "3rem",
-						}}
-					>
-						<Title />
-						<NoAccountMessage />
-						<Divider orientation="left">
-							<span style={{ textTransform: "capitalize" }}>
-								{t("continue_with_msg")}{" "}
-							</span>
-						</Divider>
-						<ThirdPartySignin />
-						<Divider>
-							<span style={{ textTransform: "uppercase" }}>{t("or_msg")}</span>
-						</Divider>
-						<ThaiNowSignin />
-						<TermAgreement />
+				<Col xs={24} lg={12}>
+					<Flex justify="center" className="w-100">
+						<Flex
+							vertical
+							gap="large"
+							style={{
+								padding: "0 5rem",
+								paddingTop: "3rem",
+							}}
+						>
+							<Title />
+							<NoAccountMessage />
+							<Divider orientation="left">
+								<span style={{ textTransform: "capitalize" }}>
+									{t("continue_with_msg")}{" "}
+								</span>
+							</Divider>
+							<ThirdPartySignin />
+							<Divider>
+								<span style={{ textTransform: "uppercase" }}>
+									{t("or_msg")}
+								</span>
+							</Divider>
+							<ThaiNowSignin />
+							<TermAgreement />
+						</Flex>
 					</Flex>
-				</Flex>
-			</Flex>
+				</Col>
+			</Row>
 		</>
 	);
 
-	return app;
+	return <App />;
 }
 
 export default Signin;

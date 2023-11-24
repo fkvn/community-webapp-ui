@@ -1,13 +1,12 @@
-import { Flex, Form, Typography } from "antd";
+import { Col, Flex, Form, Row, Typography } from "antd";
 import { useForm } from "antd/lib/form/Form";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { svgLoginPic } from "../../../Assest/Asset";
 import { EMAIL_PROP, PASSWORD_PROP, PHONE_PROP } from "../../../Util/constVar";
-import { formatString } from "../../../Util/util";
 import PasswordFormControl from "../../Form/PasswordFormControl";
 import SubmitBtnFormControl from "../../Form/SubmitBtnFormControl";
-import TopPageHeader from "../../Layout/Header/TopPageHeader";
+import FormPageHeader from "../../SPALayout/Header/FormPageHeader";
 import Otp from "../Otp/Otp";
 
 function ForgotPassword({
@@ -16,16 +15,15 @@ function ForgotPassword({
 	onSubmitPassword = (_credentials = {}) => Promise.resolve(),
 	onAfterSubmitPassword = (_channel = "", _credentials = {}) =>
 		Promise.resolve(),
-	defaultNeedVerifyBeforeChangePassword = true,
+	defaultMustVerify = true,
 }) {
 	const [form] = useForm();
 	const { t } = useTranslation(["Password"]);
 
 	const [changingPassword, setChangingPassword] = useState(false);
-	const [needVerifyBeforeChangePassword, setNeedVerifyBeforeChangePassword] =
-		useState(defaultNeedVerifyBeforeChangePassword);
+	const [mustVerify, setMustVerify] = useState(defaultMustVerify);
 
-	const title = (
+	const Title = () => (
 		<>
 			<Typography.Title
 				level={2}
@@ -68,71 +66,73 @@ function ForgotPassword({
 
 	// don't need to verify if the otp code is verifed
 	const onAfterVerifyCodeHandle = (isCodeVerified = false) =>
-		setNeedVerifyBeforeChangePassword(!isCodeVerified);
+		setMustVerify(!isCodeVerified);
 
 	// this to trigger the translation of the input message
 	useEffect(() => {
 		form.validateFields();
 	}, [t, form]);
 
-	const app = (
-		<Flex id="forgot-password" justify="space-between">
-			<img
-				alt="avatar"
-				src={svgLoginPic}
+	const App = () => (
+		<Row>
+			<Col
+				xs={0}
+				lg={12}
 				style={{
-					minHeight: "100vh",
+					backgroundImage: `url(${svgLoginPic})`,
+					backgroundRepeat: "no-repeat",
+					backgroundSize: "cover",
+					height: "100vh",
 				}}
 			/>
-			<Flex justify="center" className="w-100">
-				<Flex
-					vertical
-					gap="large"
-					style={{
-						padding: "0 5rem",
-						paddingTop: "3rem",
-					}}
-				>
-					<Form
-						id="forgot-password-form"
-						form={form}
-						layout="vertical"
-						className="info-description mx-2 mx-xl-5"
-						autoComplete="off"
+			<Col xs={24} lg={12}>
+				<Flex justify="center" className="w-100">
+					<Flex
+						vertical
+						gap="large"
 						style={{
-							minWidth: "30rem",
+							padding: "0 5rem",
+							paddingTop: "3rem",
 						}}
 					>
-						{title}
-						{needVerifyBeforeChangePassword ? (
-							<Otp
-								form={form}
-								onBeforeSendCode={onBeforeSendCode}
-								onAfterVerifyCode={onAfterVerifyCodeHandle}
-							/>
-						) : (
-							<Flex vertical gap="large">
-								<PasswordFormControl newPasswordForm={true} />
-								<SubmitBtnFormControl
-									disabled={changingPassword}
-									loading={changingPassword}
-									title={t("password_reset_msg")}
-									onClick={onSubmitPasswordHandle}
+						<Title />
+						<Form
+							id="forgot-password-form"
+							form={form}
+							layout="vertical"
+							autoComplete="off"
+							style={{
+								minWidth: "25rem",
+							}}
+						>
+							{mustVerify ? (
+								<Otp
+									form={form}
+									onBeforeSendCode={onBeforeSendCode}
+									onAfterVerifyCode={onAfterVerifyCodeHandle}
 								/>
-							</Flex>
-						)}
-					</Form>
+							) : (
+								<Flex vertical gap="large">
+									<PasswordFormControl newPasswordForm={true} />
+									<SubmitBtnFormControl
+										disabled={changingPassword}
+										loading={changingPassword}
+										title={t("password_reset_msg")}
+										onClick={onSubmitPasswordHandle}
+									/>
+								</Flex>
+							)}
+						</Form>
+					</Flex>
 				</Flex>
-			</Flex>
-		</Flex>
+			</Col>
+		</Row>
 	);
 
 	return (
 		<>
-			<TopPageHeader
-				title={formatString(t("password_forgot_msg"), "capitalize")}
-			/>
-			{app}
+			<FormPageHeader />
+			<App />
 		</>
 	);
 }

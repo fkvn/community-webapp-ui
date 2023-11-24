@@ -43,7 +43,9 @@ function GoogleSignin() {
 		js.addEventListener("load", () => googleConnectLoaded());
 	});
 
-	return <div id="buttonDiv"></div>;
+	const App = () => <div id="buttonDiv"></div>;
+
+	return <App />;
 }
 
 export default GoogleSignin;

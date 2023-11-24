@@ -67,7 +67,7 @@ function LineSignin() {
 			);
 	});
 
-	const app = (
+	const App = () => (
 		<>
 			<Button
 				className="border-0"
@@ -81,7 +81,7 @@ function LineSignin() {
 			</Button>
 		</>
 	);
-	return app;
+	return <App />;
 }
 
 export default LineSignin;

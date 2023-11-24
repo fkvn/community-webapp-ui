@@ -11,7 +11,7 @@ function PhoneFormControl({
 }) {
 	const { t } = useTranslation(["Phone", "Form"]);
 
-	const app = (
+	const App = () => (
 		<>
 			<Form.Item
 				name={itemName}
@@ -48,7 +48,7 @@ function PhoneFormControl({
 			</Form.Item>
 		</>
 	);
-	return app;
+	return <App />;
 }
 
 export default PhoneFormControl;

@@ -38,7 +38,7 @@ function OtpFormControl({
 		return [formattedOtp, otp];
 	};
 
-	const app = (
+	const App = () => (
 		<>
 			<Form.Item
 				name={itemName}
@@ -79,7 +79,7 @@ function OtpFormControl({
 			</Form.Item>
 		</>
 	);
-	return app;
+	return <App />;
 }
 
 export default OtpFormControl;

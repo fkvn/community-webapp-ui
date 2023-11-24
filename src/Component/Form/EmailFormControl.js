@@ -10,7 +10,7 @@ function EmailFormControl({
 } = {}) {
 	const { t } = useTranslation(["Email", "Form"]);
 
-	const app = (
+	const App = () => (
 		<>
 			<Form.Item
 				name={itemName}
@@ -36,7 +36,7 @@ function EmailFormControl({
 			</Form.Item>
 		</>
 	);
-	return app;
+	return <App />;
 }
 
 export default EmailFormControl;

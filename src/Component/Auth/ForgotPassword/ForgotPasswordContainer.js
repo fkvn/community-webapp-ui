@@ -23,7 +23,7 @@ function ForgotPasswordContainer() {
 			[`${PASSWORD_PROP}`]: credentials[`${PASSWORD_PROP}`],
 		});
 
-	const app = (
+	const App = () => (
 		<>
 			<ForgotPassword
 				onBeforeSendCode={onBeforeSendCodeHandle}
@@ -32,7 +32,7 @@ function ForgotPasswordContainer() {
 			/>
 		</>
 	);
-	return app;
+	return <App />;
 }
 
 export default ForgotPasswordContainer;

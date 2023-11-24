@@ -1,13 +1,13 @@
 import { useNavigate } from "react-router-dom";
 import { image404 } from "../../Assest/Asset";
-import TopPageHeader from "../Layout/Header/TopPageHeader";
+import FormPageHeader from "../SPALayout/Header/FormPageHeader";
 
 function NotFound() {
 	const navigate = useNavigate();
 
-	const app = (
+	const App = () => (
 		<>
-			<TopPageHeader />
+			<FormPageHeader />
 			<img
 				src={image404}
 				alt="not found"
@@ -21,7 +21,7 @@ function NotFound() {
 			/>
 		</>
 	);
-	return app;
+	return <App />;
 }
 
 export default NotFound;

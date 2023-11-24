@@ -3,8 +3,12 @@ import i18next from "i18next";
 import { getLanguageTitle } from "../../Util/util";
 
 function SwitchLanguage({
-	style = {},
-	bordered = true,
+	style = {
+		fontSize: "1rem",
+		paddingRight: ".5rem",
+		color: "black",
+	},
+	bordered = false,
 	options = [
 		{
 			value: "en",
@@ -21,7 +25,7 @@ function SwitchLanguage({
 	],
 	selectionProps = {},
 }) {
-	const languageSelection = (
+	const App = () => (
 		<Select
 			labelInValue
 			defaultValue={{
@@ -39,9 +43,7 @@ function SwitchLanguage({
 			{...selectionProps}
 		/>
 	);
-
-	const app = languageSelection;
-	return app;
+	return <App />;
 }
 
 export default SwitchLanguage;

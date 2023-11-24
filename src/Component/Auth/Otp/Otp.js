@@ -111,35 +111,38 @@ function Otp({
 	};
 
 	const onSendCodeHandle = () => {
-		form.validateFields().then(() => {
-			loadingMessage();
-			setOtpInfo({ ...otpInfo, isCodeSending: true });
+		form
+			.validateFields()
+			.then(() => {
+				loadingMessage();
+				setOtpInfo({ ...otpInfo, isCodeSending: true });
 
-			const [channel, field, value] = [
-				otpInfo?.channel,
-				otpInfo?.field,
-				form.getFieldValue(otpInfo?.field),
-			];
+				const [channel, field, value] = [
+					otpInfo?.channel,
+					otpInfo?.field,
+					form.getFieldValue(otpInfo?.field),
+				];
 
-			// send code
-			onBeforeSendCode(channel, field, value)
-				.then(() =>
-					sendCode(channel, value).then(() =>
-						setOtpInfo({
-							...otpInfo,
-							isCodeSent: true,
-						})
+				// send code
+				onBeforeSendCode(channel, field, value)
+					.then(() =>
+						sendCode(channel, value).then(() =>
+							setOtpInfo({
+								...otpInfo,
+								isCodeSent: true,
+							})
+						)
 					)
-				)
-				.catch((e) =>
-					errorMessage(e).then(() =>
-						setOtpInfo({
-							...otpInfo,
-							isCodeSending: false,
-						})
-					)
-				);
-		});
+					.catch((e) =>
+						errorMessage(e).then(() =>
+							setOtpInfo({
+								...otpInfo,
+								isCodeSending: false,
+							})
+						)
+					);
+			})
+			.catch(() => {});
 	};
 
 	const SendCode = () =>
@@ -154,6 +157,7 @@ function Otp({
 							: t("email_verify_msg", { ns: "Email" })
 					}
 					onClick={onSwitchVerifyOptionHandle}
+					disabled={otpInfo?.isCodeSending}
 					btnProps={{
 						type: "link",
 						className: "custom-center-left",
@@ -183,34 +187,37 @@ function Otp({
 	};
 
 	const onVerifyCodeHandle = () => {
-		form.validateFields().then(() => {
-			loadingMessage("otp_code_verifying_msg");
-			setOtpInfo({ ...otpInfo, isCodeVerifying: true });
+		form
+			.validateFields()
+			.then(() => {
+				loadingMessage("otp_code_verifying_msg");
+				setOtpInfo({ ...otpInfo, isCodeVerifying: true });
 
-			const [channel, value, token] = [
-				otpInfo?.channel,
-				form.getFieldValue(otpInfo?.field),
-				form.getFieldValue(OTP_PROP),
-			];
+				const [channel, value, token] = [
+					otpInfo?.channel,
+					form.getFieldValue(otpInfo?.field),
+					form.getFieldValue(OTP_PROP),
+				];
 
-			// verify code
-			verifyCode(channel, value, token)
-				.then(() => {
-					setOtpInfo({
-						...otpInfo,
-						isCodeVerifying: false,
-						isCodeVerified: true,
+				// verify code
+				verifyCode(channel, value, token)
+					.then(() => {
+						setOtpInfo({
+							...otpInfo,
+							isCodeVerifying: false,
+							isCodeVerified: true,
+						});
+						form.setFieldValue(OTP_PROP, "");
+						onAfterVerifyCode(true);
+					})
+					.catch(() => {
+						setOtpInfo({
+							...otpInfo,
+							isCodeVerifying: false,
+						});
 					});
-					form.setFieldValue(OTP_PROP, "");
-					onAfterVerifyCode(true);
-				})
-				.catch(() => {
-					setOtpInfo({
-						...otpInfo,
-						isCodeVerifying: false,
-					});
-				});
-		});
+			})
+			.catch(() => {});
 	};
 
 	const VerifyCode = () =>
@@ -259,7 +266,7 @@ function Otp({
 			</>
 		);
 
-	const app = (
+	const App = () => (
 		<>
 			<Flex vertical gap="large">
 				<VerifyOption />
@@ -268,7 +275,7 @@ function Otp({
 			</Flex>
 		</>
 	);
-	return app;
+	return <App />;
 }
 
 export default Otp;

@@ -2,8 +2,8 @@ import { Route, Routes } from "react-router-dom";
 import { SIGN_IN_PATH } from "../../Util/constVar";
 import ForgotPasswordContainer from "../Auth/ForgotPassword/ForgotPasswordContainer";
 import Signin from "../Auth/Signin/Signin";
-import LayoutContainer from "../Layout/LayoutContainer";
 import NotFound from "../NotFound/NotFound";
+import SPALayout from "../SPALayout/SPALayout";
 
 function RouteBuilder() {
 	const routes = (
@@ -29,19 +29,19 @@ function RouteBuilder() {
 					element={<EditServiceContainer />}
 				/> */}
 
-				<Route path="/" exact element={<LayoutContainer />} />
+				<Route path="/" exact element={<SPALayout />} />
 				<Route path="*" element={<NotFound />} />
 			</Routes>
 		</>
 	);
 
-	const app = (
+	const App = () => (
 		<>
 			<main id="main"> {routes}</main>
 		</>
 	);
 
-	return app;
+	return <App />;
 }
 
 export default RouteBuilder;

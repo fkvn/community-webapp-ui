@@ -42,7 +42,7 @@ function AppleSignin({ buttonProps = {} }) {
 		js.addEventListener("load", () => appleConnectLoaded());
 	});
 
-	const app = (
+	const App = () => (
 		<div
 			id="appleid-signin"
 			data-mode="logo-only"
@@ -66,7 +66,7 @@ function AppleSignin({ buttonProps = {} }) {
 		></div>
 	);
 
-	return app;
+	return <App />;
 }
 
 export default AppleSignin;

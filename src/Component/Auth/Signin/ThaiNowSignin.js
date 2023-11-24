@@ -108,6 +108,7 @@ function ThaiNowSignin() {
 
 	const app = (
 		<Form
+			id="user-signin-form"
 			form={form}
 			onFinish={onFinish}
 			layout="vertical"

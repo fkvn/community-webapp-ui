@@ -19,7 +19,7 @@ function PasswordFormControl({
 } = {}) {
 	const { t } = useTranslation(["Password", "Form"]);
 
-	const app = (
+	const App = () => (
 		<>
 			<Form.Item
 				name={itemName}
@@ -94,7 +94,7 @@ function PasswordFormControl({
 		</>
 	);
 
-	return app;
+	return <App />;
 }
 
 export default PasswordFormControl;

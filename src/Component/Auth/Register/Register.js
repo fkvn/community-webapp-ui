@@ -2,7 +2,7 @@ import { Flex } from "antd";
 import { svgLoginPic } from "../../../Assest/Asset";
 
 function Register() {
-	const app = (
+	const App = () => (
 		<Flex id="forgot-password" justify="space-between">
 			<img
 				alt="avatar"
@@ -25,7 +25,7 @@ function Register() {
 			</Flex>
 		</Flex>
 	);
-	return app;
+	return <App />;
 }
 
 export default Register;

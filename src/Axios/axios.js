@@ -1,9 +1,9 @@
 import axios from "axios";
-import { PROFILE_OBJ, THAINOW_USER_OBJ } from "../Util/constVar";
-import { axiosConfig } from "../serviceEnv";
+import {PROFILE_OBJ, THAINOW_USER_OBJ} from "../Util/constVar";
+import {axiosConfig} from "../serviceEnv";
 
 const instance = axios.create({
-	baseURL: axiosConfig.baseURL,
+	baseURL: axiosConfig?.baseURL || "",
 });
 
 const responseHandler = (response) => {

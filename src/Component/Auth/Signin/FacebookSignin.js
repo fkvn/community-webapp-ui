@@ -69,7 +69,7 @@ function FacebookSignin() {
 		js.addEventListener("load", () => facebookConnectLoaded());
 	});
 
-	const app = (
+	const App = () => (
 		<Button className="border-0">
 			{image({
 				src: svgFacebookLogo,
@@ -82,6 +82,6 @@ function FacebookSignin() {
 			})}
 		</Button>
 	);
-	return app;
+	return <App />;
 }
 export default FacebookSignin;

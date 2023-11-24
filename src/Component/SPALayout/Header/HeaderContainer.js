@@ -1,11 +1,11 @@
-import { Col, Grid, Row } from "antd";
+import { Col, Row } from "antd";
 import DefaultHeader from "./DefaultHeader";
 
-function ResponsiveHeader() {
-	const { useBreakpoint } = Grid;
-	const screens = useBreakpoint();
+function HeaderContainer() {
+	// const { useBreakpoint } = Grid;
+	// const screens = useBreakpoint();
 
-	const app = (
+	const App = () => (
 		<Row>
 			<Col xs={24}>
 				<DefaultHeader />
@@ -20,7 +20,7 @@ function ResponsiveHeader() {
 		</Row>
 	);
 
-	return app;
+	return <App />;
 }
 
-export default ResponsiveHeader;
+export default HeaderContainer;

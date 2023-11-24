@@ -5,7 +5,7 @@ import GoogleSignin from "./GoogleSignin";
 import LineSignin from "./LineSignin";
 
 function ThirdPartySignin() {
-	const app = (
+	const App = () => (
 		<>
 			<Flex gap="large" justify="space-around">
 				<FacebookSignin />
@@ -16,7 +16,7 @@ function ThirdPartySignin() {
 		</>
 	);
 
-	return app;
+	return <App />;
 }
 
 export default ThirdPartySignin;

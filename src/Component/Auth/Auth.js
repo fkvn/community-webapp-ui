@@ -16,8 +16,8 @@ function Auth({ children }) {
 		}
 	});
 
-	const app = <>{children}</>;
-	return !loading ? app : null;
+	const App = () => (!loading ? <>{children}</> : null);
+	return <App />;
 }
 
 export default Auth;

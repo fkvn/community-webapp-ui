@@ -14,7 +14,7 @@ function SubmitBtnFormControl({
 	onClick = () => {},
 	btnProps = {},
 }) {
-	const app = (
+	const App = () => (
 		<>
 			<Button
 				type={type}
@@ -30,7 +30,7 @@ function SubmitBtnFormControl({
 		</>
 	);
 
-	return app;
+	return <App />;
 }
 
 export default SubmitBtnFormControl;
