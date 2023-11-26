@@ -18,7 +18,7 @@ function useMessage() {
 		contentOrKey = "message_loading_msg",
 		duration = 0,
 		config = {},
-		showOverlay = false
+		showOverlay = true
 	) => {
 		if (showOverlay) document.getElementById("overlay").style.display = "block";
 		const content =
@@ -35,9 +35,9 @@ function useMessage() {
 
 	const successMessage = async (
 		contentOrKey = "message_navigate_msg",
-		duration = 1,
+		duration = 3,
 		config = {},
-		showOverlay = false
+		showOverlay = true
 	) => {
 		if (showOverlay) document.getElementById("overlay").style.display = "block";
 		const content =
@@ -54,9 +54,9 @@ function useMessage() {
 
 	const errorMessage = async (
 		contentOrKey = "message_system_error_msg",
-		duration = 2,
+		duration = 3,
 		config = {},
-		showOverlay = false
+		showOverlay = true
 	) => {
 		if (showOverlay) document.getElementById("overlay").style.display = "block";
 		const content =

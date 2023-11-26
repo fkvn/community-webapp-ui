@@ -4,11 +4,13 @@ import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import {
+	CHANNEL_PROP,
 	EMAIL_PROP,
 	FORGOT_PASSWORD_PATH,
 	PASSWORD_PROP,
 	PHONE_PROP,
 	REDIRECT_URI,
+	REGION_PROP,
 	SIGNIN_CHANNEL_THAINOW,
 } from "../../../Util/constVar";
 import EmailFormControl from "../../Form/EmailFormControl";
@@ -90,18 +92,28 @@ function ThaiNowSignin() {
 
 	const onFinish = () => {
 		setSigning(true);
+
+		let credentials = {
+			[`${EMAIL_PROP}`]: {
+				[`${EMAIL_PROP}`]: form.getFieldValue(EMAIL_PROP),
+				[`${PASSWORD_PROP}`]: form.getFieldValue(PASSWORD_PROP),
+			},
+			[`${PHONE_PROP}`]: {
+				[`${PHONE_PROP}`]: form.getFieldValue(PHONE_PROP),
+				[`${REGION_PROP}`]: form.getFieldValue(REGION_PROP),
+				[`${PASSWORD_PROP}`]: form.getFieldValue(PASSWORD_PROP),
+			},
+		}[`${signinChannel}`];
+
+		credentials = {
+			[`${CHANNEL_PROP}`]: signinChannel,
+			...credentials,
+		};
+
 		form
 			.validateFields()
 			.then(() =>
-				signin(
-					SIGNIN_CHANNEL_THAINOW,
-					{
-						channel: signinChannel,
-						value: form.getFieldValue(signinChannel),
-						[`${PASSWORD_PROP}`]: form.getFieldValue(PASSWORD_PROP),
-					},
-					true
-				)
+				signin(SIGNIN_CHANNEL_THAINOW, credentials, true).catch(() => {})
 			)
 			.finally(() => setSigning(false));
 	};

@@ -39,7 +39,7 @@ function FormPageHeader({ onBeforeClose = () => Promise.resolve() }) {
 							onBeforeClose().then(() => navigate(`/${redirectUri}`))
 						}
 						style={{ fontSize: "1rem" }}
-					></Button>
+					/>
 				</Flex>
 			</Flex>
 			<Divider className="m-0 p-0" />

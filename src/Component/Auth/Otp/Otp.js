@@ -6,9 +6,10 @@ import {
 	EMAIL_PROP,
 	OTP_PROP,
 	PHONE_PROP,
+	REGION_PROP,
 	SMS_PROP,
 } from "../../../Util/constVar";
-import { formatUSPhoneNumber } from "../../../Util/util";
+import { formatPhoneNumber } from "../../../Util/util";
 import EmailFormControl from "../../Form/EmailFormControl";
 import OtpFormControl from "../../Form/OtpFormControl";
 import PhoneFormControl from "../../Form/PhoneFormControl";
@@ -42,7 +43,6 @@ function Otp({
 
 	const [otpInfo, setOtpInfo] = useState({
 		channel: "",
-		field: "",
 		isCodeSending: false,
 		isCodeSent: false,
 		isCodeVerifying: false,
@@ -58,7 +58,6 @@ function Otp({
 		setOtpInfo({
 			...otpInfo,
 			channel: EMAIL_PROP,
-			field: EMAIL_PROP,
 		});
 		onAfterSelectEmailVerification();
 	};
@@ -67,7 +66,6 @@ function Otp({
 		setOtpInfo({
 			...otpInfo,
 			channel: SMS_PROP,
-			field: PHONE_PROP,
 		});
 		onAfterSelectSMSVerification();
 	};
@@ -117,16 +115,20 @@ function Otp({
 				loadingMessage();
 				setOtpInfo({ ...otpInfo, isCodeSending: true });
 
-				const [channel, field, value] = [
-					otpInfo?.channel,
-					otpInfo?.field,
-					form.getFieldValue(otpInfo?.field),
-				];
+				const payload = {
+					[`${EMAIL_PROP}`]: {
+						[`${EMAIL_PROP}`]: form.getFieldValue(EMAIL_PROP),
+					},
+					[`${SMS_PROP}`]: {
+						[`${PHONE_PROP}`]: form.getFieldValue(PHONE_PROP),
+						[`${REGION_PROP}`]: form.getFieldValue(REGION_PROP),
+					},
+				}[`${otpInfo.channel}`];
 
 				// send code
-				onBeforeSendCode(channel, field, value)
+				onBeforeSendCode(otpInfo.channel, payload)
 					.then(() =>
-						sendCode(channel, value).then(() =>
+						sendCode(otpInfo.channel, payload).then(() =>
 							setOtpInfo({
 								...otpInfo,
 								isCodeSent: true,
@@ -193,14 +195,20 @@ function Otp({
 				loadingMessage("otp_code_verifying_msg");
 				setOtpInfo({ ...otpInfo, isCodeVerifying: true });
 
-				const [channel, value, token] = [
-					otpInfo?.channel,
-					form.getFieldValue(otpInfo?.field),
-					form.getFieldValue(OTP_PROP),
-				];
+				const payload = {
+					[`${EMAIL_PROP}`]: {
+						[`${EMAIL_PROP}`]: form.getFieldValue(EMAIL_PROP),
+						[`${OTP_PROP}`]: form.getFieldValue(OTP_PROP),
+					},
+					[`${SMS_PROP}`]: {
+						[`${PHONE_PROP}`]: form.getFieldValue(PHONE_PROP),
+						[`${REGION_PROP}`]: form.getFieldValue(REGION_PROP),
+						[`${OTP_PROP}`]: form.getFieldValue(OTP_PROP),
+					},
+				}[`${otpInfo.channel}`];
 
 				// verify code
-				verifyCode(channel, value, token)
+				verifyCode(otpInfo.channel, payload)
 					.then(() => {
 						setOtpInfo({
 							...otpInfo,
@@ -235,9 +243,11 @@ function Otp({
 							{{
 								value:
 									otpInfo?.channel === EMAIL_PROP
-										? form.getFieldValue(otpInfo?.field)
-										: formatUSPhoneNumber(form.getFieldValue(otpInfo?.field)) ||
-										  "",
+										? form.getFieldValue(EMAIL_PROP)
+										: formatPhoneNumber(
+												form.getFieldValue(PHONE_PROP),
+												form.getFieldValue(REGION_PROP)
+										  ),
 							}}
 						</strong>
 					</Trans>

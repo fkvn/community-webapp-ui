@@ -22,8 +22,17 @@ export const scrollToActiveElement = () => {
 	});
 };
 
-export const formatUSPhoneNumber = (value = "") => {
-	const phoneString = value.toString();
+export const formatPhoneNumber = (phone = "", region = "US") => {
+	switch (region) {
+		case "US":
+			return formatUSPhoneNumber(phone);
+		default:
+			return phone;
+	}
+};
+
+export const formatUSPhoneNumber = (rawPhone = "") => {
+	const phoneString = rawPhone.toString();
 	const phoneLength = phoneString.length;
 
 	if (phoneLength === 0) return phoneString;

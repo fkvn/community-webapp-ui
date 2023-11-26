@@ -1,5 +1,6 @@
 import { useTranslation } from "react-i18next";
-import { changePasswordAxios } from "../../Axios/authAxios";
+
+import { changePasswordAxios } from "../../Axios/userAxios";
 import useMessage from "./MessageHook/useMessage";
 
 function useProfile() {
@@ -33,6 +34,10 @@ function useProfile() {
 	// 	);
 	// };
 
+	/**
+	 *
+	 * @param {*} credentials {ID_PROP: "", PASSWORD_PROP: ""}
+	 */
 	const changePassword = async (credentials = {}) => {
 		loadingMessage();
 		return changePasswordAxios(credentials)

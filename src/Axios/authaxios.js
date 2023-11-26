@@ -1,28 +1,30 @@
 import {
+	CHANNEL_PROP,
 	EMAIL_PROP,
+	PASSWORD_PROP,
 	PHONE_PROP,
+	REGION_PROP,
 	SIGNIN_CHANNEL_APPLE,
 	SIGNIN_CHANNEL_FACEBOOK,
 	SIGNIN_CHANNEL_GOOGLE,
 	SIGNIN_CHANNEL_LINE,
 	SIGNIN_CHANNEL_THAINOW,
 	SMS_PROP,
-	USERNAME_PROP,
 } from "../Util/constVar";
 import axios from "./axios";
 
 /**
  *
  * @param {*} provider
- * @param {*} {channel, value, password, ...credential}
+ * @param {*} credentials {CHANNEL_PROP, EMAIL_PROP, PHONE_PROP, REGION_PROP,PASSWORD_PROP, ...credentials}
  * @returns
  */
-export const signinAxios = async (
-	provider = "",
-	{ channel, value, password, ...credential }
-) => {
+export const signinAxios = async (provider = "", credentials = {}) => {
 	const url = {
-		[`${SIGNIN_CHANNEL_THAINOW}`]: `/auth/thainow/signin`,
+		[`${SIGNIN_CHANNEL_THAINOW}`]: {
+			[`${EMAIL_PROP}`]: `/auth/signingByEmail`,
+			[`${PHONE_PROP}`]: `/auth/signingByPhone`,
+		}[`${credentials[`${CHANNEL_PROP}`]}`],
 		[`${SIGNIN_CHANNEL_GOOGLE}`]: `/auth/google/access`,
 		[`${SIGNIN_CHANNEL_APPLE}`]: `/auth/apple/access`,
 		[`${SIGNIN_CHANNEL_FACEBOOK}`]: `/auth/facebook/access`,
@@ -31,26 +33,27 @@ export const signinAxios = async (
 
 	const body = {
 		[`${SIGNIN_CHANNEL_THAINOW}`]: {
-			channel: channel,
-			...(channel === EMAIL_PROP && {
-				email: value,
-			}),
-			...(channel === PHONE_PROP && {
-				phone: value,
-			}),
-			password: password,
-		},
+			[`${EMAIL_PROP}`]: {
+				email: credentials[`${EMAIL_PROP}`],
+				password: credentials[`${PASSWORD_PROP}`],
+			},
+			[`${PHONE_PROP}`]: {
+				phone: credentials[`${PHONE_PROP}`],
+				region: credentials[`${REGION_PROP}`],
+				password: credentials[`${PASSWORD_PROP}`],
+			},
+		}[`${credentials[`${CHANNEL_PROP}`]}`],
 		[`${SIGNIN_CHANNEL_GOOGLE}`]: {
-			...credential,
+			...credentials,
 		},
 		[`${SIGNIN_CHANNEL_APPLE}`]: {
-			...credential,
+			...credentials,
 		},
 		[`${SIGNIN_CHANNEL_FACEBOOK}`]: {
-			...credential,
+			...credentials,
 		},
 		[`${SIGNIN_CHANNEL_LINE}`]: {
-			...credential,
+			...credentials,
 		},
 	}[`${provider}`];
 
@@ -62,19 +65,24 @@ export const signinAxios = async (
 		.catch((e) => Promise.reject(e));
 };
 
+export const signupAxios = async (payload = {}) =>
+	axios
+		.post(`/auth/thainow/signup`, {
+			...payload,
+		})
+		.catch((e) => Promise.reject(e));
+
 /**
  *
  * @param {String} channel options: EMAIL_PROP, SMS_PROP
  * @param {String} value
  * @returns {Promise<void>}
  */
-export const sendOtpCodeAxios = async (channel = "", value = "") =>
+export const sendOtpCodeAxios = async (channel = "", payload = {}) =>
 	axios
-		.post(`/auth/otp/create`, {
+		.post(`/auth/otp`, {
 			channel: channel,
-			...(channel === EMAIL_PROP && value.length > 0 && { email: value }),
-			...(channel === SMS_PROP &&
-				value.length > 0 && { phone: value, region: "us" }),
+			...payload,
 		})
 		.catch((e) => Promise.reject(e));
 
@@ -85,18 +93,11 @@ export const sendOtpCodeAxios = async (channel = "", value = "") =>
  * @param {*} token
  * @returns {Promise<void>}
  */
-export const verifyOtpCodeAxios = async (
-	channel = "",
-	value = "",
-	token = ""
-) =>
+export const verifyOtpCodeAxios = async (channel = "", payload = {}) =>
 	axios
 		.post(`/auth/otp/verify`, {
 			channel: channel,
-			...(channel === EMAIL_PROP && value.length > 0 && { email: value }),
-			...(channel === SMS_PROP &&
-				value.length > 0 && { phone: value, region: "us" }),
-			token: token,
+			...payload,
 		})
 		.catch((e) => Promise.reject(e));
 
@@ -108,28 +109,16 @@ export const verifyOtpCodeAxios = async (
  * @returns {Promise<Boolean>} return TRUE/FALSE if existed or not
  */
 
-export const verifyExistingAxios = async (field = "", value = "") => {
+export const verifyExistingAxios = async (channel = "", payload = {}) => {
 	const url = {
-		[`${EMAIL_PROP}`]: `/auth/verify/exist/email?email=${value}`,
-		[`${PHONE_PROP}`]: `/auth/verify/exist/phone?phone=${value}`,
-		[`${USERNAME_PROP}`]: `/auth/verify/exist/username?username=${value}`,
-	}[`${field}`];
+		[`${EMAIL_PROP}`]: `/emails/exist?email=${payload[`${EMAIL_PROP}`]}`,
+		[`${SMS_PROP}`]: `/phones/exist?phone=${payload[`${PHONE_PROP}`]}&region=${
+			payload[`${REGION_PROP}`]
+		}`,
+	}[`${channel}`];
 
 	return axios
-		.post(url)
+		.get(url)
 		.then(({ data }) => Promise.resolve(data))
 		.catch((e) => Promise.reject(e));
 };
-
-/**
- *
- * @param {*} credential
- * @returns
- */
-export const changePasswordAxios = (credential = {}) =>
-	axios
-		.post(`/auth/password`, {
-			...credential,
-		})
-		.then(({ data }) => Promise.resolve(data))
-		.catch((e) => Promise.reject(e));

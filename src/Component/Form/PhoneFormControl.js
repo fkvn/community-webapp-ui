@@ -1,15 +1,35 @@
-import { Form, InputNumber } from "antd";
+import { Form, InputNumber, Select } from "antd";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { PHONE_PROP } from "../../Util/constVar";
-import { formatUSPhoneNumber } from "../../Util/util";
+import { PHONE_PROP, REGION_PROP } from "../../Util/constVar";
+import { formatPhoneNumber } from "../../Util/util";
 
 function PhoneFormControl({
 	itemProps: { itemName = PHONE_PROP, label, ...itemProps } = {},
 	inputProps = {},
 	required = true,
 	showLabel = true,
+	prefixItemProps: { prefixName = REGION_PROP, ...prefixItemProps } = {},
+	prefixSelectProps = {},
 }) {
+	const { Option } = Select;
 	const { t } = useTranslation(["Phone", "Form"]);
+
+	const [region, setRegion] = useState("US");
+
+	const prefixSelector = (
+		<Form.Item name={prefixName} noStyle {...prefixItemProps}>
+			<Select
+				style={{
+					width: "5rem",
+				}}
+				{...prefixSelectProps}
+				onSelect={(value) => setRegion(value)}
+			>
+				<Option value="US">+1</Option>
+			</Select>
+		</Form.Item>
+	);
 
 	const App = () => (
 		<>
@@ -24,6 +44,10 @@ function PhoneFormControl({
 								: Promise.reject(new Error(t("phone_invalid_msg")));
 						},
 					},
+					{
+						required: required,
+						message: t("form_required_msg", { ns: "Form" }),
+					},
 				]}
 				{...(showLabel && {
 					label: `${label || t("phone_number_msg")} ${
@@ -36,12 +60,12 @@ function PhoneFormControl({
 					controls={false}
 					keyboard={false}
 					formatter={(value) => {
-						const format = formatUSPhoneNumber(value);
+						const format = formatPhoneNumber(value, region);
 						return format;
 					}}
 					parser={(value) => value.replace(/[^\d]/g, "")}
 					placeholder={t("phone_enter_msg")}
-					addonBefore="+1"
+					addonBefore={prefixSelector}
 					maxLength={14}
 					{...inputProps}
 				/>

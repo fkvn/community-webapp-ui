@@ -63,7 +63,7 @@ function LineSignin() {
 	useEffect(() => {
 		if (searchParams.get("code"))
 			getLineToken(lineConfig).then((credential) =>
-				signin(SIGNIN_CHANNEL_LINE, credential)
+				signin(SIGNIN_CHANNEL_LINE, credential).catch(() => {})
 			);
 	});
 

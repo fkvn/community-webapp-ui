@@ -3,12 +3,8 @@ import { Button } from "antd";
 function SubmitBtnFormControl({
 	type = "primary",
 	title = "",
-	className = "my-2 bg-customRed custom-center",
-	style = {
-		fontSize: "1rem",
-		padding: ".6rem",
-		borderRadius: ".5rem",
-	},
+	className = "",
+	style = {},
 	disabled = false,
 	loading = false,
 	onClick = () => {},
@@ -18,8 +14,13 @@ function SubmitBtnFormControl({
 		<>
 			<Button
 				type={type}
-				className={className}
-				style={style}
+				className={`my-2 bg-customRed custom-center ${className}`}
+				style={{
+					fontSize: "1rem",
+					padding: ".6rem",
+					borderRadius: ".5rem",
+					...style,
+				}}
 				disabled={disabled}
 				loading={loading}
 				onClick={onClick}

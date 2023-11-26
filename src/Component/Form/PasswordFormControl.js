@@ -26,8 +26,8 @@ function PasswordFormControl({
 				className="m-0"
 				rules={[
 					{
-						required: true,
-						message: t(`password_enter_msg${newPasswordForm ? "_new" : ""}`),
+						required: required,
+						message: t("form_required_msg", { ns: "Form" }),
 					},
 					{
 						pattern: /^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?!.* ).{8,20}$/,
@@ -57,10 +57,8 @@ function PasswordFormControl({
 					hasFeedback
 					rules={[
 						{
-							required: true,
-							message: t(
-								`password_confirm_msg${newPasswordForm ? "_new" : ""}`
-							),
+							required: withConfirmPassword,
+							message: t("form_required_msg", { ns: "Form" }),
 						},
 						({ getFieldValue }) => ({
 							validator(_, value) {

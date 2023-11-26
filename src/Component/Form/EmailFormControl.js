@@ -22,7 +22,7 @@ function EmailFormControl({
 					},
 					{
 						required: required,
-						message: t("email_enter_msg"),
+						message: t("form_required_msg", { ns: "Form" }),
 					},
 				]}
 				{...(showLabel && {

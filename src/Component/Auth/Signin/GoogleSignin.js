@@ -9,7 +9,9 @@ function GoogleSignin() {
 	const { signin } = useAuth();
 
 	const handleCredentialResponse = (response) =>
-		signin(SIGNIN_CHANNEL_GOOGLE, jwt_decode(response.credential));
+		signin(SIGNIN_CHANNEL_GOOGLE, jwt_decode(response.credential)).catch(
+			() => {}
+		);
 
 	const googleConnectLoaded = () => {
 		window.google?.accounts?.id.initialize({

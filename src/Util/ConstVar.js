@@ -74,6 +74,7 @@ export const EMAIL_PROP = "email";
 export const EMAIL_VALIDATION = "isValidEmail";
 export const IS_EMAIL_PUBLIC_PROP = "isEmailPublic";
 export const PHONE_PROP = "phone";
+export const REGION_PROP = "region";
 export const SMS_PROP = "sms";
 export const PHONE_VALIDATION = "isValidPhone";
 export const IS_PHONE_PUBLIC_PROP = "isPhonePublic";
@@ -84,13 +85,13 @@ export const CONFIRM_PASSWORD_VALIDATION = "isPasswordMatch";
 export const URL_PROP = "url";
 
 export const VERIFICATION_METHOD_PROP = "verifyMethod";
-export const SIGNIN_CHANNEL_PROP = "channel";
+export const CHANNEL_PROP = "channel";
 export const SIGNIN_CHANNEL_THAINOW = "thainow";
 export const SIGNIN_CHANNEL_GOOGLE = "google";
 export const SIGNIN_CHANNEL_APPLE = "apple";
 export const SIGNIN_CHANNEL_FACEBOOK = "facebook";
 export const SIGNIN_CHANNEL_LINE = "line";
-export const OTP_PROP = "otp";
+export const OTP_PROP = "otpToken";
 export const OTP_VALIDATION = "isValidOtp";
 export const PRIVILEGES_PROP = "privileges";
 export const POSITION_PROP = "administratorRole";
@@ -142,7 +143,7 @@ export const REDIRECT_URI = "redirectUri";
 export const SIGN_IN_PATH = "/signin";
 export const SWITCH_PROFILE_PATH = "/switch-profiles";
 export const FORGOT_PASSWORD_PATH = "/forgot-password";
-export const REGISTER_PATH = "/register";
+export const SIGN_UP_PATH = "/signup";
 
 export const COMPANY_INDUSTRY_LIST = [
 	"Aquarium & Pet",

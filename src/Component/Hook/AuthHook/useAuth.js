@@ -2,12 +2,14 @@
 import jwt_decode from "jwt-decode";
 import { useTranslation } from "react-i18next";
 import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
-import { signinAxios } from "../../../Axios/authAxios";
+import { signinAxios, signupAxios } from "../../../Axios/authAxios";
 import { findProfilesAxios } from "../../../Axios/userAxios";
 import {
 	ACCESS_TOKEN_PROP,
+	EMAIL_PROP,
 	PROFILE_OBJ,
 	REDIRECT_URI,
+	SIGNIN_CHANNEL_THAINOW,
 	SIGN_IN_PATH,
 	SWITCH_PROFILE_PATH,
 	THAINOW_USER_OBJ,
@@ -71,10 +73,17 @@ function useAuth() {
 		patchProfileInfo(profile, true);
 	};
 
-	const signin = async (channel = "", credential = {}, forward = true) => {
+	/**
+	 *
+	 * @param {*} provider SIGNIN_CHANNEL_THAINOW, GOOGLE, APPLE, etc.
+	 * @param {*} credentials {CHANNEL_PROP, EMAIL_PROP, PHONE_PROP, REGION_PROP,PASSWORD_PROP, ...credentials}
+	 * @param {*} forward
+	 * @returns
+	 */
+	const signin = async (provider = "", credentials = {}, forward = true) => {
 		loadingMessage();
 
-		return signinAxios(channel, credential)
+		return signinAxios(provider, credentials)
 			.then((res) => {
 				// save token
 				saveToken(res.access_token);
@@ -84,7 +93,7 @@ function useAuth() {
 
 				successMessage(
 					`${t("signin_msg_as", {
-						value: res.profile.info.email,
+						value: res.profile.info.name,
 					})}`,
 					2
 				).then(() =>
@@ -127,11 +136,26 @@ function useAuth() {
 			: Promise.reject();
 	};
 
+	const signup = async (payload = { _channel: "" }, forward = true) => {
+		loadingMessage();
+		return signupAxios(payload)
+			.then(() =>
+				// sign in after signed up
+				signin(
+					SIGNIN_CHANNEL_THAINOW,
+					{ channel: EMAIL_PROP, ...payload },
+					forward
+				)
+			)
+			.catch((e) => errorMessage(e).then(() => Promise.reject()));
+	};
+
 	return {
 		auth,
+		validateToken,
 		signin,
 		signout,
-		validateToken,
+		signup,
 	};
 }
 

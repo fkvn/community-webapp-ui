@@ -3,18 +3,28 @@ import { useForm } from "antd/lib/form/Form";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { svgLoginPic } from "../../../Assest/Asset";
-import { EMAIL_PROP, PASSWORD_PROP, PHONE_PROP } from "../../../Util/constVar";
+import {
+	CHANNEL_PROP,
+	EMAIL_PROP,
+	PASSWORD_PROP,
+	PHONE_PROP,
+	REGION_PROP,
+} from "../../../Util/constVar";
 import PasswordFormControl from "../../Form/PasswordFormControl";
 import SubmitBtnFormControl from "../../Form/SubmitBtnFormControl";
 import FormPageHeader from "../../SPALayout/Header/FormPageHeader";
 import Otp from "../Otp/Otp";
 
+/**
+ *
+ * @param {*} credentials {CHANNEL_PROP: "", EMAIL_PROP: "", PHONE_PROP: "", REGION_PROP: "", PASSWORD_PROP: ""}
+ * @returns
+ */
 function ForgotPassword({
 	onBeforeSendCode = (_channel = "", _field = "", _value = "") =>
 		Promise.resolve(),
 	onSubmitPassword = (_credentials = {}) => Promise.resolve(),
-	onAfterSubmitPassword = (_channel = "", _credentials = {}) =>
-		Promise.resolve(),
+	onAfterSubmitPassword = (_credentials = {}) => Promise.resolve(),
 	defaultMustVerify = true,
 }) {
 	const [form] = useForm();
@@ -36,17 +46,26 @@ function ForgotPassword({
 	);
 
 	const onSubmitPasswordHandle = () => {
-		const email = form.getFieldValue(EMAIL_PROP) || "";
-		const phone = form.getFieldValue(PHONE_PROP) || "";
-		const password = form.getFieldValue(PASSWORD_PROP) || "";
+		const channel = form.getFieldValue(EMAIL_PROP)
+			? EMAIL_PROP
+			: form.getFieldValue(PHONE_PROP)
+			  ? PHONE_PROP
+			  : "";
 
-		const channel = email ? EMAIL_PROP : phone ? PHONE_PROP : "";
+		let credentials = {
+			[`${EMAIL_PROP}`]: {
+				[`${EMAIL_PROP}`]: form.getFieldValue(EMAIL_PROP),
+			},
+			[`${PHONE_PROP}`]: {
+				[`${PHONE_PROP}`]: form.getFieldValue(PHONE_PROP),
+				[`${REGION_PROP}`]: form.getFieldValue(REGION_PROP),
+			},
+		}[`${channel}`];
 
-		const credentials = {
-			channel: channel,
-			...(channel === EMAIL_PROP && { [`${EMAIL_PROP}`]: email }),
-			...(channel === PHONE_PROP && { [`${PHONE_PROP}`]: phone }),
-			[`${PASSWORD_PROP}`]: password,
+		credentials = {
+			[`${CHANNEL_PROP}`]: channel,
+			[`${PASSWORD_PROP}`]: form.getFieldValue(PASSWORD_PROP),
+			...credentials,
 		};
 
 		form
@@ -59,9 +78,13 @@ function ForgotPassword({
 							setChangingPassword(false);
 						})
 					)
-					.catch(() => setChangingPassword(false));
+					.catch(() => {
+						setChangingPassword(false);
+					});
 			})
-			.finally(() => setChangingPassword(false));
+			.catch(() => {
+				setChangingPassword(false);
+			});
 	};
 
 	// don't need to verify if the otp code is verifed
@@ -103,6 +126,9 @@ function ForgotPassword({
 							autoComplete="off"
 							style={{
 								minWidth: "25rem",
+							}}
+							initialValues={{
+								[`${REGION_PROP}`]: "US",
 							}}
 						>
 							{mustVerify ? (

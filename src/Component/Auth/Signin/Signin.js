@@ -1,12 +1,12 @@
 import { Col, Divider, Flex, Row, Space, Typography } from "antd";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { svgLoginPic } from "../../../Assest/Asset";
 import {
 	REDIRECT_URI,
-	REGISTER_PATH,
 	SIGN_IN_PATH,
+	SIGN_UP_PATH,
 } from "../../../Util/constVar";
 import TermAgreement from "../../Form/TermAgreement";
 import useAuth from "../../Hook/AuthHook/useAuth";
@@ -16,6 +16,8 @@ import ThirdPartySignin from "./ThirdPartySignin";
 
 function Signin() {
 	const navigate = useNavigate();
+	const [params] = useSearchParams();
+	const redirectUri = params.get(REDIRECT_URI) || "";
 	const { t } = useTranslation();
 
 	const { auth } = useAuth();
@@ -40,13 +42,15 @@ function Signin() {
 			<Col>
 				<Space size={10} style={{ fontSize: "1rem" }}>
 					<div style={{ textTransform: "capitalize" }}>
-						{t("q_do_not_have_account_msg")}
+						{t("q_do_not_have_account_msg")}?
 					</div>
 					<Typography.Link
 						underline
 						onClick={() =>
 							navigate(
-								`${REGISTER_PATH}?${REDIRECT_URI}=${SIGN_IN_PATH.slice(1)}`
+								`${SIGN_UP_PATH}?${REDIRECT_URI}=${
+									redirectUri || SIGN_IN_PATH.slice(1)
+								}`
 							)
 						}
 						style={{ fontSize: "1rem", textTransform: "capitalize" }}

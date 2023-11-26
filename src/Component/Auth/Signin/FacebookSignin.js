@@ -18,7 +18,7 @@ function FacebookSignin() {
 			if (!response || response.error) {
 				errorMessage(response.error?.message);
 			} else {
-				signin(SIGNIN_CHANNEL_FACEBOOK, response);
+				signin(SIGNIN_CHANNEL_FACEBOOK, response).catch(() => {});
 			}
 		});
 	}

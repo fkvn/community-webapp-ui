@@ -9,7 +9,7 @@
 	}
 
 	& span.ant-input-affix-wrapper:not(:has(input#phone)) {
-		padding: 0.5rem 0.5rem;
+		padding: 0.3rem 0.3rem;
 		border-radius: 0.5rem;
 	}
 
@@ -23,27 +23,23 @@
 	}
 }
 
-#user-signup {
+#user-signup-form {
 	& .ant-form-item * {
 		font-size: 1rem;
 	}
 
-	& span.ant-input-affix-wrapper,
-	& input#email,
-	& input#username,
-	& input#otp {
-		padding: 0.5rem 1rem;
-		border-radius: 50px;
+	& span.ant-input-affix-wrapper:not(:has(input#phone)) {
+		padding: 0.3rem 0.3rem;
+		border-radius: 0.5rem;
+	}
+
+	& input {
+		padding: 0.2rem 1rem;
+		border-radius: 0.5rem 0 0 0.5rem;
 	}
 
 	& span.ant-input-group-addon {
-		border-radius: 50px 0 0 50px;
-		padding: 0.5rem 1rem;
-	}
-
-	& input#phone {
-		border-radius: 0 50px 50px 0;
-		padding: 0.5rem 1rem;
+		border-radius: 0.5rem 0 0 0.5rem;
 	}
 }
 
@@ -345,7 +341,7 @@
 	}
 
 	& span.ant-input-affix-wrapper:not(:has(input#phone)) {
-		padding: 0.5rem 0.5rem;
+		padding: 0.3rem 0.3rem;
 		border-radius: 0.5rem;
 	}
 
