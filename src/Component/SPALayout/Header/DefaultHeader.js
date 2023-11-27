@@ -17,8 +17,7 @@ function DefaultHeader() {
 	const navigate = useNavigate();
 	const { image } = useImage();
 	const { profile = {} } = useRedux();
-	const { name: userName = "", picture: userPicture = "" } =
-		profile?.info || {};
+	const { name: userName = "", picture: userPicture = "" } = profile || {};
 	const { t } = useTranslation();
 	const { signout } = useAuth();
 

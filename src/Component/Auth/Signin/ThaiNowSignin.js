@@ -53,6 +53,7 @@ function ThaiNowSignin() {
 			/>
 			<SubmitBtnFormControl
 				disabled={signing}
+				loading={signing}
 				title={
 					<span style={{ textTransform: "capitalize" }}>
 						{t("signin_msg")}{" "}
@@ -112,10 +113,16 @@ function ThaiNowSignin() {
 
 		form
 			.validateFields()
-			.then(() =>
-				signin(SIGNIN_CHANNEL_THAINOW, credentials, true).catch(() => {})
-			)
-			.finally(() => setSigning(false));
+			.then(() => {
+				signin(SIGNIN_CHANNEL_THAINOW, credentials, true)
+					.then(() => {
+						setSigning(false);
+					})
+					.catch(() => {
+						setSigning(false);
+					});
+			})
+			.catch(() => {});
 	};
 
 	const app = (

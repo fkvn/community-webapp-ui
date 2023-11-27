@@ -112,7 +112,7 @@ function Otp({
 		form
 			.validateFields()
 			.then(() => {
-				loadingMessage();
+				// loadingMessage();
 				setOtpInfo({ ...otpInfo, isCodeSending: true });
 
 				const payload = {
@@ -131,6 +131,7 @@ function Otp({
 						sendCode(otpInfo.channel, payload).then(() =>
 							setOtpInfo({
 								...otpInfo,
+								isCodeSending: false,
 								isCodeSent: true,
 							})
 						)
@@ -159,7 +160,6 @@ function Otp({
 							: t("email_verify_msg", { ns: "Email" })
 					}
 					onClick={onSwitchVerifyOptionHandle}
-					disabled={otpInfo?.isCodeSending}
 					btnProps={{
 						type: "link",
 						className: "custom-center-left",
@@ -192,7 +192,6 @@ function Otp({
 		form
 			.validateFields()
 			.then(() => {
-				loadingMessage("otp_code_verifying_msg");
 				setOtpInfo({ ...otpInfo, isCodeVerifying: true });
 
 				const payload = {

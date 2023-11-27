@@ -1,5 +1,8 @@
 import { useSelector } from "react-redux";
-import { patchProfileInfoActionCreator } from "../../ReduxStore/UserReducer/UserActionCreator";
+import {
+	patchAccountInfoActionCreator,
+	patchProfileInfoActionCreator,
+} from "../../ReduxStore/UserReducer/UserActionCreator";
 import store from "../../ReduxStore/store";
 import { PROFILE_OBJ } from "../../Util/constVar";
 
@@ -11,7 +14,10 @@ function useRedux() {
 	const patchProfileInfo = (profile = {}, replace = true) =>
 		store.dispatch(patchProfileInfoActionCreator(profile, replace));
 
-	return { profile, patchProfileInfo };
+	const patchAccountInfo = (account = {}, replace = true) =>
+		store.dispatch(patchAccountInfoActionCreator(account, replace));
+
+	return { profile, patchProfileInfo, patchAccountInfo };
 }
 
 export default useRedux;

@@ -15,14 +15,18 @@ import PasswordFormControl from "../../Form/PasswordFormControl";
 import SubmitBtnFormControl from "../../Form/SubmitBtnFormControl";
 import TermAgreement from "../../Form/TermAgreement";
 import TextFormControl from "../../Form/TextFormControl";
+import useMessage from "../../Hook/MessageHook/useMessage";
 import FormPageHeader from "../../SPALayout/Header/FormPageHeader";
 
 function Signup() {
-	const { form } = useForm();
+	const [form] = useForm();
 	const { t } = useTranslation();
+
 	const navigate = useNavigate();
 	const [params] = useSearchParams();
 	const redirectUri = params.get(REDIRECT_URI) || "";
+
+	const { loadingMessage } = useMessage();
 
 	const [signingup, setSigningup] = useState(false);
 
@@ -67,6 +71,10 @@ function Signup() {
 
 	const onFinishHandle = () => {
 		setSigningup(true);
+		form
+			.validateFields()
+			.then(() => {})
+			.catch(() => {});
 	};
 
 	const App = () => (

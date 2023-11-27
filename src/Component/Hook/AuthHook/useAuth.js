@@ -6,6 +6,7 @@ import { signinAxios, signupAxios } from "../../../Axios/authAxios";
 import { findProfilesAxios } from "../../../Axios/userAxios";
 import {
 	ACCESS_TOKEN_PROP,
+	ACCOUNT_OBJ,
 	EMAIL_PROP,
 	PROFILE_OBJ,
 	REDIRECT_URI,
@@ -22,7 +23,7 @@ function useAuth() {
 	const { t } = useTranslation();
 	const { loadingMessage, successMessage, errorMessage } = useMessage();
 
-	const { profile, patchProfileInfo } = useRedux();
+	const { profile, patchProfileInfo, patchAccountInfo } = useRedux();
 
 	const navigate = useNavigate();
 	const [params] = useSearchParams();
@@ -32,7 +33,9 @@ function useAuth() {
 	const signout = () => {
 		localStorage.removeItem(THAINOW_USER_OBJ);
 		localStorage.removeItem(PROFILE_OBJ);
-		patchProfileInfo();
+		localStorage.removeItem(ACCOUNT_OBJ);
+		patchProfileInfo({}, true);
+		patchAccountInfo({}, true);
 		navigate("/");
 	};
 
@@ -73,6 +76,11 @@ function useAuth() {
 		patchProfileInfo(profile, true);
 	};
 
+	const saveAccountInfo = (account = {}) => {
+		localStorage.setItem(ACCOUNT_OBJ, JSON.stringify(account));
+		patchAccountInfo(account, true);
+	};
+
 	/**
 	 *
 	 * @param {*} provider SIGNIN_CHANNEL_THAINOW, GOOGLE, APPLE, etc.
@@ -81,8 +89,6 @@ function useAuth() {
 	 * @returns
 	 */
 	const signin = async (provider = "", credentials = {}, forward = true) => {
-		loadingMessage();
-
 		return signinAxios(provider, credentials)
 			.then((res) => {
 				// save token
@@ -91,20 +97,24 @@ function useAuth() {
 				// save profile
 				saveProfileInfo(res.profile);
 
+				// save account
+				saveAccountInfo(res.account);
+
 				successMessage(
 					`${t("signin_msg_as", {
-						value: res.profile.info.name,
+						value: res.profile.name,
 					})}`,
 					2
-				).then(() =>
-					forward
+				).then(() => {
+					console.log("message");
+					return forward
 						? findProfilesAxios().then((res = []) => {
 								res?.length > 1
 									? navigate(`${SWITCH_PROFILE_PATH}/${redirectUri}`)
 									: navigate(`/${redirectUri}`);
 						  })
-						: Promise.resolve()
-				);
+						: Promise.resolve();
+				});
 			})
 			.catch((e) => errorMessage(e).then(() => Promise.reject()));
 	};

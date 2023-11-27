@@ -50,7 +50,9 @@ export const STATE_PROP = "state";
 export const LAT_PROP = "lat";
 export const LNG_PROP = "lng";
 
-export const PROFILE_OBJ = "profileObj";
+export const ACCOUNT_OBJ = "account";
+
+export const PROFILE_OBJ = "profile";
 export const PROFILE_ID_PROP = "profileId";
 export const PROFILE_TYPE_PROP = "type";
 export const PROFILE_GUEST_TYPE_PROP = "guestProfile";

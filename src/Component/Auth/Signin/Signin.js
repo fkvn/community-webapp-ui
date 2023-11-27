@@ -70,51 +70,52 @@ function Signin() {
 		}
 	});
 
-	const App = () => (
-		<>
-			<FormPageHeader />
-			<Row>
-				<Col
-					xs={0}
-					lg={12}
-					style={{
-						backgroundImage: `url(${svgLoginPic})`,
-						backgroundRepeat: "no-repeat",
-						backgroundSize: "cover",
-						height: "100vh",
-					}}
-				/>
-				<Col xs={24} lg={12}>
-					<Flex justify="center" className="w-100">
-						<Flex
-							vertical
-							gap="large"
-							style={{
-								padding: "0 5rem",
-								paddingTop: "3rem",
-							}}
-						>
-							<Title />
-							<NoAccountMessage />
-							<Divider orientation="left">
-								<span style={{ textTransform: "capitalize" }}>
-									{t("continue_with_msg")}{" "}
-								</span>
-							</Divider>
-							<ThirdPartySignin />
-							<Divider>
-								<span style={{ textTransform: "uppercase" }}>
-									{t("or_msg")}
-								</span>
-							</Divider>
-							<ThaiNowSignin />
-							<TermAgreement />
+	const App = () =>
+		!loading && (
+			<>
+				<FormPageHeader />
+				<Row>
+					<Col
+						xs={0}
+						lg={12}
+						style={{
+							backgroundImage: `url(${svgLoginPic})`,
+							backgroundRepeat: "no-repeat",
+							backgroundSize: "cover",
+							height: "100vh",
+						}}
+					/>
+					<Col xs={24} lg={12}>
+						<Flex justify="center" className="w-100">
+							<Flex
+								vertical
+								gap="large"
+								style={{
+									padding: "0 5rem",
+									paddingTop: "3rem",
+								}}
+							>
+								<Title />
+								<NoAccountMessage />
+								<Divider orientation="left">
+									<span style={{ textTransform: "capitalize" }}>
+										{t("continue_with_msg")}{" "}
+									</span>
+								</Divider>
+								<ThirdPartySignin />
+								<Divider>
+									<span style={{ textTransform: "uppercase" }}>
+										{t("or_msg")}
+									</span>
+								</Divider>
+								<ThaiNowSignin />
+								<TermAgreement />
+							</Flex>
 						</Flex>
-					</Flex>
-				</Col>
-			</Row>
-		</>
-	);
+					</Col>
+				</Row>
+			</>
+		);
 
 	return <App />;
 }
