@@ -1,5 +1,4 @@
 import { Avatar, Button, Flex, Menu, Space } from "antd";
-import $ from "jquery";
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
@@ -62,8 +61,7 @@ function DefaultHeader() {
 
 	useEffect(() => {
 		// offset top header
-		$("#layout-main").css("margin-top", "7rem");
-
+		// $("#layout-main").css("margin-top", "7rem");
 		// const keywordParam = searchParams.get("keywords") || "";
 		// form.setFieldValue(SEARCH_INPUT_PROP, keywordParam);
 	}, []);

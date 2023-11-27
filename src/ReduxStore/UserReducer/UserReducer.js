@@ -28,16 +28,16 @@ const initialState = {
 };
 
 const patchProfileInfo = (state, { profile = {}, replace = false }) => {
-	const profileObj = replace
+	profile = replace
 		? profile
 		: {
-				...state?.profile,
+				...state[`${PROFILE_OBJ}`],
 				...profile,
 		  };
 
 	return {
 		...state,
-		profileObj,
+		profile,
 	};
 };
 
@@ -45,14 +45,16 @@ const patchAccountInfo = (
 	state,
 	{ [`${ACCOUNT_OBJ}`]: account = {}, replace = false }
 ) => {
-	const accountObj = {
-		...(replace ? {} : state?.[`${ACCOUNT_OBJ}`]),
-		...account,
-	};
+	account = replace
+		? account
+		: {
+				...state[`${ACCOUNT_OBJ}`],
+				...account,
+		  };
 
 	return {
 		...state,
-		accountObj,
+		account,
 	};
 };
 
