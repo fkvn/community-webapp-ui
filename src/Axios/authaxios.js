@@ -1,6 +1,8 @@
 import {
 	CHANNEL_PROP,
 	EMAIL_PROP,
+	FIRSTNAME_PROP,
+	LASTNAME_PROP,
 	PASSWORD_PROP,
 	PHONE_PROP,
 	REGION_PROP,
@@ -65,12 +67,26 @@ export const signinAxios = async (provider = "", credentials = {}) => {
 		.catch((e) => Promise.reject(e));
 };
 
-export const signupAxios = async (payload = {}) =>
-	axios
-		.post(`/auth/thainow/signup`, {
-			...payload,
-		})
-		.catch((e) => Promise.reject(e));
+export const signupAxios = async (channel = "", credentials = {}) => {
+	const url = {
+		[`${EMAIL_PROP}`]: `/auth/signupByEmail`,
+		[`${PHONE_PROP}`]: `/auth/signupByPhone`,
+	}[`${channel}`];
+
+	const body = {
+		[`${EMAIL_PROP}`]: {
+			firstname: credentials[`${FIRSTNAME_PROP}`],
+			lastname: credentials[`${LASTNAME_PROP}`],
+			email: credentials[`${EMAIL_PROP}`],
+			password: credentials[`${PASSWORD_PROP}`],
+		},
+	}[`${channel}`];
+
+	console.log(channel);
+	console.log(credentials);
+
+	return axios.post(url, body).catch((e) => Promise.reject(e));
+};
 
 /**
  *

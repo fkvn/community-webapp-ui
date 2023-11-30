@@ -48,30 +48,30 @@ body {
 	display: none !important;
 }
 
-@media only screen and (min-width: $lg) {
-	#searchbar {
-		padding: 0 3rem;
-	}
-}
+// @media only screen and (min-width: $lg) {
+// 	#searchbar {
+// 		padding: 0 3rem;
+// 	}
+// }
 
-@media only screen and (min-width: $xxl) {
-	#searchbar {
-		padding: 0 15rem;
-	}
-}
+// @media only screen and (min-width: $xxl) {
+// 	#searchbar {
+// 		padding: 0 15rem;
+// 	}
+// }
 
-@media only screen and (min-width: 1920px) {
-	#layout {
-		padding: 1rem 10rem;
-	}
-}
+// @media only screen and (min-width: 1920px) {
+// 	#layout {
+// 		// padding: 1rem 10rem;
+// 	}
+// }
 
-@media only screen and (min-width: 2300px) {
-	#layout {
-		// max-width: 150rem;
-		padding: 1.5rem 20rem;
-	}
-}
+// @media only screen and (min-width: 2300px) {
+// 	#layout {
+// 		// max-width: 150rem;
+// 		// padding: 1.5rem 20rem;
+// 	}
+// }
 
 #overlay {
 	background-color: #ccc; /*or semitransparent image*/

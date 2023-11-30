@@ -5,8 +5,10 @@ import { useTranslation } from "react-i18next";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { svgLoginPic } from "../../../Assest/Asset";
 import {
+	EMAIL_PROP,
 	FIRSTNAME_PROP,
 	LASTNAME_PROP,
+	PASSWORD_PROP,
 	REDIRECT_URI,
 	SIGN_IN_PATH,
 } from "../../../Util/constVar";
@@ -15,7 +17,7 @@ import PasswordFormControl from "../../Form/PasswordFormControl";
 import SubmitBtnFormControl from "../../Form/SubmitBtnFormControl";
 import TermAgreement from "../../Form/TermAgreement";
 import TextFormControl from "../../Form/TextFormControl";
-import useMessage from "../../Hook/MessageHook/useMessage";
+import useAuth from "../../Hook/AuthHook/useAuth";
 import FormPageHeader from "../../SPALayout/Header/FormPageHeader";
 
 function Signup() {
@@ -26,9 +28,9 @@ function Signup() {
 	const [params] = useSearchParams();
 	const redirectUri = params.get(REDIRECT_URI) || "";
 
-	const { loadingMessage } = useMessage();
-
 	const [signingup, setSigningup] = useState(false);
+
+	const { signup } = useAuth();
 
 	const Title = () => (
 		<Typography.Title
@@ -71,9 +73,17 @@ function Signup() {
 
 	const onFinishHandle = () => {
 		setSigningup(true);
+
+		const payload = {
+			[`${FIRSTNAME_PROP}`]: form.getFieldValue(FIRSTNAME_PROP),
+			[`${LASTNAME_PROP}`]: form.getFieldValue(LASTNAME_PROP),
+			[`${EMAIL_PROP}`]: form.getFieldValue(EMAIL_PROP),
+			[`${PASSWORD_PROP}`]: form.getFieldValue(PASSWORD_PROP),
+		};
+
 		form
 			.validateFields()
-			.then(() => {})
+			.then(() => signup(EMAIL_PROP, payload).catch(() => setSigningup(false)))
 			.catch(() => {});
 	};
 

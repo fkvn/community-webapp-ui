@@ -3,16 +3,15 @@ import jwt_decode from "jwt-decode";
 import { useTranslation } from "react-i18next";
 import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import { signinAxios, signupAxios } from "../../../Axios/authAxios";
-import { findProfilesAxios } from "../../../Axios/userAxios";
 import {
 	ACCESS_TOKEN_PROP,
 	ACCOUNT_OBJ,
+	CHANNEL_PROP,
 	EMAIL_PROP,
 	PROFILE_OBJ,
 	REDIRECT_URI,
 	SIGNIN_CHANNEL_THAINOW,
 	SIGN_IN_PATH,
-	SWITCH_PROFILE_PATH,
 	THAINOW_USER_OBJ,
 } from "../../../Util/constVar";
 import { isObjectEmpty } from "../../../Util/util";
@@ -21,7 +20,7 @@ import useRedux from "../useRedux";
 
 function useAuth() {
 	const { t } = useTranslation();
-	const { loadingMessage, successMessage, errorMessage } = useMessage();
+	const { successMessage, errorMessage } = useMessage();
 
 	const { profile, patchProfileInfo, patchAccountInfo } = useRedux();
 
@@ -107,13 +106,14 @@ function useAuth() {
 					2
 				).then(() => {
 					console.log("message");
-					return forward
-						? findProfilesAxios().then((res = []) => {
-								res?.length > 1
-									? navigate(`${SWITCH_PROFILE_PATH}/${redirectUri}`)
-									: navigate(`/${redirectUri}`);
-						  })
-						: Promise.resolve();
+					return forward ? navigate(`/${redirectUri}`) : Promise.resolve();
+					// return forward
+					// 	? findProfilesAxios().then((res = []) => {
+					// 			res?.length > 1
+					// 				? navigate(`${SWITCH_PROFILE_PATH}/${redirectUri}`)
+					// 				: navigate(`/${redirectUri}`);
+					// 	  })
+					// 	: Promise.resolve();
 				});
 			})
 			.catch((e) => errorMessage(e).then(() => Promise.reject()));
@@ -146,15 +146,25 @@ function useAuth() {
 			: Promise.reject();
 	};
 
-	const signup = async (payload = { _channel: "" }, forward = true) => {
-		loadingMessage();
-		return signupAxios(payload)
+	/**
+	 *
+	 * @param {*} payload  {CHANNEL_PROP, ...payload}
+	 * @param {*} forward
+	 * @returns
+	 */
+	const signup = async (
+		channel = EMAIL_PROP,
+		credentials = {},
+		forward = true
+	) => {
+		return signupAxios(channel, credentials)
 			.then(() =>
-				// sign in after signed up
-				signin(
-					SIGNIN_CHANNEL_THAINOW,
-					{ channel: EMAIL_PROP, ...payload },
-					forward
+				successMessage("message_sign_up_success_msg").then(() =>
+					signin(
+						SIGNIN_CHANNEL_THAINOW,
+						{ [`${CHANNEL_PROP}`]: channel, ...credentials },
+						forward
+					)
 				)
 			)
 			.catch((e) => errorMessage(e).then(() => Promise.reject()));
