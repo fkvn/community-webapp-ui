@@ -1,8 +1,16 @@
 import { Col, Layout, Row } from "antd";
+import { Outlet } from "react-router-dom";
 import HeaderContainer from "./Header/HeaderContainer";
 
 function SPALayout() {
 	const { Header } = Layout;
+
+	// const bodyRoutes = (
+	// 	<Switch>
+	// 		<Route index element={<>test signup</>}></Route>
+	// 		<Route path="test" element={<NotFound />} />
+	// 	</Switch>
+	// );
 
 	const layout = (
 		<Row id="layout" justify="center">
@@ -20,14 +28,8 @@ function SPALayout() {
 					<HeaderContainer />
 				</Header>
 
-				{/* <Row id="layout-main" justify="space-between">
-					<Col xs={24} xxl={18}>
-						<LeftLayout />
-					</Col>
-					<Col xs={0} xxl={6}>
-						<RightLayout />
-					</Col>
-				</Row> */}
+				{/* Outlet is the component allows nested component   */}
+				<Outlet />
 			</Col>
 		</Row>
 	);

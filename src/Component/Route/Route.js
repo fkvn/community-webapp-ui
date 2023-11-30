@@ -30,7 +30,10 @@ function RouteBuilder() {
 					element={<EditServiceContainer />}
 				/> */}
 
-				<Route path="/" exact element={<SPALayout />} />
+				<Route path="/" element={<SPALayout />}>
+					{/* nested component */}
+					<Route path="my-profile" element={<>test</>} />
+				</Route>
 				<Route path="*" element={<NotFound />} />
 			</Routes>
 		</>
