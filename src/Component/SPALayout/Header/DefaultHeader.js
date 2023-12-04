@@ -11,18 +11,17 @@ import {
 	SIGN_IN_PATH,
 	USERNAME_PROP,
 } from "../../../Util/constVar";
-import { isObjectEmpty } from "../../../Util/util";
-import useAuth from "../../Hook/AuthHook/useAuth";
 import useImage from "../../Hook/useImage";
-import useProfile from "../../Hook/useProfile";
 import SwitchLanguage from "../../Locale/SwitchLanguage";
 
-function DefaultHeader() {
+function DefaultHeader({ profile = {}, signout = () => {}, isLogin = false }) {
 	const navigate = useNavigate();
 	const { image } = useImage();
-	const { profile } = useProfile();
+
 	const { t } = useTranslation();
-	const { signout } = useAuth();
+
+	// const { signout } = useAuth();
+	// const { profile } = useProfile();
 
 	// const [form] = useForm();
 	// const [searchParams] = useSearchParams();
@@ -155,7 +154,7 @@ function DefaultHeader() {
 	// );
 
 	const SigninBtn = () =>
-		isObjectEmpty(profile) && (
+		!isLogin && (
 			<Button
 				type="link"
 				style={{
@@ -217,7 +216,7 @@ function DefaultHeader() {
 	};
 
 	const ProfileMenu = () =>
-		!isObjectEmpty(profile) && (
+		isLogin && (
 			<>
 				<Menu
 					onClick={onClickProfileMenuItemHandle}
