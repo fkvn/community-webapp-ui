@@ -22,6 +22,20 @@ export const scrollToActiveElement = () => {
 	});
 };
 
+export const isPhoneValid = (phone = "", region = "US") => {
+	switch (region) {
+		case "US":
+			return isUSPhoneValid(phone);
+		default:
+			return phone;
+	}
+};
+
+export const isUSPhoneValid = (phone = "") => {
+	if (!phone || phone.length === 0 || phone.length === 10) return true;
+	return false;
+};
+
 export const formatPhoneNumber = (phone = "", region = "US") => {
 	switch (region) {
 		case "US":

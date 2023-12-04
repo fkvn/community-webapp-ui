@@ -354,3 +354,29 @@
 		border-radius: 0.5rem 0 0 0.5rem;
 	}
 }
+
+#my-profile-form {
+	& .ant-form-item * {
+		font-size: 1rem;
+	}
+
+	& span.ant-input-affix-wrapper:not(:has(input#phone)) {
+		padding: 0.2rem 0.2rem;
+		border-radius: 0.5rem;
+	}
+
+	& span.ant-input-affix-wrapper,
+	& input,
+	& .ant-input-number {
+		background-color: #f3f6fa;
+	}
+
+	& input {
+		padding: 0.2rem 1rem;
+		border-radius: 0.5rem 0 0 0.5rem;
+	}
+
+	& span.ant-input-group-addon {
+		border-radius: 0.5rem 0 0 0.5rem;
+	}
+}

@@ -70,8 +70,10 @@ export const ID_PROP = "id";
 export const INFO_PROP = "info";
 export const NAME_PROP = "name";
 export const USERNAME_PROP = "username";
-export const FIRSTNAME_PROP = "firstname";
-export const LASTNAME_PROP = "lastname";
+export const FIRSTNAME_PROP = "firstName";
+export const IS_FIRSTNAME_PUBLIC_PROP = "isFirstNamePublic";
+export const LASTNAME_PROP = "lastName";
+export const IS_LASTNAME_PUBLIC_PROP = "isLastNamePublic";
 export const EMAIL_PROP = "email";
 export const EMAIL_VALIDATION = "isValidEmail";
 export const IS_EMAIL_PUBLIC_PROP = "isEmailPublic";
@@ -146,6 +148,7 @@ export const SIGN_IN_PATH = "/signin";
 export const SWITCH_PROFILE_PATH = "/switch-profiles";
 export const FORGOT_PASSWORD_PATH = "/forgot-password";
 export const SIGN_UP_PATH = "/signup";
+export const MY_PROFILE_PATH = "/my-profile";
 
 export const COMPANY_INDUSTRY_LIST = [
 	"Aquarium & Pet",

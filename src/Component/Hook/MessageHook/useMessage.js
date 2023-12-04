@@ -17,8 +17,8 @@ function useMessage() {
 	const loadingMessage = async (
 		contentOrKey = "message_loading_msg",
 		duration = 0,
-		config = {},
-		showOverlay = true
+		showOverlay = true,
+		config = {}
 	) => {
 		if (showOverlay) document.getElementById("overlay").style.display = "block";
 		const content =
@@ -36,8 +36,8 @@ function useMessage() {
 	const successMessage = async (
 		contentOrKey = "message_navigate_msg",
 		duration = 3,
-		config = {},
-		showOverlay = true
+		showOverlay = true,
+		config = {}
 	) => {
 		if (showOverlay) document.getElementById("overlay").style.display = "block";
 		const content =
@@ -53,14 +53,18 @@ function useMessage() {
 	};
 
 	const errorMessage = async (
-		contentOrKey = "message_system_error_msg",
+		contentOrKey = "",
 		duration = 3,
-		config = {},
-		showOverlay = true
+		showOverlay = true,
+		config = {}
 	) => {
 		if (showOverlay) document.getElementById("overlay").style.display = "block";
+		const [key = "message_system_error_msg", attributes = "{}"] =
+			contentOrKey.split("-{}-");
 		const content =
-			contentOrKey.indexOf("_msg") < 0 ? contentOrKey : t(contentOrKey);
+			key.indexOf("_msg") < 0
+				? contentOrKey
+				: t(key, { ...JSON.parse(attributes) });
 		return message
 			.error({
 				content: content,

@@ -13,16 +13,15 @@ import {
 	SIGNIN_CHANNEL_THAINOW,
 	SIGN_IN_PATH,
 	THAINOW_USER_OBJ,
+	USERNAME_PROP,
 } from "../../../Util/constVar";
-import { isObjectEmpty } from "../../../Util/util";
 import useMessage from "../MessageHook/useMessage";
-import useRedux from "../useRedux";
+import useReduxCreator from "../ReduxHook/useReduxCreator";
 
 function useAuth() {
 	const { t } = useTranslation();
 	const { successMessage, errorMessage } = useMessage();
-
-	const { profile, patchProfileInfo, patchAccountInfo } = useRedux();
+	const { patchProfileInfo, patchAccountInfo } = useReduxCreator();
 
 	const navigate = useNavigate();
 	const [params] = useSearchParams();
@@ -40,7 +39,8 @@ function useAuth() {
 
 	const validateToken = () => {
 		const access_token =
-			JSON.parse(localStorage.getItem(THAINOW_USER_OBJ))?.access_token || "";
+			JSON.parse(localStorage.getItem(THAINOW_USER_OBJ) || "{}")
+				?.access_token || "";
 
 		if (access_token.length > 0) {
 			try {
@@ -101,7 +101,7 @@ function useAuth() {
 
 				successMessage(
 					`${t("signin_msg_as", {
-						value: res.profile.name,
+						value: res.profile[`${USERNAME_PROP}`],
 					})}`,
 					2
 				).then(() => {
@@ -124,8 +124,10 @@ function useAuth() {
 		forward = true,
 		customRedirectUri = ""
 	) => {
+		const profile = localStorage.getItem(PROFILE_OBJ);
+
 		const isValidCredential = await validateToken()
-			.then(() => (isObjectEmpty(profile) ? false : true))
+			.then(() => (profile === "" ? false : true))
 			.catch(() => false);
 
 		if (isValidCredential)

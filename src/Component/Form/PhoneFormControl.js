@@ -1,16 +1,23 @@
-import { Form, InputNumber, Select } from "antd";
+import { Flex, Form, InputNumber, Select } from "antd";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { PHONE_PROP, REGION_PROP } from "../../Util/constVar";
-import { formatPhoneNumber } from "../../Util/util";
+import { formatPhoneNumber, isPhoneValid } from "../../Util/util";
 
 function PhoneFormControl({
-	itemProps: { itemName = PHONE_PROP, label, ...itemProps } = {},
+	itemProps: {
+		itemName = PHONE_PROP,
+		label,
+		labelProp = {},
+		...itemProps
+	} = {},
 	inputProps = {},
 	required = true,
 	showLabel = true,
 	prefixItemProps: { prefixName = REGION_PROP, ...prefixItemProps } = {},
 	prefixSelectProps = {},
+	flexProp = {},
+	extra = <></>,
 }) {
 	const { Option } = Select;
 	const { t } = useTranslation(["Phone", "Form"]);
@@ -32,14 +39,21 @@ function PhoneFormControl({
 	);
 
 	const App = () => (
-		<>
+		<Flex
+			gap={10}
+			align="center"
+			wrap="wrap"
+			justify="flex-start"
+			{...flexProp}
+		>
 			<Form.Item
 				name={itemName}
 				className="m-0"
 				rules={[
 					{
 						validator: (_, value) => {
-							return value && value.toString().length === 10
+							const isValidNumber = isPhoneValid(value, region);
+							return isValidNumber
 								? Promise.resolve()
 								: Promise.reject(new Error(t("phone_invalid_msg")));
 						},
@@ -50,9 +64,11 @@ function PhoneFormControl({
 					},
 				]}
 				{...(showLabel && {
-					label: `${label || t("phone_number_msg")} ${
-						required ? "" : `(${t("form_optional_msg", { ns: "Form" })})`
-					}`,
+					label: (
+						<span {...labelProp}>{`${label || t("phone_number_msg")} ${
+							required ? "" : `(${t("form_optional_msg", { ns: "Form" })})`
+						}`}</span>
+					),
 				})}
 				{...itemProps}
 			>
@@ -70,7 +86,8 @@ function PhoneFormControl({
 					{...inputProps}
 				/>
 			</Form.Item>
-		</>
+			{extra}
+		</Flex>
 	);
 	return <App />;
 }

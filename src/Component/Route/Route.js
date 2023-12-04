@@ -4,6 +4,7 @@ import ForgotPasswordContainer from "../Auth/ForgotPassword/ForgotPasswordContai
 import Signin from "../Auth/Signin/Signin";
 import Signup from "../Auth/Signup/Signup";
 import NotFound from "../NotFound/NotFound";
+import MyProfileBody from "../SPALayout/Body/MyProfileBody";
 import SPALayout from "../SPALayout/SPALayout";
 
 function RouteBuilder() {
@@ -32,7 +33,7 @@ function RouteBuilder() {
 
 				<Route path="/" element={<SPALayout />}>
 					{/* nested component */}
-					<Route path="my-profile" element={<>test</>} />
+					<Route path="my-profile" element={<MyProfileBody />} />
 				</Route>
 				<Route path="*" element={<NotFound />} />
 			</Routes>

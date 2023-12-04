@@ -1,22 +1,26 @@
 import { Avatar, Button, Flex, Menu, Space } from "antd";
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { svgThaiNowLogoWithWords } from "../../../Assest/Asset";
 
 import { LogoutOutlined, UserOutlined } from "@ant-design/icons";
-import { SIGN_IN_PATH } from "../../../Util/constVar";
+import {
+	MY_PROFILE_PATH,
+	PICTURE_PROP,
+	SIGN_IN_PATH,
+	USERNAME_PROP,
+} from "../../../Util/constVar";
 import { isObjectEmpty } from "../../../Util/util";
 import useAuth from "../../Hook/AuthHook/useAuth";
 import useImage from "../../Hook/useImage";
-import useRedux from "../../Hook/useRedux";
+import useProfile from "../../Hook/useProfile";
 import SwitchLanguage from "../../Locale/SwitchLanguage";
 
 function DefaultHeader() {
 	const navigate = useNavigate();
 	const { image } = useImage();
-	const { profile = {} } = useRedux();
-	const { name: userName = "", picture: userPicture = "" } = profile || {};
+	const { profile } = useProfile();
 	const { t } = useTranslation();
 	const { signout } = useAuth();
 
@@ -174,16 +178,20 @@ function DefaultHeader() {
 				<Space align="center">
 					<Avatar
 						size="small"
-						{...(userPicture
-							? { src: <img src={profile?.picture} alt="avatar" /> }
+						{...(profile[`${PICTURE_PROP}`]
+							? { src: <img src={profile[`${PICTURE_PROP}`]} alt="avatar" /> }
 							: { icon: <UserOutlined /> })}
 					/>
-					{userName}
+					{profile[`${USERNAME_PROP}`]}
 				</Space>
 			),
 			children: [
 				{
-					label: t("my_profile_msg"),
+					label: (
+						<Link to={MY_PROFILE_PATH} className="text-decoration-none">
+							{t("my_profile_msg")}
+						</Link>
+					),
 					icon: <UserOutlined />,
 					key: "my_profile",
 				},

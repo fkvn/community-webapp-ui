@@ -9,7 +9,7 @@ function HeaderContainer() {
 		<Row>
 			<Col xs={24}>
 				<DefaultHeader />
-				<hr className="m-0" />
+
 				{/* {isEmptyObject(screens) ||
 				(screens.xs === false && screens.xxl === true) ? (
 					<DefaultTopBar />
