@@ -153,37 +153,44 @@ function DefaultHeader({ profile = {}, signout = () => {}, isLogin = false }) {
 	// 	</Row>
 	// );
 
-	const SigninBtn = () =>
-		!isLogin && (
-			<Button
-				type="link"
-				style={{
-					fontSize: "1rem",
-				}}
-				size="medium"
-				className="custom-center c-customRed"
-				icon={<UserOutlined />}
-				onClick={() => navigate(`${SIGN_IN_PATH}`)}
-			>
-				<span className="pt-1">
-					{t("login_msg")} | {t("signup_msg")}
-				</span>
-			</Button>
-		);
+	const SigninBtn = () => (
+		<Button
+			type="link"
+			style={{
+				fontSize: "1rem",
+			}}
+			size="medium"
+			className="custom-center c-customRed"
+			icon={<UserOutlined />}
+			onClick={() => navigate(`${SIGN_IN_PATH}`)}
+		>
+			<span className="pt-1">
+				{t("login_msg")} | {t("signup_msg")}
+			</span>
+		</Button>
+	);
 
 	const profileMenuItems = [
 		{
 			label: (
-				<Space align="center">
-					<Avatar
-						size="small"
-						{...(profile[`${PICTURE_PROP}`]
-							? { src: <img src={profile[`${PICTURE_PROP}`]} alt="avatar" /> }
-							: { icon: <UserOutlined /> })}
-					/>
-					{profile[`${USERNAME_PROP}`]}
-				</Space>
+				<>
+					<Space align="center">
+						<Avatar
+							size="small"
+							{...(profile[`${PICTURE_PROP}`]
+								? {
+										src: (
+											<img src={profile?.[`${PICTURE_PROP}`]} alt="avatar" />
+										),
+								  }
+								: { icon: <UserOutlined /> })}
+						/>
+						{profile[`${USERNAME_PROP}`]}
+					</Space>
+				</>
 			),
+			key: "profile-menu",
+
 			children: [
 				{
 					label: (
@@ -215,16 +222,13 @@ function DefaultHeader({ profile = {}, signout = () => {}, isLogin = false }) {
 		}
 	};
 
-	const ProfileMenu = () =>
-		isLogin && (
-			<>
-				<Menu
-					onClick={onClickProfileMenuItemHandle}
-					mode="horizontal"
-					items={profileMenuItems}
-				/>
-			</>
-		);
+	const ProfileMenu = () => (
+		<Menu
+			onClick={onClickProfileMenuItemHandle}
+			mode="horizontal"
+			items={profileMenuItems}
+		/>
+	);
 
 	const App = () => (
 		<Flex justify="space-between" className="my-1 mx-3">
@@ -241,8 +245,7 @@ function DefaultHeader({ profile = {}, signout = () => {}, isLogin = false }) {
 			</Flex>
 			<Flex justify="space-between" align="center">
 				<SwitchLanguage />
-				<SigninBtn />
-				<ProfileMenu />
+				{isLogin ? <ProfileMenu /> : <SigninBtn />}
 			</Flex>
 		</Flex>
 	);

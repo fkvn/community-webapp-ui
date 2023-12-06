@@ -1,6 +1,5 @@
 import { useTranslation } from "react-i18next";
 
-import { useSelector } from "react-redux";
 import {
 	findProfileDetailAxios,
 	updateProfileAxios,
@@ -10,35 +9,36 @@ import { changePasswordAxios } from "../../Axios/userAxios";
 import { uploadFileAxios } from "../../Axios/utilAxios";
 import {
 	EMAIL_PROP,
-	ID_PROP,
 	PICTURE_PROP,
 	PROFILE_OBJ,
 	USERNAME_PROP,
 } from "../../Util/constVar";
 import useMessage from "./MessageHook/useMessage";
-import useReduxCreator from "./ReduxHook/useReduxCreator";
+import useRedux from "./ReduxHook/useRedux";
 
 function useProfile() {
 	const { t } = useTranslation(["Password"]);
-	const { patchProfileInfo } = useReduxCreator();
+	const { patchProfileInfo } = useRedux();
 	const { successMessage, errorMessage } = useMessage();
-	const { [`${PROFILE_OBJ}`]: profile = {} } =
-		useSelector((state) => state.userReducer) || {};
 
 	/**
 	 *
-	 * @param {*} credentials {ID_PROP: "", PASSWORD_PROP: ""}
+	 * @param {*} credentials {CURRENT_PASSWORD_PROP: "", PASSWORD_PROP: ""}
 	 */
-	const changePassword = async (credentials = {}) => {
-		return changePasswordAxios(credentials)
+	const changePassword = async (
+		accountId,
+		credentials = {},
+		isVerify = false
+	) => {
+		return changePasswordAxios(accountId, credentials, isVerify)
 			.then(() => successMessage(t("password_change_success_msg")))
 			.catch((e) => errorMessage(e).then(() => Promise.reject()));
 	};
 
-	const changeProfileAvatar = async (formData = new FormData()) => {
+	const changeProfileAvatar = async (id = -1, formData = new FormData()) => {
 		return uploadFileAxios(formData)
 			.then((res = {}) =>
-				uploadProfilePictureAxios(profile?.id, res)
+				uploadProfilePictureAxios(id, res)
 					.then((url = "") => {
 						const storedProfile = {
 							...(JSON.parse(localStorage.getItem(PROFILE_OBJ)) || {}),
@@ -56,8 +56,8 @@ function useProfile() {
 			.catch((e) => errorMessage(e).then(() => Promise.reject()));
 	};
 
-	const findProfileDetail = async () => {
-		return findProfileDetailAxios(profile[`${ID_PROP}`])
+	const findProfileDetail = async (id = -1) => {
+		return findProfileDetailAxios(id)
 			.then(({ details, ...res }) => {
 				const profileDetail = { ...details, ...res };
 
@@ -76,10 +76,10 @@ function useProfile() {
 			.catch((e) => errorMessage(e).then(() => Promise.reject()));
 	};
 
-	const updateProfile = async (updatedFields = {}) => {
-		return updateProfileAxios(profile?.id, updatedFields)
+	const updateProfile = async (id = -1, updatedFields = {}) => {
+		return updateProfileAxios(id, updatedFields)
 			.then(() => {
-				const profileDetail = { ...profile, ...updatedFields };
+				// const profileDetail = { ...profile, ...updatedFields };
 
 				// update credentials
 				const storageProfile = {
@@ -90,7 +90,7 @@ function useProfile() {
 				localStorage.setItem(PROFILE_OBJ, JSON.stringify(storageProfile));
 
 				// update redux
-				patchProfileInfo(profileDetail);
+				patchProfileInfo(updatedFields, false);
 
 				return successMessage("message_save_msg", 2, false);
 			})
@@ -191,7 +191,6 @@ function useProfile() {
 		// uploadProfileAvatar,
 		// patchUserProfile,
 		// patchBusinessProfile,
-		profile,
 		findProfileDetail,
 		updateProfile,
 		changePassword,

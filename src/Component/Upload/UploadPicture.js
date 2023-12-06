@@ -12,7 +12,7 @@ function UploadPicture({
 	cropShape = "rect",
 	cropQuality = 0.4,
 	cropOk = "Save",
-	uploadPhotoOnClick = async () => {},
+	uploadPhotoOnClick = async (_formData) => {},
 	uploadIconSize = 25,
 	uploadIconStyle = {
 		right: 40,

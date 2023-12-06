@@ -22,6 +22,12 @@ export const scrollToActiveElement = () => {
 	});
 };
 
+/**
+ *
+ * @param {Number} phone
+ * @param {String} region Exact 2-characters
+ * @returns
+ */
 export const isPhoneValid = (phone = "", region = "US") => {
 	switch (region) {
 		case "US":
@@ -31,12 +37,24 @@ export const isPhoneValid = (phone = "", region = "US") => {
 	}
 };
 
-export const isUSPhoneValid = (phone = "") => {
-	if (!phone || phone.length === 0 || phone.length === 10) return true;
+/**
+ *
+ * @param {Number} phone
+ * @returns
+ */
+export const isUSPhoneValid = (phone) => {
+	if (!phone || phone.toString().length === 0 || phone.toString().length === 10)
+		return true;
 	return false;
 };
 
-export const formatPhoneNumber = (phone = "", region = "US") => {
+/**
+ *
+ * @param {Number} phone
+ * @param {String} region Exact 2-characters
+ * @returns
+ */
+export const formatPhoneNumber = (phone, region = "US") => {
 	switch (region) {
 		case "US":
 			return formatUSPhoneNumber(phone);
@@ -45,8 +63,13 @@ export const formatPhoneNumber = (phone = "", region = "US") => {
 	}
 };
 
-export const formatUSPhoneNumber = (rawPhone = "") => {
-	const phoneString = rawPhone.toString();
+/**
+ *
+ * @param {Number} rawPhone
+ * @returns
+ */
+export const formatUSPhoneNumber = (phone = "") => {
+	const phoneString = phone.toString();
 	const phoneLength = phoneString.length;
 
 	if (phoneLength === 0) return phoneString;

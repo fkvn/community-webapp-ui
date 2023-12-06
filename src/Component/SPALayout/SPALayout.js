@@ -13,7 +13,14 @@ function SPALayout() {
 	// );
 
 	const layout = (
-		<Row id="layout" justify="center">
+		<Row
+			id="layout"
+			justify="center"
+			style={{
+				height: "100vh",
+				backgroundColor: "#f6f6fb",
+			}}
+		>
 			<Col xs={24}>
 				<Header
 					className=" p-0 bg-white"
@@ -28,7 +35,7 @@ function SPALayout() {
 					<HeaderContainer />
 				</Header>
 				<Divider className="m-0 p-0" />
-				{/* Outlet is the component allows nested component   */}
+				{/* Outlet is the component allows nested component at this area*/}
 				<Outlet />
 			</Col>
 		</Row>

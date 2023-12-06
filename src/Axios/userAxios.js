@@ -1,4 +1,4 @@
-import { ID_PROP, PASSWORD_PROP } from "../Util/constVar";
+import { CURRENT_PASSWORD_PROP, PASSWORD_PROP } from "../Util/constVar";
 import axios from "./axios";
 
 export const findProfilesAxios = async () =>
@@ -23,14 +23,23 @@ export const findUserByPhoneAxios = async (phone = "", region = "") => {
 
 /**
  *
- * @param {Object} credentials {ID_PROP: "", PASSWORD_PROP: ""}
+ * @param {*} accountId
+ * @param {*} password
  * @returns
  */
-export const changePasswordAxios = async (credentials = {}) => {
-	console.log(credentials);
+export const changePasswordAxios = async (
+	accountId = -1,
+	credentials = {},
+	isVerify = false
+) => {
 	return axios
-		.post(`/users/${credentials[`${ID_PROP}`]}/password`, {
-			password: credentials[`${PASSWORD_PROP}`],
+		.post(`/users/${accountId}/password?isVerify=${isVerify}`, {
+			newPassword: credentials[`${PASSWORD_PROP}`],
+			...(isVerify
+				? {
+						currentPassword: credentials[`${CURRENT_PASSWORD_PROP}`],
+				  }
+				: {}),
 		})
 		.then(({ data }) => Promise.resolve(data))
 		.catch((e) => Promise.reject(e));

@@ -4,7 +4,7 @@ import {
 } from "../../../ReduxStore/UserReducer/UserActionCreator";
 import store from "../../../ReduxStore/store";
 
-function useReduxCreator() {
+function useRedux() {
 	const patchProfileInfo = (profile = {}, replace = true) =>
 		store.dispatch(patchProfileInfoActionCreator(profile, replace));
 
@@ -14,4 +14,4 @@ function useReduxCreator() {
 	return { patchProfileInfo, patchAccountInfo };
 }
 
-export default useReduxCreator;
+export default useRedux;

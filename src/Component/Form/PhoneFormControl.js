@@ -53,6 +53,7 @@ function PhoneFormControl({
 					{
 						validator: (_, value) => {
 							const isValidNumber = isPhoneValid(value, region);
+							console.log(isValidNumber);
 							return isValidNumber
 								? Promise.resolve()
 								: Promise.reject(new Error(t("phone_invalid_msg")));

@@ -1,16 +1,19 @@
 import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import { ID_PROP, USER_REDUCER } from "../../Util/constVar";
 import useProfile from "../Hook/useProfile";
 import MyProfile from "./MyProfile";
 
 function MyProfileContainer() {
-	const { profile, findProfileDetail, updateProfile, changeProfileAvatar } =
+	const { profile } = useSelector((state) => state[`${USER_REDUCER}`]);
+	const { findProfileDetail, updateProfile, changeProfileAvatar } =
 		useProfile();
 
 	const [loading, setLoading] = useState(true);
 
 	useEffect(() => {
 		if (loading)
-			findProfileDetail()
+			findProfileDetail(profile[`${ID_PROP}`])
 				.then(() => setLoading(false))
 				.catch(() => {});
 	}, [loading]);

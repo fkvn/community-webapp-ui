@@ -20,7 +20,7 @@ import Otp from "../Otp/Otp";
  * @param {*} credentials {CHANNEL_PROP: "", EMAIL_PROP: "", PHONE_PROP: "", REGION_PROP: "", PASSWORD_PROP: ""}
  * @returns
  */
-function ForgotPassword({
+function ChangePassword({
 	onBeforeSendCode = (_channel = "", _field = "", _value = "") =>
 		Promise.resolve(),
 	onSubmitPassword = (_credentials = {}) => Promise.resolve(),
@@ -163,4 +163,4 @@ function ForgotPassword({
 	);
 }
 
-export default ForgotPassword;
+export default ChangePassword;

@@ -8,6 +8,8 @@ export const THAINOW_OFF_CANVAS_OBJ = "thainow.offcanvas.info";
 export const THAINOW_USER_PROFILE_OBJ = "thainow.user.profile";
 export const THAINOW_COMPANY_PROFILE_OBJ = "thainow.company.profile";
 
+export const USER_REDUCER = "useReducer";
+
 export const THAINOW_REDUX_STORE_ROOT_OBJ = "reduxStoreObj";
 export const THAINOW_REDUX_STORE_ROOT_OBJ_PROPS = "reduxStoreObjProps";
 
@@ -51,6 +53,7 @@ export const LAT_PROP = "lat";
 export const LNG_PROP = "lng";
 
 export const ACCOUNT_OBJ = "account";
+export const ACCOUNT_ID_PROP = "accountId";
 
 export const PROFILE_OBJ = "profile";
 export const PROFILE_ID_PROP = "profileId";
@@ -83,6 +86,7 @@ export const SMS_PROP = "sms";
 export const PHONE_VALIDATION = "isValidPhone";
 export const IS_PHONE_PUBLIC_PROP = "isPhonePublic";
 export const PASSWORD_PROP = "password";
+export const CURRENT_PASSWORD_PROP = "currentPassword";
 export const CONFIRM_PASSWORD_PROP = "confirmPassword";
 export const PASSWORD_VALIDATION = "isValidPassword";
 export const CONFIRM_PASSWORD_VALIDATION = "isPasswordMatch";

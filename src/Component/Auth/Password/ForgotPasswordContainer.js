@@ -6,7 +6,6 @@ import {
 import {
 	CHANNEL_PROP,
 	EMAIL_PROP,
-	ID_PROP,
 	PASSWORD_PROP,
 	PHONE_PROP,
 	REGION_PROP,
@@ -15,7 +14,7 @@ import {
 import useAuth from "../../Hook/AuthHook/useAuth";
 import useMessage from "../../Hook/MessageHook/useMessage";
 import useProfile from "../../Hook/useProfile";
-import ForgotPassword from "./ForgotPassword";
+import ForgotPassword from "./ChangePassword";
 
 function ForgotPasswordContainer() {
 	const { changePassword } = useProfile();
@@ -31,7 +30,7 @@ function ForgotPasswordContainer() {
 	};
 
 	const onSubmitPasswordHandle = async (credentials = {}) => {
-		const { id, status } =
+		const { accountId, status } =
 			credentials[`${CHANNEL_PROP}`] === EMAIL_PROP
 				? await findUserByEmailAxios(credentials[`${EMAIL_PROP}`])
 				: credentials[`${CHANNEL_PROP}`] === PHONE_PROP
@@ -41,17 +40,15 @@ function ForgotPasswordContainer() {
 				    )
 				  : {};
 
-		if (!id || !status) return errorMessage().then(() => Promise.reject());
+		if (!accountId || !status)
+			return errorMessage().then(() => Promise.reject());
 
 		if (status !== "ACTIVATED")
 			return errorMessage("message_user_disabled_msg").then(() =>
 				Promise.reject()
 			);
 
-		return changePassword({
-			[`${ID_PROP}`]: id,
-			[`${PASSWORD_PROP}`]: credentials[`${PASSWORD_PROP}`],
-		});
+		return changePassword(accountId, credentials[`${PASSWORD_PROP}`]);
 	};
 
 	const onAfterSubmitPasswordHandle = (credentials = {}) =>

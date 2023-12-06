@@ -41,7 +41,7 @@ function ThaiNowSignin() {
 	const SignInTabChildren = () => (
 		<Flex vertical gap="large">
 			<SigninChannel />
-			<PasswordFormControl withConfirmPassword={false} />
+			<PasswordFormControl withConfirmPassword={false} autoComplete={true} />
 			<SubmitBtnFormControl
 				title={t("password_forgot_msg", { ns: "Password" })}
 				btnProps={{

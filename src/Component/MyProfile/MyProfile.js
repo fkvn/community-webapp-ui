@@ -4,6 +4,7 @@ import Title from "antd/lib/typography/Title";
 import { useTranslation } from "react-i18next";
 import {
 	FIRSTNAME_PROP,
+	ID_PROP,
 	IS_EMAIL_PUBLIC_PROP,
 	IS_PHONE_PUBLIC_PROP,
 	LASTNAME_PROP,
@@ -21,8 +22,8 @@ import UploadPicture from "../Upload/UploadPicture";
 
 function MyProfile({
 	profile = {},
-	changeProfileAvatar = () => {},
-	updateProfile = () => {},
+	changeProfileAvatar = async (_id, _formData) => {},
+	updateProfile = async (_id, _formData) => {},
 }) {
 	const { t } = useTranslation(["Default"]);
 	const [form] = useForm();
@@ -30,7 +31,11 @@ function MyProfile({
 	const updateProfileHandle = () => {
 		form
 			.validateFields()
-			.then(() => updateProfile(form.getFieldsValue()))
+			.then(() =>
+				updateProfile(profile[`${ID_PROP}`], form.getFieldsValue()).catch(
+					() => {}
+				)
+			)
 			.catch(() => {});
 	};
 
@@ -59,7 +64,9 @@ function MyProfile({
 					bottom: 10,
 				}}
 				cropShape="round"
-				uploadPhotoOnClick={changeProfileAvatar}
+				uploadPhotoOnClick={(formData) =>
+					changeProfileAvatar(profile[`${ID_PROP}`], formData).catch(() => {})
+				}
 			/>
 		</>
 	);

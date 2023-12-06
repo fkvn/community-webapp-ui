@@ -1,12 +1,13 @@
 import { Col, Row } from "antd";
 import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import { USER_REDUCER } from "../../../Util/constVar";
 import { isObjectEmpty } from "../../../Util/util";
 import useAuth from "../../Hook/AuthHook/useAuth";
-import useProfile from "../../Hook/useProfile";
 import DefaultHeader from "./DefaultHeader";
 
 function HeaderContainer() {
-	const { profile } = useProfile();
+	const { profile } = useSelector((state) => state[`${USER_REDUCER}`]);
 	const { signout } = useAuth();
 
 	const [isLogin, setIsLogin] = useState(false);
@@ -14,7 +15,7 @@ function HeaderContainer() {
 	useEffect(() => {
 		if (!isObjectEmpty(profile)) setIsLogin(true);
 		else setIsLogin(false);
-	});
+	}, [setIsLogin, profile]);
 
 	// const { useBreakpoint } = Grid;
 	// const screens = useBreakpoint();

@@ -1,4 +1,4 @@
-import { Form, Input } from "antd";
+import { Flex, Form, Input } from "antd";
 import { useTranslation } from "react-i18next";
 import { CONFIRM_PASSWORD_PROP, PASSWORD_PROP } from "../../Util/constVar";
 
@@ -16,14 +16,22 @@ function PasswordFormControl({
 	} = {},
 	confirmPasswordInputProps = {},
 	showConfirmPasswordLabel = true,
+	flexProp = {},
+	autoComplete = false,
 } = {}) {
 	const { t } = useTranslation(["Password", "Form"]);
 
 	const App = () => (
-		<>
+		<Flex
+			gap={10}
+			align="center"
+			wrap="wrap"
+			justify="flex-start"
+			{...flexProp}
+		>
 			<Form.Item
 				name={itemName}
-				className="m-0"
+				className="m-0 w-100"
 				rules={[
 					{
 						required: required,
@@ -45,7 +53,8 @@ function PasswordFormControl({
 			>
 				<Input.Password
 					allowClear
-					autoComplete="false"
+					// this is to turn off autocomplete
+					autoComplete={`${autoComplete ? "password" : "new-password"}`}
 					placeholder={t(`password_enter_msg${newPasswordForm ? "_new" : ""}`)}
 					{...inputProps}
 				/>
@@ -53,6 +62,7 @@ function PasswordFormControl({
 			{withConfirmPassword && (
 				<Form.Item
 					name={confirmPasswordName}
+					className="m-0 w-100"
 					dependencies={[itemName]}
 					hasFeedback
 					rules={[
@@ -81,7 +91,7 @@ function PasswordFormControl({
 				>
 					<Input.Password
 						allowClear
-						autoComplete="false"
+						autoComplete={`${autoComplete ? "password" : "new-password"}`}
 						placeholder={t(
 							`password_confirm_enter_msg${newPasswordForm ? "_new" : ""}`
 						)}
@@ -89,7 +99,7 @@ function PasswordFormControl({
 					/>
 				</Form.Item>
 			)}
-		</>
+		</Flex>
 	);
 
 	return <App />;

@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { MY_PROFILE_PATH } from "../../../Util/constVar";
 import Auth from "../../Auth/Auth";
+import MyPasswordContainer from "../../MyProfile/MyPasswordContainer";
 import MyProfileContainer from "../../MyProfile/MyProfileContainer";
 
 function MyProfileBody() {
@@ -78,6 +79,7 @@ function MyProfileBody() {
 			}}
 		>
 			{currentKey === sideMenuKeys?.myProfile && <MyProfileContainer />}
+			{currentKey === sideMenuKeys?.myPassword && <MyPasswordContainer />}
 
 			{/* this to render empty space if no key is found */}
 			<p></p>
@@ -86,12 +88,7 @@ function MyProfileBody() {
 
 	const App = () => (
 		<Auth>
-			<Row
-				className="p-4"
-				style={{
-					backgroundColor: "#f6f6fb",
-				}}
-			>
+			<Row className="p-4">
 				<Col xs={1} xxl={3}></Col>
 				<Col xs={22} xxl={18}>
 					<Flex gap="large" vertical>

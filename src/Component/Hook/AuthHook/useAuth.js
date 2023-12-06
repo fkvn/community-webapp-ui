@@ -16,12 +16,12 @@ import {
 	USERNAME_PROP,
 } from "../../../Util/constVar";
 import useMessage from "../MessageHook/useMessage";
-import useReduxCreator from "../ReduxHook/useReduxCreator";
+import useRedux from "../ReduxHook/useRedux";
 
 function useAuth() {
 	const { t } = useTranslation();
 	const { successMessage, errorMessage } = useMessage();
-	const { patchProfileInfo, patchAccountInfo } = useReduxCreator();
+	const { patchProfileInfo, patchAccountInfo } = useRedux();
 
 	const navigate = useNavigate();
 	const [params] = useSearchParams();
