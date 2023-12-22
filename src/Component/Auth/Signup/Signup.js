@@ -36,10 +36,13 @@ function Signup() {
 		<Typography.Title
 			level={3}
 			className="text-center"
-			style={{ textTransform: "capitalize", minWidth: "30rem" }}
+			style={{
+				textTransform: "capitalize",
+				minWidth: "30rem",
+			}}
 		>
 			{t("signup_msg")}
-			<span className="px-2" style={{ color: "#E94833" }}>
+			<span className="px-2" style={{ color: "#E94833", fontSize: "1.5rem" }}>
 				ThaiNow
 			</span>
 			{t("account_msg")}

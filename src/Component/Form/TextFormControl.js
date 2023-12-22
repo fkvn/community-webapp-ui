@@ -21,7 +21,7 @@ function TextFormControl({
 		>
 			<Form.Item
 				name={itemName}
-				className="m-0"
+				className="m-0 w-100"
 				rules={[
 					{
 						required: required,
@@ -37,7 +37,7 @@ function TextFormControl({
 				})}
 				{...itemProps}
 			>
-				<Input allowClear {...inputProps} />
+				<Input allowClear placeholder={t("enter_value_msg")} {...inputProps} />
 			</Form.Item>
 			{extra}
 		</Flex>
