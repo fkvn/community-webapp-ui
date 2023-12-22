@@ -1,4 +1,4 @@
-import { verifyExistingAxios } from "../../../Axios/authAxios";
+import { verifyExistingAxios } from "../../../Axios/authaxios";
 import {
 	findUserByEmailAxios,
 	findUserByPhoneAxios,

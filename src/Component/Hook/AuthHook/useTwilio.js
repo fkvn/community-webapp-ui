@@ -1,5 +1,5 @@
 import { useTranslation } from "react-i18next";
-import { sendOtpCodeAxios, verifyOtpCodeAxios } from "../../../Axios/authAxios";
+import { sendOtpCodeAxios, verifyOtpCodeAxios } from "../../../Axios/authaxios";
 import useMessage from "../MessageHook/useMessage";
 // import { errorMessage, loadingMessage, successMessage } from "./useMessage";
 

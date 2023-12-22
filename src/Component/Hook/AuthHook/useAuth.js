@@ -2,7 +2,7 @@
 import jwt_decode from "jwt-decode";
 import { useTranslation } from "react-i18next";
 import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
-import { signinAxios, signupAxios } from "../../../Axios/authAxios";
+import { signinAxios, signupAxios } from "../../../Axios/authaxios";
 import {
 	ACCESS_TOKEN_PROP,
 	ACCOUNT_OBJ,
