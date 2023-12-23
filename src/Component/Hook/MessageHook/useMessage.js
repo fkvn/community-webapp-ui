@@ -61,10 +61,11 @@ function useMessage() {
 		if (showOverlay) document.getElementById("overlay").style.display = "block";
 		const [key = "message_system_error_msg", attributes = "{}"] =
 			contentOrKey.split("-{}-");
+
 		const content =
 			key.indexOf("_msg") < 0
 				? contentOrKey
-				: t(key, { ...JSON.parse(attributes) });
+				: t(key, { ...JSON.parse(`${attributes}`) });
 		return message
 			.error({
 				content: content,

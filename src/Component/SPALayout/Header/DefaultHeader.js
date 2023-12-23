@@ -1,5 +1,4 @@
 import { Avatar, Button, Flex, Menu, Space } from "antd";
-import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { Link, useNavigate } from "react-router-dom";
 import { svgThaiNowLogoWithWords } from "../../../Assest/Asset";
@@ -7,7 +6,7 @@ import { svgThaiNowLogoWithWords } from "../../../Assest/Asset";
 import { LogoutOutlined, UserOutlined } from "@ant-design/icons";
 import {
 	MY_PROFILE_PATH,
-	PICTURE_PROP,
+	PROFILE_AVATAR_PROP,
 	SIGN_IN_PATH,
 	USERNAME_PROP,
 } from "../../../Util/constVar";
@@ -19,6 +18,8 @@ function DefaultHeader({ profile = {}, signout = () => {}, isLogin = false }) {
 	const { image } = useImage();
 
 	const { t } = useTranslation();
+
+	const { [`${PROFILE_AVATAR_PROP}`]: avatarUrl = "" } = profile;
 
 	// const { signout } = useAuth();
 	// const { profile } = useProfile();
@@ -62,12 +63,12 @@ function DefaultHeader({ profile = {}, signout = () => {}, isLogin = false }) {
 	// 	}
 	// );
 
-	useEffect(() => {
-		// offset top header
-		// $("#layout-main").css("margin-top", "7rem");
-		// const keywordParam = searchParams.get("keywords") || "";
-		// form.setFieldValue(SEARCH_INPUT_PROP, keywordParam);
-	}, []);
+	// useEffect(() => {
+	// 	// offset top header
+	// 	// $("#layout-main").css("margin-top", "7rem");
+	// 	// const keywordParam = searchParams.get("keywords") || "";
+	// 	// form.setFieldValue(SEARCH_INPUT_PROP, keywordParam);
+	// }, []);
 
 	// const app = (
 	// 	<Row
@@ -152,7 +153,6 @@ function DefaultHeader({ profile = {}, signout = () => {}, isLogin = false }) {
 	// 		</Col>
 	// 	</Row>
 	// );
-
 	const SigninBtn = () => (
 		<Button
 			type="link"
@@ -173,24 +173,19 @@ function DefaultHeader({ profile = {}, signout = () => {}, isLogin = false }) {
 	const profileMenuItems = [
 		{
 			label: (
-				<>
-					<Space align="center">
-						<Avatar
-							size="small"
-							{...(profile[`${PICTURE_PROP}`]
-								? {
-										src: (
-											<img src={profile?.[`${PICTURE_PROP}`]} alt="avatar" />
-										),
-								  }
-								: { icon: <UserOutlined /> })}
-						/>
-						{profile[`${USERNAME_PROP}`]}
-					</Space>
-				</>
+				<Space align="center">
+					<Avatar
+						size="small"
+						{...(avatarUrl
+							? {
+									src: <img src={avatarUrl} alt="avatar" />,
+							  }
+							: { icon: <UserOutlined /> })}
+					/>
+					{profile[`${USERNAME_PROP}`]}
+				</Space>
 			),
 			key: "profile-menu",
-
 			children: [
 				{
 					label: (
@@ -227,6 +222,8 @@ function DefaultHeader({ profile = {}, signout = () => {}, isLogin = false }) {
 			onClick={onClickProfileMenuItemHandle}
 			mode="horizontal"
 			items={profileMenuItems}
+			// temp fix the error when auto collapsed as only 1 item for horizontal mode
+			disabledOverflow={true}
 		/>
 	);
 

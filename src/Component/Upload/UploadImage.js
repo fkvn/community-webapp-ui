@@ -4,7 +4,7 @@ import ImgCrop from "antd-img-crop";
 import { useTranslation } from "react-i18next";
 import useMessage from "../Hook/MessageHook/useMessage";
 
-function UploadPicture({
+function UploadImage({
 	className = "",
 	cropRotate = true,
 	cropAspect = 1 / 1,
@@ -12,7 +12,7 @@ function UploadPicture({
 	cropShape = "rect",
 	cropQuality = 0.4,
 	cropOk = "Save",
-	uploadPhotoOnClick = async (_formData) => {},
+	uploadImageOnClick = async (_formData) => {},
 	uploadIconSize = 25,
 	uploadIconStyle = {
 		right: 40,
@@ -56,6 +56,7 @@ function UploadPicture({
 			file.type === "image/png";
 
 		if (!isJpgOrPng) {
+			console.log("not image");
 			errorMessage("message_only_image_msg").then(() => {
 				return;
 			});
@@ -64,7 +65,8 @@ function UploadPicture({
 		const isLt2M = file.size / 1024 / 1024 < 2;
 
 		if (!isLt2M) {
-			errorMessage(`message_image_invalid_size_msg-{}-{value: "2MB"}`).then(
+			console.log("tolarge");
+			errorMessage(`message_image_invalid_size_msg-{}-{"value": "2MB"}`).then(
 				() => {
 					return;
 				}
@@ -109,7 +111,7 @@ function UploadPicture({
 							const formData = new FormData();
 							formData.append("file", file);
 
-							uploadPhotoOnClick(formData)
+							uploadImageOnClick(formData)
 								.then(() => onSuccess())
 								.catch(onError());
 
@@ -141,4 +143,4 @@ function UploadPicture({
 	return app;
 }
 
-export default UploadPicture;
+export default UploadImage;

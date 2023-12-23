@@ -2,14 +2,14 @@ import { useTranslation } from "react-i18next";
 
 import {
 	findProfileDetailAxios,
-	updateProfileAxios,
-	uploadProfilePictureAxios,
+	patchProfileAxios,
+	uploadAvatarAxios,
 } from "../../Axios/profileAxios";
 import { changePasswordAxios } from "../../Axios/userAxios";
 import { uploadFileAxios } from "../../Axios/utilAxios";
 import {
 	EMAIL_PROP,
-	PICTURE_PROP,
+	PROFILE_AVATAR_PROP,
 	PROFILE_OBJ,
 	USERNAME_PROP,
 } from "../../Util/constVar";
@@ -37,19 +37,19 @@ function useProfile() {
 
 	const changeProfileAvatar = async (id = -1, formData = new FormData()) => {
 		return uploadFileAxios(formData)
-			.then((res = {}) =>
-				uploadProfilePictureAxios(id, res)
-					.then((url = "") => {
+			.then((url = "") =>
+				uploadAvatarAxios(id, url)
+					.then(() => {
 						const storedProfile = {
 							...(JSON.parse(localStorage.getItem(PROFILE_OBJ)) || {}),
 						};
 						const updatedProfile = {
 							...storedProfile,
-							[`${PICTURE_PROP}`]: url,
+							[`${PROFILE_AVATAR_PROP}`]: url,
 						};
 						localStorage.setItem(PROFILE_OBJ, JSON.stringify(updatedProfile));
 
-						return patchProfileInfo({ [`${PICTURE_PROP}`]: url }, false);
+						return patchProfileInfo({ [`${PROFILE_AVATAR_PROP}`]: url }, false);
 					})
 					.catch((e) => errorMessage(e).then(() => Promise.reject()))
 			)
@@ -77,7 +77,7 @@ function useProfile() {
 	};
 
 	const updateProfile = async (id = -1, updatedFields = {}) => {
-		return updateProfileAxios(id, updatedFields)
+		return patchProfileAxios(id, updatedFields)
 			.then(() => {
 				// const profileDetail = { ...profile, ...updatedFields };
 

@@ -8,7 +8,7 @@ import {
 	IS_EMAIL_PUBLIC_PROP,
 	IS_PHONE_PUBLIC_PROP,
 	LASTNAME_PROP,
-	PICTURE_PROP,
+	PROFILE_AVATAR_PROP,
 	REGION_PROP,
 	USERNAME_PROP,
 } from "../../Util/constVar";
@@ -18,7 +18,7 @@ import PhoneFormControl from "../Form/PhoneFormControl";
 import SubmitBtnFormControl from "../Form/SubmitBtnFormControl";
 import TextFormControl from "../Form/TextFormControl";
 import ImageFrame from "../ImageFrame/ImageFrame";
-import UploadPicture from "../Upload/UploadPicture";
+import UploadImage from "../Upload/UploadImage";
 
 function MyProfile({
 	profile = {},
@@ -28,14 +28,15 @@ function MyProfile({
 	const { t } = useTranslation(["Default"]);
 	const [form] = useForm();
 
+	const {
+		[`${PROFILE_AVATAR_PROP}`]: avatarUrl = "",
+		[`${ID_PROP}`]: id = "",
+	} = profile;
+
 	const updateProfileHandle = () => {
 		form
 			.validateFields()
-			.then(() =>
-				updateProfile(profile[`${ID_PROP}`], form.getFieldsValue()).catch(
-					() => {}
-				)
-			)
+			.then(() => updateProfile(id, form.getFieldsValue()).catch(() => {}))
 			.catch(() => {});
 	};
 
@@ -55,17 +56,17 @@ function MyProfile({
 						borderRadius: "100px",
 					},
 				}}
-				src={profile[`${PICTURE_PROP}`]}
+				src={avatarUrl}
 			/>
-			<UploadPicture
+			<UploadImage
 				className="text-center w-100"
 				uploadIconStyle={{
 					right: 70,
 					bottom: 10,
 				}}
 				cropShape="round"
-				uploadPhotoOnClick={(formData) =>
-					changeProfileAvatar(profile[`${ID_PROP}`], formData).catch(() => {})
+				uploadImageOnClick={(formData) =>
+					changeProfileAvatar(id, formData).catch(() => {})
 				}
 			/>
 		</>

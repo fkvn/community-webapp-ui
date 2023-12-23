@@ -1,25 +1,51 @@
-import { Carousel } from "antd";
+import { Carousel, Flex } from "antd";
+import Title from "antd/es/typography/Title";
+import { imageThaiHelpThaiBanner } from "../../../Assest/Asset";
 
 function HomeBody() {
-	const contentStyle = {
-		height: "200px",
-		color: "#fff",
+	const carouselContentStyle = {
+		height: "30rem",
 		lineHeight: "160px",
 		textAlign: "center",
-		background: "#364d79",
 	};
 
-	const Banner = () => (
+	const CarouselBanner = () => (
 		<Carousel autoplay>
 			<div>
-				<h3 style={contentStyle}>1</h3>
+				<Flex
+					style={{
+						...carouselContentStyle,
+						backgroundImage: `linear-gradient(180deg, rgba(0, 0, 0, 0.16) 0%,rgba(0, 0, 0, 0.8) 100%), url(${imageThaiHelpThaiBanner})`,
+						backgroundPosition: "center",
+						backgroundRepeat: "no-repeat",
+						backgroundColor: "#E9E9E9",
+						backgroundSize: "cover",
+					}}
+					justify="center"
+					align="center"
+				>
+					<Flex vertical gap={20}>
+						<Title className="text-white m-0 p-0">
+							CONNECTING THAI OVERSEAS
+						</Title>
+						<Title className="text-white m-0 p-0" level={3}>
+							เชื่อมโยงคนไทย ในต่างแดน{" "}
+						</Title>
+					</Flex>
+				</Flex>
 			</div>
 		</Carousel>
 	);
 
+	const GuideBookSection = () => <></>;
+
+	const PostListSection = () => <></>;
+
 	const App = () => (
 		<>
-			<Banner />
+			<CarouselBanner />
+			<GuideBookSection />
+			<PostListSection />
 		</>
 	);
 	return <App />;

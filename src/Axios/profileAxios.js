@@ -6,14 +6,16 @@ export const findProfileDetailAxios = async (id = -1) =>
 		.then(({ data }) => Promise.resolve(data))
 		.catch((e) => Promise.reject(e));
 
-export const updateProfileAxios = async (id = -1, profile = {}) =>
+export const patchProfileAxios = async (id = -1, profile = {}) =>
 	axios
 		.patch(`/profiles/${id}`, profile)
 		.then(({ data }) => Promise.resolve(data))
 		.catch((e) => Promise.reject(e));
 
-export const uploadProfilePictureAxios = async (id = -1, storageRequest = {}) =>
+export const uploadAvatarAxios = async (id = -1, url = "") =>
 	axios
-		.post(`/profiles/${id}/picture`, storageRequest)
+		.post(`/profiles/${id}/avatar`, {
+			url: url,
+		})
 		.then(({ data }) => Promise.resolve(data))
 		.catch((e) => Promise.reject(e));
