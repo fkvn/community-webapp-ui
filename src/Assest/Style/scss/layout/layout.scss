@@ -107,3 +107,18 @@ body {
 	-ms-overflow-style: none; /* IE and Edge */
 	scrollbar-width: none; /* Firefox */
 }
+
+.scrolling-wrapper-flexbox {
+	display: flex;
+	flex-wrap: nowrap;
+	overflow-x: auto;
+	-webkit-overflow-scrolling: touch;
+
+	.card {
+		flex: 0 0 auto;
+	}
+
+	&::-webkit-scrollbar {
+		display: none;
+	}
+}
