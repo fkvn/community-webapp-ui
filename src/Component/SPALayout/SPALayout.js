@@ -1,5 +1,6 @@
 import { Col, Divider, Layout, Row } from "antd";
 import { Outlet } from "react-router-dom";
+import Footer from "./Footer";
 import HeaderContainer from "./Header/HeaderContainer";
 
 function SPALayout() {
@@ -37,6 +38,7 @@ function SPALayout() {
 				<Divider className="m-0 p-0" />
 				{/* Outlet is the component allows nested component at this area*/}
 				<Outlet />
+				<Footer />
 			</Col>
 		</Row>
 	);

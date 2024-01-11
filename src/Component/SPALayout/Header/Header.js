@@ -13,7 +13,7 @@ import {
 import useImage from "../../Hook/useImage";
 import SwitchLanguage from "../../Locale/SwitchLanguage";
 
-function DefaultHeader({ profile = {}, signout = () => {}, isLogin = false }) {
+function Header({ profile = {}, signout = () => {}, isLogin = false }) {
 	const navigate = useNavigate();
 	const { image } = useImage();
 
@@ -250,4 +250,4 @@ function DefaultHeader({ profile = {}, signout = () => {}, isLogin = false }) {
 	return <App />;
 }
 
-export default DefaultHeader;
+export default Header;

@@ -4,6 +4,24 @@ export const svgLoginPic = `${STORAGE_SOURCE_URL}svg-login-pic.svg?alt=media&tok
 
 export const imageThaiHelpThaiBanner = `${STORAGE_SOURCE_URL}img-thaihelpthaibanner.png?alt=media&token=184f0afc-beb7-4992-9c24-63e3004444ef`;
 
+export const imageThaiNow1 = `${STORAGE_SOURCE_URL}img-thainow-1.jpeg?alt=media&token=184f0afc-beb7-4992-9c24-63e3004444ef`;
+
+export const imageThaiNow2 = `${STORAGE_SOURCE_URL}img-thainow-2.jpeg?alt=media&token=184f0afc-beb7-4992-9c24-63e3004444ef`;
+
+export const imageThaiNow3 = `${STORAGE_SOURCE_URL}img-thainow-3.jpeg?alt=media&token=184f0afc-beb7-4992-9c24-63e3004444ef`;
+
+export const imageThaiNow4 = `${STORAGE_SOURCE_URL}img-thainow-4.jpeg?alt=media&token=184f0afc-beb7-4992-9c24-63e3004444ef`;
+
+export const imageThaiNow5 = `${STORAGE_SOURCE_URL}img-thainow-5.jpeg?alt=media&token=184f0afc-beb7-4992-9c24-63e3004444ef`;
+
+export const imageThaiNow6 = `${STORAGE_SOURCE_URL}img-thainow-6.jpeg?alt=media&token=184f0afc-beb7-4992-9c24-63e3004444ef`;
+
+export const imageThaiNow7 = `${STORAGE_SOURCE_URL}img-thainow-7.jpeg?alt=media&token=184f0afc-beb7-4992-9c24-63e3004444ef`;
+
+export const imageThaiNow8 = `${STORAGE_SOURCE_URL}img-thainow-8.jpeg?alt=media&token=184f0afc-beb7-4992-9c24-63e3004444ef`;
+
+export const imageAds = `${STORAGE_SOURCE_URL}img-ads.jpeg?alt=media&token=184f0afc-beb7-4992-9c24-63e3004444ef`;
+
 export const imageThainowLogoRound = `${STORAGE_SOURCE_URL}img-logo-round.png?alt=media&token=184f0afc-beb7-4992-9c24-63e3004444ef`;
 
 export const imageTopbarBg = `${STORAGE_SOURCE_URL}img-top-bar.png?alt=media&token=207d8aa7-a3a9-4b40-a8b9-6d24614c6332`;
@@ -23,6 +41,8 @@ export const imageSuccess = `${STORAGE_SOURCE_URL}img-success.png?alt=media&toke
 export const imageThainowLogo = `${STORAGE_SOURCE_URL}img-thainow-logo.png?alt=media&token=184f0afc-beb7-4992-9c24-63e3004444ef`;
 
 export const svgThainowLogo = `${STORAGE_SOURCE_URL}svg-thainow-logo.svg?alt=media&token=184f0afc-beb7-4992-9c24-63e3004444ef`;
+
+export const svgThainowLogoWhite = `${STORAGE_SOURCE_URL}svg-thainowlogo-white.svg?alt=media&token=184f0afc-beb7-4992-9c24-63e3004444ef`;
 
 export const svgThaiNowLogoWithWords = `${STORAGE_SOURCE_URL}svg-thainow-logo-with-words.svg?alt=media&token=184f0afc-beb7-4992-9c24-63e3004444ef`;
 
@@ -65,6 +85,8 @@ export const svgMarketplaceIconWhite = `${STORAGE_SOURCE_URL}svg-marketplace-ico
 export const svgMarketplaceIcon = `${STORAGE_SOURCE_URL}svg-marketplace-icon.svg?alt=media&token=184f0afc-beb7-4992-9c24-63e3004444ef`;
 
 export const svgFacebookLogo = `${STORAGE_SOURCE_URL}svg-logo-facebook.svg?alt=media&token=184f0afc-beb7-4992-9c24-63e3004444ef`;
+
+export const svgTiktokLogo = `${STORAGE_SOURCE_URL}svg-logo-tiktok.svg?alt=media&token=184f0afc-beb7-4992-9c24-63e3004444ef`;
 
 export const svgLineLogo = `${STORAGE_SOURCE_URL}svg-logo-line.svg?alt=media&token=184f0afc-beb7-4992-9c24-63e3004444ef`;
 

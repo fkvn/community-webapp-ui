@@ -21,8 +21,13 @@ function useMessage() {
 		config = {}
 	) => {
 		if (showOverlay) document.getElementById("overlay").style.display = "block";
+		const [key = "message_loading_msg", attributes = "{}"] =
+			contentOrKey.split("-{}-");
+
 		const content =
-			contentOrKey.indexOf("_msg") < 0 ? contentOrKey : t(contentOrKey);
+			key.indexOf("_msg") < 0
+				? contentOrKey
+				: t(key, { ...JSON.parse(`${attributes}`) });
 		return message
 			.loading({
 				content: content,
@@ -40,10 +45,15 @@ function useMessage() {
 		config = {}
 	) => {
 		if (showOverlay) document.getElementById("overlay").style.display = "block";
+		const [key = "message_navigate_msg", attributes = "{}"] =
+			contentOrKey.split("-{}-");
+
 		const content =
-			contentOrKey.indexOf("_msg") < 0 ? contentOrKey : t(contentOrKey);
+			key.indexOf("_msg") < 0
+				? contentOrKey
+				: t(key, { ...JSON.parse(`${attributes}`) });
 		return message
-			.success({
+			.loading({
 				content: content,
 				duration: duration,
 				...CONFIG,
@@ -53,7 +63,7 @@ function useMessage() {
 	};
 
 	const errorMessage = async (
-		contentOrKey = "",
+		contentOrKey = "message_system_error_msg",
 		duration = 3,
 		showOverlay = true,
 		config = {}
@@ -76,10 +86,16 @@ function useMessage() {
 			.then(() => Promise.resolve());
 	};
 
+	const destroyMessage = async () => {
+		message.destroy(key);
+		return Promise.resolve();
+	};
+
 	return {
 		loadingMessage,
 		successMessage,
 		errorMessage,
+		destroyMessage,
 	};
 }
 
