@@ -10,7 +10,7 @@ import {
 	PHONE_PROP,
 	REGION_PROP,
 	SIGNIN_CHANNEL_THAINOW,
-} from "../../../Util/constVar";
+} from "../../../Util/ConstVar";
 import useAuth from "../../Hook/AuthHook/useAuth";
 import useMessage from "../../Hook/MessageHook/useMessage";
 import useProfile from "../../Hook/useProfile";

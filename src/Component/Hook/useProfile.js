@@ -12,7 +12,7 @@ import {
 	PROFILE_AVATAR_PROP,
 	PROFILE_OBJ,
 	USERNAME_PROP,
-} from "../../Util/constVar";
+} from "../../Util/ConstVar";
 import useMessage from "./MessageHook/useMessage";
 import useRedux from "./ReduxHook/useRedux";
 

@@ -1,7 +1,7 @@
 import i18next from "i18next";
 import jwt_decode from "jwt-decode";
 import { useEffect } from "react";
-import { SIGNIN_CHANNEL_APPLE } from "../../../Util/constVar";
+import { SIGNIN_CHANNEL_APPLE } from "../../../Util/ConstVar";
 import { appleSignin } from "../../../serviceEnv";
 import useAuth from "../../Hook/AuthHook/useAuth";
 

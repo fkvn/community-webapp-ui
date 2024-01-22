@@ -3,7 +3,7 @@ import axios from "axios";
 import { useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 import { svgLineLogo } from "../../../Assest/Asset";
-import { SIGNIN_CHANNEL_LINE } from "../../../Util/constVar";
+import { SIGNIN_CHANNEL_LINE } from "../../../Util/ConstVar";
 import useImage from "../../Hook/useImage";
 
 import { lineSignin } from "../../../serviceEnv";

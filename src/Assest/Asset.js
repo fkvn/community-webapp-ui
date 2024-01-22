@@ -167,22 +167,22 @@ export const iconLocationWhite = (size = "1rem") => (
 );
 
 // export const images = {
-// 	[`${constVar.IMAGE_THAINOW_LOGO}`]: thaiNowLogo,
-// 	[`${constVar.IMAGE_GUEST_PROFILE}`]: guestProfile,
-// 	[`${constVar.IMAGE_CLASSIC_PROFILE}`]: classicProfile,
-// 	[`${constVar.IMAGE_BUSINESS_PROFILE}`]: businessProfile,
-// 	[`${constVar.IMAGE_ADD_FRAME}`]: addFrameImage,
+// 	[`${ConstVar.IMAGE_THAINOW_LOGO}`]: thaiNowLogo,
+// 	[`${ConstVar.IMAGE_GUEST_PROFILE}`]: guestProfile,
+// 	[`${ConstVar.IMAGE_CLASSIC_PROFILE}`]: classicProfile,
+// 	[`${ConstVar.IMAGE_BUSINESS_PROFILE}`]: businessProfile,
+// 	[`${ConstVar.IMAGE_ADD_FRAME}`]: addFrameImage,
 // 	genwar: genwar,
 // };
 
 // export const icons = {
-// 	[`${constVar.ICON_USER_READER}`]: userReaderIcon,
-// 	[`${constVar.ICON_LOCATION}`]: locationIcon,
-// 	[`${constVar.ICON_SEARCH}`]: searchIcon,
-// 	[`${constVar.ICON_SEARCH_WHITE}`]: searchIconWhite,
-// 	[`${constVar.ICON_EMAIL_BLACK}`]: emailIconBlack,
-// 	[`${constVar.ICON_PHONE_BLACK}`]: phoneIconBlack,
-// 	[`${constVar.ICON_NOTIFICATION_BLACK}`]: notificationIcon,
-// 	[`${constVar.ICON_THREE_BARS_BLACK}`]: threeBarsIcon,
-// 	[`${constVar.ICON_US_PHONE}`]: usPhoneIcon,
+// 	[`${ConstVar.ICON_USER_READER}`]: userReaderIcon,
+// 	[`${ConstVar.ICON_LOCATION}`]: locationIcon,
+// 	[`${ConstVar.ICON_SEARCH}`]: searchIcon,
+// 	[`${ConstVar.ICON_SEARCH_WHITE}`]: searchIconWhite,
+// 	[`${ConstVar.ICON_EMAIL_BLACK}`]: emailIconBlack,
+// 	[`${ConstVar.ICON_PHONE_BLACK}`]: phoneIconBlack,
+// 	[`${ConstVar.ICON_NOTIFICATION_BLACK}`]: notificationIcon,
+// 	[`${ConstVar.ICON_THREE_BARS_BLACK}`]: threeBarsIcon,
+// 	[`${ConstVar.ICON_US_PHONE}`]: usPhoneIcon,
 // };

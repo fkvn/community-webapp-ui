@@ -1,6 +1,6 @@
 import { Checkbox, Form } from "antd";
 import { useTranslation } from "react-i18next";
-import { CHECKBOX_PROP } from "../../Util/constVar";
+import { CHECKBOX_PROP } from "../../Util/ConstVar";
 
 function CheckboxFormControl({
 	itemProps: {

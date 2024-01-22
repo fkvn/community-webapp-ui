@@ -1,12 +1,7 @@
-import { BrowserRouter } from "react-router-dom";
-import Route from "./Component/Route/Route";
+import RouteContainer from "./Component/Route/RouteContainer";
 
 function App() {
-	return (
-		<BrowserRouter>
-			<Route />
-		</BrowserRouter>
-	);
+	return <RouteContainer />;
 }
 
 export default App;

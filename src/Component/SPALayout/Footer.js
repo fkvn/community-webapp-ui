@@ -1,4 +1,5 @@
 import { Divider, Flex, Image, Typography } from "antd";
+import { useTranslation } from "react-i18next";
 import {
 	svgFacebookLogo,
 	svgIgLogo,
@@ -8,6 +9,7 @@ import {
 } from "../../Assest/Asset";
 
 function Footer() {
+	const { t } = useTranslation(["Default", "Email"]);
 	const { Text, Link } = Typography;
 
 	const socialMediaItems = [
@@ -57,7 +59,7 @@ function Footer() {
 							className="text-white"
 						/>
 						<Text level={5} className="text-white" style={{ fontSize: "1rem" }}>
-							Address:{" "}
+							{t("address_msg")}:{" "}
 							<Link
 								href="https://www.google.com/maps/place/Thai+Town,+Los+Angeles,+CA+90027/@34.1018091,-118.3087221,16z/data=!3m1!4b1!4m6!3m5!1s0x80c2bf571ef66c7f:0xf8f17d1d8988d668!8m2!3d34.1018097!4d-118.3035723!16zL20vMDNsajFy?entry=ttu"
 								target="_blank"
@@ -68,7 +70,7 @@ function Footer() {
 							</Link>
 						</Text>
 						<Text level={5} className="text-white" style={{ fontSize: "1rem" }}>
-							Email:{" "}
+							{t("email_address_msg", { ns: "Email" })}:{" "}
 							<Link
 								href="mailto:info@thainowapp.com"
 								className="text-white"
@@ -88,32 +90,31 @@ function Footer() {
 					</Flex>
 					<Flex vertical justify="space-around">
 						<Link
-							href="#"
+							href="helpcenter"
 							style={{ color: "white", fontSize: "1rem" }}
-							target="_blank"
 						>
-							Help Center
+							{t("help_center_msg")}
 						</Link>
 						<Link
 							href="#"
 							style={{ color: "white", fontSize: "1rem" }}
 							target="_blank"
 						>
-							Guide Book
+							{t("thai_guide_book_msg")}
 						</Link>
 						<Link
 							href="/signup"
 							style={{ color: "white", fontSize: "1rem" }}
 							target="_blank"
 						>
-							Register Now
+							{t("register_now_msg")}
 						</Link>
 						<Link
 							href="https://thaiconsulatela.thaiembassy.org/en/index"
 							style={{ color: "white", fontSize: "1rem" }}
 							target="_blank"
 						>
-							Thai Consulate News
+							{t("thai_consulate_news_msg")}
 						</Link>
 					</Flex>
 				</Flex>
@@ -125,7 +126,7 @@ function Footer() {
 							fontSize: "1rem",
 						}}
 					>
-						© ThaiNow, 2021. All rights reserved
+						© ThaiNow, 2021. {t("all_right_reserved_msg")}
 					</Text>
 				</Flex>
 			</Flex>

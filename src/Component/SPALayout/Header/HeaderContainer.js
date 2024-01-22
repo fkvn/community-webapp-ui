@@ -1,7 +1,7 @@
 import { Col, Row } from "antd";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { USER_REDUCER } from "../../../Util/constVar";
+import { USER_REDUCER } from "../../../Util/ConstVar";
 import { isObjectEmpty } from "../../../Util/util";
 import useAuth from "../../Hook/AuthHook/useAuth";
 import Header from "./Header";

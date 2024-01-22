@@ -8,7 +8,7 @@ import {
 	PHONE_PROP,
 	REGION_PROP,
 	SMS_PROP,
-} from "../../../Util/constVar";
+} from "../../../Util/ConstVar";
 import { formatPhoneNumber } from "../../../Util/util";
 import EmailFormControl from "../../Form/EmailFormControl";
 import OtpFormControl from "../../Form/OtpFormControl";

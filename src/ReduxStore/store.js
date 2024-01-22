@@ -1,5 +1,5 @@
 import { configureStore } from "@reduxjs/toolkit";
-import { USER_REDUCER } from "../Util/constVar";
+import { USER_REDUCER } from "../Util/ConstVar";
 import userReducer from "./UserReducer/UserReducer";
 
 // Automatically adds the thunk middleware and the Redux DevTools extension

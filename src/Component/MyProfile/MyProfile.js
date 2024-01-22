@@ -11,7 +11,7 @@ import {
 	PROFILE_AVATAR_PROP,
 	REGION_PROP,
 	USERNAME_PROP,
-} from "../../Util/constVar";
+} from "../../Util/ConstVar";
 import CheckboxFormControl from "../Form/CheckboxFormControl";
 import EmailFormControl from "../Form/EmailFormControl";
 import PhoneFormControl from "../Form/PhoneFormControl";

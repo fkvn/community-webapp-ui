@@ -11,7 +11,7 @@ import {
 	PASSWORD_PROP,
 	REDIRECT_URI,
 	SIGN_IN_PATH,
-} from "../../../Util/constVar";
+} from "../../../Util/ConstVar";
 import EmailFormControl from "../../Form/EmailFormControl";
 import PasswordFormControl from "../../Form/PasswordFormControl";
 import SubmitBtnFormControl from "../../Form/SubmitBtnFormControl";

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { ID_PROP, USER_REDUCER } from "../../Util/constVar";
+import { ID_PROP, USER_REDUCER } from "../../Util/ConstVar";
 import useProfile from "../Hook/useProfile";
 import MyProfile from "./MyProfile";
 

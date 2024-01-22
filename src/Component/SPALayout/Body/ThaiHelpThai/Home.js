@@ -26,7 +26,7 @@ import useGuideBookPost from "../../../Hook/PostHook/useGuideBookPost";
  * @guideBookItems [{category: "", cover: "", title: ""}]
  * @returns
  */
-function HomeBody() {
+function Home() {
 	const { t } = useTranslation();
 	const { fetchGuideBookPost } = useGuideBookPost();
 
@@ -410,4 +410,4 @@ function HomeBody() {
 	return <App />;
 }
 
-export default HomeBody;
+export default Home;

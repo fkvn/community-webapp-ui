@@ -1,6 +1,6 @@
 import { Flex, Form, Input } from "antd";
 import { useTranslation } from "react-i18next";
-import { EMAIL_PROP } from "../../Util/constVar";
+import { EMAIL_PROP } from "../../Util/ConstVar";
 
 function EmailFormControl({
 	itemProps: {

@@ -2,7 +2,7 @@ import { CloseOutlined } from "@ant-design/icons";
 import { Button, Divider, Flex } from "antd";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { svgThaiNowLogoWithWords } from "../../../Assest/Asset";
-import { REDIRECT_URI } from "../../../Util/constVar";
+import { REDIRECT_URI } from "../../../Util/ConstVar";
 import useImage from "../../Hook/useImage";
 import SwitchLanguage from "../../Locale/SwitchLanguage";
 

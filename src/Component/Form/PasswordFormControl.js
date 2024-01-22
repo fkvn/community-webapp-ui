@@ -1,6 +1,6 @@
 import { Flex, Form, Input } from "antd";
 import { useTranslation } from "react-i18next";
-import { CONFIRM_PASSWORD_PROP, PASSWORD_PROP } from "../../Util/constVar";
+import { CONFIRM_PASSWORD_PROP, PASSWORD_PROP } from "../../Util/ConstVar";
 
 function PasswordFormControl({
 	newPasswordForm = false,

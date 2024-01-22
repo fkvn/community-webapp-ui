@@ -3,6 +3,40 @@
 	background-color: white;
 }
 
+.ant-form {
+	& .ant-form-item * {
+		font-size: 1rem;
+	}
+
+	& span.ant-input-affix-wrapper:not(:has(input#phone)),
+	& span.ant-input-textarea-affix-wrapper:not(:has(input#phone)) {
+		padding: 0.3rem 0.3rem;
+		padding-left: 1rem;
+		border-radius: 0.5rem;
+	}
+
+	& span.ant-input-data-count {
+		bottom: -1.65rem;
+	}
+
+	& span.ant-input-affix-wrapper,
+	& span.ant-input-textarea-affix-wrapper,
+	& input,
+	& .ant-input-number {
+		background-color: white;
+		min-height: 1.5rem;
+	}
+
+	& input {
+		padding: 0.2rem 1rem;
+		border-radius: 0.5rem 0 0 0.5rem;
+	}
+
+	& span.ant-input-group-addon {
+		border-radius: 0.5rem 0 0 0.5rem;
+	}
+}
+
 #user-signin-form {
 	& .ant-form-item * {
 		font-size: 1rem;

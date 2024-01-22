@@ -10,3 +10,11 @@ export const uploadFileAxios = (formData = new FormData(), config = {}) =>
 		})
 		.then(({ data }) => Promise.resolve(data))
 		.catch((e) => Promise.reject(e));
+
+export const emailContactAxios = (
+	request = { _recipient: "", _subject: "", _msgBody: "" }
+) =>
+	axios
+		.post(`/emails`, request)
+		.then(({ data }) => Promise.resolve(data))
+		.catch((e) => Promise.reject(e));

@@ -12,7 +12,7 @@ import {
 	SIGNIN_CHANNEL_LINE,
 	SIGNIN_CHANNEL_THAINOW,
 	SMS_PROP,
-} from "../Util/constVar";
+} from "../Util/ConstVar";
 import axios from "./axios";
 
 /**

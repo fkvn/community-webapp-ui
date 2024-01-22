@@ -12,7 +12,7 @@ import {
 	REDIRECT_URI,
 	REGION_PROP,
 	SIGNIN_CHANNEL_THAINOW,
-} from "../../../Util/constVar";
+} from "../../../Util/ConstVar";
 import EmailFormControl from "../../Form/EmailFormControl";
 import PasswordFormControl from "../../Form/PasswordFormControl";
 import PhoneFormControl from "../../Form/PhoneFormControl";

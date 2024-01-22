@@ -1,4 +1,4 @@
-import { CURRENT_PASSWORD_PROP, PASSWORD_PROP } from "../Util/constVar";
+import { CURRENT_PASSWORD_PROP, PASSWORD_PROP } from "../Util/ConstVar";
 import axios from "./axios";
 
 export const findProfilesAxios = async () =>

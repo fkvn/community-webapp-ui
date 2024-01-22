@@ -17,7 +17,7 @@ function useMessage() {
 	const loadingMessage = async (
 		contentOrKey = "message_loading_msg",
 		duration = 0,
-		showOverlay = true,
+		showOverlay = false,
 		config = {}
 	) => {
 		if (showOverlay) document.getElementById("overlay").style.display = "block";
@@ -41,7 +41,7 @@ function useMessage() {
 	const successMessage = async (
 		contentOrKey = "message_navigate_msg",
 		duration = 3,
-		showOverlay = true,
+		showOverlay = false,
 		config = {}
 	) => {
 		if (showOverlay) document.getElementById("overlay").style.display = "block";
@@ -53,7 +53,7 @@ function useMessage() {
 				? contentOrKey
 				: t(key, { ...JSON.parse(`${attributes}`) });
 		return message
-			.loading({
+			.success({
 				content: content,
 				duration: duration,
 				...CONFIG,
@@ -65,7 +65,7 @@ function useMessage() {
 	const errorMessage = async (
 		contentOrKey = "message_system_error_msg",
 		duration = 3,
-		showOverlay = true,
+		showOverlay = false,
 		config = {}
 	) => {
 		if (showOverlay) document.getElementById("overlay").style.display = "block";

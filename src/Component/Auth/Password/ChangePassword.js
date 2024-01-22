@@ -9,7 +9,7 @@ import {
 	PASSWORD_PROP,
 	PHONE_PROP,
 	REGION_PROP,
-} from "../../../Util/constVar";
+} from "../../../Util/ConstVar";
 import PasswordFormControl from "../../Form/PasswordFormControl";
 import SubmitBtnFormControl from "../../Form/SubmitBtnFormControl";
 import FormPageHeader from "../../SPALayout/Header/FormPageHeader";

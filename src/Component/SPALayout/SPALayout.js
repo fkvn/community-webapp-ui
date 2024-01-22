@@ -6,19 +6,11 @@ import HeaderContainer from "./Header/HeaderContainer";
 function SPALayout() {
 	const { Header } = Layout;
 
-	// const bodyRoutes = (
-	// 	<Switch>
-	// 		<Route index element={<>test signup</>}></Route>
-	// 		<Route path="test" element={<NotFound />} />
-	// 	</Switch>
-	// );
-
 	const layout = (
 		<Row
 			id="layout"
 			justify="center"
 			style={{
-				height: "100vh",
 				backgroundColor: "#f6f6fb",
 			}}
 		>

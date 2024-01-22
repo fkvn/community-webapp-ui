@@ -7,6 +7,7 @@ export const THAINOW_USER_SIGN_IN_OBJ = "thainow.user.signin.info";
 export const THAINOW_OFF_CANVAS_OBJ = "thainow.offcanvas.info";
 export const THAINOW_USER_PROFILE_OBJ = "thainow.user.profile";
 export const THAINOW_COMPANY_PROFILE_OBJ = "thainow.company.profile";
+export const SUPPORT_EMAIL = "projectthaihub@gmail.com";
 
 export const USER_REDUCER = "useReducer";
 
@@ -153,6 +154,7 @@ export const SWITCH_PROFILE_PATH = "/switch-profiles";
 export const FORGOT_PASSWORD_PATH = "/forgot-password";
 export const SIGN_UP_PATH = "/signup";
 export const MY_PROFILE_PATH = "/my-profile";
+export const HELP_CENTER_PATH = "/helpcenter";
 
 export const COMPANY_INDUSTRY_LIST = [
 	"Aquarium & Pet",

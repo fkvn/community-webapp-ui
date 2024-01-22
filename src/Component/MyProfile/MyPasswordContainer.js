@@ -1,5 +1,5 @@
 import { useSelector } from "react-redux";
-import { ACCOUNT_ID_PROP, USER_REDUCER } from "../../Util/constVar";
+import { ACCOUNT_ID_PROP, USER_REDUCER } from "../../Util/ConstVar";
 import useProfile from "../Hook/useProfile";
 import MyPassword from "./MyPassword";
 

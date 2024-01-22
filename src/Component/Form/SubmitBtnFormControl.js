@@ -1,4 +1,5 @@
 import { Button } from "antd";
+import { useTranslation } from "react-i18next";
 
 function SubmitBtnFormControl({
 	type = "primary",
@@ -10,6 +11,9 @@ function SubmitBtnFormControl({
 	onClick = () => {},
 	btnProps = {},
 }) {
+	const { t } = useTranslation("Form");
+	let btnTitle = title || t("form_submit_msg");
+
 	const App = () => (
 		<>
 			<Button
@@ -26,7 +30,7 @@ function SubmitBtnFormControl({
 				onClick={onClick}
 				{...btnProps}
 			>
-				{title}
+				{btnTitle}
 			</Button>
 		</>
 	);

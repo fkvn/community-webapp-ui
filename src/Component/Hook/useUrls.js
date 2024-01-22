@@ -7,7 +7,7 @@ import {
 	FORWARD_SUCCESS,
 	SEARCH_PROFILE,
 	SUCCESS_URL,
-} from "../../Util/constVar";
+} from "../../Util/ConstVar";
 
 function useUrls() {
 	const navigate = useNavigate();

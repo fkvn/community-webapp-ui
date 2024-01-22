@@ -2,7 +2,7 @@ import { Flex, Form, Typography } from "antd";
 import { useForm } from "antd/es/form/Form";
 import Title from "antd/lib/typography/Title";
 import { useTranslation } from "react-i18next";
-import { CURRENT_PASSWORD_PROP, PASSWORD_PROP } from "../../Util/constVar";
+import { CURRENT_PASSWORD_PROP, PASSWORD_PROP } from "../../Util/ConstVar";
 import PasswordFormControl from "../Form/PasswordFormControl";
 import SubmitBtnFormControl from "../Form/SubmitBtnFormControl";
 

@@ -1,7 +1,7 @@
 import { Form, InputNumber } from "antd";
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { OTP_PROP } from "../../Util/constVar";
+import { OTP_PROP } from "../../Util/ConstVar";
 
 function OtpFormControl({
 	itemProps: { itemName = OTP_PROP, label, ...itemProps } = {},

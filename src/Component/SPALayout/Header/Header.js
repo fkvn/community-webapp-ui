@@ -9,7 +9,7 @@ import {
 	PROFILE_AVATAR_PROP,
 	SIGN_IN_PATH,
 	USERNAME_PROP,
-} from "../../../Util/constVar";
+} from "../../../Util/ConstVar";
 import useImage from "../../Hook/useImage";
 import SwitchLanguage from "../../Locale/SwitchLanguage";
 

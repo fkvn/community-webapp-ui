@@ -1,5 +1,5 @@
 import axios from "axios";
-import { PROFILE_OBJ, THAINOW_USER_OBJ } from "../Util/constVar";
+import { PROFILE_OBJ, THAINOW_USER_OBJ } from "../Util/ConstVar";
 import { axiosConfig } from "../serviceEnv";
 
 const instance = axios.create({
