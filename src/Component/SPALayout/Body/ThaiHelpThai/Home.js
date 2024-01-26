@@ -1,5 +1,5 @@
 import { RightOutlined } from "@ant-design/icons";
-import { Button, Card, Carousel, Flex, Image, Skeleton } from "antd";
+import { Button, Card, Carousel, Flex, Image } from "antd";
 import Link from "antd/es/typography/Link";
 import Title from "antd/es/typography/Title";
 import { useEffect, useState } from "react";
@@ -18,7 +18,9 @@ import {
 	imageThaiNow8,
 	svgThaiNowLogoWithWords,
 } from "../../../../Assest/Asset";
+import { GUIDE_BOOK_PATH } from "../../../../Util/ConstVar";
 import useGuideBookPost from "../../../Hook/PostHook/useGuideBookPost";
+import FiveItemLayout from "../../../Layout/FivePostLayout";
 
 /**
  *
@@ -37,7 +39,7 @@ function Home() {
 	};
 
 	const [guideBookItems, setGuideBookItems] = useState([]);
-	const [adItems, _] = useState([]);
+	const [adItems] = useState([]);
 
 	const fetchGuideBookPostHandle = () =>
 		fetchGuideBookPost().then((res) => {
@@ -156,7 +158,7 @@ function Home() {
 			<Flex
 				className="w-100 pt-5"
 				style={{
-					maxWidth: "90rem",
+					maxWidth: "100rem",
 				}}
 				vertical
 				gap={20}
@@ -164,7 +166,11 @@ function Home() {
 				{/* Header */}
 				<Flex justify="space-between" className="w-100">
 					<Title level={2}> {t("thai_guide_book_msg")}</Title>
-					<Button type="link" href="/aaa" className="custom-center m-0 p-0">
+					<Button
+						type="link"
+						href={GUIDE_BOOK_PATH}
+						className="custom-center m-0 p-0"
+					>
 						<span className="d-none d-lg-block">
 							{t("thai_guide_book_msg_more")}{" "}
 						</span>
@@ -172,134 +178,8 @@ function Home() {
 					</Button>
 				</Flex>
 				{/* Body */}
-				{guideBookItems.length > 0 ? (
-					<Flex
-						className="w-100 my-5 "
-						style={{
-							minHeight: "40rem",
-							maxHeight: "50rem",
-							overflow: "hidden",
-						}}
-						gap={20}
-					>
-						{/* 1st main item */}
-						<Flex
-							className="p-4"
-							style={{
-								width: `${guideBookItems.length > 1 ? "50" : "100"}%`,
-								minHeight: "40rem",
-								backgroundImage: `linear-gradient(180deg, rgba(0, 0, 0, 0.16) 60%,rgba(0, 0, 0, 0.8) 100%), url(${
-									guideBookItems[0].cover || svgThaiNowLogoWithWords
-								})`,
-								backgroundPosition: "center",
-								backgroundRepeat: "no-repeat",
-								backgroundColor: "#E9E9E9",
-								backgroundSize: "cover",
-							}}
-							align="flex-end"
-						>
-							<Flex vertical gap={20}>
-								<Link
-									href="https://ant.design"
-									target="_blank"
-									className="text-white "
-									style={{
-										fontSize: "1rem",
-										textDecoration: "underline",
-									}}
-								>
-									{guideBookItems[0].category}
-								</Link>
-								<Title className="m-0 p-0 text-white" level={4}>
-									{guideBookItems[0].title}
-								</Title>
-							</Flex>
-						</Flex>
-
-						{/* sub-items - max items to display is 5 -> 4 here and 1 above */}
-						{guideBookItems.length > 1 && (
-							<Flex
-								style={{
-									width: "50%",
-									overflowY: "auto",
-									overflowX: "hidden",
-									maxHeight: "50rem",
-								}}
-								className="h-100"
-								wrap="wrap"
-								gap="1rem"
-								justify="space-evenly"
-								align="stretch"
-							>
-								{/* max 4 sub-items */}
-								{guideBookItems.slice(1, 5).map((i, index, items) => (
-									<Card
-										key={index}
-										style={{
-											width: `${
-												items.length === 3 && index === 2
-													? "100"
-													: items.length <= 2
-													  ? "100"
-													  : "48"
-											}%`,
-											border: 0,
-										}}
-										cover={
-											<img
-												alt={`${i.category}`}
-												src={i.cover}
-												className="rounded-0"
-												style={{
-													// default width to display the fallback photo
-													width: "100%",
-													// set image min height
-													...(items.length === 1
-														? // when only 1 sub-item
-														  { minHeight: "35rem" }
-														: // default min height to display the fallback photo
-														  { minHeight: "15rem" }),
-													// set background to display the fallback photo
-													backgroundImage: `url(${svgThaiNowLogoWithWords})`,
-													backgroundPosition: "center",
-													backgroundRepeat: "no-repeat",
-													backgroundColor: "#E9E9E9",
-													backgroundSize: "cover",
-
-													// image attr
-													maxHeight: "15rem",
-													objectFit: "cover",
-													objectPosition: "center",
-												}}
-											/>
-										}
-										bodyStyle={{
-											margin: 0,
-											padding: "1.5rem 0",
-										}}
-									>
-										<Link
-											href="https://ant.design"
-											target="_blank"
-											className=""
-											style={{
-												fontSize: "1rem",
-												textDecoration: "underline",
-											}}
-										>
-											{i.category}
-										</Link>
-										<Title className="m-0 p-0 " ellipsis level={5}>
-											{i.title}
-										</Title>
-									</Card>
-								))}
-							</Flex>
-						)}
-					</Flex>
-				) : (
-					<Skeleton active />
-				)}
+				<FiveItemLayout items={guideBookItems} />
+				{/* Ads */}
 				<FirstAdsSection />
 			</Flex>
 		</Flex>
@@ -331,7 +211,7 @@ function Home() {
 				className="w-100 "
 				style={{
 					paddingTop: "2rem",
-					maxWidth: "90rem",
+					maxWidth: "100rem",
 				}}
 				vertical
 				gap={20}
@@ -350,17 +230,7 @@ function Home() {
 					<ReactPlayer controls url="https://youtu.be/v-p0WHpNKe4" />
 					<ReactPlayer controls url="https://youtu.be/m3RZ7FINbNo" />
 				</Flex>
-			</Flex>
 
-			<Flex
-				className="w-100 "
-				style={{
-					paddingTop: "2rem",
-					maxWidth: "90rem",
-				}}
-				vertical
-				gap={20}
-			>
 				<Title className="m-0 p-0 mt-5 pt-5 text-center ">
 					{t("root_in_usa_msg")}
 				</Title>

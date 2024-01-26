@@ -155,6 +155,7 @@ export const FORGOT_PASSWORD_PATH = "/forgot-password";
 export const SIGN_UP_PATH = "/signup";
 export const MY_PROFILE_PATH = "/my-profile";
 export const HELP_CENTER_PATH = "/helpcenter";
+export const GUIDE_BOOK_PATH = "/guidebook";
 
 export const COMPANY_INDUSTRY_LIST = [
 	"Aquarium & Pet",

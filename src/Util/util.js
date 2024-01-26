@@ -13,6 +13,10 @@ export const getLanguageTitle = (code = "en") => {
 	}
 };
 
+export function numberWithCommas(x) {
+	return x.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
+}
+
 export const scrollToActiveElement = () => {
 	const activeElement = document.activeElement;
 	activeElement.scrollIntoView({

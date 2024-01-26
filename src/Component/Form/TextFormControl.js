@@ -37,7 +37,11 @@ function TextFormControl({
 				})}
 				{...itemProps}
 			>
-				<Input allowClear placeholder={t("enter_value_msg")} {...inputProps} />
+				<Input
+					allowClear
+					placeholder={t("form_enter_here_msg")}
+					{...inputProps}
+				/>
 			</Form.Item>
 			{extra}
 		</Flex>

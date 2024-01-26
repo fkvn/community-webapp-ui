@@ -15,7 +15,7 @@ function BreadcrumbContainer() {
 		.map((match) => {
 			// adjust for Breadcrumb component of ant design framework
 			const { path = pathname, title = "" } = match.handle.crumb(match.data);
-			if (path == pathname) return { title: title };
+			if (path === pathname) return { title: title };
 			else
 				return {
 					title: (

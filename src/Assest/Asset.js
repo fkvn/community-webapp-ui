@@ -56,6 +56,26 @@ export const svgGooglePlayBadgeBlack = `${STORAGE_SOURCE_URL}svg-google-play-bad
 
 export const svgBusinessBadge = `${STORAGE_SOURCE_URL}svg-business-badge.svg?alt=media&token=184f0afc-beb7-4992-9c24-63e3004444ef`;
 
+export const svgBasicLivingIcon = `${STORAGE_SOURCE_URL}svg-basicliving-icon.svg?alt=media&token=184f0afc-beb7-4992-9c24-63e3004444ef`;
+
+export const svgMovingToUsIcon = `${STORAGE_SOURCE_URL}svg-movingtous-icon.svg?alt=media&token=cb25ba96-003c-4f58-8c88-483b3a512191`;
+
+export const svgLivingPermanentlyIcon = `${STORAGE_SOURCE_URL}svg-livingpermanently-icon.svg?alt=media&token=cb25ba96-003c-4f58-8c88-483b3a512191`;
+
+export const svgTravelIcon = `${STORAGE_SOURCE_URL}svg-travel-icon.svg?alt=media&token=184f0afc-beb7-4992-9c24-63e3004444ef`;
+
+export const svgLearningsIcon = `${STORAGE_SOURCE_URL}svg-learning-icon.svg?alt=media&token=184f0afc-beb7-4992-9c24-63e3004444ef`;
+
+export const svgTransferIcon = `${STORAGE_SOURCE_URL}svg-transfer-icon.svg?alt=media&token=184f0afc-beb7-4992-9c24-63e3004444ef`;
+
+export const svgHealthIcon = `${STORAGE_SOURCE_URL}svg-health-icon.svg?alt=media&token=184f0afc-beb7-4992-9c24-63e3004444ef`;
+
+export const svgKidsIcon = `${STORAGE_SOURCE_URL}svg-kids-icon.svg?alt=media&token=184f0afc-beb7-4992-9c24-63e3004444ef`;
+
+export const svgBusinessInvestmentIcon = `${STORAGE_SOURCE_URL}svg-businessinvestment-icon.svg?alt=media&token=cb25ba96-003c-4f58-8c88-483b3a512191`;
+
+export const svgThaiPrideIcon = `${STORAGE_SOURCE_URL}svg-thaipride-icon.svg?alt=media&token=184f0afc-beb7-4992-9c24-63e3004444ef`;
+
 export const svgBusinessIcon = `${STORAGE_SOURCE_URL}svg-business-icon.svg?alt=media&token=184f0afc-beb7-4992-9c24-63e3004444ef`;
 
 export const svgBusinessIconWhite = `${STORAGE_SOURCE_URL}svg-business-icon-white.svg?alt=media&token=184f0afc-beb7-4992-9c24-63e3004444ef`;

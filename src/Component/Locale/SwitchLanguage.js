@@ -1,6 +1,6 @@
 import { Select } from "antd";
 import i18next from "i18next";
-import { getLanguageTitle } from "../../Util/util";
+import { getLanguageTitle } from "../../Util/Util";
 
 function SwitchLanguage({
 	style = {

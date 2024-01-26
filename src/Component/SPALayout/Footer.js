@@ -7,6 +7,7 @@ import {
 	svgTiktokLogo,
 	svgYoutubeLogo,
 } from "../../Assest/Asset";
+import { GUIDE_BOOK_PATH, HELP_CENTER_PATH } from "../../Util/ConstVar";
 
 function Footer() {
 	const { t } = useTranslation(["Default", "Email"]);
@@ -46,7 +47,7 @@ function Footer() {
 			<Flex
 				className="w-100 "
 				style={{
-					maxWidth: "90rem",
+					maxWidth: "100rem",
 				}}
 				vertical
 				gap={20}
@@ -90,13 +91,14 @@ function Footer() {
 					</Flex>
 					<Flex vertical justify="space-around">
 						<Link
-							href="helpcenter"
+							href={HELP_CENTER_PATH}
+							target="_blank"
 							style={{ color: "white", fontSize: "1rem" }}
 						>
 							{t("help_center_msg")}
 						</Link>
 						<Link
-							href="#"
+							href={GUIDE_BOOK_PATH}
 							style={{ color: "white", fontSize: "1rem" }}
 							target="_blank"
 						>

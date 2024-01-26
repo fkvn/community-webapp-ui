@@ -2,7 +2,7 @@ import { Flex, Form, InputNumber, Select } from "antd";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { PHONE_PROP, REGION_PROP } from "../../Util/ConstVar";
-import { formatPhoneNumber, isPhoneValid } from "../../Util/util";
+import { formatPhoneNumber, isPhoneValid } from "../../Util/Util";
 
 function PhoneFormControl({
 	itemProps: {

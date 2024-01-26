@@ -74,9 +74,8 @@ function HelpCenter() {
 
 	const FAQSection = () => (
 		<Flex
-			justify="start"
-			align="center"
 			className="p-5 p-lg-5 bg-white"
+			align="center"
 			vertical
 			style={{
 				paddingTop: "2rem",
@@ -86,7 +85,7 @@ function HelpCenter() {
 			<Flex
 				className="w-100 "
 				style={{
-					maxWidth: "90rem",
+					maxWidth: "100rem",
 				}}
 				vertical
 				gap={20}
@@ -133,14 +132,14 @@ function HelpCenter() {
 	};
 
 	const ContactForm = () => (
-		<Form form={form} layout="vertical">
-			<Flex
-				style={{
-					width: "25rem",
-				}}
-				vertical
-				gap={20}
-			>
+		<Form
+			form={form}
+			layout="vertical"
+			style={{
+				width: "25rem",
+			}}
+		>
+			<Flex vertical gap={20}>
 				<TextFormControl
 					itemProps={{
 						itemName: USERNAME_PROP,
@@ -179,9 +178,8 @@ function HelpCenter() {
 
 	const ContactSection = () => (
 		<Flex
-			justify="start"
-			align="center"
 			className="p-5 p-lg-5"
+			align="center"
 			vertical
 			style={{
 				paddingTop: "2rem",
@@ -189,17 +187,16 @@ function HelpCenter() {
 			}}
 		>
 			<Flex
+				className="w-100"
 				style={{
-					width: "75%",
-					maxWidth: "90rem",
+					maxWidth: "100rem",
 				}}
-				justify="center"
+				justify="space-evenly"
 				gap={40}
-				wrap="wrap"
 			>
 				<Flex
 					style={{
-						maxWidth: "30rem",
+						maxWidth: "45%",
 					}}
 					vertical
 				>

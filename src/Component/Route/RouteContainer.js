@@ -2,6 +2,7 @@ import { useTranslation } from "react-i18next";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import {
 	FORGOT_PASSWORD_PATH,
+	GUIDE_BOOK_PATH,
 	HELP_CENTER_PATH,
 	MY_PROFILE_PATH,
 	SIGN_IN_PATH,
@@ -13,6 +14,7 @@ import Signup from "../Auth/Signup/Signup";
 import NotFound from "../NotFound/NotFound";
 import HelpCenter from "../SPALayout/Body/HelpCenter";
 import MyProfile from "../SPALayout/Body/MyProfile";
+import GuideBook from "../SPALayout/Body/ThaiHelpThai/GuideBook";
 import Home from "../SPALayout/Body/ThaiHelpThai/Home";
 import SPALayout from "../SPALayout/SPALayout";
 
@@ -36,6 +38,19 @@ function RouteContainer() {
 						// for this route
 						crumb: () => {
 							return { path: HELP_CENTER_PATH, title: t("help_center_msg") };
+						},
+					},
+				},
+				{
+					path: GUIDE_BOOK_PATH.slice(1),
+					Component: GuideBook,
+					handle: {
+						// you can put whatever you want on a route handle
+						// here we use "crumb" and return some elements,
+						// this is what we'll render in the breadcrumbs
+						// for this route
+						crumb: () => {
+							return { path: GUIDE_BOOK_PATH, title: t("thai_guide_book_msg") };
 						},
 					},
 				},

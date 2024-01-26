@@ -9,7 +9,7 @@ import {
 	REGION_PROP,
 	SMS_PROP,
 } from "../../../Util/ConstVar";
-import { formatPhoneNumber } from "../../../Util/util";
+import { formatPhoneNumber } from "../../../Util/Util";
 import EmailFormControl from "../../Form/EmailFormControl";
 import OtpFormControl from "../../Form/OtpFormControl";
 import PhoneFormControl from "../../Form/PhoneFormControl";
