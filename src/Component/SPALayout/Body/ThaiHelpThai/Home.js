@@ -1,26 +1,14 @@
 import { RightOutlined } from "@ant-design/icons";
-import { Button, Card, Carousel, Flex, Image } from "antd";
+import { Button, Card, Carousel, Flex } from "antd";
 import Link from "antd/es/typography/Link";
 import Title from "antd/es/typography/Title";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import ReactPlayer from "react-player/lazy";
-import {
-	imageAds,
-	imageThaiHelpThaiBanner,
-	imageThaiNow1,
-	imageThaiNow2,
-	imageThaiNow3,
-	imageThaiNow4,
-	imageThaiNow5,
-	imageThaiNow6,
-	imageThaiNow7,
-	imageThaiNow8,
-	svgThaiNowLogoWithWords,
-} from "../../../../Assest/Asset";
+import { imageAds, imageThaiHelpThaiBanner } from "../../../../Assest/Asset";
 import { GUIDE_BOOK_PATH } from "../../../../Util/ConstVar";
 import useGuideBookPost from "../../../Hook/PostHook/useGuideBookPost";
 import FiveItemLayout from "../../../Layout/FivePostLayout";
+import GallerySection from "../../Section/GallerySection";
 
 /**
  *
@@ -181,88 +169,6 @@ function Home() {
 				<FiveItemLayout items={guideBookItems} />
 				{/* Ads */}
 				<FirstAdsSection />
-			</Flex>
-		</Flex>
-	);
-
-	const galleryCardItems = [
-		imageThaiNow1,
-		imageThaiNow2,
-		imageThaiNow3,
-		imageThaiNow4,
-		imageThaiNow5,
-		imageThaiNow6,
-		imageThaiNow7,
-		imageThaiNow8,
-	];
-
-	const GallerySection = () => (
-		<Flex
-			justify="top"
-			className="p-5 p-lg-5"
-			vertical
-			style={{
-				background: "#ECEFFA",
-				minHeight: "35rem",
-			}}
-			align="center"
-		>
-			<Flex
-				className="w-100 "
-				style={{
-					paddingTop: "2rem",
-					maxWidth: "100rem",
-				}}
-				vertical
-				gap={20}
-			>
-				<Title className="m-0 p-0 text-center">{t("do_for_thai_msg")}</Title>
-
-				<ReactPlayer
-					controls
-					className="w-100 my-5 pt-5"
-					height="45rem"
-					url="https://www.youtube.com/watch?v=ETlr0LGl6kA&t=3s"
-				/>
-
-				<Flex gap={20} justify="space-evenly" className="w-100 my-5 ">
-					<ReactPlayer controls url="https://youtu.be/lp35ZLQtu_Y" />
-					<ReactPlayer controls url="https://youtu.be/v-p0WHpNKe4" />
-					<ReactPlayer controls url="https://youtu.be/m3RZ7FINbNo" />
-				</Flex>
-
-				<Title className="m-0 p-0 mt-5 pt-5 text-center ">
-					{t("root_in_usa_msg")}
-				</Title>
-				<Image.PreviewGroup className="d-inline-block">
-					<Card
-						style={{
-							margin: "4rem 0",
-						}}
-					>
-						{galleryCardItems.map((url, idx) => (
-							<Card.Grid
-								key={idx}
-								style={{
-									width: "25%",
-								}}
-								className="p-0 rounded-0"
-							>
-								<Card
-									cover={
-										<Image
-											alt="gallery"
-											src={url}
-											className="rounded-0"
-											preview={{ maskClassName: "rounded-0" }}
-											fallback={svgThaiNowLogoWithWords}
-										/>
-									}
-								/>
-							</Card.Grid>
-						))}
-					</Card>
-				</Image.PreviewGroup>
 			</Flex>
 		</Flex>
 	);

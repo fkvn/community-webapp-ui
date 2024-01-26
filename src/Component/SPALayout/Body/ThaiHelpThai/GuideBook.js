@@ -338,7 +338,6 @@ function GuideBook({}) {
 
 	const App = () => (
 		<>
-			{" "}
 			<TopSection />
 			<CategorySection />
 			<PostSection />
