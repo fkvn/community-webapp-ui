@@ -22,9 +22,9 @@ import GridPostLayout from "../../../Layout/GridPostLayout";
 
 function GuideBook({}) {
 	const { t } = useTranslation(["Default"]);
-	const contentMaxWidth = "100rem";
 	const [activeCategory, setActiveCategory] = useState("");
 	const { fetchGuideBookPost } = useGuideBookPost();
+	const contentMaxWidth = "100rem";
 
 	const [postItems, setPostItems] = useState([
 		{
