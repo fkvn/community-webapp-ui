@@ -2,12 +2,12 @@ import { Breadcrumb } from "antd";
 import { Link, useLocation, useMatches } from "react-router-dom";
 
 // Must use with React Router Breadcrumb
-function BreadcrumbContainer() {
+function BreadcrumbContainer({ extra = false, extraCrumbs = {} }) {
 	const { pathname } = useLocation();
 
 	const matches = useMatches();
 
-	const crumbs = matches
+	let crumbs = matches
 		// first get rid of any matches that don't have handle and crumb
 		.filter((match) => Boolean(match.handle?.crumb))
 		// now map them into an array of elements, passing the loader
@@ -25,6 +25,10 @@ function BreadcrumbContainer() {
 					),
 				};
 		});
+
+	if (extra) {
+		crumbs = [...crumbs, { ...extraCrumbs }];
+	}
 
 	const App = () => (
 		<>

@@ -12,14 +12,17 @@ import ForgotPasswordContainer from "../Auth/Password/ForgotPasswordContainer";
 import Signin from "../Auth/Signin/Signin";
 import Signup from "../Auth/Signup/Signup";
 import NotFound from "../NotFound/NotFound";
+import GuideBookDashBoard from "../SPALayout/Body/GuideBook/Dashboard";
+import GuideBookDetail from "../SPALayout/Body/GuideBook/Detail";
+import GuideBookRoute from "../SPALayout/Body/GuideBook/Route";
 import HelpCenter from "../SPALayout/Body/HelpCenter";
 import MyProfile from "../SPALayout/Body/MyProfile";
-import GuideBook from "../SPALayout/Body/ThaiHelpThai/GuideBook";
 import Home from "../SPALayout/Body/ThaiHelpThai/Home";
 import SPALayout from "../SPALayout/SPALayout";
 
 function RouteContainer() {
 	const { t } = useTranslation();
+
 	const router = createBrowserRouter([
 		{
 			path: "/",
@@ -43,16 +46,19 @@ function RouteContainer() {
 				},
 				{
 					path: GUIDE_BOOK_PATH.slice(1),
-					Component: GuideBook,
+					Component: GuideBookRoute,
 					handle: {
-						// you can put whatever you want on a route handle
-						// here we use "crumb" and return some elements,
-						// this is what we'll render in the breadcrumbs
-						// for this route
 						crumb: () => {
 							return { path: GUIDE_BOOK_PATH, title: t("thai_guide_book_msg") };
 						},
 					},
+					children: [
+						{ index: true, Component: GuideBookDashBoard },
+						{
+							path: `:id`,
+							Component: GuideBookDetail,
+						},
+					],
 				},
 			],
 			handle: {

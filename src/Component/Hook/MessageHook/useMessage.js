@@ -6,7 +6,7 @@ function useMessage() {
 	const key = "thainow-message";
 
 	const CONFIG = {
-		className: "px-5 bg-primary",
+		// className: "px-5 bg-primary",
 		key,
 		style: {
 			marginTop: "10vh",
@@ -32,6 +32,7 @@ function useMessage() {
 			.loading({
 				content: content,
 				duration: duration,
+				className: "bg-warning",
 				...CONFIG,
 				...config,
 			})
@@ -56,6 +57,7 @@ function useMessage() {
 			.success({
 				content: content,
 				duration: duration,
+				className: "bg-success",
 				...CONFIG,
 				...config,
 			})
@@ -80,6 +82,7 @@ function useMessage() {
 			.error({
 				content: content,
 				duration: duration,
+				className: "bg-danger",
 				...CONFIG,
 				...config,
 			})

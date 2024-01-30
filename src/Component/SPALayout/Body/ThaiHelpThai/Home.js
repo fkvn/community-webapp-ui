@@ -18,7 +18,7 @@ import GallerySection from "../../Section/GallerySection";
  */
 function Home() {
 	const { t } = useTranslation();
-	const { fetchGuideBookPost } = useGuideBookPost();
+	const { fetchGuideBookPosts } = useGuideBookPost();
 
 	const carouselContentStyle = {
 		height: "30rem",
@@ -29,8 +29,8 @@ function Home() {
 	const [guideBookItems, setGuideBookItems] = useState([]);
 	const [adItems] = useState([]);
 
-	const fetchGuideBookPostHandle = () =>
-		fetchGuideBookPost().then((res) => {
+	const fetchGuideBookPostsHandle = () =>
+		fetchGuideBookPosts().then((res) => {
 			const formattedGuideBookItems =
 				res?.fetchResult?.reduce(
 					(res, i) => [
@@ -48,7 +48,7 @@ function Home() {
 		});
 
 	useEffect(() => {
-		fetchGuideBookPostHandle();
+		fetchGuideBookPostsHandle();
 	}, []);
 
 	const CarouselBanner = () => (
