@@ -30,7 +30,16 @@ function SPALayout() {
 				<Divider className="m-0 p-0" />
 				{/* Outlet is the component allows nested component at this area*/}
 				<Outlet />
-				<Footer />
+				<div
+					style={
+						{
+							// maxHeight: "100px",
+							// overflow: "hidden",
+						}
+					}
+				>
+					<Footer />
+				</div>
 			</Col>
 		</Row>
 	);

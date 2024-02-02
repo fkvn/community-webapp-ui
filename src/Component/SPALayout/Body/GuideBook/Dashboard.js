@@ -2,17 +2,22 @@ import { Button, Flex, Image } from "antd";
 import Title from "antd/lib/typography/Title";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { useSearchParams } from "react-router-dom";
 import { numberWithCommas } from "../../../../Util/Util";
 import BreadcrumbContainer from "../../../Breadcrumb/BreadcrumbContainer";
 import useGuideBookPost from "../../../Hook/PostHook/useGuideBookPost";
 import FivePostLayout from "../../../Layout/FivePostLayout";
-import GridPostLayout from "../../../Layout/GridPostLayout";
+import FlexPostLayout from "../../../Layout/FlexPostLayout";
 
+import { extractExistingParams } from "../../../../Util/Util";
 function GuideBookDashBoard() {
 	const { t } = useTranslation(["Default"]);
 	const contentMaxWidth = "100rem";
 	const { fetchGuideBookPosts, fetchGuideBookCategories } = useGuideBookPost();
-	const [activeCategory, setActiveCategory] = useState("");
+	const [urlParams, setUrlParams] = useSearchParams();
+	const [activeCategory, setActiveCategory] = useState(
+		urlParams.get("category") || ""
+	);
 	const [postItems, setPostItems] = useState([]);
 
 	const fetchPostHandle = (searchParams = {}) =>
@@ -34,9 +39,12 @@ function GuideBookDashBoard() {
 		});
 
 	useEffect(() => {
-		fetchPostHandle({
+		const params = {
+			...extractExistingParams(urlParams),
 			category: activeCategory,
-		});
+		};
+		setUrlParams(params);
+		fetchPostHandle(params);
 	}, [activeCategory]);
 
 	const TopSection = () => (
@@ -54,7 +62,7 @@ function GuideBookDashBoard() {
 		</Flex>
 	);
 
-	const categoryItems = fetchGuideBookCategories;
+	const categoryItems = fetchGuideBookCategories();
 
 	const CategorySection = () => (
 		<Flex
@@ -161,7 +169,7 @@ function GuideBookDashBoard() {
 
 				<FivePostLayout items={postItems.slice(0, 6)} />
 
-				<GridPostLayout items={postItems.slice(5)} />
+				<FlexPostLayout items={postItems.slice(5)} />
 			</Flex>
 		</Flex>
 	);

@@ -36,7 +36,7 @@ function Footer() {
 		<Flex
 			justify="start"
 			align="center"
-			className="p-5 p-lg-5"
+			className="p-5 p-lg-5 "
 			vertical
 			style={{
 				paddingTop: "2rem",

@@ -1,5 +1,6 @@
 import { Card, Flex, Image } from "antd";
 import Title from "antd/lib/typography/Title";
+import React from "react";
 import { Link } from "react-router-dom";
 import { svgThaiNowLogoWithWords } from "../../Assest/Asset";
 import { formatString } from "../../Util/Util";
@@ -9,14 +10,34 @@ import { formatString } from "../../Util/Util";
  * @items [{category: "", cover: "", title: ""}]
  * @returns
  */
-function GridPostLayout({ items = [] }) {
+function FlexPostLayout(
+	{
+		items = [],
+		bodyStyle = {},
+		cardStyle = {},
+		flexStyle = {},
+		wrap = "wrap",
+		className = "",
+	},
+	ref
+) {
 	return (
-		<Flex wrap="wrap" justify="space-between" className="w-100" gap={40}>
+		<Flex
+			wrap={wrap}
+			style={{
+				...flexStyle,
+			}}
+			justify="space-between"
+			className={`w-100 ${className}`}
+			gap={40}
+			ref={ref}
+		>
 			{items.map((i, index) => (
 				<Card
 					className="border-0"
 					style={{
 						width: "23%",
+						...cardStyle,
 					}}
 					key={index}
 					cover={
@@ -32,6 +53,7 @@ function GridPostLayout({ items = [] }) {
 					bodyStyle={{
 						margin: 0,
 						padding: "1.5rem 0",
+						...bodyStyle,
 					}}
 				>
 					<Link
@@ -57,4 +79,4 @@ function GridPostLayout({ items = [] }) {
 	);
 }
 
-export default GridPostLayout;
+export default React.forwardRef(FlexPostLayout);

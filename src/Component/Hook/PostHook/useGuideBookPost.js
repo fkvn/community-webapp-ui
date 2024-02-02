@@ -25,28 +25,12 @@ function useGuideBookPost() {
 
 	/**
 	 *
-	 * @param {URLSearchParams} searchParams
-	 * @returns
-	 */
-	const extractExistingParams = (searchParams = urlParams) => {
-		const entries = Array.from(searchParams.entries());
-		return entries.reduce((res, keyValue) => {
-			return { [`${keyValue[0]}`]: keyValue[1], ...res };
-		}, {});
-	};
-
-	/**
-	 *
 	 * @param {Object} requestParams {key: value}
 	 * @requestParamsKeyList profileId, requesterId, keywords, category, status,sortBy, sortByOrder, page, limit
 	 */
 	const fetchGuideBookPosts = async (requestParams = {}) => {
-		const fetchedParams = { ...extractExistingParams(), ...requestParams };
-
-		return fetchGuideBooksAxios(fetchedParams)
+		return fetchGuideBooksAxios(requestParams)
 			.then((res) => {
-				// update url params
-				setUrlParams(fetchedParams);
 				// return search result
 				return res;
 			})

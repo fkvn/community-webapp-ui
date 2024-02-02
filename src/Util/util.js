@@ -114,3 +114,49 @@ export const formatString = (text = "", format = "") => {
 		return text;
 	}
 };
+
+/**
+ *
+ * @param {URLSearchParams} searchParams
+ * @returns
+ */
+export const extractExistingParams = (searchParams = {}) => {
+	const entries = Array.from(searchParams.entries());
+	return entries.reduce((res, keyValue) => {
+		return { [`${keyValue[0]}`]: keyValue[1], ...res };
+	}, {});
+};
+
+export const formatTime = (time = "") => {
+	const timeObj = new Date(time);
+
+	if (timeObj === "Invalid Date") return "";
+	const month = timeObj.getMonth() + 1;
+	const date = timeObj.getDate();
+	const year = timeObj.getFullYear();
+
+	const currentTimeObj = new Date();
+
+	// get hours - less than 1hr -> just now
+	const minsDiff = Math.abs(
+		Math.round((timeObj.getTime() - currentTimeObj.getTime()) / 1000 / 60)
+	);
+
+	const hourDiff = Math.abs(
+		Math.round((timeObj.getTime() - currentTimeObj.getTime()) / 1000 / 60 / 60)
+	);
+
+	const dayDiff = Math.abs(Math.round(hourDiff / 24));
+
+	if (minsDiff < 1) {
+		return " Just Now ";
+	} else if (minsDiff < 60) {
+		return minsDiff + "m ago ";
+	} else if (hourDiff < 24) {
+		return hourDiff + "h ago ";
+	} else if (dayDiff < 10) {
+		return dayDiff + "d ago ";
+	} else {
+		return month + "/" + date + "/" + year;
+	}
+};
