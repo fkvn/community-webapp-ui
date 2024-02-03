@@ -94,7 +94,10 @@ function useAuth() {
 				saveToken(res.access_token);
 
 				// save profile
-				saveProfileInfo(res.profile);
+				saveProfileInfo({
+					...res.profile,
+					authorities: [...res.account.authorities],
+				});
 
 				// save account
 				saveAccountInfo(res.account);

@@ -2,6 +2,7 @@ import { useTranslation } from "react-i18next";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import {
 	FORGOT_PASSWORD_PATH,
+	GUIDE_BOOK_NEW_POST_PATH,
 	GUIDE_BOOK_PATH,
 	HELP_CENTER_PATH,
 	MY_PROFILE_PATH,
@@ -14,6 +15,7 @@ import Signup from "../Auth/Signup/Signup";
 import NotFound from "../NotFound/NotFound";
 import GuideBookDashBoard from "../SPALayout/Body/GuideBook/Dashboard";
 import GuideBookDetail from "../SPALayout/Body/GuideBook/Detail";
+import NewGuideBookPost from "../SPALayout/Body/GuideBook/NewPost";
 import GuideBookRoute from "../SPALayout/Body/GuideBook/Route";
 import HelpCenter from "../SPALayout/Body/HelpCenter";
 import MyProfile from "../SPALayout/Body/MyProfile";
@@ -70,6 +72,7 @@ function RouteContainer() {
 		{ path: SIGN_UP_PATH, Component: Signup },
 		{ path: SIGN_IN_PATH, Component: Signin },
 		{ path: FORGOT_PASSWORD_PATH, Component: ForgotPasswordContainer },
+		{ path: GUIDE_BOOK_NEW_POST_PATH, Component: NewGuideBookPost },
 		{ path: "*", Component: NotFound },
 	]);
 

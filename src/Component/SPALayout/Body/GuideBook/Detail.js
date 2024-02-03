@@ -1,15 +1,20 @@
-import { LeftCircleFilled } from "@ant-design/icons";
+import { LeftCircleOutlined, RightCircleOutlined } from "@ant-design/icons";
 import { Button, Empty, Flex, Image, Skeleton } from "antd";
 import { Content } from "antd/lib/layout/layout";
 import Title from "antd/lib/typography/Title";
 import parse from "html-react-parser";
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useParams } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { useNavigate, useParams } from "react-router-dom";
 import { svgThaiNowLogoWithWords } from "../../../../Assest/Asset";
-import { GUIDE_BOOK_PATH } from "../../../../Util/ConstVar";
-import { GuideBookSample } from "../../../../Util/SampleDb";
-import { formatString, formatTime } from "../../../../Util/Util";
+import {
+	GUIDE_BOOK_NEW_POST_PATH,
+	GUIDE_BOOK_PATH,
+	REDIRECT_URI,
+	USER_REDUCER,
+} from "../../../../Util/ConstVar";
+import { formatTime } from "../../../../Util/Util";
 import BreadcrumbContainer from "../../../Breadcrumb/BreadcrumbContainer";
 import useGuideBookPost from "../../../Hook/PostHook/useGuideBookPost";
 import useHorizontalScroll from "../../../Hook/useHorizontalScroll";
@@ -18,9 +23,18 @@ import FlexPostLayout from "../../../Layout/FlexPostLayout";
 function GuideBookDetail() {
 	const contentMaxWidth = "100rem";
 	const { t } = useTranslation();
+	const navigate = useNavigate();
 	const { fetchGuideBookPost, fetchGuideBookPosts } = useGuideBookPost();
 	const { scrollContainer, scroll } = useHorizontalScroll();
 	const { id } = useParams();
+	const newPostAuthorities = [
+		"ROLE_ADMIN",
+		"ROLE_SUPER_ADMIN",
+		"ROLE_CONTRIBUTOR",
+		"GUIDEBOOK_CREATE",
+	];
+	const { profile } = useSelector((state) => state[`${USER_REDUCER}`]);
+
 	const [item, setItem] = useState({
 		id: "",
 		owner: {
@@ -33,68 +47,16 @@ function GuideBookDetail() {
 		description: "",
 		updatedOn: "",
 	});
-	const [moreItems, setMoreItems] = useState([
-		{
-			category: "",
-			title: "",
-			cover: "",
-		},
-		{
-			category: "",
-			title: "",
-			cover: "",
-		},
-		{
-			category: "",
-			title: "",
-			cover: "",
-		},
-		{
-			category: "",
-			title: "",
-			cover: "",
-		},
-		{
-			category: "",
-			title: "",
-			cover: "",
-		},
-		{
-			category: "",
-			title: "",
-			cover: "",
-		},
-		{
-			category: "",
-			title: "",
-			cover: "",
-		},
-		{
-			category: "",
-			title: "",
-			cover: "",
-		},
-		{
-			category: "",
-			title: "",
-			cover: "",
-		},
-		{
-			category: "",
-			title: "",
-			cover: "",
-		},
-		{
-			category: "",
-			title: "",
-			cover: "",
-		},
-	]);
+	const [moreItems, setMoreItems] = useState([]);
+
+	const isProfileAllowedCreateNewPost = () =>
+		(profile?.authorities || []).some((v) => newPostAuthorities.includes(v));
 
 	const formatItem = (item = {}) => {
 		return {
 			id: item?.id || "",
 			owner: {
+				id: item?.owner?.accountId || "",
 				avatarUrl: item?.postAsAnonymous
 					? svgThaiNowLogoWithWords
 					: item?.owner?.details?.avatarUrl || "",
@@ -103,11 +65,7 @@ function GuideBookDetail() {
 					: item?.owner?.details?.username || "",
 			},
 			title: item?.details?.title || "",
-			category:
-				formatString(
-					item?.details?.category.replaceAll("_", " "),
-					"sentencecase"
-				) || "",
+			category: item?.details?.category || "",
 			bannerUrl: item?.details?.bannerUrl || "",
 			description: item?.details?.description || "",
 			updatedOn: item?.updatedOn || "",
@@ -115,15 +73,15 @@ function GuideBookDetail() {
 	};
 
 	const fetchItem = (id) =>
-		fetch(id).then((res = {}) => {
+		fetchGuideBookPost(id).then((res = {}) => {
 			const formattedItem = formatItem(res);
 			setItem(formattedItem);
-			fetchMoreItem(formattedItem);
+			fetchMoreItem(res);
 		});
 
 	const fetchMoreItem = (rootItem = {}) =>
 		fetchGuideBookPosts({
-			category: rootItem?.category || "",
+			category: rootItem?.details?.category || "",
 		}).then((res = {}) => {
 			const formattedItem =
 				res?.fetchResult?.reduce(
@@ -131,8 +89,11 @@ function GuideBookDetail() {
 						...res,
 						{
 							category: i?.details?.category || "",
+							categoryKey: i?.details?.category || "",
+							categoryLinkTo: GUIDE_BOOK_PATH,
 							title: i?.details?.title || "",
 							cover: i?.details?.bannerUrl || "",
+							onClick: () => navigate(`${GUIDE_BOOK_PATH}/${i?.id}`),
 						},
 					],
 					[]
@@ -141,12 +102,11 @@ function GuideBookDetail() {
 		});
 
 	useEffect(() => {
-		// fetchItem(id);
-		setItem(formatItem(GuideBookSample));
+		fetchItem(id);
 	}, [id]);
 
 	const extraCrumbs = {
-		title: item.category,
+		title: t(`${item?.category.toLowerCase()}_msg`) || "",
 	};
 
 	const MoreItemSection = () => (
@@ -155,7 +115,7 @@ function GuideBookDetail() {
 			align="center"
 			vertical
 			style={{
-				background: "#F8F8F9",
+				background: "#ECEFFA",
 				paddingTop: "2rem",
 				minHeight: "20rem",
 			}}
@@ -173,10 +133,15 @@ function GuideBookDetail() {
 						{t("more_item_msg")}
 					</Title>
 
-					<Flex>
-						<LeftCircleFilled
-							className="scroll-LeftCircleFilled"
-							// style={{ fontSize: "150% !important" }}
+					<Flex gap={20}>
+						<LeftCircleOutlined
+							className="horizontal-scroll-icon"
+							onClick={() => scroll(-50)}
+						/>
+						<RightCircleOutlined
+							className="horizontal-scroll-icon"
+							onClick={() => scroll(50)}
+							onMouseDown={() => scroll(50)}
 						/>
 					</Flex>
 				</Flex>
@@ -185,9 +150,10 @@ function GuideBookDetail() {
 						items={moreItems}
 						wrap=""
 						bodyStyle={{
-							padding: "1.5rem",
+							background: "#ECEFFA",
+							// padding: "1.5rem",
 						}}
-						cardStyle={{ minWidth: "23%" }}
+						justify="space-start"
 					/>
 				)}
 			</Flex>
@@ -208,11 +174,9 @@ function GuideBookDetail() {
 			<Button
 				type="link"
 				className="text-start m-0 p-0"
-				href={`${GUIDE_BOOK_PATH}?category=${item?.category
-					.replaceAll(" ", "_")
-					.toUpperCase()}`}
+				href={`${GUIDE_BOOK_PATH}?category=${item?.category}`}
 			>
-				{item.category}
+				{t(`${item?.category.toLowerCase()}_msg`) || ""}
 			</Button>
 
 			<Title className="c-primary-important">{item.title}</Title>
@@ -240,7 +204,7 @@ function GuideBookDetail() {
 			<Content
 				className="my-5"
 				style={{
-					minHeight: "20rem",
+					minHeight: "30rem",
 				}}
 			>
 				{item.description ? (
@@ -270,7 +234,24 @@ function GuideBookDetail() {
 				vertical
 				gap={30}
 			>
-				<BreadcrumbContainer extra={true} extraCrumbs={extraCrumbs} />
+				<Flex justify="space-between" align="center">
+					<BreadcrumbContainer extra={true} extraCrumbs={extraCrumbs} />
+					{isProfileAllowedCreateNewPost() && (
+						<Button
+							type="primary"
+							size="large"
+							onClick={() => {
+								navigate(
+									`${GUIDE_BOOK_NEW_POST_PATH}?${REDIRECT_URI}=${GUIDE_BOOK_PATH.slice(
+										1
+									)}%2F${id}`
+								);
+							}}
+						>
+							New Post
+						</Button>
+					)}
+				</Flex>
 				{item?.id ? (
 					<>
 						<PostDetailSection />

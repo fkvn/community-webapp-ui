@@ -1,15 +1,17 @@
 import { Card, Flex, Image, Skeleton } from "antd";
 import Title from "antd/lib/typography/Title";
+import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import { svgThaiNowLogoWithWords } from "../../Assest/Asset";
 
 /**
  *
- * @items [{category: "", cover: "", title: ""}]
+ * @items [{category: "", cover: "", title: "", categoryKey: "", categoryLinkTo:"", onClick: () => {}}]
  * @itemsMaxHandleLength first 5 items
  * @returns
  */
 function FivePostLayout({ items = [] }) {
+	const { t } = useTranslation();
 	return items.length > 0 ? (
 		<Flex
 			className="w-100 my-5 "
@@ -33,20 +35,22 @@ function FivePostLayout({ items = [] }) {
 					backgroundRepeat: "no-repeat",
 					backgroundColor: "#E9E9E9",
 					backgroundSize: "cover",
+					cursor: "pointer",
 				}}
 				align="flex-end"
+				onClick={items[0]?.onClick}
 			>
 				<Flex vertical gap={20}>
 					<Link
-						href="https://ant.design"
-						target="_blank"
 						className="text-white "
 						style={{
 							fontSize: "1rem",
 							textDecoration: "underline",
 						}}
 					>
-						{items[0].category}
+						{items[0]?.categoryKey
+							? t(`${items[0]?.category.toLowerCase()}_msg`) || ""
+							: items[0].category || ""}
 					</Link>
 					<Title className="m-0 p-0 text-white" level={4}>
 						{items[0].title}
@@ -86,38 +90,16 @@ function FivePostLayout({ items = [] }) {
 							cover={
 								<Image
 									alt="gallery"
+									style={{
+										cursor: "pointer",
+									}}
 									src={i.cover}
 									height="15rem"
 									className="rounded-0"
-									preview={{ maskClassName: "rounded-0" }}
+									preview={false}
 									fallback={svgThaiNowLogoWithWords}
+									onClick={i?.onClick}
 								/>
-								// <img
-								// 	alt={`${i.category}`}
-								// 	src={i.cover}
-								// 	className="rounded-0"
-								// 	style={{
-								// 		// default width to display the fallback photo
-								// 		width: "100%",
-								// 		// set image min height
-								// 		...(items.length === 1
-								// 			? // when only 1 sub-item
-								// 			  { minHeight: "35rem" }
-								// 			: // default min height to display the fallback photo
-								// 			  { minHeight: "15rem" }),
-								// 		// set background to display the fallback photo
-								// 		backgroundImage: `url(${svgThaiNowLogoWithWords})`,
-								// 		backgroundPosition: "center",
-								// 		backgroundRepeat: "no-repeat",
-								// 		backgroundColor: "#E9E9E9",
-								// 		backgroundSize: "cover",
-
-								// 		// image attr
-								// 		maxHeight: "15rem",
-								// 		objectFit: "cover",
-								// 		objectPosition: "center",
-								// 	}}
-								// />
 							}
 							bodyStyle={{
 								margin: 0,
@@ -125,18 +107,27 @@ function FivePostLayout({ items = [] }) {
 							}}
 						>
 							<Link
-								href="https://ant.design"
-								target="_blank"
-								className=""
+								to={`${i?.categoryLinkTo}?category=${i?.category}`}
+								reloadDocument
 								style={{
 									fontSize: "1rem",
 									textDecoration: "underline",
 								}}
 							>
-								{i.category}
+								{i?.categoryKey
+									? t(`${i?.category.toLowerCase()}_msg`) || ""
+									: i.category || ""}
 							</Link>
-							<Title className="m-0 p-0 " ellipsis level={5}>
-								{i.title}
+							<Title
+								className="m-0 p-0 "
+								ellipsis
+								level={5}
+								onClick={i?.onClick}
+								style={{
+									cursor: "pointer",
+								}}
+							>
+								{i?.title}
 							</Title>
 						</Card>
 					))}

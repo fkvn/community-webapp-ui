@@ -156,6 +156,7 @@ export const SIGN_UP_PATH = "/signup";
 export const MY_PROFILE_PATH = "/my-profile";
 export const HELP_CENTER_PATH = "/helpcenter";
 export const GUIDE_BOOK_PATH = "/guidebook";
+export const GUIDE_BOOK_NEW_POST_PATH = "/guidebook/new-post";
 
 export const COMPANY_INDUSTRY_LIST = [
 	"Aquarium & Pet",

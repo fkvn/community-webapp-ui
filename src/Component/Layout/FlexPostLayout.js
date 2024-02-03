@@ -1,13 +1,13 @@
-import { Card, Flex, Image } from "antd";
+import { Card, Flex, Image, Skeleton } from "antd";
 import Title from "antd/lib/typography/Title";
 import React from "react";
+import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import { svgThaiNowLogoWithWords } from "../../Assest/Asset";
-import { formatString } from "../../Util/Util";
 
 /**
  *
- * @items [{category: "", cover: "", title: ""}]
+ * @items [{category: "", cover: "", title: "", onCick: () => {}, categoryLinkTo: ""}]
  * @returns
  */
 function FlexPostLayout(
@@ -17,17 +17,20 @@ function FlexPostLayout(
 		cardStyle = {},
 		flexStyle = {},
 		wrap = "wrap",
+		justify = "space-between",
 		className = "",
+		showSkeleton = false,
 	},
 	ref
 ) {
+	const { t } = useTranslation();
 	return (
 		<Flex
 			wrap={wrap}
 			style={{
 				...flexStyle,
 			}}
-			justify="space-between"
+			justify={justify}
 			className={`w-100 ${className}`}
 			gap={40}
 			ref={ref}
@@ -46,7 +49,11 @@ function FlexPostLayout(
 							src={i.cover}
 							height="15rem"
 							className="rounded-0"
-							preview={{ maskClassName: "rounded-0" }}
+							style={{
+								cursor: "pointer",
+							}}
+							onClick={i?.onClick}
+							preview={false}
 							fallback={svgThaiNowLogoWithWords}
 						/>
 					}
@@ -57,24 +64,35 @@ function FlexPostLayout(
 					}}
 				>
 					<Link
-						href="https://ant.design"
-						target="_blank"
+						to={`${i?.categoryLinkTo}?category=${i?.category}`}
+						reloadDocument
 						className=""
 						style={{
 							fontSize: "1rem",
 							textDecoration: "underline",
 						}}
 					>
-						{formatString(
-							i.category.toLowerCase().replaceAll("_", " "),
-							"sentencecase"
-						)}
+						{i?.categoryKey
+							? t(`${i?.category.toLowerCase()}_msg`) || ""
+							: i.category || ""}
 					</Link>
-					<Title className="m-0 p-0 " ellipsis level={5}>
-						{i.title}
+					<Title
+						className="m-0 p-0 "
+						ellipsis
+						level={5}
+						style={{
+							cursor: "pointer",
+						}}
+						onClick={i?.onClick}
+					>
+						{i?.title}
 					</Title>
 				</Card>
 			))}
+
+			{showSkeleton && items.length < 1 && <Skeleton active />}
+
+			<div></div>
 		</Flex>
 	);
 }

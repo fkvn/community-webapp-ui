@@ -2,13 +2,14 @@ import { Button, Flex, Image } from "antd";
 import Title from "antd/lib/typography/Title";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { numberWithCommas } from "../../../../Util/Util";
 import BreadcrumbContainer from "../../../Breadcrumb/BreadcrumbContainer";
 import useGuideBookPost from "../../../Hook/PostHook/useGuideBookPost";
 import FivePostLayout from "../../../Layout/FivePostLayout";
 import FlexPostLayout from "../../../Layout/FlexPostLayout";
 
+import { GUIDE_BOOK_PATH } from "../../../../Util/ConstVar";
 import { extractExistingParams } from "../../../../Util/Util";
 function GuideBookDashBoard() {
 	const { t } = useTranslation(["Default"]);
@@ -19,6 +20,7 @@ function GuideBookDashBoard() {
 		urlParams.get("category") || ""
 	);
 	const [postItems, setPostItems] = useState([]);
+	const navigate = useNavigate();
 
 	const fetchPostHandle = (searchParams = {}) =>
 		fetchGuideBookPosts(searchParams).then((res) => {
@@ -28,8 +30,11 @@ function GuideBookDashBoard() {
 						...res,
 						{
 							category: i?.details?.category || "",
+							categoryKey: i?.details?.category || "",
+							categoryLinkTo: GUIDE_BOOK_PATH,
 							title: i?.details?.title || "",
 							cover: i?.details?.bannerUrl || "",
+							onClick: () => navigate(`${GUIDE_BOOK_PATH}/${i?.id}`),
 						},
 					],
 					[]
@@ -94,7 +99,6 @@ function GuideBookDashBoard() {
 							}}
 							className="my-3"
 							vertical
-							onClick={() => console.log("hey")}
 						>
 							<Button
 								className="m-0 px-4 border-0 w-100"
@@ -169,7 +173,12 @@ function GuideBookDashBoard() {
 
 				<FivePostLayout items={postItems.slice(0, 6)} />
 
-				<FlexPostLayout items={postItems.slice(5)} />
+				<FlexPostLayout
+					items={postItems.slice(5)}
+					flexStyle={{
+						minHeight: "10rem",
+					}}
+				/>
 			</Flex>
 		</Flex>
 	);
