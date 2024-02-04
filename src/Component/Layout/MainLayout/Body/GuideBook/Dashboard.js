@@ -3,14 +3,16 @@ import Title from "antd/lib/typography/Title";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { numberWithCommas } from "../../../../Util/Util";
-import BreadcrumbContainer from "../../../Breadcrumb/BreadcrumbContainer";
-import useGuideBookPost from "../../../Hook/PostHook/useGuideBookPost";
-import FivePostLayout from "../../../Layout/FivePostLayout";
-import FlexPostLayout from "../../../Layout/FlexPostLayout";
+import { GUIDE_BOOK_PATH } from "../../../../../Util/ConstVar";
+import {
+	extractExistingParams,
+	numberWithCommas,
+} from "../../../../../Util/Util";
+import BreadcrumbContainer from "../../../../Breadcrumb/BreadcrumbContainer";
+import useGuideBookPost from "../../../../Hook/PostHook/useGuideBookPost";
+import FivePostSection from "../../../../Section/FivePostSection";
+import FlexPostSection from "../../../../Section/FlexPostSection";
 
-import { GUIDE_BOOK_PATH } from "../../../../Util/ConstVar";
-import { extractExistingParams } from "../../../../Util/Util";
 function GuideBookDashBoard() {
 	const { t } = useTranslation(["Default"]);
 	const contentMaxWidth = "100rem";
@@ -171,9 +173,9 @@ function GuideBookDashBoard() {
 					})}
 				</Title>
 
-				<FivePostLayout items={postItems.slice(0, 6)} />
+				<FivePostSection items={postItems.slice(0, 6)} />
 
-				<FlexPostLayout
+				<FlexPostSection
 					items={postItems.slice(5)}
 					flexStyle={{
 						minHeight: "10rem",

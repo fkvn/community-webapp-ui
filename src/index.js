@@ -1,7 +1,7 @@
 import React, { Suspense } from "react";
 import ReactDOM from "react-dom/client";
 import { Provider } from "react-redux";
-import "../src/Assest/Style/style.scss";
+import "../src/Asset/Style/style.scss";
 import App from "./App";
 import "./Component/Locale/i18n";
 import Store from "./ReduxStore/store";

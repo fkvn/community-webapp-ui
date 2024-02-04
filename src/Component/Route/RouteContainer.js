@@ -1,5 +1,6 @@
 import { useTranslation } from "react-i18next";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
+
 import {
 	FORGOT_PASSWORD_PATH,
 	GUIDE_BOOK_NEW_POST_PATH,
@@ -9,18 +10,18 @@ import {
 	SIGN_IN_PATH,
 	SIGN_UP_PATH,
 } from "../../Util/ConstVar";
-import ForgotPasswordContainer from "../Auth/Password/ForgotPasswordContainer";
-import Signin from "../Auth/Signin/Signin";
-import Signup from "../Auth/Signup/Signup";
+import ForgotPasswordContainer from "../Layout/ExternalLayout/Auth/Password/ForgotPasswordContainer";
+import Signin from "../Layout/ExternalLayout/Auth/Signin";
+import Signup from "../Layout/ExternalLayout/Auth/Signup";
+import NewGuideBookPost from "../Layout/ExternalLayout/GuideBook/NewPost";
+import GuideBookDashBoard from "../Layout/MainLayout/Body/GuideBook/Dashboard";
+import GuideBookDetail from "../Layout/MainLayout/Body/GuideBook/Detail";
+import GuideBookRoute from "../Layout/MainLayout/Body/GuideBook/Route";
+import HelpCenter from "../Layout/MainLayout/Body/HelpCenter";
+import MyProfile from "../Layout/MainLayout/Body/MyProfile";
+import Home from "../Layout/MainLayout/Body/ThaiHelpThai/Home";
+import MainLayout from "../Layout/MainLayout/MainLayout";
 import NotFound from "../NotFound/NotFound";
-import GuideBookDashBoard from "../SPALayout/Body/GuideBook/Dashboard";
-import GuideBookDetail from "../SPALayout/Body/GuideBook/Detail";
-import NewGuideBookPost from "../SPALayout/Body/GuideBook/NewPost";
-import GuideBookRoute from "../SPALayout/Body/GuideBook/Route";
-import HelpCenter from "../SPALayout/Body/HelpCenter";
-import MyProfile from "../SPALayout/Body/MyProfile";
-import Home from "../SPALayout/Body/ThaiHelpThai/Home";
-import SPALayout from "../SPALayout/SPALayout";
 
 function RouteContainer() {
 	const { t } = useTranslation();
@@ -28,7 +29,7 @@ function RouteContainer() {
 	const router = createBrowserRouter([
 		{
 			path: "/",
-			Component: SPALayout,
+			Component: MainLayout,
 			children: [
 				// Outlet Body
 				{ index: true, Component: Home },
@@ -99,7 +100,7 @@ function RouteContainer() {
 	// 				element={<EditServiceContainer />}
 	// 			/> */}
 
-	// 		<Route path="/" element={<SPALayout />}>
+	// 		<Route path="/" element={<MainLayout />}>
 	// 			{/* nested component */}
 	// 			<Route index element={<HomeBody />} />
 	// 			<Route path="my-profile" element={<MyProfileBody />} />

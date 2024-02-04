@@ -1,10 +1,10 @@
 import { CloseOutlined } from "@ant-design/icons";
 import { Button, Divider, Flex } from "antd";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { svgThaiNowLogoWithWords } from "../../../Assest/Asset";
-import { REDIRECT_URI } from "../../../Util/ConstVar";
-import useImage from "../../Hook/useImage";
-import SwitchLanguage from "../../Locale/SwitchLanguage";
+import { svgThaiNowLogoWithWords } from "../../../../Asset/Asset";
+import { REDIRECT_URI } from "../../../../Util/ConstVar";
+import useImage from "../../../Hook/useImage";
+import SwitchLanguage from "../../../Locale/SwitchLanguage";
 
 function FormPageHeader({ onBeforeClose = () => Promise.resolve() }) {
 	const navigate = useNavigate();

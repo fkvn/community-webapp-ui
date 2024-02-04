@@ -4,11 +4,11 @@ import Link from "antd/es/typography/Link";
 import Title from "antd/es/typography/Title";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { imageAds, imageThaiHelpThaiBanner } from "../../../../Assest/Asset";
-import { GUIDE_BOOK_PATH } from "../../../../Util/ConstVar";
-import useGuideBookPost from "../../../Hook/PostHook/useGuideBookPost";
-import FiveItemLayout from "../../../Layout/FivePostLayout";
-import GallerySection from "../../Section/GallerySection";
+import { imageAds, imageThaiHelpThaiBanner } from "../../../../../Asset/Asset";
+import { GUIDE_BOOK_PATH } from "../../../../../Util/ConstVar";
+import useGuideBookPost from "../../../../Hook/PostHook/useGuideBookPost";
+import FivePostSection from "../../../../Section/FivePostSection";
+import GallerySection from "../../../../Section/GallerySection";
 
 /**
  *
@@ -166,7 +166,7 @@ function Home() {
 					</Button>
 				</Flex>
 				{/* Body */}
-				<FiveItemLayout items={guideBookItems} />
+				<FivePostSection items={guideBookItems} />
 				{/* Ads */}
 				<FirstAdsSection />
 			</Flex>

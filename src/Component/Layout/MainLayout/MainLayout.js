@@ -3,7 +3,7 @@ import { Outlet } from "react-router-dom";
 import Footer from "./Footer";
 import HeaderContainer from "./Header/HeaderContainer";
 
-function SPALayout() {
+function MainLayout() {
 	const { Header } = Layout;
 
 	const layout = (
@@ -49,4 +49,4 @@ function SPALayout() {
 	return <App />;
 }
 
-export default SPALayout;
+export default MainLayout;

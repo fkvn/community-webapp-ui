@@ -1,7 +1,7 @@
 import { Button } from "antd";
 import i18next from "i18next";
 import { useEffect } from "react";
-import { svgFacebookLogo } from "../../../Assest/Asset";
+import { svgFacebookLogo } from "../../../Asset/Asset";
 import { SIGNIN_CHANNEL_FACEBOOK } from "../../../Util/ConstVar";
 import { facebookSignin } from "../../../serviceEnv";
 import useAuth from "../../Hook/AuthHook/useAuth";

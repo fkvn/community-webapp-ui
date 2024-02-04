@@ -2,10 +2,10 @@ import { LockOutlined, UserOutlined } from "@ant-design/icons";
 import { Breadcrumb, Col, Flex, Menu, Row } from "antd";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { MY_PROFILE_PATH } from "../../../Util/ConstVar";
-import Auth from "../../Auth/Auth";
-import MyPasswordContainer from "../../MyProfile/MyPasswordContainer";
-import MyProfileContainer from "../../MyProfile/MyProfileContainer";
+import { MY_PROFILE_PATH } from "../../../../Util/ConstVar";
+import Auth from "../../../Auth/Auth";
+import MyPasswordContainer from "../../../MyProfile/MyPasswordContainer";
+import MyProfileContainer from "../../../MyProfile/MyProfileContainer";
 
 function MyProfile() {
 	const { t } = useTranslation(["Default"]);

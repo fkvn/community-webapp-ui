@@ -1,5 +1,5 @@
 import { Image } from "antd";
-import { imageNoPhoto, imageThainowLogoRound } from "../../Assest/Asset";
+import { imageNoPhoto, imageThainowLogoRound } from "../../Asset/Asset";
 
 function useImage() {
 	const image = ({ className = "", ...inputProps }, center = true) =>

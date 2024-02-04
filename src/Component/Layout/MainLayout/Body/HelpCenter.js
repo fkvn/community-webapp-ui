@@ -4,19 +4,19 @@ import Title from "antd/lib/typography/Title";
 import parse from "html-react-parser";
 import { useState } from "react";
 import { Trans, useTranslation } from "react-i18next";
-import { emailContactAxios } from "../../../Axios/utilAxios";
+import { emailContactAxios } from "../../../../Axios/utilAxios";
 import {
 	DESCRIPTION_PROP,
 	EMAIL_PROP,
 	SUPPORT_EMAIL,
 	USERNAME_PROP,
-} from "../../../Util/ConstVar";
-import BreadcrumbContainer from "../../Breadcrumb/BreadcrumbContainer";
-import EmailFormControl from "../../Form/EmailFormControl";
-import SubmitBtnFormControl from "../../Form/SubmitBtnFormControl";
-import TextAreaFormControl from "../../Form/TextAreaFormControl";
-import TextFormControl from "../../Form/TextFormControl";
-import useMessage from "../../Hook/MessageHook/useMessage";
+} from "../../../../Util/ConstVar";
+import BreadcrumbContainer from "../../../Breadcrumb/BreadcrumbContainer";
+import EmailFormControl from "../../../Form/EmailFormControl";
+import SubmitBtnFormControl from "../../../Form/SubmitBtnFormControl";
+import TextAreaFormControl from "../../../Form/TextAreaFormControl";
+import TextFormControl from "../../../Form/TextFormControl";
+import useMessage from "../../../Hook/MessageHook/useMessage";
 
 function HelpCenter() {
 	const { t } = useTranslation(["Help Center", "Form", "Default"]);

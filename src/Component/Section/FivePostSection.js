@@ -2,7 +2,7 @@ import { Card, Flex, Image, Skeleton } from "antd";
 import Title from "antd/lib/typography/Title";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
-import { svgThaiNowLogoWithWords } from "../../Assest/Asset";
+import { svgThaiNowLogoWithWords } from "../../Asset/Asset";
 
 /**
  *
@@ -10,7 +10,7 @@ import { svgThaiNowLogoWithWords } from "../../Assest/Asset";
  * @itemsMaxHandleLength first 5 items
  * @returns
  */
-function FivePostLayout({ items = [] }) {
+function FivePostSection({ items = [] }) {
 	const { t } = useTranslation();
 	return items.length > 0 ? (
 		<Flex
@@ -139,4 +139,4 @@ function FivePostLayout({ items = [] }) {
 	);
 }
 
-export default FivePostLayout;
+export default FivePostSection;

@@ -1,6 +1,6 @@
 import { useSelector } from "react-redux";
 import { USER_REDUCER } from "../../../../Util/ConstVar";
-import FormPageHeader from "../../Header/FormPageHeader";
+import FormPageHeader from "../../MainLayout/Header/FormPageHeader";
 
 function NewGuideBookPost() {
 	const { profile } = useSelector((state) => state[`${USER_REDUCER}`]);

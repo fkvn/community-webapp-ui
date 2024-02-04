@@ -12,7 +12,7 @@ import {
 	imageThaiNow7,
 	imageThaiNow8,
 	svgThaiNowLogoWithWords,
-} from "../../../Assest/Asset";
+} from "../../Asset/Asset";
 
 function GallerySection() {
 	const { t } = useTranslation();

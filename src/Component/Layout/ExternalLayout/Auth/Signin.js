@@ -2,17 +2,17 @@ import { Col, Divider, Flex, Row, Space, Typography } from "antd";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { svgLoginPic } from "../../../Assest/Asset";
+import { svgLoginPic } from "../../../../Asset/Asset";
 import {
 	REDIRECT_URI,
 	SIGN_IN_PATH,
 	SIGN_UP_PATH,
-} from "../../../Util/ConstVar";
-import TermAgreement from "../../Form/TermAgreement";
-import useAuth from "../../Hook/AuthHook/useAuth";
-import FormPageHeader from "../../SPALayout/Header/FormPageHeader";
-import ThaiNowSignin from "./ThaiNowSignin";
-import ThirdPartySignin from "./ThirdPartySignin";
+} from "../../../../Util/ConstVar";
+import ThaiNowSignin from "../../../Auth/Signin/ThaiNowSignin";
+import ThirdPartySignin from "../../../Auth/Signin/ThirdPartySignin";
+import TermAgreement from "../../../Form/TermAgreement";
+import useAuth from "../../../Hook/AuthHook/useAuth";
+import FormPageHeader from "../../MainLayout/Header/FormPageHeader";
 
 function Signin() {
 	const navigate = useNavigate();

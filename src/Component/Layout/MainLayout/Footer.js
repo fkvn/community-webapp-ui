@@ -6,8 +6,8 @@ import {
 	svgThainowLogoWhite,
 	svgTiktokLogo,
 	svgYoutubeLogo,
-} from "../../Assest/Asset";
-import { GUIDE_BOOK_PATH, HELP_CENTER_PATH } from "../../Util/ConstVar";
+} from "../../../Asset/Asset";
+import { GUIDE_BOOK_PATH, HELP_CENTER_PATH } from "../../../Util/ConstVar";
 
 function Footer() {
 	const { t } = useTranslation(["Default", "Email"]);

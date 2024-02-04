@@ -1,5 +1,4 @@
 import { useTranslation } from "react-i18next";
-import { useSearchParams } from "react-router-dom";
 import {
 	svgBasicLivingIcon,
 	svgBusinessInvestmentIcon,
@@ -11,7 +10,7 @@ import {
 	svgThaiPrideIcon,
 	svgTransferIcon,
 	svgTravelIcon,
-} from "../../../Assest/Asset";
+} from "../../../Asset/Asset";
 import {
 	fetchGuideBookAxios,
 	fetchGuideBooksAxios,
@@ -20,7 +19,6 @@ import useMessage from "../MessageHook/useMessage";
 
 function useGuideBookPost() {
 	const { t } = useTranslation();
-	const [urlParams, setUrlParams] = useSearchParams();
 	const { errorMessage } = useMessage();
 
 	/**

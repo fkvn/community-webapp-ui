@@ -3,7 +3,7 @@ import { useForm } from "antd/lib/form/Form";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { svgLoginPic } from "../../../Assest/Asset";
+import { svgLoginPic } from "../../../../Asset/Asset";
 import {
 	EMAIL_PROP,
 	FIRSTNAME_PROP,
@@ -11,14 +11,14 @@ import {
 	PASSWORD_PROP,
 	REDIRECT_URI,
 	SIGN_IN_PATH,
-} from "../../../Util/ConstVar";
-import EmailFormControl from "../../Form/EmailFormControl";
-import PasswordFormControl from "../../Form/PasswordFormControl";
-import SubmitBtnFormControl from "../../Form/SubmitBtnFormControl";
-import TermAgreement from "../../Form/TermAgreement";
-import TextFormControl from "../../Form/TextFormControl";
-import useAuth from "../../Hook/AuthHook/useAuth";
-import FormPageHeader from "../../SPALayout/Header/FormPageHeader";
+} from "../../../../Util/ConstVar";
+import EmailFormControl from "../../../Form/EmailFormControl";
+import PasswordFormControl from "../../../Form/PasswordFormControl";
+import SubmitBtnFormControl from "../../../Form/SubmitBtnFormControl";
+import TermAgreement from "../../../Form/TermAgreement";
+import TextFormControl from "../../../Form/TextFormControl";
+import useAuth from "../../../Hook/AuthHook/useAuth";
+import FormPageHeader from "../../MainLayout/Header/FormPageHeader";
 
 function Signup() {
 	const [form] = useForm();

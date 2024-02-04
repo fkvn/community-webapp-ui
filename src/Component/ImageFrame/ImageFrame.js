@@ -1,7 +1,7 @@
 import { Image } from "antd";
 import { useState } from "react";
 import ReactLoading from "react-loading";
-import { imageNoPhoto } from "../../Assest/Asset";
+import { imageNoPhoto } from "../../Asset/Asset";
 
 function ImageFrame({
 	id = "",

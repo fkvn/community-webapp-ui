@@ -1,8 +1,4 @@
-import { verifyExistingAxios } from "../../../Axios/authaxios";
-import {
-	findUserByEmailAxios,
-	findUserByPhoneAxios,
-} from "../../../Axios/userAxios";
+import { verifyExistingAxios } from "../../../../../Axios/authAxios";
 import {
 	CHANNEL_PROP,
 	EMAIL_PROP,
@@ -10,10 +6,15 @@ import {
 	PHONE_PROP,
 	REGION_PROP,
 	SIGNIN_CHANNEL_THAINOW,
-} from "../../../Util/ConstVar";
-import useAuth from "../../Hook/AuthHook/useAuth";
-import useMessage from "../../Hook/MessageHook/useMessage";
-import useProfile from "../../Hook/useProfile";
+} from "../../../../../Util/ConstVar";
+
+import {
+	findUserByEmailAxios,
+	findUserByPhoneAxios,
+} from "../../../../../Axios/userAxios";
+import useAuth from "../../../../Hook/AuthHook/useAuth";
+import useMessage from "../../../../Hook/MessageHook/useMessage";
+import useProfile from "../../../../Hook/useProfile";
 import ForgotPassword from "./ChangePassword";
 
 function ForgotPasswordContainer() {

@@ -3,14 +3,14 @@ import Title from "antd/lib/typography/Title";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
-import { svgThaiNowLogoWithWords } from "../../Assest/Asset";
+import { svgThaiNowLogoWithWords } from "../../Asset/Asset";
 
 /**
  *
  * @items [{category: "", cover: "", title: "", onCick: () => {}, categoryLinkTo: ""}]
  * @returns
  */
-function FlexPostLayout(
+function FlexPostSection(
 	{
 		items = [],
 		bodyStyle = {},
@@ -97,4 +97,4 @@ function FlexPostLayout(
 	);
 }
 
-export default React.forwardRef(FlexPostLayout);
+export default React.forwardRef(FlexPostSection);

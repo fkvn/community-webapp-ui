@@ -2,18 +2,18 @@ import { Col, Flex, Form, Row, Typography } from "antd";
 import { useForm } from "antd/lib/form/Form";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { svgLoginPic } from "../../../Assest/Asset";
+import { svgLoginPic } from "../../../../../Asset/Asset";
 import {
 	CHANNEL_PROP,
 	EMAIL_PROP,
 	PASSWORD_PROP,
 	PHONE_PROP,
 	REGION_PROP,
-} from "../../../Util/ConstVar";
-import PasswordFormControl from "../../Form/PasswordFormControl";
-import SubmitBtnFormControl from "../../Form/SubmitBtnFormControl";
-import FormPageHeader from "../../SPALayout/Header/FormPageHeader";
-import Otp from "../Otp/Otp";
+} from "../../../../../Util/ConstVar";
+import Otp from "../../../../Auth/Otp/Otp";
+import PasswordFormControl from "../../../../Form/PasswordFormControl";
+import SubmitBtnFormControl from "../../../../Form/SubmitBtnFormControl";
+import FormPageHeader from "../../../MainLayout/Header/FormPageHeader";
 
 /**
  *

@@ -2,7 +2,7 @@ import { CloseOutlined } from "@ant-design/icons";
 import { PageHeader } from "@ant-design/pro-layout";
 import { Button, Flex } from "antd";
 import { useNavigate } from "react-router-dom";
-import { imageThainowLogoRound } from "../../../Assest/env";
+import { imageThainowLogoRound } from "../../../Asset/env";
 import { FORWARD_CLOSE } from "../../../Util/ConstVar";
 import SwitchLanguage from "../../Locale/SwitchLanguage";
 import useUrls from "../useUrls";

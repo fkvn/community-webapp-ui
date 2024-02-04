@@ -7,18 +7,18 @@ import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
-import { svgThaiNowLogoWithWords } from "../../../../Assest/Asset";
+import { svgThaiNowLogoWithWords } from "../../../../../Asset/Asset";
 import {
 	GUIDE_BOOK_NEW_POST_PATH,
 	GUIDE_BOOK_PATH,
 	REDIRECT_URI,
 	USER_REDUCER,
-} from "../../../../Util/ConstVar";
-import { formatTime } from "../../../../Util/Util";
-import BreadcrumbContainer from "../../../Breadcrumb/BreadcrumbContainer";
-import useGuideBookPost from "../../../Hook/PostHook/useGuideBookPost";
-import useHorizontalScroll from "../../../Hook/useHorizontalScroll";
-import FlexPostLayout from "../../../Layout/FlexPostLayout";
+} from "../../../../../Util/ConstVar";
+import { formatTime } from "../../../../../Util/Util";
+import BreadcrumbContainer from "../../../../Breadcrumb/BreadcrumbContainer";
+import useGuideBookPost from "../../../../Hook/PostHook/useGuideBookPost";
+import useHorizontalScroll from "../../../../Hook/useHorizontalScroll";
+import FlexPostSection from "../../../../Section/FlexPostSection";
 
 function GuideBookDetail() {
 	const contentMaxWidth = "100rem";
@@ -49,7 +49,7 @@ function GuideBookDetail() {
 	});
 	const [moreItems, setMoreItems] = useState([]);
 
-	const isProfileAllowedCreateNewPost = () =>
+	const isUserAuthorizedCreateNewPost = () =>
 		(profile?.authorities || []).some((v) => newPostAuthorities.includes(v));
 
 	const formatItem = (item = {}) => {
@@ -146,7 +146,7 @@ function GuideBookDetail() {
 					</Flex>
 				</Flex>
 				{scrollContainer(
-					<FlexPostLayout
+					<FlexPostSection
 						items={moreItems}
 						wrap=""
 						bodyStyle={{
@@ -181,7 +181,7 @@ function GuideBookDetail() {
 
 			<Title className="c-primary-important">{item.title}</Title>
 
-			<Flex gap={20}>
+			<Flex gap={20} align="center">
 				<Image
 					width={50}
 					src={item.owner.avatarUrl}
@@ -236,7 +236,7 @@ function GuideBookDetail() {
 			>
 				<Flex justify="space-between" align="center">
 					<BreadcrumbContainer extra={true} extraCrumbs={extraCrumbs} />
-					{isProfileAllowedCreateNewPost() && (
+					{isUserAuthorizedCreateNewPost() && (
 						<Button
 							type="primary"
 							size="large"

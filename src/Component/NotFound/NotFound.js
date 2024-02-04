@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
-import { image404 } from "../../Assest/Asset";
-import FormPageHeader from "../SPALayout/Header/FormPageHeader";
+import { image404 } from "../../Asset/Asset";
+import FormPageHeader from "../Layout/MainLayout/Header/FormPageHeader";
 
 function NotFound() {
 	const navigate = useNavigate();

@@ -2,7 +2,7 @@ import { Button } from "antd";
 import axios from "axios";
 import { useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
-import { svgLineLogo } from "../../../Assest/Asset";
+import { svgLineLogo } from "../../../Asset/Asset";
 import { SIGNIN_CHANNEL_LINE } from "../../../Util/ConstVar";
 import useImage from "../../Hook/useImage";
 

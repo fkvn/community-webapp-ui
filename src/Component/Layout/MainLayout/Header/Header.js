@@ -1,17 +1,16 @@
+import { LogoutOutlined, UserOutlined } from "@ant-design/icons";
 import { Avatar, Button, Flex, Menu, Space } from "antd";
 import { useTranslation } from "react-i18next";
 import { Link, useNavigate } from "react-router-dom";
-import { svgThaiNowLogoWithWords } from "../../../Assest/Asset";
-
-import { LogoutOutlined, UserOutlined } from "@ant-design/icons";
+import { svgThaiNowLogoWithWords } from "../../../../Asset/Asset";
 import {
 	MY_PROFILE_PATH,
 	PROFILE_AVATAR_PROP,
 	SIGN_IN_PATH,
 	USERNAME_PROP,
-} from "../../../Util/ConstVar";
-import useImage from "../../Hook/useImage";
-import SwitchLanguage from "../../Locale/SwitchLanguage";
+} from "../../../../Util/ConstVar";
+import useImage from "../../../Hook/useImage";
+import SwitchLanguage from "../../../Locale/SwitchLanguage";
 
 function Header({ profile = {}, signout = () => {}, isLogin = false }) {
 	const navigate = useNavigate();
