@@ -58,9 +58,10 @@ function UploadImages({
 		});
 	};
 
-	const handleChange = ({ fileList: newFileList }) => {
-		setFileList(newFileList);
-	};
+	// using for onChange event when not using customRequest
+	// const handleChange = ({ fileList: newFileList }) => {
+	// 	setFileList(newFileList);
+	// };
 
 	const Preview = () => (
 		<Modal
@@ -88,31 +89,54 @@ function UploadImages({
 		className: "w-100",
 		maxCount: maxCount,
 		multiple: multiple,
-		action: (file) => {
+		listType: listType,
+		fileList: fileList,
+		// onChange: handleChange,
+		// if customRequest, don't enable the onChange func
+		customRequest: ({ file }) => {
 			const formData = new FormData();
 			formData.append("file", file);
 
-			uploadImage(formData).then((url = "") => {
-				file.status = url ? "done" : "error";
-				file.percent = 100;
+			uploadImage(formData)
+				.then((url = "") => {
+					file.status = url ? "done" : "error";
+					file.percent = 100;
 
-				if (url) file.url = url;
+					if (url) file.url = url;
 
-				const newFileList = [...fileList, file];
+					const newFileList = [...fileList, file];
 
-				// return newFileList
-				afterUpload(newFileList);
+					// return newFileList
+					afterUpload(newFileList);
 
-				// update ant component
-				setFileList(newFileList);
-			});
+					// update ant component
+					setFileList(newFileList);
+				})
+				.catch(() => {
+					file.status = "error";
+					file.percent = 100;
+
+					const newFileList = [...fileList, file];
+
+					// update ant component
+					setFileList(newFileList);
+				});
+
+			// added if this is a customRequest
+			return {
+				abort() {
+					// console.log("upload progress is aborted.");
+				},
+			};
 		},
 
-		listType: listType,
-		fileList: fileList,
-		onChange: handleChange,
-		onRemove: ({ uid = "" }) =>
-			afterRemove(fileList.filter((img) => img.uid !== uid)),
+		onRemove: ({ uid = "" }) => {
+			const newFileList = fileList.filter((f) => f.uid !== uid);
+			afterRemove(fileList.filter((img) => img.uid !== uid));
+
+			// update state list if using with customRequest
+			setFileList(newFileList);
+		},
 		onPreview: onPreviewHandle,
 		...uploadProps,
 	};
