@@ -4,7 +4,7 @@ import ImgCrop from "antd-img-crop";
 import { useTranslation } from "react-i18next";
 import useMessage from "../Hook/MessageHook/useMessage";
 
-function UploadImage({
+function UploadImageBtn({
 	className = "",
 	cropRotate = true,
 	cropAspect = 1 / 1,
@@ -143,4 +143,4 @@ function UploadImage({
 	return app;
 }
 
-export default UploadImage;
+export default UploadImageBtn;

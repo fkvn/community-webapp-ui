@@ -92,6 +92,7 @@ export const CONFIRM_PASSWORD_PROP = "confirmPassword";
 export const PASSWORD_VALIDATION = "isValidPassword";
 export const CONFIRM_PASSWORD_VALIDATION = "isPasswordMatch";
 export const URL_PROP = "url";
+export const BANNER_URL_PROP = "bannerUrl";
 
 export const VERIFICATION_METHOD_PROP = "verifyMethod";
 export const CHANNEL_PROP = "channel";
@@ -157,6 +158,8 @@ export const MY_PROFILE_PATH = "/my-profile";
 export const HELP_CENTER_PATH = "/helpcenter";
 export const GUIDE_BOOK_PATH = "/guidebook";
 export const GUIDE_BOOK_NEW_POST_PATH = "/guidebook/new-post";
+
+export const GUIDE_BOOK_PROP = "guideBook";
 
 export const COMPANY_INDUSTRY_LIST = [
 	"Aquarium & Pet",

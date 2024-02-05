@@ -1,0 +1,157 @@
+import { InboxOutlined } from "@ant-design/icons";
+import { Image, Modal, Typography, Upload } from "antd";
+import ImgCrop from "antd-img-crop";
+import { useState } from "react";
+import { useTranslation } from "react-i18next";
+
+const getBase64 = (file) =>
+	new Promise((resolve, reject) => {
+		const reader = new FileReader();
+		reader.readAsDataURL(file);
+		reader.onload = () => resolve(reader.result);
+		reader.onerror = (error) => reject(error);
+	});
+
+/**
+ * @listType "picture-card" || "picture"
+ * @cropShape "rect" || "round"
+ * @cropAspect width / height
+ * @returns
+ */
+function UploadImages({
+	defaultFileList = [],
+	maxCount = 5,
+	multiple = true,
+	dragger = false,
+	listType = "picture-card",
+	cropMaxZoom = 8,
+	cropAspect = 1 / 1,
+	cropShape = "rect",
+	cropQuality = 0.8,
+	cropModalOk = "Save",
+	cropModalWidth = "80%",
+	imgCropProps = {},
+	uploadProps = {},
+	uploadImage = (_formData) => Promise.resolve(),
+	afterUpload = (_newFileList) => {},
+	afterRemove = (_newFileList) => {},
+}) {
+	const { t } = useTranslation(["Form"]);
+	const [fileList, setFileList] = useState(defaultFileList || []);
+	const [preview, setPreview] = useState({
+		open: false,
+		url: "",
+		title: "",
+	});
+
+	const { Dragger } = Upload;
+
+	const onPreviewHandle = async (file) => {
+		if (!file.url && !file.preview) {
+			file.preview = await getBase64(file.originFileObj);
+		}
+		setPreview({
+			open: true,
+			url: file.url || file.preview || "",
+			title:
+				file.name || file.url.substring(file.url.lastIndexOf("%2F") + 1) || "",
+		});
+	};
+
+	const handleChange = ({ fileList: newFileList }) => {
+		setFileList(newFileList);
+	};
+
+	const Preview = () => (
+		<Modal
+			open={preview.open}
+			title={
+				<Typography.Text
+					style={{
+						width: "96%",
+					}}
+					ellipsiss="true"
+				>
+					{preview.title}
+				</Typography.Text>
+			}
+			width="80%"
+			footer={null}
+			onCancel={() => setPreview({ open: false })}
+		>
+			<Image className="w-100" src={preview.url} />
+		</Modal>
+	);
+
+	const props = {
+		name: "upload",
+		className: "w-100",
+		maxCount: maxCount,
+		multiple: multiple,
+		action: (file) => {
+			const formData = new FormData();
+			formData.append("file", file);
+
+			uploadImage(formData).then((url = "") => {
+				file.status = url ? "done" : "error";
+				file.percent = 100;
+
+				if (url) file.url = url;
+
+				const newFileList = [...fileList, file];
+
+				// return newFileList
+				afterUpload(newFileList);
+
+				// update ant component
+				setFileList(newFileList);
+			});
+		},
+
+		listType: listType,
+		fileList: fileList,
+		onChange: handleChange,
+		onRemove: ({ uid = "" }) =>
+			afterRemove(fileList.filter((img) => img.uid !== uid)),
+		onPreview: onPreviewHandle,
+		...uploadProps,
+	};
+
+	const App = () => (
+		<>
+			<ImgCrop
+				maxZoom={cropMaxZoom}
+				rotationSlider={true}
+				aspect={cropAspect}
+				cropShape={cropShape}
+				quality={cropQuality}
+				modalOk={cropModalOk}
+				modalWidth={cropModalWidth}
+				{...imgCropProps}
+			>
+				{dragger ? (
+					<Dragger className="my-2" {...props}>
+						{" "}
+						<p className="ant-upload-drag-icon">
+							<InboxOutlined />
+						</p>
+						<p className="ant-upload-text">
+							Click or drag file to this area to upload
+						</p>
+						<p className="ant-upload-hint">
+							Support for a single or bulk upload.
+						</p>
+					</Dragger>
+				) : (
+					<Upload {...props}>
+						{fileList.length >= maxCount ? null : t("form_upload_msg")}
+					</Upload>
+				)}
+			</ImgCrop>
+			<Preview />
+		</>
+	);
+	return <App />;
+}
+
+export default UploadImages;

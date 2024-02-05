@@ -102,7 +102,7 @@ function GuideBookDetail() {
 		});
 
 	useEffect(() => {
-		fetchItem(id);
+		fetchItem(id).then(() => window.scrollTo(0, 0));
 	}, [id]);
 
 	const extraCrumbs = {

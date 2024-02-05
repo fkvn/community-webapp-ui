@@ -4,6 +4,7 @@ import Link from "antd/es/typography/Link";
 import Title from "antd/es/typography/Title";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom";
 import { imageAds, imageThaiHelpThaiBanner } from "../../../../../Asset/Asset";
 import { GUIDE_BOOK_PATH } from "../../../../../Util/ConstVar";
 import useGuideBookPost from "../../../../Hook/PostHook/useGuideBookPost";
@@ -18,6 +19,7 @@ import GallerySection from "../../../../Section/GallerySection";
  */
 function Home() {
 	const { t } = useTranslation();
+	const navigate = useNavigate();
 	const { fetchGuideBookPosts } = useGuideBookPost();
 
 	const carouselContentStyle = {
@@ -37,8 +39,11 @@ function Home() {
 						...res,
 						{
 							category: i?.details?.category || "",
+							categoryKey: i?.details?.category || "",
+							categoryLinkTo: GUIDE_BOOK_PATH,
 							title: i?.details?.title || "",
 							cover: i?.details?.bannerUrl || "",
+							onClick: () => navigate(`${GUIDE_BOOK_PATH}/${i?.id}`),
 						},
 					],
 					[]

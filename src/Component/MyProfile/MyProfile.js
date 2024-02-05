@@ -18,7 +18,7 @@ import PhoneFormControl from "../Form/PhoneFormControl";
 import SubmitBtnFormControl from "../Form/SubmitBtnFormControl";
 import TextFormControl from "../Form/TextFormControl";
 import ImageFrame from "../ImageFrame/ImageFrame";
-import UploadImage from "../Upload/UploadImage";
+import UploadImageBtn from "../Upload/UploadImageBtn";
 
 function MyProfile({
 	profile = {},
@@ -58,7 +58,7 @@ function MyProfile({
 				}}
 				src={avatarUrl}
 			/>
-			<UploadImage
+			<UploadImageBtn
 				className="text-center w-100"
 				uploadIconStyle={{
 					right: 70,

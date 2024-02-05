@@ -82,9 +82,6 @@ export const signupAxios = async (channel = "", credentials = {}) => {
 		},
 	}[`${channel}`];
 
-	console.log(channel);
-	console.log(credentials);
-
 	return axios.post(url, body).catch((e) => Promise.reject(e));
 };
 

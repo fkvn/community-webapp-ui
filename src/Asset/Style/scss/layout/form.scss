@@ -22,9 +22,10 @@
 	& span.ant-input-affix-wrapper,
 	& span.ant-input-textarea-affix-wrapper,
 	& input,
-	& .ant-input-number {
+	& .ant-input-number,
+	& .ant-radio-button-wrapper {
 		background-color: white;
-		min-height: 1.5rem;
+		min-height: 2rem;
 	}
 
 	& input {
@@ -34,6 +35,38 @@
 
 	& span.ant-input-group-addon {
 		border-radius: 0.5rem 0 0 0.5rem;
+	}
+
+	& .ant-radio-button-wrapper {
+		border: 1px solid #d9d9d9;
+	}
+
+	& .ant-radio-button-wrapper-checked:not(.ant-radio-button-wrapper-disabled) {
+		border: 1px solid #1677ff;
+	}
+
+	& .ant-upload-wrapper .ant-upload-list {
+		margin: 1rem 0;
+	}
+
+	&
+		.ant-upload-wrapper.ant-upload-picture-card-wrapper.w-100
+		.ant-upload.ant-upload-select {
+		width: 100%;
+	}
+
+	&,
+	.ant-upload-wrapper.ant-upload-picture-card-wrapper.w-100
+		.ant-upload-list.ant-upload-list-picture-card
+		.ant-upload-list-item-container,
+	.ant-upload-wrapper.ant-upload-picture-card-wrapper.w-100
+		.ant-upload-list.ant-upload-list-picture-card
+		.ant-upload-list-item-thumbnail
+		img {
+		width: 100%;
+		height: auto;
+		max-height: 15rem;
+		object-fit: fill;
 	}
 }
 

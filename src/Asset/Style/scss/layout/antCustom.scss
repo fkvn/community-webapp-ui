@@ -8,6 +8,18 @@
 	@include flex-center;
 }
 
+.radio-before-w {
+	&-#{wInRem}::before {
+		width: wInRem;
+	}
+}
+
+.radio-before-w-0 {
+	&.ant-radio-button-wrapper:not(:first-child)::before {
+		width: 0;
+	}
+}
+
 .anticon-close-circle,
 .anticon-check-circle {
 	/* Remove default */
