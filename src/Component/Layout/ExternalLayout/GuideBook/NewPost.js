@@ -89,19 +89,20 @@ function NewGuideBookPost() {
 
 						<UploadImagesFormControl
 							itemName={[GUIDE_BOOK_PROP, BANNER_URL_PROP]}
+							label={t("form_cover_msg")}
 							cropAspect={16 / 9}
 							maxCount={1}
 							uploadImage={handleUploadFile}
 							afterUpload={(newFileList) =>
 								form.setFieldValue(
 									[GUIDE_BOOK_PROP, BANNER_URL_PROP],
-									newFileList[0]?.url
+									newFileList[0]?.url || ""
 								)
 							}
 							afterRemove={(newFileList) =>
 								form.setFieldValue(
 									[GUIDE_BOOK_PROP, BANNER_URL_PROP],
-									newFileList[0]?.url
+									newFileList[0]?.url || ""
 								)
 							}
 						/>
@@ -128,6 +129,7 @@ function NewGuideBookPost() {
 								},
 							}}
 						/>
+
 						<Button
 							// onClick={() => {
 							// 	form
