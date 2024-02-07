@@ -37,7 +37,7 @@ function SwitchLanguage({
 				...style,
 			}}
 			size="large"
-			bordered={bordered}
+			variant={bordered}
 			onChange={(res) => i18next.changeLanguage(res?.value)}
 			options={options}
 			{...selectionProps}

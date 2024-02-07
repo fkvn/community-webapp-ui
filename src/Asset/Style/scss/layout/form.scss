@@ -4,7 +4,7 @@
 }
 
 .ant-form {
-	& .ant-form-item * {
+	& .ant-form-item:not(:has(.editor)) * {
 		font-size: 1rem;
 	}
 

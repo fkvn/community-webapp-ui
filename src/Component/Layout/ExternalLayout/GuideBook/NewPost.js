@@ -7,11 +7,13 @@ import { uploadFileAxios } from "../../../../Axios/utilAxios";
 import {
 	BANNER_URL_PROP,
 	CATEGORY_PROP,
+	DESCRIPTION_PROP,
 	GUIDE_BOOK_PROP,
 	TITLE_PROP,
 	USER_REDUCER,
 } from "../../../../Util/ConstVar";
 import Auth from "../../../Auth/Auth";
+import RTEFormControl from "../../../Form/RTEFormControl";
 import RadioFormControl from "../../../Form/RadioFormControl";
 import TextFormControl from "../../../Form/TextFormControl";
 import UploadImagesFormControl from "../../../Form/UploadImagesFormControl";
@@ -60,7 +62,7 @@ function NewGuideBookPost() {
 					{t("form_new_guidebook_msg")}
 				</Title>
 
-				<Form form={form} layout="vertical" onFinish={onFinish}>
+				<Form form={form} layout="vertical">
 					<Flex vertical gap={20}>
 						<TextFormControl
 							itemProps={{
@@ -127,6 +129,21 @@ function NewGuideBookPost() {
 								style: {
 									borderRadius: "0.5rem",
 								},
+							}}
+						/>
+						<RTEFormControl
+							itemName={[GUIDE_BOOK_PROP, DESCRIPTION_PROP]}
+							// onCreate={(editor) => {
+							// 	form.setFieldValue(
+							// 		[GUIDE_BOOK_PROP, DESCRIPTION_PROP],
+							// 		editor?.getHTML() || ""
+							// 	);
+							// }}
+							onUpdate={(editor) => {
+								form.setFieldValue(
+									[GUIDE_BOOK_PROP, DESCRIPTION_PROP],
+									editor?.getHTML() || ""
+								);
 							}}
 						/>
 
