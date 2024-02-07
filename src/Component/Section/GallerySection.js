@@ -14,7 +14,7 @@ import {
 	svgThaiNowLogoWithWords,
 } from "../../Asset/Asset";
 
-function GallerySection() {
+function GallerySection({ background = "#ECEFFA" }) {
 	const { t } = useTranslation();
 
 	const galleryCardItems = [
@@ -34,7 +34,7 @@ function GallerySection() {
 			className="p-5 p-lg-5"
 			vertical
 			style={{
-				background: "#ECEFFA",
+				background: background,
 				minHeight: "35rem",
 			}}
 			align="center"
@@ -48,7 +48,7 @@ function GallerySection() {
 				vertical
 				gap={20}
 			>
-				<Title className="m-0 p-0 text-center">{t("do_for_thai_msg")}</Title>
+				<Title className="m-0 p-0 ">{t("do_for_thai_msg")}</Title>
 
 				<ReactPlayer
 					controls
@@ -63,9 +63,7 @@ function GallerySection() {
 					<ReactPlayer controls url="https://youtu.be/m3RZ7FINbNo" />
 				</Flex>
 
-				<Title className="m-0 p-0 mt-5 pt-5 text-center ">
-					{t("root_in_usa_msg")}
-				</Title>
+				<Title className="m-0 p-0 mt-5 pt-5 ">{t("root_in_usa_msg")}</Title>
 				<Image.PreviewGroup className="d-inline-block">
 					<Card
 						style={{

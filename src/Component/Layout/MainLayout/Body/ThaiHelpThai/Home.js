@@ -9,6 +9,7 @@ import { imageAds, imageThaiHelpThaiBanner } from "../../../../../Asset/Asset";
 import { GUIDE_BOOK_PATH } from "../../../../../Util/ConstVar";
 import useGuideBookPost from "../../../../Hook/PostHook/useGuideBookPost";
 import FivePostSection from "../../../../Section/FivePostSection";
+import FlexPostSection from "../../../../Section/FlexPostSection";
 import GallerySection from "../../../../Section/GallerySection";
 
 /**
@@ -178,14 +179,46 @@ function Home() {
 		</Flex>
 	);
 
-	const PostListSection = () => <></>;
+	const PostListSection = () => (
+		<Flex
+			className="p-5 p-lg-5 w-100"
+			align="center"
+			vertical
+			style={{
+				background: "#ECEFFA",
+				paddingTop: "2rem",
+				minHeight: "20rem",
+			}}
+		>
+			<Flex
+				className="w-100 "
+				style={{
+					maxWidth: "110rem",
+				}}
+				vertical
+				gap={30}
+			>
+				<Title className="my-5">{t("thai_now_headline_msg")}</Title>
+				<FlexPostSection
+					items={guideBookItems}
+					justify="space-start"
+					cardStyle={{
+						margin: "2rem 0",
+					}}
+					bodyStyle={{
+						padding: "2rem",
+					}}
+				/>
+			</Flex>
+		</Flex>
+	);
 
 	const App = () => (
 		<>
 			<CarouselBanner />
 			<GuideBookSection />
-			<GallerySection />
 			<PostListSection />
+			<GallerySection background="white" />
 		</>
 	);
 	return <App />;

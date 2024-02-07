@@ -178,8 +178,10 @@ function GuideBookDashBoard() {
 				<FlexPostSection
 					items={postItems.slice(5)}
 					flexStyle={{
+						marginTop: "5rem",
 						minHeight: "10rem",
 					}}
+					// gap={postItems?.slice(5)?.length > 3 ? 40 : 80}
 				/>
 			</Flex>
 		</Flex>

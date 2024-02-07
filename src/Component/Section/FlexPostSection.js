@@ -17,13 +17,15 @@ function FlexPostSection(
 		cardStyle = {},
 		flexStyle = {},
 		wrap = "wrap",
-		justify = "space-between",
+		justify = "space-start",
 		className = "",
 		showSkeleton = false,
+		showEmpty = false,
 	},
 	ref
 ) {
 	const { t } = useTranslation();
+
 	return (
 		<Flex
 			wrap={wrap}
@@ -32,7 +34,7 @@ function FlexPostSection(
 			}}
 			justify={justify}
 			className={`w-100 ${className}`}
-			gap={40}
+			gap={items?.length > 3 ? 40 : 80}
 			ref={ref}
 		>
 			{items.map((i, index) => (
@@ -57,10 +59,12 @@ function FlexPostSection(
 							fallback={svgThaiNowLogoWithWords}
 						/>
 					}
-					bodyStyle={{
-						margin: 0,
-						padding: "1.5rem 0",
-						...bodyStyle,
+					styles={{
+						body: {
+							margin: 0,
+							padding: "1.5rem 0",
+							...bodyStyle,
+						},
 					}}
 				>
 					<Link
@@ -90,12 +94,24 @@ function FlexPostSection(
 				</Card>
 			))}
 
-			{items.length < 1 &&
+			{items?.length < 1 ? (
+				showSkeleton ? (
+					<Skeleton active />
+				) : showEmpty ? (
+					<Empty description={<span>{t("no_infor_msg")}</span>} />
+				) : (
+					<></>
+				)
+			) : (
+				<></>
+			)}
+
+			{/* {items.length < 1 &&
 				(showSkeleton ? (
 					<Skeleton active />
 				) : (
 					<Empty description={<span>{t("no_infor_msg")}</span>} />
-				))}
+				))} */}
 
 			<div></div>
 		</Flex>

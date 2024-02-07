@@ -163,6 +163,7 @@ function GuideBookDetail() {
 					<FlexPostSection
 						items={moreItems}
 						wrap=""
+						showEmpty={true}
 						bodyStyle={{
 							background: "#ECEFFA",
 							// padding: "1.5rem",
