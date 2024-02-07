@@ -16,7 +16,7 @@ import FlexPostSection from "../../../../Section/FlexPostSection";
 function GuideBookDashBoard() {
 	const { t } = useTranslation(["Default"]);
 	const contentMaxWidth = "100rem";
-	const { fetchGuideBookPosts, fetchGuideBookCategories } = useGuideBookPost();
+	const { fetchGuideBooks, fetchGuideBookCategories } = useGuideBookPost();
 	const [urlParams, setUrlParams] = useSearchParams();
 	const [activeCategory, setActiveCategory] = useState(
 		urlParams.get("category") || ""
@@ -25,7 +25,7 @@ function GuideBookDashBoard() {
 	const navigate = useNavigate();
 
 	const fetchPostHandle = (searchParams = {}) =>
-		fetchGuideBookPosts(searchParams).then((res) => {
+		fetchGuideBooks(searchParams).then((res) => {
 			const formattedItems =
 				res?.fetchResult?.reduce(
 					(res, i) => [

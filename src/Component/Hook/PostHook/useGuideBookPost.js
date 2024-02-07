@@ -1,4 +1,5 @@
 import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom";
 import {
 	svgBasicLivingIcon,
 	svgBusinessInvestmentIcon,
@@ -12,6 +13,7 @@ import {
 	svgTravelIcon,
 } from "../../../Asset/Asset";
 import {
+	createGuideBookAxios,
 	fetchGuideBookAxios,
 	fetchGuideBooksAxios,
 } from "../../../Axios/guideBookAxios";
@@ -19,14 +21,14 @@ import useMessage from "../MessageHook/useMessage";
 
 function useGuideBookPost() {
 	const { t } = useTranslation();
-	const { errorMessage } = useMessage();
-
+	const { successMessage, errorMessage } = useMessage();
+	const navigate = useNavigate();
 	/**
 	 *
 	 * @param {Object} requestParams {key: value}
 	 * @requestParamsKeyList profileId, requesterId, keywords, category, status,sortBy, sortByOrder, page, limit
 	 */
-	const fetchGuideBookPosts = async (requestParams = {}) => {
+	const fetchGuideBooks = async (requestParams = {}) => {
 		return fetchGuideBooksAxios(requestParams)
 			.then((res) => {
 				// return search result
@@ -123,12 +125,21 @@ function useGuideBookPost() {
 		];
 	};
 
-	const fetchGuideBookPost = (id) =>
+	const fetchGuideBook = (id) =>
 		fetchGuideBookAxios(id).catch((e) => errorMessage(e));
 
+	const createGuideBook = async (profileId, data = {}) => {
+		return createGuideBookAxios(profileId, data)
+			.then((id = null) =>
+				successMessage(`message_save_msg`).then(() => Promise.resolve(id))
+			)
+			.catch((e) => errorMessage(e));
+	};
+
 	return {
-		fetchGuideBookPosts,
-		fetchGuideBookPost,
+		createGuideBook,
+		fetchGuideBooks,
+		fetchGuideBook,
 		fetchGuideBookCategories,
 	};
 }

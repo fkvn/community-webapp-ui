@@ -1,4 +1,4 @@
-import { Card, Flex, Image, Skeleton } from "antd";
+import { Card, Empty, Flex, Image, Skeleton } from "antd";
 import Title from "antd/lib/typography/Title";
 import React from "react";
 import { useTranslation } from "react-i18next";
@@ -90,7 +90,12 @@ function FlexPostSection(
 				</Card>
 			))}
 
-			{showSkeleton && items.length < 1 && <Skeleton active />}
+			{items.length < 1 &&
+				(showSkeleton ? (
+					<Skeleton active />
+				) : (
+					<Empty description={<span>{t("no_infor_msg")}</span>} />
+				))}
 
 			<div></div>
 		</Flex>

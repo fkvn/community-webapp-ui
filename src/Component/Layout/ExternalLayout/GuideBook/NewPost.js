@@ -1,32 +1,38 @@
 import { Flex, Form } from "antd";
 import { useForm } from "antd/es/form/Form";
 import Title from "antd/lib/typography/Title";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { uploadFileAxios } from "../../../../Axios/utilAxios";
 import {
 	BANNER_URL_PROP,
 	CATEGORY_PROP,
 	DESCRIPTION_PROP,
+	GUIDE_BOOK_PATH,
 	GUIDE_BOOK_PROP,
 	TITLE_PROP,
 	USER_REDUCER,
 } from "../../../../Util/ConstVar";
-import { stripoutHTML } from "../../../../Util/Util";
 import Auth from "../../../Auth/Auth";
 import RTEFormControl from "../../../Form/RTEFormControl";
 import RadioFormControl from "../../../Form/RadioFormControl";
 import SubmitBtnFormControl from "../../../Form/SubmitBtnFormControl";
 import TextFormControl from "../../../Form/TextFormControl";
 import UploadImagesFormControl from "../../../Form/UploadImagesFormControl";
+import useMessage from "../../../Hook/MessageHook/useMessage";
 import useGuideBookPost from "../../../Hook/PostHook/useGuideBookPost";
 import FormPageHeader from "../../MainLayout/Header/FormPageHeader";
 
 function NewGuideBookPost() {
 	const { t } = useTranslation(["Form"]);
+	const { errorMessage } = useMessage();
 	const { profile } = useSelector((state) => state[`${USER_REDUCER}`]);
+	const navigate = useNavigate();
+	const [saving, setSaving] = useState(false);
 
-	const { fetchGuideBookCategories } = useGuideBookPost();
+	const { fetchGuideBookCategories, createGuideBook } = useGuideBookPost();
 	const [form] = useForm();
 	const newPostAuthorities = [
 		"ROLE_ADMIN",
@@ -35,10 +41,24 @@ function NewGuideBookPost() {
 		"GUIDEBOOK_CREATE",
 	];
 
+	const isUserAuthorizedCreateNewPost = () =>
+		(profile?.authorities || []).some((v) => newPostAuthorities.includes(v));
+
 	const handleUploadFile = (formData) => uploadFileAxios(formData);
 
-	const onFinish = (values) => {
-		console.log("Received values of form: ", values);
+	const onFinish = () => {
+		form
+			.validateFields()
+			.then(() => {
+				setSaving(true);
+				createGuideBook(profile?.id, form.getFieldsValue())
+					.then((id) => {
+						window.localStorage.removeItem("editor-content");
+						navigate(`${GUIDE_BOOK_PATH}/${id}`);
+					})
+					.finally(() => setSaving(false));
+			})
+			.catch(() => {});
 	};
 
 	const NewPortForm = () => (
@@ -123,7 +143,7 @@ function NewGuideBookPost() {
 					onUpdate={(editor) => {
 						form.setFieldValue(
 							[GUIDE_BOOK_PROP, DESCRIPTION_PROP],
-							stripoutHTML(editor?.getHTML())
+							editor?.getHTML()
 						);
 						form.validateFields([[GUIDE_BOOK_PROP, DESCRIPTION_PROP]]);
 					}}
@@ -131,6 +151,8 @@ function NewGuideBookPost() {
 
 				<Flex justify="center" className="w-100">
 					<SubmitBtnFormControl
+						loading={saving}
+						disabled={saving}
 						className="w-100"
 						btnProps={{
 							size: "large",
@@ -138,6 +160,7 @@ function NewGuideBookPost() {
 								padding: "1.5rem 5rem",
 							},
 						}}
+						onClick={onFinish}
 					/>
 				</Flex>
 			</Flex>
@@ -181,7 +204,11 @@ function NewGuideBookPost() {
 
 	return (
 		<Auth>
-			<App />
+			{isUserAuthorizedCreateNewPost ? (
+				<App />
+			) : (
+				errorMessage("message_access_denied_msg")
+			)}
 		</Auth>
 	);
 }

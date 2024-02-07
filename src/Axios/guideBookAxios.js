@@ -23,3 +23,9 @@ export const fetchGuideBookAxios = async (id = "") => {
 		.then(({ data }) => Promise.resolve(data))
 		.catch((e) => Promise.reject(e));
 };
+
+export const createGuideBookAxios = async (profileId, data = {}) =>
+	axios
+		.post(`/posts/guidebooks?profileId=${profileId}`, data)
+		.then(({ data }) => Promise.resolve(data))
+		.catch((e) => Promise.reject(e));

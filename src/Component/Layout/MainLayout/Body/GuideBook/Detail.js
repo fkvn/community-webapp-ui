@@ -1,5 +1,17 @@
-import { LeftCircleOutlined, RightCircleOutlined } from "@ant-design/icons";
-import { Button, Empty, Flex, Image, Skeleton } from "antd";
+import {
+	LeftCircleOutlined,
+	PlusOutlined,
+	RightCircleOutlined,
+} from "@ant-design/icons";
+import {
+	Button,
+	Carousel,
+	Empty,
+	Flex,
+	FloatButton,
+	Image,
+	Skeleton,
+} from "antd";
 import { Content } from "antd/lib/layout/layout";
 import Title from "antd/lib/typography/Title";
 import parse from "html-react-parser";
@@ -24,7 +36,7 @@ function GuideBookDetail() {
 	const contentMaxWidth = "100rem";
 	const { t } = useTranslation();
 	const navigate = useNavigate();
-	const { fetchGuideBookPost, fetchGuideBookPosts } = useGuideBookPost();
+	const { fetchGuideBook, fetchGuideBooks } = useGuideBookPost();
 	const { scrollContainer, scroll } = useHorizontalScroll();
 	const { id } = useParams();
 	const newPostAuthorities = [
@@ -73,31 +85,33 @@ function GuideBookDetail() {
 	};
 
 	const fetchItem = (id) =>
-		fetchGuideBookPost(id).then((res = {}) => {
+		fetchGuideBook(id).then((res = {}) => {
 			const formattedItem = formatItem(res);
 			setItem(formattedItem);
 			fetchMoreItem(res);
 		});
 
 	const fetchMoreItem = (rootItem = {}) =>
-		fetchGuideBookPosts({
+		fetchGuideBooks({
 			category: rootItem?.details?.category || "",
 		}).then((res = {}) => {
 			const formattedItem =
-				res?.fetchResult?.reduce(
-					(res, i) => [
-						...res,
-						{
-							category: i?.details?.category || "",
-							categoryKey: i?.details?.category || "",
-							categoryLinkTo: GUIDE_BOOK_PATH,
-							title: i?.details?.title || "",
-							cover: i?.details?.bannerUrl || "",
-							onClick: () => navigate(`${GUIDE_BOOK_PATH}/${i?.id}`),
-						},
-					],
-					[]
-				) || [];
+				res?.fetchResult
+					?.filter((p) => p?.id !== rootItem?.id)
+					?.reduce(
+						(res, i) => [
+							...res,
+							{
+								category: i?.details?.category || "",
+								categoryKey: i?.details?.category || "",
+								categoryLinkTo: GUIDE_BOOK_PATH,
+								title: i?.details?.title || "",
+								cover: i?.details?.bannerUrl || "",
+								onClick: () => navigate(`${GUIDE_BOOK_PATH}/${i?.id}`),
+							},
+						],
+						[]
+					) || [];
 			setMoreItems(formattedItem);
 		});
 
@@ -181,28 +195,42 @@ function GuideBookDetail() {
 
 			<Title className="c-primary-important">{item.title}</Title>
 
-			<Flex gap={20} align="center">
-				<Image
-					width={50}
-					src={item.owner.avatarUrl}
-					fallback={svgThaiNowLogoWithWords}
-					preview={false}
-				/>
-				<Title level={5}>
-					{item.owner.username}
-					<span
-						className="text-secondary"
-						style={{
-							fontSize: "0.8rem",
-						}}
-					>
-						{` - ${formatTime(item.updatedOn)}`}
-					</span>
-				</Title>
+			<Carousel autoplay>
+				<div>
+					<Image src={item.bannerUrl} fallback={svgThaiNowLogoWithWords} />
+				</div>
+			</Carousel>
+
+			<Flex justify="space-between" wrap="wrap">
+				<Flex
+					gap={20}
+					align="center"
+					style={{
+						maxWidth: "70%",
+					}}
+				>
+					<Image
+						width={50}
+						src={item.owner.avatarUrl}
+						fallback={svgThaiNowLogoWithWords}
+						preview={false}
+					/>
+					<Title level={5}>
+						{item.owner.username}
+						<span
+							className="text-secondary"
+							style={{
+								fontSize: "0.8rem",
+							}}
+						>
+							{` - ${formatTime(item.updatedOn)}`}
+						</span>
+					</Title>
+				</Flex>
 			</Flex>
 
 			<Content
-				className="my-5"
+				className="my-5 iframe-w-100"
 				style={{
 					minHeight: "30rem",
 				}}
@@ -214,6 +242,28 @@ function GuideBookDetail() {
 				)}
 			</Content>
 		</Flex>
+	);
+
+	const FloatBtnMenu = () => (
+		<FloatButton.Group shape="circle" style={{ right: "2rem" }}>
+			{isUserAuthorizedCreateNewPost() && (
+				<FloatButton
+					tooltip={t("new_post_msg")}
+					icon={<PlusOutlined />}
+					className="custom-center"
+					type="primary"
+					onClick={() => {
+						navigate(
+							`${GUIDE_BOOK_NEW_POST_PATH}?${REDIRECT_URI}=${GUIDE_BOOK_PATH.slice(
+								1
+							)}%2F${id}`
+						);
+					}}
+				/>
+			)}
+
+			<FloatButton.BackTop visibilityHeight={0} />
+		</FloatButton.Group>
 	);
 
 	const App = () => (
@@ -234,23 +284,14 @@ function GuideBookDetail() {
 				vertical
 				gap={30}
 			>
-				<Flex justify="space-between" align="center">
+				<Flex
+					justify="space-between"
+					align="center"
+					style={{
+						position: "sticky",
+					}}
+				>
 					<BreadcrumbContainer extra={true} extraCrumbs={extraCrumbs} />
-					{isUserAuthorizedCreateNewPost() && (
-						<Button
-							type="primary"
-							size="large"
-							onClick={() => {
-								navigate(
-									`${GUIDE_BOOK_NEW_POST_PATH}?${REDIRECT_URI}=${GUIDE_BOOK_PATH.slice(
-										1
-									)}%2F${id}`
-								);
-							}}
-						>
-							New Post
-						</Button>
-					)}
 				</Flex>
 				{item?.id ? (
 					<>
@@ -266,6 +307,7 @@ function GuideBookDetail() {
 				)}
 			</Flex>
 			<MoreItemSection />
+			<FloatBtnMenu />
 		</Flex>
 	);
 	return <App />;
