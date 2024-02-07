@@ -1,6 +1,7 @@
 import CharacterCount from "@tiptap/extension-character-count";
 import Highlight from "@tiptap/extension-highlight";
 import Image from "@tiptap/extension-image";
+import Link from "@tiptap/extension-link";
 import TaskItem from "@tiptap/extension-task-item";
 import TaskList from "@tiptap/extension-task-list";
 import Youtube from "@tiptap/extension-youtube";
@@ -29,6 +30,10 @@ function RTE({ defaultContent = "", onUpdate = () => {} }) {
 			Youtube.configure({
 				controls: true,
 				allowFullscreen: true,
+			}),
+			Link.configure({
+				openOnClick: true,
+				autolink: true,
 			}),
 		],
 		content:
