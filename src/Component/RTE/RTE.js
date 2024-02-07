@@ -3,6 +3,7 @@ import Highlight from "@tiptap/extension-highlight";
 import Image from "@tiptap/extension-image";
 import TaskItem from "@tiptap/extension-task-item";
 import TaskList from "@tiptap/extension-task-list";
+import Youtube from "@tiptap/extension-youtube";
 import { EditorContent, useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import { Divider } from "antd";
@@ -25,20 +26,22 @@ function RTE({ defaultContent = "", onUpdate = () => {} }) {
 			CharacterCount.configure({
 				limit: 10000,
 			}),
+			Youtube.configure({
+				controls: true,
+				allowFullscreen: true,
+			}),
 		],
 		content:
-			defaultContent ||
-			window.localStorage.getItem("editor-content") ||
-			`<p></p>`,
+			defaultContent || window.localStorage.getItem("editor-content") || "",
 		onUpdate: ({ editor }) => {
 			window.localStorage.setItem("editor-content", editor.getHTML());
 
 			// this is to call a custom update event when the content is updated
-			onUpdate(editor);
+			onUpdate && onUpdate(editor);
 		},
 		onCreate({ editor }) {
 			// this is to call a custom update event when we have the defaultContent
-			onUpdate(editor);
+			onUpdate && onUpdate(editor);
 		},
 	});
 

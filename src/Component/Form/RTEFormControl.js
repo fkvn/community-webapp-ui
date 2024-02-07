@@ -8,11 +8,10 @@ function RTEFormControl({
 	label = "",
 	labelProp = {},
 	itemProps = {},
-	required = true,
+	required = false,
 	showLabel = true,
 	defaultContent = "",
 	onUpdate = () => {},
-	onCreate = () => {},
 	rteProps = {},
 }) {
 	const { t } = useTranslation(["Form"]);
@@ -20,6 +19,9 @@ function RTEFormControl({
 		<Form.Item
 			name={itemName}
 			className="m-0 w-100"
+			style={{
+				marginBottom: "2rem !important",
+			}}
 			rules={[
 				{
 					required: required,
@@ -35,12 +37,7 @@ function RTEFormControl({
 			})}
 			{...itemProps}
 		>
-			<RTE
-				onCreate={onCreate}
-				defaultContent={defaultContent}
-				onUpdate={onUpdate}
-				{...rteProps}
-			/>
+			<RTE defaultContent={defaultContent} onUpdate={onUpdate} {...rteProps} />
 		</Form.Item>
 	);
 	return <App />;

@@ -160,3 +160,6 @@ export const formatTime = (time = "") => {
 		return month + "/" + date + "/" + year;
 	}
 };
+
+export const stripoutHTML = (str = "") =>
+	str?.replace(/(<([^>]+)>)/gi, "") || "";

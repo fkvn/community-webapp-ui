@@ -19,8 +19,9 @@ import {
 	RiText,
 	RiTextWrap,
 } from "@remixicon/react";
-import { Flex } from "antd";
+import { Flex, Image } from "antd";
 import { Fragment } from "react";
+import { svgYoutubeLogo } from "../../Asset/Asset";
 import { uploadFileAxios } from "../../Axios/utilAxios";
 import UploadImage from "../Upload/UploadImage";
 import MenuItem from "./MenuItem";
@@ -155,6 +156,19 @@ function MenuBar({ editor }) {
 				/>
 			),
 			title: "Add Image",
+		},
+		{
+			icon: <Image src={svgYoutubeLogo} width={22} preview={false} />,
+			title: "Clear Format",
+			action: () => {
+				const url = prompt("Enter YouTube URL");
+
+				if (url) {
+					editor.commands.setYoutubeVideo({
+						src: url,
+					});
+				}
+			},
 		},
 	];
 

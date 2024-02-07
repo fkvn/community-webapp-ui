@@ -21,7 +21,7 @@ function SubmitBtnFormControl({
 				className={`my-2 bg-customRed custom-center ${className}`}
 				style={{
 					fontSize: "1rem",
-					padding: ".6rem",
+					padding: "1rem 2rem",
 					borderRadius: ".5rem",
 					...style,
 				}}
