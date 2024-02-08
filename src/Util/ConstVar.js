@@ -155,7 +155,7 @@ export const SWITCH_PROFILE_PATH = "/switch-profiles";
 export const FORGOT_PASSWORD_PATH = "/forgot-password";
 export const SIGN_UP_PATH = "/signup";
 export const MY_PROFILE_PATH = "/my-profile";
-export const HELP_CENTER_PATH = "/helpcenter";
+export const HELP_CENTER_PATH = "/help-center";
 export const GUIDE_BOOK_PATH = "/guidebook";
 export const GUIDE_BOOK_NEW_POST_PATH = "/guidebook/new-post";
 

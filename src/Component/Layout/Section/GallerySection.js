@@ -12,7 +12,7 @@ import {
 	imageThaiNow7,
 	imageThaiNow8,
 	svgThaiNowLogoWithWords,
-} from "../../Asset/Asset";
+} from "../../../Asset/Asset";
 
 function GallerySection({ background = "#ECEFFA" }) {
 	const { t } = useTranslation();

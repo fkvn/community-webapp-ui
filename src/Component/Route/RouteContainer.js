@@ -33,9 +33,21 @@ function RouteContainer() {
 			children: [
 				// Outlet Body
 				{ index: true, Component: Home },
-				{ path: MY_PROFILE_PATH.slice(1), Component: MyProfile },
 				{
-					path: HELP_CENTER_PATH.slice(1),
+					path: MY_PROFILE_PATH,
+					Component: MyProfile,
+					handle: {
+						// you can put whatever you want on a route handle
+						// here we use "crumb" and return some elements,
+						// this is what we'll render in the breadcrumbs
+						// for this route
+						crumb: () => {
+							return { path: MY_PROFILE_PATH, title: t("my_profile_msg") };
+						},
+					},
+				},
+				{
+					path: HELP_CENTER_PATH,
 					Component: HelpCenter,
 					handle: {
 						// you can put whatever you want on a route handle
@@ -48,7 +60,7 @@ function RouteContainer() {
 					},
 				},
 				{
-					path: GUIDE_BOOK_PATH.slice(1),
+					path: GUIDE_BOOK_PATH,
 					Component: GuideBookRoute,
 					handle: {
 						crumb: () => {

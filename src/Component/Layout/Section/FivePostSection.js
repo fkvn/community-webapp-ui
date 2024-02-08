@@ -2,7 +2,7 @@ import { Card, Flex, Image, Skeleton } from "antd";
 import Title from "antd/lib/typography/Title";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
-import { svgThaiNowLogoWithWords } from "../../Asset/Asset";
+import { svgThaiNowLogoWithWords } from "../../../Asset/Asset";
 
 /**
  *

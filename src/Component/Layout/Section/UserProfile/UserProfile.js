@@ -11,21 +11,21 @@ import {
 	PROFILE_AVATAR_PROP,
 	REGION_PROP,
 	USERNAME_PROP,
-} from "../../Util/ConstVar";
-import CheckboxFormControl from "../Form/CheckboxFormControl";
-import EmailFormControl from "../Form/EmailFormControl";
-import PhoneFormControl from "../Form/PhoneFormControl";
-import SubmitBtnFormControl from "../Form/SubmitBtnFormControl";
-import TextFormControl from "../Form/TextFormControl";
-import ImageFrame from "../ImageFrame/ImageFrame";
-import UploadImageBtn from "../Upload/UploadImageBtn";
+} from "../../../../Util/ConstVar";
+import CheckboxFormControl from "../../../Form/CheckboxFormControl";
+import EmailFormControl from "../../../Form/EmailFormControl";
+import PhoneFormControl from "../../../Form/PhoneFormControl";
+import SubmitBtnFormControl from "../../../Form/SubmitBtnFormControl";
+import TextFormControl from "../../../Form/TextFormControl";
+import ImageFrame from "../../../ImageFrame/ImageFrame";
+import UploadImageBtn from "../../../Upload/UploadImageBtn";
 
-function MyProfile({
+function UserProfile({
 	profile = {},
 	changeProfileAvatar = async (_id, _formData) => {},
 	updateProfile = async (_id, _formData) => {},
 }) {
-	const { t } = useTranslation(["Default"]);
+	const { t } = useTranslation(["Default", "Form"]);
 	const [form] = useForm();
 
 	const {
@@ -212,7 +212,7 @@ function MyProfile({
 				<ProfilePhone />
 
 				<SubmitBtnFormControl
-					title="Save"
+					title={t("form_submit_msg", { ns: "Form" })}
 					className="mt-5"
 					style={{
 						maxWidth: 400,
@@ -233,4 +233,4 @@ function MyProfile({
 	return <App />;
 }
 
-export default MyProfile;
+export default UserProfile;

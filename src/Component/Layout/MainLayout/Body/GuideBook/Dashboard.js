@@ -10,8 +10,8 @@ import {
 } from "../../../../../Util/Util";
 import BreadcrumbContainer from "../../../../Breadcrumb/BreadcrumbContainer";
 import useGuideBookPost from "../../../../Hook/PostHook/useGuideBookPost";
-import FivePostSection from "../../../../Section/FivePostSection";
-import FlexPostSection from "../../../../Section/FlexPostSection";
+import FivePostSection from "../../../Section/FivePostSection";
+import FlexPostSection from "../../../Section/FlexPostSection";
 
 function GuideBookDashBoard() {
 	const { t } = useTranslation(["Default"]);

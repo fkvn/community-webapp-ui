@@ -30,7 +30,7 @@ import { formatTime } from "../../../../../Util/Util";
 import BreadcrumbContainer from "../../../../Breadcrumb/BreadcrumbContainer";
 import useGuideBookPost from "../../../../Hook/PostHook/useGuideBookPost";
 import useHorizontalScroll from "../../../../Hook/useHorizontalScroll";
-import FlexPostSection from "../../../../Section/FlexPostSection";
+import FlexPostSection from "../../../Section/FlexPostSection";
 
 function GuideBookDetail() {
 	const contentMaxWidth = "100rem";

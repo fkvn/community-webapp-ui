@@ -1,51 +1,33 @@
 import { LockOutlined, UserOutlined } from "@ant-design/icons";
-import { Breadcrumb, Col, Flex, Menu, Row } from "antd";
+import { Col, Flex, Menu, Row } from "antd";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { MY_PROFILE_PATH } from "../../../../Util/ConstVar";
 import Auth from "../../../Auth/Auth";
-import MyPasswordContainer from "../../../MyProfile/MyPasswordContainer";
-import MyProfileContainer from "../../../MyProfile/MyProfileContainer";
+import BreadcrumbContainer from "../../../Breadcrumb/BreadcrumbContainer";
+
+import NewPasswordContainer from "../../Section/NewPassword/NewPasswordContainer";
+import UserProfileContainer from "../../Section/UserProfile/UserProfileContainer";
 
 function MyProfile() {
-	const { t } = useTranslation(["Default"]);
-
-	const BreadcrumbNav = () => (
-		<Breadcrumb
-			items={[
-				{
-					title: t("home_msg"),
-					href: "/",
-					className: "text-primary text-decoration-none",
-				},
-				{
-					title: t("account_msg"),
-					href: MY_PROFILE_PATH,
-					className: "text-primary text-decoration-none",
-				},
-				{
-					title: t("my_profile_msg"),
-				},
-			]}
-		/>
-	);
+	const { t } = useTranslation(["Default", "Password"]);
 
 	const sideMenuKeys = {
 		myProfile: "my-profile",
 		myPassword: "password",
+		myPost: "post",
 	};
 
 	const [currentKey, setCurrentKey] = useState(sideMenuKeys.myProfile);
 
 	const sideMenuItems = [
 		{
-			label: "My Profile",
+			label: t("my_profile_msg"),
 			key: sideMenuKeys.myProfile,
 			icon: <UserOutlined />,
 			className: "my-4 bg-white",
 		},
 		{
-			label: "Password",
+			label: t("password_msg_new", { ns: "Password" }),
 			key: sideMenuKeys.myPassword,
 			icon: <LockOutlined />,
 			className: "my-4 bg-white",
@@ -78,8 +60,8 @@ function MyProfile() {
 				minHeight: 500,
 			}}
 		>
-			{currentKey === sideMenuKeys?.myProfile && <MyProfileContainer />}
-			{currentKey === sideMenuKeys?.myPassword && <MyPasswordContainer />}
+			{currentKey === sideMenuKeys?.myProfile && <UserProfileContainer />}
+			{currentKey === sideMenuKeys?.myPassword && <NewPasswordContainer />}
 
 			{/* this to render empty space if no key is found */}
 			<p></p>
@@ -92,7 +74,8 @@ function MyProfile() {
 				<Col xs={1} xxl={3}></Col>
 				<Col xs={22} xxl={18}>
 					<Flex gap="large" vertical>
-						<BreadcrumbNav />
+						<BreadcrumbContainer />
+						{/* <BreadcrumbNav /> */}
 						<Flex justify="flex-start" gap="large">
 							<SideMenu />
 							<Content />

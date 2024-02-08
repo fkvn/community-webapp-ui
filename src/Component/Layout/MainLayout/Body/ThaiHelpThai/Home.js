@@ -8,9 +8,9 @@ import { useNavigate } from "react-router-dom";
 import { imageAds, imageThaiHelpThaiBanner } from "../../../../../Asset/Asset";
 import { GUIDE_BOOK_PATH } from "../../../../../Util/ConstVar";
 import useGuideBookPost from "../../../../Hook/PostHook/useGuideBookPost";
-import FivePostSection from "../../../../Section/FivePostSection";
-import FlexPostSection from "../../../../Section/FlexPostSection";
-import GallerySection from "../../../../Section/GallerySection";
+import FivePostSection from "../../../Section/FivePostSection";
+import FlexPostSection from "../../../Section/FlexPostSection";
+import GallerySection from "../../../Section/GallerySection";
 
 /**
  *

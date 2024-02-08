@@ -2,16 +2,19 @@ import { Flex, Form, Typography } from "antd";
 import { useForm } from "antd/es/form/Form";
 import Title from "antd/lib/typography/Title";
 import { useTranslation } from "react-i18next";
-import { CURRENT_PASSWORD_PROP, PASSWORD_PROP } from "../../Util/ConstVar";
-import PasswordFormControl from "../Form/PasswordFormControl";
-import SubmitBtnFormControl from "../Form/SubmitBtnFormControl";
+import {
+	CURRENT_PASSWORD_PROP,
+	PASSWORD_PROP,
+} from "../../../../Util/ConstVar";
+import PasswordFormControl from "../../../Form/PasswordFormControl";
+import SubmitBtnFormControl from "../../../Form/SubmitBtnFormControl";
 
 /**
  *
  * @field credentials {PASSWORD_PROP, CURRENT_PASSWORD_PROP}
  * @returns
  */
-function MyPassword({
+function NewPassword({
 	changePassword = async (_accountId, _credentials) => {},
 }) {
 	const { t } = useTranslation(["Password"]);
@@ -108,4 +111,4 @@ function MyPassword({
 	return <App />;
 }
 
-export default MyPassword;
+export default NewPassword;

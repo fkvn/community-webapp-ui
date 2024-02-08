@@ -3,7 +3,7 @@ import Title from "antd/lib/typography/Title";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
-import { svgThaiNowLogoWithWords } from "../../Asset/Asset";
+import { svgThaiNowLogoWithWords } from "../../../Asset/Asset";
 
 /**
  *
