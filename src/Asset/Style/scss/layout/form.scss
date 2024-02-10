@@ -49,11 +49,11 @@
 		margin: 1rem 0;
 	}
 
-	&
-		.ant-upload-wrapper.ant-upload-picture-card-wrapper.w-100
-		.ant-upload.ant-upload-select {
-		width: 100%;
-		// height: 100%;
+	& .ant-upload-wrapper.ant-upload-picture-card-wrapper {
+		&.w-100 .ant-upload.ant-upload-select {
+			width: 100%;
+			height: 15rem;
+		}
 	}
 
 	&

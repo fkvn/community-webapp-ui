@@ -34,7 +34,7 @@ function RouteContainer() {
 				// Outlet Body
 				{ index: true, Component: Home },
 				{
-					path: MY_PROFILE_PATH,
+					path: `${MY_PROFILE_PATH}`,
 					Component: MyProfile,
 					handle: {
 						// you can put whatever you want on a route handle

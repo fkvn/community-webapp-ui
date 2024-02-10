@@ -29,7 +29,12 @@ function CheckboxFormControl({
 				]}
 				{...itemProps}
 			>
-				<Checkbox {...inputProps}>
+				<Checkbox
+					style={{
+						marginTop: ".7rem",
+					}}
+					{...inputProps}
+				>
 					{" "}
 					{showLabel && <span {...labelProp}>{label}</span>}
 				</Checkbox>

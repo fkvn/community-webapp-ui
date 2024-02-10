@@ -29,3 +29,9 @@ export const createGuideBookAxios = async (profileId, data = {}) =>
 		.post(`/posts/guidebooks?profileId=${profileId}`, data)
 		.then(({ data }) => Promise.resolve(data))
 		.catch((e) => Promise.reject(e));
+
+export const deleteGuideBookAxios = async (id, isHardDelete) =>
+	axios
+		.delete(`/posts/${id}?isHardDelete=${isHardDelete || false}`)
+		.then(() => Promise.resolve())
+		.catch((e) => Promise.reject(e));

@@ -93,7 +93,7 @@ function UserProfile({
 				<CheckboxFormControl
 					itemProps={{
 						itemName: "",
-						label: t("public_msg"),
+						label: t("allow_public_msg"),
 					}}
 					inputProps={{
 						disabled: true,
@@ -122,7 +122,7 @@ function UserProfile({
 				<CheckboxFormControl
 					itemProps={{
 						itemName: IS_EMAIL_PUBLIC_PROP,
-						label: t("public_msg"),
+						label: t("allow_public_msg"),
 					}}
 				/>
 			}
@@ -185,7 +185,7 @@ function UserProfile({
 				<CheckboxFormControl
 					itemProps={{
 						itemName: IS_PHONE_PUBLIC_PROP,
-						label: t("public_msg"),
+						label: t("allow_public_msg"),
 					}}
 				/>
 			}

@@ -1,6 +1,6 @@
 import axios from "./axios";
 
-export const uploadFileAxios = (formData = new FormData(), config = {}) =>
+export const uploadFileAxios = async (formData = new FormData(), config = {}) =>
 	axios
 		.post(`/storages`, formData, {
 			headers: {
@@ -11,7 +11,7 @@ export const uploadFileAxios = (formData = new FormData(), config = {}) =>
 		.then(({ data }) => Promise.resolve(data))
 		.catch((e) => Promise.reject(e));
 
-export const emailContactAxios = (
+export const emailContactAxios = async (
 	request = { _recipient: "", _subject: "", _msgBody: "" }
 ) =>
 	axios

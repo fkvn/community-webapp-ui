@@ -5,19 +5,30 @@ import { useTranslation } from "react-i18next";
 import Auth from "../../../Auth/Auth";
 import BreadcrumbContainer from "../../../Breadcrumb/BreadcrumbContainer";
 
+import { RiNewspaperLine } from "@remixicon/react";
+import { useSearchParams } from "react-router-dom";
 import NewPasswordContainer from "../../Section/NewPassword/NewPasswordContainer";
+import GBPostTable from "../../Section/PostTable/GBPostTable";
 import UserProfileContainer from "../../Section/UserProfile/UserProfileContainer";
 
 function MyProfile() {
 	const { t } = useTranslation(["Default", "Password"]);
 
+	const [params, setParams] = useSearchParams();
+
 	const sideMenuKeys = {
-		myProfile: "my-profile",
+		myProfile: "profile",
 		myPassword: "password",
 		myPost: "post",
 	};
 
-	const [currentKey, setCurrentKey] = useState(sideMenuKeys.myProfile);
+	const [currentKey, setCurrentKey] = useState(
+		Object.keys(sideMenuKeys).filter(
+			(f) => sideMenuKeys[f] === params.get("menu")
+		).length > 0
+			? params.get("menu")
+			: sideMenuKeys.myProfile || ""
+	);
 
 	const sideMenuItems = [
 		{
@@ -32,9 +43,17 @@ function MyProfile() {
 			icon: <LockOutlined />,
 			className: "my-4 bg-white",
 		},
+		{
+			label: t("post_msg_other"),
+			key: sideMenuKeys.myPost,
+			icon: <RiNewspaperLine size={20} />,
+			className: "my-4 bg-white custom-center-left",
+		},
 	];
 
 	const onSideMenuSelectHandle = ({ key = sideMenuKeys.myProfile }) => {
+		params.set("menu", key);
+		setParams(params);
 		setCurrentKey(key);
 	};
 
@@ -57,11 +76,13 @@ function MyProfile() {
 			vertical
 			className="bg-white w-100 p-4"
 			style={{
-				minHeight: 500,
+				overflow: "auto",
+				minHeight: "500px",
 			}}
 		>
 			{currentKey === sideMenuKeys?.myProfile && <UserProfileContainer />}
 			{currentKey === sideMenuKeys?.myPassword && <NewPasswordContainer />}
+			{currentKey === sideMenuKeys?.myPost && <GBPostTable />}
 
 			{/* this to render empty space if no key is found */}
 			<p></p>
@@ -70,19 +91,18 @@ function MyProfile() {
 
 	const App = () => (
 		<Auth>
-			<Row className="p-4">
-				<Col xs={1} xxl={3}></Col>
-				<Col xs={22} xxl={18}>
+			<Row className="p-4" style={{ marginTop: "2rem", marginBottom: "5rem" }}>
+				<Col xs={1} xxl={1}></Col>
+				<Col xs={22} xxl={22}>
 					<Flex gap="large" vertical>
 						<BreadcrumbContainer />
-						{/* <BreadcrumbNav /> */}
 						<Flex justify="flex-start" gap="large">
 							<SideMenu />
 							<Content />
 						</Flex>
 					</Flex>
 				</Col>
-				<Col xs={1} xxl={3}></Col>
+				<Col xs={1} xxl={1}></Col>
 			</Row>
 		</Auth>
 	);

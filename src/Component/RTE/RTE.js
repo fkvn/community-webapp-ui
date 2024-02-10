@@ -51,7 +51,12 @@ function RTE({ defaultContent = "", onUpdate = () => {} }) {
 	});
 
 	return (
-		<div className=" py-2 px-4 editor rounded-3">
+		<div
+			className=" py-2 px-4 editor rounded-3"
+			style={{
+				minHeight: "20rem",
+			}}
+		>
 			{editor && <MenuBar editor={editor} />}
 			<Divider className="my-2 mx-0" />
 			<EditorContent editor={editor} className="py-3" />

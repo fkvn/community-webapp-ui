@@ -169,3 +169,8 @@ ul.ant-rate li {
 .ant-layout-header {
 	height: auto;
 }
+
+.ant-popconfirm-buttons:has(> .flex-end) {
+	display: flex;
+	justify-content: flex-end;
+}

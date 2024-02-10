@@ -196,9 +196,16 @@ function GuideBookDetail() {
 
 			<Title className="c-primary-important">{item.title}</Title>
 
-			<Carousel autoplay>
-				<div>
-					<Image src={item.bannerUrl} fallback={svgThaiNowLogoWithWords} />
+			<Carousel autoplay className="w-100">
+				<div className="w-100">
+					<Image
+						width={"100%"}
+						style={{
+							maxHeight: "40rem",
+						}}
+						src={item.bannerUrl}
+						fallback={svgThaiNowLogoWithWords}
+					/>
 				</div>
 			</Carousel>
 

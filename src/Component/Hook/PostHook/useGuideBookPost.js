@@ -34,7 +34,10 @@ function useGuideBookPost() {
 				// return search result
 				return res;
 			})
-			.catch((e) => errorMessage(e));
+			.catch((e) => {
+				console.log("error");
+				errorMessage(e);
+			});
 	};
 
 	const fetchGuideBookCategories = () => {

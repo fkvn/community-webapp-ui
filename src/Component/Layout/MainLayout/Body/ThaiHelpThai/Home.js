@@ -1,5 +1,5 @@
 import { RightOutlined } from "@ant-design/icons";
-import { Button, Card, Carousel, Flex } from "antd";
+import { Button, Card, Carousel, Flex, Skeleton } from "antd";
 import Link from "antd/es/typography/Link";
 import Title from "antd/es/typography/Title";
 import { useEffect, useState } from "react";
@@ -199,16 +199,20 @@ function Home() {
 				gap={30}
 			>
 				<Title className="my-5">{t("thai_now_headline_msg")}</Title>
-				<FlexPostSection
-					items={guideBookItems}
-					justify="space-start"
-					cardStyle={{
-						margin: "2rem 0",
-					}}
-					bodyStyle={{
-						padding: "2rem",
-					}}
-				/>
+				{guideBookItems.length > 0 ? (
+					<FlexPostSection
+						items={guideBookItems}
+						justify="space-start"
+						cardStyle={{
+							margin: "2rem 0",
+						}}
+						bodyStyle={{
+							padding: "2rem",
+						}}
+					/>
+				) : (
+					<Skeleton active />
+				)}
 			</Flex>
 		</Flex>
 	);
