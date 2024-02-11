@@ -2,14 +2,14 @@ import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import useAuth from "../Hook/AuthHook/useAuth";
 
-function Auth({ customRedirectUri = "", children }) {
+function Auth({ throwError = true, customRedirectUri = "", children }) {
 	const [authorized, setAuthorized] = useState(false);
 	const { auth } = useAuth();
 	const { pathname } = useLocation();
 	const redirectUri = customRedirectUri || pathname.slice(1);
 	useEffect(() => {
 		if (!authorized) {
-			auth(true, false, redirectUri).then(() => {
+			auth(throwError, false, redirectUri).then(() => {
 				setAuthorized(true);
 			});
 		}

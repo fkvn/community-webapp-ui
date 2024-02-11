@@ -1,7 +1,7 @@
-import { Col, Divider, Flex, Image, Row, Space, Typography } from "antd";
+import { Divider, Flex, Image, Typography } from "antd";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { svgLoginPic } from "../../../../Asset/Asset";
 import {
 	REDIRECT_URI,
@@ -21,7 +21,7 @@ function Signin() {
 	const { t } = useTranslation();
 
 	const { auth } = useAuth();
-	const [loading, setLoading] = useState(true);
+	const [notSignedIn, setNotSignedIn] = useState(false);
 
 	const Title = () => (
 		<Typography.Title
@@ -42,40 +42,30 @@ function Signin() {
 	);
 
 	const NoAccountMessage = () => (
-		<Row justify="center">
-			<Col>
-				<Space size={10} style={{ fontSize: "1rem" }}>
-					<div style={{ textTransform: "capitalize" }}>
-						{t("q_do_not_have_account_msg")}?
-					</div>
-					<Typography.Link
-						underline
-						onClick={() =>
-							navigate(
-								`${SIGN_UP_PATH}?${REDIRECT_URI}=${
-									redirectUri || SIGN_IN_PATH.slice(1)
-								}`
-							)
-						}
-						style={{ fontSize: "1rem", textTransform: "capitalize" }}
-					>
-						{t("register_now_msg")}
-					</Typography.Link>
-				</Space>
-			</Col>
-		</Row>
+		<Flex justify="center" gap={10}>
+			<Typography.Text
+				style={{ fontSize: "1rem", textTransform: "capitalize" }}
+			>
+				{t("q_do_not_have_account_msg")}?
+			</Typography.Text>
+			<Link
+				to={`${SIGN_UP_PATH}?${REDIRECT_URI}=${
+					redirectUri || SIGN_IN_PATH.slice(1)
+				}`}
+			>
+				{t("register_now_msg")}
+			</Link>
+		</Flex>
 	);
 
 	useEffect(() => {
-		if (loading) {
-			auth(false).catch(() => {
-				setLoading(false);
-			});
-		}
-	});
+		auth(false).catch(() => {
+			setNotSignedIn(true);
+		});
+	}, []);
 
 	const App = () =>
-		!loading && (
+		notSignedIn && (
 			<>
 				<FormPageHeader />
 				<Flex gap={100}>
@@ -113,46 +103,6 @@ function Signin() {
 						<TermAgreement />
 					</Flex>
 				</Flex>
-				{/* <Row>
-					<Col
-						xs={0}
-						lg={12}
-						style={{
-							backgroundImage: `url(${svgLoginPic})`,
-							backgroundRepeat: "no-repeat",
-							backgroundSize: "cover",
-							height: "100vh",
-						}}
-					/>
-					<Col xs={24} lg={12}>
-						<Flex justify="center" className="w-100">
-							<Flex
-								vertical
-								gap="large"
-								style={{
-									padding: "0 5rem",
-									paddingTop: "3rem",
-								}}
-							>
-								<Title />
-								<NoAccountMessage />
-								<Divider orientation="left">
-									<span style={{ textTransform: "capitalize" }}>
-										{t("continue_with_msg")}{" "}
-									</span>
-								</Divider>
-								<ThirdPartySignin />
-								<Divider>
-									<span style={{ textTransform: "uppercase" }}>
-										{t("or_msg")}
-									</span>
-								</Divider>
-								<ThaiNowSignin />
-								<TermAgreement />
-							</Flex>
-						</Flex>
-					</Col>
-				</Row> */}
 			</>
 		);
 
