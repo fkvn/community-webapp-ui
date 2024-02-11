@@ -1,7 +1,7 @@
 import { Divider, Flex, Image, Typography } from "antd";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Link, useNavigate, useSearchParams } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import { svgLoginPic } from "../../../../Asset/Asset";
 import {
 	REDIRECT_URI,
@@ -15,7 +15,6 @@ import useAuth from "../../../Hook/AuthHook/useAuth";
 import FormPageHeader from "../../MainLayout/Header/FormPageHeader";
 
 function Signin() {
-	const navigate = useNavigate();
 	const [params] = useSearchParams();
 	const redirectUri = params.get(REDIRECT_URI) || "";
 	const { t } = useTranslation();
