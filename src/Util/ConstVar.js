@@ -158,6 +158,7 @@ export const MY_PROFILE_PATH = "/my-profile";
 export const HELP_CENTER_PATH = "/help-center";
 export const GUIDE_BOOK_PATH = "/guidebook";
 export const GUIDE_BOOK_NEW_POST_PATH = "/guidebook/new-post";
+export const GUIDE_BOOK_EDIT_POST_PATH = "/guidebook/edit-post";
 
 export const GUIDE_BOOK_PROP = "guideBook";
 

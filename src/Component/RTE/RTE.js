@@ -16,6 +16,7 @@ import MenuBar from "./MenuBar";
  * @returns
  */
 function RTE({ defaultContent = "", onUpdate = () => {} }) {
+	console.log(defaultContent);
 	// define your extension array
 	const editor = useEditor({
 		extensions: [

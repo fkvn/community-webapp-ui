@@ -5,7 +5,11 @@ import Title from "antd/es/typography/Title";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
-import { imageAds, imageThaiHelpThaiBanner } from "../../../../../Asset/Asset";
+import {
+	imageAds,
+	imageThaiHelpThaiBanner,
+	svgThaiNowLogoWithWords,
+} from "../../../../../Asset/Asset";
 import { GUIDE_BOOK_PATH } from "../../../../../Util/ConstVar";
 import useGuideBookPost from "../../../../Hook/PostHook/useGuideBookPost";
 import FivePostSection from "../../../Section/FivePostSection";
@@ -63,7 +67,7 @@ function Home() {
 				<Flex
 					style={{
 						...carouselContentStyle,
-						backgroundImage: `linear-gradient(180deg, rgba(0, 0, 0, 0.16) 0%,rgba(0, 0, 0, 0.8) 100%), url(${imageThaiHelpThaiBanner})`,
+						backgroundImage: `linear-gradient(180deg, rgba(0, 0, 0, 0.16) 0%,rgba(0, 0, 0, 0.8) 100%), url(${imageThaiHelpThaiBanner || svgThaiNowLogoWithWords})`,
 						backgroundPosition: "center",
 						backgroundRepeat: "no-repeat",
 						backgroundColor: "#E9E9E9",
@@ -116,9 +120,11 @@ function Home() {
 						}}
 					/>
 				}
-				bodyStyle={{
-					margin: 0,
-					padding: "1.5rem 0",
+				styles={{
+					body: {
+						margin: 0,
+						padding: "1.5rem 0",
+					},
 				}}
 			>
 				<Link

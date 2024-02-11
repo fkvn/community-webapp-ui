@@ -146,8 +146,8 @@ function useAuth() {
 								`${SIGN_IN_PATH}?${REDIRECT_URI}=${
 									redirectUri || customRedirectUri
 								}`
-						  )
-			  )
+							)
+				)
 			: Promise.reject();
 	};
 

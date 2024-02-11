@@ -1,3 +1,4 @@
+import { GlobalOutlined } from "@ant-design/icons";
 import { Select } from "antd";
 import i18next from "i18next";
 import { getLanguageTitle } from "../../Util/Util";
@@ -28,10 +29,19 @@ function SwitchLanguage({
 	const App = () => (
 		<Select
 			labelInValue
+			className="pt-1"
 			defaultValue={{
 				value: i18next.language,
 				label: getLanguageTitle(i18next.language),
 			}}
+			suffixIcon={
+				<GlobalOutlined
+					className="pt-1"
+					style={{
+						pointerEvents: "none",
+					}}
+				/>
+			}
 			style={{
 				maxWidth: "10rem",
 				...style,

@@ -3,6 +3,7 @@ import { RouterProvider, createBrowserRouter } from "react-router-dom";
 
 import {
 	FORGOT_PASSWORD_PATH,
+	GUIDE_BOOK_EDIT_POST_PATH,
 	GUIDE_BOOK_NEW_POST_PATH,
 	GUIDE_BOOK_PATH,
 	HELP_CENTER_PATH,
@@ -13,6 +14,7 @@ import {
 import ForgotPasswordContainer from "../Layout/ExternalLayout/Auth/Password/ForgotPasswordContainer";
 import Signin from "../Layout/ExternalLayout/Auth/Signin";
 import Signup from "../Layout/ExternalLayout/Auth/Signup";
+import EditGuideBookPost from "../Layout/ExternalLayout/GuideBook/EditPost";
 import NewGuideBookPost from "../Layout/ExternalLayout/GuideBook/NewPost";
 import GuideBookDashBoard from "../Layout/MainLayout/Body/GuideBook/Dashboard";
 import GuideBookDetail from "../Layout/MainLayout/Body/GuideBook/Detail";
@@ -86,6 +88,7 @@ function RouteContainer() {
 		{ path: SIGN_IN_PATH, Component: Signin },
 		{ path: FORGOT_PASSWORD_PATH, Component: ForgotPasswordContainer },
 		{ path: GUIDE_BOOK_NEW_POST_PATH, Component: NewGuideBookPost },
+		{ path: `${GUIDE_BOOK_EDIT_POST_PATH}/:id`, Component: EditGuideBookPost },
 		{ path: "*", Component: NotFound },
 	]);
 

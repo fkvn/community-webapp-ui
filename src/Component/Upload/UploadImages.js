@@ -3,6 +3,7 @@ import { Image, Modal, Typography, Upload } from "antd";
 import ImgCrop from "antd-img-crop";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
+import useMessage from "../Hook/MessageHook/useMessage";
 
 const getBase64 = (file) =>
 	new Promise((resolve, reject) => {
@@ -38,6 +39,7 @@ function UploadImages({
 }) {
 	const { t } = useTranslation(["Form"]);
 	const [fileList, setFileList] = useState(defaultFileList || []);
+	const { errorMessage } = useMessage();
 	const [preview, setPreview] = useState({
 		open: false,
 		url: "",
@@ -58,10 +60,43 @@ function UploadImages({
 		});
 	};
 
-	// using for onChange event when not using customRequest
-	// const handleChange = ({ fileList: newFileList }) => {
-	// 	setFileList(newFileList);
-	// };
+	/** DON'T DELETE THIS COMMENT
+	 * 
+	 * using for onChange event when not using customRequest
+	    const handleChange = ({ fileList: newFileList }) => {
+	  	setFileList(newFileList);
+		 };
+	 * 
+	 */
+
+	const isValidImage = (file) => {
+		const isJpgOrPng =
+			file.type === "image/jpg" ||
+			file.type === "image/jpeg" ||
+			file.type === "image/png";
+
+		if (!isJpgOrPng) {
+			errorMessage("message_only_image_msg").then(() => {
+				return;
+			});
+		}
+
+		const isLt10M = file.size / 1024 / 1024 < 10;
+
+		if (!isLt10M) {
+			errorMessage(`message_image_invalid_size_msg-{}-{"value": "10MB"}`).then(
+				() => {
+					return;
+				}
+			);
+		}
+
+		return isJpgOrPng && isLt10M;
+	};
+
+	const beforeUpload = (file) => {
+		return isValidImage(file);
+	};
 
 	const Preview = () => (
 		<Modal
@@ -91,6 +126,7 @@ function UploadImages({
 		multiple: multiple,
 		listType: listType,
 		fileList: fileList,
+		beforeUpload: beforeUpload,
 		// onChange: handleChange,
 		// if customRequest, don't enable the onChange func
 		customRequest: ({ file }) => {

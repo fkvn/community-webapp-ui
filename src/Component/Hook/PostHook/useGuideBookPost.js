@@ -16,6 +16,7 @@ import {
 	createGuideBookAxios,
 	fetchGuideBookAxios,
 	fetchGuideBooksAxios,
+	patchGuideBookAxios,
 } from "../../../Axios/guideBookAxios";
 import useMessage from "../MessageHook/useMessage";
 
@@ -138,11 +139,19 @@ function useGuideBookPost() {
 			)
 			.catch((e) => errorMessage(e));
 	};
+	const patchGuideBook = async (id, profileId, data = {}) => {
+		return patchGuideBookAxios(id, profileId, data)
+			.then((id = null) =>
+				successMessage(`message_save_msg`).then(() => Promise.resolve(id))
+			)
+			.catch((e) => errorMessage(e));
+	};
 
 	return {
 		createGuideBook,
 		fetchGuideBooks,
 		fetchGuideBook,
+		patchGuideBook,
 		fetchGuideBookCategories,
 	};
 }

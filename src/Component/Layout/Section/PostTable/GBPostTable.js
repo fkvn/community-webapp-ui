@@ -1,19 +1,36 @@
 import { SearchOutlined } from "@ant-design/icons";
 import { RiDeleteBin6Line, RiEdit2Line } from "@remixicon/react";
-import { Button, Flex, Input, Popconfirm, Table, Tag, Typography } from "antd";
+import {
+	Button,
+	Flex,
+	Input,
+	Popconfirm,
+	Table,
+	Tag,
+	Tooltip,
+	Typography,
+} from "antd";
+import Title from "antd/lib/typography/Title";
 import React, { useEffect, useRef, useState } from "react";
 import { Trans, useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { deleteGuideBookAxios } from "../../../../Axios/guideBookAxios";
-import { GUIDE_BOOK_PATH, USER_REDUCER } from "../../../../Util/ConstVar";
+import {
+	GUIDE_BOOK_EDIT_POST_PATH,
+	GUIDE_BOOK_NEW_POST_PATH,
+	GUIDE_BOOK_PATH,
+	MY_PROFILE_PATH,
+	REDIRECT_URI,
+	USER_REDUCER,
+} from "../../../../Util/ConstVar";
 import { formatString, formatTime } from "../../../../Util/Util";
 import useGuideBookPost from "../../../Hook/PostHook/useGuideBookPost";
 
 const GBPostTable = () => {
 	const { profile } = useSelector((state) => state[`${USER_REDUCER}`]);
-
-	const { fetchGuideBooks } = useGuideBookPost();
+	const navigate = useNavigate();
+	const { fetchGuideBooks, fetchGuideBookCategories } = useGuideBookPost();
 	const { t } = useTranslation(["Default", "Form"]);
 	const [data, setData] = useState();
 	const [loading, setLoading] = useState(false);
@@ -33,19 +50,17 @@ const GBPostTable = () => {
 		},
 	});
 
+	const categoryList = fetchGuideBookCategories();
+
 	const searchInput = useRef(null);
 
 	const handleSearch = (selectedKeys, dataIndex) => {
 		if (dataIndex === "details.title") {
 			const keywords = selectedKeys?.[0];
 			fetchData(
-				getParams(
-					tableParams?.pagination,
-					{
-						[`details.title`]: keywords,
-					},
-					{ ...tableParams?.sorter, field: "title", order: "descend" }
-				)
+				getParams(tableParams?.pagination, {
+					[`details.title`]: keywords,
+				})
 			);
 		}
 	};
@@ -174,6 +189,36 @@ const GBPostTable = () => {
 			),
 		},
 		{
+			title: t("form_category_msg", { ns: "Form" }),
+			dataIndex: ["details", "category"] || "",
+			render: (category) => {
+				const { title, color } = categoryList.filter(
+					(v) => v.key === category
+				)?.[0];
+
+				return (
+					<span
+						style={{
+							color: color || "black",
+						}}
+					>
+						{formatString(title, "sentencecase")}
+					</span>
+				);
+			},
+			width: "18%",
+			filters: categoryList.map((v) => {
+				return {
+					...v,
+					text: v?.title,
+					value: v?.key,
+				};
+			}),
+			filterMultiple: false,
+			sorter: true,
+			ellipsis: true,
+		},
+		{
 			title: t("form_status_msg", { ns: "Form" }),
 			dataIndex: "status" || "",
 			render: (status) => (
@@ -188,7 +233,10 @@ const GBPostTable = () => {
 									: "text-dark"
 					}`}
 				>
-					{formatString(status, "sentencecase")}
+					{formatString(
+						t(`${status?.toLowerCase()}_msg`) || status || "",
+						"sentencecase"
+					)}
 				</span>
 			),
 
@@ -202,15 +250,17 @@ const GBPostTable = () => {
 					value: "PRIVATE",
 				},
 			],
-			width: "20%",
+			width: "12%",
+			ellipsis: true,
 		},
 		{
 			title: t("updated_on_msg"),
 			dataIndex: "updatedOn" || "",
 			render: (date) => formatTime(date),
-			width: "20%",
+			width: "14%",
 			sorter: true,
 			defaultSortOrder: "descend",
+			ellipsis: true,
 		},
 		{
 			title: "Action",
@@ -219,28 +269,19 @@ const GBPostTable = () => {
 			width: "12%",
 			render: (_, record) => (
 				<Flex gap={10}>
-					<Popconfirm
-						title={t("delete_record_msg")}
-						description={
-							<Typography.Text>
-								<Trans
-									i18nKey={"delete_record_confirm_msg"}
-									ns="Default"
-									components={{
-										danger: <div className="text-danger"></div>,
-									}}
-								/>
-							</Typography.Text>
+					<Button
+						type="default"
+						className="border-0"
+						onClick={() =>
+							navigate(
+								`${GUIDE_BOOK_EDIT_POST_PATH}/${record?.id}?redirectUri=${MY_PROFILE_PATH.slice(1)}?menu=post`
+							)
 						}
-						// onConfirm={confirm}
-						// onCancel={cancel}
-						okText={t("yes_msg")}
-						cancelText={t("no_msg")}
 					>
-						<Button type="default" className="border-0 ">
+						<Tooltip title={t("edit_record_msg")}>
 							<RiEdit2Line size={20} color="orange" />
-						</Button>
-					</Popconfirm>
+						</Tooltip>
+					</Button>
 					<Popconfirm
 						title={t("delete_record_msg")}
 						description={
@@ -265,7 +306,9 @@ const GBPostTable = () => {
 						okText={t("yes_msg")}
 					>
 						<Button type="default" className="border-0 ">
-							<RiDeleteBin6Line size={20} color="red" />
+							<Tooltip title={t("delete_record_msg")}>
+								<RiDeleteBin6Line size={20} color="red" />
+							</Tooltip>
 						</Button>
 					</Popconfirm>
 				</Flex>
@@ -279,6 +322,7 @@ const GBPostTable = () => {
 				limit: pagination?.pageSize,
 				title: filters?.[`details.title`]?.[0] || "",
 				page: pagination?.current,
+				category: filters?.[`details.category`]?.[0] || "",
 				status: filters?.status || [],
 				sortBy:
 					Array.isArray(sorter?.field) && sorter?.field?.length > 1
@@ -321,15 +365,41 @@ const GBPostTable = () => {
 		fetchData(getParams(pagination, filters, sorter));
 	};
 	return (
-		<Table
-			className="mh-30"
-			columns={columns}
-			rowKey={(record) => record.id}
-			dataSource={data}
-			pagination={tableParams.pagination}
-			loading={loading}
-			onChange={handleTableChange}
-		/>
+		<>
+			<Table
+				className="mh-30"
+				columns={columns}
+				title={() => {
+					return (
+						<Flex justify="space-between">
+							<Title level={2}>{t("post_msg_other")}</Title>
+							<Button
+								type="primary"
+								className="border-0"
+								onClick={() => {
+									navigate(
+										`${GUIDE_BOOK_NEW_POST_PATH}?${REDIRECT_URI}=${MY_PROFILE_PATH.slice(1)}?menu=post`
+									);
+								}}
+							>
+								{t("new_post_msg")}
+							</Button>
+						</Flex>
+					);
+				}}
+				locale={{
+					triggerAsc: t("trigger_asc_msg"),
+					triggerDesc: t("trigger_desc_msg"),
+					cancelSort: t("cancel_sort_msg"),
+					filterReset: t("form_reset_msg", { ns: "Form" }),
+				}}
+				rowKey={(record) => record.id}
+				dataSource={data}
+				pagination={tableParams.pagination}
+				loading={loading}
+				onChange={handleTableChange}
+			/>
+		</>
 	);
 };
 export default GBPostTable;

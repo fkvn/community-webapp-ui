@@ -1,5 +1,5 @@
 import { LogoutOutlined, UserOutlined } from "@ant-design/icons";
-import { Avatar, Button, Flex, Menu, Space } from "antd";
+import { Avatar, Button, Flex, Menu } from "antd";
 import { useTranslation } from "react-i18next";
 import { Link, useNavigate } from "react-router-dom";
 import { svgThaiNowLogoWithWords } from "../../../../Asset/Asset";
@@ -172,17 +172,17 @@ function Header({ profile = {}, signout = () => {}, isLogin = false }) {
 	const profileMenuItems = [
 		{
 			label: (
-				<Space align="center">
+				<Flex align="center" gap={10}>
 					<Avatar
 						size="small"
 						{...(avatarUrl
 							? {
 									src: <img src={avatarUrl} alt="avatar" />,
-							  }
+								}
 							: { icon: <UserOutlined /> })}
 					/>
 					{profile[`${USERNAME_PROP}`]}
-				</Space>
+				</Flex>
 			),
 			key: "profile-menu",
 			children: [

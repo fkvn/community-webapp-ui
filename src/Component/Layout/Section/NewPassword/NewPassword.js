@@ -91,7 +91,7 @@ function NewPassword({
 				/>
 
 				<SubmitBtnFormControl
-					title="Save"
+					title={t("form_save_msg", { ns: "Form" })}
 					className="mt-5"
 					style={{
 						maxWidth: 400,

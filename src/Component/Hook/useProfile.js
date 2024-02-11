@@ -69,7 +69,10 @@ function useProfile() {
 				};
 				localStorage.setItem(PROFILE_OBJ, JSON.stringify(storageProfile));
 
-				patchProfileInfo(profileDetail);
+				patchProfileInfo({
+					...storageProfile,
+					...profileDetail,
+				});
 
 				return Promise.resolve();
 			})

@@ -82,8 +82,8 @@ function FivePostSection({ items = [] }) {
 									items.length === 3 && index === 2
 										? "100"
 										: items.length <= 2
-										  ? "100"
-										  : "48"
+											? "100"
+											: "48"
 								}%`,
 								border: 0,
 							}}
@@ -101,9 +101,11 @@ function FivePostSection({ items = [] }) {
 									onClick={i?.onClick}
 								/>
 							}
-							bodyStyle={{
-								margin: 0,
-								padding: "1.5rem 0",
+							styles={{
+								body: {
+									margin: 0,
+									padding: "1.5rem 0",
+								},
 							}}
 						>
 							<Link
