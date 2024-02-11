@@ -1,4 +1,4 @@
-import { Col, Divider, Flex, Row, Space, Typography } from "antd";
+import { Col, Divider, Flex, Image, Row, Space, Typography } from "antd";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate, useSearchParams } from "react-router-dom";
@@ -27,10 +27,14 @@ function Signin() {
 		<Typography.Title
 			level={3}
 			className="text-center"
-			style={{ textTransform: "capitalize", minWidth: "30rem" }}
+			style={{
+				textTransform: "capitalize",
+				minWidth: "30rem",
+				fontSize: "1.5rem ",
+			}}
 		>
 			{t("signin_msg")}
-			<span className="px-2" style={{ color: "#E94833" }}>
+			<span className="px-2" style={{ fontSize: "1.5rem ", color: "#E94833" }}>
 				ThaiNow
 			</span>
 			{t("account_msg")}
@@ -74,7 +78,42 @@ function Signin() {
 		!loading && (
 			<>
 				<FormPageHeader />
-				<Row>
+				<Flex gap={100}>
+					<Image
+						src={svgLoginPic}
+						style={{
+							maxWidth: "45vw",
+							overflow: "hidden",
+							height: "100vh",
+							objectFit: "cover",
+						}}
+					/>
+					<Flex
+						vertical
+						className="m-5"
+						style={{
+							minWidth: "20rem",
+							padding: "0 5rem",
+							paddingTop: "3rem",
+						}}
+						gap={20}
+					>
+						<Title />
+						<NoAccountMessage />
+						<Divider orientation="left">
+							<span style={{ textTransform: "capitalize" }}>
+								{t("continue_with_msg")}{" "}
+							</span>
+						</Divider>
+						<ThirdPartySignin />
+						<Divider>
+							<span style={{ textTransform: "uppercase" }}>{t("or_msg")}</span>
+						</Divider>
+						<ThaiNowSignin />
+						<TermAgreement />
+					</Flex>
+				</Flex>
+				{/* <Row>
 					<Col
 						xs={0}
 						lg={12}
@@ -113,7 +152,7 @@ function Signin() {
 							</Flex>
 						</Flex>
 					</Col>
-				</Row>
+				</Row> */}
 			</>
 		);
 
