@@ -1,5 +1,5 @@
 import { LockOutlined, UserOutlined } from "@ant-design/icons";
-import { Col, Flex, Menu, Row } from "antd";
+import { Flex, Menu } from "antd";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import Auth from "../../../Auth/Auth";
@@ -13,7 +13,7 @@ import UserProfileContainer from "../../Section/UserProfile/UserProfileContainer
 
 function MyProfile() {
 	const { t } = useTranslation(["Default", "Password"]);
-
+	const contentMaxWidth = "90%";
 	const [params, setParams] = useSearchParams();
 
 	const sideMenuKeys = {
@@ -60,8 +60,7 @@ function MyProfile() {
 	const SideMenu = () => (
 		<Menu
 			style={{
-				minWidth: 250,
-				minHeight: 500,
+				minWidth: "20%",
 			}}
 			className="p-2"
 			mode="vertical"
@@ -74,10 +73,10 @@ function MyProfile() {
 	const Content = () => (
 		<Flex
 			vertical
-			className="bg-white w-100 p-4"
+			className="bg-white  py-4 px-5 "
 			style={{
+				minWidth: "80%",
 				overflow: "auto",
-				minHeight: "500px",
 			}}
 		>
 			{currentKey === sideMenuKeys?.myProfile && <UserProfileContainer />}
@@ -91,19 +90,29 @@ function MyProfile() {
 
 	const App = () => (
 		<Auth>
-			<Row className="p-4" style={{ marginTop: "2rem", marginBottom: "5rem" }}>
-				<Col xs={1} xxl={1}></Col>
-				<Col xs={22} xxl={22}>
-					<Flex gap="large" vertical>
-						<BreadcrumbContainer />
-						<Flex justify="flex-start" gap="large">
-							<SideMenu />
-							<Content />
-						</Flex>
+			<Flex align="center" className="py-5" vertical>
+				<Flex
+					className="w-100"
+					style={{
+						maxWidth: contentMaxWidth,
+					}}
+					vertical
+					gap={30}
+				>
+					<BreadcrumbContainer />
+					<Flex
+						justify="flex-start"
+						gap={50}
+						className="mb-5"
+						style={{
+							minHeight: "40rem",
+						}}
+					>
+						<SideMenu />
+						<Content />
 					</Flex>
-				</Col>
-				<Col xs={1} xxl={1}></Col>
-			</Row>
+				</Flex>
+			</Flex>
 		</Auth>
 	);
 	return <App />;

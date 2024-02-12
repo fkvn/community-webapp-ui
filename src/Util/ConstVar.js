@@ -159,6 +159,8 @@ export const HELP_CENTER_PATH = "/help-center";
 export const GUIDE_BOOK_PATH = "/guidebook";
 export const GUIDE_BOOK_NEW_POST_PATH = "/guidebook/new-post";
 export const GUIDE_BOOK_EDIT_POST_PATH = "/guidebook/edit-post";
+export const TERM_PATH = "/term-agreement";
+export const POLICY_PATH = "/policy";
 
 export const GUIDE_BOOK_PROP = "guideBook";
 

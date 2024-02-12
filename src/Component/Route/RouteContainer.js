@@ -1,6 +1,7 @@
 import { useTranslation } from "react-i18next";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 
+import { FloatButton } from "antd";
 import {
 	FORGOT_PASSWORD_PATH,
 	GUIDE_BOOK_EDIT_POST_PATH,
@@ -8,14 +9,18 @@ import {
 	GUIDE_BOOK_PATH,
 	HELP_CENTER_PATH,
 	MY_PROFILE_PATH,
+	POLICY_PATH,
 	SIGN_IN_PATH,
 	SIGN_UP_PATH,
+	TERM_PATH,
 } from "../../Util/ConstVar";
 import ForgotPasswordContainer from "../Layout/ExternalLayout/Auth/Password/ForgotPasswordContainer";
 import Signin from "../Layout/ExternalLayout/Auth/Signin";
 import Signup from "../Layout/ExternalLayout/Auth/Signup";
 import EditGuideBookPost from "../Layout/ExternalLayout/GuideBook/EditPost";
 import NewGuideBookPost from "../Layout/ExternalLayout/GuideBook/NewPost";
+import Policy from "../Layout/ExternalLayout/TermPolicy/Policy";
+import Term from "../Layout/ExternalLayout/TermPolicy/Term";
 import GuideBookDashBoard from "../Layout/MainLayout/Body/GuideBook/Dashboard";
 import GuideBookDetail from "../Layout/MainLayout/Body/GuideBook/Detail";
 import GuideBookRoute from "../Layout/MainLayout/Body/GuideBook/Route";
@@ -77,6 +82,8 @@ function RouteContainer() {
 						},
 					],
 				},
+				{ path: `${TERM_PATH}`, Component: Term },
+				{ path: `${POLICY_PATH}`, Component: Policy },
 			],
 			handle: {
 				crumb: () => {
@@ -89,58 +96,23 @@ function RouteContainer() {
 		{ path: FORGOT_PASSWORD_PATH, Component: ForgotPasswordContainer },
 		{ path: GUIDE_BOOK_NEW_POST_PATH, Component: NewGuideBookPost },
 		{ path: `${GUIDE_BOOK_EDIT_POST_PATH}/:id`, Component: EditGuideBookPost },
+
 		{ path: "*", Component: NotFound },
 	]);
-
-	// const routes = (
-	// 	<>
-	// 		{/* <Routes> */}
-	// 		<Route path="/signup/*" element={<Signup />} />
-	// 		<Route path={SIGN_IN_PATH} element={<Signin />} />
-	// 		<Route
-	// 			exact
-	// 			path={`/forgot-password`}
-	// 			element={<ForgotPasswordContainer />}
-	// 		/>
-	// 		{/* <Route path="/switch-profiles" element={<SwitchProfileContainer />} /> */}
-	// 		{/* <Route path="/edit-profile/:id" element={<EditProfileContainer />} /> */}
-	// 		{/* <Route
-	// 				exact
-	// 				path={`/:action/${SEARCH_SERVICE}/:${SEARCH_TYPE_PROP}/:id`}
-	// 				element={<EditServiceContainer />}
-	// 			/> */}
-	// 		{/* <Route
-	// 				exact
-	// 				path={`/:action/${SEARCH_SERVICE}/:${SEARCH_TYPE_PROP}`}
-	// 				element={<EditServiceContainer />}
-	// 			/> */}
-
-	// 		<Route path="/" element={<MainLayout />}>
-	// 			{/* nested component */}
-	// 			<Route index element={<HomeBody />} />
-	// 			<Route path="my-profile" element={<MyProfileBody />} />
-	// 			<Route
-	// 				path="helpcenter"
-	// 				element={<HelpCenter />}
-	// 				handle={{
-	// 					// you can put whatever you want on a route handle
-	// 					// here we use "crumb" and return some elements,
-	// 					// this is what we'll render in the breadcrumbs
-	// 					// for this route
-	// 					crumb: () => <Link to="/helpcenter">Help Center</Link>,
-	// 				}}
-	// 			/>
-	// 		</Route>
-	// 		<Route path="*" element={<NotFound />} />
-	// 		{/* </Routes> */}
-	// 	</>
-	// );
 
 	const App = () => (
 		<>
 			<main id="main">
 				{" "}
 				<RouterProvider router={router} />
+				<FloatButton.BackTop
+					visibilityHeight={100}
+					style={{
+						width: "3rem",
+						height: "3rem",
+						right: "3%",
+					}}
+				/>
 			</main>
 		</>
 	);

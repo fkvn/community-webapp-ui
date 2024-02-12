@@ -1,21 +1,11 @@
 import { SearchOutlined } from "@ant-design/icons";
-import { RiDeleteBin6Line, RiEdit2Line } from "@remixicon/react";
-import {
-	Button,
-	Flex,
-	Input,
-	Popconfirm,
-	Table,
-	Tag,
-	Tooltip,
-	Typography,
-} from "antd";
+import { RiEdit2Line } from "@remixicon/react";
+import { Button, Flex, Input, Table, Tag, Tooltip } from "antd";
 import Title from "antd/lib/typography/Title";
 import React, { useEffect, useRef, useState } from "react";
-import { Trans, useTranslation } from "react-i18next";
+import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import { deleteGuideBookAxios } from "../../../../Axios/guideBookAxios";
 import {
 	GUIDE_BOOK_EDIT_POST_PATH,
 	GUIDE_BOOK_NEW_POST_PATH,
@@ -25,12 +15,14 @@ import {
 	USER_REDUCER,
 } from "../../../../Util/ConstVar";
 import { formatString, formatTime } from "../../../../Util/Util";
+import DeleteBtn from "../../../Button/DeleteBtn";
 import useGuideBookPost from "../../../Hook/PostHook/useGuideBookPost";
 
 const GBPostTable = () => {
 	const { profile } = useSelector((state) => state[`${USER_REDUCER}`]);
 	const navigate = useNavigate();
-	const { fetchGuideBooks, fetchGuideBookCategories } = useGuideBookPost();
+	const { fetchGuideBooks, fetchGuideBookCategories, deleteGuideBook } =
+		useGuideBookPost();
 	const { t } = useTranslation(["Default", "Form"]);
 	const [data, setData] = useState();
 	const [loading, setLoading] = useState(false);
@@ -282,35 +274,21 @@ const GBPostTable = () => {
 							<RiEdit2Line size={20} color="orange" />
 						</Tooltip>
 					</Button>
-					<Popconfirm
-						title={t("delete_record_msg")}
-						description={
-							<Typography.Text>
-								<Trans
-									i18nKey={"delete_record_confirm_msg"}
-									ns="Default"
-									components={{
-										danger: <div className="text-danger"></div>,
-									}}
-								/>
-							</Typography.Text>
-						}
-						onConfirm={() => deleteGuideBookAxios(record?.id)}
-						okButtonProps={{
-							className: "custom-center m-2 flex-end",
-							style: {
-								padding: ".8rem",
-							},
+					<DeleteBtn
+						btnProps={{
+							type: "primary",
+							size: "large",
+							className: " custom-center bg-danger",
 						}}
-						showCancel={false}
-						okText={t("yes_msg")}
-					>
-						<Button type="default" className="border-0 ">
-							<Tooltip title={t("delete_record_msg")}>
-								<RiDeleteBin6Line size={20} color="red" />
-							</Tooltip>
-						</Button>
-					</Popconfirm>
+						iconProps={{
+							color: "white",
+						}}
+						onConfirm={() =>
+							deleteGuideBook(record?.id).then(() =>
+								setData(data?.filter((v) => v.id !== record.id))
+							)
+						}
+					/>
 				</Flex>
 			),
 		},
@@ -376,6 +354,7 @@ const GBPostTable = () => {
 							<Button
 								type="primary"
 								className="border-0"
+								size="large"
 								onClick={() => {
 									navigate(
 										`${GUIDE_BOOK_NEW_POST_PATH}?${REDIRECT_URI}=${MY_PROFILE_PATH.slice(1)}?menu=post`

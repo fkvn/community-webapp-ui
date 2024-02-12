@@ -94,7 +94,7 @@ function FivePostSection({ items = [] }) {
 										cursor: "pointer",
 									}}
 									src={i.cover}
-									height="15rem"
+									height={items?.length === 1 ? "100%" : "15rem"}
 									className="rounded-0"
 									preview={false}
 									fallback={svgThaiNowLogoWithWords}

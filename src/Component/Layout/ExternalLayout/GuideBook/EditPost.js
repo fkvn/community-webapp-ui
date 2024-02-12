@@ -17,8 +17,7 @@ import {
 	USER_REDUCER,
 } from "../../../../Util/ConstVar";
 import Auth from "../../../Auth/Auth";
-import FloatBtnGroup from "../../../FloatButton/FloatBtnGroup";
-import NewGuideBookPostFloatBtn from "../../../FloatButton/GuideBook/NewPostFloatBtn";
+import NewGuideBookPostFloatBtn from "../../../Button/GuideBook/NewPostFloatBtn";
 import RTEFormControl from "../../../Form/RTEFormControl";
 import RadioFormControl from "../../../Form/RadioFormControl";
 import SubmitBtnFormControl from "../../../Form/SubmitBtnFormControl";
@@ -38,8 +37,6 @@ function EditGuideBookPost({ customRedirectUri = "" }) {
 	const redirectUri =
 		customRedirectUri || params.get(REDIRECT_URI) || "my-profile?menu=post";
 
-	console.log(redirectUri);
-
 	const [saving, setSaving] = useState(false);
 	const { id } = useParams();
 
@@ -56,11 +53,6 @@ function EditGuideBookPost({ customRedirectUri = "" }) {
 	const isUserAuthorizedEditPost = (profileOwnerId) =>
 		(profile?.authorities || []).some((v) => editPostAuthorities.includes(v)) &&
 		profile?.id === profileOwnerId;
-
-	console.log(profile);
-	console.log(
-		(profile?.authorities || []).some((v) => editPostAuthorities.includes(v))
-	);
 
 	const [authorized, setAuthorized] = useState(false);
 
@@ -244,6 +236,7 @@ function EditGuideBookPost({ customRedirectUri = "" }) {
 								padding: "1.5rem 5rem",
 							},
 						}}
+						onClick={() => onFinish(true)}
 					/>
 
 					<SubmitBtnFormControl
@@ -257,7 +250,7 @@ function EditGuideBookPost({ customRedirectUri = "" }) {
 								padding: "1.5rem 5rem",
 							},
 						}}
-						onClick={() => onFinish(false)}
+						onClick={() => onFinish()}
 					/>
 				</Flex>
 			</Flex>
@@ -295,13 +288,11 @@ function EditGuideBookPost({ customRedirectUri = "" }) {
 		<>
 			<FormPageHeader />
 			<NewPostFormSection />
-			<FloatBtnGroup
-				buttons={[
-					<NewGuideBookPostFloatBtn
-						redirectUri={`${GUIDE_BOOK_EDIT_POST_PATH.slice(1)}/${id}`}
-					/>,
-				]}
-			/>
+			{authorized && (
+				<NewGuideBookPostFloatBtn
+					redirectUri={`${GUIDE_BOOK_EDIT_POST_PATH.slice(1)}/${id}`}
+				/>
+			)}
 		</>
 	);
 

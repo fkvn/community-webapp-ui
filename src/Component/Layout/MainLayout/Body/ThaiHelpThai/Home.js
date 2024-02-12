@@ -1,5 +1,5 @@
 import { RightOutlined } from "@ant-design/icons";
-import { Button, Card, Carousel, Flex, Skeleton } from "antd";
+import { Button, Card, Carousel, Flex, Image, Skeleton } from "antd";
 import Link from "antd/es/typography/Link";
 import Title from "antd/es/typography/Title";
 import { useEffect, useState } from "react";
@@ -72,6 +72,7 @@ function Home() {
 						backgroundRepeat: "no-repeat",
 						backgroundColor: "#E9E9E9",
 						backgroundSize: "cover",
+						minHeight: "50rem",
 					}}
 					justify="center"
 					align="center"
@@ -98,20 +99,14 @@ function Home() {
 				}}
 				className="my-5"
 				cover={
-					<img
-						alt={`${adItems[0]?.category || "Sponsored"}`}
+					<Image
+						alt={`Sponsored`}
 						src={adItems[0]?.cover}
-						className="rounded-0"
+						fallback={imageAds}
 						style={{
 							// default width and height to display the fallback photo
 							width: "100%",
 							minHeight: "20rem",
-							// set background to display the fallback photo
-							backgroundImage: `url(${imageAds})`,
-							backgroundPosition: "center",
-							backgroundRepeat: "no-repeat",
-							backgroundColor: "#E9E9E9",
-							backgroundSize: "cover",
 
 							// image attr
 							maxHeight: "15rem",

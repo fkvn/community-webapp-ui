@@ -79,7 +79,7 @@ function HelpCenter() {
 			vertical
 			style={{
 				paddingTop: "2rem",
-				minHeight: "20rem",
+				minHeight: "30rem",
 			}}
 		>
 			<Flex
@@ -123,7 +123,7 @@ function HelpCenter() {
 							? successMessage("message_contact_success_msg").then(() => {
 									setSendingMsg(false);
 									form.resetFields();
-							  })
+								})
 							: errorMessage().then(() => setSendingMsg(false))
 					)
 					.catch((e) => errorMessage(e).then(() => setSendingMsg(false)));
@@ -136,7 +136,7 @@ function HelpCenter() {
 			form={form}
 			layout="vertical"
 			style={{
-				width: "25rem",
+				width: "35rem",
 			}}
 		>
 			<Flex vertical gap={20}>
@@ -191,8 +191,8 @@ function HelpCenter() {
 				style={{
 					maxWidth: "100rem",
 				}}
-				justify="space-evenly"
-				gap={40}
+				wrap="wrap"
+				gap={50}
 			>
 				<Flex
 					style={{

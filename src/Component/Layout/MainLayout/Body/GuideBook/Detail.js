@@ -1,17 +1,6 @@
-import {
-	LeftCircleOutlined,
-	PlusOutlined,
-	RightCircleOutlined,
-} from "@ant-design/icons";
-import {
-	Button,
-	Carousel,
-	Empty,
-	Flex,
-	FloatButton,
-	Image,
-	Skeleton,
-} from "antd";
+import { LeftCircleOutlined, RightCircleOutlined } from "@ant-design/icons";
+import { RiEdit2Line } from "@remixicon/react";
+import { Button, Carousel, Empty, Flex, Image, Skeleton, Tooltip } from "antd";
 import { Content } from "antd/lib/layout/layout";
 import Title from "antd/lib/typography/Title";
 import parse from "html-react-parser";
@@ -21,22 +10,24 @@ import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { svgThaiNowLogoWithWords } from "../../../../../Asset/Asset";
 import {
-	GUIDE_BOOK_NEW_POST_PATH,
+	GUIDE_BOOK_EDIT_POST_PATH,
 	GUIDE_BOOK_PATH,
-	REDIRECT_URI,
 	USER_REDUCER,
 } from "../../../../../Util/ConstVar";
 import { formatTime } from "../../../../../Util/Util";
 import BreadcrumbContainer from "../../../../Breadcrumb/BreadcrumbContainer";
+import DeleteBtn from "../../../../Button/DeleteBtn";
+import NewGuideBookPostFloatBtn from "../../../../Button/GuideBook/NewPostFloatBtn";
 import useGuideBookPost from "../../../../Hook/PostHook/useGuideBookPost";
 import useHorizontalScroll from "../../../../Hook/useHorizontalScroll";
 import FlexPostSection from "../../../Section/FlexPostSection";
 
 function GuideBookDetail() {
-	const contentMaxWidth = "100rem";
+	const contentMaxWidth = "90%";
 	const { t } = useTranslation();
 	const navigate = useNavigate();
-	const { fetchGuideBook, fetchGuideBooks } = useGuideBookPost();
+	const { fetchGuideBook, fetchGuideBooks, deleteGuideBook } =
+		useGuideBookPost();
 	const { scrollContainer, scroll } = useHorizontalScroll();
 	const { id } = useParams();
 	const newPostAuthorities = [
@@ -45,6 +36,13 @@ function GuideBookDetail() {
 		"ROLE_CONTRIBUTOR",
 		"GUIDEBOOK_CREATE",
 	];
+
+	const editPostAuthorities = [
+		"ROLE_ADMIN",
+		"ROLE_SUPER_ADMIN",
+		"ROLE_CONTRIBUTOR",
+	];
+
 	const { profile } = useSelector((state) => state[`${USER_REDUCER}`]);
 
 	const [item, setItem] = useState({
@@ -64,23 +62,27 @@ function GuideBookDetail() {
 	const isUserAuthorizedCreateNewPost = () =>
 		(profile?.authorities || []).some((v) => newPostAuthorities.includes(v));
 
-	const formatItem = (item = {}) => {
+	const isUserAuthorizedEditPost = (profileOwnerId) =>
+		(profile?.authorities || []).some((v) => editPostAuthorities.includes(v)) &&
+		profile?.id === profileOwnerId;
+
+	const formatItem = ({ id, postAsAnonymous, owner, details }) => {
 		return {
-			id: item?.id || "",
+			id: id || "",
 			owner: {
-				id: item?.owner?.accountId || "",
-				avatarUrl: item?.postAsAnonymous
+				id: owner?.id || "",
+				avatarUrl: postAsAnonymous
 					? svgThaiNowLogoWithWords
-					: item?.owner?.details?.avatarUrl || "",
-				username: item?.postAsAnonymous
+					: owner?.details?.avatarUrl || "",
+				username: postAsAnonymous
 					? t("anonymous_msg")
-					: item?.owner?.details?.username || "",
+					: owner?.details?.username || "",
 			},
-			title: item?.details?.title || "",
-			category: item?.details?.category || "",
-			bannerUrl: item?.details?.bannerUrl || "",
-			description: item?.details?.description || "",
-			updatedOn: item?.updatedOn || "",
+			title: details?.title || "",
+			category: details?.category || "",
+			bannerUrl: details?.bannerUrl || "",
+			description: details?.description || "",
+			updatedOn: details?.updatedOn || "",
 		};
 	};
 
@@ -123,57 +125,59 @@ function GuideBookDetail() {
 		title: t(`${item?.category.toLowerCase()}_msg`) || "",
 	};
 
-	const MoreItemSection = () => (
-		<Flex
-			className="p-5 p-lg-5 w-100"
-			align="center"
-			vertical
-			style={{
-				background: "#ECEFFA",
-				paddingTop: "2rem",
-				minHeight: "20rem",
-			}}
-		>
+	const MoreItemSection = () =>
+		moreItems?.length > 0 && (
 			<Flex
-				className="w-100 "
-				style={{
-					maxWidth: "90rem",
-				}}
+				className=" w-100"
+				align="center"
 				vertical
-				gap={30}
+				style={{
+					background: "#ECEFFA",
+					padding: "5rem 5rem",
+				}}
 			>
-				<Flex justify="space-between">
-					<Title level={3} className="c-primary-important">
-						{t("more_item_msg")}
-					</Title>
+				<Flex
+					className="w-100"
+					style={{
+						maxWidth: contentMaxWidth,
+						minHeight: "16rem",
+					}}
+					vertical
+					justify="space-between"
+					// gap={30}
+				>
+					<Flex justify="space-between">
+						<Title level={3} className="c-primary-important">
+							{t("more_item_msg")}
+						</Title>
 
-					<Flex gap={20}>
-						<LeftCircleOutlined
-							className="horizontal-scroll-icon"
-							onClick={() => scroll(-50)}
-						/>
-						<RightCircleOutlined
-							className="horizontal-scroll-icon"
-							onClick={() => scroll(50)}
-							onMouseDown={() => scroll(50)}
-						/>
+						<Flex gap={20}>
+							<LeftCircleOutlined
+								className="horizontal-scroll-icon"
+								onClick={() => scroll(-50)}
+							/>
+							<RightCircleOutlined
+								className="horizontal-scroll-icon"
+								onClick={() => scroll(50)}
+								onMouseDown={() => scroll(50)}
+							/>
+						</Flex>
 					</Flex>
+					{scrollContainer(
+						<FlexPostSection
+							items={moreItems}
+							wrap=""
+							showEmpty={true}
+							bodyStyle={{
+								background: "#ECEFFA",
+								// padding: "1.5rem",
+							}}
+							justify="space-start"
+						/>
+					)}
 				</Flex>
-				{scrollContainer(
-					<FlexPostSection
-						items={moreItems}
-						wrap=""
-						showEmpty={true}
-						bodyStyle={{
-							background: "#ECEFFA",
-							// padding: "1.5rem",
-						}}
-						justify="space-start"
-					/>
-				)}
 			</Flex>
-		</Flex>
-	);
+		);
 
 	const PostDetailSection = () => (
 		<Flex
@@ -188,54 +192,112 @@ function GuideBookDetail() {
 		>
 			<Button
 				type="link"
-				className="text-start m-0 p-0"
+				className="text-start m-0 p-0 "
 				href={`${GUIDE_BOOK_PATH}?category=${item?.category}`}
 			>
 				{t(`${item?.category.toLowerCase()}_msg`) || ""}
 			</Button>
 
-			<Title className="c-primary-important">{item.title}</Title>
-
-			<Carousel autoplay className="w-100">
-				<div className="w-100">
-					<Image
-						width={"100%"}
-						style={{
-							maxHeight: "40rem",
-						}}
-						src={item.bannerUrl}
-						fallback={svgThaiNowLogoWithWords}
-					/>
-				</div>
-			</Carousel>
-
-			<Flex justify="space-between" wrap="wrap">
+			<Title
+				className="c-primary-important m-0"
+				style={{
+					fontSize: "5rem",
+				}}
+			>
+				{item.title}
+			</Title>
+			<Flex
+				justify="space-between"
+				align="center"
+				wrap="wrap"
+				className="my-2 mb-5"
+			>
 				<Flex
-					gap={20}
+					gap={10}
 					align="center"
 					style={{
 						maxWidth: "70%",
 					}}
 				>
 					<Image
-						width={50}
+						width={30}
 						src={item.owner.avatarUrl}
 						fallback={svgThaiNowLogoWithWords}
 						preview={false}
 					/>
-					<Title level={5}>
-						{item.owner.username}
-						<span
-							className="text-secondary"
-							style={{
-								fontSize: "0.8rem",
-							}}
-						>
-							{` - ${formatTime(item.updatedOn)}`}
-						</span>
-					</Title>
+					<Flex vertical>
+						<Title level={4} className="m-0">
+							<Flex gap={5} align="center">
+								<div
+									className=" text-secondary"
+									style={{
+										fontWeight: "lighter",
+										marginTop: ".1rem",
+									}}
+								>
+									By
+								</div>
+								{item.owner.username}
+								<div
+									className=" text-secondary"
+									style={{
+										fontWeight: "lighter",
+										marginTop: ".1rem",
+									}}
+								>
+									{`- ${formatTime(item.updatedOn)}`}
+								</div>
+							</Flex>
+						</Title>
+					</Flex>
 				</Flex>
+				{isUserAuthorizedEditPost(item?.owner?.id) && (
+					<Flex gap={20}>
+						<Button
+							type="primary"
+							size="large"
+							className=" custom-center bg-warning"
+							onClick={() =>
+								navigate(
+									`${GUIDE_BOOK_EDIT_POST_PATH}/${id}?redirectUri=${GUIDE_BOOK_PATH.slice(1)}/${id}`
+								)
+							}
+						>
+							<Tooltip title={t("edit_record_msg")}>
+								<RiEdit2Line size={20} />
+							</Tooltip>
+						</Button>
+
+						<DeleteBtn
+							btnProps={{
+								type: "primary",
+								size: "large",
+								className: " custom-center bg-danger",
+							}}
+							iconProps={{
+								color: "white",
+							}}
+							onConfirm={() =>
+								deleteGuideBook(id).then(() => navigate(`${GUIDE_BOOK_PATH}`))
+							}
+						/>
+					</Flex>
+				)}
 			</Flex>
+
+			<Carousel autoplay className="w-100">
+				<div className="w-100">
+					<Image
+						width="100%"
+						style={{
+							maxHeight: "50rem",
+							// objectFit: "contain",
+						}}
+						src={item.bannerUrl}
+						fallback={svgThaiNowLogoWithWords}
+					/>
+				</div>
+			</Carousel>
 
 			<Content
 				className="my-5 iframe-w-100"
@@ -250,28 +312,6 @@ function GuideBookDetail() {
 				)}
 			</Content>
 		</Flex>
-	);
-
-	const FloatBtnMenu = () => (
-		<FloatButton.Group shape="circle" style={{ right: "2rem" }}>
-			{isUserAuthorizedCreateNewPost() && (
-				<FloatButton
-					tooltip={t("new_post_msg")}
-					icon={<PlusOutlined />}
-					className="custom-center"
-					type="primary"
-					onClick={() => {
-						navigate(
-							`${GUIDE_BOOK_NEW_POST_PATH}?${REDIRECT_URI}=${GUIDE_BOOK_PATH.slice(
-								1
-							)}%2F${id}`
-						);
-					}}
-				/>
-			)}
-
-			<FloatButton.BackTop visibilityHeight={0} />
-		</FloatButton.Group>
 	);
 
 	const App = () => (
@@ -315,7 +355,13 @@ function GuideBookDetail() {
 				)}
 			</Flex>
 			<MoreItemSection />
-			<FloatBtnMenu />
+			{isUserAuthorizedCreateNewPost() && (
+				<>
+					<NewGuideBookPostFloatBtn
+						redirectUri={`${GUIDE_BOOK_PATH.slice(1)}/${id}`}
+					/>
+				</>
+			)}
 		</Flex>
 	);
 	return <App />;

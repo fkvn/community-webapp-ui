@@ -1,4 +1,4 @@
-import { Col, Flex, Form, Row, Typography } from "antd";
+import { Flex, Form, Image, Typography } from "antd";
 import { useForm } from "antd/lib/form/Form";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -49,8 +49,8 @@ function ChangePassword({
 		const channel = form.getFieldValue(EMAIL_PROP)
 			? EMAIL_PROP
 			: form.getFieldValue(PHONE_PROP)
-			  ? PHONE_PROP
-			  : "";
+				? PHONE_PROP
+				: "";
 
 		let credentials = {
 			[`${EMAIL_PROP}`]: {
@@ -97,70 +97,65 @@ function ChangePassword({
 	}, [t, form]);
 
 	const App = () => (
-		<Row>
-			<Col
-				xs={0}
-				lg={12}
-				style={{
-					backgroundImage: `url(${svgLoginPic})`,
-					backgroundRepeat: "no-repeat",
-					backgroundSize: "cover",
-					height: "100vh",
-				}}
-			/>
-			<Col xs={24} lg={12}>
-				<Flex justify="center" className="w-100">
-					<Flex
-						vertical
-						gap="large"
-						style={{
-							padding: "0 5rem",
-							paddingTop: "3rem",
-						}}
-					>
-						<Title />
-						<Form
-							id="forgot-password-form"
-							form={form}
-							layout="vertical"
-							autoComplete="off"
-							style={{
-								minWidth: "25rem",
-							}}
-							initialValues={{
-								[`${REGION_PROP}`]: "US",
-							}}
-						>
-							{mustVerify ? (
-								<Otp
-									form={form}
-									onBeforeSendCode={onBeforeSendCode}
-									onAfterVerifyCode={onAfterVerifyCodeHandle}
-								/>
-							) : (
-								<Flex vertical gap="large">
-									<PasswordFormControl newPasswordForm={true} />
-									<SubmitBtnFormControl
-										disabled={changingPassword}
-										loading={changingPassword}
-										title={t("password_reset_msg")}
-										onClick={onSubmitPasswordHandle}
-									/>
-								</Flex>
-							)}
-						</Form>
-					</Flex>
-				</Flex>
-			</Col>
-		</Row>
-	);
-
-	return (
 		<>
 			<FormPageHeader />
-			<App />
+			<Flex gap={100}>
+				<Image
+					src={svgLoginPic}
+					style={{
+						maxWidth: "45vw",
+						overflow: "hidden",
+						height: "100vh",
+						objectFit: "cover",
+					}}
+				/>
+				<Flex
+					vertical
+					className="m-5"
+					style={{
+						minWidth: "20rem",
+						padding: "0 5rem",
+						paddingTop: "3rem",
+					}}
+					gap={20}
+				>
+					<Title />
+					<Form
+						id="forgot-password-form"
+						form={form}
+						layout="vertical"
+						autoComplete="off"
+						style={{
+							minWidth: "25rem",
+						}}
+						initialValues={{
+							[`${REGION_PROP}`]: "US",
+						}}
+					>
+						{mustVerify ? (
+							<Otp
+								form={form}
+								onBeforeSendCode={onBeforeSendCode}
+								onAfterVerifyCode={onAfterVerifyCodeHandle}
+							/>
+						) : (
+							<Flex vertical gap="large">
+								<PasswordFormControl newPasswordForm={true} />
+								<SubmitBtnFormControl
+									disabled={changingPassword}
+									loading={changingPassword}
+									title={t("password_reset_msg")}
+									onClick={onSubmitPasswordHandle}
+								/>
+							</Flex>
+						)}
+					</Form>
+				</Flex>
+			</Flex>
 		</>
 	);
+
+	return <App />;
 }
 
 export default ChangePassword;

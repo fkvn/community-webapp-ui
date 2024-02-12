@@ -29,14 +29,12 @@ function SwitchLanguage({
 	const App = () => (
 		<Select
 			labelInValue
-			className="pt-1"
 			defaultValue={{
 				value: i18next.language,
 				label: getLanguageTitle(i18next.language),
 			}}
 			suffixIcon={
 				<GlobalOutlined
-					className="pt-1"
 					style={{
 						pointerEvents: "none",
 					}}

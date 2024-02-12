@@ -15,8 +15,14 @@ import MenuBar from "./MenuBar";
  * @editor functions: editor.getHTML()
  * @returns
  */
-function RTE({ defaultContent = "", onUpdate = () => {} }) {
-	console.log(defaultContent);
+function RTE({
+	mainClassName = "",
+	mainProps = {},
+	editorClassName = "",
+	editorProps = {},
+	defaultContent = "",
+	onUpdate = () => {},
+}) {
 	// define your extension array
 	const editor = useEditor({
 		extensions: [
@@ -52,16 +58,18 @@ function RTE({ defaultContent = "", onUpdate = () => {} }) {
 	});
 
 	return (
-		<div
-			className=" py-2 px-4 editor rounded-3"
-			style={{
-				minHeight: "20rem",
-			}}
+		<main
+			className={`py-2 px-4 editor mh-20 rounded-3 ${mainClassName}`}
+			{...mainProps}
 		>
 			{editor && <MenuBar editor={editor} />}
 			<Divider className="my-2 mx-0" />
-			<EditorContent editor={editor} className="py-3" />
-		</div>
+			<EditorContent
+				editor={editor}
+				className={`py-3 ${editorClassName}`}
+				{...editorProps}
+			/>
+		</main>
 	);
 }
 

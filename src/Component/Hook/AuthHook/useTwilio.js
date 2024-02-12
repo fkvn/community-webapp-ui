@@ -5,7 +5,7 @@ import useMessage from "../MessageHook/useMessage";
 
 function useTwilio() {
 	const { t } = useTranslation("Otp");
-	const { loadingMessage, successMessage, errorMessage } = useMessage();
+	const { successMessage, errorMessage } = useMessage();
 
 	/**
 	 *
@@ -14,7 +14,6 @@ function useTwilio() {
 	 * @returns {Promise<void>} message returns
 	 */
 	const sendCode = async (channel = "", payload = {}) => {
-		loadingMessage(`${t("otp_code_sending_msg")}`);
 		return successMessage(`${t("otp_code_sent_msg")}`);
 		return sendOtpCodeAxios(channel, payload)
 			.then(() => successMessage(`${t("otp_code_sent_msg")}`))
@@ -29,7 +28,6 @@ function useTwilio() {
 	 * @returns {Promise<void>} message returns
 	 */
 	const verifyCode = async (channel = "", payload = {}) => {
-		loadingMessage(`${t("otp_code_verifying_msg")}`);
 		return successMessage(`${t("otp_code_verified_msg")}`);
 
 		return verifyOtpCodeAxios(channel, payload)

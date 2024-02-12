@@ -95,7 +95,20 @@ function Otp({
 	const SendMethod = () => {
 		return {
 			[`${EMAIL_PROP}`]: <EmailFormControl inputProps={{ autoFocus: true }} />,
-			[`${SMS_PROP}`]: <PhoneFormControl inputProps={{ autoFocus: true }} />,
+			[`${SMS_PROP}`]: (
+				<PhoneFormControl
+					itemProps={{
+						style: {
+							minWidth: 400,
+							maxWidth: "100%",
+							marginRight: 20,
+						},
+					}}
+					inputProps={{
+						autoFocus: true,
+					}}
+				/>
+			),
 		}[otpInfo?.channel];
 	};
 
@@ -246,7 +259,7 @@ function Otp({
 										: formatPhoneNumber(
 												form.getFieldValue(PHONE_PROP),
 												form.getFieldValue(REGION_PROP)
-										  ),
+											),
 							}}
 						</strong>
 					</Trans>

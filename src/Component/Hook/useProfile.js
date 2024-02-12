@@ -95,7 +95,7 @@ function useProfile() {
 				// update redux
 				patchProfileInfo(updatedFields, false);
 
-				return successMessage("message_save_msg", 2, false);
+				return successMessage("message_saved_msg", 2, false);
 			})
 			.catch((e) => errorMessage(e).then(() => Promise.reject()));
 	};

@@ -14,6 +14,7 @@ import {
 } from "../../../Asset/Asset";
 import {
 	createGuideBookAxios,
+	deleteGuideBookAxios,
 	fetchGuideBookAxios,
 	fetchGuideBooksAxios,
 	patchGuideBookAxios,
@@ -135,14 +136,22 @@ function useGuideBookPost() {
 	const createGuideBook = async (profileId, data = {}) => {
 		return createGuideBookAxios(profileId, data)
 			.then((id = null) =>
-				successMessage(`message_save_msg`).then(() => Promise.resolve(id))
+				successMessage(`message_saved_msg`).then(() => Promise.resolve(id))
 			)
 			.catch((e) => errorMessage(e));
 	};
 	const patchGuideBook = async (id, profileId, data = {}) => {
 		return patchGuideBookAxios(id, profileId, data)
 			.then((id = null) =>
-				successMessage(`message_save_msg`).then(() => Promise.resolve(id))
+				successMessage(`message_saved_msg`).then(() => Promise.resolve(id))
+			)
+			.catch((e) => errorMessage(e));
+	};
+
+	const deleteGuideBook = async (id) => {
+		return deleteGuideBookAxios(id)
+			.then(() =>
+				successMessage(`message_deleted_msg`).then(() => Promise.resolve())
 			)
 			.catch((e) => errorMessage(e));
 	};
@@ -152,6 +161,7 @@ function useGuideBookPost() {
 		fetchGuideBooks,
 		fetchGuideBook,
 		patchGuideBook,
+		deleteGuideBook,
 		fetchGuideBookCategories,
 	};
 }

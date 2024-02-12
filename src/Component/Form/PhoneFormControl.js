@@ -14,6 +14,7 @@ function PhoneFormControl({
 	inputProps = {},
 	required = true,
 	showLabel = true,
+	keyboard = true,
 	prefixItemProps: { prefixName = REGION_PROP, ...prefixItemProps } = {},
 	prefixSelectProps = {},
 	flexProp = {},
@@ -84,6 +85,7 @@ function PhoneFormControl({
 					placeholder={t("phone_enter_msg")}
 					addonBefore={prefixSelector}
 					maxLength={14}
+					checked={keyboard}
 					{...inputProps}
 				/>
 			</Form.Item>

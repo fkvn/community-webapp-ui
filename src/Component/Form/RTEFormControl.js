@@ -11,6 +11,10 @@ function RTEFormControl({
 	required = false,
 	showLabel = true,
 	defaultContent = "",
+	rteMainClassName = "",
+	rteMainProps = {},
+	rteEditorClassName = "",
+	rteEditorProps = {},
 	onUpdate = () => {},
 	rteProps = {},
 }) {
@@ -37,7 +41,15 @@ function RTEFormControl({
 			})}
 			{...itemProps}
 		>
-			<RTE defaultContent={defaultContent} onUpdate={onUpdate} {...rteProps} />
+			<RTE
+				mainClassName={rteMainClassName}
+				mainProps={rteMainProps}
+				editorClassName={rteEditorClassName}
+				editorProps={rteEditorProps}
+				defaultContent={defaultContent}
+				onUpdate={onUpdate}
+				{...rteProps}
+			/>
 		</Form.Item>
 	);
 	return <App />;

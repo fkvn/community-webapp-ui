@@ -67,7 +67,7 @@ function Footer() {
 								className="text-white"
 								style={{ fontSize: "1rem" }}
 							>
-								Thai Town, Hollywood
+								Thai Town, Hollywood - Los Angeles
 							</Link>
 						</Text>
 						<Text level={5} className="text-white" style={{ fontSize: "1rem" }}>
@@ -128,7 +128,7 @@ function Footer() {
 							fontSize: "1rem",
 						}}
 					>
-						© ThaiNow, 2021. {t("all_right_reserved_msg")}
+						© ThaiNow, 2024. {t("all_right_reserved_msg")}
 					</Text>
 				</Flex>
 			</Flex>

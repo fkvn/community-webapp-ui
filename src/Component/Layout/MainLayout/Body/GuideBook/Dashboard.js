@@ -7,6 +7,7 @@ import { GUIDE_BOOK_PATH } from "../../../../../Util/ConstVar";
 import {
 	extractExistingParams,
 	numberWithCommas,
+	scrollToActiveElement,
 } from "../../../../../Util/Util";
 import BreadcrumbContainer from "../../../../Breadcrumb/BreadcrumbContainer";
 import useGuideBookPost from "../../../../Hook/PostHook/useGuideBookPost";
@@ -15,7 +16,7 @@ import FlexPostSection from "../../../Section/FlexPostSection";
 
 function GuideBookDashBoard() {
 	const { t } = useTranslation(["Default"]);
-	const contentMaxWidth = "100rem";
+	const contentMaxWidth = "90%";
 	const { fetchGuideBooks, fetchGuideBookCategories } = useGuideBookPost();
 	const [urlParams, setUrlParams] = useSearchParams();
 	const [activeCategory, setActiveCategory] = useState(
@@ -155,7 +156,10 @@ function GuideBookDashBoard() {
 						<Button
 							type="link"
 							className="mt-2"
-							onClick={() => setActiveCategory("")}
+							onClick={() => {
+								scrollToActiveElement();
+								setActiveCategory("");
+							}}
 						>
 							<Title
 								className="m-0 text-danger "

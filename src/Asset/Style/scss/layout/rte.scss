@@ -91,8 +91,12 @@
 	flex-direction: column;
 	max-height: 100rem;
 	overflow: "auto";
-}
 
-.ProseMirror:focus {
-	outline: none;
+	&.mh-20 .ProseMirror {
+		min-height: 20rem;
+	}
+
+	& .ProseMirror:focus {
+		outline: none;
+	}
 }
