@@ -2,14 +2,16 @@ import { Button, Flex, Image } from "antd";
 import Title from "antd/lib/typography/Title";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { useSelector } from "react-redux";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { GUIDE_BOOK_PATH } from "../../../../../Util/ConstVar";
+import { GUIDE_BOOK_PATH, USER_REDUCER } from "../../../../../Util/ConstVar";
 import {
 	extractExistingParams,
 	numberWithCommas,
 	scrollToActiveElement,
 } from "../../../../../Util/Util";
 import BreadcrumbContainer from "../../../../Breadcrumb/BreadcrumbContainer";
+import NewGuideBookPostFloatBtn from "../../../../Button/GuideBook/NewPostFloatBtn";
 import useGuideBookPost from "../../../../Hook/PostHook/useGuideBookPost";
 import FivePostSection from "../../../Section/FivePostSection";
 import FlexPostSection from "../../../Section/FlexPostSection";
@@ -24,6 +26,18 @@ function GuideBookDashBoard() {
 	);
 	const [postItems, setPostItems] = useState([]);
 	const navigate = useNavigate();
+
+	const newPostAuthorities = [
+		"ROLE_ADMIN",
+		"ROLE_SUPER_ADMIN",
+		"ROLE_CONTRIBUTOR",
+		"GUIDEBOOK_CREATE",
+	];
+
+	const { profile } = useSelector((state) => state[`${USER_REDUCER}`]);
+
+	const isUserAuthorizedCreateNewPost = () =>
+		(profile?.authorities || []).some((v) => newPostAuthorities.includes(v));
 
 	const fetchPostHandle = (searchParams = {}) =>
 		fetchGuideBooks(searchParams).then((res) => {
@@ -196,6 +210,13 @@ function GuideBookDashBoard() {
 			<TopSection />
 			<CategorySection />
 			<PostSection />
+			{isUserAuthorizedCreateNewPost() && (
+				<>
+					<NewGuideBookPostFloatBtn
+						redirectUri={`${GUIDE_BOOK_PATH.slice(1)}?category=${activeCategory}`}
+					/>
+				</>
+			)}
 		</>
 	);
 	return <App />;

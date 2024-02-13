@@ -11,6 +11,7 @@ import {
 	CATEGORY_PROP,
 	DESCRIPTION_PROP,
 	GUIDE_BOOK_EDIT_POST_PATH,
+	GUIDE_BOOK_PATH,
 	GUIDE_BOOK_PROP,
 	REDIRECT_URI,
 	TITLE_PROP,
@@ -40,8 +41,12 @@ function EditGuideBookPost({ customRedirectUri = "" }) {
 	const [saving, setSaving] = useState(false);
 	const { id } = useParams();
 
-	const { fetchGuideBook, fetchGuideBookCategories, patchGuideBook } =
-		useGuideBookPost();
+	const {
+		fetchGuideBook,
+		fetchGuideBookCategories,
+		patchGuideBook,
+		deleteGuideBook,
+	} = useGuideBookPost();
 	const [form] = useForm();
 
 	const editPostAuthorities = [
@@ -215,6 +220,9 @@ function EditGuideBookPost({ customRedirectUri = "" }) {
 						loading={saving}
 						disabled={saving}
 						popconfirm={true}
+						onPopConfirm={() =>
+							deleteGuideBook(id).then(() => navigate(`${GUIDE_BOOK_PATH}`))
+						}
 						title={t("form_delete_record_msg")}
 						className="w-100 bg-danger"
 						btnProps={{

@@ -42,6 +42,16 @@ const GBPostTable = () => {
 		},
 	});
 
+	const newPostAuthorities = [
+		"ROLE_ADMIN",
+		"ROLE_SUPER_ADMIN",
+		"ROLE_CONTRIBUTOR",
+		"GUIDEBOOK_CREATE",
+	];
+
+	const isUserAuthorizedCreateNewPost = () =>
+		(profile?.authorities || []).some((v) => newPostAuthorities.includes(v));
+
 	const categoryList = fetchGuideBookCategories();
 
 	const searchInput = useRef(null);
@@ -351,18 +361,22 @@ const GBPostTable = () => {
 					return (
 						<Flex justify="space-between">
 							<Title level={2}>{t("post_msg_other")}</Title>
-							<Button
-								type="primary"
-								className="border-0"
-								size="large"
-								onClick={() => {
-									navigate(
-										`${GUIDE_BOOK_NEW_POST_PATH}?${REDIRECT_URI}=${MY_PROFILE_PATH.slice(1)}?menu=post`
-									);
-								}}
-							>
-								{t("new_post_msg")}
-							</Button>
+							{isUserAuthorizedCreateNewPost() && (
+								<>
+									<Button
+										type="primary"
+										className="border-0"
+										size="large"
+										onClick={() => {
+											navigate(
+												`${GUIDE_BOOK_NEW_POST_PATH}?${REDIRECT_URI}=${MY_PROFILE_PATH.slice(1)}?menu=post`
+											);
+										}}
+									>
+										{t("new_post_msg")}
+									</Button>
+								</>
+							)}
 						</Flex>
 					);
 				}}

@@ -1,7 +1,7 @@
 import { useTranslation } from "react-i18next";
 import { sendOtpCodeAxios, verifyOtpCodeAxios } from "../../../Axios/authAxios";
+import { localEnv } from "../../../serviceEnv";
 import useMessage from "../MessageHook/useMessage";
-// import { errorMessage, loadingMessage, successMessage } from "./useMessage";
 
 function useTwilio() {
 	const { t } = useTranslation("Otp");
@@ -14,10 +14,11 @@ function useTwilio() {
 	 * @returns {Promise<void>} message returns
 	 */
 	const sendCode = async (channel = "", payload = {}) => {
-		return successMessage(`${t("otp_code_sent_msg")}`);
-		return sendOtpCodeAxios(channel, payload)
-			.then(() => successMessage(`${t("otp_code_sent_msg")}`))
-			.catch((e) => errorMessage(e).then(() => Promise.reject()));
+		return localEnv
+			? successMessage(`${t("otp_code_sent_msg")}`)
+			: sendOtpCodeAxios(channel, payload)
+					.then(() => successMessage(`${t("otp_code_sent_msg")}`))
+					.catch((e) => errorMessage(e).then(() => Promise.reject()));
 	};
 
 	/**
@@ -28,11 +29,11 @@ function useTwilio() {
 	 * @returns {Promise<void>} message returns
 	 */
 	const verifyCode = async (channel = "", payload = {}) => {
-		return successMessage(`${t("otp_code_verified_msg")}`);
-
-		return verifyOtpCodeAxios(channel, payload)
-			.then(() => successMessage(`${t("otp_code_verified_msg")}`))
-			.catch((e) => errorMessage(e).then(() => Promise.reject()));
+		return localEnv
+			? successMessage(`${t("otp_code_verified_msg")}`)
+			: verifyOtpCodeAxios(channel, payload)
+					.then(() => successMessage(`${t("otp_code_verified_msg")}`))
+					.catch((e) => errorMessage(e).then(() => Promise.reject()));
 	};
 
 	return { sendCode, verifyCode };
