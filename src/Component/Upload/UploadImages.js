@@ -36,6 +36,7 @@ function UploadImages({
 	uploadImage = (_formData) => Promise.resolve(),
 	afterUpload = (_newFileList) => {},
 	afterRemove = (_newFileList) => {},
+	showReset = true,
 }) {
 	const { t } = useTranslation(["Form"]);
 	const [fileList, setFileList] = useState(defaultFileList || []);
@@ -186,6 +187,7 @@ function UploadImages({
 				cropShape={cropShape}
 				quality={cropQuality}
 				modalOk={cropModalOk}
+				showReset={showReset}
 				modalWidth={cropModalWidth}
 				{...imgCropProps}
 			>

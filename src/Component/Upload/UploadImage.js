@@ -11,9 +11,11 @@ function UploadImage({
 	cropShape = "rect",
 	cropQuality = 0.4,
 	cropOk = "Save",
+	showReset = true,
 	cropModalWidth = "60%",
 	imgCropProps = {},
 	uploadProps = {},
+	multiple = false,
 	uploadImageOnClick = async (_formData) => {},
 	uploadButton,
 }) {
@@ -55,7 +57,47 @@ function UploadImage({
 		}
 	};
 
-	return (
+	const UploadBtn = (
+		<Upload
+			name="avatar"
+			accept=".png, .jpg, .jpeg"
+			className={`${uploadClassName}`}
+			showUploadList={false}
+			multiple={multiple}
+			customRequest={async ({ file, onError, onSuccess, ...props }) => {
+				console.log(props);
+				const formData = new FormData();
+				formData.append("file", file);
+
+				uploadImageOnClick(formData)
+					.then(() => onSuccess())
+					.catch(onError());
+
+				return {
+					abort() {
+						// console.log("upload progress is aborted.");
+					},
+				};
+			}}
+			beforeUpload={beforeUpload}
+			onChange={handleChange}
+			progress={{
+				strokeColor: {
+					"0%": "#108ee9",
+					"100%": "#87d068",
+				},
+				strokeWidth: 3,
+				format: (percent) => percent && `${parseFloat(percent.toFixed(2))}%`,
+			}}
+			{...uploadProps}
+		>
+			{uploadButton || t("upload_msg")}
+		</Upload>
+	);
+
+	return multiple ? (
+		UploadBtn
+	) : (
 		<ImgCrop
 			rotationSlider={cropRotate}
 			aspectSlider={true}
@@ -64,41 +106,13 @@ function UploadImage({
 			quality={cropQuality}
 			modalOk={cropOk}
 			modalWidth={cropModalWidth}
+			showReset={showReset}
+			onModalOk={(value) => {
+				console.log(value);
+			}}
 			{...imgCropProps}
 		>
-			<Upload
-				name="avatar"
-				accept=".png, .jpg, .jpeg"
-				className={`${uploadClassName}`}
-				showUploadList={false}
-				customRequest={({ file, onError, onSuccess }) => {
-					const formData = new FormData();
-					formData.append("file", file);
-
-					uploadImageOnClick(formData)
-						.then(() => onSuccess())
-						.catch(onError());
-
-					return {
-						abort() {
-							// console.log("upload progress is aborted.");
-						},
-					};
-				}}
-				beforeUpload={beforeUpload}
-				onChange={handleChange}
-				progress={{
-					strokeColor: {
-						"0%": "#108ee9",
-						"100%": "#87d068",
-					},
-					strokeWidth: 3,
-					format: (percent) => percent && `${parseFloat(percent.toFixed(2))}%`,
-				}}
-				{...uploadProps}
-			>
-				{uploadButton || t("upload_msg")}
-			</Upload>
+			{UploadBtn}
 		</ImgCrop>
 	);
 }

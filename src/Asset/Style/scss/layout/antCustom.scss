@@ -174,3 +174,11 @@ ul.ant-rate li {
 	display: flex;
 	justify-content: flex-end;
 }
+
+.ant-popover {
+	z-index: 10000 !important;
+}
+
+.ant-select-dropdown.ant-select-dropdown-placement-bottomLeft {
+	z-index: 50000 !important;
+}
