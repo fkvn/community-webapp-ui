@@ -30,6 +30,8 @@ export const imageTopbarBgMobile = `${STORAGE_SOURCE_URL}img-top-bar-mobile.png?
 
 export const image404 = `${STORAGE_SOURCE_URL}404.png?alt=media&token=207d8aa7-a3a9-4b40-a8b9-6d24614c6332`;
 
+export const oops = `${STORAGE_SOURCE_URL}Oops.svg?alt=media&token=207d8aa7-a3a9-4b40-a8b9-6d24614c6332`;
+
 export const imageGuestAvatar = `${STORAGE_SOURCE_URL}img-avatar-guest.png?alt=media&token=fba2745b-46fb-44ea-aa65-dcb6e008cccd`;
 
 export const imageThainowBlur = `${STORAGE_SOURCE_URL}img-logo-blur.png?alt=media&token=184f0afc-beb7-4992-9c24-63e3004444ef`;

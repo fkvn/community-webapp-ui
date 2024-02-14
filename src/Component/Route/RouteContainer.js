@@ -29,76 +29,87 @@ import MyProfile from "../Layout/MainLayout/Body/MyProfile";
 import Home from "../Layout/MainLayout/Body/ThaiHelpThai/Home";
 import MainLayout from "../Layout/MainLayout/MainLayout";
 import NotFound from "../NotFound/NotFound";
+import Oops from "../NotFound/Oops";
 
 function RouteContainer() {
 	const { t } = useTranslation();
 
-	const router = createBrowserRouter([
-		{
-			path: "/",
-			Component: MainLayout,
-			children: [
-				// Outlet Body
-				{ index: true, Component: Home },
-				{
-					path: `${MY_PROFILE_PATH}`,
-					Component: MyProfile,
-					handle: {
-						// you can put whatever you want on a route handle
-						// here we use "crumb" and return some elements,
-						// this is what we'll render in the breadcrumbs
-						// for this route
-						crumb: () => {
-							return { path: MY_PROFILE_PATH, title: t("my_profile_msg") };
+	const router = createBrowserRouter(
+		[
+			{
+				path: "/",
+				Component: MainLayout,
+				children: [
+					// Outlet Body
+					{ index: true, Component: Home },
+					{
+						path: `${MY_PROFILE_PATH}`,
+						Component: MyProfile,
+						handle: {
+							// you can put whatever you want on a route handle
+							// here we use "crumb" and return some elements,
+							// this is what we'll render in the breadcrumbs
+							// for this route
+							crumb: () => {
+								return { path: MY_PROFILE_PATH, title: t("my_profile_msg") };
+							},
 						},
 					},
-				},
-				{
-					path: HELP_CENTER_PATH,
-					Component: HelpCenter,
-					handle: {
-						// you can put whatever you want on a route handle
-						// here we use "crumb" and return some elements,
-						// this is what we'll render in the breadcrumbs
-						// for this route
-						crumb: () => {
-							return { path: HELP_CENTER_PATH, title: t("help_center_msg") };
+					{
+						path: HELP_CENTER_PATH,
+						Component: HelpCenter,
+						handle: {
+							// you can put whatever you want on a route handle
+							// here we use "crumb" and return some elements,
+							// this is what we'll render in the breadcrumbs
+							// for this route
+							crumb: () => {
+								return { path: HELP_CENTER_PATH, title: t("help_center_msg") };
+							},
 						},
 					},
-				},
-				{
-					path: GUIDE_BOOK_PATH,
-					Component: GuideBookRoute,
-					handle: {
-						crumb: () => {
-							return { path: GUIDE_BOOK_PATH, title: t("thai_guide_book_msg") };
+					{
+						path: GUIDE_BOOK_PATH,
+						Component: GuideBookRoute,
+						handle: {
+							crumb: () => {
+								return {
+									path: GUIDE_BOOK_PATH,
+									title: t("thai_guide_book_msg"),
+								};
+							},
 						},
+						children: [
+							{ index: true, Component: GuideBookDashBoard },
+							{
+								path: `:id`,
+								Component: GuideBookDetail,
+							},
+						],
 					},
-					children: [
-						{ index: true, Component: GuideBookDashBoard },
-						{
-							path: `:id`,
-							Component: GuideBookDetail,
-						},
-					],
-				},
-				{ path: `${TERM_PATH}`, Component: Term },
-				{ path: `${POLICY_PATH}`, Component: Policy },
-			],
-			handle: {
-				crumb: () => {
-					return { path: "/", title: t("home_msg") };
+					{ path: `${TERM_PATH}`, Component: Term },
+					{ path: `${POLICY_PATH}`, Component: Policy },
+				],
+				handle: {
+					crumb: () => {
+						return { path: "/", title: t("home_msg") };
+					},
 				},
 			},
-		},
-		{ path: SIGN_UP_PATH, Component: Signup },
-		{ path: SIGN_IN_PATH, Component: Signin },
-		{ path: FORGOT_PASSWORD_PATH, Component: ForgotPasswordContainer },
-		{ path: GUIDE_BOOK_NEW_POST_PATH, Component: NewGuideBookPost },
-		{ path: `${GUIDE_BOOK_EDIT_POST_PATH}/:id`, Component: EditGuideBookPost },
+			{ path: SIGN_UP_PATH, Component: Signup },
+			{ path: SIGN_IN_PATH, Component: Signin },
+			{ path: FORGOT_PASSWORD_PATH, Component: ForgotPasswordContainer },
+			{ path: GUIDE_BOOK_NEW_POST_PATH, Component: NewGuideBookPost },
+			{
+				path: `${GUIDE_BOOK_EDIT_POST_PATH}/:id`,
+				Component: EditGuideBookPost,
+			},
 
-		{ path: "*", Component: NotFound },
-	]);
+			{ path: "*", Component: NotFound },
+		].map((v) => {
+			return { ...v, errorElement: Oops };
+		})
+	);
 
 	const App = () => (
 		<>
