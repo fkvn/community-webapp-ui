@@ -2,6 +2,8 @@ import { STORAGE_SOURCE_URL } from "../serviceEnv";
 
 export const svgLoginPic = `${STORAGE_SOURCE_URL}svg-login-pic.svg?alt=media&token=184f0afc-beb7-4992-9c24-63e3004444ef`;
 
+export const svgFacebookMessengerIcon = `${STORAGE_SOURCE_URL}svg-fb-messenger-icon.svg?alt=media&token=184f0afc-beb7-4992-9c24-63e3004444ef`;
+
 export const imageThaiHelpThaiBanner = `${STORAGE_SOURCE_URL}img-thaihelpthaibanner.png?alt=media&token=184f0afc-beb7-4992-9c24-63e3004444ef`;
 
 export const imageThaiNow1 = `${STORAGE_SOURCE_URL}img-thainow-1.jpeg?alt=media&token=184f0afc-beb7-4992-9c24-63e3004444ef`;

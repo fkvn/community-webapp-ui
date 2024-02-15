@@ -14,12 +14,13 @@ import {
 	GUIDE_BOOK_PATH,
 	USER_REDUCER,
 } from "../../../../../Util/ConstVar";
-import { formatTime } from "../../../../../Util/Util";
+import { formatTime, stripoutHTML } from "../../../../../Util/Util";
 import BreadcrumbContainer from "../../../../Breadcrumb/BreadcrumbContainer";
 import DeleteBtn from "../../../../Button/DeleteBtn";
 import NewGuideBookPostFloatBtn from "../../../../Button/GuideBook/NewPostFloatBtn";
 import useGuideBookPost from "../../../../Hook/PostHook/useGuideBookPost";
 import useHorizontalScroll from "../../../../Hook/useHorizontalScroll";
+import Share from "../../../../Share/Share";
 import FlexPostSection from "../../../Section/FlexPostSection";
 
 function GuideBookDetail() {
@@ -181,7 +182,7 @@ function GuideBookDetail() {
 
 	const PostDetailSection = () => (
 		<Flex
-			className="p-5 p-lg-5 bg-white"
+			className="p-5 p-lg-5 bg-white "
 			align="start-first"
 			vertical
 			style={{
@@ -251,38 +252,50 @@ function GuideBookDetail() {
 						</Title>
 					</Flex>
 				</Flex>
-				{isUserAuthorizedEditPost(item?.owner?.id) && (
-					<Flex gap={20}>
-						<Button
-							type="primary"
-							size="large"
-							className=" custom-center bg-warning"
-							onClick={() =>
-								navigate(
-									`${GUIDE_BOOK_EDIT_POST_PATH}/${id}?redirectUri=${GUIDE_BOOK_PATH.slice(1)}/${id}`
-								)
-							}
-						>
-							<Tooltip title={t("edit_record_msg")}>
-								<RiEdit2Line size={20} />
-							</Tooltip>
-						</Button>
 
-						<DeleteBtn
-							btnProps={{
-								type: "primary",
-								size: "large",
-								className: " custom-center bg-danger",
-							}}
-							iconProps={{
-								color: "white",
-							}}
-							onConfirm={() =>
-								deleteGuideBook(id).then(() => navigate(`${GUIDE_BOOK_PATH}`))
-							}
-						/>
-					</Flex>
-				)}
+				<Flex gap={20}>
+					<Share
+						title={item.title}
+						buttonProps={{
+							size: "large",
+						}}
+						hashtag={`#ThaiNow-${item?.category?.replaceAll("_", "-")?.toLowerCase()}`}
+						summary={stripoutHTML(item.description)}
+						url={window.location.href}
+					/>{" "}
+					{isUserAuthorizedEditPost(item?.owner?.id) && (
+						<>
+							<Button
+								type="primary"
+								size="large"
+								className=" custom-center bg-warning"
+								onClick={() =>
+									navigate(
+										`${GUIDE_BOOK_EDIT_POST_PATH}/${id}?redirectUri=${GUIDE_BOOK_PATH.slice(1)}/${id}`
+									)
+								}
+							>
+								<Tooltip title={t("edit_record_msg")}>
+									<RiEdit2Line size={20} />
+								</Tooltip>
+							</Button>
+
+							<DeleteBtn
+								btnProps={{
+									type: "primary",
+									size: "large",
+									className: " custom-center bg-danger",
+								}}
+								iconProps={{
+									color: "white",
+								}}
+								onConfirm={() =>
+									deleteGuideBook(id).then(() => navigate(`${GUIDE_BOOK_PATH}`))
+								}
+							/>
+						</>
+					)}
+				</Flex>
 			</Flex>
 
 			<Carousel autoplay className="w-100">
@@ -300,7 +313,7 @@ function GuideBookDetail() {
 			</Carousel>
 
 			<Content
-				className="my-5 iframe-w-100"
+				className="my-5 iframe-w-100 rte"
 				style={{
 					minHeight: "30rem",
 				}}

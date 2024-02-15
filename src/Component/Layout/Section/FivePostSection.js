@@ -16,18 +16,17 @@ function FivePostSection({ items = [] }) {
 		<Flex
 			className="w-100 my-5 "
 			style={{
-				minHeight: "40rem",
-				maxHeight: "50rem",
+				minHeight: "auto",
+				maxHeight: "60rem",
 				overflow: "hidden",
 			}}
 			gap={20}
 		>
 			{/* 1st main item */}
 			<Flex
-				className="p-4"
+				className={`${items.length === 1 ? "" : "p-4"}`}
 				style={{
 					width: `${items.length > 1 ? "50" : "100"}%`,
-					minHeight: "40rem",
 					backgroundImage: `linear-gradient(180deg, rgba(0, 0, 0, 0.16) 60%,rgba(0, 0, 0, 0.8) 100%), url(${
 						items[0].cover || svgThaiNowLogoWithWords
 					})`,
@@ -35,6 +34,15 @@ function FivePostSection({ items = [] }) {
 					backgroundRepeat: "no-repeat",
 					backgroundColor: "#E9E9E9",
 					backgroundSize: "cover",
+					...(items.length === 1
+						? {
+								// ratio percentage of 16/9 if only 1 picture
+								height: "0",
+								paddingTop: "56.25%",
+								paddingLeft: "2rem",
+								paddingBottom: "2rem",
+							}
+						: {}),
 					cursor: "pointer",
 				}}
 				align="flex-end"

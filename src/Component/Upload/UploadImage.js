@@ -19,7 +19,7 @@ function UploadImage({
 	uploadImageOnClick = async (_formData) => {},
 	uploadButton,
 }) {
-	const { errorMessage } = useMessage();
+	const { loadingMessage, errorMessage, destroyMessage } = useMessage();
 	const { t } = useTranslation();
 
 	const isValidImage = (file) => {
@@ -64,14 +64,18 @@ function UploadImage({
 			className={`${uploadClassName}`}
 			showUploadList={false}
 			multiple={multiple}
-			customRequest={async ({ file, onError, onSuccess, ...props }) => {
-				console.log(props);
+			customRequest={async ({ file, onError, onSuccess }) => {
 				const formData = new FormData();
 				formData.append("file", file);
 
+				loadingMessage("message_uploading_msg", 0, false, {
+					className: "",
+				});
+
 				uploadImageOnClick(formData)
 					.then(() => onSuccess())
-					.catch(onError());
+					.catch(onError())
+					.finally(() => destroyMessage());
 
 				return {
 					abort() {

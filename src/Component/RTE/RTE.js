@@ -94,11 +94,8 @@ function RTE({
 			<Divider className="my-2 mx-0" />
 			{editor && (
 				<FloatingMenu
-					shouldShow={({ view }) => {
-						console.log(view.props.floatMenu);
-						return view.props.floatMenu;
-					}}
 					editor={editor}
+					shouldShow={({ view }) => view.props.floatMenu}
 					tippyOptions={{ duration: 100 }}
 				>
 					<MenuBar editor={editor} className="shadow p-2" />

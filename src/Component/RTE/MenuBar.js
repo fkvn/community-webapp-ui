@@ -146,10 +146,14 @@ function MenuBar({ editor, className, menuProps }) {
 					uploadImageOnClick={(formdata) =>
 						uploadFileAxios(formdata).then((url = "") => {
 							if (url) {
-								// focus the editor first before adding, otherwise, multiple pictures will be overwritten at the same node
-								editor.commands.focus();
+								const beforeUploadPosition =
+									editor.view.props.state.selection.anchor;
 
-								editor.chain().focus().setImage({ src: url }).run();
+								editor.chain().setImage({ src: url }).run();
+
+								// focus the editor 3 nodes after because one is for the new added picture, two is for the next nodes, otherwise, multiple urls will be overwritten at the same node
+								editor.commands.enter();
+								editor.commands.focus(beforeUploadPosition + 3);
 							}
 						})
 					}
@@ -163,9 +167,19 @@ function MenuBar({ editor, className, menuProps }) {
 				const url = prompt("YouTube URL");
 
 				if (url) {
-					editor.commands.setYoutubeVideo({
-						src: url,
-					});
+					const beforeUploadPosition = editor.view.props.state.selection.anchor;
+
+					editor
+						.chain()
+						.focus()
+						.setYoutubeVideo({
+							src: url,
+						})
+						.run();
+
+					// focus the editor 3 nodes after because one is for the new added picture, two is for the next nodes, otherwise, multiple urls will be overwritten at the same node
+					editor.commands.enter();
+					editor.commands.focus(beforeUploadPosition + 3);
 				}
 			},
 		},
@@ -207,7 +221,7 @@ function MenuBar({ editor, className, menuProps }) {
 			className={`${className}`}
 			{...menuProps}
 		>
-			{items.map((item, index) => (
+			{(items || []).map((item, index) => (
 				<Fragment key={index}>
 					<MenuItem {...item} />
 				</Fragment>

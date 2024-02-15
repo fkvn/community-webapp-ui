@@ -194,10 +194,9 @@ function Home() {
 			<Flex
 				className="w-100 "
 				style={{
-					maxWidth: "110rem",
+					maxWidth: "100rem",
 				}}
 				vertical
-				gap={30}
 			>
 				<Title className="my-5">{t("thai_now_headline_msg")}</Title>
 				{guideBookItems.length > 0 ? (
