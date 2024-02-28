@@ -1,4 +1,19 @@
 {
+	"engines": {
+		"node": "16"
+	},
+	"functions": [
+		{
+			"source": "functions",
+			"codebase": "default",
+			"ignore": [
+				"node_modules",
+				".git",
+				"firebase-debug.log",
+				"firebase-debug.*.log"
+			]
+		}
+	],
 	"hosting": {
 		"public": "build",
 		"ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
@@ -8,31 +23,44 @@
 				"function": "imageTransform"
 			},
 			{
+				"source": "/guidebook/**",
+				"function": "addsocialmeta"
+			},
+			{
 				"source": "**",
 				"destination": "/index.html"
+			}
+		],
+		"headers": [
+			{
+				"source": "/service-worker.js",
+				"headers": [{ "key": "Cache-Control", "value": "no-cache" }]
 			}
 		]
 	},
 	"emulators": {
+		"functions": {
+			"port": 5001
+		},
 		"hosting": {
 			"port": "3001",
 			"rewrites": [
 				{
 					"source": "/cdn/image/**",
 					"function": "imageTransform"
+				},
+				{
+					"source": "/guidebook/**",
+					"function": "addsocialmeta"
+				},
+				{
+					"source": "**",
+					"destination": "/index.html"
 				}
 			]
 		},
 		"ui": {
 			"enabled": true
 		}
-	},
-	"functions": {
-		"ignore": [
-			"node_modules",
-			".git",
-			"firebase-debug.log",
-			"firebase-debug.*.log"
-		]
 	}
 }

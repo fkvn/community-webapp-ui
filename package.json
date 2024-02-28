@@ -46,6 +46,7 @@
 		"jquery": "^3.6.0",
 		"jwt-decode": "^3.1.2",
 		"moment": "^2.29.4",
+		"prerender-node": "^3.7.0",
 		"prettier": "^3.1.0",
 		"react": "^18.1.0",
 		"react-bootstrap": "^2.3.1",
@@ -73,8 +74,9 @@
 		"web-vitals": "^2.1.4"
 	},
 	"scripts": {
+		"copy": "cp build/index.html functions/index.html",
 		"start": "react-scripts start",
-		"build": "react-scripts build",
+		"build": "react-scripts build && npm run copy",
 		"test": "react-scripts test",
 		"eject": "react-scripts eject"
 	},

@@ -1,6 +1,6 @@
 {
   "projects": {
-    "default": "mono-thainow",
+    "default": "mono-thainow-dev",
     "production": "mono-thainow",
     "dev": "mono-thainow-dev"
   },

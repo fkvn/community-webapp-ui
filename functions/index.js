@@ -1,127 +1,50 @@
-const { log } = require("console");
+/**
+ * Import function triggers from their respective submodules:
+ *
+ * const {onCall} = require("firebase-functions/v2/https");
+ * const {onDocumentWritten} = require("firebase-functions/v2/firestore");
+ *
+ * See a full list of supported triggers at https://firebase.google.com/docs/functions
+ */
+
 const functions = require("firebase-functions");
-const https = require("https");
-const sharp = require("sharp");
 
-// // Create and Deploy Your First Cloud Functions
-// // https://firebase.google.com/docs/functions/write-firebase-functions
-//
-// Full code is here: https://github.com/dbanisimov/firebase-image-cdn
+// Create and deploy your first functions
+// https://firebase.google.com/docs/functions/get-started
 
-// Convert option in a string format to a key-value pair
-// key=value   { [key]: value }
-// key         { [key]: true }
-const optionToKeyVal = (option = "") =>
-	((split = []) =>
-		split.length > 0
-			? { [split[0]]: split.length > 1 ? split[1] : true }
-			: undefined)(option.split("="));
+// exports.helloWorld = onRequest((request, response) => {
+//   logger.info("Hello logs!", {structuredData: true});
+//   response.send("Hello from Firebase!");
+// });
 
-// Parse options string and return options object
-// width?: string;
-// height?: string;
-// lossless?: boolean;
-const parseOptions = (options = "") =>
-	options
-		.split(",")
-		.reduce(
-			(acc, option) =>
-				Object.assign(Object.assign({}, acc), optionToKeyVal(option)),
-			{}
-		);
+const express = require("express");
 
-// Configure allowed request URLs. This should match the hosting glob pattern
-const allowedPrefix = "/cdn/image/";
-const isUrlAllowed = (url) => url.startsWith(allowedPrefix);
+const app = express();
 
-// Configure source image URLs. This assumes that we store images on Firebase Storage
-const projectId = "mono-thainow";
-const sourcePrefix = `https://firebasestorage.googleapis.com/v0/b/${projectId}.appspot.com/o/`;
+const prerender = require("prerender-node")
+	// .set("prerenderServiceUrl", "http://localhost:3000")
+	.set("prerenderToken", "73R1Oklx8KGAGmgQPunS");
 
-// const sourceSuffix = `?alt=media`;
+prerender.crawlerUserAgents.push("Google-Cloud-Tasks");
+prerender.crawlerUserAgents.push("googlebot");
+prerender.crawlerUserAgents.push("bingbot");
+prerender.crawlerUserAgents.push("yandex");
 
-// Validate and split request URL into options and source parts
-const tokenizeUrl = (url) => {
-	if (!isUrlAllowed(url)) {
-		throw new Error("URL is not allowed");
-	}
-	const urlNoPrefix = url.slice(allowedPrefix.length);
+app.use(prerender);
 
-	// has image option - "/width=50,height=20?kvn/...."
-	const imageOptionsSlashIdx = urlNoPrefix.indexOf("?kvn/");
-	const optionsSlashIdx = urlNoPrefix.indexOf("/");
+const fs = require("fs");
 
-	let sourceKey = urlNoPrefix.slice(optionsSlashIdx + 1);
-	let optionsStr = urlNoPrefix.slice(0, optionsSlashIdx);
-	let sourceUrl = sourcePrefix + sourceKey;
+app.get("*", (req, res) => {
+	console.log("Calling function for URL:", req.path);
+	const userAgent = req.header("User-Agent");
+	const method = req.method;
+	console.log(`Express: handling prerender: ${method} ${userAgent}`);
 
-	// if no image option
-	if (imageOptionsSlashIdx < 0) {
-		sourceUrl = sourcePrefix + urlNoPrefix;
+	// need to replace the index.html in the functions folder with the index.html in the build folder every time we create a new build
+	let indexHTML = fs.readFileSync("./index.html").toString();
 
-		return ["", sourceUrl];
-	}
-
-	return [optionsStr, sourceUrl];
-};
-
-// Set CDN caching duration in seconds
-const cacheMaxAge = 5 * 60; // 5 minutes
-
-// Run the image transformation on Http requests.
-// To modify memory and CPU allowance use .runWith({...}) method
-exports.imageTransform = functions.https.onRequest((request, response) => {
-	let sourceUrl;
-	let options;
-	try {
-		const url = request.url.replace(
-			"thainow-service-worker/config/",
-			"thainow-service-worker%2Fconfig%2F"
-		);
-
-		console.log(url);
-
-		const [optionsStr, sourceUrlStr] = tokenizeUrl(url);
-
-		console.log(sourceUrlStr);
-		// console.log(optionsStr);
-
-		sourceUrl = new URL(sourceUrlStr);
-
-		console.log(sourceUrlStr);
-
-		options = parseOptions(optionsStr);
-
-		console.log(options);
-	} catch (error) {
-		response.status(400).send();
-		return;
-	}
-
-	// Modern browsers that support WebP format will send an appropriate Accept header
-	const acceptHeader = request.header("Accept");
-	const webpAccepted =
-		!!acceptHeader && acceptHeader.indexOf("image/webp") !== -1;
-
-	// If one of the dimensions is undefined the automatic sizing
-	// preserving the aspect ratio will be applied
-	const transform = sharp()
-		.resize(
-			options.width ? Number(options.width) : undefined,
-			options.height ? Number(options.height) : undefined,
-			{
-				fit: "cover",
-			}
-		)
-		.webp({ force: webpAccepted, lossless: !!options.lossless });
-
-	// Set cache control headers. This lets Firebase Hosting CDN to cache
-	// the converted image and serve it from cache on subsequent requests.
-	// We need to Vary on Accept header to correctly handle WebP support detection.
-	const responsePipe = response
-		.set("Cache-Control", `public, max-age=${cacheMaxAge}`)
-		.set("Vary", "Accept");
-
-	// The built-in node https works here
-	https.get(sourceUrl, (res) => res.pipe(transform).pipe(responsePipe));
+	// render built indexHTML
+	res.status(200).send(indexHTML);
 });
+
+exports.addsocialmeta = functions.https.onRequest(app);

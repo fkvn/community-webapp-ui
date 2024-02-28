@@ -1,5 +1,8 @@
 export const isObjectEmpty = (object = {}) => JSON.stringify(object) === "{}";
 
+export const truncate = (input, limit = 500) =>
+	input?.length > limit ? `${input.substring(0, limit)}...` : input;
+
 export const getLanguageTitle = (code = "en") => {
 	switch (code) {
 		case "en":
@@ -162,4 +165,5 @@ export const formatTime = (time = "") => {
 };
 
 export const stripoutHTML = (str = "") =>
-	str?.replace(/(<([^>]+)>)/gi, "") || "";
+	str?.replace(/<[^>]*(>|$)|&nbsp;|&#34;|&zwnj;|&raquo;|&laquo;|&gt;/g, "") ||
+	"";

@@ -14,12 +14,18 @@ import {
 	GUIDE_BOOK_PATH,
 	USER_REDUCER,
 } from "../../../../../Util/ConstVar";
-import { formatTime, stripoutHTML } from "../../../../../Util/Util";
+import {
+	formatString,
+	formatTime,
+	stripoutHTML,
+	truncate,
+} from "../../../../../Util/Util";
 import BreadcrumbContainer from "../../../../Breadcrumb/BreadcrumbContainer";
 import DeleteBtn from "../../../../Button/DeleteBtn";
 import NewGuideBookPostFloatBtn from "../../../../Button/GuideBook/NewPostFloatBtn";
 import useGuideBookPost from "../../../../Hook/PostHook/useGuideBookPost";
 import useHorizontalScroll from "../../../../Hook/useHorizontalScroll";
+import MetaTag from "../../../../SEO/MetaTag";
 import Share from "../../../../Share/Share";
 import FlexPostSection from "../../../Section/FlexPostSection";
 
@@ -31,6 +37,7 @@ function GuideBookDetail() {
 		useGuideBookPost();
 	const { scrollContainer, scroll } = useHorizontalScroll();
 	const { id } = useParams();
+
 	const newPostAuthorities = [
 		"ROLE_ADMIN",
 		"ROLE_SUPER_ADMIN",
@@ -123,7 +130,9 @@ function GuideBookDetail() {
 	}, [id]);
 
 	const extraCrumbs = {
-		title: t(`${item?.category.toLowerCase()}_msg`) || "",
+		title: item?.category.toLowerCase()
+			? t(`${item?.category.toLowerCase()}_msg`)
+			: "",
 	};
 
 	const MoreItemSection = () =>
@@ -369,15 +378,26 @@ function GuideBookDetail() {
 			</Flex>
 			<MoreItemSection />
 			{isUserAuthorizedCreateNewPost() && (
-				<>
-					<NewGuideBookPostFloatBtn
-						redirectUri={`${GUIDE_BOOK_PATH.slice(1)}/${id}`}
-					/>
-				</>
+				<NewGuideBookPostFloatBtn
+					redirectUri={`${GUIDE_BOOK_PATH.slice(1)}/${id}`}
+				/>
 			)}
+			<MetaTag
+				title={item.title}
+				description={truncate(
+					stripoutHTML(item.description?.replace("_", " "))
+				)}
+				siteName={`ThaiNow - ${formatString(item.category?.replace("_", " "), "capitalize")}`}
+				imgUrl={item.bannerUrl}
+				url={window.location.href}
+			/>
 		</Flex>
 	);
-	return <App />;
+	return (
+		<>
+			<App />
+		</>
+	);
 }
 
 export default GuideBookDetail;
