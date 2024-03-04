@@ -1,5 +1,5 @@
 import { LogoutOutlined, UserOutlined } from "@ant-design/icons";
-import { Avatar, Button, Flex, Menu } from "antd";
+import { Avatar, Button, Flex, Grid, Menu } from "antd";
 import { useTranslation } from "react-i18next";
 import { Link, useNavigate } from "react-router-dom";
 import { svgThaiNowLogoWithWords } from "../../../../Asset/Asset";
@@ -13,6 +13,8 @@ import useImage from "../../../Hook/useImage";
 import SwitchLanguage from "../../../Locale/SwitchLanguage";
 
 function Header({ profile = {}, signout = () => {}, isLogin = false }) {
+	const { useBreakpoint } = Grid;
+	const screens = useBreakpoint();
 	const navigate = useNavigate();
 	const { image } = useImage();
 
@@ -163,9 +165,11 @@ function Header({ profile = {}, signout = () => {}, isLogin = false }) {
 			icon={<UserOutlined />}
 			onClick={() => navigate(`${SIGN_IN_PATH}`)}
 		>
-			<span className="pt-1">
-				{t("login_msg")} | {t("signup_msg")}
-			</span>
+			{!screens.xs && (
+				<span className="pt-1">
+					{t("login_msg")} | {t("signup_msg")}
+				</span>
+			)}
 		</Button>
 	);
 
@@ -174,14 +178,14 @@ function Header({ profile = {}, signout = () => {}, isLogin = false }) {
 			label: (
 				<Flex align="center" gap={10}>
 					<Avatar
-						size="small"
+						size="medium"
 						{...(avatarUrl
 							? {
 									src: <img src={avatarUrl} alt="avatar" />,
 								}
 							: { icon: <UserOutlined /> })}
 					/>
-					{profile[`${USERNAME_PROP}`]}
+					{!screens.xs && profile[`${USERNAME_PROP}`]}
 				</Flex>
 			),
 			key: "profile-menu",
@@ -227,7 +231,12 @@ function Header({ profile = {}, signout = () => {}, isLogin = false }) {
 	);
 
 	const App = () => (
-		<Flex justify="space-between" className="my-1 mx-3">
+		<Flex
+			justify="space-between"
+			style={{
+				margin: screens.md ? ".3rem 2rem" : ".3rem 1rem",
+			}}
+		>
 			<Flex justify="space-between" align="center">
 				{image({
 					src: svgThaiNowLogoWithWords,

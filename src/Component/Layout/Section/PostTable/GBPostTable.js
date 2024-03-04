@@ -1,6 +1,6 @@
 import { SearchOutlined } from "@ant-design/icons";
 import { RiEdit2Line } from "@remixicon/react";
-import { Button, Flex, Input, Table, Tag, Tooltip } from "antd";
+import { Button, Flex, Grid, Input, Table, Tag, Tooltip } from "antd";
 import Title from "antd/lib/typography/Title";
 import React, { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -19,6 +19,9 @@ import DeleteBtn from "../../../Button/DeleteBtn";
 import useGuideBookPost from "../../../Hook/PostHook/useGuideBookPost";
 
 const GBPostTable = () => {
+	const { useBreakpoint } = Grid;
+	const screens = useBreakpoint();
+
 	const { profile } = useSelector((state) => state[`${USER_REDUCER}`]);
 	const navigate = useNavigate();
 	const { fetchGuideBooks, fetchGuideBookCategories, deleteGuideBook } =
@@ -183,6 +186,7 @@ const GBPostTable = () => {
 			render: (title, record) => {
 				return <Link to={`${GUIDE_BOOK_PATH}/${record?.id}`}>{title}</Link>;
 			},
+			width: screens.xxl ? 200 : 150,
 			fixed: "left",
 			ellipsis: true,
 			...getColumnSearchProps(
@@ -208,7 +212,7 @@ const GBPostTable = () => {
 					</span>
 				);
 			},
-			width: "18%",
+			width: screens.xxl ? 100 : 200,
 			filters: categoryList.map((v) => {
 				return {
 					...v,
@@ -252,14 +256,14 @@ const GBPostTable = () => {
 					value: "PRIVATE",
 				},
 			],
-			width: "12%",
+			width: screens.xxl ? 100 : 120,
 			ellipsis: true,
 		},
 		{
 			title: t("updated_on_msg"),
 			dataIndex: "updatedOn" || "",
 			render: (date) => formatTime(date),
-			width: "14%",
+			width: screens.xxl ? 100 : 150,
 			sorter: true,
 			defaultSortOrder: "descend",
 			ellipsis: true,
@@ -267,12 +271,13 @@ const GBPostTable = () => {
 		{
 			title: "Action",
 			key: "operation",
-			// fixed: "right",
-			width: "12%",
+			width: 120,
+			fixed: "right",
+			ellipsis: true,
 			render: (_, record) => (
-				<Flex gap={10}>
+				<Flex gap={0} align="center" className="w-100">
 					<Button
-						type="default"
+						type="ghost"
 						className="border-0"
 						onClick={() =>
 							navigate(
@@ -286,12 +291,8 @@ const GBPostTable = () => {
 					</Button>
 					<DeleteBtn
 						btnProps={{
-							type: "primary",
-							size: "large",
-							className: " custom-center bg-danger",
-						}}
-						iconProps={{
-							color: "white",
+							type: "ghost",
+							className: " custom-center border-0",
 						}}
 						onConfirm={() =>
 							deleteGuideBook(record?.id).then(() =>
@@ -357,6 +358,7 @@ const GBPostTable = () => {
 			<Table
 				className="mh-30"
 				columns={columns}
+				virtual
 				title={() => {
 					return (
 						<Flex justify="space-between">

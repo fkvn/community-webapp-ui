@@ -1,5 +1,5 @@
 import { RightOutlined } from "@ant-design/icons";
-import { Button, Card, Carousel, Flex, Image, Skeleton } from "antd";
+import { Button, Card, Carousel, Flex, Grid, Image, Skeleton } from "antd";
 import Link from "antd/es/typography/Link";
 import Title from "antd/es/typography/Title";
 import { useEffect, useState } from "react";
@@ -22,13 +22,17 @@ import GallerySection from "../../../Section/GallerySection";
  * @guideBookItems [{category: "", cover: "", title: ""}]
  * @returns
  */
+
 function Home() {
 	const { t } = useTranslation();
 	const navigate = useNavigate();
 	const { fetchGuideBooks } = useGuideBookPost();
+	const { useBreakpoint } = Grid;
+	const screens = useBreakpoint();
 
 	const carouselContentStyle = {
-		height: "30rem",
+		minHeight: screens.xxl ? "55rem" : screens.xs ? "20rem" : "40rem",
+		maxHeight: "100rem",
 		lineHeight: "160px",
 		textAlign: "center",
 	};
@@ -72,16 +76,35 @@ function Home() {
 						backgroundRepeat: "no-repeat",
 						backgroundColor: "#E9E9E9",
 						backgroundSize: "cover",
-						minHeight: "50rem",
+						// minHeight: "60rem",
 					}}
 					justify="center"
 					align="center"
 				>
 					<Flex vertical gap={20}>
-						<Title className="text-white m-0 p-0">
+						<Title
+							className="text-white m-0 p-0"
+							{...(screens.xs
+								? {
+										style: {
+											fontSize: "2rem",
+										},
+									}
+								: {})}
+						>
 							CONNECTING THAI OVERSEAS
 						</Title>
-						<Title className="text-white m-0 p-0" level={3}>
+						<Title
+							className="text-white m-0 p-0"
+							level={3}
+							{...(screens.xs
+								? {
+										style: {
+											fontSize: "2rem",
+										},
+									}
+								: {})}
+						>
 							เชื่อมโยงคนไทย ในต่างแดน{" "}
 						</Title>
 					</Flex>
@@ -95,9 +118,9 @@ function Home() {
 			<Card
 				style={{
 					width: `100%`,
+					// margin: `${screens.xs ? "1.5rem" : "3rem"} 0`,
 					border: 0,
 				}}
-				className="my-5"
 				cover={
 					<Image
 						alt={`Sponsored`}
@@ -106,10 +129,9 @@ function Home() {
 						style={{
 							// default width and height to display the fallback photo
 							width: "100%",
-							minHeight: "20rem",
-
+							minHeight: screens.xs || screens.sm ? "10rem" : "15rem",
 							// image attr
-							maxHeight: "15rem",
+							maxHeight: "25rem",
 							objectFit: "cover",
 							objectPosition: "center",
 						}}
@@ -118,7 +140,7 @@ function Home() {
 				styles={{
 					body: {
 						margin: 0,
-						padding: "1.5rem 0",
+						padding: 0,
 					},
 				}}
 			>
@@ -140,27 +162,40 @@ function Home() {
 		</>
 	);
 
+	const contentMaxWidth = "120rem";
+
 	const GuideBookSection = () => (
 		<Flex
 			justify="center"
 			align="center"
-			className="p-5 p-lg-5 bg-white"
-			vertical
+			className=" bg-white"
 			style={{
-				minHeight: "35rem",
+				padding: screens.xxl ? "4rem" : screens.md ? "2rem" : "2rem 1rem",
 			}}
 		>
 			<Flex
-				className="w-100 pt-5"
+				className="w-100 "
 				style={{
-					maxWidth: "100rem",
+					maxWidth: contentMaxWidth,
 				}}
 				vertical
-				gap={20}
+				gap={screens.xxl ? 80 : screens.xs ? 20 : 50}
 			>
 				{/* Header */}
-				<Flex justify="space-between" className="w-100">
-					<Title level={2}> {t("thai_guide_book_msg")}</Title>
+				<Flex justify="space-between" className="w-100" align="center">
+					<Title
+						level={2}
+						className="m-0 p-0"
+						{...(screens.xs
+							? {
+									style: {
+										fontSize: "2rem",
+									},
+								}
+							: {})}
+					>
+						{t("thai_guide_book_msg")}
+					</Title>
 					<Button
 						type="link"
 						href={GUIDE_BOOK_PATH}
@@ -182,32 +217,42 @@ function Home() {
 
 	const PostListSection = () => (
 		<Flex
-			className="p-5 p-lg-5 w-100"
+			className="w-100"
 			align="center"
 			vertical
 			style={{
 				background: "#ECEFFA",
 				paddingTop: "2rem",
 				minHeight: "20rem",
+				padding: screens.xxl ? "4rem" : screens.md ? "2rem" : "2rem 1rem",
 			}}
 		>
 			<Flex
 				className="w-100 "
 				style={{
-					maxWidth: "100rem",
+					maxWidth: contentMaxWidth,
 				}}
 				vertical
 			>
-				<Title className="my-5">{t("thai_now_headline_msg")}</Title>
+				<Title
+					style={{
+						margin: `${screens.md ? "2rem" : "2rem"} 0`,
+						...(screens.xs && { fontSize: "2rem" }),
+					}}
+				>
+					{t("thai_now_headline_msg")}
+				</Title>
 				{guideBookItems.length > 0 ? (
 					<FlexPostSection
 						items={guideBookItems}
-						justify="space-start"
-						cardStyle={{
-							margin: "2rem 0",
-						}}
+						// justify="space-start"
+						cardStyle={
+							{
+								// margin: `${screens.sm ? "2rem" : "1rem"} 0 `,
+							}
+						}
 						bodyStyle={{
-							padding: "2rem",
+							padding: `1rem 1rem`,
 						}}
 					/>
 				) : (
@@ -222,7 +267,7 @@ function Home() {
 			<CarouselBanner />
 			<GuideBookSection />
 			<PostListSection />
-			<GallerySection background="white" />
+			<GallerySection contentMaxWidth={contentMaxWidth} background="white" />
 		</>
 	);
 	return <App />;

@@ -1,4 +1,4 @@
-import { Flex, Form, Typography } from "antd";
+import { Flex, Form, Grid, Typography } from "antd";
 import { useForm } from "antd/es/form/Form";
 import Title from "antd/lib/typography/Title";
 import { useTranslation } from "react-i18next";
@@ -25,6 +25,9 @@ function UserProfile({
 	changeProfileAvatar = async (_id, _formData) => {},
 	updateProfile = async (_id, _formData) => {},
 }) {
+	const { useBreakpoint } = Grid;
+	const screens = useBreakpoint();
+
 	const { t } = useTranslation(["Default", "Form"]);
 	const [form] = useForm();
 
@@ -74,14 +77,15 @@ function UserProfile({
 
 	const ProfileUserName = () => (
 		<TextFormControl
+			flexProp={{
+				gap: screens.lg ? 20 : 0,
+			}}
 			itemProps={{
 				label: t("user_name_msg"),
 				itemName: USERNAME_PROP,
-				className: "my-0",
+				className: "m-0",
 				style: {
-					minWidth: 400,
-					maxWidth: "100%",
-					marginRight: 20,
+					minWidth: screens.lg ? "25rem" : "100%",
 				},
 
 				labelProp: {
@@ -106,12 +110,13 @@ function UserProfile({
 
 	const ProfileEmail = () => (
 		<EmailFormControl
+			flexProp={{
+				gap: screens.lg ? 20 : 0,
+			}}
 			itemProps={{
-				className: "my-0",
+				className: "m-0",
 				style: {
-					minWidth: 400,
-					maxWidth: "100%",
-					marginRight: 20,
+					minWidth: screens.lg ? "27rem" : "100%",
 				},
 
 				labelProp: {
@@ -134,11 +139,9 @@ function UserProfile({
 			itemProps={{
 				label: t("first_name_msg"),
 				itemName: FIRSTNAME_PROP,
-				className: "my-0",
+				className: "m-0",
 				style: {
-					minWidth: 400,
-					maxWidth: "100%",
-					marginRight: 20,
+					minWidth: screens.lg ? "27rem" : "100%",
 				},
 				labelProp: {
 					className: "c-primary",
@@ -152,11 +155,9 @@ function UserProfile({
 			itemProps={{
 				label: t("last_name_msg"),
 				itemName: LASTNAME_PROP,
-				className: "my-0",
+				className: "m-0",
 				style: {
-					minWidth: 400,
-					maxWidth: "100%",
-					marginRight: 20,
+					minWidth: screens.lg ? "27rem" : "100%",
 				},
 
 				labelProp: {
@@ -168,14 +169,14 @@ function UserProfile({
 
 	const ProfilePhone = () => (
 		<PhoneFormControl
+			flexProp={{
+				gap: screens.lg ? 20 : 0,
+			}}
 			itemProps={{
-				className: "my-0",
+				className: "m-0",
 				style: {
-					minWidth: 400,
-					maxWidth: "100%",
-					marginRight: 20,
+					minWidth: screens.lg ? "27rem" : "100%",
 				},
-
 				labelProp: {
 					className: "c-primary",
 				},
@@ -201,8 +202,11 @@ function UserProfile({
 				...profile,
 				[`${REGION_PROP}`]: "US",
 			}}
+			style={{
+				minWidth: screens.md ? "25rem" : "10rem",
+			}}
 		>
-			<Flex vertical gap="large" className="my-4">
+			<Flex vertical gap="large" className="my-4 w-100">
 				<ProfileUserName />
 
 				<ProfileEmail />

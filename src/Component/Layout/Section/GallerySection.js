@@ -1,4 +1,4 @@
-import { Card, Flex, Image } from "antd";
+import { Card, Flex, Grid, Image } from "antd";
 import Title from "antd/lib/typography/Title";
 import { useTranslation } from "react-i18next";
 import ReactPlayer from "react-player/lazy";
@@ -14,7 +14,12 @@ import {
 	svgThaiNowLogoWithWords,
 } from "../../../Asset/Asset";
 
-function GallerySection({ background = "#ECEFFA" }) {
+function GallerySection({
+	background = "#ECEFFA",
+	contentMaxWidth = "120rem",
+}) {
+	const { useBreakpoint } = Grid;
+	const screens = useBreakpoint();
 	const { t } = useTranslation();
 
 	const galleryCardItems = [
@@ -31,11 +36,11 @@ function GallerySection({ background = "#ECEFFA" }) {
 	const App = () => (
 		<Flex
 			justify="top"
-			className="p-5 p-lg-5"
 			vertical
 			style={{
 				background: background,
 				minHeight: "35rem",
+				padding: screens.xxl ? "4rem" : screens.md ? "2rem" : "2rem 1rem",
 			}}
 			align="center"
 		>
@@ -43,33 +48,70 @@ function GallerySection({ background = "#ECEFFA" }) {
 				className="w-100 "
 				style={{
 					paddingTop: "2rem",
-					maxWidth: "100rem",
+					maxWidth: contentMaxWidth,
 				}}
 				vertical
-				gap={20}
+				gap={50}
 			>
-				<Title className="m-0 p-0 ">{t("do_for_thai_msg")}</Title>
+				<Title
+					className="m-0 p-0 "
+					{...(screens.xs && {
+						style: {
+							fontSize: "2rem",
+						},
+					})}
+				>
+					{t("do_for_thai_msg")}
+				</Title>
 
 				<ReactPlayer
 					controls
-					className="w-100 my-5 pt-5"
-					height="45rem"
+					className="w-100 "
+					height={screens.xs ? "20rem" : screens.xl ? "50rem" : "30rem"}
 					url="https://www.youtube.com/watch?v=ETlr0LGl6kA&t=3s"
 				/>
 
-				<Flex gap={20} justify="space-evenly" className="w-100 my-5 ">
-					<ReactPlayer controls url="https://youtu.be/lp35ZLQtu_Y" />
-					<ReactPlayer controls url="https://youtu.be/v-p0WHpNKe4" />
-					<ReactPlayer controls url="https://youtu.be/m3RZ7FINbNo" />
+				<Flex
+					justify="space-evenly"
+					className="w-100"
+					gap={20}
+					{...(screens.xs && {
+						vertical: true,
+						gap: 50,
+					})}
+				>
+					{[
+						"https://youtu.be/lp35ZLQtu_Y",
+						"https://youtu.be/v-p0WHpNKe4",
+						"https://youtu.be/m3RZ7FINbNo",
+					].map((v, idx) => (
+						<ReactPlayer
+							key={idx}
+							{...(!screens.xl && {
+								height: "13rem",
+								...(screens.xs && {
+									height: "20rem",
+									width: "100%",
+								}),
+							})}
+							controls
+							url={v}
+						/>
+					))}
 				</Flex>
 
-				<Title className="m-0 p-0 mt-5 pt-5 ">{t("root_in_usa_msg")}</Title>
+				<Title
+					className={`m-0 p-0 ${screens.md && "mt-5"}`}
+					style={{
+						...(screens.xs && {
+							fontSize: "2rem",
+						}),
+					}}
+				>
+					{t("root_in_usa_msg")}
+				</Title>
 				<Image.PreviewGroup className="d-inline-block">
-					<Card
-						style={{
-							margin: "4rem 0",
-						}}
-					>
+					<Card>
 						{galleryCardItems.map((url, idx) => (
 							<Card.Grid
 								key={idx}

@@ -1,5 +1,5 @@
 import { GlobalOutlined } from "@ant-design/icons";
-import { Select } from "antd";
+import { Grid, Select } from "antd";
 import i18next from "i18next";
 import { getLanguageTitle } from "../../Util/Util";
 
@@ -26,12 +26,15 @@ function SwitchLanguage({
 	],
 	selectionProps = {},
 }) {
+	const { useBreakpoint } = Grid;
+	const screens = useBreakpoint();
+
 	const App = () => (
 		<Select
 			labelInValue
 			defaultValue={{
 				value: i18next.language,
-				label: getLanguageTitle(i18next.language),
+				label: !screens.xs && getLanguageTitle(i18next.language),
 			}}
 			suffixIcon={
 				<GlobalOutlined
@@ -41,6 +44,7 @@ function SwitchLanguage({
 				/>
 			}
 			style={{
+				...(screens.xs && { minWidth: "120px" }),
 				maxWidth: "10rem",
 				...style,
 			}}

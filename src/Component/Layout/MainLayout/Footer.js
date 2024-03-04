@@ -1,4 +1,4 @@
-import { Divider, Flex, Image, Typography } from "antd";
+import { Divider, Flex, Grid, Image, Typography } from "antd";
 import { useTranslation } from "react-i18next";
 import {
 	svgFacebookLogo,
@@ -7,9 +7,15 @@ import {
 	svgTiktokLogo,
 	svgYoutubeLogo,
 } from "../../../Asset/Asset";
-import { GUIDE_BOOK_PATH, HELP_CENTER_PATH } from "../../../Util/ConstVar";
+import {
+	GUIDE_BOOK_PATH,
+	HELP_CENTER_PATH,
+	SIGN_UP_PATH,
+} from "../../../Util/ConstVar";
 
 function Footer() {
+	const { useBreakpoint } = Grid;
+	const screens = useBreakpoint();
 	const { t } = useTranslation(["Default", "Email"]);
 	const { Text, Link } = Typography;
 
@@ -36,10 +42,12 @@ function Footer() {
 		<Flex
 			justify="start"
 			align="center"
-			className="p-5 p-lg-5 "
-			vertical
 			style={{
-				paddingTop: "2rem",
+				padding: screens.lg
+					? "5rem 10rem"
+					: screens.md
+						? "5rem 2rem"
+						: "2rem 1rem",
 				background: "#0C529C",
 				minHeight: "20rem",
 			}}
@@ -47,19 +55,51 @@ function Footer() {
 			<Flex
 				className="w-100 "
 				style={{
-					maxWidth: "100rem",
+					maxWidth: "120rem",
 				}}
 				vertical
+				{...(!screens.md && {
+					justify: "center",
+					align: "center",
+				})}
 				gap={20}
 			>
-				<Flex justify="space-start" wrap="wrap">
-					<Flex vertical gap={30} align="flex-start" className="w-50">
+				<Flex
+					justify="space-start"
+					wrap="wrap"
+					{...(!screens.md && {
+						vertical: true,
+						gap: 20,
+						justify: "center",
+						align: "center",
+					})}
+				>
+					<Flex
+						vertical
+						gap={30}
+						align="flex-start"
+						style={{
+							width: screens.md ? "50%" : "100%",
+						}}
+						{...(!screens.md && {
+							align: "center",
+						})}
+					>
 						<Image
 							src={svgThainowLogoWhite}
 							height="5rem"
 							className="text-white"
 						/>
-						<Text level={5} className="text-white" style={{ fontSize: "1rem" }}>
+						<Text
+							level={5}
+							className="text-white "
+							style={{
+								fontSize: "1rem",
+								...(!screens.md && {
+									textAlign: "center",
+								}),
+							}}
+						>
 							{t("address_msg")}:{" "}
 							<Link
 								href="https://www.google.com/maps/place/Thai+Town,+Los+Angeles,+CA+90027/@34.1018091,-118.3087221,16z/data=!3m1!4b1!4m6!3m5!1s0x80c2bf571ef66c7f:0xf8f17d1d8988d668!8m2!3d34.1018097!4d-118.3035723!16zL20vMDNsajFy?entry=ttu"
@@ -70,7 +110,16 @@ function Footer() {
 								Thai Town, Hollywood - Los Angeles
 							</Link>
 						</Text>
-						<Text level={5} className="text-white" style={{ fontSize: "1rem" }}>
+						<Text
+							level={5}
+							className="text-white"
+							style={{
+								fontSize: "1rem",
+								...(!screens.md && {
+									textAlign: "center",
+								}),
+							}}
+						>
 							{t("email_address_msg", { ns: "Email" })}:{" "}
 							<Link
 								href="mailto:info@thainowapp.com"
@@ -84,48 +133,53 @@ function Footer() {
 						<Flex gap={30} className="my-3">
 							{socialMediaItems.map((i, idx) => (
 								<Link key={idx} href={i.url} target="_blank">
-									<Image preview={false} src={i.src} height="3rem" />
+									<Image
+										preview={false}
+										src={i.src}
+										height={screens.md ? "2.5rem" : "2.2rem"}
+									/>
 								</Link>
 							))}
 						</Flex>
 					</Flex>
-					<Flex vertical justify="space-around">
-						<Link
-							href={HELP_CENTER_PATH}
-							target="_blank"
-							style={{ color: "white", fontSize: "1rem" }}
-						>
-							{t("help_center_msg")}
-						</Link>
-						<Link
-							href={GUIDE_BOOK_PATH}
-							style={{ color: "white", fontSize: "1rem" }}
-							target="_blank"
-						>
-							{t("thai_guide_book_msg")}
-						</Link>
-						<Link
-							href="/signup"
-							style={{ color: "white", fontSize: "1rem" }}
-							target="_blank"
-						>
-							{t("register_now_msg")}
-						</Link>
-						<Link
-							href="https://thaiconsulatela.thaiembassy.org/en/index"
-							style={{ color: "white", fontSize: "1rem" }}
-							target="_blank"
-						>
-							{t("thai_consulate_news_msg")}
-						</Link>
+					<Flex
+						vertical={screens.md}
+						wrap={screens.md ? "" : "wrap"}
+						gap={20}
+						justify="space-around"
+					>
+						{[
+							{ href: HELP_CENTER_PATH, title: t("help_center_msg") },
+							{ href: GUIDE_BOOK_PATH, title: t("thai_guide_book_msg") },
+							{ href: SIGN_UP_PATH, title: t("register_now_msg") },
+							{
+								href: "https://thaiconsulatela.thaiembassy.org/en/index",
+								title: t("thai_consulate_news_msg"),
+							},
+						].map((l, idx) => (
+							<Link
+								key={idx}
+								href={l.href}
+								target="_blank"
+								style={{
+									color: "white",
+									fontSize: "1rem",
+									width: screens.md ? "100%" : "40%",
+									textAlign: screens.md ? "left" : "center",
+								}}
+							>
+								{l.title}
+							</Link>
+						))}
 					</Flex>
 				</Flex>
-				<Flex vertical>
+				<Flex vertical className="w-100">
 					<Divider className="bg-white" />
 					<Text
 						style={{
 							color: "white",
 							fontSize: "1rem",
+							textAlign: screens.md ? "left" : "center",
 						}}
 					>
 						© ThaiNow, 2024. {t("all_right_reserved_msg")}

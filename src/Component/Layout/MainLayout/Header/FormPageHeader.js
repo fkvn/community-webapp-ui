@@ -1,5 +1,5 @@
 import { CloseOutlined } from "@ant-design/icons";
-import { Button, Divider, Flex } from "antd";
+import { Button, Divider, Flex, Grid } from "antd";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { svgThaiNowLogoWithWords } from "../../../../Asset/Asset";
 import { REDIRECT_URI } from "../../../../Util/ConstVar";
@@ -7,6 +7,8 @@ import useImage from "../../../Hook/useImage";
 import SwitchLanguage from "../../../Locale/SwitchLanguage";
 
 function FormPageHeader({ onBeforeClose = () => Promise.resolve() }) {
+	const { useBreakpoint } = Grid;
+	const screens = useBreakpoint();
 	const navigate = useNavigate();
 	const [params] = useSearchParams();
 	const redirectUri = params.get(REDIRECT_URI) || "";
@@ -15,7 +17,13 @@ function FormPageHeader({ onBeforeClose = () => Promise.resolve() }) {
 
 	const App = () => (
 		<>
-			<Flex justify="space-between" align="center" className="my-1 mx-3">
+			<Flex
+				justify="space-between"
+				align="center"
+				style={{
+					margin: screens.md ? ".3rem 2rem" : ".3rem 1rem",
+				}}
+			>
 				<Flex justify="space-between" align="center">
 					{image({
 						src: svgThaiNowLogoWithWords,

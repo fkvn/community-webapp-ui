@@ -1,6 +1,15 @@
 import { LeftCircleOutlined, RightCircleOutlined } from "@ant-design/icons";
 import { RiEdit2Line } from "@remixicon/react";
-import { Button, Carousel, Empty, Flex, Image, Skeleton, Tooltip } from "antd";
+import {
+	Button,
+	Carousel,
+	Empty,
+	Flex,
+	Grid,
+	Image,
+	Skeleton,
+	Tooltip,
+} from "antd";
 import { Content } from "antd/lib/layout/layout";
 import Title from "antd/lib/typography/Title";
 import parse from "html-react-parser";
@@ -30,7 +39,10 @@ import Share from "../../../../Share/Share";
 import FlexPostSection from "../../../Section/FlexPostSection";
 
 function GuideBookDetail() {
-	const contentMaxWidth = "90%";
+	const { useBreakpoint } = Grid;
+	const screens = useBreakpoint();
+
+	const contentMaxWidth = "100rem";
 	const { t } = useTranslation();
 	const navigate = useNavigate();
 	const { fetchGuideBook, fetchGuideBooks, deleteGuideBook } =
@@ -103,7 +115,7 @@ function GuideBookDetail() {
 
 	const fetchMoreItem = (rootItem = {}) =>
 		fetchGuideBooks({
-			category: rootItem?.details?.category || "",
+			// category: rootItem?.details?.category || "",
 		}).then((res = {}) => {
 			const formattedItem =
 				res?.fetchResult
@@ -143,7 +155,7 @@ function GuideBookDetail() {
 				vertical
 				style={{
 					background: "#ECEFFA",
-					padding: "5rem 5rem",
+					padding: screens.xs ? "2rem" : "5rem",
 				}}
 			>
 				<Flex
@@ -154,7 +166,7 @@ function GuideBookDetail() {
 					}}
 					vertical
 					justify="space-between"
-					// gap={30}
+					gap={30}
 				>
 					<Flex justify="space-between">
 						<Title level={3} className="c-primary-important">
@@ -176,13 +188,11 @@ function GuideBookDetail() {
 					{scrollContainer(
 						<FlexPostSection
 							items={moreItems}
-							wrap=""
 							showEmpty={true}
+							horizontalScroll={true}
 							bodyStyle={{
 								background: "#ECEFFA",
-								// padding: "1.5rem",
 							}}
-							justify="space-start"
 						/>
 					)}
 				</Flex>
@@ -191,11 +201,11 @@ function GuideBookDetail() {
 
 	const PostDetailSection = () => (
 		<Flex
-			className="p-5 p-lg-5 bg-white "
+			className=" bg-white "
 			align="start-first"
 			vertical
 			style={{
-				paddingTop: "2rem",
+				padding: "2rem .5rem",
 				minHeight: "20rem",
 			}}
 			gap={20}
@@ -211,73 +221,60 @@ function GuideBookDetail() {
 			<Title
 				className="c-primary-important m-0"
 				style={{
-					fontSize: "5rem",
+					// fontSize: "5rem",
+					fontSize: screens.xl ? "5rem" : screens.xs ? "2rem" : "3rem",
+					...(screens.xs && { fontSize: "2rem" }),
+					...(screens.xl && { fontSize: "5rem" }),
 				}}
 			>
 				{item.title}
 			</Title>
-			<Flex
-				justify="space-between"
-				align="center"
-				wrap="wrap"
-				className="my-2 mb-5"
-			>
+			<Flex justify="space-between" align="center" wrap="wrap" sty>
 				<Flex
 					gap={10}
-					align="center"
+					align={screens.xl ? "center" : "flex-start"}
 					style={{
-						maxWidth: "70%",
+						maxWidth: "60%",
+						margin: screens.xl ? "3rem 0" : screens.xs ? "" : "1rem 0",
 					}}
 				>
 					<Image
-						width={30}
+						width={screens.xl ? 55 : 40}
 						src={item.owner.avatarUrl}
 						fallback={svgThaiNowLogoWithWords}
 						preview={false}
 					/>
-					<Flex vertical>
-						<Title level={4} className="m-0">
-							<Flex gap={5} align="center">
-								<div
-									className=" text-secondary"
-									style={{
-										fontWeight: "lighter",
-										marginTop: ".1rem",
-									}}
-								>
-									By
-								</div>
-								{item.owner.username}
-								<div
-									className=" text-secondary"
-									style={{
-										fontWeight: "lighter",
-										marginTop: ".1rem",
-									}}
-								>
-									{`- ${formatTime(item.updatedOn)}`}
-								</div>
-							</Flex>
+					<Flex vertical={!screens.xl}>
+						<Title
+							level={4}
+							className="m-0"
+							ellipsis
+							style={{
+								...(!screens.xl && { fontSize: "1rem" }),
+							}}
+						>
+							{item.owner.username}
+						</Title>
+						<Title
+							level={5}
+							className=" text-secondary"
+							style={{
+								fontWeight: "lighter",
+								marginTop: ".1rem",
+							}}
+						>
+							{`${screens.xl ? "-" : ""} ${formatTime(item.updatedOn)}`}
 						</Title>
 					</Flex>
 				</Flex>
 
-				<Flex gap={20}>
-					<Share
-						title={item.title}
-						buttonProps={{
-							size: "large",
-						}}
-						hashtag={`#ThaiNow-${item?.category?.replaceAll("_", "-")?.toLowerCase()}`}
-						summary={stripoutHTML(item.description)}
-						url={window.location.href}
-					/>{" "}
+				<Flex gap={screens.lg ? 20 : 10}>
 					{isUserAuthorizedEditPost(item?.owner?.id) && (
 						<>
 							<Button
-								type="primary"
-								size="large"
-								className=" custom-center bg-warning"
+								type="ghost"
+								size={screens.xl ? "large" : "medium"}
+								className=" custom-center border-0 m-0 p-0"
 								onClick={() =>
 									navigate(
 										`${GUIDE_BOOK_EDIT_POST_PATH}/${id}?redirectUri=${GUIDE_BOOK_PATH.slice(1)}/${id}`
@@ -285,18 +282,18 @@ function GuideBookDetail() {
 								}
 							>
 								<Tooltip title={t("edit_record_msg")}>
-									<RiEdit2Line size={20} />
+									<RiEdit2Line size={25} className="c-business-important" />
 								</Tooltip>
 							</Button>
 
 							<DeleteBtn
 								btnProps={{
-									type: "primary",
-									size: "large",
-									className: " custom-center bg-danger",
+									type: "ghost",
+									size: screens.xl ? "large" : "medium",
+									className: " custom-center border-0 m-0 p-0",
 								}}
 								iconProps={{
-									color: "white",
+									size: "1.5rem",
 								}}
 								onConfirm={() =>
 									deleteGuideBook(id).then(() => navigate(`${GUIDE_BOOK_PATH}`))
@@ -304,6 +301,21 @@ function GuideBookDetail() {
 							/>
 						</>
 					)}
+					<Share
+						title={item.title}
+						buttonProps={{
+							type: "ghost",
+							className: "custom-center border-0 m-0 p-0",
+							size: screens.xl ? "large" : "medium",
+						}}
+						iconProps={{
+							size: "1.5rem",
+							className: "c-primary-important",
+						}}
+						hashtag={`#ThaiNow-${item?.category?.replaceAll("_", "-")?.toLowerCase()}`}
+						summary={stripoutHTML(item.description)}
+						url={window.location.href}
+					/>{" "}
 				</Flex>
 			</Flex>
 
@@ -322,9 +334,10 @@ function GuideBookDetail() {
 			</Carousel>
 
 			<Content
-				className="my-5 iframe-w-100 rte"
+				className="iframe-w-100 rte"
 				style={{
 					minHeight: "30rem",
+					margin: screens.lg ? "1rem 0" : "",
 				}}
 			>
 				{item.description ? (
@@ -339,11 +352,12 @@ function GuideBookDetail() {
 	const App = () => (
 		<Flex
 			className="bg-white"
+			justify="center"
 			align="center"
 			vertical
 			style={{
-				paddingTop: "2rem",
 				minHeight: "20rem",
+				padding: screens.sm ? "2rem" : "2rem 1rem",
 			}}
 		>
 			<Flex
@@ -352,7 +366,6 @@ function GuideBookDetail() {
 					maxWidth: contentMaxWidth,
 				}}
 				vertical
-				gap={30}
 			>
 				<Flex
 					justify="space-between"

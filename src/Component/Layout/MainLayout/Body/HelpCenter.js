@@ -1,14 +1,17 @@
-import { Collapse, Divider, Flex, Form, Typography } from "antd";
+import { Collapse, Divider, Flex, Form, Grid, Typography } from "antd";
 import { useForm } from "antd/lib/form/Form";
 import Title from "antd/lib/typography/Title";
 import parse from "html-react-parser";
 import { useState } from "react";
 import { Trans, useTranslation } from "react-i18next";
+import { Link } from "react-router-dom";
 import { emailContactAxios } from "../../../../Axios/utilAxios";
 import {
 	DESCRIPTION_PROP,
 	EMAIL_PROP,
+	POLICY_PATH,
 	SUPPORT_EMAIL,
+	TERM_PATH,
 	USERNAME_PROP,
 } from "../../../../Util/ConstVar";
 import BreadcrumbContainer from "../../../Breadcrumb/BreadcrumbContainer";
@@ -19,6 +22,9 @@ import TextFormControl from "../../../Form/TextFormControl";
 import useMessage from "../../../Hook/MessageHook/useMessage";
 
 function HelpCenter() {
+	const { useBreakpoint } = Grid;
+	const screens = useBreakpoint();
+
 	const { t } = useTranslation(["Help Center", "Form", "Default"]);
 	const { successMessage, errorMessage } = useMessage();
 	const [form] = useForm();
@@ -64,7 +70,7 @@ function HelpCenter() {
 	const CollapseFAQ = () => (
 		<Collapse
 			activeKey={activeQuestion}
-			className="w-75"
+			className={`${screens.md ? "w-75" : "w-100"}`}
 			expandIconPosition="end"
 			onChange={(key) => setActiveQuestion(key)}
 			ghost
@@ -74,11 +80,11 @@ function HelpCenter() {
 
 	const FAQSection = () => (
 		<Flex
-			className="p-5 p-lg-5 bg-white"
+			className="bg-white"
 			align="center"
 			vertical
 			style={{
-				paddingTop: "2rem",
+				padding: screens.sm ? "2rem" : "2rem 1rem",
 				minHeight: "30rem",
 			}}
 		>
@@ -196,12 +202,11 @@ function HelpCenter() {
 			>
 				<Flex
 					style={{
-						maxWidth: "45%",
+						maxWidth: screens.xl ? "45%" : "100%",
 					}}
 					vertical
 				>
 					<Title>{t("get_in_touch_msg")}</Title>
-
 					<Typography style={{ fontSize: "1rem" }}>
 						<Trans
 							i18nKey={"get_in_touch_msg_message"}
@@ -213,6 +218,11 @@ function HelpCenter() {
 							}}
 						/>
 					</Typography>
+
+					<Link to={TERM_PATH}>
+						{t("term_of_service_msg", { ns: "Default" })}{" "}
+					</Link>
+					<Link to={POLICY_PATH}>{t("policy_msg", { ns: "Default" })} </Link>
 				</Flex>
 
 				<ContactForm />

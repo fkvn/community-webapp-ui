@@ -1,4 +1,4 @@
-import { Button, Flex, Image } from "antd";
+import { Button, Flex, Grid, Image } from "antd";
 import Title from "antd/lib/typography/Title";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -13,10 +13,16 @@ import {
 import BreadcrumbContainer from "../../../../Breadcrumb/BreadcrumbContainer";
 import NewGuideBookPostFloatBtn from "../../../../Button/GuideBook/NewPostFloatBtn";
 import useGuideBookPost from "../../../../Hook/PostHook/useGuideBookPost";
+import useHorizontalScroll from "../../../../Hook/useHorizontalScroll";
 import FivePostSection from "../../../Section/FivePostSection";
 import FlexPostSection from "../../../Section/FlexPostSection";
 
 function GuideBookDashBoard() {
+	const { useBreakpoint } = Grid;
+	const screens = useBreakpoint();
+	console.log(screens);
+	const { scrollContainer } = useHorizontalScroll();
+
 	const { t } = useTranslation(["Default"]);
 	const contentMaxWidth = "90%";
 	const { fetchGuideBooks, fetchGuideBookCategories } = useGuideBookPost();
@@ -70,7 +76,14 @@ function GuideBookDashBoard() {
 	}, [activeCategory]);
 
 	const TopSection = () => (
-		<Flex className="p-4 p-lg-4 bg-white" align="center" vertical>
+		<Flex
+			className=" bg-white"
+			align="center"
+			vertical
+			style={{
+				padding: screens.xxl ? "4rem" : screens.md ? "2rem" : "2rem 0",
+			}}
+		>
 			<Flex
 				className="w-100 "
 				style={{
@@ -88,13 +101,13 @@ function GuideBookDashBoard() {
 
 	const CategorySection = () => (
 		<Flex
-			className="p-5 p-lg-5"
 			align="center"
 			vertical
 			style={{
 				background: "#F8F8F9",
 				paddingTop: "2rem",
 				minHeight: "20rem",
+				padding: screens.xxl ? "4rem" : screens.md ? "2rem" : "2rem 0",
 			}}
 		>
 			<Flex
@@ -105,53 +118,77 @@ function GuideBookDashBoard() {
 				vertical
 				gap={20}
 			>
-				<Title>{t("thai_guide_book_msg")}</Title>
-
-				<Flex wrap="wrap" justify="space-start" className="w-100" gap={15}>
-					{categoryItems.map((i) => (
-						<Flex
-							key={i.key}
-							style={{
-								minWidth: "19%",
-							}}
-							className="my-3"
-							vertical
-						>
-							<Button
-								className="m-0 px-4 border-0 w-100"
+				<Title
+					style={{
+						...(screens.xs && { fontSize: "2rem" }),
+					}}
+				>
+					{t("thai_guide_book_msg")}
+				</Title>
+				{scrollContainer(
+					<Flex
+						wrap={screens.lg ? "wrap" : ""}
+						justify="space-start"
+						className="w-100"
+						gap={screens.lg ? "1%" : "5%"}
+					>
+						{categoryItems.map((i) => (
+							<Flex
+								key={i.key}
 								style={{
-									background: i.background,
-									boxShadow:
-										"0px 20px 24px 0px rgba(20, 37, 63, 0.06), 0px 0px 1px 0px rgba(12, 26, 75, 0.10)",
-									height: "9.5rem",
+									...(screens.lg && { width: "19%" }),
 								}}
-								onClick={() => setActiveCategory(i.key)}
+								className="my-3"
+								vertical
 							>
-								<Flex vertical justify="center" gap={20}>
-									<Image src={i.icon} width={45} preview={false} />
-									<Title
-										level={4}
-										style={{ color: i.color, textAlign: "left" }}
-									>
-										{i.title}
-									</Title>
-								</Flex>
-							</Button>
-						</Flex>
-					))}
-				</Flex>
+								<Button
+									className="m-0 px-4 border-0 w-100"
+									style={{
+										background: i.background,
+										boxShadow:
+											"0px 20px 24px 0px rgba(20, 37, 63, 0.06), 0px 0px 1px 0px rgba(12, 26, 75, 0.10)",
+										height: screens.lg ? "9.5rem" : "7rem",
+									}}
+									onClick={() => setActiveCategory(i.key)}
+								>
+									<Flex vertical justify="center" gap={screens.lg ? 20 : 10}>
+										<Image
+											src={i.icon}
+											width={screens.lg ? 45 : 30}
+											preview={false}
+										/>
+										<Title
+											level={4}
+											style={{
+												color: i.color,
+												textAlign: "left",
+												...(!screens.md && {
+													fontSize: "1.2rem",
+												}),
+											}}
+											ellipsis
+										>
+											{i.title}
+										</Title>
+									</Flex>
+								</Button>
+							</Flex>
+						))}
+					</Flex>
+				)}
 			</Flex>
 		</Flex>
 	);
 
 	const PostSection = () => (
 		<Flex
-			className="p-5 p-lg-5 bg-white"
+			className="bg-white"
 			align="center"
 			vertical
 			style={{
 				paddingTop: "2rem",
 				minHeight: "20rem",
+				padding: screens.xxl ? "4rem" : screens.md ? "2rem" : "2rem 0",
 			}}
 		>
 			<Flex
@@ -163,7 +200,12 @@ function GuideBookDashBoard() {
 				gap={30}
 			>
 				<Flex align="center">
-					<Title className="m-0 text-primary">
+					<Title
+						className="m-0 text-primary"
+						style={{
+							...(screens.xs && { fontSize: "2rem" }),
+						}}
+					>
 						{t(`${activeCategory.toLowerCase() || "all_category"}_msg`)}
 					</Title>
 					{activeCategory && (
@@ -193,14 +235,7 @@ function GuideBookDashBoard() {
 
 				<FivePostSection items={postItems.slice(0, 6)} />
 
-				<FlexPostSection
-					items={postItems.slice(5)}
-					flexStyle={{
-						marginTop: "5rem",
-						minHeight: "10rem",
-					}}
-					// gap={postItems?.slice(5)?.length > 3 ? 40 : 80}
-				/>
+				<FlexPostSection items={postItems.slice(5)} />
 			</Flex>
 		</Flex>
 	);
@@ -211,11 +246,12 @@ function GuideBookDashBoard() {
 			<CategorySection />
 			<PostSection />
 			{isUserAuthorizedCreateNewPost() && (
-				<>
-					<NewGuideBookPostFloatBtn
-						redirectUri={`${GUIDE_BOOK_PATH.slice(1)}?category=${activeCategory}`}
-					/>
-				</>
+				<NewGuideBookPostFloatBtn
+					btnStyle={{
+						maxWidth: "15rem",
+					}}
+					redirectUri={`${GUIDE_BOOK_PATH.slice(1)}?category=${activeCategory}`}
+				/>
 			)}
 		</>
 	);

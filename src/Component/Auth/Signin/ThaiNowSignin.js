@@ -1,4 +1,4 @@
-import { Flex, Form } from "antd";
+import { Flex, Form, Grid } from "antd";
 import { useForm } from "antd/lib/form/Form";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -20,6 +20,8 @@ import SubmitBtnFormControl from "../../Form/SubmitBtnFormControl";
 import useAuth from "../../Hook/AuthHook/useAuth";
 
 function ThaiNowSignin() {
+	const { useBreakpoint } = Grid;
+	const screens = useBreakpoint();
 	const [form] = useForm();
 	const { t } = useTranslation(["Default", "Password", "Email", "Phone"]);
 	const { signin } = useAuth();
@@ -133,6 +135,9 @@ function ThaiNowSignin() {
 			layout="vertical"
 			className="info-description bg-white"
 			autoComplete="off"
+			style={{
+				minWidth: screens.md ? "25rem" : "10rem",
+			}}
 		>
 			<SigninTabOptions />
 		</Form>

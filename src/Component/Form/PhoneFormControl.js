@@ -1,4 +1,4 @@
-import { Flex, Form, InputNumber, Select } from "antd";
+import { Flex, Form, Grid, InputNumber, Select } from "antd";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { PHONE_PROP, REGION_PROP } from "../../Util/ConstVar";
@@ -20,6 +20,10 @@ function PhoneFormControl({
 	flexProp = {},
 	extra = <></>,
 }) {
+	const { useBreakpoint } = Grid;
+	const screens = useBreakpoint();
+	console.log(screens);
+
 	const { Option } = Select;
 	const { t } = useTranslation(["Phone", "Form"]);
 
@@ -49,12 +53,12 @@ function PhoneFormControl({
 		>
 			<Form.Item
 				name={itemName}
-				className="m-0"
+				className="w-100 m-0 my-2"
 				rules={[
 					{
 						validator: (_, value) => {
 							const isValidNumber = isPhoneValid(value, region);
-							console.log(isValidNumber);
+							// console.log(isValidNumber);
 							return isValidNumber
 								? Promise.resolve()
 								: Promise.reject(new Error(t("phone_invalid_msg")));

@@ -38,12 +38,13 @@ function UploadImageBtn({
 			{...uploadButtonProp}
 		>
 			<Avatar
+				className="custom-center px-1 bg-white"
 				size={uploadIconSize}
 				icon={<CameraOutlined />}
-				style={{ border: "1px solid white" }}
+				style={{ border: "1px solid white", color: "black" }}
 				{...uploadButtonAvatarProp}
 			/>
-			<span className="mx-2" style={{ fontSize: ".9rem" }}>
+			<span className="mx-1" style={{ fontSize: "1rem" }}>
 				{!uploadButtonTitle ? t("upload_msg") : uploadButtonTitle}
 			</span>
 		</Button>

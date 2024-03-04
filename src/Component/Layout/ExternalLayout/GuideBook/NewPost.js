@@ -1,4 +1,4 @@
-import { Flex, Form, Skeleton } from "antd";
+import { Flex, Form, Grid, Skeleton } from "antd";
 import { useForm } from "antd/es/form/Form";
 import Title from "antd/lib/typography/Title";
 import { useEffect, useState } from "react";
@@ -26,6 +26,9 @@ import useGuideBookPost from "../../../Hook/PostHook/useGuideBookPost";
 import FormPageHeader from "../../MainLayout/Header/FormPageHeader";
 
 function NewGuideBookPost() {
+	const { useBreakpoint } = Grid;
+	const screens = useBreakpoint();
+
 	const { t } = useTranslation(["Form"]);
 	const { errorMessage } = useMessage();
 	const { profile } = useSelector((state) => state[`${USER_REDUCER}`]);
@@ -182,14 +185,14 @@ function NewGuideBookPost() {
 			align="center"
 			vertical
 			style={{
-				paddingTop: "2rem",
+				padding: screens.sm ? "2rem" : "2rem 1rem",
 				minHeight: "20rem",
 			}}
 		>
 			<Flex
 				className="w-100"
 				style={{
-					maxWidth: "70%",
+					maxWidth: "80rem",
 				}}
 				align="flext-start"
 				vertical

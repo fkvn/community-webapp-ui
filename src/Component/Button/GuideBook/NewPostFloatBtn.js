@@ -1,5 +1,5 @@
 import { PlusOutlined } from "@ant-design/icons";
-import { Flex, FloatButton } from "antd";
+import { Flex, FloatButton, Grid } from "antd";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import { GUIDE_BOOK_NEW_POST_PATH, REDIRECT_URI } from "../../../Util/ConstVar";
@@ -10,6 +10,8 @@ function NewGuideBookPostFloatBtn({
 	redirectUri,
 	descProps = {},
 }) {
+	const { useBreakpoint } = Grid;
+	const screens = useBreakpoint();
 	const { t } = useTranslation();
 	const navigate = useNavigate();
 	const App = () => (
@@ -25,7 +27,7 @@ function NewGuideBookPostFloatBtn({
 			shape="square"
 			style={{
 				width: "auto",
-				maxWidth: "10%",
+				maxWidth: "15rem",
 				height: "4%",
 				bottom: "10%",
 				right: "3%",

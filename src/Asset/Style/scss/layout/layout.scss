@@ -10,21 +10,6 @@ body {
 	font-size: 1rem;
 }
 
-.scrolling-wrapper-flexbox {
-	display: flex;
-	flex-wrap: nowrap;
-	overflow-x: auto;
-	-webkit-overflow-scrolling: touch;
-
-	.card {
-		flex: 0 0 auto;
-	}
-
-	&::-webkit-scrollbar {
-		display: none;
-	}
-}
-
 .custom-center {
 	@include flex-center;
 }
@@ -45,6 +30,7 @@ body {
 	-webkit-appearance: none;
 	-webkit-overflow-scrolling: auto;
 	background-color: #f5f5f5;
+	height: 0.5rem;
 }
 
 ::-webkit-scrollbar:vertical {

@@ -1,4 +1,4 @@
-import { Flex, Form, Skeleton } from "antd";
+import { Flex, Form, Grid, Skeleton } from "antd";
 import { useForm } from "antd/es/form/Form";
 import Title from "antd/lib/typography/Title";
 import { useEffect, useState } from "react";
@@ -29,6 +29,9 @@ import useGuideBookPost from "../../../Hook/PostHook/useGuideBookPost";
 import FormPageHeader from "../../MainLayout/Header/FormPageHeader";
 
 function EditGuideBookPost({ customRedirectUri = "" }) {
+	const { useBreakpoint } = Grid;
+	const screens = useBreakpoint();
+
 	const { t } = useTranslation(["Form"]);
 	const { errorMessage } = useMessage();
 	const { profile } = useSelector((state) => state[`${USER_REDUCER}`]);
@@ -215,51 +218,53 @@ function EditGuideBookPost({ customRedirectUri = "" }) {
 					/>
 				)}
 
-				<Flex justify="center" className="w-100" gap={20}>
-					<SubmitBtnFormControl
-						loading={saving}
-						disabled={saving}
-						popconfirm={true}
-						onPopConfirm={() =>
-							deleteGuideBook(id).then(() => navigate(`${GUIDE_BOOK_PATH}`))
-						}
-						title={t("form_delete_record_msg")}
-						className="w-100 bg-danger"
-						btnProps={{
-							size: "large",
-							style: {
-								padding: "1.5rem 5rem",
-							},
-						}}
-					/>
+				<Flex justify="center" className="w-100">
+					<Flex justify="space-evenly" gap={20}>
+						<SubmitBtnFormControl
+							loading={saving}
+							disabled={saving}
+							popconfirm={true}
+							onPopConfirm={() =>
+								deleteGuideBook(id).then(() => navigate(`${GUIDE_BOOK_PATH}`))
+							}
+							title={t("form_delete_record_msg")}
+							className="w-100 bg-danger"
+							btnProps={{
+								size: "large",
+								style: {
+									padding: "1.5rem 2rem",
+								},
+							}}
+						/>
 
-					<SubmitBtnFormControl
-						loading={saving}
-						disabled={saving}
-						title={t("form_save_and_close_msg")}
-						className="w-100 bg-primary"
-						btnProps={{
-							size: "large",
-							style: {
-								padding: "1.5rem 5rem",
-							},
-						}}
-						onClick={() => onFinish(true)}
-					/>
+						<SubmitBtnFormControl
+							loading={saving}
+							disabled={saving}
+							title={t("form_save_and_close_msg")}
+							className="w-100 bg-primary"
+							btnProps={{
+								size: "large",
+								style: {
+									padding: "1.5rem 2rem",
+								},
+							}}
+							onClick={() => onFinish(true)}
+						/>
 
-					<SubmitBtnFormControl
-						loading={saving}
-						disabled={saving}
-						className="w-100 bg-success"
-						title={t("form_save_msg")}
-						btnProps={{
-							size: "large",
-							style: {
-								padding: "1.5rem 5rem",
-							},
-						}}
-						onClick={() => onFinish()}
-					/>
+						<SubmitBtnFormControl
+							loading={saving}
+							disabled={saving}
+							className="w-100 bg-success"
+							title={t("form_save_msg")}
+							btnProps={{
+								size: "large",
+								style: {
+									padding: "1.5rem 4rem",
+								},
+							}}
+							onClick={() => onFinish()}
+						/>
+					</Flex>
 				</Flex>
 			</Flex>
 		</Form>
@@ -271,14 +276,14 @@ function EditGuideBookPost({ customRedirectUri = "" }) {
 			align="center"
 			vertical
 			style={{
-				paddingTop: "2rem",
+				padding: screens.sm ? "2rem" : "2rem 1rem",
 				minHeight: "20rem",
 			}}
 		>
 			<Flex
 				className="w-100"
 				style={{
-					maxWidth: "70%",
+					maxWidth: "80rem",
 				}}
 				align="flext-start"
 				vertical

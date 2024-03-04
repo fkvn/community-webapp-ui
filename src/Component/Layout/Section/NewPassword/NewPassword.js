@@ -1,4 +1,4 @@
-import { Flex, Form, Typography } from "antd";
+import { Flex, Form, Grid, Typography } from "antd";
 import { useForm } from "antd/es/form/Form";
 import Title from "antd/lib/typography/Title";
 import { useTranslation } from "react-i18next";
@@ -17,6 +17,9 @@ import SubmitBtnFormControl from "../../../Form/SubmitBtnFormControl";
 function NewPassword({
 	changePassword = async (_accountId, _credentials) => {},
 }) {
+	const { useBreakpoint } = Grid;
+	const screens = useBreakpoint();
+
 	const { t } = useTranslation(["Password"]);
 	const [form] = useForm();
 
@@ -49,16 +52,17 @@ function NewPassword({
 			id="my-password-form"
 			layout="vertical"
 			initialValues={{}}
+			style={{
+				minWidth: screens.md ? "25rem" : "10rem",
+			}}
 		>
-			<Flex vertical gap="large" className="my-4">
+			<Flex vertical gap="large" className="w-100  my-4">
 				<PasswordFormControl
 					itemProps={{
 						itemName: CURRENT_PASSWORD_PROP,
-						className: "my-0",
+						className: "m-0",
 						style: {
-							minWidth: 400,
-							maxWidth: "100%",
-							marginRight: 20,
+							minWidth: screens.lg ? "27rem" : "100%",
 						},
 						label: t("password_msg_current"),
 					}}
@@ -68,19 +72,15 @@ function NewPassword({
 				<PasswordFormControl
 					newPasswordForm={true}
 					itemProps={{
-						className: "my-0",
+						className: "m-0",
 						style: {
-							minWidth: 400,
-							maxWidth: "100%",
-							marginRight: 20,
+							minWidth: screens.lg ? "27rem" : "100%",
 						},
 					}}
 					confirmPasswordProps={{
-						className: "my-0",
+						className: "m-0",
 						style: {
-							minWidth: 400,
-							maxWidth: "100%",
-							marginRight: 20,
+							minWidth: screens.lg ? "27rem" : "100%",
 						},
 					}}
 					flexProp={{

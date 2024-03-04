@@ -1,5 +1,5 @@
 import { MailOutlined, MessageOutlined } from "@ant-design/icons";
-import { Flex, Typography } from "antd";
+import { Flex, Grid, Typography } from "antd";
 import { useEffect, useState } from "react";
 import { Trans, useTranslation } from "react-i18next";
 import {
@@ -37,9 +37,12 @@ function Otp({
 	btnVerifyCodeProps = {},
 	onAfterVerifyCode = (_isCodeVerified = false) => {},
 }) {
+	const { useBreakpoint } = Grid;
+	const screens = useBreakpoint();
+
 	const { t } = useTranslation(["Otp", "Email", "Phone"]);
 	const { sendCode, verifyCode } = useTwilio();
-	const { errorMessage, loadingMessage } = useMessage();
+	const { errorMessage } = useMessage();
 
 	const [otpInfo, setOtpInfo] = useState({
 		channel: "",
@@ -99,7 +102,7 @@ function Otp({
 				<PhoneFormControl
 					itemProps={{
 						style: {
-							minWidth: 400,
+							minWidth: screens.md ? "25rem" : "10rem",
 							maxWidth: "100%",
 							marginRight: 20,
 						},

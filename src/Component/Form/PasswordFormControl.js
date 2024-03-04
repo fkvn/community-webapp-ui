@@ -56,6 +56,9 @@ function PasswordFormControl({
 					// this is to turn off autocomplete
 					autoComplete={`${autoComplete ? "password" : "new-password"}`}
 					placeholder={t(`password_enter_msg${newPasswordForm ? "_new" : ""}`)}
+					style={{
+						paddingRight: "10px",
+					}}
 					{...inputProps}
 				/>
 			</Form.Item>
@@ -95,6 +98,9 @@ function PasswordFormControl({
 						placeholder={t(
 							`password_confirm_enter_msg${newPasswordForm ? "_new" : ""}`
 						)}
+						style={{
+							paddingRight: "10px",
+						}}
 						{...confirmPasswordInputProps}
 					/>
 				</Form.Item>

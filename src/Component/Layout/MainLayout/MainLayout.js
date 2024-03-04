@@ -1,4 +1,4 @@
-import { Col, Divider, Layout, Row } from "antd";
+import { Divider, Flex, Layout } from "antd";
 import { Outlet } from "react-router-dom";
 import Footer from "./Footer";
 import HeaderContainer from "./Header/HeaderContainer";
@@ -7,41 +7,32 @@ function MainLayout() {
 	const { Header } = Layout;
 
 	const layout = (
-		<Row
+		<Flex
 			id="layout"
 			justify="center"
 			style={{
 				backgroundColor: "#f6f6fb",
 			}}
+			vertical
 		>
-			<Col xs={24}>
-				<Header
-					className=" p-0 bg-white"
-					style={{
-						position: "sticky",
-						top: 0,
-						zIndex: 1,
-						maxHeight: "100px",
-						overflow: "hidden",
-					}}
-				>
-					<HeaderContainer />
-				</Header>
+			<Header
+				className=" p-0 bg-white"
+				style={{
+					position: "sticky",
+					top: 0,
+					zIndex: 1,
+					maxHeight: "100px",
+					overflow: "hidden",
+				}}
+			>
+				<HeaderContainer />
 				<Divider className="m-0 p-0" />
-				{/* Outlet is the component allows nested component at this area*/}
-				<Outlet />
-				<div
-					style={
-						{
-							// maxHeight: "100px",
-							// overflow: "hidden",
-						}
-					}
-				>
-					<Footer />
-				</div>
-			</Col>
-		</Row>
+			</Header>
+			{/* start main body outlet */}
+			<Outlet />
+			{/* end main body outlet */}
+			<Footer />
+		</Flex>
 	);
 
 	const App = () => <>{layout}</>;

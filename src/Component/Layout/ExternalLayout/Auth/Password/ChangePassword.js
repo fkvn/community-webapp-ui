@@ -1,4 +1,4 @@
-import { Flex, Form, Image, Typography } from "antd";
+import { Flex, Form, Grid, Image, Typography } from "antd";
 import { useForm } from "antd/lib/form/Form";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -27,6 +27,9 @@ function ChangePassword({
 	onAfterSubmitPassword = (_credentials = {}) => Promise.resolve(),
 	defaultMustVerify = true,
 }) {
+	const { useBreakpoint } = Grid;
+	const screens = useBreakpoint();
+
 	const [form] = useForm();
 	const { t } = useTranslation(["Password"]);
 
@@ -99,23 +102,31 @@ function ChangePassword({
 	const App = () => (
 		<>
 			<FormPageHeader />
-			<Flex gap={100}>
-				<Image
-					src={svgLoginPic}
-					style={{
-						maxWidth: "45vw",
-						overflow: "hidden",
-						height: "100vh",
-						objectFit: "cover",
-					}}
-				/>
+			<Flex
+				gap={screens.xxl ? 100 : 0}
+				justify={screens.lg ? "flex-start" : "center"}
+			>
+				{screens.lg && (
+					<Image
+						src={svgLoginPic}
+						style={{
+							maxWidth: "45vw",
+							overflow: "hidden",
+							height: "100vh",
+							objectFit: "cover",
+						}}
+					/>
+				)}
 				<Flex
 					vertical
-					className="m-5"
+					className=" w-100"
+					align="center"
 					style={{
 						minWidth: "20rem",
-						padding: "0 5rem",
+						maxWidth: "40rem",
+						padding: screens.md ? "0 5rem" : "2rem",
 						paddingTop: "3rem",
+						margin: screens.xxl ? "5rem" : "1rem",
 					}}
 					gap={20}
 				>
@@ -125,8 +136,9 @@ function ChangePassword({
 						form={form}
 						layout="vertical"
 						autoComplete="off"
+						className="w-100"
 						style={{
-							minWidth: "25rem",
+							minWidth: screens.md ? "25rem" : "10rem",
 						}}
 						initialValues={{
 							[`${REGION_PROP}`]: "US",

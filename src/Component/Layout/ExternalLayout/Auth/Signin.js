@@ -1,4 +1,5 @@
-import { Divider, Flex, Image, Typography } from "antd";
+import { Divider, Flex, Grid, Image, Typography } from "antd";
+import Title from "antd/lib/typography/Title";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Link, useSearchParams } from "react-router-dom";
@@ -15,30 +16,14 @@ import useAuth from "../../../Hook/AuthHook/useAuth";
 import FormPageHeader from "../../MainLayout/Header/FormPageHeader";
 
 function Signin() {
+	const { useBreakpoint } = Grid;
+	const screens = useBreakpoint();
 	const [params] = useSearchParams();
 	const redirectUri = params.get(REDIRECT_URI) || "";
 	const { t } = useTranslation();
 
 	const { auth } = useAuth();
 	const [notSignedIn, setNotSignedIn] = useState(false);
-
-	const Title = () => (
-		<Typography.Title
-			level={3}
-			className="text-center"
-			style={{
-				textTransform: "capitalize",
-				minWidth: "30rem",
-				fontSize: "1.5rem ",
-			}}
-		>
-			{t("signin_msg")}
-			<span className="px-2" style={{ fontSize: "1.5rem ", color: "#E94833" }}>
-				ThaiNow
-			</span>
-			{t("account_msg")}
-		</Typography.Title>
-	);
 
 	const NoAccountMessage = () => (
 		<Flex justify="center" gap={10}>
@@ -67,27 +52,51 @@ function Signin() {
 		notSignedIn && (
 			<>
 				<FormPageHeader />
-				<Flex gap={100}>
-					<Image
-						src={svgLoginPic}
-						style={{
-							maxWidth: "45vw",
-							overflow: "hidden",
-							height: "100vh",
-							objectFit: "cover",
-						}}
-					/>
+				<Flex
+					gap={screens.xxl ? 100 : 0}
+					justify={screens.lg ? "flex-start" : "center"}
+				>
+					{screens.lg && (
+						<Image
+							src={svgLoginPic}
+							style={{
+								maxWidth: "45vw",
+								overflow: "hidden",
+								height: "100vh",
+								objectFit: "cover",
+							}}
+						/>
+					)}
 					<Flex
 						vertical
-						className="m-5"
+						className=" w-100"
 						style={{
 							minWidth: "20rem",
-							padding: "0 5rem",
+							maxWidth: "40rem",
+							padding: screens.md ? "0 5rem" : "2rem",
 							paddingTop: "3rem",
+							margin: screens.xxl ? "5rem" : "1rem",
 						}}
 						gap={20}
 					>
-						<Title />
+						<Title
+							level={3}
+							className="text-center"
+							style={{
+								textTransform: "capitalize",
+								// minWidth: "30rem",
+								fontSize: "1.5rem ",
+							}}
+						>
+							{t("signin_msg")}
+							<span
+								className="px-2"
+								style={{ fontSize: "1.5rem ", color: "#E94833" }}
+							>
+								ThaiNow
+							</span>
+							{t("account_msg")}
+						</Title>
 						<NoAccountMessage />
 						<Divider orientation="left">
 							<span style={{ textTransform: "capitalize" }}>
