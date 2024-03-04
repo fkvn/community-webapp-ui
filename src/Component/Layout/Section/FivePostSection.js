@@ -17,8 +17,6 @@ function FivePostSection({ items = [] }) {
 	const { t } = useTranslation();
 	const { scrollContainer } = useHorizontalScroll();
 
-	console.log(items);
-
 	const LeftLayout = ({ items = [] }) => (
 		<Flex
 			className={` ${items.length === 1 ? "" : "p-4"}`}

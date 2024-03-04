@@ -20,7 +20,6 @@ import FlexPostSection from "../../../Section/FlexPostSection";
 function GuideBookDashBoard() {
 	const { useBreakpoint } = Grid;
 	const screens = useBreakpoint();
-	console.log(screens);
 	const { scrollContainer } = useHorizontalScroll();
 
 	const { t } = useTranslation(["Default"]);
@@ -63,8 +62,20 @@ function GuideBookDashBoard() {
 					[]
 				) || [];
 
-			setPostItems(formattedItems);
+			setPagination({
+				...pagination,
+				totalCount: res.totalCount || 0,
+				totalPage: res.totalPage || 1,
+			});
+
+			return formattedItems;
 		});
+
+	const [pagination, setPagination] = useState({
+		currentPage: 1,
+		totalCount: 0,
+		totalPage: 1,
+	});
 
 	useEffect(() => {
 		const params = {
@@ -72,7 +83,9 @@ function GuideBookDashBoard() {
 			category: activeCategory,
 		};
 		setUrlParams(params);
-		fetchPostHandle(params);
+		fetchPostHandle(params).then((items) => {
+			setPostItems(items);
+		});
 	}, [activeCategory]);
 
 	const TopSection = () => (
@@ -229,13 +242,37 @@ function GuideBookDashBoard() {
 
 				<Title className="m-0" level={5}>
 					{t("result_count_msg", {
-						result: numberWithCommas(postItems?.length || 0),
+						result: numberWithCommas(pagination.totalCount || 0),
 					})}
 				</Title>
 
-				<FivePostSection items={postItems.slice(0, 6)} />
+				<FivePostSection items={postItems?.slice(0, 6)} />
 
-				<FlexPostSection items={postItems.slice(5)} />
+				<FlexPostSection items={postItems?.slice(5)} />
+
+				{pagination.currentPage < pagination.totalPage && (
+					<Flex justify="center">
+						<Button
+							type="link"
+							size="large"
+							onClick={() => {
+								const nextPage = pagination.currentPage + 1;
+
+								const params = {
+									...extractExistingParams(urlParams),
+									page: nextPage,
+								};
+
+								fetchPostHandle(params).then((items = []) => {
+									setPostItems([...postItems, ...items]);
+									setPagination({ ...pagination, currentPage: nextPage });
+								});
+							}}
+						>
+							{t("show_more_msg")}
+						</Button>
+					</Flex>
+				)}
 			</Flex>
 		</Flex>
 	);
