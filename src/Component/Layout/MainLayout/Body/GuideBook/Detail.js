@@ -229,7 +229,7 @@ function GuideBookDetail() {
 			>
 				{item.title}
 			</Title>
-			<Flex justify="space-between" align="center" wrap="wrap" sty>
+			<Flex justify="space-between" align="center" wrap="wrap">
 				<Flex
 					gap={10}
 					align={screens.xl ? "center" : "flex-start"}

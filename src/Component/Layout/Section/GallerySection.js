@@ -67,7 +67,7 @@ function GallerySection({
 				<ReactPlayer
 					controls
 					className="w-100 "
-					height={screens.xs ? "20rem" : screens.xl ? "50rem" : "30rem"}
+					height={screens.xs ? "15rem" : screens.xl ? "50rem" : "30rem"}
 					url="https://www.youtube.com/watch?v=ETlr0LGl6kA&t=3s"
 				/>
 
@@ -90,7 +90,7 @@ function GallerySection({
 							{...(!screens.xl && {
 								height: "13rem",
 								...(screens.xs && {
-									height: "20rem",
+									height: "15rem",
 									width: "100%",
 								}),
 							})}

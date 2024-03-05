@@ -1,9 +1,12 @@
 import { Divider, Flex, Layout } from "antd";
+import CookieConsent from "react-cookie-consent";
+import { useTranslation } from "react-i18next";
 import { Outlet } from "react-router-dom";
 import Footer from "./Footer";
 import HeaderContainer from "./Header/HeaderContainer";
 
 function MainLayout() {
+	const { t } = useTranslation();
 	const { Header } = Layout;
 
 	const layout = (
@@ -32,6 +35,17 @@ function MainLayout() {
 			<Outlet />
 			{/* end main body outlet */}
 			<Footer />
+
+			<CookieConsent
+				location="bottom"
+				buttonText={t("consent_msg")}
+				cookieName="myAppCookieConsent"
+				style={{ background: "#2B373B" }}
+				buttonStyle={{ color: "#4e503b", fontSize: "1rem" }}
+				expires={150}
+			>
+				{t("consent_content_msg")}
+			</CookieConsent>
 		</Flex>
 	);
 
